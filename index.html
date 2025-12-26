@@ -50,6 +50,14 @@
       .logo, .card{transition:transform .18s ease, box-shadow .18s ease}
       .logo:hover{transform:translateY(-3px)}
       .card:hover{transform:translateY(-6px)}
+
+      /* modal */
+      .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.7);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s ease}
+      .modal-backdrop.is-visible{opacity:1;pointer-events:auto}
+      .modal{background:var(--card);border-radius:16px;max-width:420px;width:90%;padding:22px;box-shadow:0 20px 60px rgba(2,6,23,0.7);border:1px solid rgba(148,163,184,0.2)}
+      .modal h3{margin:0 0 8px}
+      .modal p{margin:0 0 16px;color:var(--muted)}
+      .modal-actions{display:flex;justify-content:flex-end}
     </style>
     <!-- 100% privacy-first analytics -->
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
@@ -108,7 +116,7 @@
           <h2 style="margin:0 0 12px">Contact</h2>
           <p class="muted">Interested in collaborating? Email us at <a href="mailto:hello@rmax.ai" style="color:inherit;text-decoration:underline">hello@rmax.ai</a> or use the form below.</p>
           <div style="display:grid;grid-template-columns:1fr 320px;gap:18px;margin-top:16px">
-            <form class="card" style="display:flex;flex-direction:column;gap:10px" onsubmit="event.preventDefault(); alert('Thanks — message sent (demo)')">
+            <form class="card" id="contact-form" style="display:flex;flex-direction:column;gap:10px">
               <input name="name" placeholder="Name" required style="padding:10px;border-radius:8px;border:0;background:rgba(255,255,255,0.02);color:inherit" />
               <input name="email" type="email" placeholder="Email" required style="padding:10px;border-radius:8px;border:0;background:rgba(255,255,255,0.02);color:inherit" />
               <textarea name="message" rows="5" placeholder="Tell us about your project" style="padding:10px;border-radius:8px;border:0;background:rgba(255,255,255,0.02);color:inherit"></textarea>
@@ -121,10 +129,10 @@
             <div class="card">
               <div style="font-weight:700">Quick contacts</div>
               <div class="muted" style="margin-top:8px">hello@rmax.ai</div>
-              <div class="muted" style="margin-top:10px">Open to consultancy, partnerships, and research collaborations.</div>
+              <div class="muted" style="margin-top:10px">Open to partnerships and collaborations.</div>
               <div style="margin-top:12px" class="tags">
-                <span class="pill">ML Ops</span>
-                <span class="pill">LLMs</span>
+                <span class="pill">Agents</span>
+                <span class="pill">Automation</span>
                 <span class="pill">Systems</span>
               </div>
             </div>
@@ -138,9 +146,48 @@
       </footer>
     </div>
 
+    <div class="modal-backdrop" id="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal" role="document">
+        <h3 id="modal-title">Contact form paused</h3>
+        <p>My AI agents are too busy at the moment to finish the contact form feature (smile wink).</p>
+        <div class="modal-actions">
+          <button class="cta" type="button" data-modal-close>Got it</button>
+        </div>
+      </div>
+    </div>
+
     <script>
       // set year
       document.getElementById('year').textContent = new Date().getFullYear();
+
+      const contactForm = document.getElementById('contact-form');
+      const modalBackdrop = document.getElementById('modal-backdrop');
+      const modalCloseButtons = document.querySelectorAll('[data-modal-close]');
+
+      const openModal = () => {
+        modalBackdrop.classList.add('is-visible');
+        modalBackdrop.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        modalBackdrop.classList.remove('is-visible');
+        modalBackdrop.setAttribute('aria-hidden', 'true');
+      };
+
+      contactForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        openModal();
+      });
+
+      modalCloseButtons.forEach((button) => {
+        button.addEventListener('click', closeModal);
+      });
+
+      modalBackdrop.addEventListener('click', (event) => {
+        if (event.target === modalBackdrop) {
+          closeModal();
+        }
+      });
     </script>
   </body>
 </html>
