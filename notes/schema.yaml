@@ -1,0 +1,43 @@
+# Frontmatter schema for notes
+title:
+  type: string
+  description: The full title of the note.
+slug:
+  type: string
+  description: URL-friendly identifier, usually matching the directory name.
+description:
+  type: string
+  description: A brief summary for SEO and preview cards.
+author:
+  type: string
+  description: The name of the author (e.g., "Max").
+site:
+  type: string
+  description: The domain name (e.g., "rmax.ai").
+section:
+  type: string
+  description: The site section (e.g., "notes").
+type:
+  type: string
+  description: Content type (e.g., "essay").
+status:
+  type: string
+  description: Publication status (e.g., "published").
+date:
+  type: date
+  description: Original publication date in YYYY-MM-DD format.
+updated:
+  type: date
+  description: Last update date in YYYY-MM-DD format.
+tags:
+  type: list
+  description: List of relevant keywords or categories.
+reading_time:
+  type: string
+  description: Estimated reading time (e.g., "3–5 min").
+canonical_url:
+  type: string
+  description: The full permanent URL of the note.
+license:
+  type: string
+  description: The content license (e.g., "CC BY 4.0").
