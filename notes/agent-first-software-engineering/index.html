@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Agent-First Software Engineering — rmax.ai</title>
+    <meta name="description" content="A practical description of an agent-first workflow where software engineering shifts from typing code to designing boundaries, governance, and verification for AI agents." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+      :root{
+        --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass:rgba(255,255,255,0.04);
+        --maxw:800px; color-scheme: dark;
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{font-family:Inter,system-ui,Arial; margin:0; background:linear-gradient(180deg,#071028 0%,#071229 60%); color:#e6eef8; -webkit-font-smoothing:antialiased; line-height:1.6}
+      .wrap{max-width:var(--maxw); margin:40px auto; padding:24px}
+      header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:64px;max-width:1100px;margin-left:auto;margin-right:auto}
+      .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+      .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:800}
+      nav{display:flex;gap:14px;align-items:center}
+      a.navlink{color:var(--muted);text-decoration:none;font-weight:600}
+      a.cta{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+
+      h1{margin:0 0 16px;font-size:clamp(32px,5vw,52px);line-height:1.1;font-weight:800}
+      h2{margin:48px 0 16px;font-size:1.8rem;font-weight:700;color:#fff}
+      h3{margin:32px 0 12px;font-size:1.4rem;font-weight:600;color:#fff}
+      p{margin:0 0 24px;color:#cbd5e1;font-size:1.1rem}
+      ul{margin:0 0 24px;padding-left:20px;color:#cbd5e1}
+      li{margin-bottom:12px}
+      hr{border:0;border-top:1px solid var(--glass);margin:48px 0}
+      blockquote{margin:32px 0;padding:16px 24px;border-left:4px solid var(--accent);background:var(--glass);border-radius:0 8px 8px 0}
+      blockquote p{margin:0;font-style:italic}
+
+      .post-meta{color:var(--muted);margin-bottom:48px;font-size:0.95rem;display:flex;gap:16px;flex-wrap:wrap}
+      .post-content{margin-top:32px}
+
+      footer{margin-top:80px;color:var(--muted);font-size:0.95rem;padding:40px 0;text-align:center;border-top:1px solid var(--glass)}
+
+      @media (max-width:600px){
+        header{flex-direction:column;align-items:flex-start}
+        .wrap{margin:20px auto}
+      }
+    </style>
+    <!-- 100% privacy-first analytics -->
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <div class="logo">R</div>
+          <div>
+            <div style="font-weight:800">rMax.ai</div>
+            <div class="muted" style="font-size:0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/">Notes</a>
+          <a class="navlink" href="/research/">Research</a>
+          <a class="navlink" href="/#about">About</a>
+          <a class="navlink" href="/#contact">Contact</a>
+          <a class="navlink" href="https://www.linkedin.com/in/rmaxespinoza/" target="_blank" rel="noopener" aria-label="LinkedIn" style="display:flex;align-items:center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display:block;margin-bottom:32px">
+            <h1>Agent-First Software Engineering</h1>
+            <div class="post-meta">
+              <span>January 3, 2026</span>
+              <span>•</span>
+              <span>3–5 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <p>This workflow is built on a simple premise: modern AI agents are powerful but non-situated. In the absence of explicit boundaries, they will invent scope, requirements, and architecture. The goal of this system is therefore not to maximize generation speed, but to enforce context completeness and governed execution.</p>
+
+            <p>A Git repository acts as the system of record and coordination substrate. Ideas are introduced with minimal structure, but progression is gated by increasingly strict artifacts. No agent is allowed to skip phases or self-promote work without meeting explicit criteria.</p>
+
+            <hr />
+
+            <h2>Workflow Overview</h2>
+
+            <h3>Idea Intake</h3>
+
+            <p>Raw ideas are captured without judgment. Ambiguity is allowed at this stage, but no execution or design work is permitted.</p>
+
+            <h3>Triage and Framing</h3>
+
+            <p>Ideas are converted into framed problems by explicitly defining:</p>
+
+            <ul>
+              <li>Scope: what is included and excluded</li>
+              <li>Constraints: technical, temporal, organizational</li>
+              <li>Deliverables: concrete outputs and artifacts</li>
+              <li>References: systems, tools, prior art, or existing decisions</li>
+            </ul>
+
+            <p>Ideas that cannot be framed are rejected or returned to intake.</p>
+
+            <h3>Planning and Work Decomposition</h3>
+
+            <p>Framed problems are decomposed into discrete work units. Each work unit specifies its objective, inputs, outputs, dependencies, and stopping conditions. Work units are designed to be independently verifiable.</p>
+
+            <h3>Governed Execution</h3>
+
+            <p>Implementation agents operate strictly within approved work units. They are prohibited from expanding scope, changing assumptions, or introducing new requirements without explicit escalation. Progress is continuously logged as structured artifacts.</p>
+
+            <h3>Artifact-Driven Visibility</h3>
+
+            <p>Status updates, decisions, open questions, and progress notes are written back to the repository as first-class artifacts. These are part of the system’s operational state, not informal commentary.</p>
+
+            <h3>Handoff and Verification</h3>
+
+            <p>Completed work units are handed off with explicit claims about what was achieved and what was not. Verification is performed against the original framing and constraints, not against agent output alone.</p>
+
+            <hr />
+
+            <h2>Why This Works</h2>
+
+            <p>As agent capability increases, the engineering bottleneck shifts. Code generation is no longer the limiting factor. The limiting factor is boundary quality: problem definitions, invariants, interfaces, and acceptance criteria.</p>
+
+            <p>Under this model, software engineering becomes the practice of designing environments in which agents can act productively without drifting into hallucinated complexity or accidental scope expansion.</p>
+
+            <p>The trade-off is intentional. Exploratory freedom is reduced in favor of reliability, auditability, and reproducible progress. The cost is upfront specification and ongoing discipline. The benefit is scalable leverage without loss of control.</p>
+
+            <hr />
+
+            <h2>Example</h2>
+
+            <p>A vague idea such as “build a prompt analysis tool” will cause an unconstrained agent to invent data models, APIs, and roadmaps. In this workflow, the same idea is first reduced to a bounded objective (for example: offline analysis of captured system prompts, no runtime interception, markdown output only). Only after these constraints are established is an agent allowed to plan or implement.</p>
+
+            <hr />
+
+            <h2>Closing</h2>
+
+            <p>Agent-first development reframes software engineering as systems design rather than artifact production. Code remains necessary, but it is no longer the scarce resource. Clarity is. Well-defined boundaries, explicit assumptions, and enforceable invariants determine whether agents become multipliers of progress or accelerants of chaos.</p>
+          </div>
+        </article>
+      </main>
+
+      <footer>
+        &copy; 2026 rmax.ai • Built with clarity and agents.
+      </footer>
+    </div>
+  </body>
+</html>
