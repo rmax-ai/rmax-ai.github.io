@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Typing Code Is Solved — rmax.ai</title>
+    <meta name="description" content="Why the bottleneck in software engineering is no longer typing code, but context, constraints, and judgment in agent-assisted systems." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+      :root{
+        --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass:rgba(255,255,255,0.04);
+        --maxw:800px; color-scheme: dark;
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{font-family:Inter,system-ui,Arial; margin:0; background:linear-gradient(180deg,#071028 0%,#071229 60%); color:#e6eef8; -webkit-font-smoothing:antialiased; line-height:1.6}
+      .wrap{max-width:var(--maxw); margin:40px auto; padding:24px}
+      header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:64px;max-width:1100px;margin-left:auto;margin-right:auto}
+      .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+      .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:800}
+      nav{display:flex;gap:14px;align-items:center}
+      a.navlink{color:var(--muted);text-decoration:none;font-weight:600}
+      a.cta{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+
+      h1{margin:0 0 16px;font-size:clamp(32px,5vw,52px);line-height:1.1;font-weight:800}
+      h2{margin:48px 0 16px;font-size:1.8rem;font-weight:700;color:#fff}
+      h3{margin:32px 0 12px;font-size:1.4rem;font-weight:600;color:#fff}
+      p{margin:0 0 24px;color:#cbd5e1;font-size:1.1rem}
+      ul{margin:0 0 24px;padding-left:20px;color:#cbd5e1}
+      li{margin-bottom:12px}
+      hr{border:0;border-top:1px solid var(--glass);margin:48px 0}
+      blockquote{margin:32px 0;padding:16px 24px;border-left:4px solid var(--accent);background:var(--glass);border-radius:0 8px 8px 0}
+      blockquote p{margin:0;font-style:italic}
+
+      .post-meta{color:var(--muted);margin-bottom:48px;font-size:0.95rem;display:flex;gap:16px;flex-wrap:wrap}
+      .post-content{margin-top:32px}
+
+      footer{margin-top:80px;color:var(--muted);font-size:0.95rem;padding:40px 0;text-align:center;border-top:1px solid var(--glass)}
+
+      @media (max-width:600px){
+        header{flex-direction:column;align-items:flex-start}
+        .wrap{margin:20px auto}
+      }
+    </style>
+    <!-- 100% privacy-first analytics -->
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <div class="logo">R</div>
+          <div>
+            <div style="font-weight:800">rmax.ai</div>
+            <div class="muted" style="font-size:0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/">Notes</a>
+          <a class="navlink" href="/#about">About</a>
+          <a class="navlink" href="/#contact">Contact</a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display:block;margin-bottom:32px">
+            <h1>Typing Code Is Solved</h1>
+            <div class="post-meta">
+              <span>January 3, 2026</span>
+              <span>•</span>
+              <span>6–8 min read</span>
+              <span>•</span>
+              <span>R. Max Espinoza</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <p><strong>A note on where software engineering value has actually moved</strong></p>
+
+            <p>“Typing code is solved” is not a claim that software engineering is finished. It is a claim about <strong>where the bottleneck is no longer</strong>.</p>
+
+            <p>The marginal cost of producing syntactically correct code has collapsed. For large classes of tasks—boilerplate, glue code, refactors, tests, migrations, adapters—the limiting factor is no longer keystrokes. It is <strong>judgment</strong>.</p>
+
+            <p>This is not speculative. It is observable in day-to-day work.</p>
+
+            <hr />
+
+            <h2>What “solved” actually means</h2>
+
+            <p>Typing code is solved in the same way that arithmetic is solved by calculators.</p>
+
+            <p>You still need to understand mathematics. But no serious practitioner optimizes for manual calculation speed.</p>
+
+            <p>Similarly, modern coding assistants can:</p>
+
+            <ul>
+              <li>Generate correct implementations from structured intent</li>
+              <li>Translate between representations (specs → code → tests → docs)</li>
+              <li>Iterate when given feedback</li>
+              <li>Repair code faster than humans can type it</li>
+            </ul>
+
+            <p>The output is imperfect. The leverage is real.</p>
+
+            <p>What remains unsolved is everything <em>around</em> the code.</p>
+
+            <hr />
+
+            <h2>Where the real work moved</h2>
+
+            <p>As code generation became cheap, three things became expensive:</p>
+
+            <h3>1. Context</h3>
+
+            <p>What problem are we actually solving? For whom? Under which assumptions?</p>
+
+            <p>Poor context produces fast, wrong code.</p>
+
+            <h3>2. Constraints</h3>
+
+            <p>Latency budgets, cost ceilings, failure modes, compliance, invariants, backward compatibility.</p>
+
+            <p>Constraints are not suggestions. They are the shape of the system.</p>
+
+            <h3>3. Control of execution</h3>
+
+            <p>Agents can execute, but they do not decide:</p>
+
+            <ul>
+              <li>what should exist</li>
+              <li>what should not exist</li>
+              <li>when to stop</li>
+              <li>what “good enough” means</li>
+            </ul>
+
+            <p>That remains a human responsibility.</p>
+
+            <hr />
+
+            <h2>Agents changed the unit of work</h2>
+
+            <p>The unit of work is no longer “write this function.”</p>
+
+            <p>It is:</p>
+
+            <ul>
+              <li>define intent</li>
+              <li>bound the solution space</li>
+              <li>choose primitives</li>
+              <li>specify invariants</li>
+              <li>design feedback loops</li>
+              <li>supervise execution</li>
+            </ul>
+
+            <p>Humans decide. Agents execute.</p>
+
+            <p>This is not automation replacing engineers. It is <strong>amplification</strong> exposing weak thinking.</p>
+
+            <hr />
+
+            <h2>Why this feels uncomfortable</h2>
+
+            <p>Many engineers built their identity around:</p>
+
+            <ul>
+              <li>typing speed</li>
+              <li>language mastery</li>
+              <li>clever implementations</li>
+            </ul>
+
+            <p>Those skills still matter—but they no longer dominate outcomes.</p>
+
+            <p>The uncomfortable truth is that:</p>
+
+            <ul>
+              <li>mediocre judgment + powerful agents = faster failure</li>
+              <li>strong judgment + basic agents = durable systems</li>
+            </ul>
+
+            <p>The skill ceiling moved upward.</p>
+
+            <hr />
+
+            <h2>A concrete example</h2>
+
+            <p>Suppose you want a CLI feature: “show files updated since X.”</p>
+
+            <p>The code is trivial. The work is not.</p>
+
+            <p>The real questions are:</p>
+
+            <ul>
+              <li>What does “updated” mean? (mtime? ctime? git state?)</li>
+              <li>How does this interact with sorting and filters?</li>
+              <li>What is the expected behavior on edge cases?</li>
+              <li>How should errors surface?</li>
+            </ul>
+
+            <p>Once those are answered, generating the code is mechanical.</p>
+
+            <p>Typing was never the bottleneck.</p>
+
+            <hr />
+
+            <h2>What this means for engineers</h2>
+
+            <p>If you are still optimizing for:</p>
+
+            <ul>
+              <li>lines of code</li>
+              <li>speed of implementation</li>
+              <li>syntax memorization</li>
+            </ul>
+
+            <p>You are optimizing a solved problem.</p>
+
+            <p>If instead you optimize for:</p>
+
+            <ul>
+              <li>problem framing</li>
+              <li>constraint articulation</li>
+              <li>system evolution</li>
+              <li>agent orchestration</li>
+            </ul>
+
+            <p>You are working on the scarce part.</p>
+
+            <hr />
+
+            <h2>The new craft</h2>
+
+            <p>The new craft of software engineering looks less like typing and more like:</p>
+
+            <ul>
+              <li>specification</li>
+              <li>system modeling</li>
+              <li>governance</li>
+              <li>decision-making under uncertainty</li>
+            </ul>
+
+            <p>Code is still there. It is just no longer the point.</p>
+
+            <hr />
+
+            <h2>Closing</h2>
+
+            <p>Typing code is solved. Thinking clearly is not.</p>
+
+            <p>That is good news.</p>
+
+            <p>It raises the ceiling of what small teams—and even individuals—can build, while sharply penalizing sloppy thinking.</p>
+
+            <p>Software did not get easier. It got more honest. </p>
+          </div>
+        </article>
+      </main>
+
+      <footer>
+        &copy; 2026 rmax.ai • Built with clarity and agents.
+      </footer>
+    </div>
+  </body>
+</html>
