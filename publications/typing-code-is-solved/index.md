@@ -2,9 +2,9 @@
 title: "Typing Code Is Solved"
 slug: "typing-code-is-solved"
 description: "Why the bottleneck in software engineering is no longer typing code, but context, constraints, and judgment in agent-assisted systems."
-author: "Max"
+author: "R. Max Espinoza"
 site: "rmax.ai"
-section: "notes"
+section: "publications"
 type: "essay"
 status: "published"
 date: 2026-01-03
@@ -17,7 +17,7 @@ tags:
   - context-engineering
   - technical-philosophy
 reading_time: "6–8 min"
-canonical_url: "https://rmax.ai/notes/typing-code-is-solved/"
+canonical_url: "https://rmax.ai/publications/typing-code-is-solved/"
 license: "CC BY 4.0"
 ---
 # Typing Code Is Solved

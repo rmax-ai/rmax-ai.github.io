@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Research — rmax.ai</title>
+    <meta name="description" content="Independent, applied research at the intersection of AI systems, software engineering, and agent governance." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+      :root{
+        --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass:rgba(255,255,255,0.04);
+        --maxw:1100px; color-scheme: dark;
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{font-family:Inter,system-ui,Arial; margin:0; background:linear-gradient(180deg,#071028 0%,#071229 60%); color:#e6eef8; -webkit-font-smoothing:antialiased; line-height:1.6}
+      .wrap{max-width:var(--maxw); margin:40px auto; padding:24px}
+      header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:64px}
+      main section{max-width:800px}
+      .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+      .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:800}
+      nav{display:flex;gap:14px;align-items:center}
+      a.navlink{color:var(--muted);text-decoration:none;font-weight:600}
+      a.cta{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+
+      h1{margin:0 0 24px;font-size:clamp(32px,5vw,52px);line-height:1.1;font-weight:800}
+      h2{margin:48px 0 16px;font-size:1.8rem;font-weight:700;color:#fff}
+      h3{margin:32px 0 12px;font-size:1.4rem;font-weight:600;color:#fff}
+      p{margin:0 0 24px;color:#cbd5e1;font-size:1.1rem}
+      ul{margin:0 0 24px;padding-left:20px;color:#cbd5e1}
+      li{margin-bottom:12px}
+      hr{border:0;border-top:1px solid var(--glass);margin:48px 0}
+
+      .muted{color:var(--muted);font-size:0.95rem}
+
+      footer{margin-top:80px;color:var(--muted);font-size:0.95rem;padding:40px 0;text-align:center;border-top:1px solid var(--glass)}
+
+      @media (max-width:600px){
+        header{flex-direction:column;align-items:flex-start}
+        .wrap{margin:20px auto}
+      }
+    </style>
+    <!-- 100% privacy-first analytics -->
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <div class="logo">R</div>
+          <div>
+            <div style="font-weight:800">rMax.ai</div>
+            <div class="muted" style="font-size:0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/">Notes</a>
+          <a class="navlink" href="/research/">Research</a>
+          <a class="navlink" href="/#about">About</a>
+          <a class="navlink" href="/#contact">Contact</a>
+          <a class="navlink" href="https://www.linkedin.com/in/rmaxespinoza/" target="_blank" rel="noopener" aria-label="LinkedIn" style="display:flex;align-items:center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <section>
+          <h1>Research</h1>
+          <p>I conduct independent, applied research at the intersection of <strong>AI systems, software engineering, and agent governance</strong>. My work focuses on understanding how modern AI-enabled tools actually behave in production—not in demos, benchmarks, or abstractions.</p>
+          <p>The emphasis is practical: studying real systems, extracting reusable patterns, and publishing findings as open technical notes and artifacts.</p>
+
+          <hr />
+
+          <h2>System Prompts Forensics</h2>
+          <p><strong>System Prompts Forensics</strong> is an ongoing research project dedicated to analyzing how contemporary AI tools structure their <strong>system prompts</strong>.</p>
+          <p>System prompts are treated here as <strong>first-class system components</strong>: mechanisms that encode authority, scope, permissions, constraints, and control over agent behavior. Rather than viewing them as opaque or proprietary text, the project examines them the same way one would examine APIs, protocols, or execution models.</p>
+          <p>The research is comparative and grounded in real tooling, including developer assistants and agent-based systems.</p>
+          <p><strong>Core questions include:</strong></p>
+          <ul>
+            <li>How is authority delegated between humans, tools, and agents?</li>
+            <li>How are constraints and safety boundaries encoded?</li>
+            <li>What governance patterns recur across different tools?</li>
+            <li>Which prompt primitives are reusable across systems?</li>
+          </ul>
+          <p>The goal is not optimization for a single model, but clarity about <strong>how agent control actually works</strong> and how it can be designed deliberately.</p>
+          <p>→ <a href="https://system-prompts-forensics.rmax.ai" style="color:var(--accent);text-decoration:none;font-weight:600">system-prompts-forensics.rmax.ai</a></p>
+
+          <hr />
+
+          <h2>Research Principles</h2>
+          <p>This work follows a few simple principles:</p>
+          <ul>
+            <li><strong>Applied over theoretical</strong> — grounded in real systems and artifacts</li>
+            <li><strong>Comparative over anecdotal</strong> — patterns emerge across tools, not opinions</li>
+            <li><strong>Open by default</strong> — notes, reports, and taxonomies are published publicly</li>
+            <li><strong>Engineering-first</strong> — prompts are analyzed as system design, not copywriting</li>
+          </ul>
+
+          <hr />
+
+          <h2>Outputs</h2>
+          <p>Research outputs typically include:</p>
+          <ul>
+            <li>Technical notes and essays</li>
+            <li>Comparative reports</li>
+            <li>Prompt taxonomies and primitives</li>
+            <li>Open repositories with artifacts and documentation</li>
+          </ul>
+          <p>All material is written to be useful to practicing engineers designing or operating agent-enabled systems.</p>
+
+          <hr />
+
+          <h2>Scope and Non-Goals</h2>
+          <p>This is not academic research, benchmarking work, or product marketing. It is an engineering-driven effort to make <strong>agent-first development more legible, governable, and repeatable</strong>.</p>
+
+          <hr />
+
+          <h2>Contact</h2>
+          <p>If you are working on AI tooling, agent systems, or developer platforms and want to discuss patterns, failures, or governance models, you can reach me via the links on this site.</p>
+        </section>
+      </main>
+
+      <footer>
+        &copy; 2026 rmax.ai • Built with clarity and agents.
+      </footer>
+    </div>
+  </body>
+</html>
