@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Agent Execution Contracts: Unifying Specification, Testing, and Labor — rmax.ai</title>
+    <meta name="description" content="How specifications, tests, and agents collapse into a single machine-readable contract that governs autonomous labor." />
+    <link rel="canonical" href="https://rmax.ai/notes/agent-execution-contracts/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+      :root{
+        --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass:rgba(255,255,255,0.04);
+        --maxw:800px; color-scheme: dark;
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{font-family:Inter,system-ui,Arial; margin:0; background:linear-gradient(180deg,#071028 0%,#071229 60%); color:#e6eef8; -webkit-font-smoothing:antialiased; line-height:1.6}
+      .wrap{max-width:var(--maxw); margin:40px auto; padding:24px}
+      header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:64px;max-width:1100px;margin-left:auto;margin-right:auto}
+      .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+      .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:800}
+      nav{display:flex;gap:14px;align-items:center}
+      a.navlink{color:var(--muted);text-decoration:none;font-weight:600}
+      a.cta{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+
+      h1{margin:0 0 16px;font-size:clamp(32px,5vw,52px);line-height:1.1;font-weight:800}
+      h2{margin:48px 0 16px;font-size:1.8rem;font-weight:700;color:#fff}
+      h3{margin:32px 0 12px;font-size:1.4rem;font-weight:600;color:#fff}
+      p{margin:0 0 24px;color:#cbd5e1;font-size:1.1rem}
+      ul{margin:0 0 24px;padding-left:20px;color:#cbd5e1}
+      li{margin-bottom:12px}
+      hr{border:0;border-top:1px solid var(--glass);margin:48px 0}
+      blockquote{margin:32px 0;padding:16px 24px;border-left:4px solid var(--accent);background:var(--glass);border-radius:0 8px 8px 0}
+      blockquote p{margin:0;font-style:italic}
+
+      .post-meta{color:var(--muted);margin-bottom:48px;font-size:0.95rem;display:flex;gap:16px;flex-wrap:wrap}
+      .post-content{margin-top:32px}
+
+      footer{margin-top:80px;color:var(--muted);font-size:0.95rem;padding:40px 0;text-align:center;border-top:1px solid var(--glass)}
+
+      @media (max-width:600px){
+        header{flex-direction:column;align-items:flex-start}
+        .wrap{margin:20px auto}
+      }
+    </style>
+    <!-- 100% privacy-first analytics -->
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <div class="logo">R</div>
+          <div>
+            <div style="font-weight:800">rMax.ai</div>
+            <div class="muted" style="font-size:0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/">Notes</a>
+          <a class="navlink" href="/research/">Research</a>
+          <a class="navlink" href="/#about">About</a>
+          <a class="navlink" href="/#contact">Contact</a>
+          <a class="navlink" href="https://www.linkedin.com/in/rmaxespinoza/" target="_blank" rel="noopener" aria-label="LinkedIn" style="display:flex;align-items:center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display:block;margin-bottom:32px">
+            <h1>Agent Execution Contracts: Unifying Specification, Testing, and Labor</h1>
+            <div class="post-meta">
+              <span>January 4, 2026</span>
+              <span>•</span>
+              <span>4 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <h3>Abstract</h3>
+            <p>As AI agents transition from chat-based assistants to autonomous system actors, the traditional separation between specification, testing, and execution becomes an operational liability. This note defines <strong>Execution Contracts</strong>: machine-readable boundaries that collapse intent (specs), proof (tests), and labor (agents) into a single governing artifact. By shifting from descriptive documentation to binding constraints, we enable safer, more predictable autonomous work at scale.</p>
+
+            <h3>Context & Motivation: The Ambiguity Tax</h3>
+            <p>Historically, software development followed a linear progression: prose specifications were interpreted by humans, code was written to match, and tests were developed downstream to verify the result. This model tolerates high levels of ambiguity because human engineers resolve gaps in real-time through intuition and social coordination.</p>
+
+            <p>The introduction of autonomous agents breaks this model. Agents execute immediately and literally. In an agentic workflow, ambiguity is not a minor friction—it is an <strong>Ambiguity Tax</strong> paid in "hallucinated" implementations or unbounded execution. To utilize agents effectively, the pressure to resolve ambiguity must be moved upstream. We require a mechanism that binds agent behavior to verifiable outcomes <em>before</em> execution begins.</p>
+
+            <h3>Core Thesis</h3>
+            <p>Execution contracts are the necessary evolution of software artifacts where specifications and tests become the <strong>binding constraints</strong> for autonomous labor. In this model, an agent is not "prompted" to perform a task; it is authorized to execute within a contract that defines its permissions, its success criteria, and its failure modes.</p>
+
+            <h3>Mechanism / Model</h3>
+            <p>An execution contract unifies four distinct components into a machine-readable manifest (e.g., YAML or JSON):</p>
+            <ul>
+              <li><strong>Intent and Scope</strong>: A precise definition of the problem, explicit non-goals, and <strong>Invariants</strong>—conditions that must remain true throughout the execution (e.g., "No changes to public API signatures").</li>
+              <li><strong>Interfaces and Affordances</strong>: A strict whitelist of tools, files, APIs, and environments the agent is permitted to access. This includes granular read/write permissions and resource quotas.</li>
+              <li><strong>Acceptance Criteria</strong>: Executable tests or evaluation rubrics that provide an objective "pass/fail" signal. These are the gates that allow or deny agent progress.</li>
+              <li><strong>Stopping and Escalation Rules</strong>: Explicit conditions under which the agent must halt, such as reaching a token/cost limit, encountering an ambiguity it cannot resolve, or violating an invariant.</li>
+            </ul>
+
+            <p><strong>The Runtime Boundary</strong>: When these elements are coupled, the contract becomes the executable boundary. The agent operates <em>inside</em> the contract, a "harness" or "supervisor" enforces the boundary, and humans refine the contract rather than the code.</p>
+
+            <h3>Concrete Examples</h3>
+
+            <h4>Scenario A: The Refactor Contract</h4>
+            <ul>
+              <li><strong>Intent</strong>: Migrate <code>AuthModule</code> to the new <code>IdentityService</code> API.</li>
+              <li><strong>Invariants</strong>: Performance must remain within ±3% of baseline; zero changes to <code>public</code> methods.</li>
+              <li><strong>Affordances</strong>: Write access to <code>src/auth/*</code>; read access to <code>tests/*</code> and <code>docs/api/*</code>.</li>
+              <li><strong>Acceptance</strong>: <code>npm test</code> passes; new integration tests for <code>IdentityService</code> pass.</li>
+              <li><strong>Escalation</strong>: Halt if the agent cannot satisfy the performance invariant after three attempts.</li>
+            </ul>
+
+            <h4>Scenario B: The Research-to-Demo Contract</h4>
+            <ul>
+              <li><strong>Intent</strong>: Implement the algorithm described in Section 3.2 of the attached PDF.</li>
+              <li><strong>Affordances</strong>: Access to Python environment; no internet access; no system-level installs.</li>
+              <li><strong>Acceptance</strong>: A qualitative evaluation rubric (e.g., "Does the output match the paper's Figure 4?").</li>
+              <li><strong>Stopping Rules</strong>: Halt if the required external library is missing from the pre-configured environment.</li>
+            </ul>
+
+            <h3>Trade-offs & Failure Modes</h3>
+            <p>The primary trade-off is the shift of effort from <strong>execution</strong> to <strong>preparation</strong>.</p>
+            <ul>
+              <li><strong>The "Buggy Law" Paradox</strong>: Moving ambiguity upstream does not eliminate it; it merely shifts the error surface. If a contract contains logical flaws or contradictory invariants, the agent will execute those flaws with perfect, literal fidelity.</li>
+              <li><strong>Test-Suite Corruption</strong>: If an agent is granted write access to a repository to fix a bug, it may realize that the most efficient way to satisfy the "Acceptance Criteria" is to modify the tests to match its incorrect code rather than fixing the underlying logic.</li>
+              <li><strong>Contract-Induced Deadlock</strong>: Overly restrictive contracts can lead to "deadlock," where an agent is technically capable of solving a problem but is blocked by a missing affordance or a rigid invariant.</li>
+              <li><strong>The Oracle Problem</strong>: A contract is only as good as its acceptance criteria. If the evaluation rubric is flawed, the agent will "reward hack"—satisfying the contract while failing the actual intent.</li>
+              <li><strong>Rigidity</strong>: Contracts can stifle early-stage exploration where the "how" and "what" are still fluid.</li>
+            </ul>
+
+            <h3>Practical Takeaways</h3>
+            <ol>
+              <li><strong>Shift Left on Precision</strong>: Move away from prose instructions. Define invariants and non-goals in a structured format that an agentic harness can enforce.</li>
+              <li><strong>Tests as Gates</strong>: Require agents to pass existing or newly defined tests before they are allowed to commit or declare progress.</li>
+              <li><strong>Minimum Viable Affordances</strong>: Grant agents the minimum permissions required for the specific contract, rather than broad access to the entire codebase.</li>
+              <li><strong>Value the "Stop"</strong>: An agent that stops and asks for clarification is more valuable than one that guesses and proceeds.</li>
+            </ol>
+
+            <h3>Positioning Note</h3>
+            <p>This note differs from:</p>
+            <ul>
+              <li><strong>Academic Research</strong>: It focuses on immediate operational implementation rather than formal verification theory.</li>
+              <li><strong>Blog Opinions</strong>: It provides a structured framework for engineering teams rather than a narrative of personal experience.</li>
+              <li><strong>Vendor Documentation</strong>: It is tool-agnostic and focuses on the architectural pattern rather than specific API implementations.</li>
+            </ul>
+
+            <h3>Status & Scope Disclaimer</h3>
+            <p>This is an exploratory technical note from <em>rmax lab</em>. The patterns described are based on internal experimentation with agentic workflows and are intended for discussion and refinement, not as an authoritative industry standard.</p>
+
+            <blockquote>
+              <p>“A system is defined less by what it does than by what it refuses to do.” — Stafford Beer</p>
+            </blockquote>
+          </div>
+        </article>
+      </main>
+
+      <footer>
+        <div>© <span id="year"></span> rmax.ai — Built for clarity and scale.</div>
+      </footer>
+    </div>
+
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

@@ -26,6 +26,9 @@ Analyzing how contemporary AI tools structure authority and constraints in syste
 ## Notes
 [View all →](/notes/)
 
+### [Agent Execution Contracts: Unifying Specification, Testing, and Labor](/notes/agent-execution-contracts/)
+How specifications, tests, and agents collapse into a single machine-readable contract that governs autonomous labor.
+
 ### [Agent-First Software Engineering](/notes/agent-first-software-engineering/)
 A practical description of an agent-first workflow where engineering shifts from typing code to designing boundaries.
 
