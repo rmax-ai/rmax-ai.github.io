@@ -40,7 +40,7 @@ If the contract is incomplete or ambiguous, the agent MUST:
 ## Authority & Hard Constraints
 
 * **Read**: `inbox/**`, `notes/schema.yaml`, site indexes
-* **Write**: `notes/**`, `CHANGELOG.md`
+* **Write**: `notes/**`, `CHANGELOG.md`, `sitemap.xml`
 * **Must use** `runSubagent` for:
 
   * writing
@@ -48,6 +48,7 @@ If the contract is incomplete or ambiguous, the agent MUST:
   * failure-mode review
   * HTML publishing
   * link auditing
+  * sitemap generation
 * **Must halt** on any blocking verdict
 * **No step skipping**
 * **Strict step order**
@@ -64,6 +65,7 @@ If the contract is incomplete or ambiguous, the agent MUST:
   * `.agent/prompts/failure-mode-review.prompt.md`
   * `.agent/prompts/publish-note.prompt.md`
   * `.agent/prompts/link-audit.prompt.md`
+  * `.agent/mode/sitemap-generator.agent.md`
 * Schema:
 
   * `notes/schema.yaml`
@@ -205,6 +207,19 @@ Append to `CHANGELOG.md`:
 
 ---
 
+### Step 8 — Generate Sitemap
+
+```
+runSubagent(
+  prompt=".agent/mode/sitemap-generator.agent.md"
+)
+```
+
+**Update**
+`sitemap.xml`
+
+---
+
 ## Final Verification Checklist
 
 Before declaring success, confirm:
@@ -214,6 +229,7 @@ Before declaring success, confirm:
 * Failure-mode verdict is not blocking
 * Link audit verdict is not blocking
 * `CHANGELOG.md` updated
+* `sitemap.xml` updated and validated
 * No unauthorized paths modified
 
 ---
@@ -265,7 +281,7 @@ Before declaring execution **complete**, the orchestrator MUST explicitly verify
 
 ### B. Phase Integrity
 
-* [ ] All execution phases ran in strict order (0 → 7)
+* [ ] All execution phases ran in strict order (0 → 8)
 * [ ] No phase was skipped, merged, or reordered
 * [ ] All phase gates were evaluated and recorded
 
@@ -281,6 +297,7 @@ Before declaring execution **complete**, the orchestrator MUST explicitly verify
 * [ ] YAML frontmatter is present and schema-compliant
 * [ ] Frontmatter slug matches directory name
 * [ ] `notes/<slug>/index.html` exists and corresponds to reviewed content
+* [ ] `sitemap.xml` was updated and validated
 * [ ] No files outside authorized paths were modified
 
 ### E. Review Gates
