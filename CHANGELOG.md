@@ -11,6 +11,7 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- Published technical note: [earned-agent-autonomy](notes/earned-agent-autonomy/index.md). Introduced the Earned Agent Autonomy (EAA) governance framework and the five-level Autonomy Ladder.
 - Published technical note: [agent-execution-contracts](notes/agent-execution-contracts/index.md). Defined execution contracts as machine-readable boundaries unifying specification, testing, and labor for autonomous agents.
   - *Content Update*: Expanded "Trade-offs & Failure Modes" to include the "Buggy Law" paradox, Test-Suite Corruption, and Contract-Induced Deadlock.
   - *Warnings*: Missing canonical tag in HTML and root index.md out of sync (Step 6) - *Resolved*.
