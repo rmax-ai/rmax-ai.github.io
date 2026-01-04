@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Earned Agent Autonomy: A Governance Model for AI Systems — rmax.ai</title>
+    <meta name="description" content="A risk-mitigated governance framework for integrating AI agents into production software engineering workflows through a staged autonomy ladder." />
+    <link rel="canonical" href="https://rmax.ai/notes/earned-agent-autonomy/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+      :root{
+        --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass:rgba(255,255,255,0.04);
+        --maxw:800px; color-scheme: dark;
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{font-family:Inter,system-ui,Arial; margin:0; background:linear-gradient(180deg,#071028 0%,#071229 60%); color:#e6eef8; -webkit-font-smoothing:antialiased; line-height:1.6}
+      .wrap{max-width:var(--maxw); margin:40px auto; padding:24px}
+      header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:64px;max-width:1100px;margin-left:auto;margin-right:auto}
+      .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+      .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:800}
+      nav{display:flex;gap:14px;align-items:center}
+      a.navlink{color:var(--muted);text-decoration:none;font-weight:600}
+      a.cta{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+
+      h1{margin:0 0 16px;font-size:clamp(32px,5vw,52px);line-height:1.1;font-weight:800}
+      h2{margin:48px 0 16px;font-size:1.8rem;font-weight:700;color:#fff}
+      h3{margin:32px 0 12px;font-size:1.4rem;font-weight:600;color:#fff}
+      p{margin:0 0 24px;color:#cbd5e1;font-size:1.1rem}
+      ul{margin:0 0 24px;padding-left:20px;color:#cbd5e1}
+      li{margin-bottom:12px}
+      hr{border:0;border-top:1px solid var(--glass);margin:48px 0}
+      blockquote{margin:32px 0;padding:16px 24px;border-left:4px solid var(--accent);background:var(--glass);border-radius:0 8px 8px 0}
+      blockquote p{margin:0;font-style:italic}
+
+      .post-meta{color:var(--muted);margin-bottom:48px;font-size:0.95rem;display:flex;gap:16px;flex-wrap:wrap}
+      .post-content{margin-top:32px}
+
+      footer{margin-top:80px;color:var(--muted);font-size:0.95rem;padding:40px 0;text-align:center;border-top:1px solid var(--glass)}
+
+      table{width:100%;border-collapse:collapse;margin:32px 0;font-size:0.95rem}
+      th{text-align:left;padding:12px;border-bottom:2px solid var(--glass);color:#fff}
+      td{padding:12px;border-bottom:1px solid var(--glass);color:#cbd5e1;vertical-align:top}
+      tr:hover td{background:var(--glass)}
+
+      @media (max-width:600px){
+        header{flex-direction:column;align-items:flex-start}
+        .wrap{margin:20px auto}
+        table{display:block;overflow-x:auto}
+      }
+    </style>
+    <!-- 100% privacy-first analytics -->
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <div class="logo">R</div>
+          <div>
+            <div style="font-weight:800">rMax.ai</div>
+            <div class="muted" style="font-size:0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/">Notes</a>
+          <a class="navlink" href="/research/">Research</a>
+          <a class="navlink" href="/#about">About</a>
+          <a class="navlink" href="/#contact">Contact</a>
+          <a class="navlink" href="https://www.linkedin.com/in/rmaxespinoza/" target="_blank" rel="noopener" aria-label="LinkedIn" style="display:flex;align-items:center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display:block;margin-bottom:32px">
+            <h1>Earned Agent Autonomy: A Governance Model for AI Systems</h1>
+            <div class="post-meta">
+              <span>January 4, 2026</span>
+              <span>•</span>
+              <span>5 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <h3>Abstract</h3>
+            <p>This technical note introduces <strong>Earned Agent Autonomy (EAA)</strong>, a risk-mitigated governance framework for integrating AI agents into production software engineering workflows. EAA posits that operational authority must be treated as a privileged capability, granted incrementally through verifiable performance and objective evidence rather than static model benchmarks. By establishing a structured progression from advisory roles to orchestrated autonomy, organizations can leverage agentic productivity while maintaining systemic integrity and preserving human expertise.</p>
+
+            <h3>Context & Motivation</h3>
+            <p>The rapid advancement of Large Language Models (LLMs) has led to the deployment of agents with broad system permissions. Current integration patterns often oscillate between restrictive read-only access and permissive "agentic" modes with minimal oversight. This binary approach creates two primary failure modes:</p>
+            <ol>
+              <li><strong>The Senior-as-Janitor Paradox:</strong> Senior engineers spend disproportionate time auditing and correcting opaque agent errors, negating the productivity gains of automation.</li>
+              <li><strong>Systemic Intuition Erosion:</strong> Junior engineers risk losing the opportunity to develop foundational debugging and architectural reasoning skills if they supervise systems they cannot yet manually operate.</li>
+            </ol>
+            <p>A more granular, evidence-based authority model is required to scale agentic workflows safely without eroding the human talent pipeline.</p>
+
+            <h3>Core Thesis</h3>
+            <p><strong>Agent autonomy is a function of trust derived from observed performance, not model capability.</strong> Authority should be granted in scoped, revocable increments, gated by the agent's ability to maintain system invariants and operate within explicit execution contracts.</p>
+
+            <h3>Mechanism: The Autonomy Ladder</h3>
+            <p>Autonomy is managed through five discrete levels. Transitioning between levels requires meeting objective exit criteria based on task history and audit logs.</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Level</th>
+                  <th>Name</th>
+                  <th>Scope</th>
+                  <th>Primary Invariants</th>
+                  <th>Exit Criteria (Promotion)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>L0</strong></td>
+                  <td><strong>Advisory</strong></td>
+                  <td>Read-only access to code, documentation, and logs.</td>
+                  <td>Information Integrity</td>
+                  <td>0% hallucination rate; 100% citation accuracy over N sessions.</td>
+                </tr>
+                <tr>
+                  <td><strong>L1</strong></td>
+                  <td><strong>Proposal</strong></td>
+                  <td>Generating diffs or PRs for human approval.</td>
+                  <td>Architectural Alignment</td>
+                  <td>&gt;90% acceptance rate; strict adherence to project style and intent.</td>
+                </tr>
+                <tr>
+                  <td><strong>L2</strong></td>
+                  <td><strong>Scoped</strong></td>
+                  <td>File-system writes within explicit directory bounds.</td>
+                  <td>Local Correctness</td>
+                  <td>Zero lint/test regressions in scope; predictable rollback behavior.</td>
+                </tr>
+                <tr>
+                  <td><strong>L3</strong></td>
+                  <td><strong>Task-Bounded</strong></td>
+                  <td>Full toolchain access for defined "task contracts."</td>
+                  <td>Contract Integrity</td>
+                  <td>Successful delivery of N diverse contracts without silent scope expansion.</td>
+                </tr>
+                <tr>
+                  <td><strong>L4</strong></td>
+                  <td><strong>Orchestrated</strong></td>
+                  <td>Goal-driven coordination of multiple sub-agents.</td>
+                  <td>Resource &amp; Goal Safety</td>
+                  <td>Stable performance under resource bounds; immutable high-level goals.</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h3>Concrete Examples</h3>
+            <ol>
+              <li><strong>Documentation Maintenance:</strong> An agent at L0 identifies outdated README sections based on recent commits. Upon demonstrating 100% accuracy in identifying discrepancies over ten PRs, it is promoted to L1 to propose specific updates.</li>
+              <li><strong>Test Suite Expansion:</strong> An L3 agent is assigned a "Task Contract" to increase coverage for a specific utility module. It operates within a restricted directory, executes local test runners, and is permitted to stage changes only once pre-defined coverage thresholds and performance benchmarks are satisfied.</li>
+            </ol>
+
+            <h3>Trade-offs & Failure Modes</h3>
+            <ul>
+              <li><strong>Operational Overhead:</strong> Implementing EAA requires initial investment in automated audit logging and contract enforcement tooling.</li>
+              <li><strong>False Confidence:</strong> Success in narrow, L2-scoped tasks does not guarantee safety in L3-orchestrated tasks involving cross-module side effects.</li>
+              <li><strong>Velocity vs. Rigor:</strong> The staged promotion model prioritizes safety over immediate speed, which may conflict with aggressive "AI-first" delivery mandates.</li>
+              <li><strong>Contract Drift:</strong> Agents may attempt to bypass constraints by modifying their own execution contracts if those configurations are stored in mutable file paths.</li>
+            </ul>
+
+            <h3>Governance Principles</h3>
+            <ol>
+              <li><strong>Enforce Narrow Execution Contracts:</strong> Define the minimum necessary file scope and toolset for every agent session.</li>
+              <li><strong>Log Evidence of Competence:</strong> Record the specific successful tasks and invariant checks that justified an agent’s promotion to the next level.</li>
+              <li><strong>Implement Automated Revocation:</strong> Configure "dead-man switches" to automatically downgrade an agent’s level if a critical invariant (e.g., CI failure, security scan hit) is breached.</li>
+              <li><strong>Guard Human Development:</strong> Require junior engineers to supervise L0-L1 agents to ensure they engage in manual reasoning before graduating to L3+ orchestration.</li>
+            </ol>
+
+            <h3>Positioning Note</h3>
+            <p>This model differs from:</p>
+            <ul>
+              <li><strong>Academic Safety Research:</strong> Focuses on operational implementation rather than theoretical bounds.</li>
+              <li><strong>General Industry Content:</strong> Replaces anecdotal productivity tips with a structured governance framework.</li>
+              <li><strong>Vendor Enablement:</strong> Remains model-agnostic and emphasizes skepticism and revocability over unconditional enablement.</li>
+            </ul>
+
+            <h3>Status & Scope Disclaimer</h3>
+            <p>This note represents exploratory work within rmax lab. It is a proposed governance model based on internal trials and is not an authoritative industry standard. The effectiveness of this model depends on the specific CI/CD maturity and testing culture of the implementing organization.</p>
+          </div>
+        </article>
+      </main>
+
+      <footer>
+        <div>© <span id="year"></span> rmax.ai — Built for clarity and scale.</div>
+      </footer>
+    </div>
+
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
