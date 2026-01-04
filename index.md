@@ -26,6 +26,12 @@ Analyzing how contemporary AI tools structure authority and constraints in syste
 ## Notes
 [View all →](/notes/)
 
+### [Failure-Oriented Agent Orchestration](/notes/failure-oriented-orchestration/)
+A governance-first approach to agent orchestration prioritizing predictability, containment, and recoverability over raw productivity.
+
+### [Earned Agent Autonomy: A Governance Model for AI Systems](/notes/earned-agent-autonomy/)
+A risk-mitigated governance framework for integrating AI agents into production software engineering workflows through a staged autonomy ladder.
+
 ### [Agent Execution Contracts: Unifying Specification, Testing, and Labor](/notes/agent-execution-contracts/)
 How specifications, tests, and agents collapse into a single machine-readable contract that governs autonomous labor.
 

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Failure-Oriented Agent Orchestration — rmax.ai</title>
+    <meta name="description" content="A governance-first approach to agent orchestration prioritizing predictability, containment, and recoverability over raw productivity." />
+    <link rel="canonical" href="https://rmax.ai/notes/failure-oriented-orchestration/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+      :root{
+        --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass:rgba(255,255,255,0.04);
+        --maxw:800px; color-scheme: dark;
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{font-family:Inter,system-ui,Arial; margin:0; background:linear-gradient(180deg,#071028 0%,#071229 60%); color:#e6eef8; -webkit-font-smoothing:antialiased; line-height:1.6}
+      .wrap{max-width:var(--maxw); margin:40px auto; padding:24px}
+      header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:64px;max-width:1100px;margin-left:auto;margin-right:auto}
+      .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+      .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:800}
+      nav{display:flex;gap:14px;align-items:center}
+      a.navlink{color:var(--muted);text-decoration:none;font-weight:600}
+      a.cta{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+
+      h1{margin:0 0 16px;font-size:clamp(32px,5vw,52px);line-height:1.1;font-weight:800}
+      h2{margin:48px 0 16px;font-size:1.8rem;font-weight:700;color:#fff}
+      h3{margin:32px 0 12px;font-size:1.4rem;font-weight:600;color:#fff}
+      p{margin:0 0 24px;color:#cbd5e1;font-size:1.1rem}
+      ul{margin:0 0 24px;padding-left:20px;color:#cbd5e1}
+      li{margin-bottom:12px}
+      hr{border:0;border-top:1px solid var(--glass);margin:48px 0}
+      blockquote{margin:32px 0;padding:16px 24px;border-left:4px solid var(--accent);background:var(--glass);border-radius:0 8px 8px 0}
+      blockquote p{margin:0;font-style:italic}
+
+      .post-meta{color:var(--muted);margin-bottom:48px;font-size:0.95rem;display:flex;gap:16px;flex-wrap:wrap}
+      .post-content{margin-top:32px}
+
+      footer{margin-top:80px;color:var(--muted);font-size:0.95rem;padding:40px 0;text-align:center;border-top:1px solid var(--glass)}
+
+      table{width:100%;border-collapse:collapse;margin:32px 0;font-size:0.95rem}
+      th{text-align:left;padding:12px;border-bottom:2px solid var(--glass);color:#fff}
+      td{padding:12px;border-bottom:1px solid var(--glass);color:#cbd5e1;vertical-align:top}
+      tr:hover td{background:var(--glass)}
+
+      @media (max-width:600px){
+        header{flex-direction:column;align-items:flex-start}
+        .wrap{margin:20px auto}
+        table{display:block;overflow-x:auto}
+      }
+    </style>
+    <!-- 100% privacy-first analytics -->
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <div class="logo">R</div>
+          <div>
+            <div style="font-weight:800">rMax.ai</div>
+            <div class="muted" style="font-size:0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/">Notes</a>
+          <a class="navlink" href="/research/">Research</a>
+          <a class="navlink" href="/#about">About</a>
+          <a class="navlink" href="/#contact">Contact</a>
+          <a class="navlink" href="https://www.linkedin.com/in/rmaxespinoza/" target="_blank" rel="noopener" aria-label="LinkedIn" style="display:flex;align-items:center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display:block;margin-bottom:32px">
+            <h1>Failure-Oriented Agent Orchestration</h1>
+            <div class="post-meta">
+              <span>2026-01-04</span>
+              <span>•</span>
+              <span>4 min</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <p>Agentic systems are non-deterministic and prone to silent, compounding failure. This note outlines a governance-first approach to orchestration that prioritizes predictability, containment, and recoverability over raw productivity. By treating agents as non-deterministic labor and governance as the primary engineering product, we move from ad-hoc automation to defensible system operations.</p>
+
+            <h3>Context & Motivation</h3>
+            <p>The adoption of LLM-based agents has focused primarily on generation quality and demo velocity. However, in production environments, failure modes—such as hallucinated certainty, silent scope expansion, and context collapse—are invariants of the technology, not temporary bugs. As agents transition from read-only advisors to write-access operators, the lack of robust governance frameworks creates a blast radius that can exceed the cost of manual remediation.</p>
+
+            <h3>Core Thesis</h3>
+            <p>The central engineering problem in agent orchestration is the allocation of authority under uncertainty, rather than the quality of generation. Trust must be engineered through explicit control primitives that bound agent behavior and ensure state recoverability.</p>
+
+            <h3>Mechanism & Control Primitives</h3>
+            <p>To govern non-deterministic agents, we employ five primary control primitives:</p>
+            <ul>
+              <li><strong>Execution Contracts:</strong> Explicitly defined task scopes, authorities, inputs, outputs, and stopping conditions that bound agent actions.</li>
+              <li><strong>Graduated Autonomy:</strong> Authority is earned through demonstrated competence. Agents must satisfy invariants before being promoted to higher levels of system access.</li>
+              <li><strong>Invariant Maps:</strong> A registry of system invariants and state constraints, coupled with automated enforcement mechanisms.</li>
+              <li><strong>Phase Ledgers:</strong> An immutable, auditable record of execution logic, documenting the evidence and justifications provided by the agent at each phase transition.</li>
+              <li><strong>Revocation Paths:</strong> Pre-defined manual and automated triggers that immediately downgrade authority or roll back changes upon detection of failure signals.</li>
+            </ul>
+
+            <h3>Concrete Examples</h3>
+            <ol>
+              <li><strong>The "Junior Engineer" Path:</strong> An agent is restricted to local, temporary branches with no merge authority. It earns the right to submit pull requests only after its local executions consistently pass CI gates and invariant checks.</li>
+              <li><strong>Scoped File Modification:</strong> An agent is granted temporary authority over a specific directory rather than broad filesystem access. If it attempts to modify a file outside this scope, the execution contract is violated, triggering immediate revocation and a failure signal.</li>
+            </ol>
+
+            <h3>Trade-offs & Constraints</h3>
+            <p>This approach trades development velocity for operational safety and introduces overhead in contract definition and invariant mapping.</p>
+            <ul>
+              <li><strong>Limitations:</strong> Poorly suited for rapid prototyping or exploratory tasks where constraints are unknown.</li>
+              <li><strong>Failure Modes:</strong> If the invariant map is incomplete or the execution contract is too permissive, the system reverts to unmanaged failure.</li>
+              <li><strong>Scope:</strong> This framework does not eliminate hallucinations or logic errors; it ensures they are contained and recoverable.</li>
+            </ul>
+
+            <h3>Practical Takeaways</h3>
+            <ol>
+              <li><strong>Default to Minimum Authority:</strong> Grant agents the minimum permissions required for a specific task; authority should be local, scoped, and temporary.</li>
+              <li><strong>Optimize for Detection:</strong> Evaluate systems by their time-to-failure-detection and the clarity of post-failure explanations, rather than time-to-success.</li>
+              <li><strong>Hard CI Gates:</strong> Use standard software engineering rigors—linters, type-checkers, and unit tests—as the primary enforcement layer for agent output.</li>
+              <li><strong>Audit Logic, Not Just Output:</strong> Maintain records of the evidence an agent used to justify its progress to enable root-cause analysis.</li>
+            </ol>
+
+            <h3>Positioning Note</h3>
+            <p>This note represents applied research from <em>rmax lab</em>. It focuses on operational implementation rather than theoretical models. It remains agnostic of specific LLM providers and is grounded in the engineering requirements of stateful, production-grade systems.</p>
+
+            <h3>Status & Scope Disclaimer</h3>
+            <p>This is exploratory work conducted within a personal research lab. These patterns are under active validation and should be viewed as non-authoritative specifications for building governable agentic systems.</p>
+          </div>
+        </article>
+      </main>
+
+      <footer>
+        <div>© <span id="year"></span> rmax.ai — Built for clarity and scale.</div>
+      </footer>
+    </div>
+
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
