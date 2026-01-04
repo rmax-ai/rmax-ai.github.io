@@ -8,8 +8,7 @@
 ---
 
 <!-- HERO -->
-# AI-first engineering and systems thinking
-**Designing production systems where humans decide and agents execute.**
+# Agent-first software engineering, orchestration, and failure-aware systems.
 
 ---
 
