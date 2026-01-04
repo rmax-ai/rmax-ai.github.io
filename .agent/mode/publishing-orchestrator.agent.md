@@ -79,7 +79,7 @@ If the contract is incomplete or ambiguous, the agent MUST:
 ### Step 0 — Intake & Setup
 
 1. Read source note from `inbox/`
-2. Derive `slug`
+2. Derive `slug` from title:
 
    * lowercase
    * hyphenated

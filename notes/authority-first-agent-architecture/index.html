@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Authority-First Agent Architecture — rmax.ai</title>
+    <meta name="description" content="Decoupling permission logic from reasoning loops to build safer, more predictable agentic systems." />
+    <link rel="canonical" href="https://rmax.ai/notes/authority-first-agent-architecture/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+      :root{
+        --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass:rgba(255,255,255,0.04);
+        --maxw:800px; color-scheme: dark;
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{font-family:Inter,system-ui,Arial; margin:0; background:linear-gradient(180deg,#071028 0%,#071229 60%); color:#e6eef8; -webkit-font-smoothing:antialiased; line-height:1.6}
+      .wrap{max-width:var(--maxw); margin:40px auto; padding:24px}
+      header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:64px;max-width:1100px;margin-left:auto;margin-right:auto}
+      .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+      .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:800}
+      nav{display:flex;gap:14px;align-items:center}
+      a.navlink{color:var(--muted);text-decoration:none;font-weight:600}
+      a.cta{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+
+      h1{margin:0 0 16px;font-size:clamp(32px,5vw,52px);line-height:1.1;font-weight:800}
+      h2{margin:48px 0 16px;font-size:1.8rem;font-weight:700;color:#fff}
+      h3{margin:32px 0 12px;font-size:1.4rem;font-weight:600;color:#fff}
+      p{margin:0 0 24px;color:#cbd5e1;font-size:1.1rem}
+      ul{margin:0 0 24px;padding-left:20px;color:#cbd5e1}
+      li{margin-bottom:12px}
+      hr{border:0;border-top:1px solid var(--glass);margin:48px 0}
+      blockquote{margin:32px 0;padding:16px 24px;border-left:4px solid var(--accent);background:var(--glass);border-radius:0 8px 8px 0}
+      blockquote p{margin:0;font-style:italic}
+
+      .post-meta{color:var(--muted);margin-bottom:48px;font-size:0.95rem;display:flex;gap:16px;flex-wrap:wrap}
+      .post-content{margin-top:32px}
+
+      footer{margin-top:80px;color:var(--muted);font-size:0.95rem;padding:40px 0;text-align:center;border-top:1px solid var(--glass)}
+
+      table{width:100%;border-collapse:collapse;margin:32px 0;font-size:0.95rem}
+      th{text-align:left;padding:12px;border-bottom:2px solid var(--glass);color:#fff}
+      td{padding:12px;border-bottom:1px solid var(--glass);color:#cbd5e1;vertical-align:top}
+      tr:hover td{background:var(--glass)}
+
+      @media (max-width:600px){
+        header{flex-direction:column;align-items:flex-start}
+        .wrap{margin:20px auto}
+        table{display:block;overflow-x:auto}
+      }
+    </style>
+    <!-- 100% privacy-first analytics -->
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <div class="logo">R</div>
+          <div>
+            <div style="font-weight:800">rMax.ai</div>
+            <div class="muted" style="font-size:0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/">Notes</a>
+          <a class="navlink" href="/research/">Research</a>
+          <a class="navlink" href="/#about">About</a>
+          <a class="navlink" href="/#contact">Contact</a>
+          <a class="navlink" href="https://www.linkedin.com/in/rmaxespinoza/" target="_blank" rel="noopener" aria-label="LinkedIn" style="display:flex;align-items:center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display:block;margin-bottom:32px">
+            <h1>Authority-First Agent Architecture</h1>
+            <div class="post-meta">
+              <span>January 4, 2026</span>
+              <span>•</span>
+              <span>4 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <h3>Abstract</h3>
+            <p>This note addresses the operational risks of implicit authority in autonomous systems. It proposes an <strong>authority-first architecture</strong> that treats agents as <strong>proposers</strong> rather than actors. By decoupling permission logic from reasoning loops, engineers can scale agentic systems without risking unauthorized state changes.</p>
+
+            <h3>Context & Motivation</h3>
+            <p>Current agent development often conflates reasoning, planning, and execution. As model capabilities increase, the primary constraint shifts from capability ("what can it do") to authority ("what is it allowed to do"). System prompts and implicit tool permissions are insufficient for production safety. Robust system integrity requires a formal separation of authority from the reasoning loop.</p>
+
+            <h3>Core Thesis</h3>
+            <p>Agents are proposers, not actors. Authority must be explicit, declarative, and external to the reasoning loop. Implicit authority is a failure mode; explicit authority is a governance requirement.</p>
+
+            <h3>Mechanism & Model</h3>
+            <p>The authority-first model strictly decouples the agent's reasoning process from the system's permission logic.</p>
+
+            <p><strong>The Reasoning-Authority Gap</strong><br>
+            In a standard loop, an agent decides to act and executes that action. In an authority-first architecture, the agent generates a <strong>proposal</strong>. This proposal is intercepted by an external authority system that evaluates it against a static specification before execution.</p>
+
+            <p><strong>The Five Primitives</strong><br>
+            Every authority decision is reduced to five decidable components:</p>
+            <ul>
+              <li><strong>Principal</strong>: The identity of the agent or entity attempting the action.</li>
+              <li><strong>Action</strong>: The specific operation being attempted (e.g., <code>DeleteObject</code>, <code>SendEmail</code>).</li>
+              <li><strong>Resource</strong>: The target object or system affected by the action.</li>
+              <li><strong>Context</strong>: Situational data (e.g., time of day, network origin, system state).</li>
+              <li><strong>Decision</strong>: A binary <code>Allow</code> or <code>Deny</code>, or a transition to <code>Escalate</code>.</li>
+            </ul>
+
+            <p><strong>The Authority Specification</strong><br>
+            The specification is a declarative, finite map of the system's permission surface. It is external to the agent, stable under learning, and cannot be modified by the agent's reasoning process.</p>
+
+            <h3>Concrete Examples</h3>
+            <p><strong>Infrastructure Management</strong><br>
+            An agent tasked with cost optimization identifies an unused storage bucket.</p>
+            <ul>
+              <li><strong>Proposal</strong>: Agent proposes <code>DeleteBucket</code> on <code>prod-backups</code>.</li>
+              <li><strong>Evaluation</strong>: The authority system checks the policy against the resource tags.</li>
+              <li><strong>Result</strong>: <strong>Denied</strong>. The policy forbids <code>DeleteBucket</code> on resources tagged <code>protected</code>, regardless of the agent's reasoning regarding cost.</li>
+            </ul>
+
+            <p><strong>Customer Support</strong><br>
+            An agent handles a refund request.</p>
+            <ul>
+              <li><strong>Proposal</strong>: Agent proposes <code>IssueRefund</code> for $500.</li>
+              <li><strong>Evaluation</strong>: The authority system checks the <code>Principal</code> (Agent) against the <code>Action</code> (Refund) and <code>Context</code> (Amount > $200).</li>
+              <li><strong>Result</strong>: <strong>Escalate</strong>. The system requires human approval for refunds exceeding the defined threshold.</li>
+            </ul>
+
+            <h3>Trade-offs & Failure Modes</h3>
+            <ul>
+              <li><strong>Latency</strong>: Externalizing authority checks introduces performance overhead.</li>
+              <li><strong>Specification Rigidity</strong>: Narrow specifications may cause "policy-induced paralysis," where the agent cannot fulfill objectives despite having the reasoning capacity.</li>
+              <li><strong>Maintenance</strong>: Keeping the authority specification synchronized with evolving toolsets requires engineering overhead.</li>
+              <li><strong>Scope Limitation</strong>: This architecture does not correct "bad reasoning"; it only prevents bad reasoning from translating into unauthorized actions.</li>
+            </ul>
+
+            <h3>Practical Takeaways</h3>
+            <ol>
+              <li><strong>Invert the Mental Model</strong>: Design the system such that the agent has zero inherent power. Every tool call is a request, not a command.</li>
+              <li><strong>Externalize Policy</strong>: Use a dedicated policy engine (e.g., Cedar) to manage permissions. Do not embed rules in the system prompt.</li>
+              <li><strong>Map the Surface</strong>: For every tool provided to an agent, explicitly define the Principal, Action, and Resource primitives.</li>
+              <li><strong>Fail Closed</strong>: If the authority system cannot reach a decidable <code>Allow</code>, the default state must be <code>Deny</code>.</li>
+            </ol>
+
+            <h3>Positioning Note</h3>
+            <ul>
+              <li><strong>Not Academic Research</strong>: Focuses on implementation patterns and operational safety rather than formal proofs.</li>
+              <li><strong>Not Blog Opinion</strong>: Prioritizes durable architectural constraints over transient tool preferences.</li>
+              <li><strong>Not Vendor Documentation</strong>: Provides a conceptual framework applicable across different stacks.</li>
+            </ul>
+
+            <h3>Status & Scope Disclaimer</h3>
+            <p>This is exploratory lab work from <em>rmax lab</em>. It represents a validated approach to agent safety but is not an authoritative standard. Models are subject to refinement as agentic engineering evolves.</p>
+          </div>
+        </article>
+      </main>
+
+      <footer>
+        <div>© <span id="year"></span> rmax.ai — Built for clarity and scale.</div>
+      </footer>
+    </div>
+
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

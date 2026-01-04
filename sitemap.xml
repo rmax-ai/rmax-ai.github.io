@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-01-04T12:32:12Z</lastmod>
+    <lastmod>2026-01-04T12:56:34Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-01-04T12:32:15Z</lastmod>
+    <lastmod>2026-01-04T12:56:36Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agent-execution-contracts/</loc>
@@ -17,12 +17,16 @@
     <lastmod>2026-01-03T16:05:39Z</lastmod>
   </url>
   <url>
+    <loc>https://rmax.ai/notes/authority-first-agent-architecture/</loc>
+    <lastmod>2026-01-04T12:56:32Z</lastmod>
+  </url>
+  <url>
     <loc>https://rmax.ai/notes/earned-agent-autonomy/</loc>
     <lastmod>2026-01-04T11:58:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/failure-oriented-orchestration/</loc>
-    <lastmod>2026-01-04T12:32:08Z</lastmod>
+    <lastmod>2026-01-04T12:38:20Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/typing-code-is-solved/</loc>

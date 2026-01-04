@@ -11,6 +11,8 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-01-04: Published technical note: [authority-first-agent-architecture](notes/authority-first-agent-architecture/index.md). Introduced an authority-first architecture model for AI agents, decoupling permission logic from reasoning loops.
+  - *Warnings*: Architecture does not mitigate intent-based failures or sequence-based attacks (Step 3). Missing reference in root index.md (Step 6).
 - 2026-01-04: Published technical note: [failure-oriented-orchestration](notes/failure-oriented-orchestration/index.md). Outlined a governance-first approach to agent orchestration prioritizing predictability, containment, and recoverability.
   - *Warnings*: The primitives 'Invariant Maps' and 'Phase Ledgers' require significant underlying infrastructure to be effective (Step 3). Discrepancy in index.md navigation (Step 6).
 - Published technical note: [earned-agent-autonomy](notes/earned-agent-autonomy/index.md). Introduced the Earned Agent Autonomy (EAA) governance framework and the five-level Autonomy Ladder.
