@@ -20,7 +20,7 @@
       .wrap{max-width:var(--maxw); margin:40px auto; padding:24px}
       header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:64px;max-width:1100px;margin-left:auto;margin-right:auto}
       .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
-      .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:800}
+      .logo{width:44px;height:44px;border-radius:10px;object-fit:contain}
       nav{display:flex;gap:14px;align-items:center}
       a.navlink{color:var(--muted);text-decoration:none;font-weight:600}
       a.cta{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
@@ -59,7 +59,7 @@
     <div class="wrap">
       <header>
         <a href="/" class="brand">
-          <div class="logo">R</div>
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo">
           <div>
             <div style="font-weight:800">rMax.ai</div>
             <div class="muted" style="font-size:0.9rem">AI-first engineering</div>

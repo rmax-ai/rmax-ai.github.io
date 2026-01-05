@@ -19,13 +19,15 @@
       body{font-family:Inter,system-ui,Arial; margin:0; background:linear-gradient(180deg,#071028 0%,#071229 60%); color:#e6eef8; -webkit-font-smoothing:antialiased}
       .wrap{max-width:var(--maxw); margin:40px auto; padding:24px}
       header{display:flex;align-items:center;justify-content:space-between;gap:16px}
-      .brand{display:flex;align-items:center;gap:12px}
-      .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:800}
+      .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+      .logo{width:44px;height:44px;border-radius:10px;object-fit:contain}
+      header .logo{opacity:0;transition:opacity 0.3s ease;pointer-events:none} 
       nav{display:flex;gap:14px;align-items:center}
       a.navlink{color:var(--muted);text-decoration:none;font-weight:600}
       a.cta{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
 
-      .hero{display:grid;grid-template-columns:1fr;gap:28px;margin:48px 0;align-items:center}
+      .hero{display:grid;grid-template-columns:auto 1fr;gap:48px;margin:64px 0;align-items:center}
+      .hero-logo{width:120px;height:120px;object-fit:contain;border-radius:24px}
       .hero-inner{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:28px;border-radius:16px;box-shadow:0 6px 30px rgba(2,6,23,0.6)}
       h1{margin:0;font-size:clamp(26px,4.6vw,44px);line-height:1.03}
       p.lead{color:var(--muted);margin:12px 0 0}
@@ -41,7 +43,12 @@
 
       /* Responsive */
       @media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}; .brand b{display:none}}
-      @media (max-width:600px){.grid{grid-template-columns:1fr}; header{flex-direction:column;align-items:flex-start}}
+      @media (max-width:600px){
+        .grid{grid-template-columns:1fr}; 
+        header{flex-direction:column;align-items:flex-start};
+        .hero{grid-template-columns:1fr; text-align:center; gap:24px};
+        .hero-logo{margin:0 auto; width:100px; height:100px}
+      }
 
       /* small utilities */
       .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--glass);color:var(--muted);font-weight:600}
@@ -55,18 +62,35 @@
     <!-- 100% privacy-first analytics -->
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
     <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+    <script>
+      // Reveal header logo when hero logo is scrolled out of view
+      window.addEventListener('scroll', () => {
+        const headerLogo = document.querySelector('header .logo');
+        const heroLogo = document.querySelector('.hero-logo');
+        if (headerLogo && heroLogo) {
+          const heroRect = heroLogo.getBoundingClientRect();
+          if (heroRect.bottom < 0) {
+            headerLogo.style.opacity = '1';
+            headerLogo.style.pointerEvents = 'auto';
+          } else {
+            headerLogo.style.opacity = '0';
+            headerLogo.style.pointerEvents = 'none';
+          }
+        }
+      });
+    </script>
   </head>
   <body>
     <div class="wrap">
       <header>
         <!-- HEADER -->
-        <div class="brand">
-          <div class="logo">R</div>
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo">
           <div>
             <div style="font-weight:800">rMax.ai</div>
             <div class="muted" style="font-size:0.9rem">AI-first engineering</div>
           </div>
-        </div>
+        </a>
         <nav aria-label="Main navigation">
           <a class="navlink" href="/notes/">Notes</a>
           <a class="navlink" href="/research/">Research</a>
@@ -81,6 +105,7 @@
       <main>
         <section class="hero">
           <!-- HERO -->
+          <img src="/images/logo_hero.png" alt="rMax.ai logo" class="hero-logo">
           <div class="hero-inner">
             <h1>Agent-first software engineering, orchestration, and failure-aware systems.</h1>
           </div>
