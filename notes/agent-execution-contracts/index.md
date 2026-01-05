@@ -26,7 +26,7 @@ Historically, software development followed a linear progression: prose specific
 The introduction of autonomous agents breaks this model. Agents execute immediately and literally. In an agentic workflow, ambiguity is not a minor friction—it is an **Ambiguity Tax** paid in "hallucinated" implementations or unbounded execution. To utilize agents effectively, the pressure to resolve ambiguity must be moved upstream. We require a mechanism that binds agent behavior to verifiable outcomes *before* execution begins.
 
 ### Core Thesis
-Execution contracts are the necessary evolution of software artifacts where specifications and tests become the **binding constraints** for autonomous labor. In this model, an agent is not "prompted" to perform a task; it is authorized to execute within a contract that defines its permissions, its success criteria, and its failure modes.
+Execution contracts are the necessary evolution of software artifacts where specifications and tests become the **binding constraints** for autonomous labor. In this model, an agent is not "prompted" to perform a task; it is authorized to execute within a contract that defines its permissions, its success criteria, and its [failure modes](../failure-oriented-orchestration/).
 
 ### Mechanism / Model
 An execution contract unifies four distinct components into a machine-readable manifest (e.g., YAML or JSON):
@@ -76,5 +76,9 @@ This note differs from:
 
 ### Status & scope disclaimer
 This is an exploratory technical note from *rmax lab*. The patterns described are based on internal experimentation with agentic workflows and are intended for discussion and refinement, not as an authoritative industry standard.
+
+### Related
+- [Architectural enforcement of execution boundaries](../authority-first-agent-architecture/) (Extends)
+- [Technical enforcement for the Autonomy Ladder](../earned-agent-autonomy/) (Implements)
 
 > “A system is defined less by what it does than by what it refuses to do.” — Stafford Beer

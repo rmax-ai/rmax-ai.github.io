@@ -22,7 +22,7 @@ license: "CC BY 4.0"
 
 ## Agent-First Software Engineering
 
-This workflow is built on a simple premise: modern AI agents are powerful but non-situated. In the absence of explicit boundaries, they will invent scope, requirements, and architecture. The goal of this system is therefore not to maximize generation speed, but to enforce context completeness and governed execution.
+This workflow is built on a simple premise: modern AI agents are powerful but non-situated. In the absence of explicit boundaries, they will invent scope, requirements, and architecture. The goal of this system is therefore not to maximize generation speed, but to enforce context completeness and [governed execution](../failure-oriented-orchestration/).
 
 A Git repository acts as the system of record and coordination substrate. Ideas are introduced with minimal structure, but progression is gated by increasingly strict artifacts. No agent is allowed to skip phases or self-promote work without meeting explicit criteria.
 
@@ -70,6 +70,10 @@ The trade-off is intentional. Exploratory freedom is reduced in favor of reliabi
 ## Example
 
 A vague idea such as “build a prompt analysis tool” will cause an unconstrained agent to invent data models, APIs, and roadmaps. In this workflow, the same idea is first reduced to a bounded objective (for example: offline analysis of captured system prompts, no runtime interception, markdown output only). Only after these constraints are established is an agent allowed to plan or implement.
+
+### Related
+- [Operational implementation of failure-oriented boundaries](../failure-oriented-orchestration/) (Extends)
+- [Implements judgment-centric engineering](../typing-code-is-solved/) (Implements)
 
 ## Closing
 

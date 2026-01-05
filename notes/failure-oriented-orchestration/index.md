@@ -35,8 +35,8 @@ The central engineering problem in agent orchestration is the allocation of auth
 
 To govern non-deterministic agents, we employ five primary control primitives:
 
-*   **Execution Contracts:** Explicitly defined task scopes, authorities, inputs, outputs, and stopping conditions that bound agent actions.
-*   **Graduated Autonomy:** Authority is earned through demonstrated competence. Agents must satisfy invariants before being promoted to higher levels of system access.
+*   **[Execution Contracts](../agent-execution-contracts/):** Explicitly defined task scopes, authorities, inputs, outputs, and stopping conditions that bound agent actions.
+*   **[Graduated Autonomy](../earned-agent-autonomy/):** Authority is earned through demonstrated competence. Agents must satisfy invariants before being promoted to higher levels of system access.
 *   **Invariant Maps:** A registry of system invariants and state constraints, coupled with automated enforcement mechanisms.
 *   **Phase Ledgers:** An immutable, auditable record of execution logic, documenting the evidence and justifications provided by the agent at each phase transition.
 *   **Revocation Paths:** Pre-defined manual and automated triggers that immediately downgrade authority or roll back changes upon detection of failure signals.
@@ -68,3 +68,6 @@ This note represents applied research from *rmax lab*. It focuses on operational
 ### Status & Scope Disclaimer
 
 This is exploratory work conducted within a personal research lab. These patterns are under active validation and should be viewed as non-authoritative specifications for building governable agentic systems.
+
+### Related
+- [Foundational Agent-First Workflow](../agent-first-software-engineering/)

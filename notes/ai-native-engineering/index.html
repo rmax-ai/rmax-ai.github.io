@@ -91,7 +91,7 @@
             <p>Current AI tooling has optimized the "inner loop" of development (local iteration: typing, building, testing), yet the "outer loop" (systemic integration: reviewing, deploying, measuring) remains manual and rate-limited. As noted by Addy Osmani in <a href="https://www.youtube.com/watch?v=FoXHScf1mjA">The AI-Native Software Engineer</a>, individual productivity gains are hitting a systemic ceiling. While generative models accelerate code production, overall velocity is increasingly constrained by decision latency and the high cognitive cost of auditing "plausible but incorrect" output.</p>
 
             <h3>Core Thesis</h3>
-            <p>AI-native engineering is a systems design discipline, not a linguistic craft. The primary "unit of work" is shifting from the code snippet to the agentic workflow. Success requires moving from interactive, imperative "conducting" (serial 1:1 interaction) toward asynchronous, declarative "orchestration" (parallel 1:Many fleet management).</p>
+            <p>AI-native engineering is a systems design discipline, not a linguistic craft. The primary "unit of work" is shifting from the code snippet to the agentic workflow. Success requires moving from interactive, imperative "conducting" (serial 1:1 interaction) toward asynchronous, declarative "<a href="../failure-oriented-orchestration/">orchestration</a>" (parallel 1:Many fleet management).</p>
 
             <h3>Mechanism / Model</h3>
             <p>The paradigm shift rests on three structural pillars:</p>
@@ -135,6 +135,11 @@
               <li><strong>Externalize Intent</strong>: Require agents to output a formal plan of action for approval <em>before</em> any file modifications occur.</li>
               <li><strong>Architect for Verification</strong>: Invest in automated policy engines and rigorous test suites to offload the verification burden from humans.</li>
               <li><strong>Durable Memory</strong>: Use file-based state to provide agents with a high-fidelity record of past decisions and architectural "why."</li>
+            </ul>
+
+            <h3>Related</h3>
+            <ul>
+              <li><a href="../agent-first-software-engineering/">Realizing agent-first boundaries via the Memory Bank pattern</a> (Implements)</li>
             </ul>
 
             <h3>Positioning Note</h3>

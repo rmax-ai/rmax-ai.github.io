@@ -1,0 +1,67 @@
+proposed_links:
+  - from: notes/agent-execution-contracts/index.md
+    to: notes/authority-first-agent-architecture/index.md
+    type: extends
+    confidence: 0.95
+    rationale: >
+      Both address the shift from "prompt-driven" to "constraint-driven" engineering. 
+      'Execution Contracts' define the granular, task-specific invariants, while 
+      'Authority-First Architecture' provides the systemic decoupling (the enforcer) 
+      required to make those contracts operationally binding.
+    evidence:
+      - note_a: "Execution contracts are the necessary evolution of software artifacts where specifications and tests become the binding constraints for autonomous labor."
+      - note_b: "In an authority-first architecture, the agent generates a proposal. This proposal is intercepted by an external authority system that evaluates it against a static specification before execution."
+    suggested_anchor: "architectural enforcement of execution boundaries"
+
+  - from: notes/agent-first-software-engineering/index.md
+    to: notes/failure-oriented-orchestration/index.md
+    type: extends
+    confidence: 0.95
+    rationale: >
+      The Jan 4th note (Failure-Oriented) refines the high-level Jan 3rd 
+      workflow (Agent-First) by providing specific operational control 
+      primitives like Phase Ledgers and Invariant Maps to handle non-deterministic 
+      agent failure.
+    evidence:
+      - note_a: "The limiting factor is boundary quality: problem definitions, invariants, interfaces, and acceptance criteria."
+      - note_b: "Trust must be engineered through explicit control primitives that bound agent behavior and ensure state recoverability."
+    suggested_anchor: "operational implementation of failure-oriented boundaries"
+
+  - from: notes/agent-execution-contracts/index.md
+    to: notes/earned-agent-autonomy/index.md
+    type: implements
+    confidence: 0.95
+    rationale: >
+      'Agent Execution Contracts' provide the concrete technical mechanism 
+      for the 'Earned Agent Autonomy' governance ladder. Contracts serve as 
+      the objective gates for promoting agents between autonomy levels.
+    evidence:
+      - note_a: "Execution contracts are the necessary evolution... where specifications and tests become the binding constraints."
+      - note_b: "Authority should be granted in scoped, revocable increments, gated by the agent's ability to maintain system invariants and operate within explicit execution contracts."
+    suggested_anchor: "technical enforcement for the Autonomy Ladder"
+
+  - from: notes/agent-first-software-engineering/index.md
+    to: notes/typing-code-is-solved/index.md
+    type: implements
+    confidence: 1.0
+    rationale: >
+      The 'Agent-First' workflow provides the governed, artifact-driven 
+      implementation of the philosophical shift described in 'Typing Code Is Solved' 
+      (context and judgment as the new bottlenecks).
+    evidence:
+      - note_a: "The goal of this system is therefore not to maximize generation speed, but to enforce context completeness and governed execution."
+      - note_b: "The marginal cost of producing syntactically correct code has collapsed... the limiting factor is no longer keystrokes. It is judgment."
+    suggested_anchor: "implements judgment-centric engineering"
+
+  - from: notes/ai-native-engineering/index.md
+    to: notes/agent-first-software-engineering/index.md
+    type: implements
+    confidence: 0.95
+    rationale: >
+      'AI-Native Engineering' introduces the 'Memory Bank' pattern and 
+      'Context Stack' as the specific toolset used to realize the 
+      general 'Agent-First' requirement for context completeness.
+    evidence:
+      - note_a: "The Memory Bank Pattern: Utilizing structured markdown files to ground agent reasoning and maintain alignment."
+      - note_b: "The goal of this system is... to enforce context completeness and governed execution."
+    suggested_anchor: "realizing agent-first boundaries via the Memory Bank pattern"

@@ -79,3 +79,6 @@ An agent handles a refund request.
 
 ### Status & Scope Disclaimer
 This is exploratory lab work from *rmax lab*. It represents a validated approach to agent safety but is not an authoritative standard. Models are subject to refinement as agentic engineering evolves.
+
+### Related
+- [Task-level enforcement via Execution Contracts](../agent-execution-contracts/)

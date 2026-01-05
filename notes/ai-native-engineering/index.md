@@ -24,7 +24,7 @@ The transition from AI-augmented workflows (Copilots) to AI-native engineering m
 Current AI tooling has optimized the "inner loop" of development (local iteration: typing, building, testing), yet the "outer loop" (systemic integration: reviewing, deploying, measuring) remains manual and rate-limited. As noted by Addy Osmani in [The AI-Native Software Engineer](https://www.youtube.com/watch?v=FoXHScf1mjA), individual productivity gains are hitting a systemic ceiling. While generative models accelerate code production, overall velocity is increasingly constrained by decision latency and the high cognitive cost of auditing "plausible but incorrect" output.
 
 **Core Thesis**
-AI-native engineering is a systems design discipline, not a linguistic craft. The primary "unit of work" is shifting from the code snippet to the agentic workflow. Success requires moving from interactive, imperative "conducting" (serial 1:1 interaction) toward asynchronous, declarative "orchestration" (parallel 1:Many fleet management).
+AI-native engineering is a systems design discipline, not a linguistic craft. The primary "unit of work" is shifting from the code snippet to the agentic workflow. Success requires moving from interactive, imperative "conducting" (serial 1:1 interaction) toward asynchronous, declarative "[orchestration](../failure-oriented-orchestration/)" (parallel 1:Many fleet management).
 
 **Mechanism / Model**
 The paradigm shift rests on three structural pillars:
@@ -55,6 +55,9 @@ The paradigm shift rests on three structural pillars:
 *   **Externalize Intent**: Require agents to output a formal plan of action for approval *before* any file modifications occur.
 *   **Architect for Verification**: Invest in automated policy engines and rigorous test suites to offload the verification burden from humans.
 *   **Durable Memory**: Use file-based state to provide agents with a high-fidelity record of past decisions and architectural "why."
+
+### Related
+- [Realizing agent-first boundaries via the Memory Bank pattern](../agent-first-software-engineering/) (Implements)
 
 **Positioning Note**
 This note synthesizes industry observations from Addy Osmani (Chrome/Web Performance) with applied research into agentic engineering workflows at the rmax lab.

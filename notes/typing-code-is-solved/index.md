@@ -93,7 +93,7 @@ It is:
 * define intent
 * bound the solution space
 * choose primitives
-* specify invariants
+* specify [invariants](../agent-execution-contracts/)
 * design feedback loops
 * supervise execution
 
@@ -159,7 +159,7 @@ If instead you optimize for:
 * problem framing
 * constraint articulation
 * system evolution
-* agent orchestration
+* [agent orchestration](../failure-oriented-orchestration/)
 
 You are working on the scarce part.
 
@@ -191,4 +191,7 @@ It raises the ceiling of what small teams—and even individuals—can build, wh
 
 Software did not get easier.
 It got more honest.
+
+### Related
+- [The Agent-First Software Engineering Workflow](../agent-first-software-engineering/)
 

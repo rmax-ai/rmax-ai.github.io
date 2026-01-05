@@ -93,7 +93,7 @@
             <p>The introduction of autonomous agents breaks this model. Agents execute immediately and literally. In an agentic workflow, ambiguity is not a minor friction—it is an <strong>Ambiguity Tax</strong> paid in "hallucinated" implementations or unbounded execution. To utilize agents effectively, the pressure to resolve ambiguity must be moved upstream. We require a mechanism that binds agent behavior to verifiable outcomes <em>before</em> execution begins.</p>
 
             <h3>Core Thesis</h3>
-            <p>Execution contracts are the necessary evolution of software artifacts where specifications and tests become the <strong>binding constraints</strong> for autonomous labor. In this model, an agent is not "prompted" to perform a task; it is authorized to execute within a contract that defines its permissions, its success criteria, and its failure modes.</p>
+            <p>Execution contracts are the necessary evolution of software artifacts where specifications and tests become the <strong>binding constraints</strong> for autonomous labor. In this model, an agent is not "prompted" to perform a task; it is authorized to execute within a contract that defines its permissions, its success criteria, and its <a href="../failure-oriented-orchestration/">failure modes</a>.</p>
 
             <h3>Mechanism / Model</h3>
             <p>An execution contract unifies four distinct components into a machine-readable manifest (e.g., YAML or JSON):</p>
@@ -153,6 +153,12 @@
 
             <h3>Status & Scope Disclaimer</h3>
             <p>This is an exploratory technical note from <em>rmax lab</em>. The patterns described are based on internal experimentation with agentic workflows and are intended for discussion and refinement, not as an authoritative industry standard.</p>
+
+            <h3>Related</h3>
+            <ul>
+              <li><a href="../authority-first-agent-architecture/">Architectural enforcement of execution boundaries</a> (Extends)</li>
+              <li><a href="../earned-agent-autonomy/">Technical enforcement for the Autonomy Ladder</a> (Implements)</li>
+            </ul>
 
             <blockquote>
               <p>“A system is defined less by what it does than by what it refuses to do.” — Stafford Beer</p>

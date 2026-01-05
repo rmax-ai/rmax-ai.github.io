@@ -28,7 +28,7 @@ The rapid advancement of Large Language Models (LLMs) has led to the deployment 
 A more granular, evidence-based authority model is required to scale agentic workflows safely without eroding the human talent pipeline.
 
 ### Core Thesis
-**Agent autonomy is a function of trust derived from observed performance, not model capability.** Authority should be granted in scoped, revocable increments, gated by the agent's ability to maintain system invariants and operate within explicit execution contracts.
+**Agent autonomy is a function of trust derived from observed performance, not model capability.** Authority should be granted in scoped, revocable increments, gated by the agent's ability to maintain system invariants and operate within explicit [execution contracts](../agent-execution-contracts/).
 
 ### Mechanism: The Autonomy Ladder
 Autonomy is managed through five discrete levels. Transitioning between levels requires meeting objective exit criteria based on task history and audit logs.
@@ -65,3 +65,6 @@ This model differs from:
 
 ### Status & Scope Disclaimer
 This note represents exploratory work within rmax lab. It is a proposed governance model based on internal trials and is not an authoritative industry standard. The effectiveness of this model depends on the specific CI/CD maturity and testing culture of the implementing organization.
+
+### Related
+- [Technical enforcement via Execution Contracts](../agent-execution-contracts/)
