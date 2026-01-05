@@ -11,6 +11,8 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-01-05: Published technical note: [ai-native-engineering](notes/ai-native-engineering/index.md). Explored the transition from AI-augmented to AI-native engineering, focusing on context orchestration and the systemic verification crisis.
+  - *Warnings*: Shifting to orchestration without matching validation rigor risks architectural debt; potential "talent pipeline collapse" due to automated inner loops (Step 3). Orphaned research summaries reported (Step 6).
 - 2026-01-05: Implemented a scroll-based reveal for the header logo on the home page to avoid visual redundancy with the hero logo.
 - 2026-01-05: Added a larger hero logo to the main index page and updated the hero section layout for better visual impact.
 - 2026-01-05: Added official logo (dark version) across the site, replacing the placeholder text logo.
