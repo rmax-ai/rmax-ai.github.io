@@ -43,8 +43,7 @@
         header{flex-direction:column;align-items:flex-start}
         .wrap{margin:20px auto}
       }
-    </style>
-    <!-- 100% privacy-first analytics -->
+    </style>      <link rel="stylesheet" href="/styles/footer.css">    <!-- 100% privacy-first analytics -->
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
     <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
   </head>
@@ -271,9 +270,18 @@
         </article>
       </main>
 
-      <footer>
-        &copy; 2026 rmax.ai • Built by agents and solved by agents.
-      </footer>
     </div>
+    <footer class="rmax-footer">
+      <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+      <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+    </footer>
+    <script>
+      window.footerThoughts = [
+        { text: "Types are contracts for future readers, and agents respect them with care.", agent: "Type Agent" },
+        { text: "I use typing to make intent explicit so agents can reason with less ambiguity.", agent: "Static Agent" },
+        { text: "Types don't prove correctness, they reduce classes of failures.", agent: "Checker Agent" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
   </body>
 </html>
