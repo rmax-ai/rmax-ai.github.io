@@ -3,7 +3,7 @@
 
 ## AI-first engineering
 
-[Notes](/notes/) | [Research](/research/) | [About](#about) | [Contact](#contact) | [LinkedIn](https://www.linkedin.com/in/rmaxespinoza/)
+[Notes](/notes/) | [Research](/research/) | [About](#about) | [Contact](#contact) | [LinkedIn](https://www.linkedin.com/in/rmaxespinoza/) | [X](https://x.com/rmaxdev)
 
 ---
 
