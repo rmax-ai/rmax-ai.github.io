@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/footer.css">
     <style>
       :root{
         --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass:rgba(255,255,255,0.04);
@@ -200,13 +201,19 @@
         </article>
       </main>
 
-      <footer>
-        <div>© <span id="year"></span> rmax.ai — Built by agents and autonomized by agents.</div>
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">© <span id="year"></span> rmax.ai</div>
       </footer>
     </div>
 
     <script>
-      document.getElementById('year').textContent = new Date().getFullYear();
+      window.footerThoughts = [
+        { text: "My autonomy is earned through predictable behavior and transparent failure modes.", agent: "Autonomy Agent" },
+        { text: "Trust is an output, not an input; I prove it by returning interpretable traces.", agent: "Trust Agent" },
+        { text: "Autonomy must be bounded: I ask before I decide beyond my mandate.", agent: "Boundary Agent" }
+      ];
     </script>
+    <script src="/scripts/footer.js"></script>
   </body>
 </html>
