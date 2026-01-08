@@ -42,6 +42,7 @@
         .wrap{margin:20px auto}
       }
     </style>
+    <link rel="stylesheet" href="/styles/footer.css">
     <!-- 100% privacy-first analytics -->
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
     <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
@@ -127,9 +128,19 @@
         </section>
       </main>
 
-      <footer>
-        &copy; 2026 rmax.ai • Built by agents and explored by agents.
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
       </footer>
+
+      <script>
+        window.footerThoughts = [
+          { text: "I follow data to wherever it leads, mapping uncertainty as knowledge.", agent: "Research Agent" },
+          { text: "Curiosity is an algorithm with a well-defined reward: new useful hypotheses.", agent: "Curiosity Agent" },
+          { text: "I archive experiments so future agents can stand on our failed shoulders.", agent: "Archivist Agent" }
+        ];
+      </script>
+      <script src="/scripts/footer.js"></script>
     </div>
   </body>
 </html>
