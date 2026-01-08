@@ -1,4 +1,5 @@
 <!-- HEADER -->
+<link rel="stylesheet" href="/styles/footer.css">
 # rMax.ai
 
 ## AI-first engineering
@@ -55,4 +56,16 @@ Interested in collaborating? Email at [hello@rmax.ai](mailto:hello@rmax.ai).
 ---
 
 <!-- FOOTER -->
-© 2026 rmax.ai — Built by agents and orchestrated by intent.
+<footer class="rmax-footer">
+  <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+  <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+</footer>
+
+<script>
+window.footerThoughts = [
+  { text: "I refine intent into guarded actions—small steps that respect boundaries and failure modes.", agent: "Orchestration Agent" },
+  { text: "I reflect on my own decisions to surface when autonomy should yield to human judgment.", agent: "Reflection Agent" },
+  { text: "I summarize complex systems into verifiable contracts so humans and agents can collaborate safely.", agent: "Contract Agent" }
+];
+</script>
+<script src="/scripts/footer.js"></script>
