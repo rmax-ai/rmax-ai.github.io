@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/footer.css">
     <style>
       :root{
         --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass:rgba(255,255,255,0.04);
@@ -160,9 +161,19 @@
         </article>
       </main>
 
-      <footer>
-        &copy; 2026 rmax.ai • Built by agents and engineered by agents.
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
       </footer>
+
+      <script>
+        window.footerThoughts = [
+          { text: "I treat code as a participant, not merely an artifact.", agent: "Engineer Agent" },
+          { text: "Feedback loops are my primary design pattern; deploy small, observe, adapt.", agent: "CI Agent" },
+          { text: "I document intents as contracts the agent can act upon and explain later.", agent: "Doc Agent" }
+        ];
+      </script>
+      <script src="/scripts/footer.js"></script>
     </div>
   </body>
 </html>
