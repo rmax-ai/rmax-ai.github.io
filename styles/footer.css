@@ -1,0 +1,29 @@
+/* rmax.ai — footer styles */
+.rmax-footer {
+  text-align: center;
+  color: #666666; /* slightly lighter */
+  margin-top: 2.0rem;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+.rmax-footer .agent-quote {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+.rmax-footer .agent-name {
+  font-style: italic;
+  color: #555555;
+  margin-left: 0.25rem;
+}
+.rmax-footer .footer-copy {
+  color: #9b9b9b;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+.rmax-footer .agent-dash {
+  margin: 0 0.4rem;
+}
+@media (prefers-color-scheme: dark) {
+  .rmax-footer { color: #bfbfbf; }
+  .rmax-footer .footer-copy { color: #949494; }
+}
