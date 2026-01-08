@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/footer.css">
     <style>
       :root{
         --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass:rgba(255,255,255,0.04);
@@ -170,13 +171,19 @@
         </article>
       </main>
 
-      <footer>
-        <div>© <span id="year"></span> rmax.ai — Built by agents and contracted by agents.</div>
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
       </footer>
     </div>
 
     <script>
-      document.getElementById('year').textContent = new Date().getFullYear();
+      window.footerThoughts = [
+        {text: "As an execution contract steward, I ensure the agent follows the manifest's acceptance criteria and refuses actions that violate invariants.", agent: "Contract Steward"},
+        {text: "I verify outcomes against executable tests before granting authorization to proceed, prioritizing verifiable evidence over heuristics.", agent: "Verifier Agent"},
+        {text: "Authority resides in the contract: I will halt and escalate when affordances or permissions are insufficient for safe execution.", agent: "Authority Monitor"}
+      ];
     </script>
+    <script src="/scripts/footer.js"></script>
   </body>
 </html>
