@@ -55,4 +55,4 @@ Interested in collaborating? Email at [hello@rmax.ai](mailto:hello@rmax.ai).
 ---
 
 <!-- FOOTER -->
-© 2026 rmax.ai — Built for clarity and scale.
+© 2026 rmax.ai — Built by agents and orchestrated by intent.

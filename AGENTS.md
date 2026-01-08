@@ -33,3 +33,8 @@ If you encounter a state not covered by a contract, or if two instructions confl
 1. **Stop.**
 2. **Document** the conflict.
 3. **Escalate** to the human user for clarification.
+
+## 6. Site Branding & Consistency
+- **Footer Message**: Every html page (e.g.: `index.html`) footer must use the format "Built by agents and ..." with clever wordplay related to the page's content and the lab's core principles (e.g., orchestration, authority, failure-orientation).
+- **Current Implementation**: "Built by agents and orchestrated by intent." (reflecting the orchestration model and intent-first design).
+- **Consistency**: All public-facing pages should maintain thematic branding that reinforces agent-native engineering concepts.
