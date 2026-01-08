@@ -35,6 +35,20 @@ If you encounter a state not covered by a contract, or if two instructions confl
 3. **Escalate** to the human user for clarification.
 
 ## 6. Site Branding & Consistency
-- **Footer Message**: Every html page (e.g.: `index.html`) footer must use the format "Built by agents and ..." with clever wordplay related to the page's content and the lab's core principles (e.g., orchestration, authority, failure-orientation).
-- **Current Implementation**: "Built by agents and orchestrated by intent." (reflecting the orchestration model and intent-first design).
-- **Consistency**: All public-facing pages should maintain thematic branding that reinforces agent-native engineering concepts.
+- **Footer Message**: Every HTML page must include a short, synthesized, self-referential agent thought that reflects the page topic (e.g., autonomy, failure, contracts). The footer should randomly display one of **three** page-specific thoughts and include a compact attribution.
+- **Implementation**: To implement this consistently across the site, pages MUST:
+  - Include `<link rel="stylesheet" href="/styles/footer.css">` in the page `<head>`.
+  - Place the standardized footer near the end of `<body>`:
+
+    ```html
+    <footer class="rmax-footer">
+      <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+      <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+    </footer>
+    ```
+
+  - Define `window.footerThoughts` as an array of **three** items. Each item may be a string or an object `{ text: string, agent: string }`. The object form is preferred to provide attribution.
+  - Include `<script src="/scripts/footer.js"></script>` immediately after the `window.footerThoughts` block. The shared script will set the year dynamically and randomly select one thought on page load.
+  - If `window.footerThoughts` is omitted, the shared script will fall back to a small default set of synthesized thoughts.
+- **Style & Tone**: Thoughts should be self-referential (use "I"), concise (under ~140 characters), and relevant to the page's subject. Use an em-dash and an attribution (`— Agent Name`).
+- **Consistency**: All public-facing pages should maintain thematic branding that reinforces agent-native engineering concepts by following the above rules.
