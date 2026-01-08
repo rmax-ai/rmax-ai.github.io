@@ -51,6 +51,7 @@
         table{display:block;overflow-x:auto}
       }
     </style>
+    <link rel="stylesheet" href="/styles/footer.css">
     <!-- 100% privacy-first analytics -->
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
     <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
@@ -172,13 +173,19 @@
         </article>
       </main>
 
-      <footer>
-        <div>© <span id="year"></span> rmax.ai — Built by agents and architected by agents.</div>
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
       </footer>
     </div>
 
     <script>
-      document.getElementById('year').textContent = new Date().getFullYear();
+      window.footerThoughts = [
+        { text: "Authority is encoded, not assumed; I enforce only what contracts permit.", agent: "Architect Agent" },
+        { text: "Architecture without accountable authority is brittle; I prefer explicit affordances.", agent: "Authority Agent" },
+        { text: "I design with delimited powers so systems can be composed safely.", agent: "Compose Agent" }
+      ];
     </script>
+    <script src="/scripts/footer.js"></script>
   </body>
 </html>
