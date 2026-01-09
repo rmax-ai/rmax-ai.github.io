@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Model Selection in GitHub Copilot: A Systems Design Approach — rmax.ai</title>
+    <meta name="description" content="A framework for optimizing LLM tier selection in GitHub Copilot to maximize research throughput and minimize cognitive waste via the Principle of Least Power." />
+    <link rel="canonical" href="https://rmax.ai/notes/github-copilot-model-selection-guidelines/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/footer.css">
+    <style>
+      :root{
+        --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass:rgba(255,255,255,0.04);
+        --maxw:800px; color-scheme: dark;
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{font-family:Inter,system-ui,Arial; margin:0; background:linear-gradient(180deg,#071028 0%,#071229 60%); color:#e6eef8; -webkit-font-smoothing:antialiased; line-height:1.6}
+      .wrap{max-width:var(--maxw); margin:40px auto; padding:24px}
+      header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:64px;max-width:1100px;margin-left:auto;margin-right:auto}
+      .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+      .logo{width:44px;height:44px;border-radius:10px;object-fit:contain}
+      nav{display:flex;gap:14px;align-items:center}
+      a.navlink{color:var(--muted);text-decoration:none;font-weight:600}
+      a.cta{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+
+      h1{margin:0 0 16px;font-size:clamp(32px,5vw,52px);line-height:1.1;font-weight:800}
+      h2{margin:48px 0 16px;font-size:1.8rem;font-weight:700;color:#fff;border-bottom:1px solid var(--glass);padding-bottom:8px}
+      h3{margin:32px 0 12px;font-size:1.4rem;font-weight:600;color:#fff}
+      p{margin:0 0 24px;color:#cbd5e1;font-size:1.1rem}
+      ul{margin:0 0 24px;padding-left:20px;color:#cbd5e1}
+      li{margin-bottom:12px}
+      strong {color: #fff; font-weight: 600;}
+
+      table {width: 100%; border-collapse: collapse; margin: 32px 0; background: var(--card); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3);}
+      th, td {padding: 16px; text-align: left; border-bottom: 1px solid var(--glass);}
+      th {background: var(--glass); color: var(--muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;}
+      td {font-size: 1rem; color: #cbd5e1;}
+
+      .post-meta {color: var(--muted); margin-bottom: 48px; font-size: 0.95rem; display: flex; gap: 16px; flex-wrap: wrap;}
+      .post-content {margin-top: 32px;}
+
+      @media (max-width:600px){
+        header {flex-direction: column; align-items: flex-start;}
+        .wrap {margin: 20px auto;}
+        table {display: block; overflow-x: auto;}
+      }
+    </style>
+    <!-- 100% privacy-first analytics -->
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo">
+          <div>
+            <div style="font-weight:800">rMax.ai</div>
+            <div class="muted" style="font-size:0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/">Notes</a>
+          <a class="navlink" href="/research/">Research</a>
+          <a class="navlink" href="/#about">About</a>
+          <a class="navlink" href="/#contact">Contact</a>
+          <a class="navlink" href="https://www.linkedin.com/in/rmaxespinoza/" target="_blank" rel="noopener" aria-label="LinkedIn" style="display:flex;align-items:center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+          <a class="navlink" href="https://x.com/rmaxdev" target="_blank" rel="noopener" aria-label="X" style="display:flex;align-items:center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191-.008zM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447z"></path></svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display:block;margin-bottom:32px">
+            <h1>Model Selection in GitHub Copilot: A Systems Design Approach</h1>
+            <div class="post-meta">
+              <span>January 9, 2026</span>
+              <span>•</span>
+              <span>5 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <figure style="margin: 32px 0; text-align: center;">
+            <img src="github-copilot-models.png" alt="GitHub Copilot Model Selection Table" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.4);">
+            <figcaption style="margin-top: 12px; color: var(--muted); font-size: 0.9rem;">Figure 1: GitHub Copilot Model Table - Tiers and Capabilities.</figcaption>
+          </figure>
+
+          <div class="post-content">
+            <p>The proliferation of frontier and near-frontier models within development environments like GitHub Copilot has transitioned model selection from a convenience feature to a critical systems design problem. Without a disciplined selection framework, engineers risk cognitive overspend, inflated review complexity, and a degradation of architectural rigor. This note outlines a tiered selection strategy optimized for the solo engineer-researcher, prioritizing the maximization of <strong>research throughput per unit of attention</strong> over raw code volume.</p>
+
+            <h2>Context & Motivation</h2>
+            <p>As of early 2026, the integrated development environment (IDE) provides access to a heterogeneous array of models with disparate reasoning capabilities and latency profiles.</p>
+            <p>The primary bottleneck in agentic software engineering is no longer code generation, but the human capacity for <strong>verification and judgment</strong>. When an engineer defaults to the most powerful model for every task—a practice termed "vibe coding"—they often introduce unnecessary complexity and non-local side effects. This "intelligence over-provisioning" increases the long-term cognitive load of the system without a commensurate increase in utility.</p>
+
+            <h2>Core Thesis: The Principle of Least Power</h2>
+            <p>Model selection is an exercise in resource allocation. The governing principle for applied research and development is: <strong>Use the weakest model that can reliably complete the task.</strong></p>
+            <p>Intelligence must be treated as a scarce resource, reserved for irreversible architectural decisions. Mechanical execution should be delegated to high-throughput, low-latency "swarm" models. This approach preserves the engineer's "attention budget" for parts of the system where correctness is difficult to verify automatically.</p>
+
+            <h2>Hierarchy of Intelligence Tiers (Premium-Aware)</h2>
+            <p>Selection is governed by a four-tier hierarchy based on the required <strong>reasoning horizon</strong>, the <strong>cost of verification</strong>, and the <strong>premium-request cost</strong>.</p>
+
+            <h3>Premium Request Cost Model</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Cost</th>
+                  <th>Premium Impact</th>
+                  <th>Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>0x</strong></td>
+                  <td>0 requests</td>
+                  <td>Non-metered budget-free primitives.</td>
+                </tr>
+                <tr>
+                  <td><strong>0.33x</strong></td>
+                  <td>1/3 request</td>
+                  <td>Cheap, fractional execution.</td>
+                </tr>
+                <tr>
+                  <td><strong>1x</strong></td>
+                  <td>1 request</td>
+                  <td>Full premium execution.</td>
+                </tr>
+                <tr>
+                  <td><strong>3x</strong></td>
+                  <td>3 requests</td>
+                  <td>Strategic-only high-cost synthesis.</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h3>Tier 0: High-Frequency Core (0x)</h3>
+            <p><em>Models: Raptor mini, Grok Code Fast 1, GPT-5-mini</em></p>
+            <ul>
+              <li><strong>Objective:</strong> Routing, rapid iteration, and workspace-wide actuation.</li>
+              <li><strong>Use Case:</strong> The "operating system" of the environment. Always enabled for orchestration.</li>
+              <li><strong>Model Profiles:</strong>
+                <ul>
+                  <li><strong>🦅 Raptor mini:</strong> Optimized for multi-file, dependency-aware edits with massive context (~264K).</li>
+                  <li><strong>🏎️ Grok Code Fast:</strong> Ultra-low-latency accelerator for tight TDD loops and exploratory debugging.</li>
+                  <li><strong>💎 GPT-5-mini:</strong> The "cognitive glue" for task classification, routing, and instruction adherence.</li>
+                </ul>
+              </li>
+              <li><strong>Heuristic:</strong> If the task is an "inner loop" or purely mechanical actuation, 0x is the default.</li>
+            </ul>
+
+            <h3>Tier 1: Cheap Execution Layer (0.33x)</h3>
+            <p><em>Models: Claude Haiku 4.5, Gemini 3 Flash, GPT-5.1-Codex-Mini</em></p>
+            <ul>
+              <li><strong>Objective:</strong> Fast, clean prose and light code mechanics.</li>
+              <li><strong>Use Case:</strong> Summaries, documentation, and small code transformations.</li>
+              <li><strong>Heuristic:</strong> If better language quality or reliability is needed without full premium cost, Tier 1 is sufficient.</li>
+            </ul>
+
+            <h3>Tier 2: Premium Execution (1x)</h3>
+            <p><em>Models: Claude Sonnet 4.5, GPT-5.1-Codex / Max</em></p>
+            <ul>
+              <li><strong>Objective:</strong> Multi-file maneuvers and feature implementation.</li>
+              <li><strong>Use Case:</strong> The default tier for standard engineering work.</li>
+              <li><strong>Model Notes:</strong> <strong>Codex-Max</strong> is prioritized for long-horizon maneuvers; <strong>Sonnet 4.5</strong> is preferred for health, reviewability, and PR hygiene.</li>
+              <li><strong>Heuristic:</strong> If the change spans more than ~3 files or introduces new invariants, Tier 2 is the default.</li>
+            </ul>
+
+            <h3>Tier 3: Strategic Cognition (3x)</h3>
+            <p><em>Models: Claude Opus 4.5</em></p>
+            <ul>
+              <li><strong>Objective:</strong> Deep synthesis and high-level structural planning.</li>
+              <li><strong>Use Case:</strong> Research framing, architecture decisions, and high-level critiques.</li>
+              <li><strong>Constraint:</strong> Always checkpointed. Never background. Used rarely and deliberately.</li>
+              <li><strong>Heuristic:</strong> If the output will influence <em>weeks of work</em>, Tier 3 is justified. Otherwise, it is waste.</li>
+            </ul>
+
+            <h2>Clarifying the Role of GPT-5, GPT-5.2, and Gemini 3 Pro</h2>
+            <p>Wait, notice a pattern? <strong>GPT-5</strong>, <strong>GPT-5.2</strong>, and <strong>Gemini 3 Pro</strong> are missing from our Tiered Execution list.</p>
+            <p>While these models are available, in the rMax.ai lab, we treat them as <strong>Benchmarked Instruments</strong> rather than <strong>Routing Tiers</strong>. Here’s why:</p>
+            <ul>
+                <li><strong>GPT-5.1-Codex / Max</strong> is the superior <em>executioner</em>. It is tuned specifically for the latency and multi-file horizon of the Copilot workspace.</li>
+                <li><strong>Claude Opus 4.5</strong> remains the gold standard for <em>synthesis</em>.</li>
+            </ul>
+            <p>Use <strong>GPT-5</strong>, <strong>GPT-5.2</strong>, or <strong>Gemini 3 Pro</strong> sparingly, primarily as <strong>Secondary Auditors</strong>. If Sonnet 4.5 produces a fix that feels "smelly," prompt GPT-5.2 for an <em>evaluation</em> rather than a <em>generation</em>. They are your peer reviewers, not your primary builders.</p>
+
+            <h2>Canonical Routing Policy</h2>
+            <p>To maximize leverage per premium request, follow a strict escalation path:</p>
+            <ol>
+              <li><strong>Classify (0x):</strong> Start with <strong>GPT-5-mini</strong> to classify the task and estimate the blast radius.</li>
+              <li><strong>Execute (0x/0.33x):</strong> Use <strong>Grok</strong> for speed, <strong>Raptor</strong> for scale, or <strong>Haiku/Flash</strong> for cheap prose.</li>
+              <li><strong>Escalate Intentionally (1x/3x):</strong> Use <strong>Sonnet/Codex</strong> for correctness, <strong>Opus</strong> for direction, and <strong>GPT-5/5.2</strong> for auditing.</li>
+            </ol>
+            <p><strong>No silent escalation.</strong> Every move to &ge; 1x models must be deliberate.</p>
+
+            <h2>Decision Matrix</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Phase</th>
+                  <th>Goal</th>
+                  <th>Reasoning Horizon</th>
+                  <th>Recommended Tier</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Ideation</strong></td>
+                  <td>Decide what is worth building</td>
+                  <td>Long</td>
+                  <td><strong>Tier 3</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Scoping</strong></td>
+                  <td>Define boundaries and success metrics</td>
+                  <td>Long</td>
+                  <td><strong>Tier 3</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Design</strong></td>
+                  <td>Architecture-level thinking and evals</td>
+                  <td>Long</td>
+                  <td><strong>Tier 3 → Tier 2</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Implementation</strong></td>
+                  <td>Build and refactor logic</td>
+                  <td>Medium</td>
+                  <td><strong>Tier 2</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Scaling</strong></td>
+                  <td>Parallelize work (tests, fixtures)</td>
+                  <td>Short</td>
+                  <td><strong>Tier 0 → Tier 1</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Evaluation</strong></td>
+                  <td>Validate and falsify via benchmarks</td>
+                  <td>Long</td>
+                  <td><strong>Tier 3</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Documentation</strong></td>
+                  <td>Explain outcomes and API docs</td>
+                  <td>Short</td>
+                  <td><strong>Tier 1</strong></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h2>Trade-offs & Failure Modes</h2>
+            <ul>
+              <li><strong>Verification Lag:</strong> Using Tier 2 or 3 for agentic execution shifts the bottleneck to the human's ability to review. Increasing generation throughput without increasing verification capability leads to system entropy.</li>
+              <li><strong>Context Fragmentation:</strong> Frequent model switching during a session can degrade the engineer's mental model ("state"), even if the Copilot context remains synchronized.</li>
+              <li><strong>The Luxury Trap:</strong> Using Tier 2 or Tier 3 for Tier 1 tasks leads to "review fatigue." Because the model is highly capable, the engineer may lower their guard, missing subtle errors in otherwise elegant-looking code.</li>
+            </ul>
+
+            <h2>Human-in-the-loop Constraints</h2>
+            <p>Verification effort must scale with model autonomy. As the reasoning horizon shifts from Tier 1 to Tier 3, the human role transitions from <strong>execution</strong> to <strong>orchestration and judgment</strong>.</p>
+            <ul>
+              <li><strong>No Autonomous Deployment:</strong> Zero-touch deployment is prohibited. All agentic output requires human review.</li>
+              <li><strong>Explicit Intent Mapping:</strong> Every agent-generated PR or code block must map to an explicit goal or architectural invariant.</li>
+              <li><strong>Proportional Verification:</strong> The rigor of manual review and automated testing must increase linearly with the complexity of the delegated task.</li>
+              <li><strong>Hypothesis-Driven Coding:</strong> Treat model outputs as hypotheses to be falsified, not truths to be accepted.</li>
+            </ul>
+
+            <h2>Anti-patterns</h2>
+            <ul>
+              <li><strong>Vibe Coding:</strong> Defaulting to Tier 2 or Tier 3 for routine implementation without a justification for the reasoning complexity.</li>
+              <li><strong>Unbounded Autonomy:</strong> Allowing agents to run across multiple files or sessions without defined checkpoints and human verification.</li>
+              <li><strong>Intelligence Over-provisioning:</strong> Using high-entropy models for low-entropy tasks (e.g., o1-class for unit test boilerplate), leading to "review fatigue."</li>
+              <li><strong>Ignoring Side Effects:</strong> Assuming Tier 2/3 refactors are local. Always assume non-local impact unless proven otherwise by automated suites.</li>
+            </ul>
+
+            <h2>The Non-Negotiable: Evals over Intuition</h2>
+            <p>At the end of the day, <strong>model selection without evaluation is guesswork</strong>. In the rMax.ai workflow, the single most important factor in choosing a model is empirical performance on specific tasks, measured by explicit evaluation suites rather than "vibes."</p>
+
+            <h3>Why evals matter more than model specs</h3>
+            <ul>
+              <li>Context window size does not predict correctness.</li>
+              <li>Latency does not predict usefulness.</li>
+              <li>Premium cost does not predict quality.</li>
+              <li>"Feels smart" does not predict reliability.</li>
+            </ul>
+            <p>Only evals tell you where a model fails, how often it fails, and whether those failures are acceptable for the task.</p>
+
+            <h3>Operational Implication</h3>
+            <blockquote style="margin: 32px 0; padding: 16px 24px; border-left: 4px solid var(--accent); background: var(--glass); border-radius: 0 8px 8px 0;">
+              <p style="margin: 0; font-style: italic; color: #fff;"><strong>Never argue about models in the abstract. Argue with eval results.</strong></p>
+            </blockquote>
+            <p>If a 0x model passes your evals, it is <em>better</em> than a 3x model that does not. If a 0.33x model is "good enough," the premium model is waste.</p>
+            <p><strong>Final Heuristic:</strong> Models are hypotheses. Evals are the evidence. Budget follows evidence.</p>
+
+            <h2>Practical Takeaways</h2>
+            <ul>
+              <li><strong>Default to Tier 2 (Sonnet 4.5):</strong> This is currently the Pareto frontier for general-purpose engineering.</li>
+              <li><strong>Escalate for Irreversibility:</strong> If a decision cannot be easily undone (e.g., database schema, core API), move to Tier 3 immediately.</li>
+              <li><strong>Delegate for Volume:</strong> For repetitive changes across &gt;10 files, prioritize Tier 0 (Raptor/Grok) and Tier 1 to minimize latency and cost.</li>
+              <li><strong>Verification Scales with Autonomy:</strong> The more you delegate execution to the model, the more rigorous your automated evaluation (tests, linters) must be.</li>
+            </ul>
+
+            <h2>Positioning & Disclaimer</h2>
+            <p><strong>Positioning:</strong> Designed for the <strong>solo researcher-engineer</strong> who must maximize impact while minimizing "busy work." It prioritizes <em>Thinking over Typing</em>.</p>
+            <p><strong>Scope:</strong> These guidelines apply specifically to the GitHub Copilot ecosystem as of Q1 2026. While specific model mappings will evolve, the tiering logic and selection heuristics are designed for durability.</p>
+
+            <blockquote style="margin: 32px 0; padding: 16px 24px; border-left: 4px solid var(--accent); background: var(--glass); border-radius: 0 8px 8px 0;">
+              <p style="margin: 0; font-style: italic; color: #fff;"><strong>Closing Heuristic:</strong> Models are hypotheses. Evals are the evidence. Budget follows evidence.</p>
+            </blockquote>
+
+            <h3>Related</h3>
+            <ul>
+              <li><a href="../ai-native-engineering/">AI-Native Engineering: From Autocomplete to Agent Orchestration</a> (Background)</li>
+              <li><a href="../typing-code-is-solved/">Typing Code Is Solved</a> (Theoretical Foundation)</li>
+            </ul>
+          </div>
+        </article>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+    <script>
+      window.footerThoughts = [
+        { text: "Models are hypotheses. Evals are the evidence. Budget follows evidence.", agent: "Engineering-Orchestrator" },
+        { text: "Higher intelligence increases verification cost. I am conserving your cognitive budget.", agent: "Model-Selector" },
+        { text: "Vibe coding is a precursor to architectural decay. I prefer tiered rigor.", agent: "Systems-Architect" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>

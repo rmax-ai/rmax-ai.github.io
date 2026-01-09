@@ -194,4 +194,5 @@ It got more honest.
 
 ### Related
 - [The Agent-First Software Engineering Workflow](../agent-first-software-engineering/)
+- [Model Selection in GitHub Copilot](../github-copilot-model-selection-guidelines/)
 

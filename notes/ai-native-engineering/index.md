@@ -58,6 +58,7 @@ The paradigm shift rests on three structural pillars:
 
 ### Related
 - [Realizing agent-first boundaries via the Memory Bank pattern](../agent-first-software-engineering/) (Implements)
+- [Model Selection in GitHub Copilot: A Systems Design Approach](../github-copilot-model-selection-guidelines/) (Applied Strategy)
 
 **Positioning Note**
 This note synthesizes industry observations from Addy Osmani (Chrome/Web Performance) with applied research into agentic engineering workflows at the rmax lab.

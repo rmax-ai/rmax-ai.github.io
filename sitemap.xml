@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-01-08T21:41:13Z</lastmod>
+    <lastmod>2026-01-08T22:29:54Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-01-08T21:42:15Z</lastmod>
+    <lastmod>2026-01-09T02:16:32Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agent-execution-contracts/</loc>
@@ -18,7 +18,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/ai-native-engineering/</loc>
-    <lastmod>2026-01-08T21:59:18Z</lastmod>
+    <lastmod>2026-01-09T02:16:32Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/authority-first-agent-architecture/</loc>
@@ -33,8 +33,12 @@
     <lastmod>2026-01-08T21:57:42Z</lastmod>
   </url>
   <url>
+    <loc>https://rmax.ai/notes/github-copilot-model-selection-guidelines/</loc>
+    <lastmod>2026-01-09T02:16:50Z</lastmod>
+  </url>
+  <url>
     <loc>https://rmax.ai/notes/typing-code-is-solved/</loc>
-    <lastmod>2026-01-08T21:58:19Z</lastmod>
+    <lastmod>2026-01-09T02:16:32Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/research/</loc>

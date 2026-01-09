@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-01-09: Updated technical note: [github-copilot-model-selection-guidelines](notes/github-copilot-model-selection-guidelines/index.md). Added the GitHub Copilot Model Selection Table image to both Markdown and HTML versions for improved visual tiering guidance.
+- 2026-01-08: Published technical note: [github-copilot-model-selection-guidelines](notes/github-copilot-model-selection-guidelines/index.md). Introduced a tiered selection framework for GitHub Copilot based on the Principle of Least Power and reasoning horizons.
+  - *Warnings*: Risk of "Heuristic Fatigue" due to meta-decision overhead; "Silent Regression" in Tier 3 models (Step 3).
 - 2026-01-05: Published technical note: [ai-native-engineering](notes/ai-native-engineering/index.md). Explored the transition from AI-augmented to AI-native engineering, focusing on context orchestration and the systemic verification crisis.
   - *Warnings*: Shifting to orchestration without matching validation rigor risks architectural debt; potential "talent pipeline collapse" due to automated inner loops (Step 3). Orphaned research summaries reported (Step 6).
 - 2026-01-05: Implemented a scroll-based reveal for the header logo on the home page to avoid visual redundancy with the hero logo.
