@@ -71,3 +71,4 @@ This is exploratory work conducted within a personal research lab. These pattern
 
 ### Related
 - [Foundational Agent-First Workflow](../agent-first-software-engineering/)
+- [Execution Contracts (control primitive)](../agent-execution-contracts/) (Implements)

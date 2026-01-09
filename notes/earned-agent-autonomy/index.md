@@ -67,4 +67,4 @@ This model differs from:
 This note represents exploratory work within rmax lab. It is a proposed governance model based on internal trials and is not an authoritative industry standard. The effectiveness of this model depends on the specific CI/CD maturity and testing culture of the implementing organization.
 
 ### Related
-- [Technical enforcement via Execution Contracts](../agent-execution-contracts/)
+- [Execution contracts for autonomy gating](../agent-execution-contracts/) (Implements)

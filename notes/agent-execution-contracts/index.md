@@ -78,7 +78,7 @@ This note differs from:
 This is an exploratory technical note from *rmax lab*. The patterns described are based on internal experimentation with agentic workflows and are intended for discussion and refinement, not as an authoritative industry standard.
 
 ### Related
-- [Architectural enforcement of execution boundaries](../authority-first-agent-architecture/) (Extends)
+- [Execution contracts for authority enforcement](../authority-first-agent-architecture/) (Implements)
 - [Technical enforcement for the Autonomy Ladder](../earned-agent-autonomy/) (Implements)
 
 > “A system is defined less by what it does than by what it refuses to do.” — Stafford Beer

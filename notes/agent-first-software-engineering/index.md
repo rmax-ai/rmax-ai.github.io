@@ -72,8 +72,8 @@ The trade-off is intentional. Exploratory freedom is reduced in favor of reliabi
 A vague idea such as “build a prompt analysis tool” will cause an unconstrained agent to invent data models, APIs, and roadmaps. In this workflow, the same idea is first reduced to a bounded objective (for example: offline analysis of captured system prompts, no runtime interception, markdown output only). Only after these constraints are established is an agent allowed to plan or implement.
 
 ### Related
-- [Operational implementation of failure-oriented boundaries](../failure-oriented-orchestration/) (Extends)
-- [Implements judgment-centric engineering](../typing-code-is-solved/) (Implements)
+- [Governed execution and failure-oriented patterns](../failure-oriented-orchestration/) (Extends)
+- [From typing to thinking (agent-first)](../typing-code-is-solved/) (Implements)
 
 ## Closing
 
