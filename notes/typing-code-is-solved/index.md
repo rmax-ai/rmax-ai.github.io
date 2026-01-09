@@ -175,8 +175,7 @@ and more like:
 * governance
 * decision-making under uncertainty
 
-Code is still there.
-It is just no longer the point.
+Code is still there. It is just no longer the point. When code is infinite and cheap, its longevity is no longer a virtue—architecting for [the replacement of implementations](../the-software-replacement-age/) becomes the dominant strategy.
 
 ---
 
@@ -193,6 +192,7 @@ Software did not get easier.
 It got more honest.
 
 ### Related
+- [The Software Replacement Age: Architecting for a Low-Cost Generation World](../the-software-replacement-age/) (Extends)
 - [The Agent-First Software Engineering Workflow](../agent-first-software-engineering/)
 - [Model Selection in GitHub Copilot](../github-copilot-model-selection-guidelines/)
 

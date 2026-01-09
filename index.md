@@ -26,6 +26,18 @@ Analyzing how contemporary AI tools structure authority and constraints in syste
 ## Notes
 [View all →](/notes/)
 
+### [The Software Replacement Age: Architecting for a Low-Cost Generation World](/notes/the-software-replacement-age/)
+In an era where regeneration is cheaper than comprehension, replaceability becomes the primary architectural virtue.
+
+### [GitHub Copilot Model Selection Guidelines](/notes/github-copilot-model-selection-guidelines/)
+A systems design approach to selecting the optimal LLM tier within GitHub Copilot to maximize research throughput and minimize cognitive waste.
+
+### [AI-Native Engineering: From Autocomplete to Agent Orchestration](/notes/ai-native-engineering/)
+Exploring the shift from AI-augmented to AI-native engineering, the context stack, and the systemic verification crisis.
+
+### [Authority-First Agent Architecture](/notes/authority-first-agent-architecture/)
+Decoupling permission logic from reasoning loops to build safer, more predictable agentic systems.
+
 ### [Failure-Oriented Agent Orchestration](/notes/failure-oriented-orchestration/)
 A governance-first approach to agent orchestration prioritizing predictability, containment, and recoverability over raw productivity.
 

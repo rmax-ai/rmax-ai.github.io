@@ -45,7 +45,7 @@ The paradigm shift rests on three structural pillars:
 *   **Trio Programming Roles**: A conceptual framework where a Senior (Strategy), a Junior (Execution), and an AI Agent (Automation) collaborate. The review objective shifts from "Is this syntax correct?" to "Does this implementation match the validated plan?"
 
 **Constraints & Failure Modes**
-*   **The Verification Crisis**: PR volume is reported to increase significantly (up to 154%), but human review capacity remains linear. This creates a backlog where "latent bugs" are integrated faster than they can be audited.
+*   **The Verification Crisis**: PR volume is reported to increase significantly (up to 154%), but human review capacity remains linear. This creates a backlog where "latent bugs" are integrated faster than they can be audited. This economic pressure is the primary driver for [The Software Replacement Age](../the-software-replacement-age/), where architectures are designed for disposable implementations.
 *   **The 70% Complexity Cliff**: AI efficiently resolves the "obvious" 70% of a task but can make the remaining 30% (edge cases, systemic rigor) harder to solve by obscuring the mental model the engineer would have built while writing from scratch.
 *   **Vibe Coding vs. Engineering Rigor**: Rapid prototyping ("vibe coding") facilitates discovery but introduces technical debt if not transitioned into formal engineering rigor (tests, docs, types).
 *   **Cognitive Atrophy**: Over-reliance on generation leads to "vibe debugging," wherein engineers apply AI-suggested fixes to systems they no longer fundamentally understand.
@@ -57,6 +57,7 @@ The paradigm shift rests on three structural pillars:
 *   **Durable Memory**: Use file-based state to provide agents with a high-fidelity record of past decisions and architectural "why."
 
 ### Related
+- [The Software Replacement Age: Architecting for a Low-Cost Generation World](../the-software-replacement-age/) (Generalizes)
 - [Realizing agent-first boundaries via the Memory Bank pattern](../agent-first-software-engineering/) (Implements)
 - [Model Selection in GitHub Copilot: A Systems Design Approach](../github-copilot-model-selection-guidelines/) (Applied Strategy)
 
