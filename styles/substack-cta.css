@@ -1,0 +1,45 @@
+/* rmax.ai — Substack subscription CTA styles */
+.substack-cta {
+  margin: 3rem 0 2rem;
+  padding: 2rem;
+  background: rgba(124, 58, 237, 0.08);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.substack-cta h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.substack-cta p {
+  margin: 0 0 1.5rem;
+  color: #cbd5e1;
+  font-size: 1rem;
+}
+
+.substack-cta iframe {
+  width: 100%;
+  max-width: 480px;
+  height: 160px;
+  border: none;
+  background: transparent;
+}
+
+@media (max-width: 600px) {
+  .substack-cta {
+    padding: 1.5rem;
+    margin: 2rem 0 1.5rem;
+  }
+  
+  .substack-cta h3 {
+    font-size: 1.25rem;
+  }
+  
+  .substack-cta p {
+    font-size: 0.95rem;
+  }
+}
