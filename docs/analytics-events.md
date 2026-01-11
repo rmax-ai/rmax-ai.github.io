@@ -31,7 +31,7 @@
 ### `click_outbound`
 - **Trigger:** Clicks that resolve to a hostname external to `rmax.ai` (LinkedIn, X, GitHub, etc). Annotated social links provide host candidates while the automated handler covers arbitrary outbound targets.
 - **Metadata**
-  - `host` (string, lowercased, without leading `www.`). Current high-signal values: `linkedin.com`, `x.com`, `github.com`. Additional hosts may be observed via automated tracking; update this spec if those hosts become recurring signals or need grouping.
+  - `host` (string, lowercased, without leading `www.`). Current high-signal values: `linkedin.com`, `x.com`, `github.com`, `substack.com`. Additional hosts may be observed via automated tracking; update this spec if those hosts become recurring signals or need grouping.
 
 ### `download_asset`
 - **Trigger:** Clicks on links whose resolved path ends in a stable download extension (`.pdf`, `.zip`, `.png`, `.svg`, etc.).
