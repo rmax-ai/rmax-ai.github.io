@@ -58,7 +58,7 @@ This approach trades development velocity for operational safety and introduces 
 
 1.  **Default to Minimum Authority:** Grant agents the minimum permissions required for a specific task; authority should be local, scoped, and temporary.
 2.  **Optimize for Detection:** Evaluate systems by their time-to-failure-detection and the clarity of post-failure explanations, rather than time-to-success.
-3.  **Hard CI Gates:** Use standard software engineering rigors—linters, type-checkers, and unit tests—as the primary enforcement layer for agent output.
+3.  **Hard CI Gates:** Use standard software engineering rigors—linters, type-checkers, and unit tests—as the primary enforcement layer for agent output (see [Agent Execution Contracts](../agent-execution-contracts/) for defining acceptance gates).
 4.  **Audit Logic, Not Just Output:** Maintain records of the evidence an agent used to justify its progress to enable root-cause analysis.
 
 ### Positioning Note

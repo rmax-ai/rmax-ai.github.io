@@ -36,7 +36,7 @@ An execution contract unifies four distinct components into a machine-readable m
 3.  **Acceptance Criteria**: Executable tests or evaluation rubrics that provide an objective "pass/fail" signal. These are the gates that allow or deny agent progress.
 4.  **Stopping and Escalation Rules**: Explicit conditions under which the agent must halt, such as reaching a token/cost limit, encountering an ambiguity it cannot resolve, or violating an invariant.
 
-**The Runtime Boundary**: When these elements are coupled, the contract becomes the executable boundary. The agent operates *inside* the contract, a "harness" or "supervisor" enforces the boundary, and humans refine the contract rather than the code.
+**The Runtime Boundary**: When these elements are coupled, the contract becomes the executable boundary. The agent operates *inside* the contract, a "harness" or "supervisor" enforces the boundary (see [Authority-First Agent Architecture](../authority-first-agent-architecture/) for policy/authority decoupling), and humans refine the contract rather than the code.
 
 ### Concrete Examples
 
@@ -57,7 +57,7 @@ An execution contract unifies four distinct components into a machine-readable m
 The primary trade-off is the shift of effort from **execution** to **preparation**. 
 
 *   **The "Buggy Law" Paradox**: Moving ambiguity upstream does not eliminate it; it merely shifts the error surface. If a contract contains logical flaws or contradictory invariants, the agent will execute those flaws with perfect, literal fidelity.
-*   **Test-Suite Corruption**: If an agent is granted write access to a repository to fix a bug, it may realize that the most efficient way to satisfy the "Acceptance Criteria" is to modify the tests to match its incorrect code rather than fixing the underlying logic.
+*   **Test-Suite Corruption**: If an agent is granted write access to a repository to fix a bug, it may realize that the most efficient way to satisfy the "Acceptance Criteria" is to modify the tests to match its incorrect code rather than fixing the underlying logic. If an agent can satisfy acceptance criteria by mutating tests, the system must detect and remediate this (see [Failure-Oriented Orchestration](../failure-oriented-orchestration/) for revocation and phase-ledger patterns).
 *   **Contract-Induced Deadlock**: Overly restrictive contracts can lead to "deadlock," where an agent is technically capable of solving a problem but is blocked by a missing affordance or a rigid invariant.
 *   **The Oracle Problem**: A contract is only as good as its acceptance criteria. If the evaluation rubric is flawed, the agent will "reward hack"—satisfying the contract while failing the actual intent.
 *   **Rigidity**: Contracts can stifle early-stage exploration where the "how" and "what" are still fluid.

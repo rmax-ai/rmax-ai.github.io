@@ -34,7 +34,7 @@ Agents are proposers, not actors. Authority must be explicit, declarative, and e
 The authority-first model strictly decouples the agent's reasoning process from the system's permission logic.
 
 **The Reasoning-Authority Gap**
-In a standard loop, an agent decides to act and executes that action. In an authority-first architecture, the agent generates a **proposal**. This proposal is intercepted by an external authority system that evaluates it against a static specification before execution.
+In a standard loop, an agent decides to act and executes that action. In an authority-first architecture, the agent generates a **proposal** (see [Agent-First Software Engineering](../agent-first-software-engineering/) for workflows that treat agents as proposers and gate progress via artifacts). This proposal is intercepted by an external authority system that evaluates it against a static specification before execution.
 
 **The Five Primitives**
 Every authority decision is reduced to five decidable components:

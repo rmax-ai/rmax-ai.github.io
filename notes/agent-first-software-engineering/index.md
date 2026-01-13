@@ -49,11 +49,11 @@ Framed problems are decomposed into discrete work units. Each work unit specifie
 
 ### Governed Execution
 
-Implementation agents operate strictly within approved work units. They are prohibited from expanding scope, changing assumptions, or introducing new requirements without explicit escalation. Progress is continuously logged as structured artifacts.
+Implementation agents operate strictly within approved work units (see [Agent Execution Contracts](../agent-execution-contracts/) for a canonical description of intent, affordances, acceptance, and stopping rules). They are prohibited from expanding scope, changing assumptions, or introducing new requirements without explicit escalation. Progress is continuously logged as structured artifacts.
 
 ### Artifact-Driven Visibility
 
-Status updates, decisions, open questions, and progress notes are written back to the repository as first-class artifacts. These are part of the system’s operational state, not informal commentary.
+Status updates, decisions, open questions, and progress notes are written back to the repository as first-class artifacts. These are part of the system’s operational state, not informal commentary (see [Failure-Oriented Orchestration](../failure-oriented-orchestration/) for phase-ledger and audit patterns).
 
 ### Handoff and Verification
 
