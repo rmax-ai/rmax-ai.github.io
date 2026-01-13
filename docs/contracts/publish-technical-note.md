@@ -89,11 +89,17 @@ No partial outputs are considered valid.
 
 ### 6. Execution Phases (Strict Order)
 
+**Subagent enforcement (global):** Each phase (0–7) MUST invoke a subagent via `runSubagent` to perform the phase’s work. The orchestrator may only coordinate, route inputs/outputs, and enforce gates. Direct orchestrator edits to note content, HTML, or changelog are forbidden.
+
 #### Phase 0 — Intake
 
+* Subagent: intake/slug agent
 * Read inbox note
 * Derive slug
+* Slug collision check: if `notes/<slug>/` exists ⇒ STOP and request a new slug
 * Create `notes/<slug>/`
+
+**Gate:** directory exists.
 
 **Invariant:** slug ↔ directory name ↔ frontmatter slug must match.
 
@@ -133,6 +139,7 @@ No content edits allowed here.
 
 #### Phase 4 — Schema Enforcement
 
+* Subagent: frontmatter applier
 * Apply YAML frontmatter from `notes/schema.yaml`
 
 **Hard invariants**
@@ -153,6 +160,12 @@ Violation ⇒ STOP.
 
 **Gate:** HTML exists and references reviewed Markdown content.
 
+**Hard invariant (site branding):** Generated HTML MUST include:
+- `<link rel="stylesheet" href="/styles/footer.css">`
+- The standardized footer markup (rmax-footer)
+- `window.footerThoughts` defined with exactly 3 items
+- `<script src="/scripts/footer.js"></script>`
+
 ---
 
 #### Phase 6 — Link & Navigation Audit
@@ -168,6 +181,8 @@ Violation ⇒ STOP.
 ---
 
 #### Phase 7 — Changelog Update
+
+* Subagent: changelog updater
 
 Append to `CHANGELOG.md`:
 

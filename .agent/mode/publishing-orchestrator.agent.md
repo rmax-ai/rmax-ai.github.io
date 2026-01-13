@@ -78,13 +78,27 @@ If the contract is incomplete or ambiguous, the agent MUST:
 
 ### Step 0 — Intake & Setup
 
-1. Read source note from `inbox/`
-2. Derive `slug` from title:
+```
+runSubagent(
+  prompt=".agent/prompts/intake-and-slug.prompt.md",
+  input={
+    "inbox_path": "<path under inbox/>",
+    "source_note": "<inbox note contents>"
+  }
+)
+```
+
+**Requirements (hard)**
+
+1. Derive `slug` from title:
 
    * lowercase
    * hyphenated
    * semantic
-3. Create `notes/<slug>/`
+2. **Slug collision rule:** if `notes/<slug>/` already exists → **halt** and request a new slug.
+3. Create `notes/<slug>/`.
+
+**Gate:** directory exists.
 
 ---
 
@@ -102,6 +116,8 @@ runSubagent(
 **Write output to**
 `notes/<slug>/index.md` (no frontmatter)
 
+**Gate:** file exists and is non-empty.
+
 ---
 
 ### Step 2 — Editorial Review (Structural & Clarity Gate)
@@ -110,13 +126,23 @@ runSubagent(
 runSubagent(
   prompt=".agent/prompts/review-technical-note.prompt.md",
   input={
-    "draft_note": "<notes/<slug>/index.md>"
+    "draft_note": "<notes/<slug>/index.md>",
+    "required_output": {
+      "revised_markdown": "<full markdown>",
+      "check": {
+        "thesis_identifiable": true,
+        "structure_ok": true,
+        "required_changes": []
+      }
+    }
   }
 )
 ```
 
 **Overwrite**
 `notes/<slug>/index.md`
+
+**Gate:** structure present and thesis identifiable.
 
 ---
 
@@ -126,16 +152,21 @@ runSubagent(
 runSubagent(
   prompt=".agent/prompts/failure-mode-review.prompt.md",
   input={
-    "reviewed_note": "<notes/<slug>/index.md>"
+    "reviewed_note": "<notes/<slug>/index.md>",
+    "required_output_json": {
+      "verdict": "safe_to_publish|publish_with_caution|block_publish",
+      "warnings": [],
+      "reasons": []
+    }
   }
 )
 ```
 
-**Decision handling**
+**Decision handling (deterministic)**
 
-* If verdict = **Block publish** → halt and report
-* If verdict = **Publish with caution** → continue but record warning
-* If verdict = **Safe to publish** → continue
+* `block_publish` → halt and report
+* `publish_with_caution` → continue but record warnings
+* `safe_to_publish` → continue
 
 (No content edits at this stage.)
 
@@ -143,15 +174,25 @@ runSubagent(
 
 ### Step 4 — Apply YAML Frontmatter (Schema Enforcement)
 
-1. Read `notes/schema.yaml`
-2. Generate YAML frontmatter:
+```
+runSubagent(
+  prompt=".agent/prompts/apply-frontmatter.prompt.md",
+  input={
+    "schema_path": "notes/schema.yaml",
+    "markdown_path": "notes/<slug>/index.md",
+    "slug": "<slug>"
+  }
+)
+```
 
-   * fully schema-compliant
-   * slug, title, status set
-3. Prepend to `notes/<slug>/index.md`
+**Requirements (hard)**
 
-**Validate**
+* YAML frontmatter MUST be fully `notes/schema.yaml` compliant.
+* Slug consistency invariant: directory slug = frontmatter slug.
 
+**Gate:**
+
+* Frontmatter present and precedes content
 * No missing fields
 * No extra fields
 * Frontmatter matches directory slug
@@ -164,13 +205,21 @@ runSubagent(
 runSubagent(
   prompt=".agent/prompts/publish-note.prompt.md",
   input={
-    "markdown_note": "<notes/<slug>/index.md>"
+    "markdown_note": "<notes/<slug>/index.md>",
+    "required_html_invariants": {
+      "includes_footer_css_link": true,
+      "includes_standard_footer_html": true,
+      "defines_footerThoughts_len_3": true,
+      "includes_footer_js": true
+    }
   }
 )
 ```
 
 **Write output to**
 `notes/<slug>/index.html`
+
+**Gate:** HTML exists and includes required footer + scripts.
 
 ---
 
@@ -182,20 +231,44 @@ runSubagent(
   input={
     "slug": "<slug>",
     "markdown_path": "notes/<slug>/index.md",
-    "html_path": "notes/<slug>/index.html"
+    "html_path": "notes/<slug>/index.html",
+    "audit_targets": {
+      "internal_links": true,
+      "external_links": true,
+      "within_page_anchors": true,
+      "relative_vs_absolute": true,
+      "nav_discoverability": true
+    },
+    "required_output_json": {
+      "verdict": "safe_to_release|release_with_followups|block_release",
+      "warnings": [],
+      "broken_links": []
+    }
   }
 )
 ```
 
-**Decision handling**
+**Decision handling (deterministic)**
 
-* If verdict = **Block release** → halt and report
-* If **Release with follow-ups** → continue but log warnings
-* If **Safe to release** → continue
+* `block_release` → halt and report
+* `release_with_followups` → continue but log warnings
+* `safe_to_release` → continue
 
 ---
 
 ### Step 7 — Update CHANGELOG
+
+```
+runSubagent(
+  prompt=".agent/prompts/update-changelog.prompt.md",
+  input={
+    "changelog_path": "CHANGELOG.md",
+    "slug": "<slug>",
+    "note_path": "notes/<slug>/index.md",
+    "warnings": "<warnings from Steps 3 and 6>"
+  }
+)
+```
 
 Append to `CHANGELOG.md`:
 
@@ -211,12 +284,17 @@ Append to `CHANGELOG.md`:
 
 ```
 runSubagent(
-  prompt=".agent/mode/sitemap-generator.agent.md"
+  prompt=".agent/mode/sitemap-generator.agent.md",
+  input={
+    "required_output": "sitemap.xml"
+  }
 )
 ```
 
 **Update**
 `sitemap.xml`
+
+**Gate:** sitemap updated and valid XML.
 
 ---
 
@@ -224,13 +302,17 @@ runSubagent(
 
 Before declaring success, confirm:
 
-* `notes/<slug>/index.md` exists with valid YAML frontmatter
-* `notes/<slug>/index.html` exists and matches reviewed content
+* Contract ID is `exec-contract.publish-technical-note.v1` and `docs/contracts/publish-technical-note.md` was read
+* All steps ran in strict order (0 → 8) and no step was skipped
+* `notes/<slug>/index.md` exists and is non-empty
+* YAML frontmatter is present and schema-compliant
+* Frontmatter slug matches directory slug
+* `notes/<slug>/index.html` exists and includes required footer + scripts
 * Failure-mode verdict is not blocking
 * Link audit verdict is not blocking
 * `CHANGELOG.md` updated
 * `sitemap.xml` updated and validated
-* No unauthorized paths modified
+* No unauthorized paths modified (only `notes/<slug>/**`, `CHANGELOG.md`, `sitemap.xml`)
 
 ---
 
@@ -260,87 +342,4 @@ Return:
 * Semantic backlink suggester
 * Notes index updater
 * RSS / feed generator
-
-
----
-
-**Executive answer:**
-Below is a **drop-in `Contract Compliance Checklist` section** you can append to the *end* of your orchestrator prompt. It makes compliance explicit, machine-checkable, and auditable, and forces the orchestrator to self-verify before declaring success.
-
----
-
-## Contract Compliance Checklist
-
-Before declaring execution **complete**, the orchestrator MUST explicitly verify and affirm **all** of the following:
-
-### A. Contract Identity
-
-* [ ] The active contract ID is `exec-contract.publish-technical-note.v1`
-* [ ] The contract was read from `docs/contracts/publish-technical-note.md`
-* [ ] No contract ambiguity or missing section was detected
-
-### B. Phase Integrity
-
-* [ ] All execution phases ran in strict order (0 → 8)
-* [ ] No phase was skipped, merged, or reordered
-* [ ] All phase gates were evaluated and recorded
-
-### C. Subagent Enforcement
-
-* [ ] All content generation and editing was performed via `runSubagent`
-* [ ] The orchestrator did not author or rewrite prose
-* [ ] Each subagent used the correct prompt path
-
-### D. Artifact Verification
-
-* [ ] `notes/<slug>/index.md` exists
-* [ ] YAML frontmatter is present and schema-compliant
-* [ ] Frontmatter slug matches directory name
-* [ ] `notes/<slug>/index.html` exists and corresponds to reviewed content
-* [ ] `sitemap.xml` was updated and validated
-* [ ] No files outside authorized paths were modified
-
-### E. Review Gates
-
-* [ ] Editorial review completed successfully
-* [ ] Failure-mode review verdict was **not** “Block publish”
-* [ ] Link audit verdict was **not** “Block release”
-* [ ] Any non-blocking warnings were recorded
-
-### F. Changelog Integrity
-
-* [ ] `CHANGELOG.md` was updated
-* [ ] Entry includes ISO date, action, slug, and path
-* [ ] Warnings (if any) were included factually
-
-### G. Stopping Conditions
-
-* [ ] No contract violation occurred
-* [ ] No unauthorized access was attempted
-* [ ] All blocking conditions correctly halted execution (if triggered)
-
----
-
-## Compliance Attestation (Required)
-
-On successful completion, the orchestrator MUST return:
-
-* **Contract ID**
-* **Slug**
-* **Checklist status:** PASS / FAIL
-* **Warnings:** none or enumerated
-* **Final publish status**
-
-If any item above cannot be affirmed, the orchestrator MUST:
-
-* Mark the checklist as **FAIL**
-* Halt execution
-* Report the specific unmet items
-
----
-
-## Design Note
-
-This checklist is part of the execution contract surface.
-Completing it is not optional; it is the final gate.
 
