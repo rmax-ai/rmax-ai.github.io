@@ -108,7 +108,7 @@
             <p>Code is increasingly the machine-readable output of a human-agent contract rather than the primary source of truth for engineering intent. Consequently, the primary engineering artifact shifts from the implementation (the code) to the formalization of intent, constraints, and acceptable behavior (the contract).</p>
 
             <h3>Mechanism / Model</h3>
-            <p>In this model, the "compiler" is the LLM-based agent. The "source language" is the contract—composed of problem definitions, safety invariants, and quality bars.</p>
+            <p>In this model, the "compiler" is the LLM-based agent. The "source language" is the contract—composed of problem definitions, safety invariants, and quality bars (see <a href="../agent-execution-contracts/">Agent Execution Contracts</a>).</p>
             <ul>
               <li><strong>Input</strong>: A human-defined contract (intent + constraints).</li>
               <li><strong>Execution</strong>: The agent maps the intent to the solution space, emitting code as the "new assembly."</li>
@@ -131,7 +131,7 @@
             <h3>Practical Takeaways</h3>
             <ul>
               <li><strong>Shift the Review Scale</strong>: Focus code reviews on architectural invariants and contract alignment rather than variable naming or stylistic choices.</li>
-              <li><strong>Invest in Property-Based Testing</strong>: Use frameworks that validate system behavior under stress to verify agent output automatically.</li>
+              <li><strong>Invest in Property-Based Testing</strong>: Use frameworks that validate system behavior under stress to verify agent output automatically (coupled with <a href="../failure-oriented-orchestration/">Failure-Oriented Orchestration</a> patterns such as hard CI gates and revocation paths).</li>
               <li><strong>Codify Intent</strong>: Use documentation-as-code to define the "what" and "why" before the "how." The contract is the new source file.</li>
               <li><strong>Embrace Compilation</strong>: Accept that reading every line of generated code may be impractical, provided automated validation metrics and invariants hold.</li>
             </ul>

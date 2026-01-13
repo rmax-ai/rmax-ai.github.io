@@ -103,7 +103,7 @@
             <p>The transition from AI-augmented workflows (Copilots) to AI-native engineering marks a fundamental shift from tactical code assistance to the orchestration of autonomous agent fleets. This evolution redefines the engineer’s role from a writer of code to a supervisor of outcomes. It prioritizes "context engineering" over "prompt engineering" and identifies a "verification crisis"—where the asymmetry between generation speed and verification latency becomes the primary system bottleneck.</p>
 
             <h3>Context & Motivation</h3>
-            <p>Current AI tooling has optimized the "inner loop" of development (local iteration: typing, building, testing), yet the "outer loop" (systemic integration: reviewing, deploying, measuring) remains manual and rate-limited. As noted by Addy Osmani in <a href="https://www.youtube.com/watch?v=FoXHScf1mjA">The AI-Native Software Engineer</a>, individual productivity gains are hitting a systemic ceiling. While generative models accelerate code production, overall velocity is increasingly constrained by decision latency and the high cognitive cost of auditing "plausible but incorrect" output.</p>
+            <p>Current AI tooling has optimized the "inner loop" of development (local iteration: typing, building, testing), yet the "outer loop" (systemic integration: reviewing, deploying, measuring) remains manual and rate-limited. As noted by Addy Osmani in <a href="https://www.youtube.com/watch?v=FoXHScf1mjA">The AI-Native Software Engineer</a> (see local summaries: <a href="./addy-osmani-slides-summary.md">slides</a>, <a href="./addy-osmani-transcription-summary.md">transcription</a>), individual productivity gains are hitting a systemic ceiling. While generative models accelerate code production, overall velocity is increasingly constrained by decision latency and the high cognitive cost of auditing "plausible but incorrect" output.</p>
 
             <h3>Core Thesis</h3>
             <p>AI-native engineering is a systems design discipline, not a linguistic craft. The primary "unit of work" is shifting from the code snippet to the agentic workflow. Success requires moving from interactive, imperative "conducting" (serial 1:1 interaction) toward asynchronous, declarative "<a href="../failure-oriented-orchestration/">orchestration</a>" (parallel 1:Many fleet management).</p>
@@ -125,7 +125,7 @@
 
             <h3>Applied Patterns</h3>
             <ul>
-              <li><strong>The Memory Bank Pattern</strong>: Utilizing structured markdown files to ground agent reasoning and maintain alignment:
+              <li><strong>The Memory Bank Pattern</strong>: Utilizing structured markdown files to ground agent reasoning and maintain alignment (see <a href="../agent-first-software-engineering/">Agent-First Software Engineering</a> for an implementation and example artifacts such as <code>projectbrief.md</code> and <code>systemPatterns.md</code>):
                 <ul>
                   <li><code>projectbrief.md</code>: Defines core intent, scope, and non-goals.</li>
                   <li><code>systemPatterns.md</code>: Documents architectural invariants and "never-events."</li>
@@ -146,7 +146,7 @@
 
             <h3>Practical Takeaways</h3>
             <ul>
-              <li><strong>Context over Syntax</strong>: Prioritize the structure of the project’s environment (directory layout, specs, patterns) over tuning individual prompt keywords.</li>
+              <li><strong>Context over Syntax</strong>: Prioritize the structure of the project’s environment (directory layout, specs, patterns) over tuning individual prompt keywords (see <a href="../typing-code-is-solved/">Typing Code Is Solved</a> for why context and constraints are the enduring bottleneck).</li>
               <li><strong>Externalize Intent</strong>: Require agents to output a formal plan of action for approval <em>before</em> any file modifications occur.</li>
               <li><strong>Architect for Verification</strong>: Invest in automated policy engines and rigorous test suites to offload the verification burden from humans.</li>
               <li><strong>Durable Memory</strong>: Use file-based state to provide agents with a high-fidelity record of past decisions and architectural "why."</li>
