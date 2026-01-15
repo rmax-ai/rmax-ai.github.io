@@ -2,39 +2,43 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-01-11T01:36:01Z</lastmod>
+    <lastmod>2026-01-13T23:37:01Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-01-11T01:36:01Z</lastmod>
+    <lastmod>2026-01-13T23:37:01Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agent-execution-contracts/</loc>
-    <lastmod>2026-01-11T01:42:40Z</lastmod>
+    <lastmod>2026-01-13T23:37:01Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agent-first-software-engineering/</loc>
-    <lastmod>2026-01-11T01:42:40Z</lastmod>
+    <lastmod>2026-01-13T23:37:01Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/ai-native-engineering/</loc>
-    <lastmod>2026-01-11T01:42:40Z</lastmod>
+    <lastmod>2026-01-13T23:37:01Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/authority-first-agent-architecture/</loc>
-    <lastmod>2026-01-11T01:42:40Z</lastmod>
+    <lastmod>2026-01-13T23:37:01Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/code-is-the-new-assembly/</loc>
-    <lastmod>2026-01-13T22:57:42Z</lastmod>
+    <lastmod>2026-01-13T23:37:01Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/earned-agent-autonomy/</loc>
     <lastmod>2026-01-11T01:42:40Z</lastmod>
   </url>
   <url>
+    <loc>https://rmax.ai/notes/evolution-of-ai-coding-agents-autocomplete-to-autonomous-sdlc/</loc>
+    <lastmod>2026-01-15T22:23:51Z</lastmod>
+  </url>
+  <url>
     <loc>https://rmax.ai/notes/failure-oriented-orchestration/</loc>
-    <lastmod>2026-01-11T01:42:40Z</lastmod>
+    <lastmod>2026-01-13T23:37:01Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/github-copilot-model-selection-guidelines/</loc>
@@ -42,7 +46,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/the-software-replacement-age/</loc>
-    <lastmod>2026-01-11T01:42:40Z</lastmod>
+    <lastmod>2026-01-13T23:37:01Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/typing-code-is-solved/</loc>

@@ -31,6 +31,8 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 - Published technical note: [agent-execution-contracts](notes/agent-execution-contracts/index.md). Defined execution contracts as machine-readable boundaries unifying specification, testing, and labor for autonomous agents.
   - *Content Update*: Expanded "Trade-offs & Failure Modes" to include the "Buggy Law" paradox, Test-Suite Corruption, and Contract-Induced Deadlock.
   - *Warnings*: Missing canonical tag in HTML and root index.md out of sync (Step 6) - *Resolved*.
+- 2026-01-15: Published technical note: [evolution-of-ai-coding-agents-autocomplete-to-autonomous-sdlc](notes/evolution-of-ai-coding-agents-autocomplete-to-autonomous-sdlc/index.md). Traces the evolution of AI coding agents from autocomplete-era copilots to autonomous SDLC systems, with milestones, capability shifts, and operational implications.
+  - *Warnings*: High: Orphaned content in notes/index.html — link /notes/evolution-of-ai-coding-agents-autocomplete-to-autonomous-sdlc/ has no inbound listing; Medium: Nav discoverability in index.html — link /notes/evolution-of-ai-coding-agents-autocomplete-to-autonomous-sdlc/ should have a prominent inbound path; Medium: Sitemap missing entry in sitemap.xml — https://rmax.ai/notes/evolution-of-ai-coding-agents-autocomplete-to-autonomous-sdlc/ not present; regenerate sitemap to include URL and update lastmod.
 
 ---
 
