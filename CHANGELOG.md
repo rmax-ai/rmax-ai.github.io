@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-01-17: Published technical note: [personal-operating-systems-micro-apps](notes/personal-operating-systems-micro-apps/index.md). Explores how multi-agent coding assistants enable individuals to build personal operating systems that encode decision rules and execution mechanisms into custom micro-apps, shifting knowledge work from passive memory toward active execution.
+  - *Warnings*: High: Over-generalization risk — Readers may apply this to team or organizational contexts despite explicit individual scope; High: Premature optimization risk — Under-specifies when workflow patterns are 'stable enough' beyond '5-10 repetitions' heuristic; High: Operational misuse — Manual override paths mentioned but not detailed; risk of over-automation without safeguards; Medium: Hidden assumptions — Assumes technical fluency, system design tolerance, and AI assistant access without defining thresholds; Medium: Authority misreading — Phrases like 'architectural principle' and structured guidance may be read as prescriptive best practice; Medium: Longevity risk — 'Multi-agent coding assistants' phrase may age poorly; specific assistant capabilities assumed but not bounded.
+
 - 2026-01-17: Published technical note: [open-source-after-coding-agents](notes/open-source-after-coding-agents/index.md). Argues that as code generation approaches zero cost, open source value shifts from contribution volume to governance and curation capacity.
 
 - 2026-01-13: Published technical note: [code-is-the-new-assembly](notes/code-is-the-new-assembly/index.md). Explores how AI agents shift source code from a human artifact to a compilation target, requiring a move from syntax-based review to intent-based validation.
