@@ -7,8 +7,8 @@ site: rmax.ai
 section: notes
 type: essay
 status: published
-date: 2025-01-23
-updated: 2025-01-23
+date: 2026-01-17
+updated: 2026-01-17
 tags:
   - automation
   - personal-productivity
