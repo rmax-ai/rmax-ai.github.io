@@ -26,6 +26,15 @@ Analyzing how contemporary AI tools structure authority and constraints in syste
 ## Notes
 [View all →](/notes/)
 
+### [Open Source After Coding Agents: From Labor to Judgment](/notes/open-source-after-coding-agents/)
+Why open source must shift from maximizing contribution volume to enforcing strict curation as coding agents drive the cost of code to zero.
+
+### [The Evolution of AI Coding Agents: From Autocomplete to Autonomous SDLC](/notes/evolution-of-ai-coding-agents-autocomplete-to-autonomous-sdlc/)
+A milestone timeline (2013–2026) showing how AI coding tools evolved from autocomplete into terminal-native agents with tool use, planning, and verification loops.
+
+### [Code as a Compilation Target: The New Assembly](/notes/code-is-the-new-assembly/)
+An exploration of how AI agents shift source code from a human artifact to a compilation target, requiring a move from syntax-based review to intent-based validation.
+
 ### [The Software Replacement Age: Architecting for a Low-Cost Generation World](/notes/the-software-replacement-age/)
 In an era where regeneration is cheaper than comprehension, replaceability becomes the primary architectural virtue.
 

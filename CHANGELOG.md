@@ -11,6 +11,8 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-01-17: Published technical note: [open-source-after-coding-agents](notes/open-source-after-coding-agents/index.md). Argues that as code generation approaches zero cost, open source value shifts from contribution volume to governance and curation capacity.
+
 - 2026-01-13: Published technical note: [code-is-the-new-assembly](notes/code-is-the-new-assembly/index.md). Explores how AI agents shift source code from a human artifact to a compilation target, requiring a move from syntax-based review to intent-based validation.
   - *Warnings*: Verification Tooling Gap: Adopting the 'code as assembly' mindset without rigorous property-based testing and semantic validation in place poses a high risk of subtle logic bugs; Safety-Critical Non-compliance: The principle that reading every line of generated code is 'impractical' may violate safety standards in regulated or mission-critical environments; Hidden Assumptions on Agent Consistency: The note assumes the 'compiler' (the LLM) behaves with the same determinism and reliability as a traditional binary compiler.
 - 2026-01-09: Published technical note: [the-software-replacement-age](notes/the-software-replacement-age/index.md). Explored the shift toward software replaceability over longevity in the era of zero-cost code generation.
