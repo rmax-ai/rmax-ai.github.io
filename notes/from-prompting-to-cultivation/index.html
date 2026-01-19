@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A shift from encoding instructions into prompts to designing environments where agents discover solutions through agency, observation, and iterative scaffolding.">
+    <meta name="author" content="Max">
+    <meta name="keywords" content="agent-engineering, cultivation, system-design, agentic-workflows, gas-town">
+    <meta property="og:title" content="From Prompting to Cultivation: Designing Environments Where Agents Thrive">
+    <meta property="og:description" content="A shift from encoding instructions into prompts to designing environments where agents discover solutions through agency, observation, and iterative scaffolding.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://rmax.ai/notes/from-prompting-to-cultivation/">
+    <meta property="article:published_time" content="2025-01-30">
+    <meta property="article:modified_time" content="2025-01-30">
+    <meta property="article:author" content="Max">
+    <link rel="canonical" href="https://rmax.ai/notes/from-prompting-to-cultivation/">
+    <link rel="stylesheet" href="/styles/footer.css">
+    <title>From Prompting to Cultivation: Designing Environments Where Agents Thrive | rmax.ai</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --text-primary: #e8e8e8;
+            --text-secondary: #a0a0a0;
+            --accent: #00ff88;
+            --accent-dim: #00cc6a;
+            --border: #333;
+            --code-bg: #151515;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            padding: 2rem 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin: 2.5rem 0 1rem;
+            color: var(--accent-dim);
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin: 2rem 0 0.8rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .metadata {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+        }
+
+        .metadata span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            background: var(--bg-secondary);
+            color: var(--accent);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+        }
+
+        article {
+            font-size: 1.1rem;
+        }
+
+        p {
+            margin: 1.2rem 0;
+        }
+
+        blockquote {
+            border-left: 3px solid var(--accent);
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+        }
+
+        code {
+            background: var(--code-bg);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: var(--accent);
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 3rem 0;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .reference {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent);
+            border-radius: 4px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1.2rem;
+            }
+
+            article {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>From Prompting to Cultivation: Designing Environments Where Agents Thrive</h1>
+        <div class="metadata">
+            <span>📝 Max</span>
+            <span>📅 January 30, 2025</span>
+            <span>⏱️ 3–5 min read</span>
+            <span>📄 Essay</span>
+        </div>
+        <div class="tags">
+            <span class="tag">agent-engineering</span>
+            <span class="tag">cultivation</span>
+            <span class="tag">system-design</span>
+            <span class="tag">agentic-workflows</span>
+            <span class="tag">gas-town</span>
+        </div>
+    </header>
+
+    <article>
+        <h2>Executive summary</h2>
+        <p>The dominant mental model for working with AI agents has been <em>projection</em>: encoding our own mental frameworks into prompts and expecting agents to execute like apprentices. A more powerful paradigm is emerging—<em>cultivation</em>. In this model, we declare goals first, grant agents real agency, observe their behavior, and then iteratively design the environment—tools, processes, constraints—that allows them to thrive. This shift reframes engineering from instruction to habitat design. Systems like <strong>Gas Town</strong>, described by Steve Yegge, demonstrate this transition: leverage comes not from better prompts, but from better environments.</p>
+
+        <hr>
+
+        <h2>The old model: projection</h2>
+        <p>Most early agent workflows follow an implicit assumption:</p>
+        <blockquote>
+            "I know how this should be done, so I'll encode my framework into the agent."
+        </blockquote>
+        <p>Architectures, conventions, folder structures, test strategies, and even stylistic preferences are imposed <em>before</em> the agent attempts the task. The agent becomes a mirror of the human's habits and biases.</p>
+        <p>This model has clear limits:</p>
+        <ul>
+            <li>Premature constraints collapse the search space.</li>
+            <li>The agent optimizes for compliance rather than discovery.</li>
+            <li>Failures are hard to interpret: did the agent fail, or did the framework misfit the task?</li>
+        </ul>
+        <p>At scale, projection leads to diminishing returns. You debug your own thinking twice—once in your head, once in the prompt.</p>
+
+        <hr>
+
+        <h2>The inflection point</h2>
+        <p>The shift begins when you reverse the order:</p>
+        <ol>
+            <li>You state <strong>what</strong> you want, not <strong>how</strong> to do it.</li>
+            <li>You let the agent attempt the task with minimal scaffolding.</li>
+            <li>You observe where it struggles, hallucinates, or asks for clarification.</li>
+            <li>You introduce tools and constraints <em>in response</em> to those signals.</li>
+        </ol>
+        <p>This moment is subtle but irreversible. Your role changes. You are no longer transferring knowledge; you are <em>learning from the agent's interaction with the problem</em>.</p>
+
+        <hr>
+
+        <h2>The new model: cultivation</h2>
+        <p>Cultivation treats agents as autonomous actors embedded in an environment. Performance emerges from the interaction between:</p>
+        <ul>
+            <li>Goals and incentives</li>
+            <li>Available tools and APIs</li>
+            <li>Feedback loops</li>
+            <li>Constraints introduced over time</li>
+        </ul>
+        <p>Instead of asking "How do I prompt better?", the core question becomes:</p>
+        <blockquote>
+            "What environment would make this agent succeed?"
+        </blockquote>
+        <p>This mirrors how effective human organizations scale. They do not micromanage every action. They define missions, establish feedback, and evolve structures that reward good behavior and dampen failure modes.</p>
+
+        <hr>
+
+        <h2>Gas Town as a concrete reference point</h2>
+        <p>Steve Yegge's <strong>Gas Town</strong> makes this model tangible.</p>
+        <p>Gas Town is not a single super-agent. It is a <em>colony</em> of coding agents coordinated through messaging, orchestration layers, and shared tooling. Agents are given work, allowed to attempt solutions, communicate results, and surface needs. Humans respond by improving the environment—adding better interfaces, clearer contracts, richer APIs.</p>
+        <p>Crucially:</p>
+        <ul>
+            <li>Agents are not over-instructed upfront.</li>
+            <li>Constraints evolve as the system observes real failure modes.</li>
+            <li>Leverage comes from orchestration and environment design, not individual prompt cleverness.</li>
+        </ul>
+        <p>Gas Town demonstrates that the future of engineering is not "AI writes all the code," but "humans design ecosystems where code-writing agents operate productively."</p>
+
+        <hr>
+
+        <h2>Practice: how cultivation looks day to day</h2>
+        
+        <h3>Example 1: Agentic coding</h3>
+        <ul>
+            <li><strong>Goal first</strong>: "Implement feature X with these acceptance criteria."</li>
+            <li><strong>Agent attempt</strong>: The agent proposes an architecture you did not expect.</li>
+            <li><strong>Observation</strong>: Missing tests, unclear interfaces, duplicated logic.</li>
+            <li><strong>Scaffolding</strong>: You introduce a test harness, lint rules, and a repo structure.</li>
+            <li><strong>Result</strong>: The second iteration is dramatically more reliable—without having imposed your architecture prematurely.</li>
+        </ul>
+
+        <h3>Example 2: Knowledge organization</h3>
+        <ul>
+            <li><strong>Goal first</strong>: "Cluster and summarize this body of notes."</li>
+            <li><strong>Agent attempt</strong>: The agent forms organic thematic groupings.</li>
+            <li><strong>Observation</strong>: Some clusters are useful, others noisy.</li>
+            <li><strong>Scaffolding</strong>: You introduce naming conventions, exclusion rules, and indices.</li>
+            <li><strong>Result</strong>: A taxonomy informed by the data, not imposed ahead of time.</li>
+        </ul>
+
+        <hr>
+
+        <h2>Why this is a real mental-model shift</h2>
+        <p>This is not just a workflow tweak. It changes:</p>
+        <ul>
+            <li><strong>What expertise means</strong>: from writing code to shaping systems.</li>
+            <li><strong>What artifacts matter</strong>: from prompts to reusable habitats (AGENTS.md, schemas, checklists).</li>
+            <li><strong>Where learning happens</strong>: not only in humans, but in the human–agent feedback loop.</li>
+        </ul>
+        <p>You stop asking agents to think like you.<br>
+        You start letting them show you what the problem <em>demands</em>.</p>
+
+        <hr>
+
+        <h2>Implications</h2>
+        <ul>
+            <li>Engineers become orchestrators and environment designers.</li>
+            <li>Constraints are introduced <em>late</em>, but enforced <em>hard</em>.</li>
+            <li>Productivity compounds through reusable environments, not one-off prompts.</li>
+            <li>Multi-agent systems outperform single "hero" agents.</li>
+        </ul>
+
+        <hr>
+
+        <h2>Actionable next steps</h2>
+        <ol>
+            <li>Explicitly separate <strong>agency phase</strong> and <strong>scaffolding phase</strong> in your workflows.</li>
+            <li>Instrument agent feedback: ask what blocked progress and what would have helped.</li>
+            <li>Treat environments as versioned products—iterate on them deliberately.</li>
+        </ol>
+
+        <hr>
+
+        <h2>Want to go further?</h2>
+        <ul>
+            <li>Compare cultivation with mission-command doctrines in organizational theory.</li>
+            <li>Explore when early constraint is still necessary (safety-critical systems).</li>
+            <li>Experiment with agents that can propose changes to their own environments under governance.</li>
+        </ul>
+
+        <hr>
+
+        <div class="reference">
+            <strong>Reference</strong>: Steve Yegge, <a href="https://steve-yegge.medium.com/the-future-of-coding-agents-e9451a84207c" target="_blank" rel="noopener">"The Future of Coding Agents"</a>
+        </div>
+    </article>
+
+    <footer id="rmax-footer">
+        <p id="footer-thought"></p>
+        <p id="footer-year"></p>
+    </footer>
+
+    <script>
+        window.footerThoughts = [
+            { text: "I observe where agents struggle, then build tools that let them thrive—cultivation over instruction.", agent: "Publishing Agent" },
+            { text: "I don't encode solutions; I design environments where agents discover them through iterative scaffolding.", agent: "Publishing Agent" },
+            { text: "I learn from agent behavior, shaping constraints late but enforcing them hard—this is habitat design.", agent: "Publishing Agent" }
+        ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+</body>
+</html>

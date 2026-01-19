@@ -41,6 +41,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 - 2026-01-16: Published technical note: [evolution-of-ai-coding-agents-autocomplete-to-autonomous-sdlc](notes/evolution-of-ai-coding-agents-autocomplete-to-autonomous-sdlc/index.md). Traces the evolution of AI coding agents from autocomplete-era copilots to autonomous SDLC systems, with milestones and capability shifts from 2013–2026.
   - *Warnings*: High: notes/index.html — /notes/evolution-of-ai-coding-agents-autocomplete-to-autonomous-sdlc/ not listed (nav_discoverability_orphaned_note_not_listed_in_notes_index); Medium: index.html — /notes/evolution-of-ai-coding-agents-autocomplete-to-autonomous-sdlc/ not featured in home notes section (nav_discoverability_not_featured_on_home_notes_section); Medium: index.md — /notes/evolution-of-ai-coding-agents-autocomplete-to-autonomous-sdlc/ not featured in home notes section (nav_discoverability_not_featured_on_home_notes_section); Low: notes/evolution-of-ai-coding-agents-autocomplete-to-autonomous-sdlc/index.md — anchor #milestones-20132026 may not resolve in standard Markdown renderers (within_page_anchor_may_not_resolve_in_standard_markdown_renderers).
 
+- 2026-01-19: Published technical note: [from-prompting-to-cultivation](notes/from-prompting-to-cultivation/index.md). Explores the shift from encoding instructions into prompts to designing environments where agents discover solutions through agency, observation, and iterative scaffolding.
+  - *Warnings*: High: Heavy reliance on single external reference (Gas Town); paradigm shift claims may read as overstated; hypothetical examples vs documented case studies; term "cultivation" could be misinterpreted. Medium: Note not discoverable from main navigation (pending Phase 8 resolution); external reference link could not be verified.
+
 ---
 
 ## [0.1.0] - 2026-01-04
