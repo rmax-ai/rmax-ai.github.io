@@ -20,28 +20,6 @@ canonical_url: "https://rmax.ai/notes/personal-software-factory/"
 license: "CC BY 4.0"
 ---
 
----
-title: "Personal Software Factories: Individual-Scale Production Lines for Software"
-slug: "personal-software-factory"
-description: "An operator model for turning intent into deployed software via repeatable pipelines and agentized execution."
-author: "Max"
-site: "rmax.ai"
-section: "notes"
-type: "essay"
-status: "published"
-date: 2026-01-20
-updated: 2026-01-20
-tags:
-	- "agents"
-	- "software-architecture"
-	- "developer-productivity"
-	- "tooling"
-	- "operations"
-reading_time: "4 min"
-canonical_url: "https://rmax.ai/notes/personal-software-factory/"
-license: "CC BY 4.0"
----
-
 # Personal Software Factories: Individual-Scale Production Lines for Software
 
 A **personal software factory** is an individual-scale system that turns intent into running software through repeatable, automated pipelines. AI agents handle most of the mechanical work (scaffolding, wiring, refactors, tests, packaging), while the human supplies direction, taste, constraints, and final judgment.
