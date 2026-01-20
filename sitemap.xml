@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-01-19T12:57:03Z</lastmod>
+    <lastmod>2026-01-20T23:01:58Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-01-19T12:57:03Z</lastmod>
+    <lastmod>2026-01-20T23:02:07Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agent-execution-contracts/</loc>
@@ -55,6 +55,10 @@
   <url>
     <loc>https://rmax.ai/notes/personal-operating-systems-micro-apps/</loc>
     <lastmod>2026-01-19T12:22:51Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/personal-software-factory/</loc>
+    <lastmod>2026-01-20T22:23:22Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/the-software-replacement-age/</loc>
