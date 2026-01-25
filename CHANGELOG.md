@@ -11,6 +11,8 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-01-25: Published technical note: [human-loop-orientation](notes/human-loop-orientation/). An analysis of the shift from 'human-in-the-loop' execution to 'human-on-the-loop' orientation in autonomous software systems.
+
 - 2026-01-20: Published technical note: [personal-software-factory](notes/personal-software-factory/index.md). Defines a personal software factory as an individual-scale system for turning intent into deployed software through repeatable, automated pipelines.
   - *Warnings*: High: “Hardened path to production” may imply rollback/secrets discipline without guardrails; High: Delegating security-critical edits to agents risk; Medium: Solo overreach in payments/auth/security/privacy contexts; Medium: False confidence from green checks; acceptance depth unclear; Medium: Toolchain/agent drift not tied to mitigations; Low: Premature process complexity; Low: CSV→JSON example misapplied to PII flows; Resolved: Link audit — duplicated frontmatter removed from notes/personal-software-factory/index.md.
 
@@ -46,6 +48,8 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 - 2026-01-19: Published technical note: [from-prompting-to-cultivation](notes/from-prompting-to-cultivation/index.md). Argues that reliability gains come from designing the agent’s environment (tools, constraints, feedback loops), not from increasingly elaborate prompts.
   - *Warnings*: High: Heavy reliance on a single external reference (“Gas Town”); paradigm-shift framing may read as overstated; examples are illustrative rather than documented case studies; the term “cultivation” could be misinterpreted. Medium: External reference availability was not network-verified.
+
+---
 
 ---
 

@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>The Human Loop: Orientation in the Age of Autonomous Agents — rmax.ai</title>
+    <meta name="description" content="Software engineering is shifting from 'Human-in-the-loop' execution to 'Human-on-the-loop' orientation, where humans manage system dynamics and context in a Joint Cognitive System with autonomous agents." />
+    <!-- Meta tags parsed from frontmatter -->
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/human-loop-orientation/" />
+    
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="The Human Loop: Orientation in the Age of Autonomous Agents" />
+    <meta property="og:description" content="Software engineering is shifting from 'Human-in-the-loop' execution to 'Human-on-the-loop' orientation, where humans manage system dynamics and context in a Joint Cognitive System with autonomous agents." />
+    <meta property="og:url" content="https://rmax.ai/notes/human-loop-orientation/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-01-25" />
+    <meta property="article:tag" content="automation" />
+    <meta property="article:tag" content="agents" />
+    <meta property="article:tag" content="OODA loop" />
+    <meta property="article:tag" content="context engineering" />
+    <meta property="article:tag" content="joint cognitive systems" />
+    <meta property="article:tag" content="human factors" />
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/footer.css">
+    <!-- 100% privacy-first analytics -->
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+    <link rel="stylesheet" href="/styles/substack-cta.css">
+    <style>
+      :root{
+        --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass:rgba(255,255,255,0.04);
+        --maxw:800px; color-scheme: dark;
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{font-family:Inter,system-ui,Arial; margin:0; background:linear-gradient(180deg,#071028 0%,#071229 60%); color:#e6eef8; -webkit-font-smoothing:antialiased; line-height:1.6}
+      .wrap{max-width:var(--maxw); margin:40px auto; padding:24px}
+      header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:64px;max-width:1100px;margin-left:auto;margin-right:auto}
+      .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+      .logo{width:44px;height:44px;border-radius:10px;object-fit:contain}
+      nav{display:flex;gap:14px;align-items:center}
+      a.navlink{color:var(--muted);text-decoration:none;font-weight:600}
+      a.cta{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+
+      h1{margin:0 0 16px;font-size:clamp(32px,5vw,52px);line-height:1.1;font-weight:800}
+      h2{margin:48px 0 16px;font-size:1.8rem;font-weight:700;color:#fff}
+      h3{margin:32px 0 12px;font-size:1.4rem;font-weight:600;color:#fff}
+      p{margin:0 0 24px;color:#cbd5e1;font-size:1.1rem}
+      ul, ol{margin:0 0 24px;padding-left:24px;color:#cbd5e1}
+      li{margin-bottom:8px}
+      blockquote{border-left:4px solid var(--accent);margin:24px 0;padding-left:16px;color:var(--muted);font-style:italic}
+      a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;transition:border-color 0.2s}
+      a:hover{border-color:var(--accent)}
+      
+      .meta{font-size:0.9rem;color:var(--muted);margin-bottom:32px;display:flex;gap:16px;align-items:center}
+      .tag{background:var(--glass);padding:4px 8px;border-radius:6px;font-size:0.8rem}
+      
+      .mermaid{background:rgba(255,255,255,0.02);padding:24px;border-radius:12px;margin:32px 0;display:flex;justify-content:center}
+      
+      @media(max-width:600px){
+        .wrap{padding:16px}
+        header{flex-direction:column;align-items:flex-start;gap:24px}
+        h1{font-size:32px}
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <img src="https://rmax.ai/images/avatar.jpg" alt="rmax" class="logo">
+          <span style="font-weight:700;font-size:1.2rem">rmax.ai</span>
+        </a>
+        <nav>
+          <a href="/notes" class="navlink">Notes</a>
+          <a href="/research" class="navlink">Research</a>
+          <a href="https://rmax.substack.com" class="cta">Subscribe</a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <div class="meta">
+            <span>2026-01-25</span>
+            <span>·</span>
+            <span>3–5 min</span>
+            <div style="flex-grow:1"></div>
+            <span class="tag">automation</span>
+<span class="tag">agents</span>
+<span class="tag">OODA loop</span>
+
+          </div>
+          
+          <!-- Content Rendered from Markdown -->
+          <div class="content">
+            <h1>The Human Loop: Orientation in the Age of Autonomous Agents</h1>
+<h2 id="introduction">Introduction</h2>
+<p>As software engineering transitions from assistive tools (Copilots) to autonomous agents, the question is not whether humans will remain relevant, but <em>where</em> their relevance lies. The common narrative suggests a "Human-in-the-loop" model, implying supervision of execution. This is insufficient. We are witnessing a fundamental shift in the control hierarchy.</p>
+<p>Automation does not remove humans; it pushes them upward. Early tools accelerated <em>Action</em>. Agents now automate <em>Decision</em> and <em>Action</em>. The remaining, irreducible human domain is <em>Orientation</em>. This shift demands a re-evaluation of the human role from "operator" to "steward" of system dynamics, operating within a <strong>Joint Cognitive System</strong>.</p>
+<h2 id="the-ooda-loop-framework">The OODA Loop Framework</h2>
+<p>To understand this shift, we must look to John Boyd's <strong>OODA Loop</strong>: Observe, Orient, Decide, Act. Boyd argued that <em>Orientation</em> is the "center of gravity"—it is where genetic heritage, cultural tradition, previous experience, and new information converge to shape how we perceive reality. Speed and execution are secondary to how meaning is constructed (Boyd, 1996).</p>
+<p>In the context of autonomous coding agents, the loop bifurcates:</p>
+<ol>
+<li><strong>Decide &amp; Act (Agent Domain)</strong>: This involves planning steps, writing code, executing tests, and deploying. These are logic-bound, execution-heavy tasks increasingly commoditized by LLMs.</li>
+<li><strong>Orient (Human Domain)</strong>: This involves context, values, intuition, and the synthesis of meaning. <em>Why</em> are we building this? Meaning is constructed here.</li>
+</ol>
+<div class="mermaid">
+graph TD
+    SubGraph1[Environment] --> Observe
+    Observe --> Orient
+    Orient --> Decide
+    Decide --> Act
+    Act --> SubGraph1[Environment]
+
+    style Orient fill:#f9f,stroke:#333,stroke-width:2px,color:black
+    style Decide fill:#ddd,stroke:#333,stroke-width:1px,color:black
+    style Act fill:#ddd,stroke:#333,stroke-width:1px,color:black
+
+    Note1[Human Domain:<br/>Context, Values, Intuition] -.-> Orient
+    Note2[Agent Domain:<br/>Planning, Execution] -.-> Decide
+    Note2 -.-> Act
+</div>
+
+<h3 id="historical-arc-levels-of-automation">Historical Arc: Levels of Automation</h3>
+<p>Sheridan &amp; Verplank's (1978) scale of automation provides a rigorous map for this evolution. We can group these levels into three distinct phases of software engineering:</p>
+<ul>
+<li><strong>Assistive Phase (Levels 2-4)</strong>: The computer suggests options (e.g., autocomplete), but the human executes. The cognitive load is shared, but the human remains the primary driver.</li>
+<li><strong>Agentic Phase (Levels 5-6)</strong>: The computer executes and merely reports status, or executes unless vetoed. Currently entering this phase, the human role shifts from "driver" to "auditor."</li>
+<li><strong>Orientation Phase (Future Levels 7-9)</strong>: The computer executes autonomously, informing the human only if asked or if critical parameters are breached. The human role shifts entirely to monitoring <em>system dynamics</em>.</li>
+</ul>
+<h2 id="joint-cognitive-systems">Joint Cognitive Systems</h2>
+<p>The future human role is not just "Supervisor" of tasks but a partner in a <strong>Joint Cognitive System (JCS)</strong> (Hollnagel &amp; Woods, 2005). In this view, the human and agent are a single unit of analysis. The goal is <em>co-agency</em>, where the machine extends human capability rather than just replacing labor.</p>
+<p>In <strong>Resilience Engineering</strong> terms, autonomous systems are prone to "drift"—a slow decoupling of local actions from global intent. The human provides the "outer loop" correction, re-orienting the system when it strays from values or strategic goals.</p>
+<div class="mermaid">
+graph BT
+    subgraph Human[Human Domain: Context Engineering]
+        Observing[Observing Dynamics]
+        Orienting[Orienting / Value Setting]
+    end
+
+    subgraph Machine[Agent Domain: Tactical Execution]
+        Deciding[Planning / Deciding]
+        Acting[Tool Execution / Acting]
+    end
+
+    Observing --> Orienting
+    Orienting --> Deciding
+    Deciding --> Acting
+    Acting --> Observing
+</div>
+
+<h2 id="concrete-examples-context-engineering">Concrete Examples: Context Engineering</h2>
+<p>If the agent handles the <em>text</em> (the code), the human MUST handle the <em>context</em>. This is "Context Engineering" (Qishuo Hua et al., 2025)—the systematic construction of the environment, constraints, and knowledge retrieval aimed at guiding agent behavior.</p>
+<ul>
+<li><strong>Constraint Setting</strong>: Defining the non-negotiables (security, style, performance).</li>
+<li><strong>Knowledge Curation</strong>: Ensuring the agent is "learning" from the correct documents and patterns, rather than hallucinating based on training data.</li>
+<li><strong>Value Alignment</strong>: Translating fuzzy business goals into concrete technical directives.</li>
+</ul>
+<p>Humans observe not just the <em>code</em>, but the <em>dynamics</em>: Is the agent aligning with our values? Is the system becoming brittle? We move from writing lines of code to curating the environment and incentives in which agents operate.</p>
+<h2 id="trade-offs-and-failure-modes">Trade-offs and Failure Modes</h2>
+<p>This shift reveals what Lisanne Bainbridge called the <strong>"Ironies of Automation"</strong> (1983). The central irony is that by automating the "easy" execution tasks, we leave humans with the far more difficult task of monitoring for complex, opaque failure modes <em>without</em> the tactile engagement that builds expertise.</p>
+<h3 id="the-orientation-bottleneck">The Orientation Bottleneck</h3>
+<p>"Human-on-the-loop" monitoring is cognitively more demanding than "Human-in-the-loop" doing. Without the tight feedback loop of writing and running code, maintaining the deep intuition required to review it becomes difficult. This creates an <strong>Orientation Bottleneck</strong> exacerbated by the <strong>Vigilance Decrement</strong> (Mackworth, 1948). Humans are notoriously poor at monitoring autonomous systems for rare error events over long periods.</p>
+<h3 id="intuition-deficits">Intuition Deficits</h3>
+<p>Naturalistic Decision Making (NDM) research defines intuition as <em>compressed inference</em> (Klein, 1998). Experts don't compare options; they recognize patterns. AI agents, lacking embodiment and social context, often fail at higher levels of situational awareness (Endsley, 1995). They cannot "feel" organizational friction or the aesthetic "smell" of bad architecture.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The era of "typing code" is ending. The era of "cultivating systems" represents the new human loop. By understanding the distinction between Orientation and Execution, we can see that automation is not replacing the human element; it is refining it. We are not leaving the loop; we are ascending it to a position of higher-order observation and stewardship. The future of software engineering belongs to those who can Orient best.</p>
+<h2 id="references">References</h2>
+<ol>
+<li><strong>Sheridan, T. B., &amp; Verplank, W. L. (1978).</strong> <a href="https://apps.dtic.mil/sti/tr/pdf/ADA057655.pdf">Human and Computer Control of Undersea Teleoperators</a>. Man-Machine Systems Laboratory, Department of Mechanical Engineering, MIT.</li>
+<li><strong>Mackworth, N. H. (1948).</strong> The Breakdown of Vigilance during Prolonged Visual Search. <em>Quarterly Journal of Experimental Psychology</em>, 1(1), 6-21.</li>
+<li><strong>Bainbridge, L. (1983).</strong> <a href="https://ckrybus.com/static/papers/Bainbridge_1983_Automatica.pdf">Ironies of Automation</a>. <em>Automatica</em>, 19(6), 775-779.</li>
+<li><strong>Endsley, M. R. (1995).</strong> <a href="https://journals.sagepub.com/doi/pdf/10.1518/001872095779049543">Toward a Theory of Situation Awareness in Dynamic Systems</a>. <em>Human Factors</em>, 37(1), 32-64.</li>
+<li><strong>Hollnagel, E., &amp; Woods, D. D. (2005).</strong> <em>Joint Cognitive Systems: Foundations of Cognitive Systems Engineering</em>. CRC Press.</li>
+<li><strong>Klein, G. A. (1998).</strong> <em>Sources of Power: How People Make Decisions</em>. MIT Press.</li>
+<li><strong>Boyd, J. R. (1996).</strong> <em>Discourse on Winning and Losing</em>. <a href="https://www.airuniversity.af.edu/Portals/10/AUPress/Books/B_0151_Boyd_Discourse_Winning_Losing.pdf">Air University Press</a>.</li>
+<li><strong>Qishuo Hua et all (2025).</strong> <a href="https://arxiv.org/abs/2510.26493">Context Engineering 2.0: The Context of Context Engineering</a>.</li>
+</ol>
+          </div>
+        </article>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+    
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+    <script>
+      window.footerThoughts = [
+        { text: "Deciding and Acting are for agents. Orienting is for humans.", agent: "Orientation Agent" },
+        { text: "We are shifting from operators of tools to stewards of systems.", agent: "System Steward" },
+        { text: "The loop is not broken, only expanded. We stand on the newly formed edge.", agent: "Cognitive Loop" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
