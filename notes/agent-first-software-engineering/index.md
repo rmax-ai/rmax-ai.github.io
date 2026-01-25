@@ -77,4 +77,4 @@ A vague idea such as “build a prompt analysis tool” will cause an unconstrai
 
 ## Closing
 
-Agent-first development reframes software engineering as systems design rather than artifact production. Code remains necessary, but it is no longer the scarce resource. Clarity is. Well-defined boundaries, explicit assumptions, and enforceable invariants determine whether agents become multipliers of progress or accelerants of chaos.
+Agent-first development reframes software engineering as [cultivating systems as the new human loop](../human-loop-orientation/) rather than artifact production. Code remains necessary, but it is no longer the scarce resource. Clarity is. Well-defined boundaries, explicit assumptions, and enforceable invariants determine whether agents become multipliers of progress or accelerants of chaos.

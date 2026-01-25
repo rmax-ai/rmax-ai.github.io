@@ -57,7 +57,7 @@ graph TD
 
 ### Historical Arc: Levels of Automation
 
-Sheridan & Verplank's (1978) 10-point scale of automation provides a rigorous map for this evolution. We see a rapid ascent through these levels in software engineering (SWE):
+Sheridan & Verplank's (1978) 10-point scale of automation provides a rigorous map for this evolution, which can be operationalized into a [staged autonomy ladder](../earned-agent-autonomy/). We see a rapid ascent through these levels in software engineering (SWE):
 
 *   **Assistive Phase (Levels 2–4)**: The computer suggests options (e.g., classic autocomplete, early Copilot), but the human executes. Use of **AI coding assistants** is ubiquitous here.
 *   **Agentic Phase (Levels 5–6)**: The computer executes a task and reports status, or executes unless vetoed. We entered this phase decisively in 2025–2026. With tools like **GitHub Copilot's 'Agent Mode'** and autonomous solvers like **Blitzy** (scoring ~87% on SWE-bench Verified), agents can now navigate complex, multi-file changes autonomously. The human role shifts from "driver" to "auditor" or "manager."
@@ -69,7 +69,7 @@ The future human role is not just "Supervisor" of tasks but a partner in a **Joi
 
 ### Resilience Engineering
 
-In **Resilience Engineering** terms, complexity requires systems that can perform four core functions: *respond, monitor, anticipate, and learn*. Autonomous systems are prone to "drift"—a slow decoupling of local actions from global intent. The human provides the "outer loop" correction, re-orienting the system when it strays from values or strategic goals. This joint system relies on the human's ability to handle the novel and unforeseen—capabilities often missing from even advanced agents.
+In **Resilience Engineering** terms, complexity requires systems that can perform four core functions: *respond, monitor, anticipate, and learn*. Autonomous systems are prone to "drift"—a slow decoupling of local actions from global intent. The human provides the "outer loop" correction, re-orienting the system when it strays from values or strategic goals using [governed execution models](../failure-oriented-orchestration/). This joint system relies on the human's ability to handle the novel and unforeseen—capabilities often missing from even advanced agents.
 
 <div class="mermaid">
 graph BT
@@ -91,7 +91,7 @@ graph BT
 
 ## Concrete Examples: Context Engineering
 
-If the agent handles the *text* (the code), the human MUST handle the *context*. This is "Context Engineering" (Qishuo Hua et al., 2025)—the systematic process of designing context collection, management, and usage to enhance machine understanding. It is effectively **engineering the Orientation phase** for the AI.
+If the agent handles the *text* (the code), the human MUST handle the *context*. This is "Context Engineering" (Qishuo Hua et al., 2025)—the systematic process of designing context collection, management, and usage to enhance machine understanding, often codified via [Context Engineering through Execution Contracts](../agent-execution-contracts/). It is effectively **engineering the Orientation phase** for the AI.
 
 *   **Context Collection & Curation**: Ensuring the agent is "learning" from the correct documents and patterns (RAG), creating the boundaries of its world map.
 *   **Context Management**: Managing the agent's memory and state, preventing "hallucinations" or context drift over long tasks.
