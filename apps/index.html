@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>rmax.ai — Apps</title>
+    <meta name="description" content="Portfolio of AI-first apps and experiments." />
+    <!-- Global Links -->
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/footer.css">
+    
+    <style>
+      :root{
+        --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass:rgba(255,255,255,0.04);
+        --maxw:1100px; color-scheme: dark;
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{font-family:Inter,system-ui,Arial; margin:0; background:linear-gradient(180deg,#071028 0%,#071229 60%); color:#e6eef8; -webkit-font-smoothing:antialiased}
+      .wrap{max-width:var(--maxw); margin:40px auto; padding:24px}
+      
+      /* Header */
+      header{display:flex;align-items:center;justify-content:space-between;gap:16px; margin-bottom: 48px;}
+      .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+      .logo{width:44px;height:44px;border-radius:10px;object-fit:contain; transition: transform .18s ease; }
+      .brand:hover .logo { transform: translateY(-3px); }
+      
+      nav{display:flex;gap:14px;align-items:center;}
+      a.navlink{color:var(--muted);text-decoration:none;font-weight:600;}
+      a.navlink:hover{color:white;}
+      a.navlink.active{color:white;}
+
+      /* Main Content */
+      h1 { font-size: clamp(26px,4.6vw,40px); margin: 0 0 32px 0; line-height: 1.1; }
+
+      .app-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 32px;
+      }
+      
+      .app-card {
+        background: var(--card);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border: 1px solid rgba(255,255,255,0.05);
+        display: flex;
+        flex-direction: column;
+      }
+      .app-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 32px rgba(2,6,23,0.7);
+      }
+      
+      .app-image-container {
+        width: 100%;
+        aspect-ratio: 1/1; /* Square */
+        overflow: hidden;
+        background: #000;
+        position: relative;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+      
+      .app-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center; /* Focus on top part usually for apps */
+        transition: transform 0.4s ease;
+      }
+      
+      .app-card:hover .app-image {
+        transform: scale(1.03);
+      }
+
+      .app-content {
+        padding: 24px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .app-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin: 0 0 10px 0;
+        color: white;
+      }
+      
+      .app-description {
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 20px;
+        flex-grow: 1;
+      }
+      
+      .app-capabilities {
+        background: rgba(255,255,255,0.02);
+        padding: 12px 14px;
+        border-radius: 8px;
+        border: 1px solid rgba(255,255,255,0.03);
+      }
+      
+      .app-capabilities h4 {
+        margin: 0 0 6px 0;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--accent);
+        opacity: 0.9;
+      }
+      
+      .app-capabilities p {
+        margin: 0;
+        font-size: 0.85rem;
+        color: #cbd5e1;
+        line-height: 1.4;
+      }
+
+      /* Basic Responsive */
+      @media (max-width: 600px) {
+        header { flex-direction: column; align-items: flex-start; gap: 20px; }
+        .app-grid { grid-template-columns: 1fr; }
+        .wrap { margin: 20px auto; }
+      }
+      
+      /* Footer from main */
+      footer { margin-top: 64px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo">
+          <div>
+            <div style="font-weight:800">rMax.ai</div>
+            <div class="muted" style="font-size:0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink active" href="/apps/" data-simple-event="click_nav" data-simple-nav-item="apps">Apps</a>
+          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
+          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
+          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
+          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
+          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
+          <a class="navlink" href="https://www.linkedin.com/in/rmaxespinoza/" target="_blank" rel="noopener" aria-label="LinkedIn" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="linkedin.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+          <a class="navlink" href="https://rmax.substack.com" target="_blank" rel="noopener" aria-label="Substack" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="substack.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m40.0248,10.0817v-4.5814c-.3229,0-.7411-.0004-1.6553-.0004l-28.9669.0004c-.9142,0-1.318,0-1.6553,0v4.5814c.2164,0,.7411.0005,1.6553.0005l28.9669-.0005c.9142,0,1.4122,0,1.6553,0Z"/>
+              <path d="m40.0248,18.3503v-4.5814H9.4025c-.9142,0-1.3777,0-1.6553,0v4.5814c.2646,0,.7411,0,1.6553,0h30.6223Z"/>
+              <path d="m40.2557,42.4999v-20.1821c0-.1633-.9724-.1077-1.8866-.1077H9.4022c-.9142,0-1.6553-.0555-1.6553.1077v19.8878c.2814-.1622,15.3415-8.2118,16.1691-8.5978.5156.2972,13.6461,7.3385,16.3406,8.8914l-.0008.0007Z"/>
+            </svg>
+          </a>
+          <a class="navlink" href="https://x.com/rmaxdev" target="_blank" rel="noopener" aria-label="X" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="x.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191-.008zM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447z"></path></svg>
+          </a>
+          <a class="navlink" href="https://github.com/rmax-ai" target="_blank" rel="noopener" aria-label="GitHub" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="github.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <h1 style="display:flex;align-items:center;gap:16px"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg> Apps & Experiments</h1>
+        
+        <div class="app-grid">
+          
+          <!-- Zelf Reflection -->
+          <article class="app-card">
+            <div class="app-image-container">
+              <img src="zelf-preview-opt.png" alt="Zelf Reflection Screenshot" class="app-image" loading="lazy">
+            </div>
+            <div class="app-content">
+              <h2 class="app-title">Zelf Reflection <span class="pill" style="font-size:0.7em; vertical-align:middle; background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px; margin-left:6px; color:#94a3b8; font-weight:400">Preview</span></h2>
+              <div class="app-description">
+                Reflective companion emphasizing calm, memory, and guided presence.
+              </div>
+              <div class="app-capabilities">
+                <h4>What you can do</h4>
+                <p>Enter name, accept terms, manage memory/notes, adjust presence/music presets, enter reflection space.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- IdeaPad -->
+          <article class="app-card">
+            <div class="app-image-container">
+              <img src="ideapad-preview-opt.png" alt="IdeaPad Screenshot" class="app-image" loading="lazy">
+            </div>
+            <div class="app-content">
+              <h2 class="app-title">IdeaPad <span class="pill" style="font-size:0.7em; vertical-align:middle; background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px; margin-left:6px; color:#94a3b8; font-weight:400">Preview</span></h2>
+              <div class="app-description">
+                Creative partner that captures idea sessions with persona controls and a notepad.
+              </div>
+              <div class="app-capabilities">
+                <h4>What you can do</h4>
+                <p>Provide name, accept terms, activate Anchor persona, clear memory, review idea log.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Gemini Multiturn TTS Demo -->
+          <a href="https://multiturn-demo.rmax.app" class="app-card" style="text-decoration:none; color:inherit;">
+            <div class="app-image-container">
+              <img src="multiturn-demo-opt.png" alt="Gemini Multiturn TTS Demo Screenshot" class="app-image" loading="lazy">
+            </div>
+            <div class="app-content">
+              <h2 class="app-title">Gemini Multiturn TTS Demo</h2>
+              <div class="app-description">
+                Script-driven interface for multi-speaker dialogues using Gemini voices.
+              </div>
+              <div class="app-capabilities">
+                <h4>What you can do</h4>
+                <p>Configure speakers/voices, add/import/export dialogue, set style instructions, provide Gemini API key, generate audio.</p>
+              </div>
+            </div>
+          </a>
+
+          <!-- Maxi-Tutor -->
+          <article class="app-card">
+            <div class="app-image-container">
+              <img src="maxi-tutor-preview-opt.png" alt="Maxi-Tutor Screenshot" class="app-image" loading="lazy">
+            </div>
+            <div class="app-content">
+              <h2 class="app-title">Maxi-Tutor <span class="pill" style="font-size:0.7em; vertical-align:middle; background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px; margin-left:6px; color:#94a3b8; font-weight:400">Preview</span></h2>
+              <div class="app-description">
+                Spanish coach (Rioplatense accent) that guides you through conversations and lessons.
+              </div>
+              <div class="app-capabilities">
+                <h4>What you can do</h4>
+                <p>Enter name, accept terms, explore conversation/lesson/accent tools, start mic-led practice.</p>
+              </div>
+            </div>
+          </article> 
+
+          <!-- Agent Font Compare -->
+          <a href="https://multiturn-demo.rmax.app" class="app-card" style="text-decoration:none; color:inherit;">
+            <div class="app-image-container">
+              <img src="agent-font-compare-opt.png" alt="Agent Font Compare Screenshot" class="app-image" loading="lazy">
+            </div>
+            <div class="app-content">
+              <h2 class="app-title">Agent Font Compare</h2>
+              <div class="app-description">
+                Compare UI/monospace fonts for AI interfaces with real sample text (Rust code).
+              </div>
+              <div class="app-capabilities">
+                <h4>What you can do</h4>
+                <p>Choose UI and code fonts, switch scenarios, copy code snippets, toggle dark mode.</p>
+              </div>
+            </div>
+          </a>
+
+          <!-- Lotta Ari Assistant (Private) -->
+          <!--
+          <article class="app-card">
+            <div class="app-image-container">
+              <img src="lotta-ari-assistant-opt.png" alt="Lotta Ari Assistant Screenshot" class="app-image" loading="lazy">
+            </div>
+            <div class="app-content">
+              <h2 class="app-title">Lotta Ari Assistant <span class="pill" style="font-size:0.7em; vertical-align:middle; background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px; margin-left:6px; color:#94a3b8; font-weight:400">Private</span></h2>
+              <div class="app-description">
+                Brazilian Portuguese voice tutor offering accent labs, contrast drills, and lesson mode.
+              </div>
+              <div class="app-capabilities">
+                <h4>What you can do</h4>
+                <p>Tap to start speaking, choose Accent Lab, Contrast, or Lesson Mode, practice with microphone.</p>
+              </div>
+            </div>
+          </article>
+          -->
+
+          <!-- Gemma Voice Assistant (Private) -->
+          <!--
+          <article class="app-card">
+            <div class="app-image-container">
+              <img src="gemma-assistant-opt.png" alt="Gemma Voice Assistant Screenshot" class="app-image" loading="lazy">
+            </div>
+            <div class="app-content">
+              <h2 class="app-title">Gemma Voice Assistant</h2>
+              <div class="app-description">
+                Voice-first companion with persona buttons, notepad, and idea tracking.
+              </div>
+              <div class="app-capabilities">
+                <h4>What you can do</h4>
+                <p>Tap to talk, toggle captions, open notepad, end session, switch personas.</p>
+              </div>
+            </div>
+          </article>
+          -->
+          
+        </div>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">...</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script>
+      window.footerThoughts = [
+        { text: "Apps become agents, and interfaces become conversations.", agent: "Architect" },
+        { text: "Software is no longer built, but cultivated.", agent: "Gardener" },
+        { text: "From static tools to active partners.", agent: "Collaborator" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+    <!-- 100% privacy-first analytics (from index.html) -->
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+  </body>
+</html>

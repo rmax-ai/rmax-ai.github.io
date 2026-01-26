@@ -59,6 +59,24 @@
       .logo, .card{transition:transform .18s ease, box-shadow .18s ease}
       .logo:hover{transform:translateY(-3px)}
       .card:hover{transform:translateY(-6px)}
+
+      /* Carousel */
+      .carousel{display:flex;overflow-x:auto;gap:16px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:12px;margin:0 -24px;padding-left:24px;padding-right:24px}
+      .carousel::-webkit-scrollbar{height:4px}
+      .carousel::-webkit-scrollbar-track{background:transparent}
+      .carousel::-webkit-scrollbar-thumb{background:var(--muted);border-radius:4px}
+      /* Generic carousel item layout */
+      .carousel > * {flex:0 0 280px;scroll-snap-align:start}
+      /* App card specific */
+      .carousel .app-card{background:var(--card);border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);transition:transform .18s ease}
+      .carousel .app-card:hover{transform:translateY(-4px)}
+      .carousel .app-card img{width:100%;height:280px;object-fit:cover;object-position:top}
+      .carousel .app-card .content{padding:14px}
+      .carousel .app-card h3{margin:0 0 6px 0;font-size:1rem;font-weight:700}
+      .carousel .app-card p{margin:0;font-size:0.85rem;color:var(--muted);line-height:1.4}
+      
+      /* Project card in carousel overrides */
+      .carousel .card {height:100%; display:flex; flex-direction:column}
     </style>
     <!-- 100% privacy-first analytics -->
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
@@ -93,6 +111,7 @@
           </div>
         </a>
         <nav aria-label="Main navigation">
+          <a class="navlink" href="/apps/" data-simple-event="click_nav" data-simple-nav-item="apps">Apps</a>
           <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
           <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
           <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
@@ -126,46 +145,111 @@
           </div>
         </section>
 
-        <section id="projects">
-          <!-- PROJECTS -->
+        <section id="apps">
+          <!-- APPS -->
           <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px">
-            <h2 style="margin:0">Projects</h2>
-            <a href="/projects/" class="muted" style="text-decoration:none" data-simple-event="click_cta" data-simple-cta-id="projects_view_all">View all →</a>
+            <h2 style="margin:0;display:flex;align-items:center;gap:10px">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              Apps
+            </h2>
+            <a href="/apps/" class="muted" style="text-decoration:none" data-simple-event="click_cta" data-simple-cta-id="apps_view_all">View all →</a>
           </div>
-          <div class="grid">
-            <a href="https://ratelord.rmax.tech" target="_blank" class="card" style="text-decoration:none;color:inherit;display:block" data-simple-event="click_project" data-simple-project-id="ratelord">
-              <div style="font-weight:700">Ratelord</div>
-              <div class="muted" style="margin-top:8px">Budget-literate autonomy for agentic systems. Forecast, govern, and negotiate resource constraints.</div>
+          <div class="carousel">
+            <!-- Zelf -->
+            <a href="/apps/" class="app-card" style="text-decoration:none;color:inherit" data-simple-event="click_app" data-simple-app-id="zelf">
+              <img src="/apps/zelf-preview-opt.png" alt="Zelf Reflection" loading="lazy">
+              <div class="content">
+                <h3>Zelf Reflection <span class="pill" style="font-size:0.6em;vertical-align:middle;padding:2px 6px">Preview</span></h3>
+                <p>Reflective companion emphasizing calm, memory, and guided presence.</p>
+              </div>
             </a>
-            <a href="https://rlinks.rmax.tech" target="_blank" class="card" style="text-decoration:none;color:inherit;display:block" data-simple-event="click_project" data-simple-project-id="rlinks">
-              <div style="font-weight:700">RLinks</div>
-              <div class="muted" style="margin-top:8px">Authority control plane and global edge runtime for the rmax.to redirect fabric.</div>
+            <!-- IdeaPad -->
+            <a href="/apps/" class="app-card" style="text-decoration:none;color:inherit" data-simple-event="click_app" data-simple-app-id="ideapad">
+              <img src="/apps/ideapad-preview-opt.png" alt="IdeaPad" loading="lazy">
+              <div class="content">
+                <h3>IdeaPad <span class="pill" style="font-size:0.6em;vertical-align:middle;padding:2px 6px">Preview</span></h3>
+                <p>Creative partner that captures idea sessions with persona controls and a notepad.</p>
+              </div>
             </a>
-            <a href="https://dotslash-files.rmax.tech" target="_blank" class="card" style="text-decoration:none;color:inherit;display:block" data-simple-event="click_project" data-simple-project-id="dotslash-files">
-              <div style="font-weight:700">Dotslash Files</div>
-              <div class="muted" style="margin-top:8px">Smart pointers for hermetic binary management. Secure, cross-platform tool distribution.</div>
+            <!-- Gemini Multiturn -->
+            <a href="https://multiturn-demo.rmax.app" target="_blank" class="app-card" style="text-decoration:none;color:inherit" data-simple-event="click_app" data-simple-app-id="multiturn">
+              <img src="/apps/multiturn-demo-opt.png" alt="Gemini Multiturn TTS" loading="lazy">
+              <div class="content">
+                <h3>Gemini Multiturn TTS</h3>
+                <p>Script-driven interface for multi-speaker dialogues using Gemini voices.</p>
+              </div>
+            </a>
+            <!-- Maxi-Tutor -->
+            <a href="/apps/" class="app-card" style="text-decoration:none;color:inherit" data-simple-event="click_app" data-simple-app-id="maxitutor">
+              <img src="/apps/maxi-tutor-preview-opt.png" alt="Maxi-Tutor" loading="lazy">
+              <div class="content">
+                <h3>Maxi-Tutor <span class="pill" style="font-size:0.6em;vertical-align:middle;padding:2px 6px">Preview</span></h3>
+                <p>Spanish coach (Rioplatense accent) that guides you through conversations and lessons.</p>
+              </div>
+            </a>
+            <!-- Agent Font Compare -->
+            <a href="https://multiturn-demo.rmax.app" target="_blank" class="app-card" style="text-decoration:none;color:inherit" data-simple-event="click_app" data-simple-app-id="fontcompare">
+              <img src="/apps/agent-font-compare-opt.png" alt="Agent Font Compare" loading="lazy">
+              <div class="content">
+                <h3>Agent Font Compare</h3>
+                <p>Compare UI/monospace fonts for AI interfaces with real sample text.</p>
+              </div>
             </a>
           </div>
         </section>
 
-        <section id="research">
-          <!-- RESEARCH -->
-          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px">
-            <h2 style="margin:0">Research</h2>
-            <a href="/research/" class="muted" style="text-decoration:none" data-simple-event="click_cta" data-simple-cta-id="research_view_all">View all →</a>
-          </div>
-          <div class="grid" style="grid-template-columns: 1fr;">
-            <a href="/research/" class="card" style="text-decoration:none;color:inherit;display:block">
-              <div style="font-weight:700">System Prompts Forensics</div>
-              <div class="muted" style="margin-top:8px">Analyzing how contemporary AI tools structure authority and constraints in system prompts.</div>
-            </a>
-          </div>
-        </section>
+        <!-- Combined Projects & Research Section -->
+        <div style="display:flex;gap:32px;margin-top:44px;flex-wrap:wrap">
+          <section id="projects" style="flex:1;min-width:300px;margin-top:0">
+            <!-- PROJECTS -->
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px">
+              <h2 style="margin:0;display:flex;align-items:center;gap:10px">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                Projects
+              </h2>
+              <a href="/projects/" class="muted" style="text-decoration:none" data-simple-event="click_cta" data-simple-cta-id="projects_view_all">View all →</a>
+            </div>
+            <div class="carousel">
+              <a href="https://ratelord.rmax.tech" target="_blank" class="card" style="text-decoration:none;color:inherit;display:block" data-simple-event="click_project" data-simple-project-id="ratelord">
+                <div style="font-weight:700">Ratelord</div>
+                <div class="muted" style="margin-top:8px">Budget-literate autonomy for agentic systems. Forecast, govern, and negotiate resource constraints.</div>
+              </a>
+              <a href="https://rlinks.rmax.tech" target="_blank" class="card" style="text-decoration:none;color:inherit;display:block" data-simple-event="click_project" data-simple-project-id="rlinks">
+                <div style="font-weight:700">RLinks</div>
+                <div class="muted" style="margin-top:8px">Authority control plane and global edge runtime for the rmax.to redirect fabric.</div>
+              </a>
+              <a href="https://dotslash-files.rmax.tech" target="_blank" class="card" style="text-decoration:none;color:inherit;display:block" data-simple-event="click_project" data-simple-project-id="dotslash-files">
+                <div style="font-weight:700">Dotslash Files</div>
+                <div class="muted" style="margin-top:8px">Smart pointers for hermetic binary management. Secure, cross-platform tool distribution.</div>
+              </a>
+            </div>
+          </section>
+
+          <section id="research" style="flex:1;min-width:300px;margin-top:0">
+            <!-- RESEARCH -->
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px">
+              <h2 style="margin:0;display:flex;align-items:center;gap:10px">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                Research
+              </h2>
+              <a href="/research/" class="muted" style="text-decoration:none" data-simple-event="click_cta" data-simple-cta-id="research_view_all">View all →</a>
+            </div>
+            <div class="carousel">
+              <a href="/research/" class="card" style="text-decoration:none;color:inherit;display:block">
+                <div style="font-weight:700">System Prompts Forensics</div>
+                <div class="muted" style="margin-top:8px">Analyzing how contemporary AI tools structure authority and constraints in system prompts.</div>
+              </a>
+            </div>
+          </section>
+        </div>
 
         <section id="notes">
           <!-- NOTES -->
           <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px">
-            <h2 style="margin:0">Notes</h2>
+            <h2 style="margin:0;display:flex;align-items:center;gap:10px">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              Notes
+            </h2>
             <a href="/notes/" class="muted" style="text-decoration:none" data-simple-event="click_cta" data-simple-cta-id="notes_view_all">View all →</a>
           </div>
           <div class="grid" style="grid-template-columns: 1fr;">
@@ -238,13 +322,19 @@
 
         <section id="about">
           <!-- ABOUT -->
-          <h2 style="margin:0 0 12px">About</h2>
+          <h2 style="margin:0 0 12px;display:flex;align-items:center;gap:10px">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            About
+          </h2>
           <p class="muted">I’m Max, a software engineer focused on data-intensive systems, cloud platforms, and agent-assisted development. I work on problems where scale, constraints, and decision-making matter more than code volume. Increasingly, my focus is on how humans and AI agents collaborate: humans define intent and boundaries; agents execute within them. This site is where I publish technical notes, essays, and experiments on software engineering, systems thinking, and applied AI—written to clarify thinking, not to chase trends.</p>
         </section>
 
         <section id="contact">
           <!-- CONTACT -->
-          <h2 style="margin:0 0 12px">Contact</h2>
+          <h2 style="margin:0 0 12px;display:flex;align-items:center;gap:10px">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            Contact
+          </h2>
           <p class="muted">Interested in collaborating? Email at <a href="mailto:hello@rmax.ai" style="color:inherit;text-decoration:underline" data-simple-event="click_contact_email" data-simple-contact-email-address="hello@rmax.ai">hello@rmax.ai</a>.</p>
         </section>
 
