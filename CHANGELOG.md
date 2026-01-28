@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-01-28: Published technical note: [trust-patience-craft-working-modern-agentic-ai](notes/trust-patience-craft-working-modern-agentic-ai/). An operator-focused guide to earning trust in agentic AI through constraints, instrumentation, and iterative verification loops.
+  - *Warnings*: Low: Some claims are generalized; Low: occasional anthropomorphic phrasing.
+
 - 2026-01-25: Published technical note: [human-loop-orientation](notes/human-loop-orientation/). An analysis of the shift from 'human-in-the-loop' execution to 'human-on-the-loop' orientation in autonomous software systems.
 
 - 2026-01-20: Published technical note: [personal-software-factory](notes/personal-software-factory/index.md). Defines a personal software factory as an individual-scale system for turning intent into deployed software through repeatable, automated pipelines.

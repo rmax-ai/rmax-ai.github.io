@@ -48,6 +48,14 @@ The goal is **safe, repeatable publication**, not speed or creativity.
 * `notes/<slug>/**`
 * `CHANGELOG.md`
 
+**Expanded write access (explicit human override)**
+
+If explicitly authorized by the human operator for a given run, the orchestrator may also update:
+
+* `sitemap.xml`
+* `index.html` and/or `index.md`
+* `notes/index.html`
+
 **Forbidden**
 
 * Modifying prompts
@@ -89,7 +97,9 @@ No partial outputs are considered valid.
 
 ### 6. Execution Phases (Strict Order)
 
-**Subagent enforcement (global):** Each phase (0–7) MUST invoke a subagent via `runSubagent` to perform the phase’s work. The orchestrator may only coordinate, route inputs/outputs, and enforce gates. Direct orchestrator edits to note content, HTML, or changelog are forbidden.
+**Subagent enforcement (global):** Each phase (0–8) MUST invoke a subagent via `runSubagent` to perform the phase’s work.
+
+**File writing rule (clarification):** The orchestrator MAY write files to disk only by applying the exact outputs produced by subagents (e.g., writing returned Markdown/HTML/frontmatter). The orchestrator MUST NOT originate new note prose or HTML content outside subagent outputs.
 
 #### Phase 0 — Intake
 
@@ -190,6 +200,17 @@ Append to `CHANGELOG.md`:
 * Action
 * Slug + path
 * Warnings (if any)
+
+---
+
+#### Phase 8 — Sitemap Generation (Optional unless authorized)
+
+If sitemap updates are explicitly authorized by the human operator for this run:
+
+* Generate `sitemap.xml` from the local filesystem using `./scripts/generate-sitemap.py`
+* Validate XML structure and scope (only `https://rmax.ai` URLs; `index.html` directories only)
+
+**Gate:** sitemap updated and well-formed XML.
 
 ---
 
