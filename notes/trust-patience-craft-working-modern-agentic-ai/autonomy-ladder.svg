@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420" role="img" aria-labelledby="title desc">
+  <title id="title">Autonomy Ladder</title>
+  <desc id="desc">A ladder from low to high autonomy: suggest, draft, execute reversible, execute risky with approval, and autonomous. Each rung is gated by verification.</desc>
+
+  <defs>
+    <style>
+      .bg { fill: transparent; }
+      .panel { fill: rgba(255,255,255,0.04); stroke: rgba(255,255,255,0.28); stroke-width: 2; }
+      .title { font: 600 18px system-ui, -apple-system, Segoe UI, Roboto, sans-serif; fill: rgba(255,255,255,0.92); }
+      .label { font: 600 14px system-ui, -apple-system, Segoe UI, Roboto, sans-serif; fill: rgba(255,255,255,0.90); }
+      .muted { font: 400 12px system-ui, -apple-system, Segoe UI, Roboto, sans-serif; fill: rgba(255,255,255,0.62); }
+      .gate { fill: rgba(34,197,94,0.12); stroke: rgba(34,197,94,0.55); stroke-width: 2; }
+      .risk { fill: rgba(245,158,11,0.12); stroke: rgba(245,158,11,0.55); stroke-width: 2; }
+      .danger { fill: rgba(239,68,68,0.10); stroke: rgba(239,68,68,0.55); stroke-width: 2; }
+      .arrow { stroke: rgba(255,255,255,0.55); stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="rgba(255,255,255,0.55)" />
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="960" height="420" />
+
+  <text class="title" x="48" y="54">Autonomy ladder (expand only after verified wins)</text>
+  <text class="muted" x="48" y="78">Each step increases delegation. Gates (tests/evidence) prevent silent failure.</text>
+
+  <!-- Ladder panels -->
+  <rect class="panel" x="70" y="110" rx="14" ry="14" width="820" height="58" />
+  <text class="label" x="100" y="146">0) Suggest</text>
+  <text class="muted" x="235" y="146">Agent proposes options; operator chooses.</text>
+  <rect class="gate" x="720" y="124" rx="10" ry="10" width="150" height="30" />
+  <text class="label" x="740" y="145" fill="rgba(34,197,94,0.92)">Gate: review</text>
+
+  <rect class="panel" x="70" y="178" rx="14" ry="14" width="820" height="58" />
+  <text class="label" x="100" y="214">1) Draft</text>
+  <text class="muted" x="235" y="214">Agent writes text/code; operator edits/approves.</text>
+  <rect class="gate" x="690" y="192" rx="10" ry="10" width="180" height="30" />
+  <text class="label" x="710" y="213" fill="rgba(34,197,94,0.92)">Gate: diff review</text>
+
+  <rect class="panel" x="70" y="246" rx="14" ry="14" width="820" height="58" />
+  <text class="label" x="100" y="282">2) Execute (reversible)</text>
+  <text class="muted" x="235" y="282">Agent runs safe tasks (format, lint, tests) and small diffs.</text>
+  <rect class="gate" x="655" y="260" rx="10" ry="10" width="215" height="30" />
+  <text class="label" x="675" y="281" fill="rgba(34,197,94,0.92)">Gate: automated checks</text>
+
+  <rect class="panel" x="70" y="314" rx="14" ry="14" width="820" height="58" />
+  <text class="label" x="100" y="350">3) Execute (risky w/ approval)</text>
+  <text class="muted" x="235" y="350">Publishing, deletions, migrations: agent acts only after explicit OK.</text>
+  <rect class="risk" x="630" y="328" rx="10" ry="10" width="240" height="30" />
+  <text class="label" x="650" y="349" fill="rgba(245,158,11,0.92)">Gate: human approval</text>
+
+  <!-- Arrow showing progression -->
+  <path class="arrow" d="M92 168 L92 178" />
+  <path class="arrow" d="M92 236 L92 246" />
+  <path class="arrow" d="M92 304 L92 314" />
+
+  <rect class="danger" x="70" y="382" rx="14" ry="14" width="820" height="28" />
+  <text class="muted" x="100" y="402">Highest autonomy (4): only when the pipeline proves reliability repeatedly in the same task class.</text>
+</svg>

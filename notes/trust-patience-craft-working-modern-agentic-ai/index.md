@@ -142,6 +142,16 @@ Patience does not mean tolerating poor performance indefinitely; it means struct
 - Timebox exploration and require stop conditions: if not converging, return hypotheses and next experiments.
 - Treat trust as cumulative: expand autonomy only after repeated verified success in the same class of tasks.
 
+## Diagrams
+
+![Trust calibration loop: constraints → execution → verification → adjust autonomy → repeat](trust-calibration-loop.svg)
+
+*Figure 1: Trust calibration loop. Keep autonomy proportional to verified evidence, not confidence.*
+
+![Autonomy ladder: suggest → draft → execute reversible → execute risky with approval](autonomy-ladder.svg)
+
+*Figure 2: Autonomy ladder. Promote delegation only after repeated verified wins in the same task class.*
+
 ## Positioning Note
 This is an operator’s perspective on working with agentic systems in real workflows: shaping constraints, tools, and feedback so capability becomes reliability. It is not a claim that current systems “understand” in a human sense, nor a prescription to replace engineering judgment. The emphasis is craft: how to steer high-variance capability into low-variance outcomes.
 
