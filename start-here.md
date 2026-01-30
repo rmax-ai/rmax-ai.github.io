@@ -18,7 +18,7 @@ Agent-first engineering treats AI agents as first-class members of the developme
 3) Limit authority, iterate autonomy: start agents with read-only or simulated permissions and gradually increase privileges as they demonstrate reliability. Use human-on-the-loop checks initially.
 
 ## Quick reading
-- Read: "Agent-first software engineering" (linked from the home page) — an overview of the workflow.
+- Read: [Agent-first software engineering](/notes/agent-first-software-engineering/) — an overview of the workflow.
 - Try: turn one unit test or CI task into an agent task this week.
 
 ---
