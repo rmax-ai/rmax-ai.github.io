@@ -77,6 +77,13 @@
       
       /* Project card in carousel overrides */
       .carousel .card {height:100%; display:flex; flex-direction:column}
+      
+      /* Highlight section */
+      .highlight{background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(124,58,237,0.05));border:1px solid rgba(124,58,237,0.3);border-radius:16px;padding:28px;margin:32px 0;box-shadow:0 8px 32px rgba(124,58,237,0.15)}
+      .highlight h2{margin:0 0 12px 0;font-size:1.5rem;display:flex;align-items:center;gap:10px}
+      .highlight p{margin:0 0 16px 0;color:var(--muted);line-height:1.6}
+      .highlight .cta-btn{display:inline-block;background:var(--accent);color:white;padding:12px 20px;border-radius:10px;text-decoration:none;font-weight:700;transition:all .18s ease}
+      .highlight .cta-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(124,58,237,0.4)}
     </style>
     <!-- 100% privacy-first analytics -->
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
@@ -143,6 +150,16 @@
           <div class="hero-inner">
             <h1>Agent-first software engineering, orchestration, and failure-aware systems.</h1>
           </div>
+        </section>
+
+        <!-- HIGHLIGHT: Start Here -->
+        <section class="highlight">
+          <h2>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+            New to agent-first engineering?
+          </h2>
+          <p>Start with a quick TL;DR guide that explains the core concepts, why it matters, and three practical steps you can take this week.</p>
+          <a href="/start-here/" class="cta-btn" data-simple-event="click_cta" data-simple-cta-id="start_here">Start here →</a>
         </section>
 
         <section id="apps">
