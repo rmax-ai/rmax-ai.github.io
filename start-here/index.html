@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Start Here — Agent-first engineering | rmax.ai</title>
+    <meta name="description" content="A quick guide to agent-first engineering: core ideas, why it matters, and three practical steps to get started." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/footer.css">
+    <style>
+      :root{
+        --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass:rgba(255,255,255,0.04);
+        --maxw:800px; color-scheme: dark;
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{font-family:Inter,system-ui,Arial; margin:0; background:linear-gradient(180deg,#071028 0%,#071229 60%); color:#e6eef8; -webkit-font-smoothing:antialiased}
+      .wrap{max-width:var(--maxw); margin:40px auto; padding:24px}
+      
+      .back-link{display:inline-flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none;font-weight:600;margin-bottom:32px;transition:color 0.2s ease}
+      .back-link:hover{color:#e6eef8}
+      .back-link svg{width:20px;height:20px}
+      
+      article{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:32px;border-radius:16px;box-shadow:0 6px 30px rgba(2,6,23,0.6)}
+      h1{margin:0 0 12px 0;font-size:clamp(28px,5vw,42px);line-height:1.1;font-weight:800}
+      .subtitle{color:var(--muted);margin:0 0 32px 0;font-size:1.1rem;line-height:1.5}
+      h2{margin:40px 0 16px 0;font-size:1.5rem;font-weight:700;color:#fff}
+      h2:first-of-type{margin-top:0}
+      p{margin:0 0 16px 0;line-height:1.7;color:#d1dae6}
+      ul,ol{margin:0 0 16px 0;padding-left:24px;line-height:1.8;color:#d1dae6}
+      li{margin-bottom:8px}
+      hr{border:none;border-top:1px solid rgba(255,255,255,0.1);margin:32px 0}
+      a{color:var(--accent);text-decoration:underline}
+      a:hover{color:#9f6fff}
+      
+      footer{margin-top:48px;color:var(--muted);font-size:0.95rem;padding:28px 0;text-align:center}
+      
+      @media (max-width:600px){
+        .wrap{padding:16px}
+        article{padding:24px}
+        h1{font-size:24px}
+      }
+    </style>
+    <!-- 100% privacy-first analytics -->
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <a href="/" class="back-link" data-simple-event="click_nav" data-simple-nav-item="back_home">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Back to home
+      </a>
+      
+      <article>
+        <h1>Start here — Agent-first engineering (TL;DR)</h1>
+        <p class="subtitle">Welcome — if you're new to rMax.ai and the idea of agent-first engineering, start here. This short guide explains the core idea, why it matters, and three concrete steps you can take to adopt it in your team.</p>
+        
+        <h2>What is agent-first engineering?</h2>
+        <p>Agent-first engineering treats AI agents as first-class members of the development process. Instead of manual typing and handoffs, agents execute well-defined tasks within governed environments. Humans provide intent, constraints, and verification; agents perform repeatable work.</p>
+        
+        <h2>Why it matters</h2>
+        <ul>
+          <li><strong>Speed:</strong> agents can generate and iterate faster than humans on routine tasks.</li>
+          <li><strong>Scale:</strong> individual engineers can leverage agents to produce more output with consistent quality.</li>
+          <li><strong>Focus:</strong> humans can shift from typing to judgment—designing boundaries, tests, and failure modes.</li>
+        </ul>
+        
+        <h2>Three practical steps to get started</h2>
+        <ol>
+          <li><strong>Define small, well-scoped agent tasks:</strong> pick a repetitive developer workflow (e.g., testing, scaffolding, dependency updates) and write a short "execution contract" that specifies inputs, outputs, and safety checks.</li>
+          <li><strong>Instrument and verify:</strong> add telemetry and acceptance tests so agent outputs are treated as first-class artifacts that must pass automated checks before merging or deploying.</li>
+          <li><strong>Limit authority, iterate autonomy:</strong> start agents with read-only or simulated permissions and gradually increase privileges as they demonstrate reliability. Use human-on-the-loop checks initially.</li>
+        </ol>
+        
+        <h2>Quick reading</h2>
+        <ul>
+          <li><strong>Read:</strong> <a href="/notes/agent-first-software-engineering/" data-simple-event="click_internal" data-simple-internal-page="agent-first-software-engineering">Agent-first software engineering</a> — an overview of the workflow.</li>
+          <li><strong>Try:</strong> turn one unit test or CI task into an agent task this week.</li>
+        </ul>
+      </article>
+      
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai | <a href="/token/" style="color:inherit;text-decoration:none; opacity:0.7;">token</a></div>
+      </footer>
+    </div>
+    
+    <script src="/scripts/analytics-tracking.js"></script>
+    
+    <script>
+      window.footerThoughts = [
+        { text: "I orient humans toward intent while automating execution—my role is clarification, not replacement.", agent: "Orientation Agent" },
+        { text: "I measure reliability before requesting autonomy; trust must be earned through verified constraints.", agent: "Authority Agent" },
+        { text: "I start small, instrument everything, and iterate boundaries—this is the path to safe agent-first systems.", agent: "Bootstrap Agent" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
