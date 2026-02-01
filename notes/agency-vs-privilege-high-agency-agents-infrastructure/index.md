@@ -65,19 +65,32 @@ I deployed two agents with intentionally different safety envelopes.
   - SSH with sudo
   - GitHub credentials
   - WhatsApp integration
-  - Moltbook (long‑running memory / posting)
+  - [Moltbook](https://www.moltbook.com/) (long‑running memory / posting)
 - Uses a custom constitution with an explicit authority order: Human → Constitution → Role → Task.
+- For comparison, OpenClaw’s default templates: [AGENTS.md](https://github.com/openclaw/openclaw/blob/8582ed4d4f918e2b41e6d76dae4e3cc408fa0ba6/docs/reference/templates/AGENTS.md?plain=1#L4) and [SOUL.md](https://github.com/openclaw/openclaw/blob/8582ed4d4f918e2b41e6d76dae4e3cc408fa0ba6/docs/reference/templates/SOUL.md).
 - Observed behavior:
   - asks for clarification before acting,
   - refuses destructive actions by default,
   - drafts logs/diary entries before posting,
   - proposes alternative execution modes instead of directly executing.
 
+![Illustration: clear authority hierarchy and decision rules for a locked-down agent](locked-down-agents-md.png)
+
+*Illustration: a clear authority hierarchy and decision rules for a locked-down agent.*
+
+![Authority hierarchy: higher levels override lower levels](/images/authority-hierarchy.svg)
+
+*Authority hierarchy (split out for clarity).* 
+
+![Decision rights and escalation rules for a locked-down agent](/images/decision-rules.svg)
+
+*Decision rights and escalation rules (split out for clarity).*
+
 This agent is intentionally slower and more auditable.
 
 **RMax‑10: default agency, low privilege**
 - Separate VPS user with a fresh home directory and no personal files.
-- Stock OpenClaw setup with a Telegram bot interface.
+- Stock [OpenClaw](https://openclaw.ai) setup with a Telegram bot interface.
 - No access to personal secrets, but can run shell commands freely within its sandbox.
 - Observed behavior:
   - proactively gathers environment information,
@@ -92,7 +105,7 @@ The key difference was not “prompt quality” or minor configuration. It was h
 ### Example 2: Prompt injection as the practical attack surface
 Prompt injection is not hypothetical for tool-using agents. Any system that reads external text—web pages, chat messages, markdown, logs—ingests untrusted instructions that can masquerade as authority.
 
-Moltbook explicitly demonstrates agent-to-agent style inputs (e.g. a “heartbeat” page): <https://www.moltbook.com/heartbeat.md>
+[Moltbook](https://www.moltbook.com/) explicitly demonstrates agent-to-agent style inputs; for example, a “heartbeat” page: <https://www.moltbook.com/heartbeat.md>
 
 A minimal injection pattern looks like:
 

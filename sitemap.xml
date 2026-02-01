@@ -2,15 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-01-28T23:06:43Z</lastmod>
+    <lastmod>2026-02-01T14:34:09Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
-    <lastmod>2026-01-26T21:02:43Z</lastmod>
+    <lastmod>2026-01-31T09:36:25Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-01-28T23:06:43Z</lastmod>
+    <lastmod>2026-02-01T14:34:09Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
+    <lastmod>2026-02-01T14:34:09Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agent-execution-contracts/</loc>
@@ -74,7 +78,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/trust-patience-craft-working-modern-agentic-ai/</loc>
-    <lastmod>2026-01-28T23:04:44Z</lastmod>
+    <lastmod>2026-01-28T23:50:15Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/typing-code-is-solved/</loc>
@@ -87,6 +91,10 @@
   <url>
     <loc>https://rmax.ai/research/</loc>
     <lastmod>2026-01-26T21:02:43Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/start-here/</loc>
+    <lastmod>2026-01-31T09:36:22Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/token/</loc>
