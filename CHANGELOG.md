@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-02-01: Published technical note: [agency-vs-privilege-high-agency-agents-infrastructure](notes/agency-vs-privilege-high-agency-agents-infrastructure/). An operator-focused case for separating an agent’s autonomy from its permissions and secrets to limit blast radius under prompt injection and model variability.
+  - *Warnings*: Publish with caution — scope boundaries around "low privilege" prerequisites; risk of over-generalization. Low: minor nav consistency difference (#about vs /#about). Low: external link durability (https://www.moltbook.com/heartbeat.md).
+
 - 2026-01-28: Published technical note: [trust-patience-craft-working-modern-agentic-ai](notes/trust-patience-craft-working-modern-agentic-ai/). An operator-focused guide to earning trust in agentic AI through constraints, instrumentation, and iterative verification loops.
   - *Warnings*: Low: Some claims are generalized; Low: occasional anthropomorphic phrasing.
 
