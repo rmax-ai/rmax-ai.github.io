@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-02-08: Published technical note: [tests-not-silver-bullet-resilience-first-observability](notes/tests-not-silver-bullet-resilience-first-observability/). In AI-assisted, high-velocity codebases, tests stay necessary but cannot be the primary safety system; survivability comes from observability, constraints, and recovery.
+  - *Warnings*: Publish with caution — operational complexity and "more instrumentation" can compete with feature velocity; risk of over-engineering guardrails for non-critical paths.
+
 - 2026-02-01: Published technical note: [agency-vs-privilege-high-agency-agents-infrastructure](notes/agency-vs-privilege-high-agency-agents-infrastructure/). An operator-focused case for separating an agent’s autonomy from its permissions and secrets to limit blast radius under prompt injection and model variability.
   - *Warnings*: Publish with caution — scope boundaries around "low privilege" prerequisites; risk of over-generalization. Low: minor nav consistency difference (#about vs /#about). Low: external link durability (https://www.moltbook.com/heartbeat.md).
 

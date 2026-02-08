@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-02-01T14:34:09Z</lastmod>
+    <lastmod>2026-02-08T17:45:26Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -10,11 +10,11 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-02-01T14:34:09Z</lastmod>
+    <lastmod>2026-02-08T17:45:26Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
-    <lastmod>2026-02-01T14:34:09Z</lastmod>
+    <lastmod>2026-02-01T15:20:57Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agent-execution-contracts/</loc>
@@ -71,6 +71,10 @@
   <url>
     <loc>https://rmax.ai/notes/personal-software-factory/</loc>
     <lastmod>2026-01-26T01:02:43Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/tests-not-silver-bullet-resilience-first-observability/</loc>
+    <lastmod>2026-02-08T17:43:53Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/the-software-replacement-age/</loc>
