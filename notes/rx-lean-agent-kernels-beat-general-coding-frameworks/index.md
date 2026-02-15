@@ -68,6 +68,15 @@ A microkernel agent keeps the kernel small and makes everything else a replaceab
 +--------------------------+
 ```
 
+### Example: goal → result
+Here’s a concrete illustration of how a lean kernel treats the loop as the product:
+
+**Goal definition (input):**
+![Example goal: add a help command](rx-add-help-goal.png)
+
+**After the goal is achieved (result):**
+![Example result: help command output](rx-help-command.png)
+
 - **Kernel core**
   - Owns the autonomous loop and termination logic.
   - Dispatches tool calls and enforces explicit boundaries.
