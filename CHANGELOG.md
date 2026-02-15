@@ -58,6 +58,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 - 2026-01-19: Published technical note: [from-prompting-to-cultivation](notes/from-prompting-to-cultivation/index.md). Argues that reliability gains come from designing the agent’s environment (tools, constraints, feedback loops), not from increasingly elaborate prompts.
   - *Warnings*: High: Heavy reliance on a single external reference (“Gas Town”); paradigm-shift framing may read as overstated; examples are illustrative rather than documented case studies; the term “cultivation” could be misinterpreted. Medium: External reference availability was not network-verified.
 
+- 2026-02-15: Published technical note: [rx-lean-agent-kernels-beat-general-coding-frameworks](notes/rx-lean-agent-kernels-beat-general-coding-frameworks/). Introduces `rx`, a microkernel-style agent architecture with an explicit control loop, narrow tool contracts, append-only event state, and replaceable transport for predictable cost and behavior.
+  - *Warnings*: Publish with caution — determinism framing risk (could be misread as true determinism), premature optimization risk, authority model misreading risk, operational misuse risk. Release with followups — note not linked from /notes/ yet (orphan risk), canonical URL not present in sitemap.xml yet (SEO discoverability), analytics/CTA scripts may be blocked but content should still render.
+
 ---
 
 ---
