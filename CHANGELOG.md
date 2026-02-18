@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-02-18: Published technical note: [harness-new-model-agent-systems-2026](notes/harness-new-model-agent-systems-2026/). Argues that agent reliability is primarily improved by harness engineering (constraints, tooling, feedback, and evaluation), not bigger models alone.
+  - *Warnings*: Publish with caution — benchmark references can drift; avoid reading “determinism” as a literal guarantee; some framing is necessarily directional and may over-generalize across domains.
+
 - 2026-02-08: Published technical note: [tests-not-silver-bullet-resilience-first-observability](notes/tests-not-silver-bullet-resilience-first-observability/). In AI-assisted, high-velocity codebases, tests stay necessary but cannot be the primary safety system; survivability comes from observability, constraints, and recovery.
   - *Warnings*: Publish with caution — operational complexity and "more instrumentation" can compete with feature velocity; risk of over-engineering guardrails for non-critical paths.
 
