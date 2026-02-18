@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-02-08T18:02:36Z</lastmod>
+    <lastmod>2026-02-18T22:04:39Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-02-15T22:21:56Z</lastmod>
+    <lastmod>2026-02-18T22:04:33Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -57,6 +57,10 @@
     <lastmod>2026-01-26T01:02:43Z</lastmod>
   </url>
   <url>
+    <loc>https://rmax.ai/notes/harness-new-model-agent-systems-2026/</loc>
+    <lastmod>2026-02-18T22:03:39Z</lastmod>
+  </url>
+  <url>
     <loc>https://rmax.ai/notes/human-loop-orientation/</loc>
     <lastmod>2026-01-26T01:02:43Z</lastmod>
   </url>
@@ -74,7 +78,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/rx-lean-agent-kernels-beat-general-coding-frameworks/</loc>
-    <lastmod>2026-02-15T22:21:34Z</lastmod>
+    <lastmod>2026-02-15T22:31:51Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/tests-not-silver-bullet-resilience-first-observability/</loc>
