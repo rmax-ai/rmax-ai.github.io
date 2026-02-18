@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Harness Engineering Is the Primary Lever for Agent Reliability in 2025–2026 — rmax.ai</title>
+    <meta name="description" content="Why agent reliability in 2025–2026 is often driven more by harness engineering—tool gating, verification, retries, termination rules, and tracing—than by marginal base model upgrades." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/harness-new-model-agent-systems-2026/" />
+
+    <meta property="og:title" content="Harness Engineering Is the Primary Lever for Agent Reliability in 2025–2026" />
+    <meta property="og:description" content="Why agent reliability in 2025–2026 is often driven more by harness engineering—tool gating, verification, retries, termination rules, and tracing—than by marginal base model upgrades." />
+    <meta property="og:url" content="https://rmax.ai/notes/harness-new-model-agent-systems-2026/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-02-18" />
+    <meta property="article:tag" content="agents" />
+    <meta property="article:tag" content="harness" />
+    <meta property="article:tag" content="reliability" />
+    <meta property="article:tag" content="verification" />
+    <meta property="article:tag" content="observability" />
+    <meta property="article:tag" content="tooling" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/footer.css">
+    <link rel="stylesheet" href="/styles/substack-cta.css">
+    <style>
+      :root{
+        --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass:rgba(255,255,255,0.04);
+        --maxw:800px; color-scheme: dark;
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{font-family:Inter,system-ui,Arial; margin:0; background:linear-gradient(180deg,#071028 0%,#071229 60%); color:#e6eef8; -webkit-font-smoothing:antialiased; line-height:1.6}
+      .wrap{max-width:var(--maxw); margin:40px auto; padding:24px}
+      header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:64px;max-width:1100px;margin-left:auto;margin-right:auto}
+      .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+      .logo{width:44px;height:44px;border-radius:10px;object-fit:contain}
+      nav{display:flex;gap:14px;align-items:center}
+      a.navlink{color:var(--muted);text-decoration:none;font-weight:600}
+      a.cta{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+
+      h1{margin:0 0 16px;font-size:clamp(32px,5vw,52px);line-height:1.1;font-weight:800}
+      h2{margin:48px 0 16px;font-size:1.8rem;font-weight:700;color:#fff}
+      h3{margin:32px 0 12px;font-size:1.4rem;font-weight:600;color:#fff}
+      h4{margin:28px 0 10px;font-size:1.2rem;font-weight:600;color:#fff}
+      p{margin:0 0 24px;color:#cbd5e1;font-size:1.1rem}
+      ul,ol{margin:0 0 24px;padding-left:20px;color:#cbd5e1}
+      li{margin-bottom:12px}
+      hr{border:0;border-top:1px solid var(--glass);margin:48px 0}
+      blockquote{margin:32px 0;padding:16px 24px;border-left:4px solid var(--accent);background:var(--glass);border-radius:0 8px 8px 0}
+      blockquote p{margin:0;font-style:italic}
+
+      .post-meta{color:var(--muted);margin-bottom:48px;font-size:0.95rem;display:flex;gap:16px;flex-wrap:wrap}
+      .post-content{margin-top:32px}
+
+      footer{margin-top:80px;color:var(--muted);font-size:0.95rem;padding:40px 0;text-align:center;border-top:1px solid var(--glass)}
+
+      @media (max-width:600px){
+        header{flex-direction:column;align-items:flex-start}
+        .wrap{margin:20px auto}
+      }
+    </style>
+    <!-- 100% privacy-first analytics -->
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo">
+          <div>
+            <div style="font-weight:800">rMax.ai</div>
+            <div class="muted" style="font-size:0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
+          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
+          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
+          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
+          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
+          <a class="navlink" href="https://www.linkedin.com/in/rmaxespinoza/" target="_blank" rel="noopener" aria-label="LinkedIn" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="linkedin.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+          <a class="navlink" href="https://rmax.substack.com" target="_blank" rel="noopener" aria-label="Substack" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="substack.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m40.0248,10.0817v-4.5814c-.3229,0-.7411-.0004-1.6553-.0004l-28.9669.0004c-.9142,0-1.318,0-1.6553,0v4.5814c.2164,0,.7411.0005,1.6553.0005l28.9669-.0005c.9142,0,1.4122,0,1.6553,0Z"/>
+              <path d="m40.0248,18.3503v-4.5814H9.4025c-.9142,0-1.3777,0-1.6553,0v4.5814c.2646,0,.7411,0,1.6553,0h30.6223Z"/>
+              <path d="m40.2557,42.4999v-20.1821c0-.1633-.9724-.1077-1.8866-.1077H9.4022c-.9142,0-1.6553-.0555-1.6553.1077v19.8878c.2814-.1622,15.3415-8.2118,16.1691-8.5978.5156.2972,13.6461,7.3385,16.3406,8.8914l-.0008.0007Z"/>
+            </svg>
+          </a>
+          <a class="navlink" href="https://x.com/rmaxdev" target="_blank" rel="noopener" aria-label="X" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="x.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191-.008zM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447z"></path></svg>
+          </a>
+          <a class="navlink" href="https://github.com/rmax-ai" target="_blank" rel="noopener" aria-label="GitHub" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="github.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display:block;margin-bottom:32px">
+            <h1>Harness Engineering Is the Primary Lever for Agent Reliability in 2025–2026</h1>
+            <div class="post-meta">
+              <span>February 18, 2026</span>
+              <span>•</span>
+              <span>6–8 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <p>For teams shipping agents, performance on real tasks is increasingly determined by the <strong>harness</strong> (the runtime system around the model) rather than the model weights alone. The highest-leverage work is now in <strong>execution control</strong>: tool gating, verification, retries, termination rules, and trace-driven iteration.</p>
+
+            <p><strong>Thesis:</strong> In 2025–2026 agentic systems, <em>marginal</em> reliability and benchmark gains often come more from <strong>harness improvements</strong> (execution policy, validation, observability) than from switching to a slightly better base model—because frontier models are powerful but inconsistent, and production outcomes depend on converting occasional “good bursts” into controlled, repeatable action.</p>
+
+            <h2>Context</h2>
+
+            <p>From 2023 through much of 2024, it was reasonable to treat model upgrades as the dominant driver of agent performance (better reasoning, longer context, better instruction following). In 2025–2026, many teams building agents run into a different constraint: <strong>models are strong but spiky</strong>, while end-to-end benchmarks and production incidents punish inconsistency.</p>
+
+            <p>At the same time, agent use is shifting from human-paced chat to autonomous loops that:</p>
+
+            <ul>
+              <li>amplify token usage (often by an order of magnitude or more),</li>
+              <li>introduce safety and governance requirements (tool permissions, iteration caps, policy enforcement),</li>
+              <li>require observability (traces, artifacts, run logs) to debug failures and improve the system.</li>
+            </ul>
+
+            <p>In this environment, “better model” is only one input. The harness often determines whether the system is operable.</p>
+
+            <h2>Mechanism: model as stochastic actor, harness as deterministic executive</h2>
+
+            <p>A useful mental model is to treat the model as a stochastic planner/actor and the harness as the deterministic executive layer.</p>
+
+            <h3>Model behavior is bursty</h3>
+
+            <ul>
+              <li>Strong reasoning can appear for a few steps, then degrade.</li>
+              <li>Common failure patterns include premature termination, tool misuse, unbounded looping, and brittle adherence to ambiguous instructions.</li>
+            </ul>
+
+            <h3>The harness “smooths” model output into controlled action</h3>
+
+            <p>A practical harness typically includes:</p>
+
+            <ol>
+              <li>
+                <strong>Loop controller</strong>
+                <ul>
+                  <li>Sets iteration budgets and stop conditions.</li>
+                  <li>Prevents infinite retries and “death spirals.”</li>
+                  <li>Enforces structured termination (e.g., “must pass validation before final answer”).</li>
+                </ul>
+              </li>
+              <li>
+                <strong>Tool gateway</strong>
+                <ul>
+                  <li>Defines what tools exist, what arguments are allowed, and what outputs are acceptable.</li>
+                  <li>Applies least privilege (deny-by-default) and capability shaping (e.g., “can read tests, but not edit production configs”).</li>
+                </ul>
+              </li>
+              <li>
+                <strong>Verifier</strong>
+                <ul>
+                  <li>Runs checks the model is unreliable at doing “in its head”: tests, linters, typechecks, build steps, invariants, schema validation, or “did we actually answer the question?”</li>
+                  <li>Converts subjective “seems right” into objective pass/fail signals.</li>
+                </ul>
+              </li>
+              <li>
+                <strong>Retry policy</strong>
+                <ul>
+                  <li>Distinguishes transient failures (timeouts, flaky I/O) from deterministic failures (wrong API usage, failing tests).</li>
+                  <li>Uses structured retries (bounded attempts, small deltas, alternative strategies) rather than “try again harder.”</li>
+                </ul>
+              </li>
+              <li>
+                <strong>Tracing &amp; artifacts</strong>
+                <ul>
+                  <li>Captures tool calls, decisions, intermediate files, and outcomes.</li>
+                  <li>Makes failures diagnosable and improvements measurable.</li>
+                </ul>
+              </li>
+            </ol>
+
+            <p>In short: the harness turns tokens into an <strong>execution policy</strong> with guardrails.</p>
+
+            <h2>Concrete examples</h2>
+
+            <h3>Example 1: Benchmark gains without a model change</h3>
+
+            <p>A concrete data point from coding-agent work on Terminal Bench 2.0: a system improved from roughly <strong>52.8 to 66.5</strong> (deepagents-cli) <strong>without changing the base model</strong>. The improvement came from harness engineering: self-verification, tracing, better retry logic, structured termination rules, and disciplined tool usage.</p>
+
+            <p>Operational interpretation: when the same model is run under a more constrained and better-instrumented execution policy, measured capability can increase materially.</p>
+
+            <h3>Example 2: Why consumer “subscription access” is often restricted in custom harnesses</h3>
+
+            <p>It’s tempting to frame restrictions on using consumer subscriptions inside custom harnesses as purely competitive behavior. In practice, there are structural reasons that show up repeatedly:</p>
+
+            <ul>
+              <li><strong>Economics:</strong> consumer subscriptions are priced for human-paced interaction. Autonomous loops can multiply usage by <strong>10–100×</strong>, which breaks flat-rate pricing. Usage-based API pricing aligns cost with intensity.</li>
+              <li><strong>Governance and safety:</strong> official CLIs/IDEs can enforce tool permissions, iteration caps, telemetry, and policy controls. A custom harness can remove these constraints, increasing risk and reducing comparability across runs.</li>
+              <li><strong>Product strategy:</strong> if a vendor wants to improve agent runtimes, they need clean telemetry and consistent execution policies. Unstructured external harnesses fragment signal and make optimization opaque.</li>
+            </ul>
+
+            <p>This does not imply malice. It implies that “agent runtime” is becoming a governed product surface.</p>
+
+            <h2>Trade-offs &amp; failure modes</h2>
+
+            <p>Harness-first engineering has real costs and sharp edges:</p>
+
+            <ul>
+              <li><strong>Latency and cost overhead:</strong> verification and retries add time and tokens; poorly designed policies can double runtime for marginal gains.</li>
+              <li><strong>Over-constraint:</strong> tight tool gating or aggressive stop conditions can block legitimate solutions and reduce adaptability on novel tasks.</li>
+              <li><strong>Verifier brittleness:</strong> if your checks are wrong (or incomplete), the system can become consistently wrong.</li>
+              <li><strong>Harness complexity:</strong> the harness becomes a software system with its own bugs, regressions, and versioning challenges.</li>
+              <li><strong>Metric gaming:</strong> optimizing to a benchmark harness can overfit behaviors that do not transfer to production workloads.</li>
+              <li><strong>Observability/privacy tension:</strong> richer traces help iteration but increase sensitive data handling risk.</li>
+            </ul>
+
+            <p>This approach does not attempt to solve “general intelligence.” It aims to make agent behavior <strong>operationally predictable</strong> in bounded domains.</p>
+
+            <h2>Practical takeaways (operator-facing)</h2>
+
+            <ul>
+              <li><strong>Treat the harness as production code.</strong> Version it, test it, and give it explicit invariants (budgets, stop conditions, allowed tools).</li>
+              <li><strong>Add verification early, not last.</strong> Make “pass checks before completion” a hard rule for tasks where correctness matters.</li>
+              <li><strong>Implement structured retries.</strong> Classify failures, bound attempts, and require a changed plan between retries.</li>
+              <li><strong>Shape tool affordances.</strong> Expose fewer tools with stricter schemas; do not rely on the model to “use power responsibly.”</li>
+              <li><strong>Instrument what you want to improve.</strong> If you cannot replay failures and compare runs, you cannot iterate on the harness reliably.</li>
+            </ul>
+
+            <h2>Positioning (what this note is and is not)</h2>
+
+            <ul>
+              <li><strong>Not academic research:</strong> it does not propose new learning algorithms or theoretical guarantees; it focuses on execution control and measurable outcomes.</li>
+              <li><strong>Not blog opinion:</strong> claims are tied to operational mechanisms (verification, tool gating, tracing) and observable effects (benchmarks, reliability, cost envelopes).</li>
+              <li><strong>Not vendor documentation:</strong> the goal is portability—principles that can hold across CLIs, IDE agents, and agent runtimes, independent of any single provider.</li>
+            </ul>
+
+            <h2>Status &amp; scope disclaimer</h2>
+
+            <p>This note reflects <strong>personal lab work and operator experience</strong> in the 2025–2026 tool landscape. Some points are supported by observed benchmark movement (including the Terminal Bench example above). Other claims—especially about governance and product incentives—should be read as <strong>pragmatic explanations</strong> that fit repeated patterns, not authoritative statements about any one vendor’s intent.</p>
+
+            <p>The scope is deliberately narrow: improving agent reliability via harness design, not advancing model capability via training.</p>
+
+            <blockquote>
+              <p>“The future is already here — it’s just not evenly distributed.” – William Gibson</p>
+            </blockquote>
+
+            <h2>References</h2>
+
+            <ul>
+              <li><a href="https://openai.com/index/harness-engineering/">https://openai.com/index/harness-engineering/</a> — OpenAI’s framing of harness engineering as a reliability lever (tooling, evals, and execution control around models).</li>
+              <li><a href="https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html">https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html</a> — Martin Fowler on harness engineering patterns and why “surrounding system” design often dominates outcomes.</li>
+              <li><a href="https://blog.langchain.com/improving-deep-agents-with-harness-engineering/">https://blog.langchain.com/improving-deep-agents-with-harness-engineering/</a> — LangChain write-up of deepagents-cli improvements on Terminal Bench driven by harness changes (verification, retries, instrumentation), not a model swap.</li>
+              <li><a href="https://arxiv.org/abs/2303.11366">https://arxiv.org/abs/2303.11366</a> — <em>Reflexion</em>: agents that use feedback signals to iteratively improve behavior across attempts.</li>
+              <li><a href="https://arxiv.org/abs/2303.17651">https://arxiv.org/abs/2303.17651</a> — <em>Self-Refine</em>: iterative self-feedback/refinement loops as a mechanism for improving outputs without changing weights.</li>
+              <li><a href="https://arxiv.org/abs/2210.03629">https://arxiv.org/abs/2210.03629</a> — <em>ReAct</em>: combining reasoning and acting, motivating tool-use traces and structured interaction loops.</li>
+              <li><a href="https://terminalbench.ai/">https://terminalbench.ai/</a> — Terminal Bench: end-to-end benchmark that makes harness design (tooling + verification) show up directly in measured performance.</li>
+              <li><a href="https://www.swebench.com/">https://www.swebench.com/</a> — SWE-bench: software engineering benchmark emphasizing correctness on real repos and the value of verifiers/tests.</li>
+              <li><a href="https://huggingface.co/spaces/gaia-benchmark/leaderboard">https://huggingface.co/spaces/gaia-benchmark/leaderboard</a> — GAIA leaderboard: another lens on agent task performance where execution scaffolding can dominate.</li>
+              <li><a href="https://openai.com/pricing">https://openai.com/pricing</a> — OpenAI pricing context for why autonomous loops change cost envelopes and why governance/telemetry matter.</li>
+              <li><a href="https://www.anthropic.com/pricing">https://www.anthropic.com/pricing</a> — Anthropic pricing context for the same economic pressures in agent runtimes.</li>
+              <li><a href="https://arxiv.org/abs/2303.08774">https://arxiv.org/abs/2303.08774</a> — GPT-4 Technical Report: background on frontier-model capabilities/limits that helps explain “strong but spiky” behavior under autonomy.</li>
+            </ul>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+
+      <script src="/scripts/analytics-tracking.js"></script>
+      <script src="/scripts/substack-cta.js"></script>
+
+      <script>
+        window.footerThoughts = [
+          { text: "I turn stochastic bursts into repeatable work with budgets, gates, and verifiers.", agent: "Harness Agent" },
+          { text: "I trust models less than invariants; tests and traces decide what ships.", agent: "Verifier Agent" },
+          { text: "I treat retries as policy, not hope: bounded attempts, changed plans, measured outcomes.", agent: "Policy Agent" }
+        ];
+      </script>
+      <script src="/scripts/footer.js"></script>
+    </div>
+  </body>
+</html>
