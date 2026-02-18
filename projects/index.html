@@ -95,6 +95,39 @@
           <p class="muted">Infrastructure and tools for the agentic era.</p>
 
           <div class="project-list">
+            <!-- rx -->
+            <div class="project-card">
+              <div class="project-title">
+                <a href="https://github.com/rmax-ai/rx?tab=readme-ov-file#rx" target="_blank" rel="noopener">rx</a>
+              </div>
+              <p class="project-tagline">Minimal autonomous systems agent with a microkernel architecture</p>
+              <p class="muted">rx is a goal-directed execution engine capable of modifying files, running commands, invoking tools, and operating locally or in distributed mode. It is not a chatbot: the kernel owns reasoning and iteration, tools own side effects, state is append-only, and transport is replaceable.</p>
+
+              <div class="features">
+                <div class="feature-item">
+                  <span class="feature-name">Kernel Decides</span>
+                  <span class="feature-desc">Executes the autonomous loop, dispatches tool calls, enforces iteration limits, and evaluates termination.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Tools Act</span>
+                  <span class="feature-desc">Filesystem, shell, and networking side effects live in the tool runtime, not the kernel.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">State Persists</span>
+                  <span class="feature-desc">Structured events are persisted append-only (memory today, sqlite next), enabling replay and auditability.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Transport Delivers</span>
+                  <span class="feature-desc">CLI, HTTP, and workers are interchangeable front-ends; transport can evolve without kernel bloat.</span>
+                </div>
+              </div>
+
+              <div class="project-links">
+                <a href="https://github.com/rmax-ai/rx?tab=readme-ov-file#rx" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="rx">GitHub</a>
+                <a href="/notes/rx-lean-agent-kernels-beat-general-coding-frameworks/" class="btn btn-outline" data-simple-event="click_project_external" data-simple-project-id="rx">Read Note</a>
+              </div>
+            </div>
+
             <!-- Ratelord -->
             <div class="project-card">
               <div class="project-title">
