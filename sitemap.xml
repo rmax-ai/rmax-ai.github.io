@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-02-18T22:04:39Z</lastmod>
+    <lastmod>2026-03-01T20:10:01Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-02-18T22:04:33Z</lastmod>
+    <lastmod>2026-03-01T20:10:06Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -23,6 +23,10 @@
   <url>
     <loc>https://rmax.ai/notes/agent-first-software-engineering/</loc>
     <lastmod>2026-01-26T01:02:43Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/agent-oriented-clis-teach-themselves/</loc>
+    <lastmod>2026-03-01T19:54:35Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/ai-native-engineering/</loc>
@@ -98,7 +102,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/projects/</loc>
-    <lastmod>2026-01-26T21:02:43Z</lastmod>
+    <lastmod>2026-02-23T19:16:51Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/research/</loc>

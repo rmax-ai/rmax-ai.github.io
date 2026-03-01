@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-03-01: Published technical note: [agent-oriented-clis-teach-themselves](notes/agent-oriented-clis-teach-themselves/). A guide to agent-oriented CLIs: versioned command contracts, safe validate/plan/apply, deterministic JSON outputs, stable error codes, and replayable provenance.
+  - *Warnings*: Publish with caution — examples are illustrative (not tied to a specific vendor CLI); contract drift between schemas and backend behavior can cause confident failures; Mermaid diagram renders as a code block in HTML unless a renderer is added.
+
 - 2026-02-18: Published technical note: [harness-new-model-agent-systems-2026](notes/harness-new-model-agent-systems-2026/). Argues that agent reliability is primarily improved by harness engineering (constraints, tooling, feedback, and evaluation), not bigger models alone.
   - *Warnings*: Publish with caution — benchmark references can drift; avoid reading “determinism” as a literal guarantee; some framing is necessarily directional and may over-generalize across domains.
 

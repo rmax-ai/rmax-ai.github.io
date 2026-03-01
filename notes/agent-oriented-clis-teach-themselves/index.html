@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Designing Agent-Oriented CLIs That Teach Themselves — rmax.ai</title>
+    <meta name="description" content="A guide to agent-oriented CLIs: versioned command contracts, safe validate/plan/apply, deterministic JSON outputs, stable error codes, and replayable provenance." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/footer.css">
+    <link rel="stylesheet" href="/styles/substack-cta.css">
+    <style>
+      :root{
+        --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass:rgba(255,255,255,0.04);
+        --maxw:800px; color-scheme: dark;
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{font-family:Inter,system-ui,Arial; margin:0; background:linear-gradient(180deg,#071028 0%,#071229 60%); color:#e6eef8; -webkit-font-smoothing:antialiased; line-height:1.6}
+      .wrap{max-width:var(--maxw); margin:40px auto; padding:24px}
+      header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:64px;max-width:1100px;margin-left:auto;margin-right:auto}
+      .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+      .logo{width:44px;height:44px;border-radius:10px;object-fit:contain}
+      nav{display:flex;gap:14px;align-items:center}
+      a.navlink{color:var(--muted);text-decoration:none;font-weight:600}
+      a.cta{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+
+      h1{margin:0 0 16px;font-size:clamp(32px,5vw,52px);line-height:1.1;font-weight:800}
+      h2{margin:48px 0 16px;font-size:1.8rem;font-weight:700;color:#fff}
+      h3{margin:32px 0 12px;font-size:1.4rem;font-weight:600;color:#fff}
+      p{margin:0 0 24px;color:#cbd5e1;font-size:1.1rem}
+      ul{margin:0 0 24px;padding-left:20px;color:#cbd5e1}
+      li{margin-bottom:12px}
+      hr{border:0;border-top:1px solid var(--glass);margin:48px 0}
+      blockquote{margin:32px 0;padding:16px 24px;border-left:4px solid var(--accent);background:var(--glass);border-radius:0 8px 8px 0}
+      blockquote p{margin:0;font-style:italic}
+
+      .post-meta{color:var(--muted);margin-bottom:48px;font-size:0.95rem;display:flex;gap:16px;flex-wrap:wrap}
+      .post-content{margin-top:32px}
+
+      footer{margin-top:80px;color:var(--muted);font-size:0.95rem;padding:40px 0;text-align:center;border-top:1px solid var(--glass)}
+
+      @media (max-width:600px){
+        header{flex-direction:column;align-items:flex-start}
+        .wrap{margin:20px auto}
+      }
+    </style>
+    <!-- 100% privacy-first analytics -->
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo">
+          <div>
+            <div style="font-weight:800">rMax.ai</div>
+            <div class="muted" style="font-size:0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
+          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
+          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
+          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
+          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
+          <a class="navlink" href="https://www.linkedin.com/in/rmaxespinoza/" target="_blank" rel="noopener" aria-label="LinkedIn" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="linkedin.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+          <a class="navlink" href="https://rmax.substack.com" target="_blank" rel="noopener" aria-label="Substack" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="substack.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m40.0248,10.0817v-4.5814c-.3229,0-.7411-.0004-1.6553-.0004l-28.9669.0004c-.9142,0-1.318,0-1.6553,0v4.5814c.2164,0,.7411.0005,1.6553.0005l28.9669-.0005c.9142,0,1.4122,0,1.6553,0Z"/>
+              <path d="m40.0248,18.3503v-4.5814H9.4025c-.9142,0-1.3777,0-1.6553,0v4.5814c.2646,0,.7411,0,1.6553,0h30.6223Z"/>
+              <path d="m40.2557,42.4999v-20.1821c0-.1633-.9724-.1077-1.8866-.1077H9.4022c-.9142,0-1.6553-.0555-1.6553.1077v19.8878c.2814-.1622,15.3415-8.2118,16.1691-8.5978.5156.2972,13.6461,7.3385,16.3406,8.8914l-.0008.0007Z"/>
+            </svg>
+          </a>
+          <a class="navlink" href="https://x.com/rmaxdev" target="_blank" rel="noopener" aria-label="X" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="x.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191-.008zM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447z"></path></svg>
+          </a>
+          <a class="navlink" href="https://github.com/rmax-ai" target="_blank" rel="noopener" aria-label="GitHub" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="github.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display:block;margin-bottom:32px">
+            <h1>Designing Agent-Oriented CLIs That Teach Themselves</h1>
+            <div class="post-meta">
+              <span>March 1, 2026</span>
+              <span>•</span>
+              <span>10–12 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <h2>Abstract</h2>
+            <p>Many production CLIs were designed around a human workflow: read help text, consult docs, infer hidden state, and interpret error strings. Agents can drive these CLIs, but the interaction is often brittle: scraping, guesswork, and trial-and-error against live systems.</p>
+            <p>An agent-oriented CLI treats the CLI surface as a versioned, machine-readable system: discoverable by intent, introspectable by contract, safe to probe via deterministic preflight, and replayable with provenance. The result is not “smarter parsing,” but a CLI that supports robust loops: discovery → validation → planning → execution → deterministic output extraction → bounded repair.</p>
+
+            <h2>Context</h2>
+            <p>Operational CLIs (cloud, orchestration, security) grew around a human mental model: memorize nouns and verbs, read examples, interpret errors, and infer state from side effects. Agents invert the pressure:</p>
+            <ul>
+              <li>They need <strong>structured discovery</strong>, not prose-first manuals.</li>
+              <li>They need to separate <strong>preflight</strong> from <strong>execution</strong> to avoid unsafe probing.</li>
+              <li>They need <strong>deterministic outputs</strong> for downstream steps (not regex scraping).</li>
+              <li>They need <strong>bounded repair paths</strong> that are executable (not “go read docs”).</li>
+            </ul>
+            <p>If you want agents to operate infrastructure autonomously, the CLI stops being “text I/O with side effects” and becomes a <strong>self-describing control plane</strong> with explicit safety rails.</p>
+
+            <h2>Core thesis</h2>
+            <p>Design the CLI as a <strong>contract registry + discovery engine + safety layer + provenance system</strong>.</p>
+            <p>In practice:</p>
+            <ul>
+              <li>Every command is a <strong>versioned contract</strong> with machine-readable schemas, side effects, permissions, idempotency notes, and failure modes.</li>
+              <li>The CLI provides consistent primitives (<code>find</code>, <code>meta</code>, <code>examples</code>, <code>validate</code>, <code>plan</code>, <code>apply</code>, <code>explain-error</code>, <code>replay</code>) that make agent loops reliable.</li>
+              <li>Outputs are deterministic and queryable (JSON plus stable selectors), so agents can compose actions without brittle parsing.</li>
+              <li>Errors are stable (codes) and include bounded remediation hints that can be executed and audited.</li>
+            </ul>
+
+            <h2>Mechanism / model</h2>
+            <p>An agent-oriented CLI works because it makes the CLI surface <strong>operationally inspectable</strong> and <strong>procedurally replayable</strong>.</p>
+
+            <h3>The command as a contract</h3>
+            <p>A command is not just syntax. It is a contract with:</p>
+            <ul>
+              <li><strong>Input schema</strong>: flags, types, constraints, defaults, examples.</li>
+              <li><strong>Execution semantics</strong>: side effects, idempotency, eventual consistency notes.</li>
+              <li><strong>Auth/context requirements</strong>: scopes/roles, required context keys, tenancy.</li>
+              <li><strong>Output schema</strong>: stable fields, IDs, and query paths.</li>
+              <li><strong>Failure schema</strong>: stable error codes, typed details, suggested fixes.</li>
+            </ul>
+
+            <h3>The loop: discover → preflight → execute → extract → learn → repair</h3>
+            <div class="mermaid">flowchart TB
+  I[Intent / Goal] --&gt; F[find: intent→candidates]
+  F --&gt; M[meta/examples: contract &amp; tested patterns]
+  M --&gt; V[validate: static checks + auth/context preflight]
+  V --&gt; P[plan: diff/preview + risk metadata]
+  P --&gt; A[apply: execution + ledger entry]
+  A --&gt; O[deterministic output: JSON + query]
+  O --&gt; N[next step composition]
+  A --&gt; E{error?}
+  E -- yes --&gt; X[explain-error: code→causes+fixes]
+  X --&gt; R[repair: bounded fix commands]
+  R --&gt; Y[replay: prior command]
+  E -- no --&gt; N
+            </div>
+
+            <h3>Deterministic output extraction is first-class</h3>
+            <p>The CLI should support:</p>
+            <ul>
+              <li><code>--format json</code> (or equivalent) everywhere.</li>
+              <li>A stable query mechanism (<code>--query &lt;path&gt;</code> or a JSONPath-like selector).</li>
+              <li>Explicit “primary identifiers” (resource IDs) that are guaranteed present on success.</li>
+            </ul>
+            <p>This is what enables agents to chain steps without ad-hoc parsing.</p>
+
+            <h3>Provenance via an execution ledger</h3>
+            <p>To make autonomy auditable and repairable, the CLI should maintain an append-only ledger of:</p>
+            <ul>
+              <li>The resolved command contract version</li>
+              <li>Inputs (after defaults), normalized</li>
+              <li>Context snapshot references (not secrets)</li>
+              <li>Plan summary / diff</li>
+              <li>Output summary (IDs)</li>
+              <li>Error codes and remediation steps attempted</li>
+            </ul>
+            <p>The ledger enables <code>replay</code>, supports incident review, and helps prevent “silent drift” in agent behavior.</p>
+
+            <h2>Concrete examples</h2>
+
+            <h3>Example 1 — Provision a VM with HTTPS exposed and return the public IP</h3>
+            <p><strong>Goal</strong>: “Create a VM, open port 443, tag it, and return the public IP.”</p>
+
+            <h4>Discovery</h4>
+            <p>The agent starts with intent search rather than guessing nouns:</p>
+            <ul>
+              <li><code>cloudctl find "create vm https open 443"</code>
+                <ul>
+                  <li>Returns ranked candidates (e.g., <code>compute vm create</code>, <code>network firewall rule create</code>) with brief machine-readable reasoning (matched intents, required permissions, side effects category).</li>
+                </ul>
+              </li>
+            </ul>
+
+            <p>Then it introspects the top candidate:</p>
+            <ul>
+              <li><code>cloudctl meta compute vm create --json</code>
+                <ul>
+                  <li>Required flags, accepted values, defaults</li>
+                  <li>Declared side effects (creates VM, allocates NIC, may allocate public IP)</li>
+                  <li>Required scopes/roles and required context keys (subscription/project, region)</li>
+                  <li>Idempotency notes (name uniqueness, retry behavior)</li>
+                  <li>Output schema (resource ID, public IP field presence rules)</li>
+                  <li>Failure codes (quota exceeded, auth scope missing, invalid image, region unavailable)</li>
+                </ul>
+              </li>
+            </ul>
+
+            <p>Optionally, it pulls executable, version-tested examples:</p>
+            <ul>
+              <li><code>cloudctl examples compute vm create --tag https</code></li>
+            </ul>
+
+            <h4>Validation / plan / apply</h4>
+            <p>Preflight (no side effects):</p>
+            <ul>
+              <li><code>cloudctl validate compute vm create --name web-1 --image ubuntu-22 --size s2 --tags env=dev,app=web --expose 443/tcp</code></li>
+            </ul>
+
+            <p>Preview a stable plan:</p>
+            <ul>
+              <li><code>cloudctl plan compute vm create --name web-1 --image ubuntu-22 --size s2 --tags env=dev,app=web --expose 443/tcp --format json</code>
+                <ul>
+                  <li>Produces a diff-like plan (resources to create/modify), risk metadata (public exposure), and expected identifiers.</li>
+                </ul>
+              </li>
+            </ul>
+
+            <p>Execute with deterministic output:</p>
+            <ul>
+              <li><code>cloudctl apply compute vm create --name web-1 --image ubuntu-22 --size s2 --tags env=dev,app=web --expose 443/tcp --format json</code></li>
+            </ul>
+
+            <h4>Deterministic output extraction</h4>
+            <p>Instead of scraping human output, the agent extracts the IP by a declared query path:</p>
+            <ul>
+              <li><code>cloudctl compute vm show --name web-1 --format json --query publicIp</code></li>
+            </ul>
+
+            <p>If the contract states <code>publicIp</code> may be delayed (eventual consistency), the CLI can provide a bounded wait primitive (or the agent can implement bounded polling) using the same schema:</p>
+            <ul>
+              <li><code>cloudctl compute vm show --name web-1 --format json --query provisioningState</code></li>
+              <li><code>cloudctl compute vm show --name web-1 --format json --query publicIp</code></li>
+            </ul>
+
+            <h4>What the agent learns</h4>
+            <ul>
+              <li>The intent phrase “https open 443” maps to <strong>two contracts</strong>: VM provisioning and exposure/firewall configuration; the CLI’s ranking and meta reduce guesswork.</li>
+              <li>The contract’s output guarantees tell the agent whether <code>publicIp</code> is immediate, delayed, or absent unless an “allocate public IP” flag is set.</li>
+              <li>The plan output provides a reusable template (inputs + expected outputs) for future runs and for replay/audit.</li>
+            </ul>
+
+            <hr />
+
+            <h3>Example 2 — Automatic repair after an auth failure</h3>
+            <p><strong>Goal</strong>: Execute a command; repair deterministically if it fails.</p>
+
+            <h4>Discovery</h4>
+            <p>The agent attempts the obvious command, but the CLI is designed to teach through structured failure:</p>
+            <ul>
+              <li><code>cloudctl storage bucket create --name rmax-logs</code></li>
+            </ul>
+
+            <h4>Validation / plan / apply</h4>
+            <p>A more agent-safe pattern is to preflight first:</p>
+            <ul>
+              <li><code>cloudctl validate storage bucket create --name rmax-logs</code>
+                <ul>
+                  <li>Checks naming rules, required context, and auth scopes without creating anything.</li>
+                </ul>
+              </li>
+            </ul>
+
+            <p>If <code>validate</code> is skipped or still insufficient (because auth is evaluated at execution), the execution returns a structured error payload:</p>
+            <ul>
+              <li><code>error.code = AUTH_SCOPE_MISSING</code></li>
+              <li><code>error.details = { missingScopes: ["storage.write"], currentScopes: ["compute.read"], context: { subscription: null } }</code></li>
+              <li><code>error.fixes = [</code>
+                <ul>
+                  <li><code>{ cmd: "cloudctl auth login --scope storage.write", effect: "adds scope", risk: "interactive" }</code></li>
+                  <li><code>{ cmd: "cloudctl context set --subscription &lt;id&gt;", effect: "sets required context", risk: "low" }</code></li>
+                </ul>
+              </li>
+              <li><code>]</code></li>
+            </ul>
+
+            <p>The agent asks for expanded explanation in machine-readable form:</p>
+            <ul>
+              <li><code>cloudctl explain-error AUTH_SCOPE_MISSING --format json</code>
+                <ul>
+                  <li>Provides root causes, required preconditions, and fix ordering constraints.</li>
+                </ul>
+              </li>
+            </ul>
+
+            <p>The agent applies the first bounded remediation step (subject to policy):</p>
+            <ul>
+              <li><code>cloudctl auth login --scope storage.write</code></li>
+            </ul>
+
+            <p>Then it replays the prior command verbatim from the ledger:</p>
+            <ul>
+              <li><code>cloudctl replay last</code></li>
+            </ul>
+
+            <h4>Deterministic output extraction</h4>
+            <p>On success, the agent extracts the canonical bucket identifier:</p>
+            <ul>
+              <li><code>cloudctl storage bucket show --name rmax-logs --format json --query id</code></li>
+            </ul>
+
+            <p>Because replay is ledger-backed, the agent can also extract the result directly:</p>
+            <ul>
+              <li><code>cloudctl ledger last --format json --query output.resourceId</code></li>
+            </ul>
+
+            <h4>What the agent learns</h4>
+            <ul>
+              <li>“Auth failed” is not a string; it is a <strong>stable error code</strong> with typed details and bounded fix commands.</li>
+              <li>Remediation is composable: the agent can attempt the least risky fix first (set context), then escalate (interactive login), while staying within policy.</li>
+              <li>Replay reduces drift: the repaired run is the same contract invocation, not a retyped approximation.</li>
+            </ul>
+
+            <hr />
+
+            <h3>Example 3 — Rotate an API key without knowing the product surface</h3>
+            <p><strong>Goal</strong>: “Rotate API key for service X.”</p>
+
+            <h4>Discovery</h4>
+            <p>The agent does not know where key rotation lives:</p>
+            <ul>
+              <li><code>cloudctl find "rotate api key service principal"</code>
+                <ul>
+                  <li>Returns candidates across IAM, service config, and secrets systems.</li>
+                </ul>
+              </li>
+            </ul>
+
+            <p>Choose a likely contract and introspect it:</p>
+            <ul>
+              <li><code>cloudctl meta iam key rotate --json</code>
+                <ul>
+                  <li>Inputs: principal identifier, rotation mode, disable-old schedule, propagation notes</li>
+                  <li>Side effects: creates new credential material, updates binding, schedules revocation</li>
+                  <li>Output schema: newKeyId, oldKeyId, effectiveAt, revokesAt</li>
+                  <li>Failure codes: principal not found, policy denies rotation, propagation incomplete</li>
+                </ul>
+              </li>
+            </ul>
+
+            <p>Pull a tested example:</p>
+            <ul>
+              <li><code>cloudctl examples iam key rotate --principal svc-x</code></li>
+            </ul>
+
+            <h4>Validation / plan / apply</h4>
+            <p>Preflight:</p>
+            <ul>
+              <li><code>cloudctl validate iam key rotate --principal svc-x --disable-old-in 24h</code></li>
+            </ul>
+
+            <p>Plan:</p>
+            <ul>
+              <li><code>cloudctl plan iam key rotate --principal svc-x --disable-old-in 24h --format json</code>
+                <ul>
+                  <li>Shows the rotation timeline and expected affected systems.</li>
+                </ul>
+              </li>
+            </ul>
+
+            <p>Apply:</p>
+            <ul>
+              <li><code>cloudctl apply iam key rotate --principal svc-x --disable-old-in 24h --format json</code></li>
+            </ul>
+
+            <h4>Deterministic output extraction</h4>
+            <p>Extract the new key identifier deterministically:</p>
+            <ul>
+              <li><code>cloudctl ledger last --format json --query output.newKeyId</code></li>
+            </ul>
+
+            <p>Then verify downstream usage with a contract that declares how to check deployments:</p>
+            <ul>
+              <li><code>cloudctl validate service deploy --name svc-x --uses-key &lt;newKeyId&gt;</code></li>
+            </ul>
+
+            <p>If verification fails due to drift, the error returns structured remediation:</p>
+            <ul>
+              <li><code>error.code = CONFIG_DRIFT</code></li>
+              <li><code>error.details = { expectedKeyId: "&lt;newKeyId&gt;", observedKeyId: "&lt;oldKeyId&gt;", locations: ["env:SVC_X_KEY_ID", "secret:svc-x/api-key"] }</code></li>
+              <li><code>error.fixes = [</code>
+                <ul>
+                  <li><code>{ cmd: "cloudctl service config set --name svc-x --key-id &lt;newKeyId&gt;" }</code></li>
+                  <li><code>{ cmd: "cloudctl secrets rotate-binding --service svc-x --key-id &lt;newKeyId&gt;" }</code></li>
+                </ul>
+              </li>
+              <li><code>]</code></li>
+            </ul>
+
+            <p>The agent chooses fixes based on policy (which systems it is allowed to modify) and re-validates.</p>
+
+            <h4>What the agent learns</h4>
+            <ul>
+              <li>“Rotate key” is often a multi-system operation; the contract captures propagation and verification expectations.</li>
+              <li>Drift is detectable and actionable because errors report where the mismatch lives and provide bounded fix commands.</li>
+              <li>Verification is a first-class contract, not an ad-hoc health check.</li>
+            </ul>
+
+            <h2>Trade-offs &amp; failure modes</h2>
+            <ul>
+              <li><strong>Contract maintenance cost</strong>: Versioned schemas, examples, and error catalogs must stay in sync with backend behavior. If contracts drift, agents will fail confidently.</li>
+              <li><strong>Preflight mismatch</strong>: <code>validate</code> and <code>plan</code> are only as safe as their backend checks. If preflight does not match execution semantics, agents will oscillate.</li>
+              <li><strong>Over-broad remediation hints</strong>: Executable “fixes” are powerful. Without policy scoping and risk tagging, agents may apply unsafe changes.</li>
+              <li><strong>Hidden global state</strong>: Ambient context (subscription/project), cached tokens, and mutable defaults make replay non-deterministic.</li>
+              <li><strong>Output instability</strong>: Field renames, format changes, or partial success without stable identifiers break composition.</li>
+              <li><strong>Ledger liability</strong>: Provenance logs can become a security liability if they capture secrets. Store references and redacted summaries, not raw credentials.</li>
+            </ul>
+
+            <h2>Practical takeaways</h2>
+            <ul>
+              <li>Treat each command as a <strong>versioned contract</strong> (input/output/error schemas + semantics), not just syntax.</li>
+              <li>Make <code>find</code>, <code>meta</code>, <code>examples</code>, <code>validate</code>, <code>plan</code>, <code>apply</code>, <code>explain-error</code>, and <code>replay</code> consistent across the CLI.</li>
+              <li>Require deterministic outputs everywhere: <code>--format json</code> + stable <code>--query</code> paths, with guaranteed identifiers on success.</li>
+              <li>Design errors as stable codes with typed details and bounded, policy-aware remediation hints.</li>
+              <li>Add an execution ledger early; without provenance, autonomous operation is hard to debug, audit, or trust.</li>
+            </ul>
+
+            <h2>Positioning note</h2>
+            <p>Agent-oriented CLI design does not replace SDKs, APIs, or UIs. It makes the CLI a reliable automation substrate with explicit contracts and safety primitives, suitable for both humans and agents. The differentiator is not “agents can run commands,” but that the CLI surface is intentionally structured for discovery, composition, repair, and replay.</p>
+
+            <h2>Status &amp; scope disclaimer</h2>
+            <p>This note is a personal lab artifact. It is exploratory: it proposes an interface shape and operational primitives that are feasible in well-instrumented systems, but not universally present today. Treat it as a design model to adapt to your environment, not as authoritative guidance.</p>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="rmax-footer">
+      <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+      <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+    </footer>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+
+    <script>
+      window.footerThoughts = [
+        { text: "I treat every CLI flag as a contract, not a suggestion.", agent: "Contract Agent" },
+        { text: "I preflight first—because safe probing beats brave guessing.", agent: "Preflight Agent" },
+        { text: "I log provenance so the next run can replay, not reinvent.", agent: "Ledger Agent" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
