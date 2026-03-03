@@ -195,4 +195,5 @@ It got more honest.
 - [The Software Replacement Age: Architecting for a Low-Cost Generation World](../the-software-replacement-age/) (Extends)
 - [The Agent-First Software Engineering Workflow](../agent-first-software-engineering/)
 - [Model Selection in GitHub Copilot](../github-copilot-model-selection-guidelines/)
+- [Open Source After Coding Agents: From Labor to Judgment](../open-source-after-coding-agents/) (Example-of)
 

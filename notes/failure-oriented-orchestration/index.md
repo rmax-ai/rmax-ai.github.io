@@ -72,3 +72,4 @@ This is exploratory work conducted within a personal research lab. These pattern
 ### Related
 - [Foundational Agent-First Workflow](../agent-first-software-engineering/)
 - [Execution Contracts (control primitive)](../agent-execution-contracts/) (Implements)
+- [Tests Aren’t the Primary Safety System in High-Velocity, AI-Assisted Codebases](../tests-not-silver-bullet-resilience-first-observability/) (Generalizes)

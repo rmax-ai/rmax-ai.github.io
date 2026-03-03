@@ -82,3 +82,4 @@ This is exploratory lab work from *rmax lab*. It represents a validated approach
 
 ### Related
 - [Task-level enforcement via Execution Contracts](../agent-execution-contracts/)
+- [Decoupling Agency and Privilege for High-Agency AI Agents on Real Infrastructure](../agency-vs-privilege-high-agency-agents-infrastructure/) (Generalizes)

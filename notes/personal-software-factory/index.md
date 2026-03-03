@@ -143,3 +143,7 @@ Traditional software work carries an often-invisible coordination tax: clarifyin
 A personal software factory is not “AI coding” and not “no-code.” It is production engineering scaled down to one person: composable pipelines, explicit contracts, and automation that reduces coordination cost while keeping accountability clear.
 
 This note describes a practical operating model, not a universal prescription. It assumes a single owner who can make final decisions and accept operational responsibility. It does not cover multi-team governance, regulated environments, or large-scale socio-technical coordination beyond what an individual can reasonably automate.
+
+### Related
+
+- [Personal Operating Systems and Micro-Apps](../personal-operating-systems-micro-apps/) (Implements)

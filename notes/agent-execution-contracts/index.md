@@ -80,5 +80,6 @@ This is an exploratory technical note from *rmax lab*. The patterns described ar
 ### Related
 - [Execution contracts for authority enforcement](../authority-first-agent-architecture/) (Implements)
 - [Technical enforcement for the Autonomy Ladder](../earned-agent-autonomy/) (Implements)
+- [Code as a Compilation Target: The New Assembly](../code-is-the-new-assembly/) (Extends)
 
 > “A system is defined less by what it does than by what it refuses to do.” — Stafford Beer

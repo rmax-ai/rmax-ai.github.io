@@ -142,6 +142,10 @@ Patience does not mean tolerating poor performance indefinitely; it means struct
 - Timebox exploration and require stop conditions: if not converging, return hypotheses and next experiments.
 - Treat trust as cumulative: expand autonomy only after repeated verified success in the same class of tasks.
 
+### Related
+
+- [Earned Agent Autonomy: A Governance Model for AI Systems](../earned-agent-autonomy/) (Implements)
+
 ## Diagrams
 
 ![Trust calibration loop: constraints → execution → verification → adjust autonomy → repeat](trust-calibration-loop.svg)

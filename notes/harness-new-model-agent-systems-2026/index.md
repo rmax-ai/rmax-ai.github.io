@@ -122,6 +122,13 @@ The scope is deliberately narrow: improving agent reliability via harness design
 
 > “The future is already here — it’s just not evenly distributed.” – William Gibson
 
+### Related
+
+- [Agent Execution Contracts: Unifying Specification, Testing, and Labor](../agent-execution-contracts/) (Implements)
+- [Designing Agent Workflows as Environments, Not Prompts](../from-prompting-to-cultivation/) (Implements)
+- [AI-Native Engineering: From Autocomplete to Agent Orchestration](../ai-native-engineering/) (Example-of)
+- [rx: Why Lean Agent Kernels Beat General Coding Frameworks](../rx-lean-agent-kernels-beat-general-coding-frameworks/) (Example-of)
+
 ## References
 
 - https://openai.com/index/harness-engineering/ — OpenAI’s framing of harness engineering as a reliability lever (tooling, evals, and execution control around models).

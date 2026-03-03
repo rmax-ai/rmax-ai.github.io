@@ -285,3 +285,8 @@ Agent-oriented CLI design does not replace SDKs, APIs, or UIs. It makes the CLI 
 
 ## Status & scope disclaimer
 This note is a personal lab artifact. It is exploratory: it proposes an interface shape and operational primitives that are feasible in well-instrumented systems, but not universally present today. Treat it as a design model to adapt to your environment, not as authoritative guidance.
+
+### Related
+
+- [Agent Execution Contracts: Unifying Specification, Testing, and Labor](../agent-execution-contracts/) (Implements)
+- [The Software Replacement Age: Architecting for a Low-Cost Generation World](../the-software-replacement-age/) (Implements)
