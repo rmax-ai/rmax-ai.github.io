@@ -46,6 +46,26 @@ In an AI-native lifecycle:
 Code is no longer the source of truth.
 The Intent Package is.
 
+```mermaid
+flowchart TD
+    Human["🧠 Human\nDefines Intent"] --> IntentPkg["Intent Package\n(BDD Specs · Invariants · NFRs)"]
+    IntentPkg --> MultiAgent["Multi-Agent\nCompetitive Generation"]
+    MultiAgent --> AutoRank["Auto-Ranking\n(Build · Tests · Risk Score)"]
+    AutoRank --> Breaker["Adversarial Verification\n(Breaker Agent)"]
+    Breaker -->|Fails| MultiAgent
+    Breaker -->|Passes| Perms["Scoped Permissions\n& Escalation Check"]
+    Perms -->|High-Risk| HumanReview["Human + Breaker\nSign-Off"]
+    HumanReview --> Deploy
+    Perms -->|Low-Risk| Deploy["Progressive Deploy\n(Canary → Ramp)"]
+    Deploy --> Runtime["Runtime Monitoring\n& Observation"]
+    Runtime -->|Incident| SelfHeal["Self-Healing\nRuntime Loop"]
+    SelfHeal --> IntentPkg
+
+    style Human fill:#f9f,stroke:#333,stroke-width:2px,color:black
+    style Breaker fill:#ffe6e6,stroke:#ff0000,color:black
+    style HumanReview fill:#fff5cc,stroke:#e6b800,color:black
+```
+
 ⸻
 
 1. Intent-First Specifications
@@ -105,6 +125,24 @@ Optimization signals:
 The system rewards minimal, correct change.
 
 Consensus is irrelevant. Verifiable correctness wins.
+
+```mermaid
+flowchart TD
+    Spec["Intent Package"] --> A1["Agent 1\nImplementation"]
+    Spec --> A2["Agent 2\nImplementation"]
+    Spec --> A3["Agent N\nImplementation"]
+
+    A1 --> Gate["Must-Pass Gates\n(Build · Types · Tests · Contracts)"]
+    A2 --> Gate
+    A3 --> Gate
+
+    Gate -->|Any fail| Discard["Candidate\nDiscarded"]
+    Gate -->|All pass| Rank["Auto-Ranking\n(Risk Score · Coverage · Diff Size)"]
+    Rank --> Best["✅ Best Candidate\n(Smallest Correct Diff)"]
+
+    style Best fill:#e6ffe6,stroke:#00b894,color:black
+    style Discard fill:#ffe6e6,stroke:#ff7675,color:black
+```
 
 ⸻
 
@@ -171,6 +209,27 @@ Reliability adversary:
 
 If breaker finds a reproducible failure, the change fails.
 
+```mermaid
+flowchart LR
+    Change["Code Diff\n+ Spec"] --> Breaker["Breaker Agent\n(Isolated Context)"]
+
+    Breaker --> SA["Spec Adversary\nAmbiguities · Contradictions"]
+    Breaker --> IA["Input Adversary\nFuzzing · Boundaries"]
+    Breaker --> CA["Concurrency Adversary\nRaces · Retry Storms"]
+    Breaker --> IntA["Integration Adversary\nSchema Drift · Contracts"]
+    Breaker --> SecA["Security Adversary\nAuth Bypass · Injection"]
+    Breaker --> RelA["Reliability Adversary\nChaos · Timeouts"]
+
+    SA & IA & CA & IntA & SecA & RelA --> Verdict{Verdict}
+
+    Verdict -->|"Reproducible\nFailure"| Fail["❌ Change FAILS"]
+    Verdict -->|"All Clear"| Pass["✅ Change PASSES"]
+
+    style Breaker fill:#ffe6e6,stroke:#ff0000,color:black
+    style Fail fill:#ffe6e6,stroke:#ff7675,color:black
+    style Pass fill:#e6ffe6,stroke:#00b894,color:black
+```
+
 ⸻
 
 5. Scoped Permissions and Escalation
@@ -218,6 +277,23 @@ Forward auto-fixes are constrained and audited.
 
 Self-healing does not bypass verification.
 
+```mermaid
+flowchart TD
+    Monitor["Runtime Monitors\n(Metrics · Traces · Logs)"] --> Bundle["Incident Bundle\n(Stack Trace · Request Sample\nConfig State · Repro Steps)"]
+    Bundle --> Patch["Agent: Generate\nMinimal Patch + Regression Test"]
+    Patch --> Guards["Deterministic\nGuardrails"]
+    Guards -->|Fail| Patch
+    Guards -->|Pass| Breaker["Adversarial\nVerification"]
+    Breaker -->|Fail| Patch
+    Breaker -->|Pass| Canary["Canary Deploy"]
+    Canary -->|SLO Breach| Rollback["⏪ Rollback"]
+    Canary -->|Healthy| Ramp["Progressive Ramp"]
+
+    style Bundle fill:#fff5cc,stroke:#e6b800,color:black
+    style Rollback fill:#ffe6e6,stroke:#ff7675,color:black
+    style Ramp fill:#e6ffe6,stroke:#00b894,color:black
+```
+
 ⸻
 
 7. Continuous Observation and Progressive Delivery
@@ -256,6 +332,40 @@ Permissions	Blast radius mistakes
 Runtime Monitoring	Unknown unknowns
 
 Each layer compensates for weaknesses in others.
+
+```mermaid
+flowchart LR
+    Change["Incoming\nChange"] --> L1
+
+    subgraph L1["Layer 1: Intent Spec"]
+        IS["Catches: Wrong requirements\nMissing edge cases"]
+    end
+
+    subgraph L2["Layer 2: Deterministic Guardrails"]
+        DG["Catches: Type errors\nSchema violations · Build failures"]
+    end
+
+    subgraph L3["Layer 3: Tests"]
+        TS["Catches: Behavioral defects\nRegression failures"]
+    end
+
+    subgraph L4["Layer 4: Breaker Agent"]
+        BA["Catches: Adversarial edge cases\nConcurrency · Security · Integration"]
+    end
+
+    subgraph L5["Layer 5: Permissions"]
+        PM["Catches: Blast radius mistakes\nUnauthorized scope expansion"]
+    end
+
+    subgraph L6["Layer 6: Runtime Monitoring"]
+        RM["Catches: Unknown unknowns\nProduction-only failure modes"]
+    end
+
+    L1 --> L2 --> L3 --> L4 --> L5 --> L6 --> Prod["✅ Production"]
+
+    style L4 fill:#ffe6e6,stroke:#ff0000,color:black
+    style Prod fill:#e6ffe6,stroke:#00b894,color:black
+```
 
 ⸻
 
