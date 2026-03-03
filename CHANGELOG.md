@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-03-03: Published technical note: [ai-native-sdlc-proposal](notes/ai-native-sdlc-proposal/). A blueprint for an AI-native SDLC built on intent-first specs, multi-agent competitive generation, deterministic guardrails, adversarial verification, and continuous validation.
+  - *Warnings*: Publish with caution — W1: readers without spec discipline may apply the framework to under-specified intent packages, degrading all downstream verification; W2: teams may simulate breaker isolation with shared-context agents, reducing adversarial value without realising it; W3: note is orphaned from notes/index.html (no inbound navigation link).
+
 - 2026-03-01: Published technical note: [agent-oriented-clis-teach-themselves](notes/agent-oriented-clis-teach-themselves/). A guide to agent-oriented CLIs: versioned command contracts, safe validate/plan/apply, deterministic JSON outputs, stable error codes, and replayable provenance.
   - *Warnings*: Publish with caution — examples are illustrative (not tied to a specific vendor CLI); contract drift between schemas and backend behavior can cause confident failures; Mermaid diagram renders as a code block in HTML unless a renderer is added.
 
