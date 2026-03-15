@@ -26,6 +26,9 @@ Analyzing how contemporary AI tools structure authority and constraints in syste
 ## Notes
 [View all →](/notes/)
 
+### [Building an Autonomous Development Loop on GitHub](/notes/building-an-autonomous-development-loop/)
+A technical note on running software development as a controlled GitHub production loop using issues, draft pull requests, labels, CI checks, and isolated worktrees.
+
 ### [Open Source After Coding Agents: From Labor to Judgment](/notes/open-source-after-coding-agents/)
 Why open source must shift from maximizing contribution volume to enforcing strict curation as coding agents drive the cost of code to zero.
 

@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-03-15: Published technical note: [building-an-autonomous-development-loop](notes/building-an-autonomous-development-loop/). Describes software development as a controlled GitHub production loop using issues, draft pull requests, labels, CI checks, and isolated worktrees.
+  - *Warnings*: Publish with caution — GitHub-centered, experiment-scoped workflow may still be over-read as a broadly portable operating model; key prerequisites remain implicit (strong issue hygiene, accurate dependency modeling, trustworthy CI, and human conflict-resolution capacity); do not treat the note as support for expanding automation authority around review suggestion application or merge decisions.
+
 - 2026-03-03: Published technical note: [ai-native-sdlc-proposal](notes/ai-native-sdlc-proposal/). A blueprint for an AI-native SDLC built on intent-first specs, multi-agent competitive generation, deterministic guardrails, adversarial verification, and continuous validation.
   - *Warnings*: Publish with caution — W1: readers without spec discipline may apply the framework to under-specified intent packages, degrading all downstream verification; W2: teams may simulate breaker isolation with shared-context agents, reducing adversarial value without realising it; W3: note is orphaned from notes/index.html (no inbound navigation link).
 
