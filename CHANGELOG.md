@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-03-17: Published technical note: [from-task-automation-to-goal-driven-systems](notes/from-task-automation-to-goal-driven-systems/). Examines the shift from task-level automation toward goal-driven systems coordinated by harnesses, policies, and human oversight.
+  - *Warnings*: Publish with caution — the note makes a strong architectural claim that may be read as generally applicable guidance rather than as a model that depends on organizational maturity and domain constraints; several operational prerequisites remain implied, especially observability quality, rollback capability, policy design, and human oversight; readers may over-apply the harness framing to domains where the cost of building and maintaining the harness exceeds the value of agent autonomy.
+
 - 2026-03-15: Published technical note: [building-an-autonomous-development-loop](notes/building-an-autonomous-development-loop/). Describes software development as a controlled GitHub production loop using issues, draft pull requests, labels, CI checks, and isolated worktrees.
   - *Warnings*: Publish with caution — GitHub-centered, experiment-scoped workflow may still be over-read as a broadly portable operating model; key prerequisites remain implicit (strong issue hygiene, accurate dependency modeling, trustworthy CI, and human conflict-resolution capacity); do not treat the note as support for expanding automation authority around review suggestion application or merge decisions.
 

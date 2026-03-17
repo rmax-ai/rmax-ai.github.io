@@ -26,6 +26,9 @@ Analyzing how contemporary AI tools structure authority and constraints in syste
 ## Notes
 [View all →](/notes/)
 
+### [Designing Harnesses for Goal-Driven Autonomous Agents](/notes/from-task-automation-to-goal-driven-systems/)
+A technical note arguing that goal-driven autonomous agents depend less on prompts alone and more on harnesses that expose state, constrain actions, validate changes, and verify outcomes.
+
 ### [Building an Autonomous Development Loop on GitHub](/notes/building-an-autonomous-development-loop/)
 A technical note on running software development as a controlled GitHub production loop using issues, draft pull requests, labels, CI checks, and isolated worktrees.
 
