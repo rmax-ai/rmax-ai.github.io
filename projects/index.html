@@ -96,6 +96,39 @@
 
           <div class="project-list">
 
+              <!-- Shardlake -->
+              <div class="project-card">
+                <div class="project-title">
+                  <a href="https://github.com/rmax-ai/shardlake" target="_blank" rel="noopener">Shardlake</a>
+                </div>
+                <p class="project-tagline">Decoupled vector search prototype with immutable index artifacts</p>
+                <p class="muted">Shardlake is a Rust prototype for personal-scale vector search inspired by billion-scale architectures. It separates raw embeddings from serving, builds sharded indexes offline, publishes immutable manifest-driven artifacts, and answers queries through stateless HTTP workers with lazy shard loading.</p>
+
+                <div class="features">
+                  <div class="feature-item">
+                    <span class="feature-name">Decoupled Data Plane</span>
+                    <span class="feature-desc">Raw vectors are ingested into versioned storage separately from query-serving indexes and aliases.</span>
+                  </div>
+                  <div class="feature-item">
+                    <span class="feature-name">Offline Shard Builds</span>
+                    <span class="feature-desc">K-means sharding and shard-local search produce reproducible index artifacts without coupling build time to serving time.</span>
+                  </div>
+                  <div class="feature-item">
+                    <span class="feature-name">Lazy Query Serving</span>
+                    <span class="feature-desc">Stateless HTTP workers route via persisted metadata and only load shard bodies on demand to keep memory bounded.</span>
+                  </div>
+                  <div class="feature-item">
+                    <span class="feature-name">Benchmarkable Lifecycle</span>
+                    <span class="feature-desc">Manifest publishing, aliases, and a recall and latency benchmark harness make versions easy to compare and audit.</span>
+                  </div>
+                </div>
+
+                <div class="project-links">
+                  <a href="https://github.com/rmax-ai/shardlake" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="shardlake">GitHub</a>
+                  <a href="https://github.com/rmax-ai/shardlake/blob/main/docs/getting-started.md" class="btn btn-outline" target="_blank" rel="noopener" data-simple-event="click_project_external" data-simple-project-id="shardlake">Getting Started</a>
+                </div>
+              </div>
+
             <!-- AI-First Software Engineering (Book) -->
             <div class="project-card">
               <div class="project-title">
