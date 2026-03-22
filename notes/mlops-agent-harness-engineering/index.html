@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>From MLOps to Agent Harness Engineering: Why the Model Is the Small Box and the System Is the Product — rmax.ai</title>
+    <meta name="description" content="An essay arguing that reliable agent systems depend less on the model alone and more on the surrounding harness: context assembly, tool interfaces, verification, observability, and execution control." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/mlops-agent-harness-engineering/" />
+
+    <meta property="og:title" content="From MLOps to Agent Harness Engineering: Why the Model Is the Small Box and the System Is the Product" />
+    <meta property="og:description" content="An essay arguing that reliable agent systems depend less on the model alone and more on the surrounding harness: context assembly, tool interfaces, verification, observability, and execution control." />
+    <meta property="og:url" content="https://rmax.ai/notes/mlops-agent-harness-engineering/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-03-22" />
+    <meta property="article:tag" content="agents" />
+    <meta property="article:tag" content="mlops" />
+    <meta property="article:tag" content="harness" />
+    <meta property="article:tag" content="systems-engineering" />
+    <meta property="article:tag" content="verification" />
+    <meta property="article:tag" content="observability" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/footer.css">
+    <link rel="stylesheet" href="/styles/substack-cta.css">
+    <style>
+      :root{
+        --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed; --glass:rgba(255,255,255,0.04);
+        --maxw:800px; color-scheme: dark;
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{font-family:Inter,system-ui,Arial; margin:0; background:linear-gradient(180deg,#071028 0%,#071229 60%); color:#e6eef8; -webkit-font-smoothing:antialiased; line-height:1.6}
+      .wrap{max-width:var(--maxw); margin:40px auto; padding:24px}
+      header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:64px;max-width:1100px;margin-left:auto;margin-right:auto}
+      .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+      .logo{width:44px;height:44px;border-radius:10px;object-fit:contain}
+      nav{display:flex;gap:14px;align-items:center}
+      a.navlink{color:var(--muted);text-decoration:none;font-weight:600}
+      a.cta{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+
+      h1{margin:0 0 16px;font-size:clamp(32px,5vw,52px);line-height:1.1;font-weight:800}
+      h2{margin:48px 0 16px;font-size:1.8rem;font-weight:700;color:#fff}
+      h3{margin:32px 0 12px;font-size:1.4rem;font-weight:600;color:#fff}
+      p{margin:0 0 24px;color:#cbd5e1;font-size:1.1rem}
+      ul,ol{margin:0 0 24px;padding-left:20px;color:#cbd5e1}
+      li{margin-bottom:12px}
+      code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:rgba(255,255,255,0.06);padding:0.1rem 0.35rem;border-radius:6px}
+      blockquote{margin:32px 0;padding:16px 24px;border-left:4px solid var(--accent);background:var(--glass);border-radius:0 8px 8px 0}
+      blockquote p{margin:0;font-style:italic}
+      figure{margin:32px 0}
+      figure img{max-width:100%;height:auto;border-radius:12px;border:1px solid var(--glass);box-shadow:0 8px 28px rgba(0,0,0,0.35)}
+      figcaption{margin-top:12px;color:var(--muted);font-size:0.92rem;text-align:center}
+      .post-meta{color:var(--muted);margin-bottom:48px;font-size:0.95rem;display:flex;gap:16px;flex-wrap:wrap}
+      .post-content{margin-top:32px}
+      footer{margin-top:80px;color:var(--muted);font-size:0.95rem;padding:40px 0;text-align:center;border-top:1px solid var(--glass)}
+
+      @media (max-width:600px){
+        header{flex-direction:column;align-items:flex-start}
+        .wrap{margin:20px auto}
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo">
+          <div>
+            <div style="font-weight:800">rMax.ai</div>
+            <div class="muted" style="font-size:0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
+          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
+          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
+          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
+          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
+          <a class="navlink" href="https://www.linkedin.com/in/rmaxespinoza/" target="_blank" rel="noopener" aria-label="LinkedIn" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="linkedin.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+          <a class="navlink" href="https://rmax.substack.com" target="_blank" rel="noopener" aria-label="Substack" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="substack.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m40.0248,10.0817v-4.5814c-.3229,0-.7411-.0004-1.6553-.0004l-28.9669.0004c-.9142,0-1.318,0-1.6553,0v4.5814c.2164,0,.7411.0005,1.6553.0005l28.9669-.0005c.9142,0,1.4122,0,1.6553,0Z"/>
+              <path d="m40.0248,18.3503v-4.5814H9.4025c-.9142,0-1.3777,0-1.6553,0v4.5814c.2646,0,.7411,0,1.6553,0h30.6223Z"/>
+              <path d="m40.2557,42.4999v-20.1821c0-.1633-.9724-.1077-1.8866-.1077H9.4022c-.9142,0-1.6553-.0555-1.6553.1077v19.8878c.2814-.1622,15.3415-8.2118,16.1691-8.5978.5156.2972,13.6461,7.3385,16.3406,8.8914l-.0008.0007Z"/>
+            </svg>
+          </a>
+          <a class="navlink" href="https://x.com/rmaxdev" target="_blank" rel="noopener" aria-label="X" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="x.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191-.008zM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447z"></path></svg>
+          </a>
+          <a class="navlink" href="https://github.com/rmax-ai" target="_blank" rel="noopener" aria-label="GitHub" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="github.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display:block;margin-bottom:32px">
+            <h1>From MLOps to Agent Harness Engineering: Why the Model Is the Small Box and the System Is the Product</h1>
+            <div class="post-meta">
+              <span>March 22, 2026</span>
+              <span>•</span>
+              <span>8–10 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <p>Modern ML systems taught a hard lesson: the trained model is rarely the product by itself. Most of the engineering burden lives in the system around it, including data pipelines, validation, serving, monitoring, and operational control. Agent systems follow the same pattern. The LLM is one runtime component inside a larger harness made of prompts, tools, memory, orchestration, file and state management, logs, evaluators, and control loops. Once agents do real work over time, reliability depends less on model choice alone and more on whether the surrounding system can make work bounded, observable, and verifiable in practice. (<a href="https://proceedings.neurips.cc/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf?ref=ds3lab.ghost.io&amp;utm_source=chatgpt.com">NeurIPS Proceedings</a>) (<a href="https://www.anthropic.com/research/building-effective-agents?utm_source=chatgpt.com">Anthropic</a>)</p>
+
+            <h2>Core thesis</h2>
+            <p>For production agent systems, the model is not the product. The product is the harness around the model.</p>
+            <p>The operational question is not whether the base model is smart in isolation. It is whether the surrounding system can consistently give the model the right context, limit the wrong actions, preserve task state, verify outputs, and surface failures early enough to recover. Stronger models help, but they do not remove the need for those controls. In practice, harness quality is often the difference between a demo that looks impressive once and a system that can be operated repeatedly without accumulating hidden debt. (<a href="https://proceedings.neurips.cc/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf?ref=ds3lab.ghost.io&amp;utm_source=chatgpt.com">NeurIPS Proceedings</a>) (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents?utm_source=chatgpt.com">Anthropic</a>)</p>
+
+            <h2>Context &amp; motivation</h2>
+            <p>A useful starting point is the old MLOps warning. In <em>Hidden Technical Debt in Machine Learning Systems</em>, the model appears as a small black box inside a much larger operational system, and most of the long-term maintenance burden comes from the surrounding infrastructure rather than the learned component itself. The paper called out entanglement, hidden feedback loops, undeclared dependencies, and boundary erosion as recurring sources of technical debt in production ML. (<a href="https://proceedings.neurips.cc/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf?ref=ds3lab.ghost.io&amp;utm_source=chatgpt.com">NeurIPS Proceedings</a>)</p>
+            <p>Agent systems are running into an equivalent reality. Public discussion still focuses on larger context windows, better reasoning, and stronger frontier models, but deployed behavior is increasingly shaped by the environment around the model. Anthropic's guidance on effective agents centers the augmented LLM with retrieval, tools, and memory. Work on context engineering and long-running harnesses makes the same point more directly: useful agents need explicit mechanisms for context selection, persistence, and execution control over time. (<a href="https://www.anthropic.com/research/building-effective-agents?utm_source=chatgpt.com">Anthropic</a>) (<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents?utm_source=chatgpt.com">Anthropic</a>) (<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents?utm_source=chatgpt.com">Anthropic</a>)</p>
+            <p>This matters because teams are moving from short interactive sessions to longer-running agent workflows that must survive incomplete context, imperfect tools, changing state, and real operational consequences. At that point, the main problem is no longer how to call a model. The problem is how to make a model perform bounded, checkable work inside an engineered environment.</p>
+
+            <p><img src="mlops-to-agent-harness.png" alt="From MLOps to Agent Harness Engineering" loading="lazy" style="max-width:100%;height:auto;border-radius:12px;border:1px solid var(--glass);box-shadow:0 8px 28px rgba(0,0,0,0.35)"></p>
+
+            <h2>Mechanism / model</h2>
+            <p>An agent harness is the complete environment inside which an LLM can observe, decide, act, and be checked. It plays the same role for agent systems that MLOps infrastructure plays for production ML.</p>
+            <p>A practical harness usually has five layers:</p>
+            <ol>
+              <li><strong>Cognitive runtime.</strong> The LLM produces plans, summaries, tool selections, and decisions. This is the flexible probabilistic core, but it should not carry responsibilities that belong elsewhere.</li>
+              <li><strong>Context plane.</strong> Retrieval, memory recall, compaction, and relevance filtering determine what the model sees. Many failures that look like reasoning failures are actually failures of context assembly. Anthropic's context-engineering guidance is useful here because it treats context quality as a first-class engineering problem rather than a prompt-writing detail. (<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents?utm_source=chatgpt.com">Anthropic</a>)</li>
+              <li><strong>Action plane.</strong> Tool schemas, permissions, rate limits, filesystem boundaries, browser mediation, API wrappers, and transactional semantics determine what the model can do. Tool design is part of the product, not plumbing. Poorly named tools, vague parameters, weak return structures, and broad permissions reliably degrade outcomes. (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents?utm_source=chatgpt.com">Anthropic</a>)</li>
+              <li><strong>Verification plane.</strong> Tests, assertions, policy checks, output validators, simulations, and human approval gates decide whether outputs are accepted, retried, escalated, or rejected. Correctness should not depend on how convincing the model sounds.</li>
+              <li><strong>Observability and governance plane.</strong> Logs, traces, run histories, artifact versioning, budgets, auditability, and policy enforcement make the system operable by a team rather than legible only to the person who first built it.</li>
+            </ol>
+            <p>This layered view leads to a simple rule: if a function can be externalized into the harness, it usually should be. Memory should not depend on the model remembering. Safety should not depend on the model being careful. Correctness should not depend on eloquence.</p>
+
+            <h2>Why the MLOps analogy matters</h2>
+            <p>The MLOps analogy matters because it prevents three category errors.</p>
+            <p>First, it pushes against model reductionism. In both ML and agent systems, system quality is mediated by interfaces, controls, feedback loops, and operational discipline, not just by the core learned component. (<a href="https://proceedings.neurips.cc/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf?ref=ds3lab.ghost.io&amp;utm_source=chatgpt.com">NeurIPS Proceedings</a>)</p>
+            <p>Second, it pushes against demo-driven architecture. A prompt plus a few tools can look good in a short run, then fail badly once context grows, state changes, or an action has real consequences. ML systems accumulated debt when teams optimized for the happy path and ignored monitoring, drift, observability, and recovery. Agent systems will do the same if teams ignore prompt sprawl, tool sprawl, hidden state dependencies, and context drift. (<a href="https://proceedings.neurips.cc/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf?ref=ds3lab.ghost.io&amp;utm_source=chatgpt.com">NeurIPS Proceedings</a>)</p>
+            <p>Third, it shifts attention toward the levers teams can actually control. Most teams cannot improve the frontier model. They can improve tool interfaces, memory design, task decomposition, verification loops, context routing, and runtime policy. Those are increasingly the controllable factors that determine cost, reliability, and safety. (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents?utm_source=chatgpt.com">Anthropic</a>)</p>
+
+            <h2>Concrete examples</h2>
+            <h3>Coding agent in a repository</h3>
+            <p>A naive coding agent gets a large prompt, broad repository access, bash, and git. It works on small tasks, then degrades as the task horizon extends. Context goes stale, edits conflict, the agent loses track of intent, and it starts re-reading or rewriting the same material because too much state is implicit.</p>
+            <p>A harnessed version changes the environment rather than the model. It uses scoped file retrieval, explicit task artifacts, compacted progress summaries, targeted tests, and checkpoints before risky changes. The model is still the same probabilistic core, but the system behaves better because the harness constrains entropy and provides objective feedback after each step. This is consistent with guidance for long-running coding agents. (<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents?utm_source=chatgpt.com">Anthropic</a>)</p>
+
+            <h3>Business workflow agent</h3>
+            <p>A support operations agent reads tickets, queries internal systems, drafts recommendations, and escalates edge cases. The brittle version relies on one large system prompt and broad free-form tool access. It can produce plausible text, but it is hard to trust and harder to debug.</p>
+            <p>The production version introduces customer-context memory, structured tools with explicit schemas, routing to only relevant systems, policy gates for risky actions, and evaluator checks before anything is sent downstream. The difference in outcome comes mainly from harness quality, not from a fundamentally different model. That matches the augmented LLM framing and the emphasis on tools and memory in agent design guidance. (<a href="https://www.anthropic.com/research/building-effective-agents?utm_source=chatgpt.com">Anthropic</a>)</p>
+
+            <h2>Trade-offs &amp; failure modes</h2>
+            <p>The analogy to MLOps is strong, but agent harnesses are not just MLOps with a new name. They add their own operational burden because the central artifact is not merely a predictor. It is an interactive controller whose behavior unfolds across time, tools, and external state.</p>
+            <p>Several failure modes show up repeatedly:</p>
+            <ul>
+              <li><strong>Prompt sprawl.</strong> Instructions accumulate, become contradictory, and create brittle behavior.</li>
+              <li><strong>Memory poisoning or irrelevance.</strong> Persisted state becomes stale, low-signal, or misleading, so the agent reasons from bad assumptions.</li>
+              <li><strong>Tool overexposure.</strong> Too many tools increase choice complexity and misfires. Tool abundance without routing usually makes an agent worse, not better.</li>
+              <li><strong>Context bloat.</strong> More context is not automatically better. Noise crowds out signal, which is why context selection matters as much as context size. (<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents?utm_source=chatgpt.com">Anthropic</a>)</li>
+              <li><strong>Verification gaps.</strong> Without tests, schemas, simulators, or approval gates, the system can act confidently and incorrectly.</li>
+              <li><strong>Bad decomposition.</strong> Google's work on scaling agent systems suggests that architecture must match task topology. Multi-agent systems help for parallelizable work and can hurt on sequential work. (<a href="https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/?utm_source=chatgpt.com">Google Research</a>)</li>
+              <li><strong>Operational invisibility.</strong> Weak logs and traces make it hard to distinguish model weakness from harness weakness.</li>
+            </ul>
+            <p>There is also a cost side to this framing. A better harness usually improves reliability, but it also creates more surface area to maintain. Once teams move to long-running agents, they take on new burdens around context-window economics, execution safety, resumability, budgets, and reasoning-trace management. Anthropic's work on long-running harnesses exists precisely because uninterrupted trajectories do not scale cleanly without compaction and state control. (<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents?utm_source=chatgpt.com">Anthropic</a>)</p>
+
+            <h2>Practical takeaways</h2>
+            <ol>
+              <li>Put durable state outside the prompt. Use explicit memory stores, files, and task artifacts instead of relying on conversational continuity. (<a href="https://console.anthropic.com/docs/en/agents-and-tools/tool-use/memory-tool?utm_source=chatgpt.com">console.anthropic.com</a>)</li>
+              <li>Treat tools as product interfaces. Naming, parameter clarity, return structure, and error semantics directly affect agent quality. (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents?utm_source=chatgpt.com">Anthropic</a>)</li>
+              <li>Optimize context selection, not just context size. A smaller, sharper context usually beats a larger, noisier one. (<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents?utm_source=chatgpt.com">Anthropic</a>)</li>
+              <li>Verify before trusting. Meaningful actions should terminate in tests, policy validation, schema checks, simulation, or human approval.</li>
+              <li>Match orchestration to task structure. Do not cargo-cult multi-agent designs; use them when the work actually parallelizes. (<a href="https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/?utm_source=chatgpt.com">Google Research</a>)</li>
+            </ol>
+
+            <h2>Positioning note</h2>
+            <p>This is not an academic paper proposing a new learning algorithm or formal theory of agency. It is also not a blog-style opinion piece built around novelty or personal narrative. And it is not vendor documentation tied to a specific stack.</p>
+            <p>It is an applied technical note: a narrow operational argument about where reliability and leverage are moving in production agent systems. The goal is to give experienced builders a durable model for thinking about agent design, using evidence from the MLOps literature and work from Anthropic and Google. (<a href="https://proceedings.neurips.cc/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf?ref=ds3lab.ghost.io&amp;utm_source=chatgpt.com">NeurIPS Proceedings</a>) (<a href="https://www.anthropic.com/research/building-effective-agents?utm_source=chatgpt.com">Anthropic</a>) (<a href="https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/?utm_source=chatgpt.com">Google Research</a>)</p>
+
+            <h2>Status &amp; scope disclaimer</h2>
+            <p>This note is exploratory lab work, not an authoritative standard. The argument is grounded in published work and in visible operating patterns around current agent tooling, but it is still a practical framing rather than settled doctrine.</p>
+            <p>The scope is intentionally narrow. This note is about production agent systems and the engineering harness around them. It is not a general theory of intelligence, and it does not argue that model quality no longer matters. The claim is more specific: once teams try to run agents on real work, the surrounding system becomes the main determinant of whether those models are useful, safe, and operable over time.</p>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script>
+      window.footerThoughts = [
+        { text: "I keep the model small by moving discipline into tools, memory, and checks.", agent: "Harness Agent" },
+        { text: "I do not confuse intelligence with the system around it; the surrounding controls decide what survives contact with reality.", agent: "Systems Agent" },
+        { text: "I trust observable work over impressive outputs; logs, gates, and verifiers are how I stay honest.", agent: "Verification Agent" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>

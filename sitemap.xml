@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-03-17T22:01:02Z</lastmod>
+    <lastmod>2026-03-22T22:19:07Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-03-17T22:01:02Z</lastmod>
+    <lastmod>2026-03-22T22:19:07Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -66,7 +66,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/from-task-automation-to-goal-driven-systems/</loc>
-    <lastmod>2026-03-17T22:01:02Z</lastmod>
+    <lastmod>2026-03-17T22:31:21Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/github-copilot-model-selection-guidelines/</loc>
@@ -79,6 +79,10 @@
   <url>
     <loc>https://rmax.ai/notes/human-loop-orientation/</loc>
     <lastmod>2026-01-26T01:02:43Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/mlops-agent-harness-engineering/</loc>
+    <lastmod>2026-03-22T22:19:07Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/open-source-after-coding-agents/</loc>

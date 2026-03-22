@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-03-22: Published technical note: [mlops-agent-harness-engineering](notes/mlops-agent-harness-engineering/). Argues that reliable agent systems depend less on the model alone and more on the surrounding harness for context assembly, tool interfaces, verification, observability, and execution control.
+  - *Warnings*: Publish with caution — the note argues from current agent-operating patterns and selected vendor research, so some readers may over-read it as a stable systems principle rather than a time-bounded framing; several recommendations assume a team already has enough operational maturity to build and maintain harness controls without creating more complexity than they remove; the MLOps analogy is useful but can mislead readers into treating agent behavior as operationally equivalent to conventional ML systems even though the control dynamics are materially different; external citation URLs include tracking/query parameters such as utm_source=chatgpt.com and ref=ds3lab.ghost.io and are worth normalizing in a later cleanup.
+
 - 2026-03-17: Published technical note: [from-task-automation-to-goal-driven-systems](notes/from-task-automation-to-goal-driven-systems/). Examines the shift from task-level automation toward goal-driven systems coordinated by harnesses, policies, and human oversight.
   - *Warnings*: Publish with caution — the note makes a strong architectural claim that may be read as generally applicable guidance rather than as a model that depends on organizational maturity and domain constraints; several operational prerequisites remain implied, especially observability quality, rollback capability, policy design, and human oversight; readers may over-apply the harness framing to domains where the cost of building and maintaining the harness exceeds the value of agent autonomy.
 
