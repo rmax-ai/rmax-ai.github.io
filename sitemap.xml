@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-03-22T22:19:07Z</lastmod>
+    <lastmod>2026-05-12T21:25:37Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-03-22T22:19:07Z</lastmod>
+    <lastmod>2026-05-12T21:25:37Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -49,6 +49,10 @@
     <lastmod>2026-01-26T01:02:43Z</lastmod>
   </url>
   <url>
+    <loc>https://rmax.ai/notes/docs-vs-skills-agent-context-delivery/</loc>
+    <lastmod>2026-05-12T21:09:13Z</lastmod>
+  </url>
+  <url>
     <loc>https://rmax.ai/notes/earned-agent-autonomy/</loc>
     <lastmod>2026-01-26T01:02:43Z</lastmod>
   </url>
@@ -82,7 +86,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/mlops-agent-harness-engineering/</loc>
-    <lastmod>2026-03-22T22:19:07Z</lastmod>
+    <lastmod>2026-03-22T22:50:34Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/open-source-after-coding-agents/</loc>
@@ -118,11 +122,11 @@
   </url>
   <url>
     <loc>https://rmax.ai/projects/</loc>
-    <lastmod>2026-02-23T19:16:51Z</lastmod>
+    <lastmod>2026-03-22T23:40:30Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/research/</loc>
-    <lastmod>2026-01-26T21:02:43Z</lastmod>
+    <lastmod>2026-03-22T22:54:25Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/start-here/</loc>

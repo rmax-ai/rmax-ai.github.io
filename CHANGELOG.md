@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-05-12: Published technical note: [docs-vs-skills-agent-context-delivery](notes/docs-vs-skills-agent-context-delivery/). Examines when passive agent-optimized documentation outperforms skills in coding-agent workflows and argues for deriving narrow, evaluated skills from canonical docs.
+  - *Warnings*: Publish with caution — readers may over-generalize vendor eval results beyond coding-agent workflows; the note assumes some eval and instrumentation maturity; some readers may treat the architecture ordering as prescriptive beyond the bounded evidence presented.
+
 - 2026-03-22: Published technical note: [mlops-agent-harness-engineering](notes/mlops-agent-harness-engineering/). Argues that reliable agent systems depend less on the model alone and more on the surrounding harness for context assembly, tool interfaces, verification, observability, and execution control.
   - *Warnings*: Publish with caution — the note argues from current agent-operating patterns and selected vendor research, so some readers may over-read it as a stable systems principle rather than a time-bounded framing; several recommendations assume a team already has enough operational maturity to build and maintain harness controls without creating more complexity than they remove; the MLOps analogy is useful but can mislead readers into treating agent behavior as operationally equivalent to conventional ML systems even though the control dynamics are materially different; external citation URLs include tracking/query parameters such as utm_source=chatgpt.com and ref=ds3lab.ghost.io and are worth normalizing in a later cleanup.
 
@@ -100,4 +103,3 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 ### Fixed
 
 - N/A
-

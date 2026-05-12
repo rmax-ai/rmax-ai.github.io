@@ -26,6 +26,9 @@ Analyzing how contemporary AI tools structure authority and constraints in syste
 ## Notes
 [View all →](/notes/)
 
+### [Agent-Optimized Docs vs Skills: What Actually Improves Coding Agent Performance](/notes/docs-vs-skills-agent-context-delivery/)
+An evidence-backed note on when passive agent-optimized docs outperform skills, why activation reliability matters, and how to structure context delivery for coding agents.
+
 ### [Designing Harnesses for Goal-Driven Autonomous Agents](/notes/from-task-automation-to-goal-driven-systems/)
 A technical note arguing that goal-driven autonomous agents depend less on prompts alone and more on harnesses that expose state, constrain actions, validate changes, and verify outcomes.
 

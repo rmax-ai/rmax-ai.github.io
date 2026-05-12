@@ -50,6 +50,12 @@ Make the document easier to understand, harder to misinterpret, and more durable
    * Rephrase references to “recent” tools or trends to age better
    * Ensure the note survives partial context loss
 
+6. **Source preservation**
+
+   * If the draft includes an explicit sources or references section, preserve it unless a source is clearly irrelevant or duplicated
+   * Keep factual provenance intact for claims that depend on linked external material
+   * Do not strip source links solely for brevity
+
 **What You Must Output**
 
 1. **Revised document (Markdown)**
@@ -88,4 +94,3 @@ A senior engineer should be able to skim this in 5 minutes and understand:
 * Why it matters
 * Where it applies
 * Where it does not
-

@@ -66,7 +66,8 @@ A *technical note* is:
 
 * Markdown
 * Website-ready
-* No references section unless strictly necessary
+* If the input includes explicit source links, citations, or a source list that materially supports the claims, preserve them in the final note as a compact `Sources` or `References` section
+* Do not invent citations or remove source links that carry factual provenance
 * Headings only where they add navigability
 
 **Input material**
@@ -75,4 +76,3 @@ You must preserve factual accuracy but improve clarity, structure, and publishab
 
 **Quality bar**
 If a staff+ engineer reads this in 12 months, it should still feel relevant and grounded.
-

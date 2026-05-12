@@ -43,6 +43,7 @@ You must:
   * Headings → `<h2>`, `<h3>`, etc.
   * Paragraphs → `<p>`
   * Lists → `<ul>` / `<li>`
+  * Preserve any `Sources` or `References` section, including clickable links
 * Preserve all global elements:
 
   * CSS

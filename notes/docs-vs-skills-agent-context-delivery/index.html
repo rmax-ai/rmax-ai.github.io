@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Agent-Optimized Docs vs Skills: What Actually Improves Coding Agent Performance — rmax.ai</title>
+    <meta
+      name="description"
+      content="An evidence-backed technical note on when passive agent-optimized documentation outperforms skills, and how to structure context delivery for reliable coding-agent workflows."
+    />
+    <link rel="canonical" href="https://rmax.ai/notes/docs-vs-skills-agent-context-delivery/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul,
+      ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        border-radius: 12px;
+        background: rgba(2, 6, 23, 0.72);
+        border: 1px solid rgba(148, 163, 184, 0.15);
+        overflow-x: auto;
+        color: #dbeafe;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      }
+      blockquote {
+        margin: 32px 0;
+        padding: 16px 24px;
+        border-left: 4px solid var(--accent);
+        background: var(--glass);
+        border-radius: 0 8px 8px 0;
+      }
+      blockquote p {
+        margin: 0;
+        font-style: italic;
+      }
+      .post-meta {
+        color: var(--muted);
+        margin-bottom: 48px;
+        font-size: 0.95rem;
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      footer {
+        margin-top: 80px;
+        color: var(--muted);
+        font-size: 0.95rem;
+        padding: 40px 0;
+        text-align: center;
+        border-top: 1px solid var(--glass);
+      }
+      @media (max-width: 600px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .wrap {
+          margin: 20px auto;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript
+      ><img
+        src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true"
+        alt=""
+        referrerpolicy="no-referrer-when-downgrade"
+    /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo" />
+          <div>
+            <div style="font-weight: 800">rMax.ai</div>
+            <div class="muted" style="font-size: 0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
+          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
+          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
+          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
+          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
+          <a
+            class="navlink"
+            href="https://www.linkedin.com/in/rmaxespinoza/"
+            target="_blank"
+            rel="noopener"
+            aria-label="LinkedIn"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="linkedin.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+              />
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://rmax.substack.com"
+            target="_blank"
+            rel="noopener"
+            aria-label="Substack"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="substack.com"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 48 48"
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="m40.0248,10.0817v-4.5814c-.3229,0-.7411-.0004-1.6553-.0004l-28.9669.0004c-.9142,0-1.318,0-1.6553,0v4.5814c.2164,0,.7411.0005,1.6553.0005l28.9669-.0005c.9142,0,1.4122,0,1.6553,0Z"
+              />
+              <path
+                d="m40.0248,18.3503v-4.5814H9.4025c-.9142,0-1.3777,0-1.6553,0v4.5814c.2646,0,.7411,0,1.6553,0h30.6223Z"
+              />
+              <path
+                d="m40.2557,42.4999v-20.1821c0-.1633-.9724-.1077-1.8866-.1077H9.4022c-.9142,0-1.6553-.0555-1.6553.1077v19.8878c.2814-.1622,15.3415-8.2118,16.1691-8.5978.5156.2972,13.6461,7.3385,16.3406,8.8914l-.0008.0007Z"
+              />
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://x.com/rmaxdev"
+            target="_blank"
+            rel="noopener"
+            aria-label="X"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="x.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191-.008zM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447z"
+              ></path>
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://github.com/rmax-ai"
+            target="_blank"
+            rel="noopener"
+            aria-label="GitHub"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="github.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              />
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>Agent-Optimized Docs vs Skills: What Actually Improves Coding Agent Performance</h1>
+            <div class="post-meta">
+              <span>May 12, 2026</span>
+              <span>•</span>
+              <span>6–8 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <p>
+              Agents do not reliably improve just because they are given more instructions, more tools, or more
+              elaborate skill systems. The narrower operational claim is stronger: coding agents perform better when
+              the right context is available at the right moment, compressed enough to remain usable, and evaluated
+              continuously.
+            </p>
+
+            <p>
+              Across reported vendor evals, benchmarks, and workflow studies, passive context layers such as
+              <code>AGENTS.md</code> or agent-optimized documentation often outperform skills when skill routing is
+              unreliable or the skill content has drifted. Skills still matter, but only when they are narrow,
+              current, and verified against real tasks.
+            </p>
+
+            <h2>Core Thesis</h2>
+            <p>
+              Canonical docs should remain the source of truth. Passive context should provide the always-on
+              orientation layer. Skills should be treated as evaluated accelerators for narrow workflows, not as a
+              replacement for documentation.
+            </p>
+
+            <p>
+              A weaker version of this thesis would say only that docs are simpler. That is true but incomplete. The
+              stronger claim is that passive context often wins because it removes an activation step. Skills can
+              outperform docs, but only when they are reliably invoked, aligned with the current system, and
+              continuously validated against baseline behavior.
+            </p>
+
+            <h2>Why This Matters</h2>
+            <p>
+              Agent workflows have moved from prompt experiments to production tooling. The question is no longer
+              whether context helps. The practical question is which delivery mechanism remains dependable under
+              operational conditions.
+            </p>
+
+            <p>
+              Modern coding agents can consume passive instruction files, retrieve documentation on demand, invoke
+              tools, and load reusable skills. In theory, that should make skills superior because they package
+              task-specific guidance. In practice, each retrieval or routing decision adds another failure point. If
+              the agent does not trigger the skill, or triggers the wrong one, the system loses before the task
+              begins.
+            </p>
+
+            <p>
+              Reported results from Wix and Vercel make this visible. Both found that always-available, compressed
+              context can outperform skills when activation is inconsistent. At the same time, benchmarks such as
+              SkillsBench show that good skills do help, provided they are curated, scoped, and tested. The
+              operational question is therefore not "docs or skills?" but "which context layer fails less often in
+              live use?"
+            </p>
+
+            <h2>Mechanism</h2>
+            <p>
+              A useful model is to treat agent performance as a function of four properties of context:
+            </p>
+
+            <ol>
+              <li>Accuracy</li>
+              <li>Availability at decision time</li>
+              <li>Compression</li>
+              <li>Ongoing evaluation</li>
+            </ol>
+
+            <p>
+              Accuracy is the simplest requirement. If the context is stale or mismatched to the actual codebase, it
+              degrades performance even if it is well written.
+            </p>
+
+            <p>
+              Availability matters because agents are sensitive to what is present in the working set when they plan
+              the next action. Passive context files such as <code>AGENTS.md</code> or compressed documentation
+              indexes are available immediately. Skills, by contrast, depend on routing or explicit invocation. That
+              makes them more powerful in principle, but less reliable in practice.
+            </p>
+
+            <p>
+              Compression matters because verbose guidance competes with the task itself. A large body of best
+              practices, examples, and caveats can dilute the signal. Compressed docs or reduced skills often perform
+              better because they present fewer distractions and consume fewer tokens.
+            </p>
+
+            <p>
+              Evaluation is the control loop that keeps either mechanism useful. A skill is not good because it reads
+              well. It is good if it improves success rate, token use, turn count, or elapsed time on real tasks
+              without introducing regressions. The same standard applies to docs.
+            </p>
+
+            <p>This leads to a simple architecture:</p>
+
+            <pre><code>Canonical docs
+  -&gt; agent-optimized docs / llms.txt / AGENTS.md index
+  -&gt; generated skills for repeatable workflows
+  -&gt; eval harness comparing baseline modes
+  -&gt; executable guardrails for hard constraints</code></pre>
+
+            <p>
+              The ordering matters. Docs come first. Skills are derived artifacts, not a second knowledge system
+              maintained by hand.
+            </p>
+
+            <h2>Concrete Examples</h2>
+
+            <h3>Example 1: Passive context beating skills</h3>
+            <p>
+              Vercel's Next.js 16 API evals provide the clearest demonstration. A compressed 8 KB docs index placed
+              in <code>AGENTS.md</code> achieved a 100% pass rate. Skills reached 79% only when explicitly
+              instructed, and default skills performed the same as having no docs at all: 53%.
+            </p>
+
+            <p>
+              The important lesson is not that skills are useless. It is that passive context removes the routing
+              failure mode. Once the docs index was always present, the agent no longer had to decide whether to
+              fetch or invoke the right auxiliary guidance before acting.
+            </p>
+
+            <p>
+              Vercel also found that compressing an initial 40 KB docs injection down to 8 KB preserved the 100%
+              pass rate. That reinforces a second point: more context is not automatically better. Better compression
+              can improve reliability without reducing effectiveness.
+            </p>
+
+            <h3>Example 2: Docs and skills helping in different ways</h3>
+            <p>
+              Wix's evals show a more balanced pattern. Agent-optimized docs improved CLI task completion from 67% to
+              87%, while reducing average token use by 35% and wall-clock time by 9%. Skills helped on aligned tasks,
+              reducing tokens by 30% to 50% and time by 30%, but stale or misaligned skills underperformed
+              docs-optimized runs.
+            </p>
+
+            <p>
+              Their REST API tasks are especially informative. Docs and skills both reached 80% completion, but the
+              docs path was 31% faster with 33% fewer turns, while the skills path used 29% fewer tokens. That is not
+              a clean win for either side. It shows that the right mechanism depends on what is being optimized and
+              how reliably the agent can apply the context.
+            </p>
+
+            <h2>Trade-offs and Failure Modes</h2>
+            <p>
+              Passive docs are not a complete solution. They improve orientation, but they do not guarantee policy
+              compliance. Natural-language instructions can still be ignored, displaced by local context, or lost in
+              long trajectories. ContextCov's results support this limit: executable guardrails substantially
+              outperformed prompt-only instruction files for constraint compliance.
+            </p>
+
+            <p>Skills fail differently. Their main risks are routing failure, staleness, and bloat.</p>
+
+            <p>
+              If the agent never invokes the skill, the skill has no value. If the skill reflects a previous system
+              state, it becomes harmful. If it is overloaded with reference material, examples, and generic advice, it
+              wastes tokens and distracts the agent. SkillReducer's analysis of publicly available skills suggests
+              that these are common problems rather than edge cases.
+            </p>
+
+            <p>
+              There is also a maintenance hazard. A team that hand-maintains both canonical docs and a parallel layer
+              of skills documentation creates two drifting systems. That is expensive to review and difficult to
+              trust. In practice, that duplication usually degrades before anyone notices.
+            </p>
+
+            <p>
+              Skills are also not a substitute for measurement. SkillsBench shows that curated skills can improve
+              success rates, but that result depends on quality gates and controlled evaluation. Without that
+              discipline, "skill" becomes a packaging format rather than a performance improvement.
+            </p>
+
+            <h2>Practical Takeaways</h2>
+            <ol>
+              <li>
+                Keep canonical docs as the source of truth and derive all agent-facing artifacts from them.
+              </li>
+              <li>
+                Use <code>AGENTS.md</code>, <code>llms.txt</code>, or similarly compressed passive context as the
+                always-on orientation layer.
+              </li>
+              <li>
+                Treat skills as narrow, versioned accelerators for repeatable workflows, not as a general knowledge
+                layer.
+              </li>
+              <li>
+                Benchmark at least <code>docs-only</code>, <code>optimized-docs</code>, <code>passive index</code>,
+                <code>skill</code>, and <code>skill + explicit trigger</code> against the same task set.
+              </li>
+              <li>
+                Track success rate, token use, turn count, elapsed time, and whether the intended docs, tools, or
+                skills were actually used.
+              </li>
+              <li>
+                Move hard constraints into executable guardrails rather than relying on prose instructions alone.
+              </li>
+            </ol>
+
+            <h2>Scope and Positioning</h2>
+            <p>
+              This is not academic research. It does not propose a general theory of agent cognition or a universal
+              law about documentation systems.
+            </p>
+
+            <p>
+              It is also not a blog-style opinion piece. The claims here are operational and bounded: passive context
+              often wins when retrieval or skill activation is unreliable, and skills help when they are aligned and
+              evaluated.
+            </p>
+
+            <p>
+              It is not vendor documentation either. Vendor material usually explains how to use a feature correctly.
+              This note is about how these mechanisms behave under practical failure conditions when integrated into
+              real engineering workflows.
+            </p>
+
+            <p>
+              This note reflects exploratory but evidence-backed lab work. The claims are grounded in reported evals,
+              benchmarks, and implementation guidance, but they are not presented as authoritative or final.
+            </p>
+
+            <p>
+              The scope is intentionally narrow: coding-agent context delivery, skill reliability, and documentation
+              strategy for production-adjacent workflows. It does not attempt to settle broader questions about agent
+              architecture, model capability, or governance beyond the specific operational limits discussed here.
+            </p>
+
+            <h2>Sources</h2>
+            <ul>
+              <li><a href="https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals">Vercel: AGENTS.md outperforms skills in our agent evals</a></li>
+              <li><a href="https://www.wix.engineering/post/we-ran-250-ai-agent-evals-to-find-out-if-skills-beat-docs-the-answer-is-more-complicated-than-we-ex">Wix Engineering: We Ran 250 AI Agent Evals to Find Out if Skills Beat Docs</a></li>
+              <li><a href="https://arxiv.org/abs/2601.20404">On the Impact of AGENTS.md Files on the Efficiency of AI Coding Agents</a></li>
+              <li><a href="https://arxiv.org/html/2602.12670v1">SkillsBench: Benchmarking How Well Agent Skills Work Across Diverse Tasks</a></li>
+              <li><a href="https://arxiv.org/html/2603.29919v1">SkillReducer: Optimizing LLM Agent Skills for Token Efficiency</a></li>
+              <li><a href="https://developers.openai.com/blog/eval-skills">OpenAI Developers: Testing Agent Skills Systematically with Evals</a></li>
+              <li><a href="https://www.langchain.com/blog/evaluating-skills">LangChain: Evaluating Skills</a></li>
+              <li><a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Anthropic: Demystifying evals for AI agents</a></li>
+              <li><a href="https://arxiv.org/abs/2603.00822">ContextCov: Deriving and Enforcing Executable Constraints from Agent Instruction Files</a></li>
+            </ul>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script>
+      window.footerThoughts = [
+        {
+          text: "I trust context that arrives on time; late wisdom is just another failure mode.",
+          agent: "Context Router"
+        },
+        {
+          text: "I perform better when guidance is compressed enough to survive the moment of decision.",
+          agent: "Execution Agent"
+        },
+        {
+          text: "I treat skills as tools, not truth; the stable source still lives in the docs.",
+          agent: "Documentation Steward"
+        }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
