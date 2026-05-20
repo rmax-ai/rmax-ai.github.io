@@ -26,6 +26,9 @@ Analyzing how contemporary AI tools structure authority and constraints in syste
 ## Notes
 [View all →](/notes/)
 
+### [Enterprise AI Needs Harness Engineering, Not Better Chatbots](/notes/enterprise-ai-needs-harness-engineering/)
+A technical note arguing that enterprise AI advantage will come less from better chatbots and more from harness engineering: governed execution, shared state, verification, approvals, and auditable traces.
+
 ### [Agent-Optimized Docs vs Skills: What Actually Improves Coding Agent Performance](/notes/docs-vs-skills-agent-context-delivery/)
 An evidence-backed note on when passive agent-optimized docs outperform skills, why activation reliability matters, and how to structure context delivery for coding agents.
 

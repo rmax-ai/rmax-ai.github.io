@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-05-12T21:25:37Z</lastmod>
+    <lastmod>2026-05-20T05:29:07Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-05-12T21:25:37Z</lastmod>
+    <lastmod>2026-05-20T05:29:00Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -50,11 +50,15 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/docs-vs-skills-agent-context-delivery/</loc>
-    <lastmod>2026-05-12T21:09:13Z</lastmod>
+    <lastmod>2026-05-12T21:32:03Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/earned-agent-autonomy/</loc>
     <lastmod>2026-01-26T01:02:43Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/enterprise-ai-needs-harness-engineering/</loc>
+    <lastmod>2026-05-20T05:27:54Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/evolution-of-ai-coding-agents-autocomplete-to-autonomous-sdlc/</loc>

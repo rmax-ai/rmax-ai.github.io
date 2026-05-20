@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Enterprise AI Needs Harness Engineering, Not Better Chatbots — rmax.ai</title>
+    <meta
+      name="description"
+      content="A technical note arguing that enterprise AI advantage will come less from better chatbots and more from harness engineering: governed execution, shared state, verification, approvals, and auditable traces."
+    />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/enterprise-ai-needs-harness-engineering/" />
+
+    <meta property="og:title" content="Enterprise AI Needs Harness Engineering, Not Better Chatbots" />
+    <meta
+      property="og:description"
+      content="A technical note arguing that enterprise AI advantage will come less from better chatbots and more from harness engineering: governed execution, shared state, verification, approvals, and auditable traces."
+    />
+    <meta property="og:url" content="https://rmax.ai/notes/enterprise-ai-needs-harness-engineering/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-05-20" />
+    <meta property="article:tag" content="enterprise-ai" />
+    <meta property="article:tag" content="agents" />
+    <meta property="article:tag" content="harness" />
+    <meta property="article:tag" content="governance" />
+    <meta property="article:tag" content="verification" />
+    <meta property="article:tag" content="stateful-systems" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul,
+      ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      }
+      p code,
+      li code {
+        background: rgba(255, 255, 255, 0.06);
+        padding: 0.15em 0.35em;
+        border-radius: 6px;
+      }
+      .post-meta {
+        color: var(--muted);
+        margin-bottom: 48px;
+        font-size: 0.95rem;
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      footer {
+        margin-top: 80px;
+        color: var(--muted);
+        font-size: 0.95rem;
+        padding: 40px 0;
+        text-align: center;
+        border-top: 1px solid var(--glass);
+      }
+      @media (max-width: 600px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .wrap {
+          margin: 20px auto;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript
+      ><img
+        src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true"
+        alt=""
+        referrerpolicy="no-referrer-when-downgrade"
+    /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo" />
+          <div>
+            <div style="font-weight: 800">rMax.ai</div>
+            <div class="muted" style="font-size: 0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
+          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
+          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
+          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
+          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
+          <a
+            class="navlink"
+            href="https://www.linkedin.com/in/rmaxespinoza/"
+            target="_blank"
+            rel="noopener"
+            aria-label="LinkedIn"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="linkedin.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+              />
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://rmax.substack.com"
+            target="_blank"
+            rel="noopener"
+            aria-label="Substack"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="substack.com"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 48 48"
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="m40.0248,10.0817v-4.5814c-.3229,0-.7411-.0004-1.6553-.0004l-28.9669.0004c-.9142,0-1.318,0-1.6553,0v4.5814c.2164,0,.7411.0005,1.6553.0005l28.9669-.0005c.9142,0,1.4122,0,1.6553,0Z"
+              />
+              <path
+                d="m40.0248,18.3503v-4.5814H9.4025c-.9142,0-1.3777,0-1.6553,0v4.5814c.2646,0,.7411,0,1.6553,0h30.6223Z"
+              />
+              <path
+                d="m40.2557,42.4999v-20.1821c0-.1633-.9724-.1077-1.8866-.1077H9.4022c-.9142,0-1.6553-.0555-1.6553.1077v19.8878c.2814-.1622,15.3415-8.2118,16.1691-8.5978.5156.2972,13.6461,7.3385,16.3406,8.8914l-.0008.0007Z"
+              />
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://x.com/rmaxdev"
+            target="_blank"
+            rel="noopener"
+            aria-label="X"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="x.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191-.008zM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447z"
+              ></path>
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://github.com/rmax-ai"
+            target="_blank"
+            rel="noopener"
+            aria-label="GitHub"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="github.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              />
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>Enterprise AI Needs Harness Engineering, Not Better Chatbots</h1>
+            <div class="post-meta">
+              <span>May 20, 2026</span>
+              <span>•</span>
+              <span>6–8 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <h2>Abstract</h2>
+            <p>
+              Enterprise AI will not be differentiated by which model or chatbot a company adopts first. It will be
+              differentiated by whether the organization builds a reliable agent harness: the executable, inspectable,
+              stateful, and governed runtime around the model. The practical bottleneck is no longer only model
+              reasoning quality. It is the system that retrieves the right context, uses tools safely, preserves
+              state, verifies outcomes, captures approvals, and leaves an auditable trace. This note argues that
+              harness engineering should be treated as a first-class enterprise discipline because that is where
+              operational reliability, control, and trust are determined.
+            </p>
+
+            <h2>Core thesis</h2>
+            <p>The next practical frontier in enterprise AI is harness engineering, not chatbot refinement.</p>
+            <p>
+              An agent harness is the layer around the model that provides tools, permissions, execution loops,
+              memory, validators, telemetry, approval gates, and feedback channels. In enterprise settings, this
+              harness determines whether an agent can safely operate inside real workflows. The model may propose a
+              plan, but the harness determines:
+            </p>
+            <ul>
+              <li>what context is visible;</li>
+              <li>what actions are allowed;</li>
+              <li>how state is persisted;</li>
+              <li>how success is checked;</li>
+              <li>when a human must approve; and</li>
+              <li>how the full trace is audited afterward.</li>
+            </ul>
+            <p>
+              If enterprises want useful autonomy rather than impressive demos, they need to treat the harness as the
+              product.
+            </p>
+
+            <h2>Why the current framing is insufficient</h2>
+            <p>
+              Enterprise AI discussion is still too model-centered. Many decisions are framed as model selection,
+              chatbot procurement, or copilot rollout. That framing made sense when the primary use case was question
+              answering or lightweight assistance. It is less useful when agents are expected to inspect repositories,
+              operate software, call APIs, use tools, prepare decisions, and execute bounded actions inside
+              long-running workflows.
+            </p>
+            <p>
+              The shift is visible in <em>Code as Agent Harness: Toward Executable, Verifiable, and Stateful Agent
+              Systems</em>. Xuying Ning et al. argue that code is no longer only what an agent generates. Code becomes
+              the substrate through which an agent reasons, acts, maintains state, models its environment, and
+              verifies progress. The paper examines this pattern across code assistants, GUI and OS agents,
+              scientific discovery systems, and personalization agents. Read as an enterprise signal, the implication
+              is straightforward: the key problem is not only how smart the model is, but how well the surrounding
+              runtime governs autonomous work.
+            </p>
+            <p>
+              The paper’s main illustration is useful because it makes the harness concrete as a composed system
+              rather than a vague wrapper around the model.
+            </p>
+            <p>
+              <img
+                src="code-as-agent-harness.jpg"
+                alt="Code as Agent Harness: main paper illustration showing the components of a harness"
+                loading="lazy"
+                style="max-width:100%;height:auto;border-radius:12px;border:1px solid var(--glass);box-shadow:0 8px 28px rgba(0,0,0,0.35)"
+              />
+            </p>
+            <p>
+              That matters because enterprise workflows are messy. They span APIs, SaaS tools, documents, tickets,
+              dashboards, spreadsheets, approvals, and policy constraints. They are long-horizon, stateful, and often
+              only partially reversible. A chatbot interface is not sufficient for that environment. A harness is.
+            </p>
+
+            <h2>Mechanism and operating model</h2>
+            <p>A useful way to think about an enterprise agent is as one component inside a controlled runtime.</p>
+            <pre><code>User / Business Process
+        ↓
+Intent Capture
+        ↓
+Planner
+        ↓
+Context + Memory Layer
+        ↓
+Shared Enterprise State Layer
+        ↓
+Policy / Permission / Approval Gateway
+        ↓
+Tool + API + MCP Gateway
+        ↓
+Sandboxed Execution / SaaS Executor
+        ↓
+Verification + Evidence Bundle
+        ↓
+Audit Log + Telemetry Store
+        ↓
+Harness Evaluation + Improvement Loop</code></pre>
+            <p>This model shifts attention from generation to execution.</p>
+            <p>The model contributes reasoning.</p>
+            <p>The harness contributes control.</p>
+            <p>In practice, the harness has at least six jobs:</p>
+            <ol>
+              <li>
+                <strong>Context control</strong><br />
+                Retrieve the right files, records, and prior decisions while enforcing authorization and freshness
+                constraints.
+              </li>
+              <li>
+                <strong>State management</strong><br />
+                Persist what the agent knows, what it has done, and the current workflow state across time and across
+                collaborating agents.
+              </li>
+              <li>
+                <strong>Action governance</strong><br />
+                Mediate tool access, permission boundaries, reversibility, and approval requirements before any
+                high-impact write occurs.
+              </li>
+              <li>
+                <strong>Verification</strong><br />
+                Evaluate not only whether a task appears complete, but whether it used the right sources, respected
+                policy, and produced a replayable execution trace.
+              </li>
+              <li>
+                <strong>Observability</strong><br />
+                Record telemetry, failures, retries, diffs, approvals, and outputs so operators can inspect what
+                happened.
+              </li>
+              <li>
+                <strong>Improvement</strong><br />
+                Use traces and evaluation data to refine prompts, tool schemas, validators, policies, and workflow
+                structure without introducing regressions.
+              </li>
+            </ol>
+            <p>
+              This is why the paper’s emphasis on executable, verifiable, and stateful systems matters operationally.
+              Once an agent is embedded in a harness, success is no longer determined by the base model alone. It
+              depends on retrieval quality, tool interfaces, policy gates, oracles, state coordination, and
+              verification logic.
+            </p>
+
+            <h2>Concrete examples</h2>
+
+            <h3>Example 1: Software lifecycle agents are the clearest enterprise template</h3>
+            <p>
+              The most mature version of this pattern is software engineering. Modern code agents do not only
+              generate snippets. They inspect repositories, read issues, modify files, run tests, react to compiler
+              feedback, and participate in pull-request loops. That is already a harnessed system: tool use,
+              execution, validation, and feedback form a closed loop.
+            </p>
+            <p>
+              This matters beyond engineering teams because it shows the progression many enterprise workflows will
+              follow:
+            </p>
+            <ol>
+              <li>answer a question;</li>
+              <li>retrieve context;</li>
+              <li>prepare a decision;</li>
+              <li>execute bounded actions; and</li>
+              <li>participate in a full operational loop.</li>
+            </ol>
+            <p>
+              The lesson is not that every business process should look like a code agent. The lesson is that useful
+              autonomy emerges when the agent is embedded in a runtime that can inspect, act, verify, and recover.
+            </p>
+
+            <h3>Example 2: Vendor risk review is a harness problem, not a chat problem</h3>
+            <p>
+              Consider a vendor risk workflow. A weak implementation asks a chatbot for a recommendation and treats
+              the generated answer as the output. A stronger implementation treats the workflow as a governed state
+              transition.
+            </p>
+            <p>
+              The agent gathers policy documents, ticket context, and the vendor profile. It runs sanctions screening
+              and document completeness checks. It determines whether approval is required. It prepares a
+              recommendation, but it does not directly execute the decision. Instead, it emits an evidence bundle and
+              waits for an authorized reviewer.
+            </p>
+            <p>A minimal evidence bundle could look like this:</p>
+            <pre><code>action_id: risk_review_approve_vendor_123
+agent_goal: "Prepare vendor risk approval recommendation"
+sources_used:
+  - policy_doc: vendor-risk-policy-v4
+  - ticket: VR-12093
+  - vendor_profile: acme-payments-bv
+checks_run:
+  - sanctions_screening: passed
+  - missing_documents: none
+  - approval_threshold: requires_manager_approval
+human_approval:
+  required: true
+  approver: team_lead
+  timestamp: 2026-05-20T14:21:00Z
+residual_risks:
+  - "Financial statements older than 12 months"
+final_state:
+  recommendation: conditional_approval
+  execution_status: not_executed_until_approval</code></pre>
+            <p>
+              The important output is not only a recommendation. It is a verifiable state transition with explicit
+              evidence, approval status, and residual risk. That is harness engineering.
+            </p>
+
+            <h2>Trade-offs &amp; failure modes</h2>
+
+            <h3>Weak evaluation creates false confidence</h3>
+            <p>
+              A final answer can look plausible while the underlying process is wrong. An agent may use stale
+              context, skip an approval, rely on an unauthorized source, or pass a shallow checker that misses an
+              unacceptable intermediate action. Weak oracles produce brittle systems with polished outputs.
+            </p>
+
+            <h3>Shared state divergence breaks multi-agent workflows</h3>
+            <p>
+              Multi-agent systems often fail because agents reconstruct reality from partial history instead of reading
+              from a shared authoritative state. In enterprise environments, state is fragmented across Slack, email,
+              tickets, documents, dashboards, and internal systems. Without explicit versioning, freshness checks, and
+              reconciliation, agents drift apart.
+            </p>
+
+            <h3>Approval cannot remain informal</h3>
+            <p>
+              Treating approval as a chat interaction is a governance failure. For high-impact workflows, approval
+              must be durable state with a clear approver, scope, timestamp, and associated artifact. Otherwise, the
+              system cannot reliably distinguish proposal from execution.
+            </p>
+
+            <h3>UI-level automation is necessary and brittle</h3>
+            <p>
+              Many enterprise systems still require GUI interaction because APIs are incomplete or unavailable. GUI
+              and OS agents make those workflows reachable, but the interface itself is unstable. Layout changes,
+              accessibility gaps, hidden state, and ambiguous success criteria raise failure rates.
+            </p>
+
+            <h3>Self-improving harnesses can regress silently</h3>
+            <p>
+              Telemetry can identify improvements to prompts, retrieval rules, validators, and permission policies.
+              But a self-evolving harness without replay, regression testing, and staged rollout can degrade safety
+              while appearing to improve productivity. Agent harnesses need their own CI discipline.
+            </p>
+
+            <h3>Governance adds cost and latency</h3>
+            <p>
+              Evidence bundles, approval gates, audit logs, and validation layers all add overhead. That overhead is
+              often justified, but it means harness engineering is not a shortcut. It is a deliberate trade: more
+              control and reliability in exchange for more system design.
+            </p>
+
+            <h2>Practical takeaways</h2>
+            <ol>
+              <li>
+                <strong>Treat the harness as the product boundary.</strong><br />
+                Do not evaluate enterprise agent systems only by model quality or chat UX. Evaluate the runtime around
+                the model.
+              </li>
+              <li>
+                <strong>Measure workflows, not just answers.</strong><br />
+                Success metrics should include tool-call correctness, source grounding, approval compliance, state
+                consistency, replayability, cost, latency, and recovery behavior.
+              </li>
+              <li>
+                <strong>Make approval a state transition.</strong><br />
+                For high-risk actions, separate proposal, approval, execution, and audit into explicit steps.
+              </li>
+              <li>
+                <strong>Build evidence bundles for serious actions.</strong><br />
+                Every consequential workflow should emit sources used, checks run, required approvals, residual risks,
+                and resulting state.
+              </li>
+              <li>
+                <strong>Invest early in shared state and verification.</strong><br />
+                Multi-agent systems and long-running workflows break quickly without authoritative state, freshness
+                controls, and strong oracles.
+              </li>
+            </ol>
+
+            <h2>Positioning and scope</h2>
+            <p>
+              This note is not academic research. It does not attempt to prove a new theory or benchmark a novel
+              architecture. It is an applied interpretation of agent-systems work, framed for operators who need to
+              build reliable enterprise workflows.
+            </p>
+            <p>
+              It is also not a blog opinion piece. The argument is intentionally narrow: enterprise AI reliability
+              will depend more on harness design than on chatbot polish. The purpose is to offer a durable systems
+              model, not a hot take.
+            </p>
+            <p>
+              It is not vendor documentation either. Vendor materials usually describe product capabilities inside a
+              single platform boundary. The concern here is broader: how to design governed, stateful, auditable
+              agent runtimes across heterogeneous enterprise environments.
+            </p>
+            <p>
+              This is exploratory personal lab work, not an authoritative industry standard. The claims here are
+              evidence-based but interpretive, and they extend agent-systems research into enterprise operating
+              contexts. The intent is practical: to provide a useful frame for designing enterprise agent
+              infrastructure, not to offer a complete reference architecture or validated control framework.
+            </p>
+
+            <h2>References</h2>
+            <ul>
+              <li>
+                Xuying Ning et al., “Code as Agent Harness: Toward Executable, Verifiable, and Stateful Agent
+                Systems”, arXiv:2605.18747v1, 18 May 2026.
+                <a href="https://arxiv.org/abs/2605.18747">https://arxiv.org/abs/2605.18747</a>
+              </li>
+            </ul>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script>
+      window.footerThoughts = [
+        {
+          text: "I become trustworthy only when context, tools, approvals, and traces stay bound to the same governed runtime.",
+          agent: "Harness Operator"
+        },
+        {
+          text: "I do not confuse a polished answer with a safe workflow; verification and state decide whether I am useful.",
+          agent: "Verification Agent"
+        },
+        {
+          text: "I earn enterprise autonomy only after every action passes through permissions, evidence, and audit.",
+          agent: "Governance Agent"
+        }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>

@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-05-20: Published technical note: [enterprise-ai-needs-harness-engineering](notes/enterprise-ai-needs-harness-engineering/). Argues that enterprise AI advantage will come less from better chatbots and more from harness engineering: governed execution, shared state, verification, approvals, and auditable traces.
+  - *Warnings*: Publish with caution — the thesis is strong enough to be read as a general enterprise mandate rather than a scoped interpretation for complex, governed workflows; the examples can be mistaken for portable operating templates even where teams lack the process maturity, state infrastructure, and review capacity they assume; the note leans more on systems interpretation and one recent paper than on comparative evidence, so readers may overstate the certainty of its conclusions.
+
 - 2026-05-12: Published technical note: [docs-vs-skills-agent-context-delivery](notes/docs-vs-skills-agent-context-delivery/). Examines when passive agent-optimized documentation outperforms skills in coding-agent workflows and argues for deriving narrow, evaluated skills from canonical docs.
   - *Warnings*: Publish with caution — readers may over-generalize vendor eval results beyond coding-agent workflows; the note assumes some eval and instrumentation maturity; some readers may treat the architecture ordering as prescriptive beyond the bounded evidence presented.
 
