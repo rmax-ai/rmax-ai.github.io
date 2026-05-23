@@ -9,7 +9,7 @@
 ---
 
 <!-- HERO -->
-# Agent-first software engineering, orchestration, and failure-aware systems.
+# Enterprise AI Engineering, Agent-first systems, and Harness Engineering
 
 ---
 
