@@ -96,6 +96,39 @@
 
           <div class="project-list">
 
+            <!-- MCP Auth Test Server -->
+            <div class="project-card">
+              <div class="project-title">
+                <a href="http://mcp-auth-test-server.rmax.tech/" target="_blank" rel="noopener">MCP Auth Test Server</a>
+              </div>
+              <p class="project-tagline">Spec-focused auth surfaces and a generic client CLI for end-to-end MCP auth testing</p>
+              <p class="muted">A FastAPI test server plus standalone <code>mcp-auth</code> CLI for discovering, authenticating, and exercising MCP resources across OAuth and bearer-token modes without ambiguity.</p>
+
+              <div class="features">
+                <div class="feature-item">
+                  <span class="feature-name">Explicit OAuth Resource</span>
+                  <span class="feature-desc"><code>/mcp/oauth</code> accepts OAuth bearer tokens from auth-code, device, and client-credentials grants.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Deliberate Bearer Surface</span>
+                  <span class="feature-desc"><code>/mcp/bearer-token</code> provides a static bearer-token contract isolated from OAuth discovery and issuance.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Generic mcp-auth CLI</span>
+                  <span class="feature-desc">Resource-centric commands discover metadata, select auth mode, save profiles, and keep tokens valid.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Flow + Reference Docs</span>
+                  <span class="feature-desc">Static docs provide exact walkthroughs and endpoint behavior constraints for reproducible client validation.</span>
+                </div>
+              </div>
+
+              <div class="project-links">
+                <a href="http://mcp-auth-test-server.rmax.tech/" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_external" data-simple-project-id="mcp-auth-test-server">Visit Project</a>
+                <a href="https://github.com/rmax-ai/mcp-auth-test-server" class="btn btn-outline" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="mcp-auth-test-server">GitHub</a>
+              </div>
+            </div>
+
               <!-- Shardlake -->
               <div class="project-card">
                 <div class="project-title">
