@@ -1,5 +1,5 @@
 ---
-title: "Stateful Enterprise Cognition"
+title: "Stateful Enterprise Cognition: Why Enterprise AI Requires a Governed Knowledge Layer"
 slug: "stateful-enterprise-cognition"
 description: "A technical note arguing that enterprise agents need a governed knowledge layer to externalize identity, provenance, relationships, and temporal state before autonomy can be trusted."
 author: "Max"
@@ -15,7 +15,7 @@ canonical_url: "https://rmax.ai/notes/stateful-enterprise-cognition/"
 license: "CC BY 4.0"
 ---
 
-# Stateful Enterprise Cognition
+# Stateful Enterprise Cognition: Why Enterprise AI Requires a Governed Knowledge Layer
 
 ## Abstract
 
