@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-05-20T05:29:07Z</lastmod>
+    <lastmod>2026-05-24T21:39:36Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-05-20T05:29:00Z</lastmod>
+    <lastmod>2026-05-24T21:39:36Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -58,7 +58,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/enterprise-ai-needs-harness-engineering/</loc>
-    <lastmod>2026-05-20T05:27:54Z</lastmod>
+    <lastmod>2026-05-20T06:07:50Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/evolution-of-ai-coding-agents-autocomplete-to-autonomous-sdlc/</loc>
@@ -107,6 +107,10 @@
   <url>
     <loc>https://rmax.ai/notes/rx-lean-agent-kernels-beat-general-coding-frameworks/</loc>
     <lastmod>2026-02-15T22:31:51Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/stateful-enterprise-cognition/</loc>
+    <lastmod>2026-05-24T21:40:00Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/tests-not-silver-bullet-resilience-first-observability/</loc>

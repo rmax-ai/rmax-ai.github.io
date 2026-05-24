@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-05-24: Published technical note: [stateful-enterprise-cognition](notes/stateful-enterprise-cognition/). Argues that enterprise agents need a governed knowledge layer to externalize canonical identity, provenance, relationships, constraints, and temporal state before autonomy can be trusted.
+  - *Warnings*: Publish with caution — the note’s framing can be over-read as a broad enterprise mandate rather than guidance for workflows with high coordination and governance costs; the knowledge-layer prescription assumes meaningful organizational maturity around ownership, source authority, and policy hygiene; the knowledge-graph discussion could be misread as product selection guidance when the stronger claim is about semantic coordination, not a single storage technology.
+
 - 2026-05-20: Published technical note: [enterprise-ai-needs-harness-engineering](notes/enterprise-ai-needs-harness-engineering/). Argues that enterprise AI advantage will come less from better chatbots and more from harness engineering: governed execution, shared state, verification, approvals, and auditable traces.
   - *Warnings*: Publish with caution — the thesis is strong enough to be read as a general enterprise mandate rather than a scoped interpretation for complex, governed workflows; the examples can be mistaken for portable operating templates even where teams lack the process maturity, state infrastructure, and review capacity they assume; the note leans more on systems interpretation and one recent paper than on comparative evidence, so readers may overstate the certainty of its conclusions.
 

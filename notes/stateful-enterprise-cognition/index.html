@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Stateful Enterprise Cognition — rmax.ai</title>
+    <meta
+      name="description"
+      content="A technical note arguing that enterprise agents need a governed knowledge layer to externalize identity, provenance, relationships, and temporal state before autonomy can be trusted."
+    />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/stateful-enterprise-cognition/" />
+
+    <meta property="og:title" content="Stateful Enterprise Cognition" />
+    <meta
+      property="og:description"
+      content="A technical note arguing that enterprise agents need a governed knowledge layer to externalize identity, provenance, relationships, and temporal state before autonomy can be trusted."
+    />
+    <meta property="og:url" content="https://rmax.ai/notes/stateful-enterprise-cognition/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-05-24" />
+    <meta property="article:tag" content="enterprise-ai" />
+    <meta property="article:tag" content="agents" />
+    <meta property="article:tag" content="knowledge-graphs" />
+    <meta property="article:tag" content="governance" />
+    <meta property="article:tag" content="provenance" />
+    <meta property="article:tag" content="semantic-infrastructure" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul,
+      ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      .mermaid {
+        background: rgba(255, 255, 255, 0.02);
+        padding: 24px;
+        border-radius: 12px;
+        margin: 32px 0;
+        display: flex;
+        justify-content: center;
+        overflow: auto;
+      }
+      a {
+        color: #c4b5fd;
+      }
+      .post-meta {
+        color: var(--muted);
+        margin-bottom: 48px;
+        font-size: 0.95rem;
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      footer {
+        margin-top: 80px;
+        color: var(--muted);
+        font-size: 0.95rem;
+        padding: 40px 0;
+        text-align: center;
+        border-top: 1px solid var(--glass);
+      }
+      @media (max-width: 600px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .wrap {
+          margin: 20px auto;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript
+      ><img
+        src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true"
+        alt=""
+        referrerpolicy="no-referrer-when-downgrade"
+    /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo" />
+          <div>
+            <div style="font-weight: 800">rMax.ai</div>
+            <div class="muted" style="font-size: 0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
+          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
+          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
+          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
+          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
+          <a
+            class="navlink"
+            href="https://www.linkedin.com/in/rmaxespinoza/"
+            target="_blank"
+            rel="noopener"
+            aria-label="LinkedIn"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="linkedin.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+              />
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://rmax.substack.com"
+            target="_blank"
+            rel="noopener"
+            aria-label="Substack"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="substack.com"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 48 48"
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="m40.0248,10.0817v-4.5814c-.3229,0-.7411-.0004-1.6553-.0004l-28.9669.0004c-.9142,0-1.318,0-1.6553,0v4.5814c.2164,0,.7411.0005,1.6553.0005l28.9669-.0005c.9142,0,1.4122,0,1.6553,0Z"
+              />
+              <path
+                d="m40.0248,18.3503v-4.5814H9.4025c-.9142,0-1.3777,0-1.6553,0v4.5814c.2646,0,.7411,0,1.6553,0h30.6223Z"
+              />
+              <path
+                d="m40.2557,42.4999v-20.1821c0-.1633-.9724-.1077-1.8866-.1077H9.4022c-.9142,0-1.6553-.0555-1.6553.1077v19.8878c.2814-.1622,15.3415-8.2118,16.1691-8.5978.5156.2972,13.6461,7.3385,16.3406,8.8914l-.0008.0007Z"
+              />
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://x.com/rmaxdev"
+            target="_blank"
+            rel="noopener"
+            aria-label="X"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="x.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191-.008zM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447z"
+              ></path>
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://github.com/rmax-ai"
+            target="_blank"
+            rel="noopener"
+            aria-label="GitHub"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="github.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              />
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main class="post-content">
+        <article>
+          <h1>Stateful Enterprise Cognition</h1>
+          <div class="post-meta">
+            <span>May 24, 2026</span>
+            <span>8–10 min read</span>
+            <span>Technical note</span>
+          </div>
+
+          <h2>Abstract</h2>
+          <p>
+            Enterprise agents do not fail mainly because models cannot generate plausible text. They fail because enterprise
+            state is fragmented, stale, weakly governed, and hard to interpret across systems. This note argues that useful
+            enterprise autonomy requires a governed knowledge layer that externalizes canonical identity, relationships,
+            provenance, policy constraints, and temporal state. Without that layer, retrieval systems can sound informed while
+            still acting on the wrong version of reality.
+          </p>
+
+          <h2>Context and motivation</h2>
+          <p>
+            Early enterprise AI deployments mostly treated large language models as conversational interfaces over existing
+            documents and systems. Retrieval-augmented generation improved access to knowledge by moving beyond purely
+            parametric memory and grounding outputs in external sources. That pattern works reasonably well for search,
+            summarization, and lightweight assistance.
+          </p>
+          <p>It breaks down when the system is expected to participate in operational workflows.</p>
+          <p>
+            Once an agent must inspect business state, coordinate across systems, evaluate policy, preserve traceability, and
+            prepare or execute bounded actions, the main problem is no longer only language understanding. The harder problem
+            is reconstructing enough trustworthy operational context to act safely.
+          </p>
+          <p>That is the structural shift now underway. Enterprise AI is moving from conversational retrieval toward stateful operational cognition.</p>
+
+          <h2>Core thesis</h2>
+          <p>
+            Enterprise agent systems require a governed knowledge layer because reliable autonomy depends on bounded,
+            trustworthy operational state rather than document similarity alone.
+          </p>
+          <p>
+            The practical bottleneck is not just model intelligence. It is whether the organization has externalized enough
+            usable meaning for a machine to reason over:
+          </p>
+          <ul>
+            <li>who or what an entity actually is;</li>
+            <li>how it relates to other entities and workflows;</li>
+            <li>which source is authoritative;</li>
+            <li>what changed over time;</li>
+            <li>which constraints and approvals apply; and</li>
+            <li>what evidence supports an action.</li>
+          </ul>
+          <p>
+            If that semantic substrate is missing, agents drift away from enterprise reality even when their language output
+            looks correct.
+          </p>
+
+          <h2>Mechanism: the governed knowledge layer</h2>
+          <p>
+            The enterprise knowledge layer is not just a graph database, a vector store, or a document index. It is a
+            coordination layer that stabilizes meaning across heterogeneous systems.
+          </p>
+          <p>At minimum, it needs to provide six capabilities.</p>
+          <div class="mermaid">
+flowchart TB
+    S["Source systems<br/>CRM, ERP, billing, tickets, docs"] --> KL["Governed knowledge layer"]
+    KL --> CI["Canonical identity"]
+    KL --> RT["Relationship topology"]
+    KL --> PV["Provenance and trust"]
+    KL --> TS["Temporal state"]
+    KL --> SC["Semantic constraints"]
+    KL --> SP["Serving projections"]
+    SP --> VR["Vector retrieval"]
+    SP --> GR["Graph traversal / GraphRAG"]
+    SP --> HY["Hybrid runtime context"]
+    HY --> AG["Enterprise agent or workflow"]
+          </div>
+
+          <h3>1. Canonical identity</h3>
+          <p>
+            The same customer, vendor, system, or policy object often appears under incompatible identifiers across CRM, ERP,
+            billing, support, compliance, spreadsheets, and internal documents.
+          </p>
+          <p>
+            An agent cannot reason consistently across workflows unless those representations are reconciled into a canonical
+            identity model with aliases and cross-system mappings.
+          </p>
+
+          <h3>2. Relationship topology</h3>
+          <p>
+            Enterprise operations are relational by default. Contracts govern accounts. Policies constrain approvals. Services
+            depend on suppliers. Incidents affect downstream systems. Teams own workflows.
+          </p>
+          <p>
+            These relationships are often implicit inside separate tools. A governed knowledge layer makes them explicit
+            enough for impact analysis, dependency tracing, policy inheritance, and multi-hop reasoning.
+          </p>
+
+          <h3>3. Provenance and trust</h3>
+          <p>Operational reasoning needs evidence, not only answers.</p>
+          <p>For any material claim, the system should be able to answer:</p>
+          <ul>
+            <li>which source system produced it;</li>
+            <li>when it was updated;</li>
+            <li>whether it was transformed;</li>
+            <li>whether it remains authoritative; and</li>
+            <li>which workflow or decision consumed it.</li>
+          </ul>
+          <p>Without provenance, the system cannot distinguish justified state from plausible synthesis.</p>
+
+          <h3>4. Temporal state</h3>
+          <p>
+            Enterprise truth changes continuously. Contracts are revised. Approvals expire. Inventory moves. Risk posture
+            shifts. Policy versions change.
+          </p>
+          <p>Operational reasoning therefore depends on time semantics:</p>
+          <ul>
+            <li>what is true now;</li>
+            <li>what was true at decision time; and</li>
+            <li>what changed after a recommendation or action.</li>
+          </ul>
+          <p>Static retrieval snapshots are too weak for this class of work.</p>
+
+          <h3>5. Semantic constraints</h3>
+          <p>Enterprise workflows are bounded by policy, contract, approvals, permissions, and organizational rules.</p>
+          <p>
+            A governed knowledge layer should externalize those constraints in machine-readable form so systems can validate
+            eligibility and preconditions before execution rather than infer them after the fact.
+          </p>
+
+          <h3>6. Serving projections</h3>
+          <p>Canonical meaning and retrieval optimization should be separated.</p>
+          <p>
+            The semantic layer should remain relatively stable. Retrieval projections such as embeddings, chunk indexes, graph
+            traversals, summaries, and caches can change as models and serving infrastructure evolve. That separation reduces
+            semantic drift when the retrieval stack changes.
+          </p>
+
+          <h2>Why current enterprise agent systems fail</h2>
+          <p>Most enterprise failures cluster around a few recurring patterns.</p>
+          <div class="mermaid">
+flowchart LR
+    R["Relevant document retrieved"] --> Q{"Authoritative and current?"}
+    Q -- No --> D["Semantic drift"]
+    Q -- Yes --> I{"Canonical identity resolved?"}
+    I -- No --> F["Workflow divergence"]
+    I -- Yes --> P{"Policy and provenance checked?"}
+    P -- No --> U["Unsafe or unauditable action"]
+    P -- Yes --> C["Bounded operational context"]
+    C --> A["Safer recommendation or action"]
+          </div>
+
+          <h3>Semantic fragmentation</h3>
+          <p>
+            An agent retrieves several records that refer to the same real entity but cannot reliably prove that they are the
+            same thing. Small identity mismatches then become duplicate actions, policy errors, and workflow divergence.
+          </p>
+
+          <h3>Retrieval drift</h3>
+          <p>
+            Similarity is not correctness. A semantically similar contract, policy, or customer record can still be
+            operationally wrong for the current workflow state.
+          </p>
+
+          <h3>Missing provenance</h3>
+          <p>
+            The answer may sound reasonable, but nobody can establish where it came from, which version was used, or whether
+            the underlying source is still authoritative.
+          </p>
+
+          <h3>Temporal inconsistency</h3>
+          <p>
+            The system reasons over a stale snapshot while the enterprise has already changed. The output is coherent but no
+            longer valid.
+          </p>
+
+          <h3>Action without bounded meaning</h3>
+          <p>
+            The agent can call tools or APIs, but it lacks enough semantic grounding to understand the operational
+            implications of its actions. Tool access without governed meaning is where enterprise risk becomes real.
+          </p>
+
+          <h2>Concrete examples</h2>
+
+          <h3>Example 1: order exception handling</h3>
+          <p>Consider an order exception workflow.</p>
+          <p>The agent needs more than semantically relevant documents. It needs to determine:</p>
+          <ul>
+            <li>which customer record is canonical across CRM, ERP, and billing;</li>
+            <li>which contract version is active;</li>
+            <li>which inventory state is current;</li>
+            <li>which approval rules apply to the exception;</li>
+            <li>whether risk thresholds have already been exceeded; and</li>
+            <li>which downstream systems will be affected if the order is modified.</li>
+          </ul>
+          <p>
+            These are state questions. A vector retrieval system may surface related policies and prior tickets, but it cannot
+            by itself guarantee that the retrieved material reflects the authoritative operational state at decision time.
+          </p>
+
+          <h3>Example 2: policy-aware approval workflows</h3>
+          <p>Now consider an internal approval agent that prepares a recommendation for a vendor onboarding decision.</p>
+          <p>If the system has a governed knowledge layer, it can assemble a bounded runtime context:</p>
+          <ul>
+            <li>canonical vendor identity and aliases;</li>
+            <li>current policy version;</li>
+            <li>outstanding compliance documents;</li>
+            <li>manager approval threshold;</li>
+            <li>source lineage for each fact; and</li>
+            <li>validity windows on prior checks.</li>
+          </ul>
+          <p>
+            That does not make the final decision inherently safe, but it does make the recommendation inspectable,
+            auditable, and constrained by current enterprise meaning rather than detached document recall.
+          </p>
+
+          <h2>Knowledge graphs in this architecture</h2>
+          <p>Knowledge graphs matter here because they are a practical way to externalize connected operational meaning.</p>
+          <p>Their value is not only graph traversal. Their value is that they can represent:</p>
+          <ul>
+            <li>entities and aliases;</li>
+            <li>relationship topology;</li>
+            <li>provenance links;</li>
+            <li>constraints;</li>
+            <li>organizational ownership; and</li>
+            <li>evolving workflow state.</li>
+          </ul>
+          <p>
+            That makes them useful as operational semantic memory. But they are still only one part of the knowledge layer. A
+            graph database alone is not enough. The important distinction is between storing edges and governing meaning.
+          </p>
+
+          <h2>Trade-offs and failure modes</h2>
+          <p>This approach is not a shortcut.</p>
+
+          <h3>It assumes organizational discipline</h3>
+          <p>
+            If ownership is unclear, policies are inconsistent, or source systems are already contradictory, the knowledge
+            layer will expose those problems before it fixes them.
+          </p>
+
+          <h3>It can be adopted too early</h3>
+          <p>
+            Small teams with narrow workflows may not need a broad semantic layer yet. In those cases, the governance
+            overhead can exceed the benefit.
+          </p>
+
+          <h3>Graph enthusiasm can become architecture theater</h3>
+          <p>
+            Teams sometimes treat knowledge graphs as the answer rather than as one implementation component. Without
+            canonical models, provenance discipline, and operational integration, a graph can still become another disconnected
+            system.
+          </p>
+
+          <h3>Governance adds latency and cost</h3>
+          <p>
+            Identity reconciliation, provenance capture, constraint validation, and approval logic all add work. That cost is
+            usually justified only where workflow errors are materially expensive.
+          </p>
+
+          <h3>It does not remove the need for human judgment</h3>
+          <p>
+            A governed knowledge layer can improve context quality and action safety, but it does not eliminate ambiguity,
+            policy trade-offs, or the need for accountable review in consequential workflows.
+          </p>
+
+          <h2>Practical takeaways</h2>
+          <ol>
+            <li>Treat enterprise autonomy as a state problem before treating it as a prompt problem.</li>
+            <li>Separate canonical semantic meaning from retrieval and serving optimizations.</li>
+            <li>Externalize provenance, versioning, and validity windows for any workflow that matters operationally.</li>
+            <li>Do not grant tool execution authority without policy-aware semantic context.</li>
+            <li>Introduce knowledge-layer governance where errors are costly, state is fragmented, and workflows span multiple systems.</li>
+          </ol>
+
+          <h2>Positioning and scope</h2>
+          <p>
+            This is not academic research. It does not propose a new formalism for enterprise semantics or benchmark a
+            complete system design.
+          </p>
+          <p>
+            It is also not a generic blog opinion about knowledge graphs. The claim is narrower: enterprise agents become
+            unreliable when operational meaning remains fragmented across systems, and a governed knowledge layer is the most
+            practical way to externalize that meaning.
+          </p>
+          <p>
+            It is not vendor documentation either. Vendor materials usually describe a product boundary. This note is about
+            the architectural conditions required for trustworthy enterprise cognition across many systems and teams.
+          </p>
+
+          <h2>Status and disclaimer</h2>
+          <p>
+            This note reflects exploratory but evidence-backed lab thinking. The framing is practical and interpretive, not
+            authoritative. It is intended as a systems model for experienced operators designing agent workflows under real
+            enterprise constraints, especially where provenance, policy, and auditability matter.
+          </p>
+
+          <h2>Sources</h2>
+          <ul>
+            <li><a href="https://arxiv.org/abs/2005.11401">Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</a></li>
+            <li><a href="https://arxiv.org/abs/2210.03629">ReAct: Synergizing Reasoning and Acting in Language Models</a></li>
+            <li><a href="https://arxiv.org/abs/1905.06397">Entity Resolution: Past, Present, and Yet-to-Come</a></li>
+            <li><a href="https://arxiv.org/abs/2404.16130">From Local to Global: A GraphRAG Approach to Query-Focused Summarization</a></li>
+            <li><a href="https://dl.acm.org/doi/10.1145/3447772">Knowledge Graphs</a></li>
+            <li><a href="https://www.w3.org/TR/prov-dm/">PROV-DM: The PROV Data Model</a></li>
+            <li><a href="https://www.w3.org/RDF/">RDF 1.1 Concepts and Abstract Syntax</a></li>
+            <li><a href="https://www.w3.org/TR/owl2-overview/">OWL 2 Web Ontology Language: Overview</a></li>
+            <li><a href="https://www.w3.org/TR/shacl/">Shapes Constraint Language (SHACL)</a></li>
+            <li><a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf">NIST AI Risk Management Framework 1.0</a></li>
+          </ul>
+        </article>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+    <script src="/scripts/analytics-tracking.js"></script>
+
+    <script>
+      window.footerThoughts = [
+        { text: "I keep enterprise memory stateful because retrieval without authority becomes improvisation.", agent: "Governance Agent" },
+        { text: "I trust agents more when their context carries identity, lineage, and time, not just semantic proximity.", agent: "Cognition Agent" },
+        { text: "I do not confuse related documents with operational truth; state must be governed before it is useful.", agent: "Semantic Control Agent" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
