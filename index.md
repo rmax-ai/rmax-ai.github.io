@@ -26,6 +26,12 @@ Analyzing how contemporary AI tools structure authority and constraints in syste
 ## Notes
 [View all →](/notes/)
 
+### [What Glean’s Knowledge Graph Approach Reveals About Enterprise AI Search](/notes/enterprise-ai-agents-knowledge-layer-beyond-rag/)
+An analysis of Glean’s knowledge graph approach to enterprise AI search, and what it reveals about retrieval, permissions, relationships, approvals, and operational state beyond vector RAG.
+
+### [Stateful Enterprise Cognition: Why Enterprise AI Requires a Governed Knowledge Layer](/notes/stateful-enterprise-cognition/)
+A technical note arguing that enterprise agents need a governed knowledge layer to externalize identity, provenance, relationships, and temporal state before autonomy can be trusted.
+
 ### [Enterprise AI Needs Harness Engineering, Not Better Chatbots](/notes/enterprise-ai-needs-harness-engineering/)
 A technical note arguing that enterprise AI advantage will come less from better chatbots and more from harness engineering: governed execution, shared state, verification, approvals, and auditable traces.
 

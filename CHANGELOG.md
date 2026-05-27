@@ -11,6 +11,13 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-05-27: Published technical note: [enterprise-ai-agents-knowledge-layer-beyond-rag](notes/enterprise-ai-agents-knowledge-layer-beyond-rag/). Argues that enterprise agents need a permission-aware knowledge layer beyond vector search and vanilla RAG so they can resolve entities, relationships, policies, approvals, provenance, and outcomes before acting.
+  - *Warnings*: Publish with caution — the note can be over-read as a broad prescription for all enterprise AI deployments rather than for governed, cross-system workflows; the architecture assumes substantial organizational maturity around identity, permissions, policy modeling, and data freshness; the graph and ontology framing could be misread as endorsing a specific vendor or storage pattern when the stronger claim is about a knowledge control plane.
+
+### Changed
+
+- 2026-05-27: Retitled and reframed [enterprise-ai-agents-knowledge-layer-beyond-rag](notes/enterprise-ai-agents-knowledge-layer-beyond-rag/) as a Glean-centered analysis. Updated the intro and conclusion to make the primary source framing explicit and to position the note as an interpretation of Glean’s knowledge graph approach to enterprise AI search rather than a standalone manifesto.
+
 - 2026-05-24: Published technical note: [stateful-enterprise-cognition](notes/stateful-enterprise-cognition/). Argues that enterprise agents need a governed knowledge layer to externalize canonical identity, provenance, relationships, constraints, and temporal state before autonomy can be trusted.
   - *Warnings*: Publish with caution — the note’s framing can be over-read as a broad enterprise mandate rather than guidance for workflows with high coordination and governance costs; the knowledge-layer prescription assumes meaningful organizational maturity around ownership, source authority, and policy hygiene; the knowledge-graph discussion could be misread as product selection guidance when the stronger claim is about semantic coordination, not a single storage technology.
 
