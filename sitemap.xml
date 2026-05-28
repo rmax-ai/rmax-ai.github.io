@@ -2,146 +2,154 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-05-24T21:39:36Z</lastmod>
+    <lastmod>2026-05-28T19:27:19Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
-    <lastmod>2026-01-31T09:36:25Z</lastmod>
+    <lastmod>2026-05-28T19:27:19Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-05-24T21:39:36Z</lastmod>
+    <lastmod>2026-05-28T20:28:24Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
-    <lastmod>2026-02-01T15:20:57Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agent-execution-contracts/</loc>
-    <lastmod>2026-01-26T01:02:43Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agent-first-software-engineering/</loc>
-    <lastmod>2026-01-26T01:02:43Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agent-oriented-clis-teach-themselves/</loc>
-    <lastmod>2026-03-01T20:13:21Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/ai-native-engineering/</loc>
-    <lastmod>2026-01-26T01:02:43Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/ai-native-sdlc-proposal/</loc>
-    <lastmod>2026-03-15T13:13:20Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/authority-first-agent-architecture/</loc>
-    <lastmod>2026-01-26T01:02:43Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/building-an-autonomous-development-loop/</loc>
-    <lastmod>2026-03-15T18:10:16Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/code-is-the-new-assembly/</loc>
-    <lastmod>2026-01-26T01:02:43Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/docs-vs-skills-agent-context-delivery/</loc>
-    <lastmod>2026-05-12T21:32:03Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/earned-agent-autonomy/</loc>
-    <lastmod>2026-01-26T01:02:43Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/enterprise-ai-agents-knowledge-layer-beyond-rag/</loc>
+    <lastmod>2026-05-28T19:27:19Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/enterprise-ai-needs-harness-engineering/</loc>
-    <lastmod>2026-05-20T06:07:50Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/evolution-of-ai-coding-agents-autocomplete-to-autonomous-sdlc/</loc>
-    <lastmod>2026-01-26T01:02:43Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/failure-oriented-orchestration/</loc>
-    <lastmod>2026-01-26T01:02:43Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/forward-deployed-engineer-enterprise-ai/</loc>
+    <lastmod>2026-05-28T20:28:03Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/from-prompting-to-cultivation/</loc>
-    <lastmod>2026-01-26T01:02:43Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/from-task-automation-to-goal-driven-systems/</loc>
-    <lastmod>2026-03-17T22:31:21Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/github-copilot-model-selection-guidelines/</loc>
-    <lastmod>2026-01-26T01:02:43Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/harness-new-model-agent-systems-2026/</loc>
-    <lastmod>2026-02-18T22:03:39Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/human-loop-orientation/</loc>
-    <lastmod>2026-01-26T01:02:43Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/mlops-agent-harness-engineering/</loc>
-    <lastmod>2026-03-22T22:50:34Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/open-source-after-coding-agents/</loc>
-    <lastmod>2026-01-26T01:02:43Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/personal-operating-systems-micro-apps/</loc>
-    <lastmod>2026-01-26T01:02:43Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/personal-software-factory/</loc>
-    <lastmod>2026-01-26T01:02:43Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/rx-lean-agent-kernels-beat-general-coding-frameworks/</loc>
-    <lastmod>2026-02-15T22:31:51Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/stateful-enterprise-cognition/</loc>
-    <lastmod>2026-05-24T21:40:00Z</lastmod>
+    <lastmod>2026-05-28T19:27:19Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/tests-not-silver-bullet-resilience-first-observability/</loc>
-    <lastmod>2026-02-08T18:11:15Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/the-software-replacement-age/</loc>
-    <lastmod>2026-01-26T01:02:43Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/trust-patience-craft-working-modern-agentic-ai/</loc>
-    <lastmod>2026-01-28T23:50:15Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/typing-code-is-solved/</loc>
-    <lastmod>2026-01-26T01:02:43Z</lastmod>
+    <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/projects/</loc>
-    <lastmod>2026-03-22T23:40:30Z</lastmod>
+    <lastmod>2026-05-28T19:27:19Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/research/</loc>
-    <lastmod>2026-03-22T22:54:25Z</lastmod>
+    <lastmod>2026-05-28T19:27:19Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/start-here/</loc>
-    <lastmod>2026-01-31T09:36:22Z</lastmod>
+    <lastmod>2026-05-28T19:27:19Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/token/</loc>
-    <lastmod>2026-01-26T01:04:02Z</lastmod>
+    <lastmod>2026-05-28T19:27:19Z</lastmod>
   </url>
 </urlset>

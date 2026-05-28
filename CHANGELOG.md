@@ -116,3 +116,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 ### Fixed
 
 - N/A
+
+## 2026-05-28
+
+### Added
+
+- Published technical note: notes/forward-deployed-engineer-enterprise-ai/ — The Forward Deployed Engineer in Enterprise AI: From Integration Specialist to Agentic Control-Plane Builder
