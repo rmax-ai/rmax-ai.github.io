@@ -32,6 +32,9 @@ An analysis of Glean’s knowledge graph approach to enterprise AI search, and w
 ### [Stateful Enterprise Cognition: Why Enterprise AI Requires a Governed Knowledge Layer](/notes/stateful-enterprise-cognition/)
 A technical note arguing that enterprise agents need a governed knowledge layer to externalize identity, provenance, relationships, and temporal state before autonomy can be trusted.
 
+### [The Forward Deployed Engineer in Enterprise AI: From Integration Specialist to Agentic Control-Plane Builder](/notes/forward-deployed-engineer-enterprise-ai/)
+A technical note on why forward deployed engineers in enterprise AI create durable value by turning local deployment friction into reusable control-plane infrastructure for governed agent execution.
+
 ### [Enterprise AI Needs Harness Engineering, Not Better Chatbots](/notes/enterprise-ai-needs-harness-engineering/)
 A technical note arguing that enterprise AI advantage will come less from better chatbots and more from harness engineering: governed execution, shared state, verification, approvals, and auditable traces.
 
