@@ -26,20 +26,23 @@ Analyzing how contemporary AI tools structure authority and constraints in syste
 ## Notes
 [View all →](/notes/)
 
+### [The Forward Deployed Engineer in Enterprise AI: From Integration Specialist to Agentic Control-Plane Builder](/notes/forward-deployed-engineer-enterprise-ai/)
+A technical note on why forward deployed engineers in enterprise AI create durable value by turning local deployment friction into reusable control-plane infrastructure for governed agent execution.
+
 ### [What Glean’s Knowledge Graph Approach Reveals About Enterprise AI Search](/notes/enterprise-ai-agents-knowledge-layer-beyond-rag/)
 An analysis of Glean’s knowledge graph approach to enterprise AI search, and what it reveals about retrieval, permissions, relationships, approvals, and operational state beyond vector RAG.
 
 ### [Stateful Enterprise Cognition: Why Enterprise AI Requires a Governed Knowledge Layer](/notes/stateful-enterprise-cognition/)
 A technical note arguing that enterprise agents need a governed knowledge layer to externalize identity, provenance, relationships, and temporal state before autonomy can be trusted.
 
-### [The Forward Deployed Engineer in Enterprise AI: From Integration Specialist to Agentic Control-Plane Builder](/notes/forward-deployed-engineer-enterprise-ai/)
-A technical note on why forward deployed engineers in enterprise AI create durable value by turning local deployment friction into reusable control-plane infrastructure for governed agent execution.
-
 ### [Enterprise AI Needs Harness Engineering, Not Better Chatbots](/notes/enterprise-ai-needs-harness-engineering/)
 A technical note arguing that enterprise AI advantage will come less from better chatbots and more from harness engineering: governed execution, shared state, verification, approvals, and auditable traces.
 
 ### [Agent-Optimized Docs vs Skills: What Actually Improves Coding Agent Performance](/notes/docs-vs-skills-agent-context-delivery/)
 An evidence-backed note on when passive agent-optimized docs outperform skills, why activation reliability matters, and how to structure context delivery for coding agents.
+
+### [From MLOps to Agent Harness Engineering: Why the Model Is the Small Box and the System Is the Product](/notes/mlops-agent-harness-engineering/)
+An essay arguing that reliable agent systems depend less on the model alone and more on the surrounding harness: context assembly, tool interfaces, verification, observability, and execution control.
 
 ### [Designing Harnesses for Goal-Driven Autonomous Agents](/notes/from-task-automation-to-goal-driven-systems/)
 A technical note arguing that goal-driven autonomous agents depend less on prompts alone and more on harnesses that expose state, constrain actions, validate changes, and verify outcomes.
