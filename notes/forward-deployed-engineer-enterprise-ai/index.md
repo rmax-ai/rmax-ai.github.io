@@ -7,8 +7,8 @@ site: "rmax.ai"
 section: "notes"
 type: "essay"
 status: "published"
-date: "2026-05-28"
-updated: "2026-05-28"
+date: "2026-05-30"
+updated: "2026-05-30"
 tags:
   - "fde"
   - "forward-deployed-engineer"
@@ -19,6 +19,8 @@ tags:
   - "workflow-automation"
   - "identity-and-delegation"
   - "policy-enforcement"
+  - "control-plane"
+  - "agent-deployment"
 reading_time: "8-10 min"
 canonical_url: "https://rmax.ai/notes/forward-deployed-engineer-enterprise-ai/"
 license: "CC BY 4.0"
@@ -50,14 +52,24 @@ The main constraint in enterprise AI is not that models cannot reason. It is tha
 
 A useful model is to treat enterprise agent deployment as a six-layer control plane:
 
-| Layer | Responsibility |
-|---|---|
-| Business outcome layer | Success criteria, cycle time, risk reduction, review burden |
-| Workflow and evaluation layer | State transitions, approvals, traces, escalation rules, evals |
-| Policy and identity layer | Delegation, scopes, authorization, auditability |
-| Semantic and knowledge layer | Business entities, definitions, evidence, provenance |
-| Tool and integration layer | APIs, SaaS systems, MCP tools, execution gateways |
-| Model and runtime layer | Routing, context assembly, sandboxing, budgets |
+```mermaid
+flowchart TD
+    L1["Business outcome layer<br/>KPIs, cycle time, risk reduction"]
+    L2["Workflow and evaluation layer<br/>Approvals, traces, escalation, evals"]
+    L3["Policy and identity layer<br/>Delegation, scopes, authorization"]
+    L4["Semantic and knowledge layer<br/>Entities, evidence, provenance"]
+    L5["Tool and integration layer<br/>APIs, SaaS, MCP, gateways"]
+    L6["Model and runtime layer<br/>Routing, context, sandboxing, budgets"]
+
+    L1 --> L2 --> L3 --> L4 --> L5 --> L6
+
+    style L1 fill:#0f172a,stroke:#93c5fd,stroke-width:2px,color:#e5e7eb
+    style L2 fill:#111827,stroke:#7dd3fc,stroke-width:2px,color:#e5e7eb
+    style L3 fill:#172554,stroke:#a5b4fc,stroke-width:2px,color:#e5e7eb
+    style L4 fill:#1f2937,stroke:#86efac,stroke-width:2px,color:#e5e7eb
+    style L5 fill:#1e293b,stroke:#f9a8d4,stroke-width:2px,color:#e5e7eb
+    style L6 fill:#0b1120,stroke:#fcd34d,stroke-width:2px,color:#e5e7eb
+```
 
 The FDE works across these layers in an operating environment, not a lab setting.
 
@@ -77,11 +89,45 @@ The next requirement is a semantic layer. Retrieval is not enough when the agent
 
 Then comes identity and delegation. Enterprise permissions were designed for humans and conventional applications. They were not designed for agents that reason conditionally and act at scale. A production system should separate read authority, proposal authority, approval authority, and execution authority. A person's broad application access does not automatically define the right authority for an agent acting on that person's behalf.
 
+```mermaid
+flowchart LR
+    R["Read authority<br/>Read-only context gathering"]
+    P["Proposal authority<br/>Draft structured changes"]
+    G{"Approval gate"}
+    A["Approval authority<br/>Sign-offs and gate decisions"]
+    E["Execution authority<br/>Act only within narrow scopes"]
+
+    R --> P --> G --> A --> E
+
+    style R fill:#0f172a,stroke:#93c5fd,stroke-width:2px,color:#e5e7eb
+    style P fill:#111827,stroke:#7dd3fc,stroke-width:2px,color:#e5e7eb
+    style G fill:#1e293b,stroke:#fcd34d,stroke-width:2px,color:#e5e7eb
+    style A fill:#172554,stroke:#a5b4fc,stroke-width:2px,color:#e5e7eb
+    style E fill:#1f2937,stroke:#86efac,stroke-width:2px,color:#e5e7eb
+```
+
 Finally, the deployment needs evaluation and observability. Agent systems fail in ways that do not appear in a short happy-path demo. They fail under ambiguous requests, missing evidence, policy conflicts, malformed tool calls, expired approvals, and downstream errors. The FDE's operational loop is therefore:
 
 Production failure -> diagnosis -> new evaluation case -> platform or policy improvement -> safer redeployment
 
 That loop is what makes field engineering compound.
+
+```mermaid
+flowchart LR
+    F["Production failure"]
+    D["Diagnosis"]
+    N["New evaluation case"]
+    P["Platform or policy improvement"]
+    S["Safer redeployment"]
+
+    F --> D --> N --> P --> S --> F
+
+    style F fill:#3f1d2e,stroke:#fda4af,stroke-width:2px,color:#f8fafc
+    style D fill:#0f172a,stroke:#93c5fd,stroke-width:2px,color:#e5e7eb
+    style N fill:#111827,stroke:#7dd3fc,stroke-width:2px,color:#e5e7eb
+    style P fill:#172554,stroke:#a5b4fc,stroke-width:2px,color:#e5e7eb
+    style S fill:#1f2937,stroke:#86efac,stroke-width:2px,color:#e5e7eb
+```
 
 ## Concrete Examples
 
@@ -98,6 +144,30 @@ A weak system gives the agent tool access and assumes the prompt is sufficient. 
 5. Execute only the narrow approved action.
 6. Verify the resulting system state.
 7. Record the requester, evidence, approval, tool response, and outcome.
+
+```mermaid
+flowchart TD
+    S1["1. Read system records and policy"]
+    S2["2. Produce structured proposed change"]
+    S3{"3. Approval required?"}
+    S4["4. Route to correct approver"]
+    S5["5. Execute approved action"]
+    S6["6. Verify resulting system state"]
+    S7["7. Record audit trace"]
+
+    S1 --> S2 --> S3
+    S3 -- Yes --> S4 --> S5
+    S3 -- No --> S5
+    S5 --> S6 --> S7
+
+    style S1 fill:#0f172a,stroke:#93c5fd,stroke-width:2px,color:#e5e7eb
+    style S2 fill:#111827,stroke:#7dd3fc,stroke-width:2px,color:#e5e7eb
+    style S3 fill:#1e293b,stroke:#fcd34d,stroke-width:2px,color:#e5e7eb
+    style S4 fill:#172554,stroke:#a5b4fc,stroke-width:2px,color:#e5e7eb
+    style S5 fill:#1f2937,stroke:#86efac,stroke-width:2px,color:#e5e7eb
+    style S6 fill:#1e293b,stroke:#c4b5fd,stroke-width:2px,color:#e5e7eb
+    style S7 fill:#0b1120,stroke:#f9a8d4,stroke-width:2px,color:#e5e7eb
+```
 
 The FDE's value is not just connecting APIs. It is defining what counts as a safe proposal, what evidence an approver needs, which operations must remain reversible, and how the organization proves that execution stayed within policy.
 
@@ -168,4 +238,3 @@ It is not an authoritative framework, and it should not be treated as universal 
 [10] OWASP GenAI Security Project, *OWASP Top 10 for Agentic Applications for 2026*, December 2025.
 
 [11] NIST, *Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile*, NIST AI 600-1, July 2024.
-

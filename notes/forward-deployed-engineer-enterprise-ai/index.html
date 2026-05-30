@@ -18,13 +18,15 @@
     />
     <meta property="og:url" content="https://rmax.ai/notes/forward-deployed-engineer-enterprise-ai/" />
     <meta property="og:type" content="article" />
-    <meta property="article:published_time" content="2026-05-28" />
+    <meta property="article:published_time" content="2026-05-30" />
     <meta property="article:tag" content="fde" />
     <meta property="article:tag" content="forward-deployed-engineer" />
     <meta property="article:tag" content="enterprise-ai" />
     <meta property="article:tag" content="agentic-control-plane" />
     <meta property="article:tag" content="governance" />
     <meta property="article:tag" content="enterprise-agents" />
+    <meta property="article:tag" content="control-plane" />
+    <meta property="article:tag" content="agent-deployment" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -115,6 +117,15 @@
       }
       .substack-cta h3 { margin-bottom: 8px; }
       .substack-cta p { color: var(--muted); font-size: 14px; margin-bottom: 12px; }
+      .mermaid {
+        background: transparent !important;
+        margin: 2rem 0;
+        text-align: center;
+      }
+      .mermaid svg {
+        max-width: 100%;
+        height: auto;
+      }
       @media (max-width:600px) {
         h1 { font-size: 26px; }
         .container { padding: 0 16px; }
@@ -148,7 +159,7 @@
           <header style="display:block;margin-bottom:32px">
             <h1>The Forward Deployed Engineer in Enterprise AI: From Integration Specialist to Agentic Control-Plane Builder</h1>
             <div class="post-meta">
-              <span>May 28, 2026</span>
+              <span>May 30, 2026</span>
               <span>•</span>
               <span>8–10 min read</span>
               <span>•</span>
@@ -172,15 +183,24 @@
             <h2>Mechanism and Model</h2>
             <p>The main constraint in enterprise AI is not that models cannot reason. It is that models do not perform enterprise work on their own. They need surrounding systems that define what work is allowed, how it is validated, and who remains accountable.</p>
             <p>A useful model is to treat enterprise agent deployment as a six-layer control plane:</p>
-            <table>
-              <tr><th>Layer</th><th>Responsibility</th></tr>
-              <tr><td>Business outcome layer</td><td>Success criteria, cycle time, risk reduction, review burden</td></tr>
-              <tr><td>Workflow and evaluation layer</td><td>State transitions, approvals, traces, escalation rules, evals</td></tr>
-              <tr><td>Policy and identity layer</td><td>Delegation, scopes, authorization, auditability</td></tr>
-              <tr><td>Semantic and knowledge layer</td><td>Business entities, definitions, evidence, provenance</td></tr>
-              <tr><td>Tool and integration layer</td><td>APIs, SaaS systems, MCP tools, execution gateways</td></tr>
-              <tr><td>Model and runtime layer</td><td>Routing, context assembly, sandboxing, budgets</td></tr>
-            </table>
+            <div class="mermaid">
+flowchart TD
+    L1["Business outcome layer&lt;br/&gt;KPIs, cycle time, risk reduction"]
+    L2["Workflow and evaluation layer&lt;br/&gt;Approvals, traces, escalation, evals"]
+    L3["Policy and identity layer&lt;br/&gt;Delegation, scopes, authorization"]
+    L4["Semantic and knowledge layer&lt;br/&gt;Entities, evidence, provenance"]
+    L5["Tool and integration layer&lt;br/&gt;APIs, SaaS, MCP, gateways"]
+    L6["Model and runtime layer&lt;br/&gt;Routing, context, sandboxing, budgets"]
+
+    L1 --&gt; L2 --&gt; L3 --&gt; L4 --&gt; L5 --&gt; L6
+
+    style L1 fill:#0f172a,stroke:#93c5fd,stroke-width:2px,color:#e5e7eb
+    style L2 fill:#111827,stroke:#7dd3fc,stroke-width:2px,color:#e5e7eb
+    style L3 fill:#172554,stroke:#a5b4fc,stroke-width:2px,color:#e5e7eb
+    style L4 fill:#1f2937,stroke:#86efac,stroke-width:2px,color:#e5e7eb
+    style L5 fill:#1e293b,stroke:#f9a8d4,stroke-width:2px,color:#e5e7eb
+    style L6 fill:#0b1120,stroke:#fcd34d,stroke-width:2px,color:#e5e7eb
+            </div>
             <p>The FDE works across these layers in an operating environment, not a lab setting.</p>
             <p>A strong deployment usually starts with a workflow contract. A weak deployment begins with a vague prompt such as "use AI to update Jira." A stronger deployment begins with an explicit operational statement: given a user request to create or modify a system record, the agent retrieves relevant context and policy, produces a structured proposal, determines whether approval is required, executes only within delegated authority, verifies the resulting state, and records a durable audit trace.</p>
             <p>That framing forces the right engineering questions:</p>
@@ -195,9 +215,41 @@
             </ul>
             <p>The next requirement is a semantic layer. Retrieval is not enough when the agent must act according to institutional meaning. Terms such as "approved supplier," "material change," or "account owner" often differ across teams and systems. The agent needs a governed model of actors, roles, actions, approvals, evidence, and outcomes.</p>
             <p>Then comes identity and delegation. Enterprise permissions were designed for humans and conventional applications. They were not designed for agents that reason conditionally and act at scale. A production system should separate read authority, proposal authority, approval authority, and execution authority. A person's broad application access does not automatically define the right authority for an agent acting on that person's behalf.</p>
+            <div class="mermaid">
+flowchart LR
+    R["Read authority&lt;br/&gt;Read-only context gathering"]
+    P["Proposal authority&lt;br/&gt;Draft structured changes"]
+    G{"Approval gate"}
+    A["Approval authority&lt;br/&gt;Sign-offs and gate decisions"]
+    E["Execution authority&lt;br/&gt;Act only within narrow scopes"]
+
+    R --&gt; P --&gt; G --&gt; A --&gt; E
+
+    style R fill:#0f172a,stroke:#93c5fd,stroke-width:2px,color:#e5e7eb
+    style P fill:#111827,stroke:#7dd3fc,stroke-width:2px,color:#e5e7eb
+    style G fill:#1e293b,stroke:#fcd34d,stroke-width:2px,color:#e5e7eb
+    style A fill:#172554,stroke:#a5b4fc,stroke-width:2px,color:#e5e7eb
+    style E fill:#1f2937,stroke:#86efac,stroke-width:2px,color:#e5e7eb
+            </div>
             <p>Finally, the deployment needs evaluation and observability. Agent systems fail in ways that do not appear in a short happy-path demo. They fail under ambiguous requests, missing evidence, policy conflicts, malformed tool calls, expired approvals, and downstream errors. The FDE's operational loop is therefore:</p>
             <p>Production failure ➔ diagnosis ➔ new evaluation case ➔ platform or policy improvement ➔ safer redeployment</p>
             <p>That loop is what makes field engineering compound.</p>
+            <div class="mermaid">
+flowchart LR
+    F["Production failure"]
+    D["Diagnosis"]
+    N["New evaluation case"]
+    P["Platform or policy improvement"]
+    S["Safer redeployment"]
+
+    F --&gt; D --&gt; N --&gt; P --&gt; S --&gt; F
+
+    style F fill:#3f1d2e,stroke:#fda4af,stroke-width:2px,color:#f8fafc
+    style D fill:#0f172a,stroke:#93c5fd,stroke-width:2px,color:#e5e7eb
+    style N fill:#111827,stroke:#7dd3fc,stroke-width:2px,color:#e5e7eb
+    style P fill:#172554,stroke:#a5b4fc,stroke-width:2px,color:#e5e7eb
+    style S fill:#1f2937,stroke:#86efac,stroke-width:2px,color:#e5e7eb
+            </div>
 
             <h2>Concrete Examples</h2>
             <h3>Example 1: Approval-Gated SaaS Writes</h3>
@@ -212,6 +264,29 @@
               <li>Verify the resulting system state.</li>
               <li>Record the requester, evidence, approval, tool response, and outcome.</li>
             </ol>
+            <div class="mermaid">
+flowchart TD
+    S1["1. Read system records and policy"]
+    S2["2. Produce structured proposed change"]
+    S3{"3. Approval required?"}
+    S4["4. Route to correct approver"]
+    S5["5. Execute approved action"]
+    S6["6. Verify resulting system state"]
+    S7["7. Record audit trace"]
+
+    S1 --&gt; S2 --&gt; S3
+    S3 -- Yes --&gt; S4 --&gt; S5
+    S3 -- No --&gt; S5
+    S5 --&gt; S6 --&gt; S7
+
+    style S1 fill:#0f172a,stroke:#93c5fd,stroke-width:2px,color:#e5e7eb
+    style S2 fill:#111827,stroke:#7dd3fc,stroke-width:2px,color:#e5e7eb
+    style S3 fill:#1e293b,stroke:#fcd34d,stroke-width:2px,color:#e5e7eb
+    style S4 fill:#172554,stroke:#a5b4fc,stroke-width:2px,color:#e5e7eb
+    style S5 fill:#1f2937,stroke:#86efac,stroke-width:2px,color:#e5e7eb
+    style S6 fill:#1e293b,stroke:#c4b5fd,stroke-width:2px,color:#e5e7eb
+    style S7 fill:#0b1120,stroke:#f9a8d4,stroke-width:2px,color:#e5e7eb
+            </div>
             <p>The FDE's value is not just connecting APIs. It is defining what counts as a safe proposal, what evidence an approver needs, which operations must remain reversible, and how the organization proves that execution stayed within policy.</p>
             <h3>Example 2: Internal Operations and Access Changes</h3>
             <p>Consider an internal operations workflow where an agent prepares an access change, workflow update, or policy-linked operational request.</p>
@@ -295,5 +370,9 @@
       ];
     </script>
     <script src="/scripts/footer.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
   </body>
 </html>
