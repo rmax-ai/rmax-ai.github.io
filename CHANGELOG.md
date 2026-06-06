@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-06-06: Published technical note: [microsoft-iq-enterprise-agent-context-layer](notes/microsoft-iq-enterprise-agent-context-layer/). Analyzes Microsoft IQ as a governed context fabric for enterprise agents, with emphasis on semantic modeling, identity, policy enforcement, retrieval planning, and tenant-bound memory.
+  - *Warnings*: Publish with caution — the note extrapolates from Microsoft documentation and announcements into broader enterprise architecture guidance, so some readers may over-read roadmap framing as fully realized operational capability; product names, boundaries, and implementation details in this area are likely to evolve quickly; the strongest claims are architectural and interpretive rather than benchmark-backed.
+
 - 2026-05-27: Published technical note: [enterprise-ai-agents-knowledge-layer-beyond-rag](notes/enterprise-ai-agents-knowledge-layer-beyond-rag/). Argues that enterprise agents need a permission-aware knowledge layer beyond vector search and vanilla RAG so they can resolve entities, relationships, policies, approvals, provenance, and outcomes before acting.
   - *Warnings*: Publish with caution — the note can be over-read as a broad prescription for all enterprise AI deployments rather than for governed, cross-system workflows; the architecture assumes substantial organizational maturity around identity, permissions, policy modeling, and data freshness; the graph and ontology framing could be misread as endorsing a specific vendor or storage pattern when the stronger claim is about a knowledge control plane.
 
@@ -116,9 +119,3 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 ### Fixed
 
 - N/A
-
-## 2026-05-30
-
-### Added
-
-- Published technical note: notes/forward-deployed-engineer-enterprise-ai/ — The Forward Deployed Engineer in Enterprise AI: From Integration Specialist to Agentic Control-Plane Builder

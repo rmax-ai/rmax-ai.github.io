@@ -9,7 +9,7 @@
 ---
 
 <!-- HERO -->
-# Enterprise AI Engineering, Agent-first systems, and Harness Engineering
+# Agent-first software engineering, orchestration, and failure-aware systems.
 
 ---
 
@@ -26,8 +26,8 @@ Analyzing how contemporary AI tools structure authority and constraints in syste
 ## Notes
 [View all →](/notes/)
 
-### [The Forward Deployed Engineer in Enterprise AI: From Integration Specialist to Agentic Control-Plane Builder](/notes/forward-deployed-engineer-enterprise-ai/)
-A technical note on why forward deployed engineers in enterprise AI create durable value by turning local deployment friction into reusable control-plane infrastructure for governed agent execution.
+### [Microsoft IQ and the Rise of the Enterprise Agent Context Layer](/notes/microsoft-iq-enterprise-agent-context-layer/)
+An analysis of Microsoft IQ as a governed context fabric for enterprise agents, and what it implies for identity, semantic modeling, retrieval planning, policy enforcement, and tenant-bound memory.
 
 ### [What Glean’s Knowledge Graph Approach Reveals About Enterprise AI Search](/notes/enterprise-ai-agents-knowledge-layer-beyond-rag/)
 An analysis of Glean’s knowledge graph approach to enterprise AI search, and what it reveals about retrieval, permissions, relationships, approvals, and operational state beyond vector RAG.
@@ -40,9 +40,6 @@ A technical note arguing that enterprise AI advantage will come less from better
 
 ### [Agent-Optimized Docs vs Skills: What Actually Improves Coding Agent Performance](/notes/docs-vs-skills-agent-context-delivery/)
 An evidence-backed note on when passive agent-optimized docs outperform skills, why activation reliability matters, and how to structure context delivery for coding agents.
-
-### [From MLOps to Agent Harness Engineering: Why the Model Is the Small Box and the System Is the Product](/notes/mlops-agent-harness-engineering/)
-An essay arguing that reliable agent systems depend less on the model alone and more on the surrounding harness: context assembly, tool interfaces, verification, observability, and execution control.
 
 ### [Designing Harnesses for Goal-Driven Autonomous Agents](/notes/from-task-automation-to-goal-driven-systems/)
 A technical note arguing that goal-driven autonomous agents depend less on prompts alone and more on harnesses that expose state, constrain actions, validate changes, and verify outcomes.
