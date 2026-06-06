@@ -1,0 +1,4 @@
+interface:
+  display_name: "Article Mermaid Diagrams"
+  short_description: "Add or update Mermaid diagrams in a note"
+  default_prompt: "Use $article-mermaid-diagrams to add or update Mermaid diagrams in a published article's index.md and index.html while matching this repo's note patterns."
