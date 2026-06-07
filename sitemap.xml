@@ -2,15 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-06-06T10:37:02Z</lastmod>
+    <lastmod>2026-06-06T22:03:09Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
-    <lastmod>2026-01-31T09:36:25Z</lastmod>
+    <lastmod>2026-06-06T21:07:42Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-06-06T10:37:01Z</lastmod>
+    <lastmod>2026-06-06T22:03:09Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -73,6 +73,14 @@
     <lastmod>2026-01-26T01:02:43Z</lastmod>
   </url>
   <url>
+    <loc>https://rmax.ai/notes/fde-playbook-governed-agentic-adoption/</loc>
+    <lastmod>2026-06-07T07:59:54Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/forward-deployed-engineer-enterprise-ai/</loc>
+    <lastmod>2026-06-06T21:07:42Z</lastmod>
+  </url>
+  <url>
     <loc>https://rmax.ai/notes/from-prompting-to-cultivation/</loc>
     <lastmod>2026-01-26T01:02:43Z</lastmod>
   </url>
@@ -94,7 +102,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/microsoft-iq-enterprise-agent-context-layer/</loc>
-    <lastmod>2026-06-06T10:37:01Z</lastmod>
+    <lastmod>2026-06-06T20:45:19Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/mlops-agent-harness-engineering/</loc>
@@ -138,18 +146,18 @@
   </url>
   <url>
     <loc>https://rmax.ai/projects/</loc>
-    <lastmod>2026-05-24T22:29:58Z</lastmod>
+    <lastmod>2026-06-06T21:07:42Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/research/</loc>
-    <lastmod>2026-03-22T22:54:25Z</lastmod>
+    <lastmod>2026-06-06T21:07:42Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/start-here/</loc>
-    <lastmod>2026-01-31T09:36:22Z</lastmod>
+    <lastmod>2026-06-06T21:07:42Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/token/</loc>
-    <lastmod>2026-01-26T01:04:02Z</lastmod>
+    <lastmod>2026-06-06T21:07:42Z</lastmod>
   </url>
 </urlset>

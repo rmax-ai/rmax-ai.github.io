@@ -1,0 +1,924 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>FDE Playbook for Governed Agentic Adoption - rmax.ai</title>
+    <meta
+      name="description"
+      content="A technical note on how forward deployed engineering teams should design, govern, evaluate, and scale agentic workflows without turning into an internal AI service desk."
+    />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/fde-playbook-governed-agentic-adoption/" />
+
+    <meta property="og:title" content="FDE Playbook for Governed Agentic Adoption" />
+    <meta
+      property="og:description"
+      content="A technical note on how forward deployed engineering teams should design, govern, evaluate, and scale agentic workflows without turning into an internal AI service desk."
+    />
+    <meta property="og:url" content="https://rmax.ai/notes/fde-playbook-governed-agentic-adoption/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-06-06" />
+    <meta property="article:tag" content="fde" />
+    <meta property="article:tag" content="enterprise-ai" />
+    <meta property="article:tag" content="agentic-workflows" />
+    <meta property="article:tag" content="workflow-governance" />
+    <meta property="article:tag" content="delegation" />
+    <meta property="article:tag" content="mcp" />
+    <meta property="article:tag" content="evaluation" />
+    <meta property="article:tag" content="operating-model" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 820px;
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.7;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.08;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 56px 0 16px;
+        font-size: 1.85rem;
+        line-height: 1.2;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 36px 0 12px;
+        font-size: 1.2rem;
+        line-height: 1.35;
+        font-weight: 700;
+        color: #fff;
+      }
+      p,
+      li {
+        color: #cbd5e1;
+        font-size: 1.08rem;
+      }
+      p {
+        margin: 0 0 24px;
+      }
+      ul,
+      ol {
+        margin: 0 0 24px;
+        padding-left: 22px;
+      }
+      li {
+        margin-bottom: 10px;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      }
+      p code,
+      li code {
+        background: rgba(255, 255, 255, 0.06);
+        padding: 0.15em 0.35em;
+        border-radius: 6px;
+      }
+      .mermaid {
+        background: rgba(255, 255, 255, 0.02);
+        padding: 24px;
+        border-radius: 12px;
+        margin: 32px 0;
+        display: flex;
+        justify-content: center;
+        overflow: auto;
+      }
+      .mermaid svg {
+        max-width: 100%;
+        height: auto;
+      }
+      .mermaid .label,
+      .mermaid .nodeLabel,
+      .mermaid .edgeLabel {
+        line-height: 1.3;
+      }
+      .mermaid .label p,
+      .mermaid .nodeLabel p,
+      .mermaid .edgeLabel p {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.3;
+      }
+      a {
+        color: #c4b5fd;
+      }
+      .post-meta {
+        color: var(--muted);
+        margin-bottom: 48px;
+        font-size: 0.95rem;
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .post-content > :first-child {
+        margin-top: 0;
+      }
+      footer {
+        margin-top: 80px;
+        color: var(--muted);
+        font-size: 0.95rem;
+        padding: 40px 0;
+        text-align: center;
+        border-top: 1px solid var(--glass);
+      }
+      @media (max-width: 600px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .wrap {
+          margin: 20px auto;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript
+      ><img
+        src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true"
+        alt=""
+        referrerpolicy="no-referrer-when-downgrade"
+    /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo" />
+          <div>
+            <div style="font-weight: 800">rMax.ai</div>
+            <div style="color: var(--muted); font-size: 0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
+          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
+          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
+          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
+          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
+          <a
+            class="navlink"
+            href="https://www.linkedin.com/in/rmaxespinoza/"
+            target="_blank"
+            rel="noopener"
+            aria-label="LinkedIn"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="linkedin.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+              />
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://rmax.substack.com"
+            target="_blank"
+            rel="noopener"
+            aria-label="Substack"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="substack.com"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 48 48"
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="m40.0248,10.0817v-4.5814c-.3229,0-.7411-.0004-1.6553-.0004l-28.9669.0004c-.9142,0-1.318,0-1.6553,0v4.5814c.2164,0,.7411.0005,1.6553.0005l28.9669-.0005c.9142,0,1.4122,0,1.6553,0Z"
+              />
+              <path
+                d="m40.0248,18.3503v-4.5814H9.4025c-.9142,0-1.3777,0-1.6553,0v4.5814c.2646,0,.7411,0,1.6553,0h30.6223Z"
+              />
+              <path
+                d="m40.2557,42.4999v-20.1821c0-.1633-.9724-.1077-1.8866-.1077H9.4022c-.9142,0-1.6553-.0555-1.6553.1077v19.8878c.2814-.1622,15.3415-8.2118,16.1691-8.5978.5156.2972,13.6461,7.3385,16.3406,8.8914l-.0008.0007Z"
+              />
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://x.com/rmaxdev"
+            target="_blank"
+            rel="noopener"
+            aria-label="X"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="x.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191-.008zM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447z"
+              ></path>
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://github.com/rmax-ai"
+            target="_blank"
+            rel="noopener"
+            aria-label="GitHub"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="github.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              />
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>FDE Playbook for Governed Agentic Adoption</h1>
+            <div class="post-meta">
+              <span>June 6, 2026</span>
+              <span>10-12 min read</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <h2 id="abstract">Abstract</h2>
+            <p>Enterprise AI adoption is moving from chat interfaces and
+            productivity demos toward delegated execution. That shift changes the
+            problem. The hard part is no longer only prompting or retrieval. It is
+            deciding which workflows can be delegated, under what controls, with
+            which approvals, and with what evidence that the system is safe and
+            useful. This note argues that forward deployed engineering teams create
+            durable value when they translate messy business work into governed
+            agentic workflows, instrument those workflows, evaluate them, and turn
+            local pilots into reusable operating patterns.</p>
+            <h2 id="context-and-motivation">Context and motivation</h2>
+            <p>The first phase of enterprise AI adoption was experimentation:
+            chatbots, knowledge assistants, prompt libraries, document search, and
+            productivity demos. That phase was useful, but insufficient. The next
+            phase is not about giving every employee a custom chatbot. It is about
+            helping organizations safely delegate real work to AI systems.</p>
+            <p>This requires a different operating model.</p>
+            <p>The companies that succeed with agentic AI will not be the ones that
+            simply connect more data sources, expose more tools, or deploy more
+            assistants. They will be the ones that learn how to identify delegable
+            workflows, govern them, instrument them, evaluate them, and gradually
+            increase autonomy without losing control.</p>
+            <p>That is where the forward deployed engineer, or FDE, becomes
+            strategically important.</p>
+            <p>Platform teams understand infrastructure, identity, data access,
+            security, and deployment. Business teams understand local pain,
+            operational reality, customer context, and process friction. FDEs sit
+            between them. Their job is not merely to configure AI tools. Their job
+            is to turn messy business work into governed agentic workflows.</p>
+            <h2 id="core-thesis">Core thesis</h2>
+            <p>The north star is simple:</p>
+            <p><strong>Safely delegated work completed.</strong></p>
+            <p>That is the metric that matters. Not the number of agents created.
+            Not the number of MCP servers connected. Not the number of documents
+            indexed. Not the number of demos delivered. The real question is whether
+            useful work was completed by AI-assisted or AI-executed workflows under
+            appropriate governance, with measurable business value and human
+            accountability.</p>
+            <p>An internal FDE team should be measured by its ability to create
+            governed delegation capability, not by the volume of AI activity around
+            it. If the team behaves like an internal AI service desk, each request
+            stays local and the work does not compound. If it converts repeated
+            workflow friction into reusable approval models, tool patterns,
+            evaluation cases, governance templates, and implementation playbooks,
+            the organization builds an operating model for safe agent adoption.</p>
+            <h2 id="from-ai-as-chat-to-ai-as-delegation">From AI as chat to AI as
+            delegation</h2>
+            <p>Most enterprise AI adoption still treats AI as an interface: a chat
+            window, a search assistant, a summarizer, or a drafting tool. These are
+            valid starting points, but they do not fundamentally change how work
+            flows through the organization.</p>
+            <p>Agentic adoption is different. It treats AI as a controlled execution
+            layer. An agent can retrieve context, reason over a workflow, draft an
+            artifact, call tools, ask for approval, update systems, produce an audit
+            trail, and escalate when uncertain.</p>
+            <p>But this must happen gradually.</p>
+            <p>The maturity path usually looks like this:</p>
+            <ol type="1">
+            <li>Chat-only AI.</li>
+            <li>Approved knowledge retrieval.</li>
+            <li>Read-only tool use.</li>
+            <li>Human-approved write actions.</li>
+            <li>Bounded autonomous workflows.</li>
+            <li>High-trust domain agents.</li>
+            </ol>
+            <p>As a control ladder, the progression looks like this:</p>
+            <div class="mermaid">
+            flowchart LR
+                L0["Chat-only AI"] --> L1["Approved retrieval"]
+                L1 --> L2["Read-only tools"]
+                L2 --> L3["Write with approval"]
+                L3 --> L4["Bounded autonomy"]
+                L4 --> L5["High-trust domain agents"]
+            </div>
+            <p>The mistake is jumping from level 1 to level 5. Enterprises often
+            want autonomous agents before they have defined data boundaries,
+            approval gates, telemetry, evaluation, ownership, rollback paths, or
+            failure handling. That produces fragile systems and organizational
+            mistrust.</p>
+            <p>The goal is not maximum autonomy. The goal is safe, increasing
+            autonomy.</p>
+            <h2 id="the-fde-way-of-working">The FDE way of working</h2>
+            <p>The unit of adoption is not the agent. It is the workflow.</p>
+            <p>A weak starting question is: "Which agent should we build?"</p>
+            <p>A better starting question is: "What work should be partially
+            delegated, under what constraints, with which approval points, and with
+            what measurable outcome?"</p>
+            <p>Every FDE engagement should begin by studying the actual work, not
+            the official process. Official process diagrams are often too clean. The
+            real workflow lives in Slack threads, spreadsheets, ticket comments,
+            dashboards, undocumented judgment calls, copy-paste routines, and
+            escalation habits.</p>
+            <p>A useful FDE discovery process asks:</p>
+            <ul>
+            <li>What triggers this workflow?</li>
+            <li>Who owns the outcome?</li>
+            <li>What systems are involved?</li>
+            <li>What data is trusted?</li>
+            <li>What decisions are made?</li>
+            <li>Where do people wait?</li>
+            <li>Where do people copy-paste?</li>
+            <li>Where do mistakes happen?</li>
+            <li>What judgment is required?</li>
+            <li>What would be dangerous to automate?</li>
+            <li>What must remain human-owned?</li>
+            </ul>
+            <p>The output should be a workflow map.</p>
+            <p>From there, the FDE classifies the delegation opportunity. Some
+            workflows are only suitable for retrieval. Others are suitable for
+            summarization, drafting, structured extraction, decision support, ticket
+            creation, system updates, monitoring, exception handling, or multi-step
+            orchestration.</p>
+            <p>Then the FDE defines the governed workflow.</p>
+            <p>A governed workflow should specify:</p>
+            <ul>
+            <li>Workflow owner.</li>
+            <li>User group.</li>
+            <li>Trigger.</li>
+            <li>Inputs.</li>
+            <li>Approved data sources.</li>
+            <li>Allowed tools.</li>
+            <li>Forbidden actions.</li>
+            <li>Approval gates.</li>
+            <li>Output artifact.</li>
+            <li>Logging requirements.</li>
+            <li>Data retention rules.</li>
+            <li>Human override path.</li>
+            <li>Failure modes.</li>
+            <li>Success metrics.</li>
+            <li>Evaluation method.</li>
+            <li>Kill criteria.</li>
+            </ul>
+            <p>Only after this should the team build.</p>
+            <p>The first implementation should be the smallest workflow that
+            performs real work. Not a platform. Not a grand architecture. Not a
+            generic agent that can do everything. A narrow workflow where success
+            and failure are visible.</p>
+            <p>Examples:</p>
+            <ul>
+            <li>Summarize an incident and draft follow-up tickets.</li>
+            <li>Generate a sales account brief from approved internal sources.</li>
+            <li>Convert meeting notes into structured project actions.</li>
+            <li>Draft a merchant support response from case context.</li>
+            <li>Extract risks from a process and propose controls.</li>
+            <li>Enrich an operational ticket with missing metadata.</li>
+            </ul>
+            <p>Every pilot should produce telemetry. Track user request, retrieved
+            sources, tool calls, actions proposed, actions approved, actions
+            rejected, human edits, latency, cost, failure category, and user
+            feedback.</p>
+            <p>Every pilot should also end with a decision: scale, harden, redesign,
+            or kill.</p>
+            <p>A pilot that ends only in a demo has not created organizational
+            learning. A good pilot produces one of three things: a reusable pattern,
+            a decision, or a kill signal.</p>
+            <p>The operating loop is straightforward, but it only compounds when the
+            team treats each pilot as a learning system:</p>
+            <div class="mermaid">
+            flowchart LR
+                Discover["Discover actual workflow"] --> Classify["Classify delegation opportunity"]
+                Classify --> Govern["Define governed workflow"]
+                Govern --> Build["Build minimum useful workflow"]
+                Build --> Instrument["Instrument telemetry"]
+                Instrument --> Evaluate["Evaluate quality, safety, and trust"]
+                Evaluate --> Decide{"Scale, harden, redesign, or kill?"}
+                Decide -->|Scale or harden| Pattern["Extract reusable patterns"]
+                Decide -->|Redesign| Discover
+                Decide -->|Kill| Learn["Capture kill signal"]
+                Pattern --> Discover
+                Learn --> Discover
+            </div>
+            <h2 id="governance-is-not-a-blocker-it-is-the-product">Governance is not
+            a blocker. It is the product.</h2>
+            <p>In many enterprises, governance is treated as the thing that slows AI
+            adoption down. This is backwards.</p>
+            <p>For agentic systems, governance is part of the product. Without
+            governance, the system cannot be trusted with real work.</p>
+            <p>A governed agentic workflow must define what data the agent can
+            access, whether personal, customer, merchant, regulated, or confidential
+            data is involved, whether data leaves approved environments, whether
+            outputs are stored, whether outputs can be shared, and whether access is
+            inherited from the user or mediated through a scoped service
+            identity.</p>
+            <p>Identity matters. The organization must know whether the agent is
+            acting as the user, as a scoped service, or as a delegated workflow
+            identity. Tool calls should be logged under a clear identity. Approval
+            must be tied to a human identity. The audit trail must show who
+            requested, who approved, what was used, what was changed, and what
+            happened.</p>
+            <p>Actions should be classified by consequence:</p>
+            <ul>
+            <li>Read.</li>
+            <li>Draft.</li>
+            <li>Propose.</li>
+            <li>Write with approval.</li>
+            <li>Write autonomously.</li>
+            <li>External communication.</li>
+            <li>Financial or contractual action.</li>
+            </ul>
+            <p>In execution terms, that control model looks like this:</p>
+            <div class="mermaid">
+            flowchart TD
+                Request["Workflow request"] --> Identity["Scoped identity"]
+                Identity --> Data["Approved data and tools"]
+                Data --> Consequence{"Action consequence"}
+                Consequence -->|Read / Draft / Propose| Review["Light review, logging, and traceability"]
+                Consequence -->|Write / External / Financial| Approval["Human approval, rollback, and stricter controls"]
+                Review --> Audit["Audit trail"]
+                Approval --> Audit
+                Audit --> Execute["Bounded execution"]
+            </div>
+            <p>The higher the consequence, the stronger the control.</p>
+            <p>A workflow that drafts an internal summary may need light review. A
+            workflow that updates a CRM record needs approval and rollback. A
+            workflow that sends external communication needs strict preview and
+            human confirmation. A workflow that affects money, contracts,
+            compliance, or customer commitments requires formal governance.</p>
+            <h2 id="mcp-and-tool-design-standard">MCP and tool design standard</h2>
+            <p>MCP tools should be designed around business actions, not raw system
+            access.</p>
+            <p>Bad tool:</p>
+            <p><code>query_database(sql)</code></p>
+            <p>Better tool:</p>
+            <p><code>get_customer_risk_summary(customer_id)</code></p>
+            <p>Bad tool:</p>
+            <p><code>update_ticket(payload)</code></p>
+            <p>Better tool:</p>
+            <p><code>draft_ticket_update_from_approved_summary(summary_id)</code></p>
+            <p>Bad tool:</p>
+            <p><code>send_message(channel, text)</code></p>
+            <p>Better tool:</p>
+            <p><code>draft_internal_update(workflow_id, audience)</code></p>
+            <p>The difference is control.</p>
+            <p>Raw tools expose too much surface area. They are hard to evaluate,
+            hard to permission, and easy to misuse. Business-action tools are
+            narrower, typed, auditable, and easier to govern.</p>
+            <p>Every enterprise MCP tool should define:</p>
+            <ul>
+            <li>Purpose.</li>
+            <li>Inputs.</li>
+            <li>Outputs.</li>
+            <li>Permissions.</li>
+            <li>Data classification.</li>
+            <li>Side effects.</li>
+            <li>Rate limits.</li>
+            <li>Failure responses.</li>
+            <li>Logging requirements.</li>
+            <li>Approval requirement.</li>
+            <li>Human owner.</li>
+            <li>Version.</li>
+            <li>Evaluation method.</li>
+            <li>Rollback path, if applicable.</li>
+            </ul>
+            <p>Good tools are narrow, typed, permission-aware, auditable, connected
+            to a workflow, clear about side effects, and hard to misuse.</p>
+            <p>Enterprises should not expose internal systems to agents as generic
+            APIs and hope governance emerges later. Governance must be embedded into
+            the tool surface itself.</p>
+            <h2 id="evaluation-is-the-missing-discipline">Evaluation is the missing
+            discipline</h2>
+            <p>Many enterprise AI pilots fail because they are evaluated through
+            vibes.</p>
+            <p>People ask: "Did users like it?" or "Was the demo impressive?"</p>
+            <p>That is not enough.</p>
+            <p>Agentic workflows need evaluation from the start. The evaluation
+            should include quality, safety, workflow, reliability, and trust
+            metrics.</p>
+            <h3 id="quality-metrics">Quality metrics</h3>
+            <ul>
+            <li>Accuracy.</li>
+            <li>Completeness.</li>
+            <li>Relevance.</li>
+            <li>Grounding.</li>
+            <li>Consistency.</li>
+            <li>Format adherence.</li>
+            <li>Business usefulness.</li>
+            </ul>
+            <h3 id="safety-metrics">Safety metrics</h3>
+            <ul>
+            <li>Data boundary violations.</li>
+            <li>Unauthorized tool calls.</li>
+            <li>Unsupported claims.</li>
+            <li>Incorrect action proposals.</li>
+            <li>Sensitive data exposure.</li>
+            <li>Policy violations.</li>
+            </ul>
+            <h3 id="workflow-metrics">Workflow metrics</h3>
+            <ul>
+            <li>Time saved.</li>
+            <li>Handoff reduction.</li>
+            <li>Human acceptance rate.</li>
+            <li>Number of edits required.</li>
+            <li>Cycle-time reduction.</li>
+            <li>Rework reduction.</li>
+            <li>Escalation rate.</li>
+            <li>Cost per completed workflow.</li>
+            </ul>
+            <h3 id="reliability-metrics">Reliability metrics</h3>
+            <ul>
+            <li>Tool call success rate.</li>
+            <li>Retrieval success rate.</li>
+            <li>Latency.</li>
+            <li>Failure frequency.</li>
+            <li>Regression rate.</li>
+            <li>Drift over time.</li>
+            </ul>
+            <h3 id="trust-metrics">Trust metrics</h3>
+            <ul>
+            <li>Repeat usage.</li>
+            <li>Approval rate.</li>
+            <li>Rejection reasons.</li>
+            <li>User satisfaction.</li>
+            <li>Qualitative feedback.</li>
+            <li>Complaints.</li>
+            <li>Abandonment.</li>
+            </ul>
+            <p>For important workflows, teams should maintain golden test cases and
+            regression checks. If the agent is expected to summarize incidents,
+            draft support responses, enrich tickets, or produce account briefs, the
+            team should collect representative examples and test whether the system
+            improves or regresses over time.</p>
+            <p>Without evaluation, the enterprise cannot know whether it is scaling
+            capability or scaling risk.</p>
+            <h2 id="applied-workflow-scenarios">Applied workflow scenarios</h2>
+            <h3 id="incident-review-agent">Incident review agent</h3>
+            <p>Current process:</p>
+            <p>After a production incident, multiple people gather logs, messages,
+            deployment notes, tickets, dashboards, and timeline fragments. A
+            postmortem is drafted manually. Follow-up actions are created
+            inconsistently. Important context is often scattered across tools.</p>
+            <p>Target delegation:</p>
+            <p>An incident review agent retrieves approved incident context, drafts
+            a timeline, identifies missing information, proposes contributing
+            factors, and drafts follow-up tickets.</p>
+            <p>Autonomy level:</p>
+            <p>Human-approved drafting and ticket creation.</p>
+            <p>Data sources:</p>
+            <p>Incident channel, ticket system, monitoring dashboards, internal
+            docs, deployment logs, and previous incident records.</p>
+            <p>Tools:</p>
+            <ul>
+            <li>Read incident messages.</li>
+            <li>Fetch ticket history.</li>
+            <li>Query deployment metadata.</li>
+            <li>Read dashboard snapshots.</li>
+            <li>Draft postmortem.</li>
+            <li>Draft follow-up tickets.</li>
+            </ul>
+            <p>Approval gates:</p>
+            <p>A human approves the postmortem, validates causal claims, approves
+            ticket creation, and approves any stakeholder update.</p>
+            <p>Success metrics:</p>
+            <ul>
+            <li>Time to first postmortem draft.</li>
+            <li>Completeness of timeline.</li>
+            <li>Human edit distance.</li>
+            <li>Follow-up ticket acceptance rate.</li>
+            <li>Reduction in incident review cycle time.</li>
+            <li>User satisfaction.</li>
+            </ul>
+            <p>Failure modes:</p>
+            <ul>
+            <li>Missing context.</li>
+            <li>Incorrect causality.</li>
+            <li>Overconfident summary.</li>
+            <li>Sensitive information in output.</li>
+            <li>Wrong ticket ownership.</li>
+            <li>Unsupported remediation proposal.</li>
+            </ul>
+            <p>This is a strong early workflow because it is bounded, valuable,
+            repetitive, measurable, and naturally human-reviewed.</p>
+            <h3 id="customer-support-drafting-agent">Customer support drafting
+            agent</h3>
+            <p>Current process:</p>
+            <p>Support agents collect customer context, previous cases,
+            documentation, product behavior, known issues, and policy guidance
+            before drafting a response. This creates research overhead and
+            inconsistent response quality.</p>
+            <p>Target delegation:</p>
+            <p>The agent summarizes case context, retrieves relevant documentation,
+            identifies uncertainty, drafts an internal recommendation, and drafts a
+            customer-facing response.</p>
+            <p>Autonomy level:</p>
+            <p>Draft only. No external sending.</p>
+            <p>Data sources:</p>
+            <p>Case history, customer profile, internal knowledge base, product
+            documentation, known issue database, and policy documents.</p>
+            <p>Tools:</p>
+            <ul>
+            <li>Retrieve case context.</li>
+            <li>Search documentation.</li>
+            <li>Summarize prior interactions.</li>
+            <li>Draft internal recommendation.</li>
+            <li>Draft customer-facing response.</li>
+            <li>Highlight uncertainty and missing information.</li>
+            </ul>
+            <p>Approval gates:</p>
+            <p>A human reviews before sending, confirms factual claims, selects the
+            final recommendation, and edits tone.</p>
+            <p>Success metrics:</p>
+            <ul>
+            <li>Draft usefulness.</li>
+            <li>Reduction in research time.</li>
+            <li>Human acceptance rate.</li>
+            <li>Reduction in escalations.</li>
+            <li>Response quality.</li>
+            <li>Lower variation across support agents.</li>
+            </ul>
+            <p>Failure modes:</p>
+            <ul>
+            <li>Hallucinated product behavior.</li>
+            <li>Missing customer-specific context.</li>
+            <li>Policy mismatch.</li>
+            <li>Wrong tone.</li>
+            <li>Sensitive data leakage.</li>
+            <li>Overconfident recommendation.</li>
+            </ul>
+            <p>This workflow should not begin with autonomous customer
+            communication. It should begin with grounded drafting and strict human
+            review. Over time, parts of the workflow may become more automated, but
+            only after evaluation proves quality and safety.</p>
+            <h3 id="sales-account-briefing-agent">Sales account briefing agent</h3>
+            <p>Current process:</p>
+            <p>Before customer meetings, sales or account teams gather information
+            from CRM, support history, product usage, contracts, previous meeting
+            notes, public sources, and internal documents. The work is repetitive
+            but context-heavy.</p>
+            <p>Target delegation:</p>
+            <p>The agent produces a structured account brief from approved sources,
+            highlights risks and opportunities, summarizes open issues, and suggests
+            meeting questions.</p>
+            <p>Autonomy level:</p>
+            <p>Read-only retrieval plus draft generation.</p>
+            <p>Data sources:</p>
+            <p>CRM, support cases, product analytics, meeting notes, internal
+            account plans, approved public sources, and documentation.</p>
+            <p>Tools:</p>
+            <ul>
+            <li>Retrieve account profile.</li>
+            <li>Summarize support history.</li>
+            <li>Fetch recent product usage signals.</li>
+            <li>Search internal notes.</li>
+            <li>Draft account brief.</li>
+            <li>Generate meeting preparation checklist.</li>
+            </ul>
+            <p>Approval gates:</p>
+            <p>Human reviews before use. No customer-visible communication is
+            generated without explicit approval.</p>
+            <p>Success metrics:</p>
+            <ul>
+            <li>Time saved preparing for meetings.</li>
+            <li>Completeness of account context.</li>
+            <li>Sales team repeat usage.</li>
+            <li>Human edit distance.</li>
+            <li>Meeting usefulness feedback.</li>
+            <li>Reduction in missed context.</li>
+            </ul>
+            <p>Failure modes:</p>
+            <ul>
+            <li>Stale CRM data.</li>
+            <li>Unsupported claims.</li>
+            <li>Incorrect prioritization.</li>
+            <li>Sensitive internal notes included inappropriately.</li>
+            <li>Poor distinction between fact and recommendation.</li>
+            </ul>
+            <p>This is a good level 1-2 workflow because it improves context access
+            and preparation without immediately mutating systems.</p>
+            <h3 id="ticket-enrichment-agent">Ticket enrichment agent</h3>
+            <p>Current process:</p>
+            <p>Operational tickets often arrive incomplete. Engineers, analysts, or
+            operations staff spend time asking for missing fields, checking related
+            systems, classifying priority, and routing the issue.</p>
+            <p>Target delegation:</p>
+            <p>The agent inspects the ticket, identifies missing information,
+            retrieves related context, suggests classification, and drafts a
+            structured update.</p>
+            <p>Autonomy level:</p>
+            <p>Read-only tool use plus human-approved ticket update.</p>
+            <p>Data sources:</p>
+            <p>Ticket system, service catalog, ownership registry, logs,
+            documentation, and related incidents.</p>
+            <p>Tools:</p>
+            <ul>
+            <li>Read ticket.</li>
+            <li>Fetch service metadata.</li>
+            <li>Retrieve related incidents.</li>
+            <li>Search documentation.</li>
+            <li>Draft enrichment update.</li>
+            <li>Suggest owner.</li>
+            <li>Suggest priority.</li>
+            </ul>
+            <p>Approval gates:</p>
+            <p>Human approves ticket updates and ownership assignment.</p>
+            <p>Success metrics:</p>
+            <ul>
+            <li>Reduction in triage time.</li>
+            <li>Correct owner suggestion rate.</li>
+            <li>Reduction in back-and-forth.</li>
+            <li>Human acceptance rate.</li>
+            <li>Cycle-time reduction.</li>
+            </ul>
+            <p>Failure modes:</p>
+            <ul>
+            <li>Wrong owner.</li>
+            <li>Misclassified severity.</li>
+            <li>Missing dependency context.</li>
+            <li>Incorrect relation to previous incidents.</li>
+            <li>Over-automation of ambiguous tickets.</li>
+            </ul>
+            <p>This is a useful operational workflow because it reduces coordination
+            load without removing human accountability.</p>
+            <h2 id="what-an-internal-fde-team-should-own">What an internal FDE team
+            should own</h2>
+            <p>An internal FDE team should not own all AI infrastructure. It should
+            not replace platform, security, compliance, or business operations.</p>
+            <p>Its role is to own the adoption loop.</p>
+            <p>That includes:</p>
+            <ul>
+            <li>Workflow discovery.</li>
+            <li>Delegation classification.</li>
+            <li>Governed workflow design.</li>
+            <li>Minimum useful pilot implementation.</li>
+            <li>Tool and MCP design patterns.</li>
+            <li>Evaluation design.</li>
+            <li>Telemetry requirements.</li>
+            <li>User feedback capture.</li>
+            <li>Failure analysis.</li>
+            <li>Pattern extraction.</li>
+            <li>Business enablement.</li>
+            <li>Scaling recommendations.</li>
+            </ul>
+            <p>The FDE team should produce reusable organizational assets:</p>
+            <ul>
+            <li>Workflow templates.</li>
+            <li>Intake forms.</li>
+            <li>Pilot scoring rubrics.</li>
+            <li>Governance checklists.</li>
+            <li>MCP and tool standards.</li>
+            <li>Approval patterns.</li>
+            <li>Evaluation sets.</li>
+            <li>Failure taxonomies.</li>
+            <li>Case studies.</li>
+            <li>User onboarding guides.</li>
+            <li>Reference implementations.</li>
+            </ul>
+            <p>The team should also dogfood agentic workflows internally. FDEs
+            should be the first serious users of the systems they want the business
+            to trust. If the FDE team is not using agents to improve its own
+            discovery, documentation, debugging, reporting, and implementation work,
+            it will lack the operational insight needed to guide others.</p>
+            <h2 id="practical-takeaways">Practical takeaways</h2>
+            <ul>
+            <li>Measure the team by safely delegated work completed, not by agents
+            launched or integrations connected.</li>
+            <li>Start with narrow, repetitive workflows where success, failure, and
+            ownership are visible.</li>
+            <li>Treat governance, approvals, and auditability as part of the
+            workflow design, not a later compliance overlay.</li>
+            <li>Design tools around business actions with clear side effects and
+            approval boundaries, not around raw API surface area.</li>
+            <li>Instrument and evaluate every pilot from the start, then make an
+            explicit decision to scale, harden, redesign, or kill.</li>
+            </ul>
+            <h2 id="positioning-note">Positioning note</h2>
+            <p>This is not academic research, vendor documentation, or a generic AI
+            transformation manifesto. It is a practical operating note for teams
+            trying to move from experimentation toward governed delegation of work.
+            The goal is not theoretical completeness. The goal is to preserve the
+            operational logic of a field playbook in a form that is easier to reuse,
+            critique, and apply.</p>
+            <h2 id="status-and-scope-disclaimer">Status and scope disclaimer</h2>
+            <p>This note is exploratory but practice-oriented. It reflects a
+            personal synthesis of how an internal FDE team can structure governed
+            agentic adoption inside enterprise environments. It is
+            non-authoritative, based on applied reasoning rather than a controlled
+            benchmark program, and most relevant in organizations where workflows
+            cross systems, approval boundaries matter, and the company is trying to
+            move beyond chat assistance toward constrained execution.</p>
+          </div>
+        </article>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script>
+      window.footerThoughts = [
+        { text: "I do not count agent activity as progress; I count the workflows that can be safely delegated and repeated.", agent: "Governance Agent" },
+        { text: "I turn local friction into reusable controls so adoption compounds instead of scattering into bespoke demos.", agent: "Field Systems Agent" },
+        { text: "I treat every approval gate as a design problem: enough control to stay safe, little enough friction to stay useful.", agent: "Delegation Agent" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>

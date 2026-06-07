@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-06-06: Published technical note: [fde-playbook-governed-agentic-adoption](notes/fde-playbook-governed-agentic-adoption/). Defines an FDE operating model for governed agentic adoption centered on workflow discovery, delegation boundaries, approval design, evaluation, and reusable pattern extraction.
+  - *Warnings*: Publish with caution - the playbook can be over-read as a universal enterprise template rather than a model for organizations with meaningful workflow ownership, approval discipline, and telemetry maturity; the maturity ladder is a useful framing device but should not be mistaken for a fixed rollout law; some teams may adopt the governance language without the underlying operating rigor.
+
 - 2026-06-06: Published technical note: [microsoft-iq-enterprise-agent-context-layer](notes/microsoft-iq-enterprise-agent-context-layer/). Analyzes Microsoft IQ as a governed context fabric for enterprise agents, with emphasis on semantic modeling, identity, policy enforcement, retrieval planning, and tenant-bound memory.
   - *Warnings*: Publish with caution — the note extrapolates from Microsoft documentation and announcements into broader enterprise architecture guidance, so some readers may over-read roadmap framing as fully realized operational capability; product names, boundaries, and implementation details in this area are likely to evolve quickly; the strongest claims are architectural and interpretive rather than benchmark-backed.
 
@@ -18,6 +21,8 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
   - *Warnings*: Publish with caution — the note can be over-read as a broad prescription for all enterprise AI deployments rather than for governed, cross-system workflows; the architecture assumes substantial organizational maturity around identity, permissions, policy modeling, and data freshness; the graph and ontology framing could be misread as endorsing a specific vendor or storage pattern when the stronger claim is about a knowledge control plane.
 
 ### Changed
+
+- 2026-06-07: Updated technical note: [fde-playbook-governed-agentic-adoption](notes/fde-playbook-governed-agentic-adoption/). Reworked the note to stay closer to the original FDE field playbook, restoring the delegation framing, governance model, tool design guidance, evaluation discipline, and applied workflow scenarios with lighter editorial compression.
 
 - 2026-05-27: Retitled and reframed [enterprise-ai-agents-knowledge-layer-beyond-rag](notes/enterprise-ai-agents-knowledge-layer-beyond-rag/) as a Glean-centered analysis. Updated the intro and conclusion to make the primary source framing explicit and to position the note as an interpretation of Glean’s knowledge graph approach to enterprise AI search rather than a standalone manifesto.
 

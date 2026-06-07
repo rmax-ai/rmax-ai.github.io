@@ -3,6 +3,9 @@
 
 Thoughts on software, AI, and systems.
 
+### [FDE Playbook for Governed Agentic Adoption](/notes/fde-playbook-governed-agentic-adoption/)
+*June 6, 2026* — A technical note on how forward deployed engineering teams should design, govern, evaluate, and scale agentic workflows without turning into an internal AI service desk.
+
 ### [The Forward Deployed Engineer in Enterprise AI: From Integration Specialist to Agentic Control-Plane Builder](/notes/forward-deployed-engineer-enterprise-ai/)
 *May 30, 2026* — A technical note on why forward deployed engineers in enterprise AI create durable value by turning local deployment friction into reusable control-plane infrastructure for governed agent execution.
 

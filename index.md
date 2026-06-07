@@ -26,6 +26,9 @@ Analyzing how contemporary AI tools structure authority and constraints in syste
 ## Notes
 [View all →](/notes/)
 
+### [FDE Playbook for Governed Agentic Adoption](/notes/fde-playbook-governed-agentic-adoption/)
+A technical note on how forward deployed engineering teams should design, govern, evaluate, and scale agentic workflows without turning into an internal AI service desk.
+
 ### [Microsoft IQ and the Rise of the Enterprise Agent Context Layer](/notes/microsoft-iq-enterprise-agent-context-layer/)
 An analysis of Microsoft IQ as a governed context fabric for enterprise agents, and what it implies for identity, semantic modeling, retrieval planning, policy enforcement, and tenant-bound memory.
 
