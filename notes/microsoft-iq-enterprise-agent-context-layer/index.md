@@ -8,7 +8,7 @@ section: "notes"
 type: "technical-note"
 status: "published"
 date: "2026-06-06"
-updated: "2026-06-06"
+updated: "2026-06-07"
 tags: ["enterprise-ai", "agents", "microsoft-iq", "context-layer", "identity", "policy", "semantic-infrastructure"]
 reading_time: "10-12 min"
 canonical_url: "https://rmax.ai/notes/microsoft-iq-enterprise-agent-context-layer/"
@@ -312,6 +312,28 @@ These questions define the next generation of enterprise AI engineering.
 A useful research prototype would implement a narrow but realistic workflow: approval-gated SaaS write operations. The system would include actors, roles, actions, tools, policies, approvals, evidence, executions, outcomes, and audit records. It would expose tools through MCP, enforce policy through OPA/Rego, store state in a governed workspace, and evaluate performance across concrete competency scenarios.
 
 This kind of prototype would be small enough for a solo applied researcher to build, but serious enough to demonstrate the real architecture behind enterprise agents.
+
+## Practical takeaways
+
+- Treat governed context as a platform layer, not as a retrieval add-on attached late in the stack.
+- Start with approval-gated workflows where identity, policy, evidence, and audit already matter more than full autonomy.
+- Model business concepts explicitly before exposing raw schemas and application APIs directly to agents.
+- Enforce read, propose-write, and execute-write boundaries in runtime gateways instead of relying on prompt text to carry security policy.
+- Keep agent memory tenant-bound and auditable; in enterprise settings, persistent state is regulated operational data, not an implementation detail.
+
+## Positioning note
+
+This note is not vendor documentation. It uses Microsoft's public framing as a case study for a broader enterprise-agent architecture problem.
+
+It is also not academic research or a benchmark report. The claims here are architectural and interpretive rather than experimentally validated across production deployments.
+
+The scope is narrower than a full enterprise blueprint. The strongest lessons apply where organizations already care about identity governance, semantic modeling, approval design, and auditability.
+
+## Status & scope disclaimer
+
+This is exploratory personal lab work based on public Microsoft documentation and adjacent platform material available in June 2026. It does not validate Microsoft's private implementation details or prove that the full IQ stack is operationally mature across real enterprise deployments.
+
+Treat it as a design frame for governed enterprise agent infrastructure, not as authoritative product guidance or a substitute for evaluating a concrete workflow in your own environment.
 
 ## Conclusion
 

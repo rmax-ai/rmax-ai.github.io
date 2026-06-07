@@ -129,7 +129,7 @@ No partial outputs are considered valid.
 * Subagent: editorial reviewer
 * Output: revised Markdown
 
-**Gate:** structure present, thesis identifiable.
+**Gate:** structure present, thesis identifiable, and reviewed Markdown passes `python3 scripts/audit_technical_note_structure.py notes/<slug>/index.md`.
 
 ---
 
@@ -218,6 +218,7 @@ If sitemap updates are explicitly authorized by the human operator for this run:
 
 * Orchestrator never writes prose
 * All generative actions use `runSubagent`
+* All published technical notes must include practical takeaways, a positioning note, and a status/scope disclaimer
 * No step skipping
 * No silent failure
 * All blocking verdicts halt execution
@@ -279,4 +280,3 @@ These require separate contracts.
 > Agents execute.
 > Contracts decide.
 > Humans refine the contract.
-

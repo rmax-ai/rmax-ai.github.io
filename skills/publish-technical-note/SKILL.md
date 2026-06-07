@@ -69,6 +69,8 @@ Execute phases in strict order.
 - Run an editorial pass against the draft.
 - Preserve factual claims and any explicit source links that materially support the note.
 - Overwrite `notes/<slug>/index.md` with only the revised markdown.
+- Run `python3 scripts/audit_technical_note_structure.py notes/<slug>/index.md`.
+- If the audit reports missing practical takeaways, positioning, or status language, stop and fix the reviewed markdown before continuing.
 
 ### 4. Run the failure-mode gate
 
@@ -125,6 +127,7 @@ Execute phases in strict order.
 Before declaring success, verify:
 
 - `notes/<slug>/index.md` exists and includes schema-compliant frontmatter
+- `notes/<slug>/index.md` passes `python3 scripts/audit_technical_note_structure.py`
 - `notes/<slug>/index.html` exists and includes the required footer assets
 - the note is listed in `notes/index.html`
 - the note is listed in the main note discovery area of `index.html`

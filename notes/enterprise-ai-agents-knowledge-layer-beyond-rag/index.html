@@ -681,6 +681,41 @@ flowchart LR
             another chatbot over company documents, but a minimal governed system
             capable of reasoning over organizational state and acting only through
             accountable boundaries.</p>
+            <h2 id="practical-takeaways">Practical takeaways</h2>
+            <ul>
+            <li>Treat enterprise search as an entry point, not as the complete
+            operating model for agentic workflows.</li>
+            <li>Model one workflow-specific ontology first; do not attempt to build
+            an enterprise-wide knowledge graph before a narrow use case proves its
+            value.</li>
+            <li>Attach provenance, freshness, access scope, and verification state
+            to facts and relationships, not only to source documents.</li>
+            <li>Put action authority behind a policy and approval gateway so
+            graph-backed retrieval does not turn into ungoverned execution.</li>
+            <li>Evaluate multi-hop resolution, permission failures, and inference
+            leakage explicitly; answer fluency alone is not a sufficient success
+            metric.</li>
+            </ul>
+            <h2 id="positioning-note">Positioning note</h2>
+            <p>This is not vendor documentation or a product endorsement. Glean is
+            useful here as a concrete example of how enterprise search systems are
+            moving toward governed knowledge layers.</p>
+            <p>It is also not a general claim that graphs always beat RAG. The
+            argument is narrower: for cross-system workflows with approvals,
+            provenance, and state transitions, a knowledge control plane is often
+            more useful than document retrieval alone.</p>
+            <p>The note is operator-facing rather than academic. It tries to clarify
+            what architecture work becomes necessary when enterprise agents must
+            reason over organizational state without exceeding authority.</p>
+            <h2 id="status-scope-disclaimer">Status &amp; scope disclaimer</h2>
+            <p>This is exploratory personal lab work grounded in public Glean
+            material and adjacent research on RAG, GraphRAG, ontologies, provenance,
+            and authorization. It does not validate a specific graph stack, storage
+            model, or vendor implementation in production.</p>
+            <p>The recommendations are strongest for governed, multi-system
+            workflows where approvals, ownership, and evidence paths matter. They
+            are weaker for simple lookup tasks where conventional search or bounded
+            RAG is already sufficient.</p>
             <h2 id="conclusion">Conclusion</h2>
             <p>What Glean’s knowledge graph approach makes clear is that enterprise
             AI search is not only about better retrieval quality. It is about

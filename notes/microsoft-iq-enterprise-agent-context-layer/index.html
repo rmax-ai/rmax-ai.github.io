@@ -742,6 +742,40 @@ flowchart TB
               to demonstrate the real architecture behind enterprise agents.
             </p>
 
+            <h2>Practical takeaways</h2>
+            <ul>
+              <li>Treat governed context as a platform layer, not as a retrieval add-on attached late in the stack.</li>
+              <li>Start with approval-gated workflows where identity, policy, evidence, and audit already matter more than full autonomy.</li>
+              <li>Model business concepts explicitly before exposing raw schemas and application APIs directly to agents.</li>
+              <li>Enforce read, propose-write, and execute-write boundaries in runtime gateways instead of relying on prompt text to carry security policy.</li>
+              <li>Keep agent memory tenant-bound and auditable; in enterprise settings, persistent state is regulated operational data, not an implementation detail.</li>
+            </ul>
+
+            <h2>Positioning note</h2>
+            <p>
+              This note is not vendor documentation. It uses Microsoft's public framing as a case study for a broader
+              enterprise-agent architecture problem.
+            </p>
+            <p>
+              It is also not academic research or a benchmark report. The claims here are architectural and interpretive
+              rather than experimentally validated across production deployments.
+            </p>
+            <p>
+              The scope is narrower than a full enterprise blueprint. The strongest lessons apply where organizations
+              already care about identity governance, semantic modeling, approval design, and auditability.
+            </p>
+
+            <h2>Status &amp; scope disclaimer</h2>
+            <p>
+              This is exploratory personal lab work based on public Microsoft documentation and adjacent platform
+              material available in June 2026. It does not validate Microsoft's private implementation details or prove
+              that the full IQ stack is operationally mature across real enterprise deployments.
+            </p>
+            <p>
+              Treat it as a design frame for governed enterprise agent infrastructure, not as authoritative product
+              guidance or a substitute for evaluating a concrete workflow in your own environment.
+            </p>
+
             <h2>Conclusion</h2>
             <p>
               Microsoft IQ is not merely another product announcement. It is a signal that enterprise AI is moving

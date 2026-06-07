@@ -8,7 +8,7 @@ section: "notes"
 type: "technical-note"
 status: "published"
 date: "2026-05-27"
-updated: "2026-05-27"
+updated: "2026-06-07"
 tags: ["enterprise-ai", "ai-agents", "knowledge-graphs", "graph-rag", "enterprise-search", "ontology", "ai-governance"]
 reading_time: "14–16 min"
 canonical_url: "https://rmax.ai/notes/enterprise-ai-agents-knowledge-layer-beyond-rag/"
@@ -329,6 +329,28 @@ A benchmark of cross-system questions can test when each architecture fails:
 The evaluation should measure correctness, evidence quality, permission failures, inference leakage, latency, and token consumption.
 
 This is the practical research frontier for enterprise AI agents: not another chatbot over company documents, but a minimal governed system capable of reasoning over organizational state and acting only through accountable boundaries.
+
+## Practical takeaways
+
+- Treat enterprise search as an entry point, not as the complete operating model for agentic workflows.
+- Model one workflow-specific ontology first; do not attempt to build an enterprise-wide knowledge graph before a narrow use case proves its value.
+- Attach provenance, freshness, access scope, and verification state to facts and relationships, not only to source documents.
+- Put action authority behind a policy and approval gateway so graph-backed retrieval does not turn into ungoverned execution.
+- Evaluate multi-hop resolution, permission failures, and inference leakage explicitly; answer fluency alone is not a sufficient success metric.
+
+## Positioning note
+
+This is not vendor documentation or a product endorsement. Glean is useful here as a concrete example of how enterprise search systems are moving toward governed knowledge layers.
+
+It is also not a general claim that graphs always beat RAG. The argument is narrower: for cross-system workflows with approvals, provenance, and state transitions, a knowledge control plane is often more useful than document retrieval alone.
+
+The note is operator-facing rather than academic. It tries to clarify what architecture work becomes necessary when enterprise agents must reason over organizational state without exceeding authority.
+
+## Status & scope disclaimer
+
+This is exploratory personal lab work grounded in public Glean material and adjacent research on RAG, GraphRAG, ontologies, provenance, and authorization. It does not validate a specific graph stack, storage model, or vendor implementation in production.
+
+The recommendations are strongest for governed, multi-system workflows where approvals, ownership, and evidence paths matter. They are weaker for simple lookup tasks where conventional search or bounded RAG is already sufficient.
 
 ## Conclusion
 
