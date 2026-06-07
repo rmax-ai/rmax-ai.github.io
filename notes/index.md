@@ -3,6 +3,9 @@
 
 Thoughts on software, AI, and systems.
 
+### [MCP Design Best Practices for Agents: From API Wrappers to Agent-Native Interfaces](/notes/mcp-design-best-practices-for-agents/)
+*June 8, 2026* — A technical note on designing MCP servers as agent-native interfaces with workflow semantics, recoverable errors, observability, and governed execution boundaries.
+
 ### [FDE Playbook for Governed Agentic Adoption](/notes/fde-playbook-governed-agentic-adoption/)
 *June 6, 2026* — A technical note on how forward deployed engineering teams should design, govern, evaluate, and scale agentic workflows without turning into an internal AI service desk.
 

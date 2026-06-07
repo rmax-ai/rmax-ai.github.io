@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-06-06T22:03:09Z</lastmod>
+    <lastmod>2026-06-07T21:46:51Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-06-06T22:03:09Z</lastmod>
+    <lastmod>2026-06-07T21:46:46Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -58,7 +58,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/enterprise-ai-agents-knowledge-layer-beyond-rag/</loc>
-    <lastmod>2026-05-27T21:25:52Z</lastmod>
+    <lastmod>2026-06-07T12:39:41Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/enterprise-ai-needs-harness-engineering/</loc>
@@ -101,8 +101,12 @@
     <lastmod>2026-01-26T01:02:43Z</lastmod>
   </url>
   <url>
+    <loc>https://rmax.ai/notes/mcp-design-best-practices-for-agents/</loc>
+    <lastmod>2026-06-07T21:46:06Z</lastmod>
+  </url>
+  <url>
     <loc>https://rmax.ai/notes/microsoft-iq-enterprise-agent-context-layer/</loc>
-    <lastmod>2026-06-06T20:45:19Z</lastmod>
+    <lastmod>2026-06-07T12:39:40Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/mlops-agent-harness-engineering/</loc>

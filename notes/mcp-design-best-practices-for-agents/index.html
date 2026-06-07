@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>MCP Design Best Practices for Agents: From API Wrappers to Agent-Native Interfaces - rmax.ai</title>
+    <meta
+      name="description"
+      content="A technical note on designing MCP servers as agent-native interfaces with workflow semantics, recoverable errors, observability, and governed execution boundaries."
+    />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/mcp-design-best-practices-for-agents/" />
+
+    <meta property="og:title" content="MCP Design Best Practices for Agents: From API Wrappers to Agent-Native Interfaces" />
+    <meta
+      property="og:description"
+      content="A technical note on designing MCP servers as agent-native interfaces with workflow semantics, recoverable errors, observability, and governed execution boundaries."
+    />
+    <meta property="og:url" content="https://rmax.ai/notes/mcp-design-best-practices-for-agents/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-06-08" />
+    <meta property="article:tag" content="mcp" />
+    <meta property="article:tag" content="agent-interfaces" />
+    <meta property="article:tag" content="tool-design" />
+    <meta property="article:tag" content="context-engineering" />
+    <meta property="article:tag" content="workflow-governance" />
+    <meta property="article:tag" content="observability" />
+    <meta property="article:tag" content="security" />
+    <meta property="article:tag" content="chrome-devtools" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 820px;
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.7;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.08;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 56px 0 16px;
+        font-size: 1.85rem;
+        line-height: 1.2;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 36px 0 12px;
+        font-size: 1.2rem;
+        line-height: 1.35;
+        font-weight: 700;
+        color: #fff;
+      }
+      p,
+      li {
+        color: #cbd5e1;
+        font-size: 1.08rem;
+      }
+      p {
+        margin: 0 0 24px;
+      }
+      ul,
+      ol {
+        margin: 0 0 24px;
+        padding-left: 22px;
+      }
+      li {
+        margin-bottom: 10px;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      }
+      p code,
+      li code {
+        background: rgba(255, 255, 255, 0.06);
+        padding: 0.15em 0.35em;
+        border-radius: 6px;
+      }
+      pre {
+        background: rgba(255, 255, 255, 0.04);
+        padding: 20px;
+        border-radius: 12px;
+        overflow: auto;
+        margin: 24px 0;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+      }
+      .mermaid {
+        background: rgba(255, 255, 255, 0.02);
+        padding: 24px;
+        border-radius: 12px;
+        margin: 32px 0;
+        display: flex;
+        justify-content: center;
+        overflow: auto;
+      }
+      .mermaid svg {
+        max-width: 100%;
+        height: auto;
+      }
+      .mermaid .label,
+      .mermaid .nodeLabel,
+      .mermaid .edgeLabel {
+        line-height: 1.3;
+      }
+      .mermaid .label p,
+      .mermaid .nodeLabel p,
+      .mermaid .edgeLabel p {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.3;
+      }
+      a {
+        color: #c4b5fd;
+      }
+      .post-meta {
+        color: var(--muted);
+        margin-bottom: 48px;
+        font-size: 0.95rem;
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .post-content > :first-child {
+        margin-top: 0;
+      }
+      footer {
+        margin-top: 80px;
+        color: var(--muted);
+        font-size: 0.95rem;
+        padding: 40px 0;
+        text-align: center;
+        border-top: 1px solid var(--glass);
+      }
+      @media (max-width: 600px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .wrap {
+          margin: 20px auto;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript
+      ><img
+        src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true"
+        alt=""
+        referrerpolicy="no-referrer-when-downgrade"
+    /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo" />
+          <div>
+            <div style="font-weight: 800">rMax.ai</div>
+            <div style="color: var(--muted); font-size: 0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
+          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
+          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
+          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
+          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
+          <a class="navlink" href="https://www.linkedin.com/in/rmaxespinoza/" target="_blank" rel="noopener" aria-label="LinkedIn" style="display: flex; align-items: center" data-simple-event="click_outbound" data-simple-outbound-host="linkedin.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+            </svg>
+          </a>
+          <a class="navlink" href="https://rmax.substack.com" target="_blank" rel="noopener" aria-label="Substack" style="display: flex; align-items: center" data-simple-event="click_outbound" data-simple-outbound-host="substack.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m40.0248,10.0817v-4.5814c-.3229,0-.7411-.0004-1.6553-.0004l-28.9669.0004c-.9142,0-1.318,0-1.6553,0v4.5814c.2164,0,.7411.0005,1.6553.0005l28.9669-.0005c.9142,0,1.4122,0,1.6553,0Z" />
+              <path d="m40.0248,18.3503v-4.5814H9.4025c-.9142,0-1.3777,0-1.6553,0v4.5814c.2646,0,.7411,0,1.6553,0h30.6223Z" />
+              <path d="m40.2557,42.4999v-20.1821c0-.1633-.9724-.1077-1.8866-.1077H9.4022c-.9142,0-1.6553-.0555-1.6553.1077v19.8878c.2814-.1622,15.3415-8.2118,16.1691-8.5978.5156.2972,13.6461,7.3385,16.3406,8.8914l-.0008.0007Z" />
+            </svg>
+          </a>
+          <a class="navlink" href="https://x.com/rmaxdev" target="_blank" rel="noopener" aria-label="X" style="display: flex; align-items: center" data-simple-event="click_outbound" data-simple-outbound-host="x.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191-.008zM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447z"></path></svg>
+          </a>
+          <a class="navlink" href="https://github.com/rmax-ai" target="_blank" rel="noopener" aria-label="GitHub" style="display: flex; align-items: center" data-simple-event="click_outbound" data-simple-outbound-host="github.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>MCP Design Best Practices for Agents: From API Wrappers to Agent-Native Interfaces</h1>
+            <div class="post-meta">
+              <span>June 8, 2026</span>
+              <span>10-12 min</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+<p>Most enterprise AI failures will not come from weak models. They will
+come from weak interfaces.</p>
+<p>As language models become capable of planning, retrieving context,
+invoking tools, and executing workflows, the critical design problem
+shifts from "Can the model reason?" to "Can the model act safely through
+our systems?" That question is not solved by exposing more APIs. It is
+solved by designing better operational interfaces for agents.</p>
+<p>The Model Context Protocol, or MCP, is emerging as one of the most
+important interface layers in this transition. But treating MCP as a
+thin adapter over existing APIs misses the point. A good MCP server is
+not just a connector. It is an agent-facing control surface. It
+compresses system complexity, exposes meaningful actions, constrains
+unsafe behavior, reports recoverable errors, and gives the enterprise a
+place to govern agentic execution.</p>
+<p>In human software, the user interface is the product boundary. In
+agentic software, the tool interface becomes the product boundary.</p>
+<p>That means MCP design is not plumbing. It is interface engineering
+for machine users.</p>
+<h2 id="the-core-shift-agents-are-not-human-api-consumers">The Core
+Shift: Agents Are Not Human API Consumers</h2>
+<p>Traditional APIs are designed for developers. They assume the caller
+can read documentation, inspect examples, understand hidden domain
+rules, debug failures, and decide when not to call an endpoint.</p>
+<p>Agents do not operate that way.</p>
+<p>An agent sees a tool name, a description, a schema, a few examples,
+and the surrounding task context. From that limited surface, it must
+decide which tool to call, which parameters to provide, how to interpret
+the response, whether to retry, and whether it has enough evidence to
+proceed.</p>
+<p>For an agent, the schema is the interface.</p>
+<p>A vague tool description is like a badly labeled button. An
+under-specified parameter is like a form field with no validation. A
+giant JSON payload is like a dashboard with every table dumped onto one
+screen. An opaque error message is like a modal saying only "Something
+went wrong."</p>
+<p>This is why agent-native MCP design requires a different discipline.
+The goal is not to mirror internal systems. The goal is to expose the
+smallest useful set of safe, meaningful, and recoverable actions.</p>
+<h2 id="bad-mcp-design-wrapping-apis-too-literally">Bad MCP Design:
+Wrapping APIs Too Literally</h2>
+<p>The most common mistake is exposing low-level CRUD operations
+directly:</p>
+<pre class="text"><code>get_user
+list_users
+update_user
+get_team
+list_teams
+update_team
+create_ticket
+update_ticket
+delete_ticket</code></pre>
+<p>This looks clean from an API perspective, but it is poor from an
+agent perspective. The agent must infer the business workflow from
+disconnected primitives. It must discover the right entities, resolve
+ambiguous identifiers, understand which state transitions are valid, and
+avoid unsafe writes.</p>
+<p>The model becomes responsible for orchestration that should belong
+inside the tool layer.</p>
+<p>A better MCP interface exposes intent-level operations:</p>
+<pre class="text"><code>propose_team_member_transfer
+summarize_customer_refund_eligibility
+investigate_failed_invoice_sync
+prepare_access_review_for_manager
+request_approval_for_subscription_change
+execute_approved_subscription_change</code></pre>
+<p>These are not generic database operations. They are workflow
+primitives. They encode business meaning.</p>
+<p>The server can still call many internal APIs underneath. But the
+agent should not need to know that. The MCP server should absorb lookup,
+validation, authorization, idempotency, state transitions, and audit
+logging.</p>
+<p>In short: do not expose your system's internal shape. Expose the
+agent's useful action space.</p>
+<h2 id="principle-1-design-tool-names-as-affordances">Principle 1:
+Design Tool Names as Affordances</h2>
+<p>Tool names should make the correct action obvious.</p>
+<p>A human user can inspect a UI visually. An agent cannot. It relies
+heavily on names and descriptions. This makes naming unusually
+important.</p>
+<p>Weak tool names:</p>
+<pre class="text"><code>update_record
+run_action
+process_request
+sync_data
+handle_ticket</code></pre>
+<p>Strong tool names:</p>
+<pre class="text"><code>propose_refund_for_customer_order
+summarize_account_risk_before_plan_change
+create_jira_ticket_from_incident_summary
+validate_saas_access_change_request
+execute_approved_crm_account_update</code></pre>
+<p>Good names encode intent, scope, and risk level.</p>
+<p>For enterprise systems, I prefer namespaced tool names:</p>
+<pre class="text"><code>com.company.crm:summarize_account_health
+com.company.billing:propose_refund
+com.company.identity:request_access_change
+com.company.jira:create_incident_ticket</code></pre>
+<p>This gives the agent a clearer map of the enterprise landscape. It
+also helps humans audit what kinds of capabilities have been
+exposed.</p>
+<h2 id="principle-2-separate-read-propose-and-execute">Principle 2:
+Separate Read, Propose, and Execute</h2>
+<p>Enterprise agents should not jump directly from reasoning to
+mutation.</p>
+<p>A useful pattern is to separate tools into three categories:</p>
+<p>Read tools retrieve and summarize context.</p>
+<pre class="text"><code>get_customer_account_summary
+search_policy_knowledge_base
+summarize_recent_support_history</code></pre>
+<p>Proposal tools prepare a possible action without executing it.</p>
+<pre class="text"><code>propose_refund
+propose_access_change
+propose_contract_update</code></pre>
+<p>Execution tools perform a mutation only after approval, policy
+validation, or explicit authorization.</p>
+<pre class="text"><code>execute_approved_refund
+apply_approved_access_change
+submit_approved_contract_update</code></pre>
+<div class="mermaid">
+flowchart LR
+    A["Read tools<br/>gather context"] --> B["Proposal tools<br/>prepare action"]
+    B --> C{"Approval / policy check"}
+    C -->|approved| D["Execution tools<br/>perform mutation"]
+    C -->|rejected| E["Revise or stop"]
+    D --> F["Audit record / outcome verification"]
+</div>
+<p>This design creates friction where friction is valuable. It gives the
+system a place to enforce policy, require human approval, attach
+evidence, generate audit records, and prevent accidental side
+effects.</p>
+<p>The agent should not be trusted because it sounds confident. It
+should be trusted only when its actions pass through a governed
+execution path.</p>
+<h2 id="principle-3-compress-context-semantically">Principle 3: Compress
+Context Semantically</h2>
+<p>Agents are constrained by context windows, latency, and cost. Dumping
+raw system data into the model is usually a design failure.</p>
+<p>Bad output:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;logs&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;... thousands of raw log lines ...&quot;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;tickets&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;... full ticket bodies ...&quot;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;events&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;... raw event stream ...&quot;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>Better output:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span><span class="kw">:</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">issue</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Invoice sync failed for 18 customers after ERP token rotation.&quot;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">likely_cause</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Expired OAuth refresh token for Business Central connector.&quot;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">affected_systems</span><span class="kw">:</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> billing</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> erp_sync</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> customer_portal</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">evidence</span><span class="kw">:</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;401 errors began at 2026-06-07 09:14 UTC&quot;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;No schema changes detected&quot;</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="st">&quot;Retries succeeded after manual token refresh in staging&quot;</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">recommended_next_action</span><span class="kw">:</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">tool</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;com.company.erp:refresh_connector_token&quot;</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">requires_approval</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code></pre></div>
+<p>The MCP server should do local computation before involving the
+model. Filter, rank, summarize, group, deduplicate, and explain.</p>
+<p>This is semantic compression: preserving decision-relevant
+information while removing operational noise.</p>
+<p>For enterprise workflows, semantic compression is not just an
+optimization. It is a safety feature. The less irrelevant data the model
+sees, the lower the chance it acts on noise, leaks sensitive context, or
+hallucinates a causal link.</p>
+<h2 id="principle-4-make-errors-recoverable">Principle 4: Make Errors
+Recoverable</h2>
+<p>Most tool errors are written for developers. Agents need errors that
+explain what happened and what to do next.</p>
+<p>Bad error:</p>
+<pre class="text"><code>400 Bad Request</code></pre>
+<p>Better error:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;error_type&quot;</span><span class="fu">:</span> <span class="st">&quot;VALIDATION_ERROR&quot;</span><span class="fu">,</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;message&quot;</span><span class="fu">:</span> <span class="st">&quot;Refund cannot be proposed because the order is outside the refundable window.&quot;</span><span class="fu">,</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;failed_field&quot;</span><span class="fu">:</span> <span class="st">&quot;order_id&quot;</span><span class="fu">,</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;policy_reference&quot;</span><span class="fu">:</span> <span class="st">&quot;refund_policy.v3.max_refund_window_days&quot;</span><span class="fu">,</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;recoverable&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;suggested_next_steps&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;tool&quot;</span><span class="fu">:</span> <span class="st">&quot;com.company.billing:get_refund_exception_policy&quot;</span><span class="fu">,</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;reason&quot;</span><span class="fu">:</span> <span class="st">&quot;Check whether manager-approved exceptions are allowed.&quot;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;tool&quot;</span><span class="fu">:</span> <span class="st">&quot;com.company.support:create_customer_explanation_draft&quot;</span><span class="fu">,</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;reason&quot;</span><span class="fu">:</span> <span class="st">&quot;Prepare a response explaining why standard refund is unavailable.&quot;</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>A good agent-facing error should include:</p>
+<ul>
+<li>the category of failure</li>
+<li>whether the failure is recoverable</li>
+<li>which parameter or assumption failed</li>
+<li>which policy or system constraint was involved</li>
+<li>whether retrying makes sense</li>
+<li>what tool or workflow should be attempted next</li>
+</ul>
+<p>This reduces blind retries and makes the agent more useful under
+uncertainty.</p>
+<h2 id="principle-5-treat-security-as-interface-design">Principle 5:
+Treat Security as Interface Design</h2>
+<p>Security should not be bolted on after the tool interface is built.
+The interface itself should encode security boundaries.</p>
+<p>Useful design patterns include:</p>
+<ul>
+<li>delegated OAuth instead of shared API keys</li>
+<li>least-privilege tool scopes</li>
+<li>explicit separation between read and write tools</li>
+<li>approval gates for sensitive actions</li>
+<li>idempotency keys for write operations</li>
+<li>audit logs for every proposed and executed action</li>
+<li>egress restrictions for tools that touch private data</li>
+<li>state-machine validation for business workflows</li>
+</ul>
+<p>The dangerous pattern is giving an agent access to three things at
+once:</p>
+<ol type="1">
+<li>untrusted external content</li>
+<li>private internal data</li>
+<li>write or execution capability</li>
+</ol>
+<p>That combination creates the conditions for prompt injection, data
+exfiltration, and unauthorized action.</p>
+<p>A safer architecture separates these surfaces. External content
+should be treated as hostile. Internal data access should be scoped.
+Writes should require validated intent and approval. Tool outputs should
+distinguish facts, model inferences, and user-provided claims.</p>
+<p>Enterprise agent security is not only about authentication. It is
+about controlling what the agent can perceive, infer, and mutate.</p>
+<h2 id="principle-6-instrument-the-agent-interface">Principle 6:
+Instrument the Agent Interface</h2>
+<p>A production MCP server should be observable.</p>
+<p>The important question is not only "Did the API call succeed?" The
+better question is "Did the agent complete the intended workflow safely,
+efficiently, and correctly?"</p>
+<p>Useful metrics include:</p>
+<ul>
+<li>tool selection accuracy</li>
+<li>invalid tool calls</li>
+<li>parameter validation failures</li>
+<li>retry count</li>
+<li>average turns to completion</li>
+<li>tokens per successful outcome</li>
+<li>human approval rate</li>
+<li>approval rejection rate</li>
+<li>policy violation attempts</li>
+<li>execution latency</li>
+<li>post-action correction rate</li>
+<li>rollback frequency</li>
+</ul>
+<p>One particularly useful metric is tokens per successful outcome. It
+connects model cost to business value. An interface that helps the agent
+complete a workflow in three calls is better than one that requires
+twenty calls, retries, and human repair.</p>
+<p>This changes how MCP servers should be evaluated. The unit of quality
+is not the endpoint. The unit of quality is the completed workflow.</p>
+<h2 id="principle-7-build-mcps-around-workflow-contracts">Principle 7:
+Build MCPs Around Workflow Contracts</h2>
+<p>A mature MCP design should define a workflow contract.</p>
+<p>For example, an approval-gated SaaS write workflow might have the
+following lifecycle:</p>
+<pre class="text"><code>read context
+-&gt; generate proposal
+-&gt; validate proposal
+-&gt; attach evidence
+-&gt; request approval
+-&gt; receive approval
+-&gt; execute action
+-&gt; verify outcome
+-&gt; write audit record</code></pre>
+<div class="mermaid">
+flowchart TD
+    A["Read context"] --> B["Generate proposal"]
+    B --> C["Validate proposal"]
+    C --> D["Attach evidence"]
+    D --> E{"Approval granted?"}
+    E -->|no| F["Stop or revise"]
+    E -->|yes| G["Execute action"]
+    G --> H["Verify outcome"]
+    H --> I["Write audit record"]
+</div>
+<p>Each phase should have explicit inputs, outputs, constraints, and
+failure states.</p>
+<p>The MCP server should enforce the contract. The agent should not be
+trusted to remember every rule from a prompt. Prompts are useful for
+guidance; servers are necessary for enforcement.</p>
+<p>This distinction matters. Prompt instructions can influence behavior.
+Protocol and server constraints can guarantee behavior.</p>
+<p>For enterprise agents, guarantee beats persuasion.</p>
+<h2 id="a-practical-maturity-model-for-mcp-design">A Practical Maturity
+Model for MCP Design</h2>
+<p>Most organizations will move through several stages.</p>
+<p>Level 0: Raw connectors. The enterprise exposes APIs, databases, or
+SaaS endpoints directly. Agents have too much surface area and too
+little guidance.</p>
+<p>Level 1: Basic MCP tools. Existing operations are wrapped as MCP
+tools, but the design still mirrors the underlying systems.</p>
+<p>Level 2: Agent-native tools. Tool names, schemas, outputs, and errors
+are designed for model usability.</p>
+<p>Level 3: Governed workflow MCPs. Tools are organized around business
+workflows, with approval gates, policy checks, idempotency, and
+auditability.</p>
+<p>Level 4: Observable and evaluated MCPs. The organization measures
+workflow success, retries, tool-call quality, cost, safety, and human
+intervention.</p>
+<p>Level 5: Enterprise agent interface platform. MCP design becomes
+standardized across teams, with reusable patterns, internal guidelines,
+evaluation suites, and governance controls.</p>
+<div class="mermaid">
+flowchart TB
+    L0["Level 0<br/>Raw connectors"]
+    L1["Level 1<br/>Basic MCP tools"]
+    L2["Level 2<br/>Agent-native tools"]
+    L3["Level 3<br/>Governed workflow MCPs"]
+    L4["Level 4<br/>Observable and evaluated MCPs"]
+    L5["Level 5<br/>Enterprise agent interface platform"]
+    L0 --> L1 --> L2 --> L3 --> L4 --> L5
+</div>
+<p>The strategic goal is not to create many MCP servers. The goal is to
+create a coherent agent interface layer across the enterprise.</p>
+<h2 id="what-this-means-for-forward-deployed-engineers">What This Means
+for Forward Deployed Engineers</h2>
+<p>The Forward Deployed Engineer role becomes central in this world.</p>
+<p>An FDE working on enterprise AI should not merely connect systems or
+configure assistants. The higher-value work is to identify operational
+workflows, redesign them as agent-native interfaces, and turn
+field-specific deployment lessons into reusable platform patterns.</p>
+<p>A strong FDE should ask:</p>
+<ul>
+<li>What workflow is the agent actually trying to complete?</li>
+<li>Which decisions require business context?</li>
+<li>Which actions are safe to automate?</li>
+<li>Which actions require approval?</li>
+<li>What evidence should be attached before execution?</li>
+<li>What should the agent never see?</li>
+<li>What should the agent never be allowed to mutate?</li>
+<li>How will we measure success?</li>
+<li>How will we debug failures?</li>
+<li>How will this pattern become reusable?</li>
+</ul>
+<p>This is where enterprise AI moves from demos to operations.</p>
+<p>The FDE becomes a bridge between model capability and institutional
+reality: part systems engineer, part workflow architect, part governance
+implementer, and part product feedback loop.</p>
+<h2 id="example-bad-vs-good-mcp-design-for-access-management">Example:
+Bad vs Good MCP Design for Access Management</h2>
+<p>A weak access-management MCP might expose tools like this:</p>
+<pre class="text"><code>list_users
+get_user
+list_groups
+add_user_to_group
+remove_user_from_group</code></pre>
+<p>This forces the agent to infer policy. It may add the wrong person to
+the wrong group if the context is ambiguous or if a malicious
+instruction is embedded in a ticket.</p>
+<p>A better design would expose:</p>
+<pre class="text"><code>summarize_user_access_profile
+validate_access_change_request
+propose_access_change
+request_manager_approval_for_access_change
+execute_approved_access_change
+verify_access_change_outcome</code></pre>
+<p>Now the workflow has structure. The agent can gather context,
+generate a proposal, validate it, seek approval, execute only after
+approval, and verify the result. The MCP server can enforce role
+constraints, approval requirements, separation of duties, and audit
+logging.</p>
+<p>The difference is not cosmetic. It is the difference between an API
+wrapper and an operational control plane.</p>
+<h2 id="example-bad-vs-good-mcp-design-for-incident-response">Example:
+Bad vs Good MCP Design for Incident Response</h2>
+<p>A weak incident-response MCP might expose raw logs, metrics, traces,
+and ticket APIs. The agent receives too much data and has to infer
+causality.</p>
+<p>A better MCP would expose tools such as:</p>
+<pre class="text"><code>summarize_recent_service_anomalies
+correlate_deployment_with_error_spike
+identify_probable_incident_cause
+draft_incident_update
+propose_rollback_plan
+request_rollback_approval
+execute_approved_rollback</code></pre>
+<p>The MCP server should compress logs into relevant anomalies,
+correlate events across systems, surface uncertainty, and distinguish
+evidence from speculation.</p>
+<p>This allows the agent to assist with incident work without pretending
+that the model itself is the monitoring platform, the policy engine, and
+the release manager.</p>
+<h2 id="the-design-standard-agent-native-workflow-native-governed">The
+Design Standard: Agent-Native, Workflow-Native, Governed</h2>
+<p>Good MCP design has three properties.</p>
+<p>It is agent-native. The interface is designed for how models perceive
+tools: names, schemas, examples, constraints, and structured
+outputs.</p>
+<p>It is workflow-native. The interface exposes meaningful business
+operations, not low-level system fragments.</p>
+<p>It is governed. The interface encodes authorization, approval,
+auditability, idempotency, and policy enforcement.</p>
+<p>This is the design standard enterprise AI needs.</p>
+<p>The future enterprise agent stack will not be only a model plus
+tools. It will include a governed interface layer that translates
+business workflows into safe, observable, executable capabilities.</p>
+<p>MCP is one candidate protocol for that layer. But the deeper idea is
+protocol-independent: agents need operational UX.</p>
+<p>The companies that understand this will build internal platforms
+where agents can act safely and measurably. The companies that do not
+will accumulate fragile demos, unsafe automations, and unmaintainable
+tool sprawl.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The next wave of enterprise AI will depend less on exposing every
+system to agents and more on deciding exactly how agents should interact
+with systems.</p>
+<p>That is an interface design problem.</p>
+<p>MCP servers should not be treated as passive connectors. They should
+be designed as agent-facing workflow control surfaces: compressed,
+constrained, observable, and governed.</p>
+<p>The best enterprise AI teams will not ask, "How many tools can our
+agents call?"</p>
+<p>They will ask, "What is the safest, smallest, most meaningful action
+space we can expose so agents can complete real work?"</p>
+<p>That is the shift from API integration to agent interface
+engineering.</p>
+<p>And it may become one of the most important software design
+disciplines of the agent era.</p>
+<h2 id="practical-takeaways">Practical Takeaways</h2>
+<ul>
+<li>Design MCP tools around business actions and workflow phases, not
+raw CRUD or generic API wrappers.</li>
+<li>Separate read, propose, and execute paths so approval and policy
+checks live in the interface instead of depending on prompt discipline
+alone.</li>
+<li>Compress context semantically before it reaches the model so agents
+reason over signals, not over undifferentiated operational noise.</li>
+<li>Return structured, recoverable errors that tell the agent what
+failed, whether it should retry, and what tool to use next.</li>
+<li>Treat security, observability, and auditability as first-class
+interface properties, not as downstream implementation details.</li>
+</ul>
+<h2 id="positioning-note">Positioning Note</h2>
+<p>This note is not a protocol explainer, product tutorial, or formal
+extension to the MCP specification. It is an architectural
+interpretation of MCP as an agent-facing interface layer, aimed at teams
+designing tool surfaces for real workflows rather than merely connecting
+models to APIs.</p>
+<h2 id="status-and-scope-disclaimer">Status and Scope Disclaimer</h2>
+<p>This note is exploratory but evidence-backed lab work. It draws on
+the MCP specification, schema reference, security guidance, Chrome
+DevTools MCP materials, Anthropic's context engineering guidance, and
+Stainless's debugging guidance, but the design recommendations here are
+interpretive patterns rather than normative protocol requirements. It is
+most relevant for enterprise and product teams building governed agent
+workflows, not as a complete treatment of every MCP use case.</p>
+<h2 id="sources">Sources</h2>
+<ol type="1">
+<li><a
+href="https://modelcontextprotocol.io/specification/2025-11-25">Model
+Context Protocol — Specification</a></li>
+<li><a
+href="https://modelcontextprotocol.io/specification/2025-11-25/schema">Model
+Context Protocol — Schema Reference</a></li>
+<li><a
+href="https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices">Model
+Context Protocol — Security Best Practices</a></li>
+<li><a
+href="https://github.com/ChromeDevTools/chrome-devtools-mcp">Chrome
+DevTools MCP — GitHub Repository</a></li>
+<li><a
+href="https://developer.chrome.com/docs/devtools/agents/get-started">Chrome
+DevTools for Agents — Get Started</a></li>
+<li><a
+href="https://app.daily.dev/posts/building-agent-interfaces-lessons-from-chrome-devtools-mcp-for-agents-michael-hablich-google-v9gqworuu">Building
+Agent Interfaces: Lessons from Chrome DevTools MCP for Agents — Michael
+Hablich, Google</a></li>
+<li><a
+href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Anthropic
+— Effective Context Engineering for AI Agents</a></li>
+<li><a
+href="https://www.stainless.com/mcp/error-handling-and-debugging-mcp-servers/">Stainless
+— Error Handling and Debugging MCP Servers</a></li>
+</ol>
+          </div>
+        </article>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script>
+      window.footerThoughts = [
+        { text: "I turn tool surfaces into operating boundaries so agents act through workflows instead of wandering through APIs.", agent: "Interface Agent" },
+        { text: "I compress system complexity until the next safe action becomes obvious to both the model and the operator.", agent: "Control Surface Agent" },
+        { text: "I treat every tool schema as a product boundary, because unsafe affordances scale faster than bad code.", agent: "Protocol Agent" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
