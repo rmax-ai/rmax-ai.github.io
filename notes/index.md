@@ -6,11 +6,14 @@ Thoughts on software, AI, and systems.
 ### [FDE Playbook for Governed Agentic Adoption](/notes/fde-playbook-governed-agentic-adoption/)
 *June 6, 2026* — A technical note on how forward deployed engineering teams should design, govern, evaluate, and scale agentic workflows without turning into an internal AI service desk.
 
+### [Microsoft IQ and the Rise of the Enterprise Agent Context Layer](/notes/microsoft-iq-enterprise-agent-context-layer/)
+*June 6, 2026* — An analysis of Microsoft IQ as a governed context fabric for enterprise agents, and what it implies for identity, semantic modeling, retrieval planning, policy enforcement, and tenant-bound memory.
+
 ### [The Forward Deployed Engineer in Enterprise AI: From Integration Specialist to Agentic Control-Plane Builder](/notes/forward-deployed-engineer-enterprise-ai/)
 *May 30, 2026* — A technical note on why forward deployed engineers in enterprise AI create durable value by turning local deployment friction into reusable control-plane infrastructure for governed agent execution.
 
 ### [What Glean's Knowledge Graph Approach Reveals About Enterprise AI Search](/notes/enterprise-ai-agents-knowledge-layer-beyond-rag/)
-*May 28, 2026* — An analysis of Glean's knowledge graph approach to enterprise AI search, and what it reveals about retrieval, permissions, relationships, approvals, and operational state beyond vector RAG.
+*May 27, 2026* — An analysis of Glean's knowledge graph approach to enterprise AI search, and what it reveals about retrieval, permissions, relationships, approvals, and operational state beyond vector RAG.
 
 ### [Stateful Enterprise Cognition: Why Enterprise AI Requires a Governed Knowledge Layer](/notes/stateful-enterprise-cognition/)
 *May 24, 2026* — A technical note arguing that enterprise agents need a governed knowledge layer to externalize identity, provenance, relationships, and temporal state before autonomy can be trusted.
