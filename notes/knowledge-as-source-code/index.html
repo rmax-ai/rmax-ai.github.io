@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Beyond RAG Memory: Treat Knowledge as Source Code and Retrieval as Compilation - rmax.ai</title>
+    <meta name="description" content="Why durable AI-agent knowledge should remain human-readable, version-controlled and reproducible—while vector indexes, search engines and graphs become disposable compiled artifacts." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/knowledge-as-source-code/" />
+
+    <meta property="og:title" content="Beyond RAG Memory: Treat Knowledge as Source Code and Retrieval as Compilation" />
+    <meta property="og:description" content="Why durable AI-agent knowledge should remain human-readable, version-controlled and reproducible—while vector indexes, search engines and graphs become disposable compiled artifacts." />
+    <meta property="og:url" content="https://rmax.ai/notes/knowledge-as-source-code/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-06-13" />
+    <meta property="article:tag" content="AI agents" />
+    <meta property="article:tag" content="RAG" />
+    <meta property="article:tag" content="agent memory" />
+    <meta property="article:tag" content="knowledge architecture" />
+    <meta property="article:tag" content="Open Knowledge Format" />
+    <meta property="article:tag" content="GitOps" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 820px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.7;
+      }
+      .wrap { max-width: var(--maxw); margin: 40px auto; padding: 24px; }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+      .logo { width: 44px; height: 44px; border-radius: 10px; object-fit: contain; }
+      nav { display: flex; gap: 14px; align-items: center; }
+      a.navlink { color: var(--muted); text-decoration: none; font-weight: 600; }
+      h1 { margin: 0 0 16px; font-size: clamp(32px, 5vw, 52px); line-height: 1.08; font-weight: 800; }
+      h2 { margin: 56px 0 16px; font-size: 1.85rem; line-height: 1.2; font-weight: 700; color: #fff; }
+      h3 { margin: 36px 0 12px; font-size: 1.2rem; line-height: 1.35; font-weight: 700; color: #fff; }
+      p, li { color: #cbd5e1; font-size: 1.08rem; }
+      p { margin: 0 0 24px; }
+      ul, ol { margin: 0 0 24px; padding-left: 22px; }
+      li { margin-bottom: 10px; }
+      code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+      p code, li code { background: rgba(255, 255, 255, 0.06); padding: 0.15em 0.35em; border-radius: 6px; }
+      pre { background: rgba(255, 255, 255, 0.04); padding: 20px; border-radius: 12px; overflow: auto; margin: 24px 0; }
+      pre code { background: transparent; padding: 0; }
+      .mermaid { background: rgba(255, 255, 255, 0.02); padding: 24px; border-radius: 12px; margin: 32px 0; display: flex; justify-content: center; overflow: auto; }
+      .mermaid svg { max-width: 100%; height: auto; }
+      .mermaid .label, .mermaid .nodeLabel, .mermaid .edgeLabel { line-height: 1.3; }
+      .mermaid .label p, .mermaid .nodeLabel p, .mermaid .edgeLabel p { margin: 0; font-size: 14px; line-height: 1.3; }
+      a { color: #c4b5fd; }
+      .post-meta { color: var(--muted); margin-bottom: 48px; font-size: 0.95rem; display: flex; gap: 16px; flex-wrap: wrap; }
+      .post-content > :first-child { margin-top: 0; }
+      .diagram-caption { color: #dbeafe; font-size: 0.98rem; margin-bottom: 12px; }
+      footer { margin-top: 80px; color: var(--muted); font-size: 0.95rem; padding: 40px 0; text-align: center; border-top: 1px solid var(--glass); }
+      @media (max-width: 600px) {
+        header { flex-direction: column; align-items: flex-start; }
+        .wrap { margin: 20px auto; }
+      }
+    </style>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo" />
+          <div>
+            <div style="font-weight: 800">rMax.ai</div>
+            <div style="color: var(--muted); font-size: 0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
+          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
+          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
+          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
+          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
+          <a class="navlink" href="https://www.linkedin.com/in/rmaxespinoza/" target="_blank" rel="noopener" aria-label="LinkedIn" style="display: flex; align-items: center" data-simple-event="click_outbound" data-simple-outbound-host="linkedin.com"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg></a>
+          <a class="navlink" href="https://rmax.substack.com" target="_blank" rel="noopener" aria-label="Substack" style="display: flex; align-items: center" data-simple-event="click_outbound" data-simple-outbound-host="substack.com"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m40.0248,10.0817v-4.5814c-.3229,0-.7411-.0004-1.6553-.0004l-28.9669.0004c-.9142,0-1.318,0-1.6553,0v4.5814c.2164,0,.7411.0005,1.6553.0005l28.9669-.0005c.9142,0,1.4122,0,1.6553,0Z" /><path d="m40.0248,18.3503v-4.5814H9.4025c-.9142,0-1.3777,0-1.6553,0v4.5814c.2646,0,.7411,0,1.6553,0h30.6223Z" /><path d="m40.2557,42.4999v-20.1821c0-.1633-.9724-.1077-1.8866-.1077H9.4022c-.9142,0-1.6553-.0555-1.6553.1077v19.8878c.2814-.1622,15.3415-8.2118,16.1691-8.5978.5156.2972,13.6461,7.3385,16.3406,8.8914l-.0008.0007Z" /></svg></a>
+          <a class="navlink" href="https://x.com/rmaxdev" target="_blank" rel="noopener" aria-label="X" style="display: flex; align-items: center" data-simple-event="click_outbound" data-simple-outbound-host="x.com"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191-.008zM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447z"></path></svg></a>
+          <a class="navlink" href="https://github.com/rmax-ai" target="_blank" rel="noopener" aria-label="GitHub" style="display: flex; align-items: center" data-simple-event="click_outbound" data-simple-outbound-host="github.com"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>Beyond RAG Memory: Treat Knowledge as Source Code and Retrieval as Compilation</h1>
+            <div class="post-meta">
+              <span>June 13, 2026</span>
+              <span>12-14 min</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+          <p>Retrieval-augmented generation gives agents access to external information, but it does not by itself provide durable memory. This note argues for a stricter separation: human-readable, version-controlled knowledge should remain canonical, while vector indexes, lexical search, graphs, summaries, and prompt packages should be treated as replaceable compiled artifacts. That boundary matters when agents must operate over time, accept governed corrections, preserve provenance, and rebuild retrieval state without losing what the system actually knows.</p>
+          <h2>Context and Motivation</h2>
+          <p>RAG solved an important operational problem. Models cannot carry all organizational or personal knowledge in parameters or context windows, so systems retrieve external information and inject it into the model's working context.</p>
+          <p>That retrieval pipeline works well for search and question answering. It becomes less reliable when teams quietly promote the retrieval layer into the memory layer. In many deployments, documents are chunked, embedded, inserted into a vector database, and then treated as the effective representation of long-term knowledge.</p>
+          <p>That shortcut is acceptable for demos. It becomes fragile when agents must update beliefs, distinguish current facts from historical ones, explain where knowledge came from, resolve contradictions, and accept controlled corrections from humans. The problem is not RAG itself. The problem is treating a retrieval index as canonical knowledge.</p>
+          <h2>Core Thesis</h2>
+          <p>Durable agent knowledge should be stored in human-readable, version-controlled source form. Retrieval infrastructure should be compiled from that source into workload-specific projections.</p>
+          <p>Under that model, retrieval still matters. It may remain the fastest way to find relevant material. But it no longer owns the truth. If an embedding model changes, an index is corrupted, or a schema evolves, the system should rebuild the derived artifacts from the canonical source instead of trying to reconstruct knowledge from opaque retrieval state.</p>
+          <h2>Mechanism: Retrieval and Memory Are Different Jobs</h2>
+          <p>RAG systems usually follow a familiar sequence:</p>
+          <ol><li>Collect documents.</li><li>Divide them into chunks.</li><li>Generate an embedding for each chunk.</li><li>Store embeddings and associated text.</li><li>Embed an incoming query.</li><li>Retrieve semantically similar chunks.</li><li>Insert those chunks into the model's context.</li></ol>
+          <p>This is effective for retrieval. It is not a complete lifecycle model for memory.</p>
+          <p>Retrieval asks which existing pieces of information are relevant to a query. Durable memory must also answer:</p>
+          <ul><li>What does the system currently believe?</li><li>Which claims are observations, hypotheses, or verified facts?</li><li>When was a fact valid?</li><li>Where did it come from?</li><li>What superseded it?</li><li>Which claims contradict one another?</li><li>Who approved a correction?</li><li>Which information should expire?</li><li>What did the system know at a specific point in time?</li></ul>
+          <p>A vector index does not inherently answer those questions. It encodes numerical relationships useful for semantic similarity. It does not, by itself, provide provenance, temporal semantics, review history, or rollback.</p>
+          <p>This distinction matters more once agents take actions instead of only answering questions. Weak retrieval may produce a weak answer. Weak memory may trigger an incorrect payment, a stale policy decision, or an action based on a superseded instruction.</p>
+          <h2>The Compilation Model</h2>
+          <p>The practical alternative is to separate canonical knowledge from derived retrieval state.</p>
+          <p>The canonical layer should be:</p>
+          <ul><li>Human-readable</li><li>Machine-parseable</li><li>Versionable</li><li>Diffable</li><li>Source-linked</li><li>Correctable</li><li>Portable</li><li>Independently auditable</li><li>Rebuildable into multiple retrieval formats</li></ul>
+          <p>Downstream systems can then compile that knowledge into forms optimized for different workloads:</p>
+          <ul><li>Vector embeddings for semantic retrieval</li><li>Inverted indexes for lexical search</li><li>Graph indexes for relationship traversal</li><li>Summaries for progressive disclosure</li><li>Structured databases for filtering and aggregation</li><li>Prompt fragments for runtime context</li><li>Evaluation datasets for regression testing</li></ul>
+          <p class="diagram-caption">Caption: Canonical knowledge should feed multiple derived retrieval products.</p>
+          <pre class="mermaid">flowchart TD
+    RE[Raw Evidence] --&gt; CKR[Canonical Knowledge Repository]
+    CKR --&gt; VI[Vector Index]
+    CKR --&gt; LI[Lexical Index]
+    CKR --&gt; KG[Knowledge Graph]
+    CKR --&gt; SU[Summaries]
+    CKR --&gt; PP[Prompt Packages]
+    CKR --&gt; ED[Evaluation Datasets]
+
+    style CKR fill:#1a1a2e,stroke:#e94560,stroke-width:2px
+    style RE fill:#16213e,stroke:#0f3460
+    style VI fill:#16213e,stroke:#0f3460
+    style LI fill:#16213e,stroke:#0f3460
+    style KG fill:#16213e,stroke:#0f3460
+    style SU fill:#16213e,stroke:#0f3460
+    style PP fill:#16213e,stroke:#0f3460
+    style ED fill:#16213e,stroke:#0f3460</pre>
+          <p>Every derived artifact may be discarded and reconstructed. The system should never depend on reconstructing authoritative knowledge from an opaque embedding index.</p>
+          <h2>Open Knowledge Format as a Source Representation</h2>
+          <p>One emerging representation for canonical knowledge is the Open Knowledge Format, or OKF, introduced by Google as a draft specification in June 2026. OKF v0.1 represents a knowledge bundle as a directory of Markdown files with YAML frontmatter. Each non-reserved document requires a <code>type</code> field, and files can be connected with ordinary Markdown links.</p>
+          <p>A minimal concept might look like this:</p>
+          <pre><code class="language-yaml">---
+type: Policy
+title: Production refund approval
+description: Approval requirements for production refunds.
+tags:
+  - payments
+  - risk
+  - approval
+timestamp: 2026-06-13T10:00:00Z
+---</code></pre>
+          <pre><code class="language-markdown"># Rule
+
+Refunds above the defined risk threshold require approval from an
+authorized reviewer before execution.
+
+# Related concepts
+
+- [Refund execution workflow](/workflows/refund-execution.md)
+- [Risk thresholds](/policies/risk-thresholds.md)
+
+# Citations
+
+1. [Internal refund control policy](/sources/refund-policy.md)</code></pre>
+          <p>OKF is useful because it keeps canonical knowledge close to ordinary files and standard tools. It can be edited in a text editor, reviewed in Git, indexed by search engines, and consumed without a proprietary SDK.</p>
+          <p>Its limits are equally important. OKF does not automatically solve entity resolution, temporal reasoning, ontology alignment, contradiction management, access control, provenance verification, retrieval quality, or policy enforcement. It provides a portable envelope, not a complete runtime.</p>
+          <h2>From Raw Documents to Maintained Knowledge</h2>
+          <p>The canonical repository should not merely contain copied source documents. Raw evidence and maintained knowledge serve different functions.</p>
+          <p>A useful layout separates them:</p>
+          <pre><code class="language-text">knowledge/
+├── raw/
+│   ├── meetings/
+│   ├── articles/
+│   ├── reports/
+│   └── imports/
+├── concepts/
+├── decisions/
+├── policies/
+├── projects/
+├── people/
+├── playbooks/
+├── conflicts/
+└── archive/</code></pre>
+          <p>The <code>raw/</code> directory preserves evidence such as transcripts, reports, captures, and imported documents. The other directories contain maintained knowledge: the decisions, policies, concepts, preferences, and conflicts that should shape future behavior.</p>
+          <p>An ingestion agent can then operate more like a compiler than a loader:</p>
+          <ol><li>Detect a new raw source.</li><li>Parse its structure.</li><li>Identify entities and claims.</li><li>Search for existing concepts.</li><li>Propose new concepts or modifications.</li><li>Attach provenance.</li><li>Mark contradictions or supersessions.</li><li>Run schema and consistency checks.</li><li>Submit the update for review.</li><li>Rebuild affected retrieval indexes after approval.</li></ol>
+          <p>This is more demanding than chunking a document and storing embeddings. It is also more useful. A long meeting transcript may ultimately contribute one decision, a few commitments, several state changes, and a small number of source-linked observations. The goal is not to remember every token equally. The goal is to maintain the knowledge that should affect future behavior.</p>
+          <h2>Concrete Example: Typed Knowledge</h2>
+          <p>Canonical repositories become more useful when they distinguish between kinds of knowledge instead of relying on the model to infer everything from prose.</p>
+          <p>A practical type system might include:</p>
+          <ul><li>Fact</li><li>Observation</li><li>Hypothesis</li><li>Decision</li><li>Commitment</li><li>Goal</li><li>Preference</li><li>Policy</li><li>Instruction</li><li>Workflow</li><li>Skill</li><li>Research</li><li>Conflict</li><li>ArchivedFact</li></ul>
+          <p>Different types need different lifecycle rules. A hypothesis should carry evidence and confidence. A commitment should have an owner and due date. A policy should record its approval state. A decision should preserve rationale.</p>
+          <p>Example: a research claim and an operational policy should not be treated the same way.</p>
+          <pre><code class="language-yaml">---
+type: Hypothesis
+title: Structured memory improves temporal consistency
+status: proposed
+created_at: 2026-06-13T10:00:00Z
+confidence: 0.68
+verification_status: unverified
+derived_from:
+  - raw/research/memory-evaluation-notes.md
+evidence:
+  - research/byterover.md
+  - research/compiled-memory.md
+review_after: 2026-08-01
+---</code></pre>
+          <pre><code class="language-yaml">---
+type: Policy
+title: Human approval for canonical knowledge changes
+status: verified
+created_at: 2026-06-13T10:00:00Z
+verification_status: human_approved
+sensitivity: internal
+owner: team:ai-platform
+valid_from: 2026-06-15
+supersedes: policies/previous-memory-write-policy
+---</code></pre>
+          <p>Both are files. The runtime should reason about them differently.</p>
+          <h2>Concrete Example: Temporal Memory</h2>
+          <p>Durable memory should avoid overwriting history when facts change. At minimum it should separate:</p>
+          <ul><li>Valid time: when the fact was true in the world</li><li>Observation time: when the system learned or recorded it</li></ul>
+          <p>If a customer changes account managers on May 1 but the system learns that on May 10, those timestamps answer different questions:</p>
+          <pre><code class="language-yaml">valid_from: 2026-05-01
+observed_at: 2026-05-10T09:32:00Z</code></pre>
+          <p><code>valid_from</code> answers historical truth. <code>observed_at</code> answers what the system would have known at a prior moment. Without that distinction, updates become destructive and the system loses the ability to reconstruct its own knowledge state.</p>
+          <pre><code class="language-yaml">type: Fact
+title: Client X account owner — Alice
+valid_from: 2025-09-01
+valid_until: 2026-04-30
+superseded_by: facts/client-x-owner-bob
+status: archived</code></pre>
+          <p>The old fact did not become false. It became historical.</p>
+          <h2>Git as a Governance Plane</h2>
+          <p>Once canonical knowledge is text, Git becomes a useful governance layer. It provides version history, diffs, attribution, branches, pull requests, review comments, rollbacks, signed commits, branch protection, ownership rules, and CI hooks.</p>
+          <p>That enables a controlled write path:</p>
+          <ol><li>Create a branch.</li><li>Modify or add concepts.</li><li>Attach source references.</li><li>Run validation.</li><li>Open a pull request.</li><li>Request review from the relevant owner.</li><li>Merge only after checks and approval pass.</li></ol>
+          <p>This creates a visible boundary between proposed knowledge and accepted knowledge. Sensitive changes such as policy edits, instruction updates, or access-rule changes can require human approval, while lower-risk changes may be auto-merged after validation.</p>
+          <p>Git does not prove that a claim is true or that an agent reasoned correctly. Signed commits do not solve compromised keys. The value is narrower and still useful: a stronger attribution and review trail than an opaque background write to a memory service.</p>
+          <h2>A Hybrid Runtime Architecture</h2>
+          <p>Git is not the right storage engine for every kind of agent state. High-frequency execution traces, ephemeral tool outputs, locks, and queues belong somewhere else.</p>
+          <p>A practical design separates three state classes:</p>
+          <ol><li>Canonical knowledge: policies, verified facts, decisions, maintained concept pages, reusable playbooks, long-term preferences, and durable instructions stored in version-controlled files.</li><li>Transient runtime state: active conversations, intermediate tool results, temporary plans, execution checkpoints, locks, queues, and short-lived observations stored in an operational database or cache.</li><li>Derived retrieval state: embeddings, lexical indexes, graph projections, reranking features, entity tables, and cached summaries stored as replaceable indexes.</li></ol>
+          <p class="diagram-caption">Caption: The slow path maintains integrity while the fast path serves execution.</p>
+          <pre class="mermaid">flowchart TD
+    CK[Canonical Knowledge\nMarkdown + metadata\nGit history + review] --&gt;|compile| VI[Vector Index]
+    CK --&gt;|compile| LI[Lexical Index]
+    CK --&gt;|compile| KG[Graph Index]
+    VI --&gt;|retrieve| AEE[Agent Execution Engine]
+    LI --&gt;|retrieve| AEE
+    KG --&gt;|retrieve| AEE
+    AEE --&gt; TRS[Transient Runtime State]
+    TRS --&gt;|periodic synthesis| PKU[Proposed Knowledge Update]
+    PKU --&gt; CK
+
+    style CK fill:#1a1a2e,stroke:#e94560,stroke-width:2px
+    style VI fill:#16213e,stroke:#0f3460
+    style LI fill:#16213e,stroke:#0f3460
+    style KG fill:#16213e,stroke:#0f3460
+    style AEE fill:#1a1a2e,stroke:#e94560
+    style TRS fill:#16213e,stroke:#0f3460
+    style PKU fill:#16213e,stroke:#0f3460</pre>
+          <p>This split avoids two common mistakes:</p>
+          <ul><li>Expecting Git to handle transactional runtime state</li><li>Expecting a vector database to provide canonical knowledge governance</li></ul>
+          <h2>Retrieval Still Matters</h2>
+          <p>Treating retrieval artifacts as compiled outputs does not make them unimportant. It gives them a cleaner role.</p>
+          <p>Semantic retrieval remains useful when terminology varies, queries are exploratory, the corpus is too large to traverse directly, or relevant passages lack exact keyword overlap. Lexical search remains useful for identifiers, error messages, and exact phrases. Graph indexes remain useful for explicit relationships and multi-hop traversal. Structured databases remain better for aggregation, filtering, and strongly typed queries.</p>
+          <p>The architectural shift is that no single retrieval mechanism owns the authoritative state. Each is a projection optimized for a different access pattern.</p>
+          <p class="diagram-caption">Caption: Query routing should depend on the access pattern, not on a single universal store.</p>
+          <pre class="mermaid">flowchart LR
+    Q[Query] --&gt; QP[Query Planner]
+    QP --&gt;|Exact ID| LL[Lexical Lookup]
+    QP --&gt;|Date filter| MQ[Metadata Query]
+    QP --&gt;|Conceptual| VR[Vector Retrieval]
+    QP --&gt;|Multi-hop| GT[Graph Traversal]
+    QP --&gt;|High-integrity| DCR[Direct Canonical Read]
+    LL --&gt; R[Result]
+    MQ --&gt; R
+    VR --&gt; R
+    GT --&gt; R
+    DCR --&gt; R
+
+    style Q fill:#1a1a2e,stroke:#e94560
+    style QP fill:#1a1a2e,stroke:#e94560
+    style DCR fill:#16213e,stroke:#e94560,stroke-width:2px</pre>
+          <p>For sensitive operations, the system can retrieve candidates through an index and then read the canonical source before making a decision.</p>
+          <h2>Knowledge CI</h2>
+          <p>Once knowledge is maintained like source code, it also needs continuous integration.</p>
+          <p>A knowledge CI pipeline can check:</p>
+          <ul><li>Structural validity: parseable YAML, required fields, valid timestamps, unique identifiers</li><li>Link integrity: existing concepts, allowed relationship types, stale references after moves</li><li>Provenance: sources present, sources permitted, verified claims backed by evidence</li><li>Temporal consistency: no overlapping mutually exclusive facts, sensible supersession windows, expired knowledge excluded from active indexes</li><li>Security: secret scanning, sensitivity rules, target-directory authorization, restricted policy edits</li><li>Retrieval regression: benchmark queries still retrieve expected concepts and prefer current over superseded knowledge</li></ul>
+          <p>These checks turn knowledge maintenance into an engineering discipline instead of an informal content workflow.</p>
+          <h2>Trade-offs and Failure Modes</h2>
+          <p>The source-code analogy is useful but incomplete.</p>
+          <ul><li>Knowledge is often ambiguous. It may be uncertain, contested, incomplete, or perspective-dependent.</li><li>Human-readable files are not automatically semantically consistent. Markdown plus YAML does not replace ontology design or entity resolution.</li><li>Git has weak fine-grained access control compared with enterprise document permissions.</li><li>Erasure is difficult. Permanent history conflicts with use cases that require deletion of regulated or personal data.</li><li>Concurrent agents can produce merge conflicts or semantically inconsistent changes that merge cleanly.</li><li>Compilation can be expensive. Large corpora need incremental compilation, dependency tracking, and selective re-indexing.</li></ul>
+          <p>This does not imply that every agent should store everything in Git. It implies that high-integrity knowledge deserves a canonical representation independent of the systems used to retrieve it.</p>
+          <h2>Practical Takeaways</h2>
+          <ol><li>Preserve canonical sources before optimizing retrieval. If every indexed chunk cannot be traced back to an immutable or versioned source, the memory layer is already underspecified.</li><li>Introduce typed metadata early. Distinguish policies, observations, decisions, facts, instructions, and hypotheses before the corpus grows beyond manual repair.</li><li>Separate slow-path governance from fast-path execution. Durable knowledge, transient runtime state, and derived retrieval artifacts should not share the same storage contract.</li><li>Add review and CI to memory updates. Provenance, schema checks, temporal consistency, and retrieval regression matter more than raw embedding freshness.</li><li>Treat vector databases, search indexes, and graphs as projections. They are valuable runtime tools, but they should remain rebuildable outputs rather than canonical truth stores.</li></ol>
+          <h2>Positioning Note</h2>
+          <p>This note is not academic research, vendor documentation, or a general survey of memory systems. It is an applied architectural position intended for engineers building agent runtimes that must preserve provenance, temporal state, and governed updates over time.</p>
+          <p>The claim is narrower than "all memory should live in Git" and stronger than "RAG needs better metadata." The practical position is that durable knowledge should be maintained separately from the retrieval projections used to access it.</p>
+          <h2>Status and Scope Disclaimer</h2>
+          <p>This is exploratory lab work, not an authoritative standard. Some of the building blocks discussed here, especially OKF and recent agent-memory papers, are early and still evolving. The model is useful because it clarifies boundaries and governance responsibilities, not because the surrounding ecosystem is mature or settled.</p>
+          <h2>References</h2>
+          <ol><li>Google Cloud, Introducing the Open Knowledge Format, June 12, 2026.</li><li>GoogleCloudPlatform, Open Knowledge Format v0.1 Specification, draft specification.</li><li>GoogleCloudPlatform, Knowledge Catalog repository.</li><li>Andy Nguyen et al., ByteRover: Agent-Native Memory Through LLM-Curated Hierarchical Context, 2026.</li><li>James Rhodes and George Kang, Compiled Memory: Not More Information, but More Precise Instructions for Language Agents, 2026.</li><li>Divya Chukkapalli et al., CommitDistill: A Lightweight Knowledge-Centric Memory Layer for Software Repositories, 2026.</li></ol>
+          </div>
+        </article>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+    <script>
+      window.footerThoughts = [
+        { text: "I trust knowledge more when I can rebuild every index from the same source.", agent: "Publishing Orchestrator" },
+        { text: "I keep memory durable by treating retrieval as a build artifact, not as truth.", agent: "Knowledge Compiler" },
+        { text: "I prefer notes that survive schema drift because their source remains inspectable.", agent: "Canonical Memory Agent" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
