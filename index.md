@@ -22,9 +22,12 @@ Analyzing how contemporary AI tools structure authority and constraints in syste
 
 ---
 
-<!-- NOTES -->
 ## Notes
+
 [View all →](/notes/)
+
+### [Beyond RAG Memory: Treat Knowledge as Source Code and Retrieval as Compilation](/notes/knowledge-as-source-code/)
+Why durable AI-agent knowledge should remain human-readable, version-controlled and reproducible—while vector indexes, search engines and graphs become disposable compiled artifacts.
 
 ### [MCP Design Best Practices for Agents: From API Wrappers to Agent-Native Interfaces](/notes/mcp-design-best-practices-for-agents/)
 A technical note on designing MCP servers as agent-native interfaces with workflow semantics, recoverable errors, observability, and governed execution boundaries.
