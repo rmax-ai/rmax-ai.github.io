@@ -3,6 +3,9 @@
 
 Thoughts on software, AI, and systems.
 
+### [Beyond RAG Memory: Treat Knowledge as Source Code and Retrieval as Compilation](/notes/knowledge-as-source-code/)
+*June 13, 2026* — Why durable AI-agent knowledge should remain human-readable, version-controlled and reproducible—while vector indexes, search engines and graphs become disposable compiled artifacts.
+
 ### [MCP Design Best Practices for Agents: From API Wrappers to Agent-Native Interfaces](/notes/mcp-design-best-practices-for-agents/)
 *June 8, 2026* — A technical note on designing MCP servers as agent-native interfaces with workflow semantics, recoverable errors, observability, and governed execution boundaries.
 
