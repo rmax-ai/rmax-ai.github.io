@@ -121,7 +121,7 @@ Every derived artifact may be discarded and reconstructed. The system should nev
 
 ## Open Knowledge Format as a Source Representation
 
-One emerging representation for canonical knowledge is the Open Knowledge Format, or OKF, introduced by Google as a draft specification in June 2026. OKF v0.1 represents a knowledge bundle as a directory of Markdown files with YAML frontmatter. Each non-reserved document requires a `type` field, and files can be connected with ordinary Markdown links.
+One emerging representation for canonical knowledge is the [Open Knowledge Format (OKF)](https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing/), introduced by Google as a draft specification in June 2026. The [OKF v0.1 specification](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) represents a knowledge bundle as a directory of Markdown files with YAML frontmatter. Each non-reserved document requires a `type` field, and files can be connected with ordinary Markdown links.
 
 A minimal concept might look like this:
 
@@ -157,6 +157,8 @@ authorized reviewer before execution.
 OKF is useful because it keeps canonical knowledge close to ordinary files and standard tools. It can be edited in a text editor, reviewed in Git, indexed by search engines, and consumed without a proprietary SDK.
 
 Its limits are equally important. OKF does not automatically solve entity resolution, temporal reasoning, ontology alignment, contradiction management, access control, provenance verification, retrieval quality, or policy enforcement. It provides a portable envelope, not a complete runtime.
+
+Google's [Knowledge Catalog repository](https://github.com/GoogleCloudPlatform/knowledge-catalog) also contains the specification, sample bundles, an enrichment agent, and an experimental visualizer, providing reference implementations for both producing and consuming OKF.
 
 ## From Raw Documents to Maintained Knowledge
 
@@ -196,7 +198,9 @@ An ingestion agent can then operate more like a compiler than a loader:
 9. Submit the update for review.
 10. Rebuild affected retrieval indexes after approval.
 
-This is more demanding than chunking a document and storing embeddings. It is also more useful. A long meeting transcript may ultimately contribute one decision, a few commitments, several state changes, and a small number of source-linked observations. The goal is not to remember every token equally. The goal is to maintain the knowledge that should affect future behavior.
+This resembles [ByteRover's agent-native memory architecture](https://arxiv.org/abs/2604.01599), in which the reasoning agent also curates knowledge into a human-readable hierarchical context tree with explicit provenance and lifecycle metadata.
+
+This is more demanding than chunking a document and storing embeddings. It is also more useful. A long meeting transcript may ultimately contribute one decision, a few commitments, several state changes, and a small number of source-linked observations. The goal is not to remember every token equally. The goal is to maintain the knowledge that should affect future behavior. This is also consistent with [Compiled Memory](https://arxiv.org/abs/2603.15666), which frames memory as the distillation of experience into more precise behavioral instructions rather than the accumulation of additional retrieved information.
 
 ## Concrete Example: Typed Knowledge
 
@@ -299,7 +303,7 @@ That enables a controlled write path:
 
 This creates a visible boundary between proposed knowledge and accepted knowledge. Sensitive changes such as policy edits, instruction updates, or access-rule changes can require human approval, while lower-risk changes may be auto-merged after validation.
 
-Git does not prove that a claim is true or that an agent reasoned correctly. Signed commits do not solve compromised keys. The value is narrower and still useful: a stronger attribution and review trail than an opaque background write to a memory service.
+Git does not prove that a claim is true or that an agent reasoned correctly. Signed commits do not solve compromised keys. The value is narrower and still useful: a stronger attribution and review trail than an opaque background write to a memory service. Related work such as [CommitDistill](https://arxiv.org/abs/2605.18284) explores another Git-native direction: deterministically extracting typed knowledge units from repository history and serving them through an inspectable local retrieval layer.
 
 ## A Hybrid Runtime Architecture
 
@@ -418,9 +422,9 @@ This is exploratory lab work, not an authoritative standard. Some of the buildin
 
 ## References
 
-1. Google Cloud, Introducing the Open Knowledge Format, June 12, 2026.
-2. GoogleCloudPlatform, Open Knowledge Format v0.1 Specification, draft specification.
-3. GoogleCloudPlatform, Knowledge Catalog repository.
-4. Andy Nguyen et al., ByteRover: Agent-Native Memory Through LLM-Curated Hierarchical Context, 2026.
-5. James Rhodes and George Kang, Compiled Memory: Not More Information, but More Precise Instructions for Language Agents, 2026.
-6. Divya Chukkapalli et al., CommitDistill: A Lightweight Knowledge-Centric Memory Layer for Software Repositories, 2026.
+1. Sam McVeety and Amir Hormati, Google Cloud, "[Introducing the Open Knowledge Format](https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing/)," June 12, 2026.
+2. GoogleCloudPlatform, "[Open Knowledge Format v0.1 Specification](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md)," draft specification.
+3. GoogleCloudPlatform, "[Knowledge Catalog: Tools, Agents and Samples](https://github.com/GoogleCloudPlatform/knowledge-catalog)."
+4. Andy Nguyen et al., "[ByteRover: Agent-Native Memory Through LLM-Curated Hierarchical Context](https://arxiv.org/abs/2604.01599)," arXiv:2604.01599, 2026.
+5. James Rhodes and George Kang, "[Compiled Memory: Not More Information, but More Precise Instructions for Language Agents](https://arxiv.org/abs/2603.15666)," arXiv:2603.15666, 2026.
+6. Divya Chukkapalli et al., "[CommitDistill: A Lightweight Knowledge-Centric Memory Layer for Software Repositories](https://arxiv.org/abs/2605.18284)," arXiv:2605.18284, 2026.
