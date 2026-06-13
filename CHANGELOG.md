@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-06-13: Published technical note: [knowledge-as-source-code](notes/knowledge-as-source-code/). Argues that durable agent knowledge should remain human-readable, version-controlled source material while vector indexes, search projections, and graphs remain rebuildable compiled artifacts.
+  - *Warnings*: Publish with caution — the note can be over-read as a universal storage recommendation rather than guidance for governed, high-integrity agent memory; smaller teams may adopt the knowledge-governance machinery before they have enough durable state to justify it; the OKF discussion depends on a draft specification that may evolve; intake used `mv` instead of `git mv` because the inbox source file was untracked.
+
 - 2026-06-07: Published technical note: [mcp-design-best-practices-for-agents](notes/mcp-design-best-practices-for-agents/). Argues that MCP servers should be designed as agent-native interfaces with workflow semantics, recoverable errors, observability, and governed execution boundaries rather than as thin API wrappers.
   - *Warnings*: Publish with caution — the note mixes normative details from the MCP specification with interpretive interface-design guidance, so readers should not treat every recommendation as a protocol requirement; Chrome DevTools MCP examples are illustrative rather than a universal design template; the Michael Hablich daily.dev source is secondary commentary and should be read as supporting context rather than as the primary basis for the protocol claims.
 
