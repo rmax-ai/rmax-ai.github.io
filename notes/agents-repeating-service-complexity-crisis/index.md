@@ -19,7 +19,7 @@ license: "CC BY 4.0"
 
 ## Abstract
 
-Enterprise agent platforms are accumulating tools faster than they are developing coherent abstractions. The common explanation is that models choose the wrong tool, lose the thread, or fail to recover from intermediate errors. This note makes a narrower claim: many of those failures begin below the model, at the capability surface itself. Steve Yegge's service critique is useful again here. Poor service boundaries once forced software clients to reconstruct business logic through deep call graphs. Agent systems repeat the same mistake, except the client-side orchestration is now regenerated probabilistically at inference time. MCP improves connectivity, and meta-harnesses such as Databricks Omnigent improve runtime control, but neither substitutes for good service design. Durable agent architecture needs both a semantic capability layer and an execution control plane.
+Enterprise agent platforms are accumulating tools faster than they are developing coherent abstractions. The common explanation is that models choose the wrong tool, lose the thread, or fail to recover from intermediate errors. This note makes a narrower claim: many of those failures begin below the model, at the capability surface itself. Steve Yegge's service critique is useful again here. Poor service boundaries once forced software clients to reconstruct business logic through deep call graphs. Agent systems repeat the same mistake, except the client-side orchestration is now regenerated probabilistically at inference time. [MCP](https://modelcontextprotocol.io/specification/2025-06-18/architecture) improves connectivity, and meta-harnesses such as [Databricks Omnigent](https://www.databricks.com/blog/introducing-omnigent-meta-harness-combine-control-and-share-your-agents) improve runtime control, but neither substitutes for good service design. Durable agent architecture needs both a semantic capability layer and an execution control plane.
 
 ## Context and motivation
 
@@ -95,7 +95,7 @@ The deeper the tool trajectory, the larger the failure surface:
 
 Tool explosion is often described as a prompt-budget problem. Large catalogs consume tokens and degrade selection quality. That is true but incomplete.
 
-Large catalogs also create an abstraction problem. Tools overlap semantically, become valid only at certain workflow states, and vary in granularity. Research in 2026 points in the same direction. Repantis et al. found that adaptive tool shortlists can preserve coverage while materially reducing the visible choice set.[3] ToolChoiceConfusion makes a complementary point: semantic relevance alone is not enough, because many tools are related to a task while still being unnecessary or premature at a given step.[4]
+Large catalogs also create an abstraction problem. Tools overlap semantically, become valid only at certain workflow states, and vary in granularity. Research in 2026 points in the same direction. Repantis et al. found that adaptive tool shortlists can preserve coverage while materially reducing the visible choice set.[3](https://arxiv.org/abs/2605.24660) ToolChoiceConfusion makes a complementary point: semantic relevance alone is not enough, because many tools are related to a task while still being unnecessary or premature at a given step.[4](https://arxiv.org/abs/2606.06284)
 
 The stronger architectural lesson is simple:
 
@@ -185,7 +185,7 @@ This is why generic tool design for both reads and writes is structurally weak. 
 
 ## MCP solves connectivity, not service design
 
-MCP is an important infrastructure improvement because it standardizes how hosts, clients, and servers exchange tools, resources, and prompts.[5] It reduces the integration-graph problem.
+MCP is an important infrastructure improvement because it standardizes how hosts, clients, and servers exchange tools, resources, and prompts.[5](https://modelcontextprotocol.io/specification/2025-06-18/architecture) It reduces the integration-graph problem.
 
 But it does not answer the harder service-design questions:
 
@@ -202,7 +202,7 @@ A badly designed API exposed through MCP remains badly designed. Protocol succes
 
 A second fragmentation problem exists above the tool layer. Organizations increasingly operate multiple coding-agent harnesses, SDK agents, and terminal runtimes at once. They differ in prompts, tools, context construction, recovery behavior, safety defaults, and workspace assumptions.
 
-Databricks Omnigent is notable because it gives concrete shape to a meta-harness layer above those heterogeneous runtimes. Databricks introduced Omnigent on June 13, 2026 and describes it as a shared control surface for composition, policy, collaboration, sandboxing, and session sharing across different agents and harnesses.[6][7]
+Databricks Omnigent is notable because it gives concrete shape to a meta-harness layer above those heterogeneous runtimes. Databricks introduced Omnigent on June 13, 2026 and describes it as a shared control surface for composition, policy, collaboration, sandboxing, and session sharing across different agents and harnesses.[6](https://www.databricks.com/blog/introducing-omnigent-meta-harness-combine-control-and-share-your-agents)[7](https://github.com/omnigent-ai/omnigent)
 
 That matters because a meta-harness can centralize concerns that are hard to implement independently in every harness:
 
@@ -325,7 +325,7 @@ The note should therefore be read as a systems-design frame for consequential, m
 
 ## Positioning note
 
-This is not an academic attempt to prove a general theory of service composition. It is an applied note for engineers building agent-facing capability layers and runtime governance systems. It differs from a blog opinion piece by grounding the claim in service-boundary design, contemporary tool-selection research, MCP architecture, and emerging control-plane patterns such as Omnigent. It also differs from vendor documentation because the concern here is architectural responsibility, not the feature set of any single platform.
+This is not an academic attempt to prove a general theory of service composition. It is an applied note for engineers building agent-facing capability layers and runtime governance systems. It differs from a blog opinion piece by grounding the claim in service-boundary design, contemporary tool-selection research, MCP architecture, and emerging control-plane patterns such as [Omnigent](https://github.com/omnigent-ai/omnigent). It also differs from vendor documentation because the concern here is architectural responsibility, not the feature set of any single platform.
 
 ## Status and scope disclaimer
 

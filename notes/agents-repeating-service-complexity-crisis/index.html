@@ -238,7 +238,7 @@
               the capability surface itself. Steve Yegge's service critique is useful again here. Poor service
               boundaries once forced software clients to reconstruct business logic through deep call graphs. Agent
               systems repeat the same mistake, except the client-side orchestration is now regenerated probabilistically
-              at inference time. MCP improves connectivity, and meta-harnesses such as Databricks Omnigent improve
+              at inference time. <a href="https://modelcontextprotocol.io/specification/2025-06-18/architecture">MCP</a> improves connectivity, and meta-harnesses such as <a href="https://www.databricks.com/blog/introducing-omnigent-meta-harness-combine-control-and-share-your-agents">Databricks Omnigent</a> improve
               runtime control, but neither substitutes for good service design. Durable agent architecture needs both a
               semantic capability layer and an execution control plane.
             </p>
@@ -337,9 +337,9 @@ activate_customer</code></pre>
               Large catalogs also create an abstraction problem. Tools overlap semantically, become valid only at
               certain workflow states, and vary in granularity. Research in 2026 points in the same direction. Repantis
               et al. found that adaptive tool shortlists can preserve coverage while materially reducing the visible
-              choice set.<sup>[3]</sup> ToolChoiceConfusion makes a complementary point: semantic relevance alone is not
+              choice set.<sup>[<a href=\"https://arxiv.org/abs/2605.24660\">3</a>]</sup> ToolChoiceConfusion makes a complementary point: semantic relevance alone is not
               enough, because many tools are related to a task while still being unnecessary or premature at a given
-              step.<sup>[4]</sup>
+              step.<sup>[<a href=\"https://arxiv.org/abs/2606.06284\">4</a>]</sup>
             </p>
             <blockquote>
               <p>An agent should not see every available capability merely because the platform can expose it.</p>
@@ -431,7 +431,7 @@ submit_for_approval</code></pre>
             <h2>MCP solves connectivity, not service design</h2>
             <p>
               MCP is an important infrastructure improvement because it standardizes how hosts, clients, and servers
-              exchange tools, resources, and prompts.<sup>[5]</sup> It reduces the integration-graph problem.
+              exchange tools, resources, and prompts.<sup>[<a href=\"https://modelcontextprotocol.io/specification/2025-06-18/architecture\">5</a>]</sup> It reduces the integration-graph problem.
             </p>
             <p>But it does not answer the harder service-design questions:</p>
             <ul>
@@ -458,7 +458,7 @@ submit_for_approval</code></pre>
               Databricks Omnigent is notable because it gives concrete shape to a meta-harness layer above those
               heterogeneous runtimes. Databricks introduced Omnigent on June 13, 2026 and describes it as a shared
               control surface for composition, policy, collaboration, sandboxing, and session sharing across different
-              agents and harnesses.<sup>[6][7]</sup>
+              agents and harnesses.<sup>[<a href="https://www.databricks.com/blog/introducing-omnigent-meta-harness-combine-control-and-share-your-agents">6</a>][<a href="https://github.com/omnigent-ai/omnigent">7</a>]</sup>
             </p>
             <p>That matters because a meta-harness can centralize concerns that are hard to implement independently in every harness:</p>
             <ul>
@@ -609,7 +609,7 @@ submit_for_approval</code></pre>
               This is not an academic attempt to prove a general theory of service composition. It is an applied note
               for engineers building agent-facing capability layers and runtime governance systems. It differs from a
               blog opinion piece by grounding the claim in service-boundary design, contemporary tool-selection
-              research, MCP architecture, and emerging control-plane patterns such as Omnigent. It also differs from
+              research, MCP architecture, and emerging control-plane patterns such as <a href="https://github.com/omnigent-ai/omnigent">Omnigent</a>. It also differs from
               vendor documentation because the concern here is architectural responsibility, not the feature set of any
               single platform.
             </p>
