@@ -235,7 +235,7 @@
               Enterprise agent platforms are accumulating tools faster than they are developing coherent abstractions.
               The common explanation is that models choose the wrong tool, lose the thread, or fail to recover from
               intermediate errors. This note makes a narrower claim: many of those failures begin below the model, at
-              the capability surface itself. Steve Yegge's service critique is useful again here. Poor service
+              the capability surface itself. <a href="https://yegge.ai/listings/services-and-complexity">Steve Yegge's service critique</a> is useful again here. Poor service
               boundaries once forced software clients to reconstruct business logic through deep call graphs. Agent
               systems repeat the same mistake, except the client-side orchestration is now regenerated probabilistically
               at inference time. <a href="https://modelcontextprotocol.io/specification/2025-06-18/architecture">MCP</a> improves connectivity, and meta-harnesses such as <a href="https://www.databricks.com/blog/introducing-omnigent-meta-harness-combine-control-and-share-your-agents">Databricks Omnigent</a> improve
@@ -335,9 +335,9 @@ activate_customer</code></pre>
             </p>
             <p>
               Large catalogs also create an abstraction problem. Tools overlap semantically, become valid only at
-              certain workflow states, and vary in granularity. Research in 2026 points in the same direction. Repantis
-              et al. found that adaptive tool shortlists can preserve coverage while materially reducing the visible
-              choice set.<sup>[<a href=\"https://arxiv.org/abs/2605.24660\">3</a>]</sup> ToolChoiceConfusion makes a complementary point: semantic relevance alone is not
+              certain workflow states, and vary in granularity. Research in 2026 points in the same direction. <a href=\"https://arxiv.org/abs/2605.24660\">Repantis
+              et al.</a> found that adaptive tool shortlists can preserve coverage while materially reducing the visible
+              choice set.<sup>[<a href=\"https://arxiv.org/abs/2605.24660\">3</a>]</sup> <a href=\"https://arxiv.org/abs/2606.06284\">ToolChoiceConfusion</a> makes a complementary point: semantic relevance alone is not
               enough, because many tools are related to a task while still being unnecessary or premature at a given
               step.<sup>[<a href=\"https://arxiv.org/abs/2606.06284\">4</a>]</sup>
             </p>
