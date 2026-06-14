@@ -385,3 +385,6 @@ This is exploratory but evidence-based personal lab work. The argument is strong
 
 12. Temporal. "From Agent Zoo to Agent Orchestra: The Benefits of Temporal as Your Enterprise Agentic Control Plane."
     https://temporal.io/blog/from-agent-zoo-to-agent-orchestra-temporal-agentic-control-plane
+
+13. Steve Yegge. Post linking to his "Services and Complexity" critique. X (Twitter), 2012.
+    https://x.com/Steve_Yegge/status/2065920483879719318
