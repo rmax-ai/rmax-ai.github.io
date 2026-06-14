@@ -19,7 +19,7 @@ license: "CC BY 4.0"
 
 ## Abstract
 
-Enterprise agent platforms are accumulating tools faster than they are developing coherent abstractions. The common explanation is that models choose the wrong tool, lose the thread, or fail to recover from intermediate errors. This note makes a narrower claim: many of those failures begin below the model, at the capability surface itself. [Steve Yegge's service critique](https://yegge.ai/listings/services-and-complexity) is useful again here. Poor service boundaries once forced software clients to reconstruct business logic through deep call graphs. Agent systems repeat the same mistake, except the client-side orchestration is now regenerated probabilistically at inference time. [MCP](https://modelcontextprotocol.io/specification/2025-06-18/architecture) improves connectivity, and meta-harnesses such as [Databricks Omnigent](https://www.databricks.com/blog/introducing-omnigent-meta-harness-combine-control-and-share-your-agents) improve runtime control, but neither substitutes for good service design. Durable agent architecture needs both a semantic capability layer and an execution control plane.
+Enterprise agent platforms are accumulating tools faster than they are developing coherent abstractions. The common explanation is that models choose the wrong tool, lose the thread, or fail to recover from intermediate errors. This note makes a narrower claim: many of those failures begin below the model, at the capability surface itself. Steve Yegge's original critique of service-oriented architectures identified a specific problem: clients were forced to manually traverse fragmented service and database boundaries to answer even simple queries. Internal service boundaries leaked into client orchestration logic. Agent systems repeat the same mistake and extend it: the probabilistic planner must reconstruct not only query logic but entire state-changing workflows at runtime. [Steve Yegge's service critique](https://yegge.ai/listings/services-and-complexity), [MCP](https://modelcontextprotocol.io/specification/2025-06-18/architecture), and [Databricks Omnigent](https://www.databricks.com/blog/introducing-omnigent-meta-harness-combine-control-and-share-your-agents) are useful reference points here. Durable agent architecture needs both a semantic capability layer that hides service boundaries, and an execution control plane that governs runtime behavior.
 
 ## Context and motivation
 
@@ -31,38 +31,45 @@ This note is necessary because those two forms of growth are often discussed as 
 
 ## Core thesis
 
-Agent systems are repeating the earlier service complexity crisis: they expose too many low-level operations and then expect models to reconstruct coherent workflows at runtime.
+Agent systems are repeating Yegge's client-side orchestration problem and extending it from queries into state-changing business operations.
 
 The durable fix has two parts:
+1. A semantic capability layer that hides service and storage boundaries and exposes declarative reads and intent-level commands.
+2. An execution control plane (meta-harness) that governs agent selection, credentials, policy, budgets, and trace capture.
 
-1. Reduce semantic complexity with better capability design.
-2. Govern execution complexity with a meta-harness or control plane.
+MCP helps with connectivity. Meta-harnesses help with runtime governance. Neither automatically repairs a fragmented agent-facing capability surface.
 
-MCP helps with connectivity. Meta-harnesses help with runtime governance. Neither automatically repairs a fragmented agent-facing service surface.
+## Mechanism: from Yegge's query problem to agent capability design
 
-## Mechanism: why the same complexity returns in agent systems
+Yegge's original post identifies a problem that is easy to overgeneralize. His central claim is not merely that too many services exist. It is that clients must know which services to call, in which order, and how to combine the results — and that this orchestration burden belongs in the platform, not in every consumer.
 
-Yegge's service lesson is often flattened into a simple rule: expose everything through an API. That reading misses the real problem. Exposing a method over the network does not create a coherent platform if the boundary still leaks implementation detail.
+In Yegge's framing, the client faces a read problem: data is scattered across databases and service APIs, and reconstructing a coherent answer requires manually navigating service boundaries. His proposed solution is a declarative query layer that lets the client describe what it needs without owning the traversal logic. This is the architectural insight that later informed systems such as GraphQL.
 
-Suppose a system needs to open a customer account. A coherent capability might be:
+The agent case is an extension of that same pattern, now generalized from reads to writes.
 
-```text
-open_customer_account
-```
+For reads, the analogy is direct. An agent retrieving information from a fragmented tool surface must discover which tools return relevant data, call them in sequence, filter and join results inside its context window, and handle partial failures. That is Yegge's problem recreated at runtime, except the orchestration logic is now regenerated probabilistically rather than compiled ahead of time.
 
-A fragmented capability surface might instead expose:
+For writes, the problem becomes harder. A state-changing business operation — opening a customer account, submitting an expense report, creating an incident — requires sequencing, validation, idempotency, authorization, compensation on failure, and outcome verification. When the capability surface exposes only low-level operations, the agent inherits all of these concerns:
 
 ```text
 create_person
 create_contact_record
 assign_customer_identifier
 create_billing_profile
-attach_default_terms
-create_account_ledger
 activate_customer
 ```
 
-The second version appears more composable, but it exports sequencing, validation, retries, compensation, and business rules to the caller. A conventional software client can encode that orchestration deterministically. An agent must infer it in flight.
+The above appears composable, but it exports sequencing, validation, retries, compensation, and business rules to the caller. A conventional software client can encode that orchestration deterministically. An agent must infer it in flight.
+
+A better capability surface:
+
+```text
+onboard_customer
+```
+
+That single command can validate the whole request, enforce idempotency, and execute inside a transaction or durable workflow. The agent expresses intent. Deterministic software owns the business operation.
+
+Agent systems repeat Yegge's client-side orchestration problem and extend it from queries into state-changing business operations.
 
 Caption: Conventional service clients encode orchestration ahead of time; agent clients reconstruct it during execution.
 
@@ -78,8 +85,6 @@ flowchart LR
     H --> I[Dynamic replanning]
     I --> J[Attempted recovery]
 ```
-
-In an agentic system, the planner must decide which operations are relevant, which are safe at the current workflow state, and what to do when only part of the sequence succeeds. That is not simple tool use. It is runtime reconstruction of distributed business logic.
 
 The deeper the tool trajectory, the larger the failure surface:
 
@@ -153,14 +158,11 @@ The useful rule is:
 
 The agent should express intent. Deterministic software should own the transaction.
 
-## Reads and writes should be asymmetric
+## Reads and writes need different capability designs
 
-The opposite failure is returning too much data. A generic read tool may return full records when the agent needs only a few fields, forcing the model to project, filter, and join inside its context. That wastes tokens, increases distraction, weakens data minimization, and expands prompt-injection exposure.
+Yegge's original critique focused on the read path: clients needed a declarative surface to describe what data they needed without navigating service boundaries. For reads, that answer remains correct. An agent performing a read should be able to express its information need through a declarative interface that handles projection, filtering, pagination, joins, and authorization behind the capability boundary.
 
-Reads benefit from declarative flexibility. Writes benefit from constrained semantics.
-
-The read path should support:
-
+For queries, the capability surface should support:
 - projection;
 - filtering;
 - pagination;
@@ -169,8 +171,9 @@ The read path should support:
 - field-level authorization; and
 - bounded result sizes.
 
-The write path should expose explicit domain commands with clear contracts:
+For writes, the same degree of flexibility is unsafe. State-changing operations should be exposed as explicit domain commands with typed inputs, validation, authorization, idempotency, and transactional or compensating guarantees.
 
+The write path should expose domain commands with clear contracts:
 - actor;
 - target;
 - parameters;
@@ -180,6 +183,10 @@ The write path should expose explicit domain commands with clear contracts:
 - idempotency semantics;
 - compensation behavior; and
 - verification criteria.
+
+For reads, Yegge's answer points toward a declarative query surface: the client describes the information it needs, while the platform resolves the underlying service and storage boundaries.
+
+For writes, the same degree of flexibility is unsafe. State-changing operations should be exposed as explicit domain commands with typed inputs, validation, authorization, idempotency and transactional or compensating guarantees.
 
 This is why generic tool design for both reads and writes is structurally weak. Queries and commands should be intentionally asymmetric.
 
@@ -249,9 +256,17 @@ It does not remove:
 - absent compensation semantics; or
 - semantically unclear commands.
 
+Omnigent operates at the orchestration and control-plane layer. It can govern how agents are combined, executed and shared. It does not determine whether the underlying tools expose the correct domain boundaries.
+
 This is the key relationship between Yegge's critique and Omnigent:
 
 > A meta-harness can govern complexity operationally without eliminating it semantically.
+
+The durable architecture therefore separates two layers:
+
+**Semantic capability layer** — hides service and storage boundaries; exposes declarative reads; exposes intent-level commands; owns validation, transaction semantics and compensation.
+
+**Execution control plane (meta-harness)** — governs agent selection; manages credentials and environments; applies policy and budgets; captures traces and evaluations; coordinates multiple specialized agents.
 
 If twelve internal calls collectively represent one business operation, the durable improvement is to redesign the capability boundary, not only to supervise the twelve calls more carefully.
 
@@ -318,10 +333,11 @@ The note should therefore be read as a systems-design frame for consequential, m
 ## Practical takeaways
 
 1. Treat tool design as service design for models, not as thin API wrapping.
-2. Hide implementation-level sequencing when several calls together represent one business state transition.
-3. Keep reads expressive and bounded; keep writes explicit, typed, and policy-bound.
+2. For reads, provide a declarative surface that hides service and storage boundaries and supports projection, filtering, and authorization.
+3. For writes, expose explicit, typed, intent-level domain commands that own validation, idempotency, and compensation.
 4. Use tool retrieval to expose a minimal valid frontier, not the full catalog.
 5. Build a meta-harness for runtime governance, but do not confuse it with semantic abstraction.
+6. The agent should express intent. Deterministic software should resolve queries and own transactions.
 
 ## Positioning note
 
