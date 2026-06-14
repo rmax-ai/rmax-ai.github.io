@@ -719,6 +719,10 @@ submit_for_approval</code></pre>
       mermaid.initialize({
         startOnLoad: true,
         theme: 'base',
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+        },
         themeVariables: {
           background: 'transparent',
           primaryColor: '#1a1a2e',
@@ -732,6 +736,7 @@ submit_for_approval</code></pre>
           edgeLabelBackground: '#0f1724',
           nodeBorder: '#334155',
           mainBkg: '#1a1a2e',
+          maxTextWidth: '300px',
         }
       });
     </script>
