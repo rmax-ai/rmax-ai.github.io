@@ -3,6 +3,8 @@
 
 Thoughts on software, AI, and systems.
 
+*June 14, 2026* — [Agents Are Repeating the Service Complexity Crisis](/notes/agents-repeating-service-complexity-crisis/)
+
 ### [Beyond RAG Memory: Treat Knowledge as Source Code and Retrieval as Compilation](/notes/knowledge-as-source-code/)
 *June 13, 2026* — Why durable AI-agent knowledge should remain human-readable, version-controlled and reproducible—while vector indexes, search engines and graphs become disposable compiled artifacts.
 
