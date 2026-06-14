@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-06-14: Published technical note: [agents-repeating-service-complexity-crisis](notes/agents-repeating-service-complexity-crisis/). Argues that enterprise agent platforms are replaying the earlier service complexity crisis by exposing implementation-shaped tool surfaces and therefore need both semantic capability design and a governed execution control plane.
+  - *Warnings*: Publish with caution — the note can be over-read as a universal prescription for all agent deployments rather than for consequential, multi-step workflows; the architecture assumes meaningful organizational maturity around domain ownership, policy enforcement, and verification; Omnigent and adjacent harness examples may evolve quickly even if the broader service-boundary argument remains durable.
+
 - 2026-06-13: Published technical note: [knowledge-as-source-code](notes/knowledge-as-source-code/). Argues that durable agent knowledge should remain human-readable, version-controlled source material while vector indexes, search projections, and graphs remain rebuildable compiled artifacts.
   - *Warnings*: Publish with caution — the note can be over-read as a universal storage recommendation rather than guidance for governed, high-integrity agent memory; smaller teams may adopt the knowledge-governance machinery before they have enough durable state to justify it; the OKF discussion depends on a draft specification that may evolve; intake used `mv` instead of `git mv` because the inbox source file was untracked.
 

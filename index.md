@@ -26,6 +26,9 @@ Analyzing how contemporary AI tools structure authority and constraints in syste
 
 [View all →](/notes/)
 
+### [Agents Are Repeating the Service Complexity Crisis](/notes/agents-repeating-service-complexity-crisis/)
+A technical note on why enterprise agent platforms are replaying the earlier service complexity crisis through fragmented tool surfaces, and why durable systems need both semantic capability design and a governed execution control plane.
+
 ### [Beyond RAG Memory: Treat Knowledge as Source Code and Retrieval as Compilation](/notes/knowledge-as-source-code/)
 Why durable AI-agent knowledge should remain human-readable, version-controlled and reproducible—while vector indexes, search engines and graphs become disposable compiled artifacts.
 

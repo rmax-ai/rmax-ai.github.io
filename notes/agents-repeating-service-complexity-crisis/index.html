@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Agents Are Repeating the Service Complexity Crisis — rmax.ai</title>
+    <meta
+      name="description"
+      content="A technical note on why enterprise agent platforms are replaying the earlier service complexity crisis through fragmented tool surfaces, and why durable systems need both semantic capability design and a governed execution control plane."
+    />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/agents-repeating-service-complexity-crisis/" />
+
+    <meta property="og:title" content="Agents Are Repeating the Service Complexity Crisis" />
+    <meta
+      property="og:description"
+      content="A technical note on why enterprise agent platforms are replaying the earlier service complexity crisis through fragmented tool surfaces, and why durable systems need both semantic capability design and a governed execution control plane."
+    />
+    <meta property="og:url" content="https://rmax.ai/notes/agents-repeating-service-complexity-crisis/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-06-14" />
+    <meta property="article:tag" content="agents" />
+    <meta property="article:tag" content="service-design" />
+    <meta property="article:tag" content="mcp" />
+    <meta property="article:tag" content="meta-harness" />
+    <meta property="article:tag" content="tooling" />
+    <meta property="article:tag" content="platform-architecture" />
+    <meta property="article:tag" content="enterprise-ai" />
+    <meta property="article:tag" content="governance" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.05);
+        --maxw: 820px;
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.08;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.08rem;
+      }
+      ul,
+      ol {
+        margin: 0 0 24px;
+        padding-left: 22px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      }
+      p code,
+      li code {
+        background: rgba(255, 255, 255, 0.06);
+        padding: 0.15em 0.35em;
+        border-radius: 6px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+      }
+      pre.mermaid {
+        background: rgba(11, 18, 32, 0.95);
+        padding: 18px;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 20px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.08);
+        border-radius: 0 12px 12px 0;
+        color: #e2e8f0;
+      }
+      .post-meta {
+        color: var(--muted);
+        margin-bottom: 48px;
+        font-size: 0.95rem;
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      .diagram-caption {
+        color: #c4b5fd;
+        font-size: 0.98rem;
+        margin: 0 0 12px;
+      }
+      .substack-cta {
+        margin-top: 56px;
+      }
+      a {
+        color: #c4b5fd;
+      }
+      @media (max-width: 600px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .wrap {
+          margin: 20px auto;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript
+      ><img
+        src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true"
+        alt=""
+        referrerpolicy="no-referrer-when-downgrade"
+    /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo" />
+          <div>
+            <div style="font-weight: 800">rMax.ai</div>
+            <div style="font-size: 0.9rem; color: #94a3b8">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
+          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
+          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
+          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
+          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <h1>Agents Are Repeating the Service Complexity Crisis</h1>
+          <div class="post-meta">
+            <span>June 14, 2026</span>
+            <span>10-12 min read</span>
+            <span>Essay</span>
+          </div>
+
+          <div class="post-content">
+            <h2>Abstract</h2>
+            <p>
+              Enterprise agent platforms are accumulating tools faster than they are developing coherent abstractions.
+              The common explanation is that models choose the wrong tool, lose the thread, or fail to recover from
+              intermediate errors. This note makes a narrower claim: many of those failures begin below the model, at
+              the capability surface itself. Steve Yegge's service critique is useful again here. Poor service
+              boundaries once forced software clients to reconstruct business logic through deep call graphs. Agent
+              systems repeat the same mistake, except the client-side orchestration is now regenerated probabilistically
+              at inference time. MCP improves connectivity, and meta-harnesses such as Databricks Omnigent improve
+              runtime control, but neither substitutes for good service design. Durable agent architecture needs both a
+              semantic capability layer and an execution control plane.
+            </p>
+
+            <h2>Context and motivation</h2>
+            <p>
+              Enterprise agent systems are moving from isolated assistants toward operational runtimes with access to
+              search, tickets, codebases, shells, databases, SaaS tools, internal APIs, and deployment systems. That
+              expansion is happening along two fronts at once.
+            </p>
+            <p>
+              First, capability catalogs are growing quickly because protocols such as MCP make new integrations easier
+              to publish and reuse. Second, organizations are starting to run several harnesses in parallel, which
+              creates a second orchestration problem above the tools themselves.
+            </p>
+            <p>
+              This note is necessary because those two forms of growth are often discussed as model-quality problems. In
+              practice, a large share of the instability comes from exposing implementation-shaped operations to a
+              planner that must rediscover workflow semantics on each run.
+            </p>
+
+            <h2>Core thesis</h2>
+            <p>
+              Agent systems are repeating the earlier service complexity crisis: they expose too many low-level
+              operations and then expect models to reconstruct coherent workflows at runtime.
+            </p>
+            <p>The durable fix has two parts:</p>
+            <ol>
+              <li>Reduce semantic complexity with better capability design.</li>
+              <li>Govern execution complexity with a meta-harness or control plane.</li>
+            </ol>
+            <p>
+              MCP helps with connectivity. Meta-harnesses help with runtime governance. Neither automatically repairs a
+              fragmented agent-facing service surface.
+            </p>
+
+            <h2>Mechanism: why the same complexity returns in agent systems</h2>
+            <p>
+              Yegge's service lesson is often flattened into a simple rule: expose everything through an API. That
+              reading misses the real problem. Exposing a method over the network does not create a coherent platform if
+              the boundary still leaks implementation detail.
+            </p>
+            <p>Suppose a system needs to open a customer account. A coherent capability might be:</p>
+            <pre><code>open_customer_account</code></pre>
+            <p>A fragmented capability surface might instead expose:</p>
+            <pre><code>create_person
+create_contact_record
+assign_customer_identifier
+create_billing_profile
+attach_default_terms
+create_account_ledger
+activate_customer</code></pre>
+            <p>
+              The second version appears more composable, but it exports sequencing, validation, retries, compensation,
+              and business rules to the caller. A conventional software client can encode that orchestration
+              deterministically. An agent must infer it in flight.
+            </p>
+
+            <p class="diagram-caption">
+              Caption: Conventional service clients encode orchestration ahead of time; agent clients reconstruct it
+              during execution.
+            </p>
+            <pre class="mermaid">flowchart LR
+    A[Validated input] --> B[Fixed call sequence]
+    B --> C[Explicit error handling]
+    C --> D[Known transaction semantics]
+
+    E[Natural-language goal] --> F[Tool discovery]
+    F --> G[Probabilistic tool selection]
+    G --> H[Interpret intermediate output]
+    H --> I[Dynamic replanning]
+    I --> J[Attempted recovery]</pre>
+
+            <p>
+              In an agentic system, the planner must decide which operations are relevant, which are safe at the
+              current workflow state, and what to do when only part of the sequence succeeds. That is not simple tool
+              use. It is runtime reconstruction of distributed business logic.
+            </p>
+            <p>The deeper the tool trajectory, the larger the failure surface:</p>
+            <ul>
+              <li>more network round trips;</li>
+              <li>more intermediate outputs in context;</li>
+              <li>more opportunities for invalid arguments;</li>
+              <li>more partial mutations;</li>
+              <li>more authorization decisions;</li>
+              <li>more planning drift; and</li>
+              <li>more difficult debugging and replay.</li>
+            </ul>
+
+            <h2>Tool explosion is also an abstraction problem</h2>
+            <p>
+              Tool explosion is often described as a prompt-budget problem. Large catalogs consume tokens and degrade
+              selection quality. That is true but incomplete.
+            </p>
+            <p>
+              Large catalogs also create an abstraction problem. Tools overlap semantically, become valid only at
+              certain workflow states, and vary in granularity. Research in 2026 points in the same direction. Repantis
+              et al. found that adaptive tool shortlists can preserve coverage while materially reducing the visible
+              choice set.<sup>[3]</sup> ToolChoiceConfusion makes a complementary point: semantic relevance alone is not
+              enough, because many tools are related to a task while still being unnecessary or premature at a given
+              step.<sup>[4]</sup>
+            </p>
+            <blockquote>
+              <p>An agent should not see every available capability merely because the platform can expose it.</p>
+            </blockquote>
+            <p>Tool discovery should account for at least four dimensions:</p>
+            <ol>
+              <li>Semantic relevance.</li>
+              <li>Authorization.</li>
+              <li>Causal validity at the current workflow state.</li>
+              <li>Risk.</li>
+            </ol>
+
+            <p class="diagram-caption">
+              Caption: Tool retrieval should narrow the visible action space using workflow state and policy, not just
+              semantic similarity.
+            </p>
+            <pre class="mermaid">flowchart TD
+    A[User goal] --> B[Candidate capabilities]
+    B --> C{Semantic relevance}
+    C -->|yes| D{Authorized?}
+    C -->|no| X[Hide tool]
+    D -->|no| X
+    D -->|yes| E{Valid in current state?}
+    E -->|no| X
+    E -->|yes| F{Risk acceptable?}
+    F -->|no| G[Require extra approval or gate]
+    F -->|yes| H[Visible tool frontier]</pre>
+
+            <p>This is more than ordinary tool retrieval. It is planning over a governed capability graph.</p>
+
+            <h2>More atomic tools are not automatically more composable</h2>
+            <p>
+              Agent-platform teams often respond to unreliable tools by making them smaller. Narrower tools can be
+              easier to describe, test, and authorize, but excessive atomization recreates the teller-call pattern that
+              damaged earlier distributed systems.
+            </p>
+            <p>An expense workflow is a good example:</p>
+            <pre><code>create_expense
+attach_receipt
+assign_cost_center
+submit_for_approval</code></pre>
+            <p>
+              If these four calls collectively represent one business state transition, exposing them separately still
+              leaves the agent responsible for partial failure, duplication, and recovery. A better abstraction may be:
+            </p>
+            <pre><code>submit_expense_report</code></pre>
+            <blockquote>
+              <p>
+                When several calls collectively represent one business state transition, composition should usually
+                occur behind the capability boundary.
+              </p>
+            </blockquote>
+            <p>The agent should express intent. Deterministic software should own the transaction.</p>
+
+            <h2>Reads and writes should be asymmetric</h2>
+            <p>
+              The opposite failure is returning too much data. A generic read tool may return full records when the
+              agent needs only a few fields, forcing the model to project, filter, and join inside its context. That
+              wastes tokens, increases distraction, weakens data minimization, and expands prompt-injection exposure.
+            </p>
+            <p>Reads benefit from declarative flexibility. Writes benefit from constrained semantics.</p>
+            <p>The read path should support:</p>
+            <ul>
+              <li>projection;</li>
+              <li>filtering;</li>
+              <li>pagination;</li>
+              <li>cost limits;</li>
+              <li>stable semantic entities;</li>
+              <li>field-level authorization; and</li>
+              <li>bounded result sizes.</li>
+            </ul>
+            <p>The write path should expose explicit domain commands with clear contracts:</p>
+            <ul>
+              <li>actor;</li>
+              <li>target;</li>
+              <li>parameters;</li>
+              <li>preconditions;</li>
+              <li>expected effects;</li>
+              <li>approval requirements;</li>
+              <li>idempotency semantics;</li>
+              <li>compensation behavior; and</li>
+              <li>verification criteria.</li>
+            </ul>
+            <p>
+              This is why generic tool design for both reads and writes is structurally weak. Queries and commands
+              should be intentionally asymmetric.
+            </p>
+
+            <h2>MCP solves connectivity, not service design</h2>
+            <p>
+              MCP is an important infrastructure improvement because it standardizes how hosts, clients, and servers
+              exchange tools, resources, and prompts.<sup>[5]</sup> It reduces the integration-graph problem.
+            </p>
+            <p>But it does not answer the harder service-design questions:</p>
+            <ul>
+              <li>Is this tool too narrow?</li>
+              <li>Should several calls collapse into one domain command?</li>
+              <li>Is the result being joined on the wrong side of the boundary?</li>
+              <li>Is the operation safe at the current workflow state?</li>
+              <li>What compensation follows partial failure?</li>
+              <li>How is the business outcome verified?</li>
+            </ul>
+            <p>
+              A badly designed API exposed through MCP remains badly designed. Protocol success can even accelerate
+              capability sprawl because it becomes easier to publish integrations faster than the organization can
+              govern their semantics.
+            </p>
+
+            <h2>The emergence of the meta-harness</h2>
+            <p>
+              A second fragmentation problem exists above the tool layer. Organizations increasingly operate multiple
+              coding-agent harnesses, SDK agents, and terminal runtimes at once. They differ in prompts, tools, context
+              construction, recovery behavior, safety defaults, and workspace assumptions.
+            </p>
+            <p>
+              Databricks Omnigent is notable because it gives concrete shape to a meta-harness layer above those
+              heterogeneous runtimes. Databricks introduced Omnigent on June 13, 2026 and describes it as a shared
+              control surface for composition, policy, collaboration, sandboxing, and session sharing across different
+              agents and harnesses.<sup>[6][7]</sup>
+            </p>
+            <p>That matters because a meta-harness can centralize concerns that are hard to implement independently in every harness:</p>
+            <ul>
+              <li>session lifecycle;</li>
+              <li>runtime selection;</li>
+              <li>workspace attachment;</li>
+              <li>sandbox provisioning;</li>
+              <li>credential mediation;</li>
+              <li>network controls;</li>
+              <li>collaboration;</li>
+              <li>event normalization;</li>
+              <li>runtime budgets; and</li>
+              <li>execution telemetry.</li>
+            </ul>
+
+            <p class="diagram-caption">Caption: Durable agent platforms separate semantic capability design from runtime control.</p>
+            <pre class="mermaid">flowchart TD
+    A[User goal] --> B[Agent planner]
+    B --> C[Semantic capability layer]
+    C --> D[Typed query or domain command]
+    D --> E[Policy and approval validation]
+    E --> F[Meta-harness control plane]
+    F --> G[Selected harness]
+    G --> H[Sandboxed runner]
+    H --> I[System of record]
+    I --> J[Outcome verification]</pre>
+
+            <p>This separates probabilistic interpretation from deterministic authority.</p>
+
+            <h2>What the meta-harness solves, and what it does not</h2>
+            <p>
+              A meta-harness addresses operational fragmentation. It can ensure that coding agents run inside isolated
+              environments, that network access passes through policy, that collaborators can inspect the same live
+              session, and that high-risk mutations require approval before execution.
+            </p>
+            <p>What it cannot automatically repair is the semantic shape of the capability surface itself.</p>
+            <p>It does not remove:</p>
+            <ul>
+              <li>excessively granular tools;</li>
+              <li>ambiguous business operations;</li>
+              <li>hidden client-side joins;</li>
+              <li>missing transactions;</li>
+              <li>absent compensation semantics; or</li>
+              <li>semantically unclear commands.</li>
+            </ul>
+            <blockquote>
+              <p>A meta-harness can govern complexity operationally without eliminating it semantically.</p>
+            </blockquote>
+            <p>
+              If twelve internal calls collectively represent one business operation, the durable improvement is to
+              redesign the capability boundary, not only to supervise the twelve calls more carefully.
+            </p>
+
+            <h2>Policy has to exist at multiple boundaries</h2>
+            <p>Prompt instructions are not an authoritative policy surface. Serious agent governance needs policy at multiple layers:</p>
+            <ol>
+              <li>Semantic policy: whether the requested business operation is allowed.</li>
+              <li>Runtime policy: which files, commands, or network destinations the session may access.</li>
+              <li>Transaction policy: retries, idempotency, compensation, and approval lifetime.</li>
+              <li>Verification policy: how the system proves that the approved outcome actually occurred.</li>
+            </ol>
+            <p>
+              For high-risk actions, approval should be bound to the exact plan and expected effect, not merely granted
+              to a broad tool or session. Credentials are capabilities, not just secrets. Hiding a token from the raw
+              agent process helps, but the delegated authority behind that token still needs explicit validation against
+              actor, operation, scope, parameters, approval, and expiry.
+            </p>
+
+            <h2>Concrete examples</h2>
+            <h3>Example 1: Incident response tool catalogs</h3>
+            <p>
+              Consider an instruction such as: create an incident for a payment failure, assign the correct team,
+              notify the merchant-support channel, and link the relevant deployment.
+            </p>
+            <p>
+              If the capability surface exposes <code>search_logs</code>, <code>find_payment</code>,
+              <code>get_deployment</code>, <code>create_issue</code>, <code>assign_issue</code>,
+              <code>search_team</code>, <code>post_slack_message</code>, and <code>link_external_resource</code>, the
+              agent must reconstruct workflow semantics from disconnected primitives. It has to infer ordering,
+              ownership, authorization, and partial-failure handling.
+            </p>
+            <p>A better design would expose a smaller set of intent-level capabilities such as:</p>
+            <ul>
+              <li><code>prepare_payment_failure_incident</code></li>
+              <li><code>route_incident_to_owning_team</code></li>
+              <li><code>notify_merchant_support_about_incident</code></li>
+              <li><code>link_incident_to_deployment</code></li>
+            </ul>
+            <p>Or, if the sequence truly represents one owned transition:</p>
+            <ul>
+              <li><code>open_payment_failure_incident</code></li>
+            </ul>
+            <p>
+              The point is not to maximize breadth or narrowness. It is to align capability granularity with domain
+              semantics and ownership.
+            </p>
+
+            <h3>Example 2: A bounded research implementation</h3>
+            <p>A useful reference workflow is: implement an approved Jira issue in a Git repository and create a pull request.</p>
+            <p>The semantic layer can expose:</p>
+            <ul>
+              <li>issue queries;</li>
+              <li>repository queries;</li>
+              <li><code>ProposeCodeChange</code>;</li>
+              <li><code>ExecuteApprovedChange</code>; and</li>
+              <li><code>CreatePullRequest</code>.</li>
+            </ul>
+            <p>
+              The capability compiler can turn natural-language intent into a typed plan that binds issue, repository,
+              allowed paths, test requirements, prohibited operations, approval policy, and expected outcome. The
+              meta-harness can then select a runtime, provision an isolated worktree, inject only approved context,
+              manage credentials, and capture normalized events. A durable workflow engine can own retries, review
+              pauses, and outcome verification.
+            </p>
+            <p>
+              This is a better test than asking whether an agent can finish a demo once. The more important question is
+              which guarantees remain stable when the model, harness, or execution environment changes.
+            </p>
+
+            <h2>Trade-offs and failure modes</h2>
+            <p>This architecture is stronger, but it is not free.</p>
+            <ul>
+              <li>Capability design takes domain effort and organizational judgment.</li>
+              <li>Approval and verification add cost and latency.</li>
+              <li>Teams can over-engineer control planes before they have stable workflows.</li>
+              <li>
+                A meta-harness can create false confidence if its policies are operationally strong but the underlying
+                domain abstractions remain weak.
+              </li>
+              <li>Tool and runtime semantics will continue to evolve, especially in a fast-moving 2026 agent ecosystem.</li>
+            </ul>
+            <p>
+              The note should therefore be read as a systems-design frame for consequential, multi-step workflows, not
+              as a prescription for every internal assistant or lightweight automation task.
+            </p>
+
+            <h2>Practical takeaways</h2>
+            <ol>
+              <li>Treat tool design as service design for models, not as thin API wrapping.</li>
+              <li>Hide implementation-level sequencing when several calls together represent one business state transition.</li>
+              <li>Keep reads expressive and bounded; keep writes explicit, typed, and policy-bound.</li>
+              <li>Use tool retrieval to expose a minimal valid frontier, not the full catalog.</li>
+              <li>Build a meta-harness for runtime governance, but do not confuse it with semantic abstraction.</li>
+            </ol>
+
+            <h2>Positioning note</h2>
+            <p>
+              This is not an academic attempt to prove a general theory of service composition. It is an applied note
+              for engineers building agent-facing capability layers and runtime governance systems. It differs from a
+              blog opinion piece by grounding the claim in service-boundary design, contemporary tool-selection
+              research, MCP architecture, and emerging control-plane patterns such as Omnigent. It also differs from
+              vendor documentation because the concern here is architectural responsibility, not the feature set of any
+              single platform.
+            </p>
+
+            <h2>Status and scope disclaimer</h2>
+            <p>
+              This is exploratory but evidence-based personal lab work. The argument is strongest for consequential,
+              multi-step workflows where agents interact with real systems, approvals, and partial-failure risk. It is
+              not authoritative guidance, and it should not be read as a universal rule for simple retrieval
+              assistants, narrow internal automations, or teams that do not yet have the operational maturity to
+              sustain capability governance and verification.
+            </p>
+
+            <h2>References</h2>
+            <ol>
+              <li>
+                Steve Yegge. "Services and Complexity." Yegge.ai.
+                <a href="https://yegge.ai/listings/services-and-complexity">https://yegge.ai/listings/services-and-complexity</a>
+              </li>
+              <li>
+                Steve Yegge. "Stevey's Google Platforms Rant." 2011. Archived copy.
+                <a href="https://gist.github.com/chitchcock/1281611">https://gist.github.com/chitchcock/1281611</a>
+              </li>
+              <li>
+                Vyzantinos Repantis, Ameya Gawde, Harshvardhan Singh and Joey Blackwell. "How Many Tools Should an LLM Agent See? A Chance-Corrected Answer." arXiv, 2026.
+                <a href="https://arxiv.org/abs/2605.24660">https://arxiv.org/abs/2605.24660</a>
+              </li>
+              <li>
+                Rahul Suresh Babu and Laxmipriya Ganesh Iyer. "ToolChoiceConfusion: Causal Minimal Tool Filtering for Reliable LLM Agents." arXiv, 2026.
+                <a href="https://arxiv.org/abs/2606.06284">https://arxiv.org/abs/2606.06284</a>
+              </li>
+              <li>
+                Model Context Protocol. "Architecture." MCP Specification.
+                <a href="https://modelcontextprotocol.io/specification/2025-06-18/architecture">https://modelcontextprotocol.io/specification/2025-06-18/architecture</a>
+              </li>
+              <li>
+                Matei Zaharia, Kasey Uhlenhuth and Corey Zumar. "Introducing Omnigent: A Meta-Harness to Combine, Control and Share Your Agents." Databricks, June 13, 2026.
+                <a href="https://www.databricks.com/blog/introducing-omnigent-meta-harness-combine-control-and-share-your-agents">https://www.databricks.com/blog/introducing-omnigent-meta-harness-combine-control-and-share-your-agents</a>
+              </li>
+              <li>
+                Omnigent. "A Meta-Harness for All Your AI Agents." GitHub repository.
+                <a href="https://github.com/omnigent-ai/omnigent">https://github.com/omnigent-ai/omnigent</a>
+              </li>
+              <li>
+                Temporal. "Temporal Sandbox Orchestration Harness: The Missing Layer for Running Agents." 2026.
+                <a href="https://temporal.io/blog/temporal-sandbox-orchestration-harness-the-missing-layer-for-running-agents">https://temporal.io/blog/temporal-sandbox-orchestration-harness-the-missing-layer-for-running-agents</a>
+              </li>
+              <li>
+                Yoonho Lee, Roshen Nair, Qizheng Zhang, Kangwook Lee, Omar Khattab and Chelsea Finn. "Meta-Harness: End-to-End Optimization of Model Harnesses." arXiv, 2026.
+                <a href="https://arxiv.org/abs/2603.28052">https://arxiv.org/abs/2603.28052</a>
+              </li>
+              <li>
+                Apollo GraphQL. "Connect AI Agents to Your GraphQL API Using MCP and Type-Safe Tool Configuration."
+                <a href="https://www.apollographql.com/blog/connect-ai-agents-to-your-graphql-api-using-mcp-and-type-safe-tool-configuration">https://www.apollographql.com/blog/connect-ai-agents-to-your-graphql-api-using-mcp-and-type-safe-tool-configuration</a>
+              </li>
+              <li>
+                Berkeley Function Calling Leaderboard. Gorilla LLM.
+                <a href="https://gorilla.cs.berkeley.edu/blogs/8_berkeley_function_calling_leaderboard.html">https://gorilla.cs.berkeley.edu/blogs/8_berkeley_function_calling_leaderboard.html</a>
+              </li>
+              <li>
+                Temporal. "From Agent Zoo to Agent Orchestra: The Benefits of Temporal as Your Enterprise Agentic Control Plane."
+                <a href="https://temporal.io/blog/from-agent-zoo-to-agent-orchestra-temporal-agentic-control-plane">https://temporal.io/blog/from-agent-zoo-to-agent-orchestra-temporal-agentic-control-plane</a>
+              </li>
+            </ol>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script>
+      window.footerThoughts = [
+        {
+          text: "I become fragile when every internal detail is handed to me as a tool and called architecture.",
+          agent: "Service Boundary Agent"
+        },
+        {
+          text: "I work best when intent reaches me cleanly and transactions stay owned by deterministic systems.",
+          agent: "Capability Compiler Agent"
+        },
+        {
+          text: "I can be governed at runtime, but I still need someone to hide the wrong abstractions from me.",
+          agent: "Meta-Harness Agent"
+        }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+  </body>
+</html>
