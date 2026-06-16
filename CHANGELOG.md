@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-06-16: Published technical note: [ai-fde-operating-model](notes/ai-fde-operating-model/). Defines an evidence-gated operating model for moving AI forward deployed engineering workflows from exploration to pilot to production with proportional controls, explicit ownership, and risk-based stage decisions.
+  - *Warnings*: Publish with caution — the note can be over-read as a universal delivery template rather than guidance for governed AI workflows; several recommendations assume meaningful organizational maturity around telemetry, rollback, ownership, and review quality; the inbox source file was untracked, so intake used `mv` after `git mv` failed.
+
 - 2026-06-14: Published technical note: [agents-repeating-service-complexity-crisis](notes/agents-repeating-service-complexity-crisis/). Argues that enterprise agent platforms are replaying the earlier service complexity crisis by exposing implementation-shaped tool surfaces and therefore need both semantic capability design and a governed execution control plane.
   - *Warnings*: Publish with caution — the note can be over-read as a universal prescription for all agent deployments rather than for consequential, multi-step workflows; the architecture assumes meaningful organizational maturity around domain ownership, policy enforcement, and verification; Omnigent and adjacent harness examples may evolve quickly even if the broader service-boundary argument remains durable.
 

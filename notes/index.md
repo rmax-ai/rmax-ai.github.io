@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*June 16, 2026* — [AI FDE Operating Model: Exploration, Pilot, and Production](/notes/ai-fde-operating-model/)
+
+### [AI FDE Operating Model: Exploration, Pilot, and Production](/notes/ai-fde-operating-model/)
+*June 16, 2026* — A technical note on how AI forward deployed engineering teams should move workflows from exploration to pilot to production using evidence-gated controls, risk-based governance, and explicit ownership.
+
 *June 14, 2026* — [Agents Are Repeating the Service Complexity Crisis](/notes/agents-repeating-service-complexity-crisis/)
 
 ### [Beyond RAG Memory: Treat Knowledge as Source Code and Retrieval as Compilation](/notes/knowledge-as-source-code/)

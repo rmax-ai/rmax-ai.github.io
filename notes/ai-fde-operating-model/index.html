@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AI FDE Operating Model: Exploration, Pilot, and Production — rmax.ai</title>
+    <meta
+      name="description"
+      content="A technical note on how AI forward deployed engineering teams should move workflows from exploration to pilot to production using evidence-gated controls, risk-based governance, and explicit ownership."
+    />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/ai-fde-operating-model/" />
+
+    <meta property="og:title" content="AI FDE Operating Model: Exploration, Pilot, and Production" />
+    <meta
+      property="og:description"
+      content="A technical note on how AI forward deployed engineering teams should move workflows from exploration to pilot to production using evidence-gated controls, risk-based governance, and explicit ownership."
+    />
+    <meta property="og:url" content="https://rmax.ai/notes/ai-fde-operating-model/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-06-16" />
+    <meta property="article:tag" content="ai-fde" />
+    <meta property="article:tag" content="operating-model" />
+    <meta property="article:tag" content="exploration" />
+    <meta property="article:tag" content="pilot" />
+    <meta property="article:tag" content="production" />
+    <meta property="article:tag" content="governance" />
+    <meta property="article:tag" content="risk-management" />
+    <meta property="article:tag" content="agent-workflows" />
+    <meta property="article:tag" content="evaluation" />
+    <meta property="article:tag" content="lifecycle" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 840px;
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.65;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.08;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h4 {
+        margin: 24px 0 10px;
+        font-size: 1.08rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      p {
+        margin: 0 0 22px;
+        color: #cbd5e1;
+        font-size: 1.08rem;
+      }
+      ul,
+      ol {
+        margin: 0 0 22px;
+        padding-left: 22px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 10px;
+      }
+      a {
+        color: #c4b5fd;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      }
+      .post-meta {
+        color: var(--muted);
+        margin-bottom: 42px;
+        font-size: 0.95rem;
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      .caption {
+        margin: 20px 0 10px;
+        color: #a5b4fc;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        margin: 0 0 28px;
+        padding: 18px;
+        border-radius: 14px;
+        border: 1px solid rgba(124, 58, 237, 0.28);
+        background: rgba(11, 18, 32, 0.9);
+        overflow-x: auto;
+      }
+      .refs {
+        padding-left: 0;
+        list-style: none;
+      }
+      .refs li {
+        margin-bottom: 16px;
+      }
+      .refs .ref-num {
+        color: #e2e8f0;
+        font-weight: 700;
+      }
+      @media (max-width: 600px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .wrap {
+          margin: 20px auto;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript
+      ><img
+        src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true"
+        alt=""
+        referrerpolicy="no-referrer-when-downgrade"
+    /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo" />
+          <div>
+            <div style="font-weight: 800">rMax.ai</div>
+            <div class="muted" style="font-size: 0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
+          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
+          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
+          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
+          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
+          <a
+            class="navlink"
+            href="https://www.linkedin.com/in/rmaxespinoza/"
+            target="_blank"
+            rel="noopener"
+            aria-label="LinkedIn"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="linkedin.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+              />
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://rmax.substack.com"
+            target="_blank"
+            rel="noopener"
+            aria-label="Substack"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="substack.com"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 48 48"
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="m40.0248,10.0817v-4.5814c-.3229,0-.7411-.0004-1.6553-.0004l-28.9669.0004c-.9142,0-1.318,0-1.6553,0v4.5814c.2164,0,.7411.0005,1.6553.0005l28.9669-.0005c.9142,0,1.4122,0,1.6553,0Z"
+              />
+              <path
+                d="m40.0248,18.3503v-4.5814H9.4025c-.9142,0-1.3777,0-1.6553,0v4.5814c.2646,0,.7411,0,1.6553,0h30.6223Z"
+              />
+              <path
+                d="m40.2557,42.4999v-20.1821c0-.1633-.9724-.1077-1.8866-.1077H9.4022c-.9142,0-1.6553-.0555-1.6553.1077v19.8878c.2814-.1622,15.3415-8.2118,16.1691-8.5978.5156.2972,13.6461,7.3385,16.3406,8.8914l-.0008.0007Z"
+              />
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://x.com/rmaxdev"
+            target="_blank"
+            rel="noopener"
+            aria-label="X"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="x.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191-.008zM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447z"
+              ></path>
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://github.com/rmax-ai"
+            target="_blank"
+            rel="noopener"
+            aria-label="GitHub"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="github.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              />
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <h1>AI FDE Operating Model: Exploration, Pilot, and Production</h1>
+          <div class="post-meta">
+            <span>June 16, 2026</span>
+            <span>12-14 min read</span>
+            <span>Essay</span>
+          </div>
+
+          <div class="post-content">
+            <p>
+              This note defines an operating model for AI forward deployed engineering teams that need to move from
+              uncertain ideas to dependable workflows without applying full production controls before value is proven.
+              The core claim is simple: teams should sequence evidence and controls rather than choose between speed and
+              governance. That matters because AI-enabled workflows fail in two predictable ways. Some teams overbuild
+              before they have evidence of value. Others ship demos into real work without the controls needed to
+              contain failure.
+            </p>
+
+            <h2>Context and motivation</h2>
+            <p>
+              AI-enabled workflows differ from conventional software in one operationally important way: at the start,
+              the team often does not know whether the model can perform the task well enough to matter. The business
+              problem may be clear, but the workflow still carries empirical uncertainty. Teams may not know which
+              context the model needs, which tools improve performance, how users will adapt around the system, or
+              which failures will dominate in operation.
+            </p>
+            <p>
+              That uncertainty changes how responsible delivery should work. A strong demo proves possibility, not
+              production readiness. Production ML practice has shown for years that model quality is only one part of a
+              larger system that includes data, integrations, monitoring, ownership, and operational controls
+              [5][6]. AI workflow teams run into the same problem, often with more behavioral variability and more
+              complicated human oversight.
+            </p>
+
+            <h2>Core thesis</h2>
+            <p>
+              AI FDE teams should run work through three operating modes: Exploration, Pilot, and Production. Each mode
+              answers a different question, requires different evidence, and justifies a different level of control.
+            </p>
+            <ul>
+              <li>Exploration asks whether the capability is valuable at all.</li>
+              <li>Pilot asks whether real users can get repeatable value under bounded conditions.</li>
+              <li>
+                Production asks whether the organization can operate the workflow safely, reliably, economically, and
+                accountably at scale.
+              </li>
+            </ul>
+            <p>
+              The main discipline is proportionality. Controls should scale with authority, irreversibility, data
+              sensitivity, blast radius, and user exposure, not with novelty or executive excitement. This aligns with
+              lifecycle-oriented risk management in NIST AI RMF, ISO/IEC 42001, production ML practice, SRE, and
+              risk-based regulation [1][2][3][4][5][13][14].
+            </p>
+
+            <h2>Mechanism: the three-stage operating model</h2>
+            <p>
+              The model separates capability discovery from operational hardening. Exploration resolves the largest
+              capability uncertainties with the smallest safe experiment. Pilot introduces real users, real workflow
+              variation, and bounded operational exposure. Production turns the resulting evidence into an operating
+              commitment with named owners, monitoring, change management, and explicit residual-risk acceptance.
+            </p>
+            <p class="caption">Caption: The operating lifecycle should move from evidence of possibility to evidence of controlled operation.</p>
+            <pre class="mermaid">
+flowchart LR
+  E[Exploration&lt;br/&gt;Is there valuable capability?] --&gt;|Value signal + bounded risk| P[Pilot&lt;br/&gt;Can users get repeatable value?]
+  P --&gt;|Operational evidence + accepted controls| R[Production&lt;br/&gt;Can the workflow run safely at scale?]
+  E --&gt;|Insufficient value or unsafe failure| S[Stop or redesign]
+  P --&gt;|Poor adoption, weak controls, or high support cost| I[Iterate within pilot]
+  R --&gt;|Material change, incident, or degraded quality| G[Regress to earlier stage]
+            </pre>
+
+            <h3>Operating principles</h3>
+
+            <h4>Separate capability risk from operational risk</h4>
+            <p>
+              Capability risk asks whether the workflow can perform the task well enough to matter. Operational risk
+              asks what happens when the system is wrong, unavailable, manipulated, or over-trusted. Exploration should
+              focus on the first question. Pilot should characterize both. Production should keep residual operational
+              risk inside an explicitly accepted boundary.
+            </p>
+
+            <h4>Bound consequences instead of demanding certainty</h4>
+            <p>
+              Probabilistic components do not become safe through review alone. Teams need deterministic constraints
+              around access, outputs, and actions. In practice, that means controls such as read-only tools, scoped
+              credentials, allowlisted actions, schema validation, transaction limits, human approval, audit trails,
+              and reversible writes [9][10].
+            </p>
+
+            <h4>Increase controls with authority and irreversibility</h4>
+            <p>
+              A workflow that summarizes internal documents does not need the same controls as one that changes account
+              settings, issues refunds, or communicates externally. Governance should track concrete power and
+              consequence. It should not track how impressive the demo looked.
+            </p>
+
+            <h4>Use evidence to move between stages</h4>
+            <p>
+              Each initiative should define a hypothesis, baseline, measurable success criteria, unacceptable outcomes,
+              required next-stage evidence, and a named transition owner. Stage transitions should follow observed
+              results rather than optimism, fear, or architectural preference [1][5].
+            </p>
+
+            <h4>Design human oversight as part of the system</h4>
+            <p>
+              Human review only works when reviewers have enough time, evidence, context, independence, and authority
+              to intervene. A nominal approval step is weak control if the reviewer cannot verify the recommendation or
+              override it effectively. Automation-bias research and human-AI interaction guidance both support treating
+              oversight as a designed workflow rather than as a checkbox [7][8][12].
+            </p>
+
+            <h4>Evaluate the workflow, not only the model</h4>
+            <p>
+              The unit of evaluation is the whole socio-technical workflow: user intent, context, retrieval, prompts,
+              tools, policies, interfaces, review, execution, and business outcome. A technically correct answer can
+              still fail if it reaches the wrong user, arrives too late, lacks evidence, or drives inappropriate
+              reliance [11][12].
+            </p>
+
+            <h2>Stage definitions</h2>
+
+            <h3>Exploration</h3>
+            <p>
+              Exploration exists to answer one question: is there enough value here to justify further investment? The
+              team should maximize learning speed while preventing material harm.
+            </p>
+            <p>
+              Entry conditions should include a concrete user problem, a falsifiable hypothesis, a representative task
+              sample, bounded blast radius, approved experimental data access, and one accountable owner. Controls
+              should default to approved or sanitized data, read-only access unless writes are essential, no
+              unsupervised external communication, hard limits on runtime and cost, trace capture, a small tester
+              group, and a clear stop condition.
+            </p>
+            <p>
+              Artifacts should include the problem statement, hypothesis, workflow sketch, permission and data
+              inventory, evaluation sample, baseline, experiment log, failure taxonomy, and a recommendation to stop,
+              iterate, or request a pilot.
+            </p>
+            <p>Exploration metrics should emphasize capability and value:</p>
+            <ul>
+              <li>task completion rate</li>
+              <li>reviewer acceptance rate</li>
+              <li>correctness</li>
+              <li>time saved against baseline</li>
+              <li>human correction load</li>
+              <li>tool-use success</li>
+              <li>policy compliance</li>
+              <li>cost and latency per task</li>
+              <li>qualitative user feedback</li>
+              <li>failure categories and recurrence</li>
+            </ul>
+            <p>
+              Exploration should stop when a simpler deterministic approach performs as well, when users do not value
+              the outcome, when required capability is not there, or when critical failures cannot be detected or
+              contained.
+            </p>
+
+            <h3>Pilot</h3>
+            <p>
+              Pilot exists to answer a harder question: can real users get repeatable value under realistic but bounded
+              conditions? A pilot is not a larger demo. It introduces workflow variation, support burden, operational
+              ownership, and controlled exposure to real systems.
+            </p>
+            <p>
+              Entry conditions should include satisfied exploration exit criteria, a business owner, named pilot users,
+              documented success and termination criteria, approved data and access boundaries, assigned support
+              ownership, and end-to-end monitoring for material actions and outcomes.
+            </p>
+            <p>Every pilot should define a bounded operating envelope:</p>
+            <ul>
+              <li>start and end dates</li>
+              <li>participating users or teams</li>
+              <li>included and excluded task types</li>
+              <li>data sources</li>
+              <li>tool permissions</li>
+              <li>action-volume limits</li>
+              <li>human approval points</li>
+              <li>versioned model, prompt, policy, retrieval, and tool configuration</li>
+              <li>fallback process</li>
+              <li>incident and escalation path</li>
+            </ul>
+            <p>
+              Pilot controls usually include least-privilege credentials, allowlisted actions, structured logs,
+              monitoring for quality, cost, latency, and policy violations, rollback or compensating actions, feedback
+              channels, support ownership, versioned configuration, and explicit handling of sensitive data.
+              Higher-risk pilots often need stronger separation of duties, deterministic validation before execution,
+              policy engines, and dual approval [9][10].
+            </p>
+            <p>
+              Pilot metrics should cover business value, user value, quality, operations, and risk. That includes
+              adoption, cycle-time reduction, severity-weighted error rate, override rate, support burden, cost per
+              successful task, incident frequency, unauthorized-action attempts, and audit completeness.
+            </p>
+
+            <h3>Production</h3>
+            <p>
+              Production exists to sustain value while the organization keeps reliability, security, accountability,
+              and cost inside an accepted operating boundary. Production is not a deployment event. It is an operating
+              commitment.
+            </p>
+            <p>
+              Production workflows need named business and technical owners, appropriate service objectives,
+              documented data classification and retention, periodic access review, production-grade observability,
+              tamper-evident audit trails, incident response, rollback procedures, version and change management,
+              regression and safety evaluations, cost controls, user support, periodic reassessment, and retirement
+              criteria [3][5][13][14].
+            </p>
+            <p>
+              Material changes should trigger proportionate reevaluation. A model swap, prompt change, retrieval
+              change, policy change, tool change, or interface change can invalidate earlier evidence. Teams should
+              treat those as system changes, not as invisible tuning [6].
+            </p>
+
+            <h2>Stage-gate decision framework</h2>
+            <p>
+              The transition decision should force reviewers to judge the same dimensions every time. That keeps stage
+              movement tied to evidence rather than momentum.
+            </p>
+            <p class="caption">Caption: Stage-gate reviews should use the same decision dimensions at each transition.</p>
+            <pre class="mermaid">
+flowchart TD
+  A[Stage-gate review] --&gt; V[Value&lt;br/&gt;Important outcome improved?]
+  A --&gt; C[Capability&lt;br/&gt;Representative cases handled?]
+  A --&gt; K[Control&lt;br/&gt;Failures prevented, detected, contained, corrected?]
+  A --&gt; O[Operability&lt;br/&gt;Can the org support, monitor, recover, change?]
+  A --&gt; E[Economics&lt;br/&gt;Is cost justified?]
+  A --&gt; B[Accountability&lt;br/&gt;Is a named owner accepting residual risk?]
+  V --&gt; D{Decision}
+  C --&gt; D
+  K --&gt; D
+  O --&gt; D
+  E --&gt; D
+  B --&gt; D
+  D --&gt; S[Stop]
+  D --&gt; I[Iterate]
+  D --&gt; W[Continue within stage]
+  D --&gt; N[Advance]
+  D --&gt; R[Regress]
+            </pre>
+            <p>The framework evaluates six dimensions:</p>
+            <ul>
+              <li>Value: does the workflow materially improve an important outcome?</li>
+              <li>Capability: can it perform across representative cases?</li>
+              <li>Control: can failures be prevented, detected, contained, corrected, or reversed?</li>
+              <li>Operability: can the organization support, monitor, change, and recover it?</li>
+              <li>Economics: do build, inference, review, and support costs make sense?</li>
+              <li>Accountability: is there a named owner with authority to accept residual risk?</li>
+            </ul>
+            <p>The valid decisions are Stop, Iterate, Continue within stage, Advance, and Regress.</p>
+
+            <h2>Risk-based control matrix</h2>
+            <p>
+              The same AI pattern can justify very different controls depending on impact. The right question is not
+              whether the workflow is &quot;agentic.&quot; The right question is what happens when it fails.
+            </p>
+            <p class="caption">Caption: Control strength should rise with impact, authority, and irreversibility.</p>
+            <pre class="mermaid">
+flowchart TB
+  L[Low impact advisory&lt;br/&gt;Summaries, internal notes, knowledge discovery]
+  M[Moderate impact operational&lt;br/&gt;Case recommendations, draft Jira changes, support responses]
+  H[High impact consequential&lt;br/&gt;Financial changes, refunds, access changes, binding communication]
+
+  L --&gt; L1[Approved data]
+  L --&gt; L2[Source attribution]
+  L --&gt; L3[User review]
+  L --&gt; L4[Logging]
+  L --&gt; L5[No autonomous external actions]
+
+  M --&gt; M1[Scoped tool permissions]
+  M --&gt; M2[Required human approval]
+  M --&gt; M3[Structured validation]
+  M --&gt; M4[Rollback or correction path]
+  M --&gt; M5[Monitoring + sampled review]
+
+  H --&gt; H1[Deterministic policy checks]
+  H --&gt; H2[Strict transaction limits]
+  H --&gt; H3[Dual approval where appropriate]
+  H --&gt; H4[Strong identity + authorization]
+  H --&gt; H5[Tamper-evident audit records]
+  H --&gt; H6[Continuous monitoring]
+  H --&gt; H7[Tested rollback or compensating actions]
+  H --&gt; H8[Formal risk acceptance]
+            </pre>
+            <p>
+              This internal impact classification is an operating tool, not a legal classification. Teams should not
+              confuse it with statutory categories such as the EU AI Act's definition of high-risk systems [4].
+            </p>
+
+            <h2>Worked example: internal support-case investigation</h2>
+            <p>An internal support-case investigation workflow shows how the model applies in practice.</p>
+            <p>
+              In Exploration, the team tests whether an AI workflow can gather policy, account, and historical case
+              information and produce a useful investigation brief. It uses a curated dataset, read-only tools,
+              representative cases, and trace capture. Success means strong reviewer acceptance, meaningful time
+              reduction, no fabricated references, and no access outside the approved dataset.
+            </p>
+            <p>
+              In Pilot, ten support specialists use the workflow for four weeks. The system can query approved internal
+              systems but cannot modify cases or contact merchants. Users approve the final brief, rate usefulness, and
+              classify corrections. The team measures quality, adoption, support burden, cost, latency, and review
+              effectiveness.
+            </p>
+            <p>
+              In Production, the workflow becomes an integrated support tool with managed identity, access review,
+              quality monitoring, regression evaluation, incident ownership, versioned changes, and periodic value
+              assessment. If the team later wants the agent to modify cases or send messages, that is a material
+              capability expansion. It should re-enter a bounded pilot rather than slip into production by default.
+            </p>
+
+            <h2>Trade-offs and failure modes</h2>
+            <p>
+              This model does not eliminate uncertainty. It makes uncertainty governable. Teams still need judgment
+              about what counts as representative evidence, which failures are acceptable, and how much operating
+              overhead the workflow justifies.
+            </p>
+            <p>The model also has predictable failure modes:</p>
+            <ul>
+              <li>teams can mistake staged governance for bureaucracy and over-document before they learn anything</li>
+              <li>
+                teams can label long-running production behavior as a &quot;pilot&quot; to avoid ownership and
+                residual-risk acceptance
+              </li>
+              <li>
+                teams can add human approval that looks safe on paper but fails under time pressure or weak evidence
+              </li>
+              <li>
+                teams can collect exhaustive traces without a defined purpose, retention model, or secret-redaction
+                discipline
+              </li>
+              <li>teams can build a generic platform before they prove the first valuable workflow</li>
+            </ul>
+            <p>
+              The discipline only works when the organization is willing to stop. Not every capable workflow deserves
+              promotion. Some should remain bounded tools. Some should be redesigned. Some should die.
+            </p>
+
+            <h2>Practical takeaways</h2>
+            <ul>
+              <li>Prove value before you harden architecture, but do not treat experimentation as a control exemption.</li>
+              <li>Scale controls with authority, irreversibility, data sensitivity, and blast radius.</li>
+              <li>Evaluate the full workflow, not just model quality.</li>
+              <li>Design human review as an operational subsystem with evidence, time, and intervention authority.</li>
+              <li>Treat material model, retrieval, tool, and policy changes as reasons to revalidate earlier evidence.</li>
+            </ul>
+
+            <h2>Positioning note</h2>
+            <p>
+              This is not a formal standard, and it is not vendor documentation. It is an operator model synthesized
+              from risk frameworks, production ML practice, SRE, and human-factors research [1]-[14]. It is narrower
+              than academic research because it focuses on delivery mechanics. It is more durable than blog opinion
+              because it ties claims to established operational patterns and references.
+            </p>
+
+            <h2>Status and scope disclaimer</h2>
+            <p>
+              This note is a personal lab artifact. It is intended as applied guidance for experienced engineers and
+              operators building AI-enabled workflows. It is not authoritative, and it does not replace legal,
+              regulatory, security, privacy, or compliance review. The model is a synthesis, not a normative standard.
+            </p>
+
+            <h2>References</h2>
+            <ul class="refs">
+              <li><span class="ref-num">[1]</span> National Institute of Standards and Technology. Artificial Intelligence Risk Management Framework (AI RMF 1.0). NIST AI 100-1, January 2023. <a href="https://doi.org/10.6028/NIST.AI.100-1">https://doi.org/10.6028/NIST.AI.100-1</a></li>
+              <li><span class="ref-num">[2]</span> National Institute of Standards and Technology. Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile. NIST AI 600-1, July 2024. <a href="https://doi.org/10.6028/NIST.AI.600-1">https://doi.org/10.6028/NIST.AI.600-1</a></li>
+              <li><span class="ref-num">[3]</span> International Organization for Standardization. ISO/IEC 42001:2023 — Information technology — Artificial intelligence — Management system. December 2023. <a href="https://www.iso.org/standard/42001.html">https://www.iso.org/standard/42001.html</a></li>
+              <li><span class="ref-num">[4]</span> European Union. Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence. Official Journal of the European Union, 12 July 2024. <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj">https://eur-lex.europa.eu/eli/reg/2024/1689/oj</a></li>
+              <li><span class="ref-num">[5]</span> Breck, E., Cai, S., Nielsen, E., Salib, M., and Sculley, D. The ML Test Score: A Rubric for ML Production Readiness and Technical Debt Reduction. IEEE International Conference on Big Data, 2017. <a href="https://research.google/pubs/the-ml-test-score-a-rubric-for-ml-production-readiness-and-technical-debt-reduction/">https://research.google/pubs/the-ml-test-score-a-rubric-for-ml-production-readiness-and-technical-debt-reduction/</a></li>
+              <li><span class="ref-num">[6]</span> Sculley, D., Holt, G., Golovin, D., Davydov, E., Phillips, T., Ebner, D., Chaudhary, V., Young, M., Crespo, J.-F., and Dennison, D. Hidden Technical Debt in Machine Learning Systems. Advances in Neural Information Processing Systems 28, 2015. <a href="https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems">https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems</a></li>
+              <li><span class="ref-num">[7]</span> Goddard, K., Roudsari, A., and Wyatt, J. C. Automation Bias: A Systematic Review of Frequency, Effect Mediators, and Mitigators. Journal of the American Medical Informatics Association 19(1), 2012. <a href="https://doi.org/10.1136/amiajnl-2011-000089">https://doi.org/10.1136/amiajnl-2011-000089</a></li>
+              <li><span class="ref-num">[8]</span> Lyell, D., and Coiera, E. Automation Bias and Verification Complexity: A Systematic Review. Journal of the American Medical Informatics Association 24(2), 2017. <a href="https://doi.org/10.1093/jamia/ocw105">https://doi.org/10.1093/jamia/ocw105</a></li>
+              <li><span class="ref-num">[9]</span> National Institute of Standards and Technology. Security and Privacy Controls for Information Systems and Organizations. NIST SP 800-53 Rev. 5, September 2020, updated 2023. <a href="https://doi.org/10.6028/NIST.SP.800-53r5">https://doi.org/10.6028/NIST.SP.800-53r5</a></li>
+              <li><span class="ref-num">[10]</span> Rose, S., Borchert, O., Mitchell, S., and Connelly, S. Zero Trust Architecture. NIST SP 800-207, August 2020. <a href="https://doi.org/10.6028/NIST.SP.800-207">https://doi.org/10.6028/NIST.SP.800-207</a></li>
+              <li><span class="ref-num">[11]</span> Liang, P. et al. Holistic Evaluation of Language Models. Transactions on Machine Learning Research, 2023. <a href="https://arxiv.org/abs/2211.09110">https://arxiv.org/abs/2211.09110</a></li>
+              <li><span class="ref-num">[12]</span> Amershi, S. et al. Guidelines for Human-AI Interaction. Proceedings of CHI 2019. <a href="https://doi.org/10.1145/3290605.3300233">https://doi.org/10.1145/3290605.3300233</a></li>
+              <li><span class="ref-num">[13]</span> Beyer, B., Jones, C., Petoff, J., and Murphy, N. R., eds. Site Reliability Engineering: How Google Runs Production Systems. O’Reilly Media, 2016. <a href="https://sre.google/sre-book/table-of-contents/">https://sre.google/sre-book/table-of-contents/</a></li>
+              <li><span class="ref-num">[14]</span> Beyer, B., Murphy, N. R., Rensin, D. K., Kawahara, K., and Thorne, S., eds. The Site Reliability Workbook. O’Reilly Media, 2018. <a href="https://sre.google/workbook/table-of-contents/">https://sre.google/workbook/table-of-contents/</a></li>
+            </ul>
+          </div>
+        </article>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+          maxTextWidth: '300px',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        { text: 'I trust a workflow only after it survives bounded exposure, not after it dazzles in a demo.', agent: 'Stage-Gate Agent' },
+        { text: 'I move slowly only where consequence is high; everywhere else I optimize for learning.', agent: 'Control Agent' },
+        { text: 'I treat production as an operating promise earned by evidence, ownership, and recovery paths.', agent: 'Operations Agent' }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>

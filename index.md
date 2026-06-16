@@ -26,6 +26,9 @@ Analyzing how contemporary AI tools structure authority and constraints in syste
 
 [View all →](/notes/)
 
+### [AI FDE Operating Model: Exploration, Pilot, and Production](/notes/ai-fde-operating-model/)
+A technical note on how AI forward deployed engineering teams should move workflows from exploration to pilot to production using evidence-gated controls, risk-based governance, and explicit ownership.
+
 ### [Agents Are Repeating the Service Complexity Crisis](/notes/agents-repeating-service-complexity-crisis/)
 A technical note on why enterprise agent platforms are replaying the earlier service complexity crisis through fragmented tool surfaces, and why durable systems need both semantic capability design and a governed execution control plane.
 
