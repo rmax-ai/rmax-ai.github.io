@@ -8,7 +8,7 @@ section: "notes"
 type: "essay"
 status: "published"
 date: 2026-06-16
-updated: 2026-06-16
+updated: 2026-06-17
 tags:
   - "ai-fde"
   - "operating-model"
@@ -20,20 +20,20 @@ tags:
   - "agent-workflows"
   - "evaluation"
   - "lifecycle"
-reading_time: "12-14 min"
+reading_time: "16-18 min"
 canonical_url: "https://rmax.ai/notes/ai-fde-operating-model/"
 license: "CC BY 4.0"
 ---
 
 # AI FDE Operating Model: Exploration, Pilot, and Production
 
-This note defines an operating model for AI forward deployed engineering teams that need to move from uncertain ideas to dependable workflows without applying full production controls before value is proven. The core claim is simple: teams should sequence evidence and controls rather than choose between speed and governance. That matters because AI-enabled workflows fail in two predictable ways. Some teams overbuild before they have evidence of value. Others ship demos into real work without the controls needed to contain failure.
+This note defines an operating model for AI forward deployed engineering teams that need to move from uncertain ideas to dependable workflows without applying full production controls before value is proven. The core claim is simple: teams should sequence evidence and controls rather than pretend they must choose between speed and governance. That discipline matters because AI-enabled workflows fail in two predictable ways. Some teams build logging, queues, policy engines, and approval chains before they know whether the workflow helps anyone. Others let a convincing demo leak into real work before they can detect or contain failure.
 
 ## Context and motivation
 
-AI-enabled workflows differ from conventional software in one operationally important way: at the start, the team often does not know whether the model can perform the task well enough to matter. The business problem may be clear, but the workflow still carries empirical uncertainty. Teams may not know which context the model needs, which tools improve performance, how users will adapt around the system, or which failures will dominate in operation.
+AI-enabled workflows differ from conventional software in one operationally important way: at the start, the team often does not know whether the model can perform the task well enough to matter. The business problem may be clear, but the workflow still carries empirical uncertainty. A team may know that support specialists need faster investigations, yet still not know which case history matters, whether retrieval helps, which tool calls the model can use safely, or which failure will dominate once people start relying on the output.
 
-That uncertainty changes how responsible delivery should work. A strong demo proves possibility, not production readiness. Production ML practice has shown for years that model quality is only one part of a larger system that includes data, integrations, monitoring, ownership, and operational controls [5][6]. AI workflow teams run into the same problem, often with more behavioral variability and more complicated human oversight.
+That uncertainty changes how responsible delivery should work. A strong demo proves possibility, not production readiness. Production ML practice has shown for years that model quality is only one part of a larger system that includes data, integrations, monitoring, ownership, and operational controls [5][6]. AI workflow teams run into the same problem, often with more behavioral variability and more complicated human oversight. The question is not "Did the model answer well in a demo?" The question is "Can this team run this workflow next month, under load, with named owners when it is wrong?"
 
 ## Core thesis
 
@@ -43,11 +43,11 @@ AI FDE teams should run work through three operating modes: Exploration, Pilot, 
 - Pilot asks whether real users can get repeatable value under bounded conditions.
 - Production asks whether the organization can operate the workflow safely, reliably, economically, and accountably at scale.
 
-The main discipline is proportionality. Controls should scale with authority, irreversibility, data sensitivity, blast radius, and user exposure, not with novelty or executive excitement. This aligns with lifecycle-oriented risk management in NIST AI RMF, ISO/IEC 42001, production ML practice, SRE, and risk-based regulation [1][2][3][4][5][13][14].
+The main discipline is proportionality. Controls should scale with authority, irreversibility, data sensitivity, blast radius, and user exposure, not with novelty or executive excitement. A retrieval workflow that drafts an internal brief should not carry the same operating burden as an agent that can refund a merchant, disable an account, or send a legally meaningful email. This aligns with lifecycle-oriented risk management in NIST AI RMF, ISO/IEC 42001, production ML practice, SRE, and risk-based regulation [1][2][3][4][5][13][14].
 
 ## Mechanism: the three-stage operating model
 
-The model separates capability discovery from operational hardening. Exploration resolves the largest capability uncertainties with the smallest safe experiment. Pilot introduces real users, real workflow variation, and bounded operational exposure. Production turns the resulting evidence into an operating commitment with named owners, monitoring, change management, and explicit residual-risk acceptance.
+The model separates capability discovery from operational hardening. Exploration resolves the largest capability uncertainties with the smallest safe experiment. Pilot introduces real users, real workflow variation, and bounded operational exposure. Production turns the resulting evidence into an operating commitment with named owners, monitoring, change management, and explicit residual-risk acceptance. The point is not to make teams move slowly. The point is to make each stage answer one question well before the team spends more authority.
 
 Caption: The operating lifecycle should move from evidence of possibility to evidence of controlled operation.
 
@@ -60,41 +60,66 @@ flowchart LR
   R -->|Material change, incident, or degraded quality| G[Regress to earlier stage]
 ```
 
+Caption: Control strength should rise step by step as the workflow gains power over data, systems, and users.
+
+```mermaid
+flowchart LR
+  E[Exploration<br/>Light controls] --> P[Pilot<br/>Medium controls] --> R[Production<br/>Heavy controls]
+
+  E --> E1[Authority:<br/>Read-only or sandboxed actions]
+  E --> E2[Irreversibility:<br/>Reversible outputs only]
+  E --> E3[Data sensitivity:<br/>Approved or sanitized datasets]
+  E --> E4[Blast radius:<br/>Small tester group, task caps]
+  E --> E5[User exposure:<br/>No unsupervised external contact]
+
+  P --> P1[Authority:<br/>Scoped real-system permissions]
+  P --> P2[Irreversibility:<br/>Human approval before writes]
+  P --> P3[Data sensitivity:<br/>Approved production data paths]
+  P --> P4[Blast radius:<br/>Named users, volume limits, rollback]
+  P --> P5[User exposure:<br/>Bounded teams and task types]
+
+  R --> R1[Authority:<br/>Least privilege with periodic review]
+  R --> R2[Irreversibility:<br/>Deterministic checks and compensating actions]
+  R --> R3[Data sensitivity:<br/>Retention, audit, and access controls]
+  R --> R4[Blast radius:<br/>Monitoring, incident response, staged rollout]
+  R --> R5[User exposure:<br/>Managed support and explicit ownership]
+```
+
 ### Operating principles
 
 #### Separate capability risk from operational risk
 
-Capability risk asks whether the workflow can perform the task well enough to matter. Operational risk asks what happens when the system is wrong, unavailable, manipulated, or over-trusted. Exploration should focus on the first question. Pilot should characterize both. Production should keep residual operational risk inside an explicitly accepted boundary.
+Capability risk asks whether the workflow can perform the task well enough to matter. Operational risk asks what happens when the system is wrong, unavailable, manipulated, or over-trusted. A team can show promising capability on 50 sampled cases and still fail operationally if the workflow exposes secrets, overwhelms reviewers, or performs the wrong action at 2 a.m. Exploration should focus on the first question. Pilot should characterize both. Production should keep residual operational risk inside an explicitly accepted boundary.
 
 #### Bound consequences instead of demanding certainty
 
-Probabilistic components do not become safe through review alone. Teams need deterministic constraints around access, outputs, and actions. In practice, that means controls such as read-only tools, scoped credentials, allowlisted actions, schema validation, transaction limits, human approval, audit trails, and reversible writes [9][10].
+Probabilistic components do not become safe through review alone. Teams need deterministic constraints around access, outputs, and actions. In practice, that means controls such as read-only tools that can query a case record but not edit it, scoped credentials that only reach one queue or tenant, allowlisted actions like `draft_reply` but not `send_reply`, schema validation on structured outputs, transaction limits on refunds or record updates, human approval before side effects, audit trails for every tool call, and reversible writes where the team can roll back or compensate [9][10]. The team does not need certainty from the model. The team needs boundaries that make a bad answer survivable.
 
 #### Increase controls with authority and irreversibility
 
-A workflow that summarizes internal documents does not need the same controls as one that changes account settings, issues refunds, or communicates externally. Governance should track concrete power and consequence. It should not track how impressive the demo looked.
+A workflow that summarizes internal documents does not need the same controls as one that changes account settings, issues refunds, or communicates externally. Governance should track concrete power and consequence. It should ask whether the agent can alter a customer record, expose sensitive data, or create a binding external statement. It should not track how impressive the demo looked.
 
 #### Use evidence to move between stages
 
-Each initiative should define a hypothesis, baseline, measurable success criteria, unacceptable outcomes, required next-stage evidence, and a named transition owner. Stage transitions should follow observed results rather than optimism, fear, or architectural preference [1][5].
+Each initiative should define a hypothesis, baseline, measurable success criteria, unacceptable outcomes, required next-stage evidence, and a named transition owner. In practice, that often means an engineer writes the hypothesis, a reviewer checks whether the sample is representative, and a business owner states what result would justify more exposure. Stage transitions should follow observed results rather than optimism, fear, or architectural preference [1][5].
 
 #### Design human oversight as part of the system
 
-Human review only works when reviewers have enough time, evidence, context, independence, and authority to intervene. A nominal approval step is weak control if the reviewer cannot verify the recommendation or override it effectively. Automation-bias research and human-AI interaction guidance both support treating oversight as a designed workflow rather than as a checkbox [7][8][12].
+Human review only works when reviewers have enough time, evidence, context, independence, and authority to intervene. A nominal approval step is weak control if the reviewer sees only a one-line recommendation, has 20 seconds to decide, or cannot inspect the cited sources. Strong review looks different. The reviewer can see the retrieved evidence, the tool calls, the policy checks, the confidence or uncertainty signals, and the fallback path. Automation-bias research and human-AI interaction guidance both support treating oversight as a designed workflow rather than as a checkbox [7][8][12].
 
 #### Evaluate the workflow, not only the model
 
-The unit of evaluation is the whole socio-technical workflow: user intent, context, retrieval, prompts, tools, policies, interfaces, review, execution, and business outcome. A technically correct answer can still fail if it reaches the wrong user, arrives too late, lacks evidence, or drives inappropriate reliance [11][12].
+The unit of evaluation is the whole socio-technical workflow: user intent, context, retrieval, prompts, tools, policies, interfaces, review, execution, and business outcome. A technically correct answer can still fail if it reaches the wrong user, arrives too late, lacks evidence, or drives inappropriate reliance [11][12]. Teams should score the path that the user actually experiences, because that is where the organization absorbs error.
 
 ## Stage definitions
 
 ### Exploration
 
-Exploration exists to answer one question: is there enough value here to justify further investment? The team should maximize learning speed while preventing material harm.
+Exploration exists to answer one question: is there enough value here to justify further investment? The team should maximize learning speed while preventing material harm. This stage is where teams learn whether the workflow deserves another week at all.
 
-Entry conditions should include a concrete user problem, a falsifiable hypothesis, a representative task sample, bounded blast radius, approved experimental data access, and one accountable owner. Controls should default to approved or sanitized data, read-only access unless writes are essential, no unsupervised external communication, hard limits on runtime and cost, trace capture, a small tester group, and a clear stop condition.
+Entry conditions should include a concrete user problem, a falsifiable hypothesis, a representative task sample, bounded blast radius, approved experimental data access, and one accountable owner. Controls should default to approved or sanitized data, read-only access unless writes are essential, no unsupervised external communication, hard limits on runtime and cost, trace capture, a small tester group, and a clear stop condition. If the workflow needs live data, the team should say which table, which fields, which users, and which log captures will exist before the first run.
 
-Artifacts should include the problem statement, hypothesis, workflow sketch, permission and data inventory, evaluation sample, baseline, experiment log, failure taxonomy, and a recommendation to stop, iterate, or request a pilot.
+Artifacts should include the problem statement, hypothesis, workflow sketch, permission and data inventory, evaluation sample, baseline, experiment log, failure taxonomy, and a recommendation to stop, iterate, or request a pilot. The output should make it obvious what the workflow touched, how it failed, and who will decide whether it continues.
 
 Exploration metrics should emphasize capability and value:
 
@@ -109,13 +134,13 @@ Exploration metrics should emphasize capability and value:
 - qualitative user feedback
 - failure categories and recurrence
 
-Exploration should stop when a simpler deterministic approach performs as well, when users do not value the outcome, when required capability is not there, or when critical failures cannot be detected or contained.
+Exploration should stop when a simpler deterministic approach performs as well, when users do not value the outcome, when required capability is not there, or when critical failures cannot be detected or contained. The cheapest stage is the right place to kill the wrong idea.
 
 ### Pilot
 
-Pilot exists to answer a harder question: can real users get repeatable value under realistic but bounded conditions? A pilot is not a larger demo. It introduces workflow variation, support burden, operational ownership, and controlled exposure to real systems.
+Pilot exists to answer a harder question: can real users get repeatable value under realistic but bounded conditions? A pilot is not a larger demo. It introduces workflow variation, support burden, operational ownership, and controlled exposure to real systems. This is where the team learns whether the workflow still works when the cases are messy, the reviewers are busy, and the surrounding systems behave like production.
 
-Entry conditions should include satisfied exploration exit criteria, a business owner, named pilot users, documented success and termination criteria, approved data and access boundaries, assigned support ownership, and end-to-end monitoring for material actions and outcomes.
+Entry conditions should include satisfied exploration exit criteria, a business owner, named pilot users, documented success and termination criteria, approved data and access boundaries, assigned support ownership, and end-to-end monitoring for material actions and outcomes. The team should know who gets paged, who approves access, who reviews incidents, and who can stop the pilot.
 
 Every pilot should define a bounded operating envelope:
 
@@ -130,21 +155,40 @@ Every pilot should define a bounded operating envelope:
 - fallback process
 - incident and escalation path
 
-Pilot controls usually include least-privilege credentials, allowlisted actions, structured logs, monitoring for quality, cost, latency, and policy violations, rollback or compensating actions, feedback channels, support ownership, versioned configuration, and explicit handling of sensitive data. Higher-risk pilots often need stronger separation of duties, deterministic validation before execution, policy engines, and dual approval [9][10].
+Pilot controls usually include least-privilege credentials, allowlisted actions, structured logs, monitoring for quality, cost, latency, and policy violations, rollback or compensating actions, feedback channels, support ownership, versioned configuration, and explicit handling of sensitive data. A support workflow might let the model open a read-only case timeline and draft a recommendation, while a finance workflow might force every proposed action through a deterministic policy check and a human approver. Higher-risk pilots often need stronger separation of duties, deterministic validation before execution, policy engines, and dual approval [9][10].
 
 Pilot metrics should cover business value, user value, quality, operations, and risk. That includes adoption, cycle-time reduction, severity-weighted error rate, override rate, support burden, cost per successful task, incident frequency, unauthorized-action attempts, and audit completeness.
 
 ### Production
 
-Production exists to sustain value while the organization keeps reliability, security, accountability, and cost inside an accepted operating boundary. Production is not a deployment event. It is an operating commitment.
+Production exists to sustain value while the organization keeps reliability, security, accountability, and cost inside an accepted operating boundary. Production is not a deployment event. It is an operating commitment. The organization is no longer testing whether someone might use the workflow. It is accepting the burden of running it.
 
-Production workflows need named business and technical owners, appropriate service objectives, documented data classification and retention, periodic access review, production-grade observability, tamper-evident audit trails, incident response, rollback procedures, version and change management, regression and safety evaluations, cost controls, user support, periodic reassessment, and retirement criteria [3][5][13][14].
+Production workflows need named business and technical owners, appropriate service objectives, documented data classification and retention, periodic access review, production-grade observability, tamper-evident audit trails, incident response, rollback procedures, version and change management, regression and safety evaluations, cost controls, user support, periodic reassessment, and retirement criteria [3][5][13][14]. Named ownership matters here. Someone must own the KPI, someone must own the pager, and someone with authority must accept the residual risk.
 
-Material changes should trigger proportionate reevaluation. A model swap, prompt change, retrieval change, policy change, tool change, or interface change can invalidate earlier evidence. Teams should treat those as system changes, not as invisible tuning [6].
+Material changes should trigger proportionate reevaluation. A model swap, prompt change, retrieval change, policy change, tool change, or interface change can invalidate earlier evidence. A retrieval tweak can quietly expose a new data source. A UI change can remove the context a reviewer relied on. Teams should treat those as system changes, not as invisible tuning [6].
+
+Caption: The evidence stack should widen as the workflow moves from capability proof to operating accountability.
+
+```mermaid
+flowchart TB
+  E[Exploration metrics] --> P[Pilot metrics] --> R[Production metrics]
+
+  E --> E1[Capability<br/>task completion, correctness]
+  E --> E2[Value signal<br/>time saved, reviewer acceptance]
+  E --> E3[Failure discovery<br/>error categories, tool success]
+
+  P --> P1[User adoption<br/>weekly active users, reuse rate]
+  P --> P2[Operational load<br/>support burden, override rate]
+  P --> P3[Risk signal<br/>policy violations, incident frequency]
+
+  R --> R1[Business outcome<br/>throughput, cost efficiency]
+  R --> R2[Reliability<br/>SLOs, latency, recovery time]
+  R --> R3[Governance<br/>audit completeness, access review status]
+```
 
 ## Stage-gate decision framework
 
-The transition decision should force reviewers to judge the same dimensions every time. That keeps stage movement tied to evidence rather than momentum.
+The transition decision should force reviewers to judge the same dimensions every time. That keeps stage movement tied to evidence rather than momentum. It also prevents a common failure mode: a workflow advances because everyone liked the demo, even though no one can say who will own incidents.
 
 Caption: Stage-gate reviews should use the same decision dimensions at each transition.
 
@@ -169,6 +213,41 @@ flowchart TD
   D --> R[Regress]
 ```
 
+Caption: Stage changes work best when each role owns one concrete decision.
+
+```mermaid
+flowchart LR
+  subgraph Eng[Engineer or FDE]
+    A1[Define hypothesis and workflow]
+    A2[Collect evidence and failure cases]
+    A3[Propose stage transition]
+  end
+
+  subgraph Rev[Reviewer]
+    B1[Check sample quality and controls]
+    B2[Challenge weak evidence]
+    B3[Recommend stop, iterate, or advance]
+  end
+
+  subgraph Biz[Business owner]
+    C1[Judge value and operating need]
+    C2[Accept or reject residual risk]
+  end
+
+  subgraph Plat[Platform, security, or ops]
+    D1[Enable required controls]
+    D2[Confirm monitoring, access, rollback]
+  end
+
+  A1 --> A2 --> A3 --> B1 --> B2 --> B3 --> C1 --> C2
+  B3 --> D1 --> D2 --> C2
+  C2 --> E{Decision}
+  E --> F[Advance]
+  E --> G[Continue within stage]
+  E --> H[Iterate]
+  E --> I[Stop or regress]
+```
+
 The framework evaluates six dimensions:
 
 - Value: does the workflow materially improve an important outcome?
@@ -182,7 +261,7 @@ The valid decisions are Stop, Iterate, Continue within stage, Advance, and Regre
 
 ## Risk-based control matrix
 
-The same AI pattern can justify very different controls depending on impact. The right question is not whether the workflow is "agentic." The right question is what happens when it fails.
+The same AI pattern can justify very different controls depending on impact. The right question is not whether the workflow is "agentic." The right question is what happens when it fails. The same retrieval-and-tool pattern might be harmless in internal research and unacceptable in payments operations.
 
 Caption: Control strength should rise with impact, authority, and irreversibility.
 
@@ -220,15 +299,35 @@ This internal impact classification is an operating tool, not a legal classifica
 
 An internal support-case investigation workflow shows how the model applies in practice.
 
-In Exploration, the team tests whether an AI workflow can gather policy, account, and historical case information and produce a useful investigation brief. It uses a curated dataset, read-only tools, representative cases, and trace capture. Success means strong reviewer acceptance, meaningful time reduction, no fabricated references, and no access outside the approved dataset.
+In Exploration, the team tests whether an AI workflow can gather policy, account, and historical case information and produce a useful investigation brief. It uses a curated dataset, read-only tools, representative cases, and trace capture. Success means strong reviewer acceptance, meaningful time reduction, no fabricated references, and no access outside the approved dataset. The team is not testing autonomy here. It is testing whether the model can reduce investigative work without inventing facts.
 
-In Pilot, ten support specialists use the workflow for four weeks. The system can query approved internal systems but cannot modify cases or contact merchants. Users approve the final brief, rate usefulness, and classify corrections. The team measures quality, adoption, support burden, cost, latency, and review effectiveness.
+In Pilot, ten support specialists use the workflow for four weeks. The system can query approved internal systems but cannot modify cases or contact merchants. Users approve the final brief, rate usefulness, and classify corrections. The team measures quality, adoption, support burden, cost, latency, and review effectiveness. The gate to continue is not just average quality. The team also needs evidence that reviewers can catch bad briefs quickly and that the workflow does not create hidden support load.
 
 In Production, the workflow becomes an integrated support tool with managed identity, access review, quality monitoring, regression evaluation, incident ownership, versioned changes, and periodic value assessment. If the team later wants the agent to modify cases or send messages, that is a material capability expansion. It should re-enter a bounded pilot rather than slip into production by default.
 
+## Worked example: AI code review agent
+
+An AI code review agent sits at a different risk point. It can influence shipping decisions and engineer attention, but it usually does not act directly on customer accounts or financial systems.
+
+In Exploration, the team tests whether the agent finds bugs that static analysis and existing review habits miss. They use a sample of historical pull requests with known issues, require citation of the relevant diff hunk, and score false positives separately from true catches. The gate is simple: the workflow must surface useful findings often enough that senior engineers would voluntarily open it during review.
+
+In Pilot, five senior engineers use the agent for three weeks on live pull requests with full human override. The agent can comment in a draft interface but cannot block merges. The team measures accepted findings, false-positive rate, reviewer time added, duplicate comments, and whether the agent shifts attention toward meaningful defects rather than style noise. If the agent saves time only by generating low-trust chatter, the pilot should stop.
+
+In Production, the workflow can integrate into CI or the review UI with explicit quality gates, regression evaluations on known bug corpora, prompt and model versioning, and periodic false-positive audits. A later step that auto-blocks merges on certain findings raises both authority and irreversibility. That step deserves its own bounded pilot before the organization treats it as normal review infrastructure.
+
+## Worked example: data pipeline with human review
+
+A data enrichment pipeline shows what graduated autonomy looks like when the workflow can eventually write to business records.
+
+In Exploration, the team runs the agent on synthetic or masked customer records and asks it to propose normalized fields, category mappings, or missing-value fills. The workflow writes nowhere. Reviewers compare the proposed output against a labeled dataset and track which errors are obvious, which are subtle, and which would create downstream reporting damage.
+
+In Pilot, the agent processes real records, but every write stays behind human review. The team constrains the workflow to a small subset of record types, caps daily volume, and logs every proposed before-and-after change. Metrics now include precision on approved updates, reviewer disagreement rate, time per reviewed record, rollback frequency, and whether certain record classes predictably need escalation.
+
+In Production, the team can auto-approve low-risk updates that pass deterministic checks and reserve human review for high-risk or ambiguous cases. That operating model only makes sense if the team has clear validation rules, tested rollback paths, audit trails, and routine sampling of auto-approved writes. The workflow earns autonomy one record class at a time.
+
 ## Trade-offs and failure modes
 
-This model does not eliminate uncertainty. It makes uncertainty governable. Teams still need judgment about what counts as representative evidence, which failures are acceptable, and how much operating overhead the workflow justifies.
+This model does not eliminate uncertainty. It makes uncertainty governable. Teams still need judgment about what counts as representative evidence, which failures are acceptable, and how much operating overhead the workflow justifies. The model gives teams a way to argue from observed behavior instead of instinct.
 
 The model also has predictable failure modes:
 
@@ -238,7 +337,7 @@ The model also has predictable failure modes:
 - teams can collect exhaustive traces without a defined purpose, retention model, or secret-redaction discipline
 - teams can build a generic platform before they prove the first valuable workflow
 
-The discipline only works when the organization is willing to stop. Not every capable workflow deserves promotion. Some should remain bounded tools. Some should be redesigned. Some should die.
+Each failure mode compounds. Over-documentation slows learning, which pressures the team to skip hard gates later. Fake pilots normalize unowned risk. Weak human review turns approval into theater. Undisciplined traces create their own security problem. Premature platforms lock teams into abstractions they have not earned. The discipline only works when the organization is willing to stop. Not every capable workflow deserves promotion. Some should remain bounded tools. Some should be redesigned. Some should die.
 
 ## Practical takeaways
 
