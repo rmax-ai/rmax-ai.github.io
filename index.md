@@ -22,6 +22,26 @@ Analyzing how contemporary AI tools structure authority and constraints in syste
 
 ---
 
+## Projects
+[View all →](/projects/)
+
+### [MCP Conformance](https://mcp-conformance.rmax.tech/)
+Scenario-driven MCP conformance runner with declarative auth, protocol, and error-path tests.
+
+### [Adaptive Harness Foundry](https://github.com/rmax-ai/adaptive-harness-foundry)
+Harness evolution proof of concept that improves typed ADK harness configs through deterministic patches, not codegen.
+
+### [ADK Loop Lab](https://github.com/rmax-ai/adk-loop-lab)
+Reference implementation for loop engineering with durable state, bounded execution, verification, and deterministic stopping.
+
+### [Deep Research Assistant](https://github.com/rmax-ai/deep-research-assistant)
+Governed research runtime that turns open-ended questions into traceable evidence, claims, contradictions, and reports.
+
+### [Constrained Agent Harness](https://github.com/rmax-ai/constrained-agent-harness)
+Reference harness for running coding agents as bounded, verifiable search over repository states.
+
+---
+
 ## Notes
 
 [View all →](/notes/)

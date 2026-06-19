@@ -96,6 +96,171 @@
 
           <div class="project-list">
 
+            <!-- MCP Conformance -->
+            <div class="project-card">
+              <div class="project-title">
+                <a href="https://mcp-conformance.rmax.tech/" target="_blank" rel="noopener">MCP Conformance</a>
+              </div>
+              <p class="project-tagline">Scenario-driven test runner for evaluating MCP client and server implementations</p>
+              <p class="muted">A declarative conformance harness that runs HTTP and JSON-RPC scenarios against MCP servers, gateways, and client runtimes, then emits audit-grade pass/fail reports for protocol and auth behavior.</p>
+
+              <div class="features">
+                <div class="feature-item">
+                  <span class="feature-name">Declarative Scenarios</span>
+                  <span class="feature-desc">YAML scenario sequences model OAuth, bearer-token, protocol, and error-path interactions step by step.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Partner Adapters</span>
+                  <span class="feature-desc">The same conformance suite can target servers, gateways, or client runtimes through configurable adapters.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Protocol Assertions</span>
+                  <span class="feature-desc">Checks HTTP status, headers, JSON bodies, JSON-RPC schema, and OAuth-specific response behavior.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Audit-Grade Reports</span>
+                  <span class="feature-desc">Produces JSON and human-readable pass/fail output for certification, regression tracking, and side-by-side evaluation.</span>
+                </div>
+              </div>
+
+              <div class="project-links">
+                <a href="https://mcp-conformance.rmax.tech/" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_external" data-simple-project-id="mcp-conformance">Visit Project</a>
+                <a href="https://github.com/rmax-ai/mcp-conformance" class="btn btn-outline" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="mcp-conformance">GitHub</a>
+              </div>
+            </div>
+
+            <!-- Adaptive Harness Foundry -->
+            <div class="project-card">
+              <div class="project-title">
+                <a href="https://github.com/rmax-ai/adaptive-harness-foundry" target="_blank" rel="noopener">Adaptive Harness Foundry</a>
+              </div>
+              <p class="project-tagline">Adaptive agent harness foundry with deterministic configuration evolution</p>
+              <p class="muted">A HarnessX-inspired proof of concept that treats ADK harnesses as typed, versioned configurations, evaluates them deterministically, and evolves them through structured config patches rather than source-code rewriting.</p>
+
+              <div class="features">
+                <div class="feature-item">
+                  <span class="feature-name">Versioned Harness Configs</span>
+                  <span class="feature-desc">Harnesses are first-class, hashed configuration objects with inspectable provenance and reversible evolution history.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Lifecycle Processors</span>
+                  <span class="feature-desc">Typed processors attach to ADK lifecycle callbacks so behavior changes stay explicit and composable.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Trace to Patch Loop</span>
+                  <span class="feature-desc">Structured SQLite and JSONL traces feed a meta-agent pipeline that proposes bounded configuration patches.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Deterministic Promotion Gate</span>
+                  <span class="feature-desc">Candidate harnesses are promoted only after code-enforced validation and held-out benchmark evaluation.</span>
+                </div>
+              </div>
+
+              <div class="project-links">
+                <a href="https://github.com/rmax-ai/adaptive-harness-foundry" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="adaptive-harness-foundry">GitHub</a>
+                <a href="https://github.com/rmax-ai/adaptive-harness-foundry/blob/main/docs/architecture.md" class="btn btn-outline" target="_blank" rel="noopener" data-simple-event="click_project_external" data-simple-project-id="adaptive-harness-foundry">Architecture</a>
+              </div>
+            </div>
+
+            <!-- ADK Loop Lab -->
+            <div class="project-card">
+              <div class="project-title">
+                <a href="https://github.com/rmax-ai/adk-loop-lab" target="_blank" rel="noopener">ADK Loop Lab</a>
+              </div>
+              <p class="project-tagline">Reference implementation for loop engineering with Google ADK</p>
+              <p class="muted">A practical repository for building agentic loops with durable state, selective memory, bounded execution, verification, explicit progress tracking, and deterministic stopping conditions.</p>
+
+              <div class="features">
+                <div class="feature-item">
+                  <span class="feature-name">Three-Plane Architecture</span>
+                  <span class="feature-desc">Separates deterministic control, ADK execution, and state and memory data flows so each concern stays legible.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Progressive Examples</span>
+                  <span class="feature-desc">Demonstrates bounded document refinement, evidence-driven research, and resumable coding loops.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Deterministic Shell</span>
+                  <span class="feature-desc">Models propose work, but budgets, approvals, and stopping decisions remain enforced in code.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Verification First</span>
+                  <span class="feature-desc">Schema checks, lint, types, and tests run before any model judge can treat work as complete.</span>
+                </div>
+              </div>
+
+              <div class="project-links">
+                <a href="https://github.com/rmax-ai/adk-loop-lab" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="adk-loop-lab">GitHub</a>
+                <a href="https://github.com/rmax-ai/adk-loop-lab/blob/main/docs/architecture/overview.md" class="btn btn-outline" target="_blank" rel="noopener" data-simple-event="click_project_external" data-simple-project-id="adk-loop-lab">Architecture</a>
+              </div>
+            </div>
+
+            <!-- Deep Research Assistant -->
+            <div class="project-card">
+              <div class="project-title">
+                <a href="https://github.com/rmax-ai/deep-research-assistant" target="_blank" rel="noopener">Deep Research Assistant</a>
+              </div>
+              <p class="project-tagline">Governed research runtime that turns questions into traceable claims</p>
+              <p class="muted">An enterprise-grade ADK research system that decomposes broad investigations into scoped questions, evidence collection, claim building, contradiction analysis, verification, approvals, and final reports.</p>
+
+              <div class="features">
+                <div class="feature-item">
+                  <span class="feature-name">Staged Epistemic Pipeline</span>
+                  <span class="feature-desc">Moves from intent to scope, evidence, claims, contradictions, coverage analysis, drafts, verification, and approval.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Three-Plane Runtime</span>
+                  <span class="feature-desc">Separates governance, deterministic workflow orchestration, and bounded cognitive agents.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Bounded Agent Roster</span>
+                  <span class="feature-desc">Uses narrow-role agents for planning, evidence curation, contradiction search, verification, and synthesis.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Claim-First Quality</span>
+                  <span class="feature-desc">Optimizes for supported, qualified, and traceable claims rather than polished but weak prose.</span>
+                </div>
+              </div>
+
+              <div class="project-links">
+                <a href="https://github.com/rmax-ai/deep-research-assistant" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="deep-research-assistant">GitHub</a>
+                <a href="https://github.com/rmax-ai/deep-research-assistant/blob/main/docs/ARCHITECTURE.md" class="btn btn-outline" target="_blank" rel="noopener" data-simple-event="click_project_external" data-simple-project-id="deep-research-assistant">Architecture</a>
+              </div>
+            </div>
+
+            <!-- Constrained Agent Harness -->
+            <div class="project-card">
+              <div class="project-title">
+                <a href="https://github.com/rmax-ai/constrained-agent-harness" target="_blank" rel="noopener">Constrained Agent Harness</a>
+              </div>
+              <p class="project-tagline">Reference harness for bounded, verifiable autonomous software engineering</p>
+              <p class="muted">A coding-agent runtime that models work as constrained transitions over repository states, with a deterministic harness deciding whether to accept, reject, roll back, branch, or complete each proposed change.</p>
+
+              <div class="features">
+                <div class="feature-item">
+                  <span class="feature-name">State Machine Controller</span>
+                  <span class="feature-desc">Enforces bounded execution and turns each proposed edit into an explicit transition decision.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Goal Contracts</span>
+                  <span class="feature-desc">Typed YAML task bounds keep objectives, permissions, and stopping criteria explicit and machine-checkable.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Hidden Verification</span>
+                  <span class="feature-desc">Evaluator plugins and protected tests separate proposal quality from self-reported model confidence.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Checkpointed Evidence</span>
+                  <span class="feature-desc">Git-backed repository checkpoints and append-only artifacts make rollback, replay, and audit straightforward.</span>
+                </div>
+              </div>
+
+              <div class="project-links">
+                <a href="https://github.com/rmax-ai/constrained-agent-harness" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="constrained-agent-harness">GitHub</a>
+                <a href="https://github.com/rmax-ai/constrained-agent-harness/blob/main/docs/architecture.md" class="btn btn-outline" target="_blank" rel="noopener" data-simple-event="click_project_external" data-simple-project-id="constrained-agent-harness">Architecture</a>
+              </div>
+            </div>
+
             <!-- MCP Auth Test Server -->
             <div class="project-card">
               <div class="project-title">
