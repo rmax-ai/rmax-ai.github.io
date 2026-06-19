@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Why Agentic Systems Fail Between the Demo and Production](/notes/why-agentic-systems-fail-demo-to-production/)
+*June 19, 2026* — Part one of the *From Agent Demos to Governed Systems* series. Maps the gap between demos and production through trajectory evaluation, state separation, loop boundaries, failure-domain diagnosis, and evidence-driven development.
+
 ### [AI FDE Operating Model: Exploration, Pilot, and Production](/notes/ai-fde-operating-model/)
 A technical note on how AI forward deployed engineering teams should move workflows from exploration to pilot to production using evidence-gated controls, risk-based governance, and explicit ownership.
 

@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-06-19: Published technical note: [why-agentic-systems-fail-demo-to-production](notes/why-agentic-systems-fail-demo-to-production/). Explains why agent demos fail in production when teams evaluate final answers instead of trajectories and neglect state, loop control, failure-domain diagnosis, and operational evidence.
+  - *Warnings*: Publish with caution — the note can be over-read as a universal control template rather than guidance for consequential, multi-step agent workflows; several recommendations assume teams can persist state, enforce idempotency, inspect traces, and gate authority with real operational discipline; intake used `mv` after `git mv` failed because the inbox source file was not under version control.
+
 - 2026-06-16: Published technical note: [ai-fde-operating-model](notes/ai-fde-operating-model/). Defines an evidence-gated operating model for moving AI forward deployed engineering workflows from exploration to pilot to production with proportional controls, explicit ownership, and risk-based stage decisions.
   - *Warnings*: Publish with caution — the note can be over-read as a universal delivery template rather than guidance for governed AI workflows; several recommendations assume meaningful organizational maturity around telemetry, rollback, ownership, and review quality; the inbox source file was untracked, so intake used `mv` after `git mv` failed.
 
