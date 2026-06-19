@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Why Agentic Systems Fail Between the Demo and Production — rmax.ai</title>
+    <meta
+      name="description"
+      content="Demos prove a model can complete a task under ideal conditions. Production demands the system survive variable inputs, dependency failures, ambiguous state, and consequential actions. This article maps the gap and identifies the missing control system."
+    />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/why-agentic-systems-fail-demo-to-production/" />
+
+    <meta property="og:title" content="Why Agentic Systems Fail Between the Demo and Production" />
+    <meta
+      property="og:description"
+      content="Demos prove a model can complete a task under ideal conditions. Production demands the system survive variable inputs, dependency failures, ambiguous state, and consequential actions. This article maps the gap and identifies the missing control system."
+    />
+    <meta property="og:url" content="https://rmax.ai/notes/why-agentic-systems-fail-demo-to-production/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-06-19" />
+    <meta property="article:tag" content="agents" />
+    <meta property="article:tag" content="production-engineering" />
+    <meta property="article:tag" content="reliability" />
+    <meta property="article:tag" content="evals" />
+    <meta property="article:tag" content="governance" />
+    <meta property="article:tag" content="harness" />
+    <meta property="article:tag" content="loops" />
+    <meta property="article:tag" content="failure-domains" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 840px;
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.65;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.08;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      p {
+        margin: 0 0 22px;
+        color: #cbd5e1;
+        font-size: 1.08rem;
+      }
+      ul,
+      ol {
+        margin: 0 0 22px;
+        padding-left: 22px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 10px;
+      }
+      a {
+        color: #c4b5fd;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .post-meta {
+        color: var(--muted);
+        margin-bottom: 42px;
+        font-size: 0.95rem;
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      .post-content .ref-num-inline {
+        color: #e2e8f0;
+      }
+      pre.mermaid {
+        margin: 0 0 28px;
+        padding: 18px;
+        border-radius: 14px;
+        border: 1px solid rgba(124, 58, 237, 0.28);
+        background: rgba(11, 18, 32, 0.9);
+        overflow-x: auto;
+      }
+      .refs {
+        padding-left: 0;
+        list-style: none;
+      }
+      .refs li {
+        margin-bottom: 16px;
+      }
+      .refs .ref-num {
+        color: #e2e8f0;
+        font-weight: 700;
+      }
+      @media (max-width: 600px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .wrap {
+          margin: 20px auto;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript
+      ><img
+        src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true"
+        alt=""
+        referrerpolicy="no-referrer-when-downgrade"
+    /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo" />
+          <div>
+            <div style="font-weight: 800">rMax.ai</div>
+            <div class="muted" style="font-size: 0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
+          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
+          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
+          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
+          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
+          <a
+            class="navlink"
+            href="https://www.linkedin.com/in/rmaxespinoza/"
+            target="_blank"
+            rel="noopener"
+            aria-label="LinkedIn"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="linkedin.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+              />
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://rmax.substack.com"
+            target="_blank"
+            rel="noopener"
+            aria-label="Substack"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="substack.com"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 48 48"
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="m40.0248,10.0817v-4.5814c-.3229,0-.7411-.0004-1.6553-.0004l-28.9669.0004c-.9142,0-1.318,0-1.6553,0v4.5814c.2164,0,.7411.0005,1.6553.0005l28.9669-.0005c.9142,0,1.4122,0,1.6553,0Z"
+              />
+              <path
+                d="m40.0248,18.3503v-4.5814H9.4025c-.9142,0-1.3777,0-1.6553,0v4.5814c.2646,0,.7411,0,1.6553,0h30.6223Z"
+              />
+              <path
+                d="m40.2557,42.4999v-20.1821c0-.1633-.9724-.1077-1.8866-.1077H9.4022c-.9142,0-1.6553-.0555-1.6553.1077v19.8878c.2814-.1622,15.3415-8.2118,16.1691-8.5978.5156.2972,13.6461,7.3385,16.3406,8.8914l-.0008.0007Z"
+              />
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://x.com/rmaxdev"
+            target="_blank"
+            rel="noopener"
+            aria-label="X"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="x.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191-.008zM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447z"
+              ></path>
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://github.com/rmax-ai"
+            target="_blank"
+            rel="noopener"
+            aria-label="GitHub"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="github.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              />
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <h1>Why Agentic Systems Fail Between the Demo and Production</h1>
+          <div class="post-meta">
+            <span>June 19, 2026</span>
+            <span>12-14 min read</span>
+            <span>Essay</span>
+          </div>
+
+          <div class="post-content">
+            <h2>Abstract</h2>
+            <p>
+              Demos prove that a model can complete a selected task under favorable conditions. Production asks a harder question: can the surrounding system survive variable inputs, dependency failures, ambiguous state, repeated execution, and consequential actions without losing control? This note argues that the demo-to-production gap is mostly a control-system gap, not only a model-quality gap. That matters because many failures blamed on "the model" actually come from retrieval, tool contracts, state handling, orchestration, runtime behavior, and governance.
+            </p>
+
+            <h2>Context and motivation</h2>
+            <p>
+              Agent demos have improved quickly. Teams can now show a model retrieving context, calling tools, drafting a response, and completing a task that looked difficult a year ago. That progress creates a predictable mistake. Organizations treat a convincing demo as evidence that the workflow is close to deployment.
+            </p>
+            <p>
+              Production exposes a different operating environment. Credentials expire. Customer records disagree. Policies change. Dependencies time out after a mutation succeeds. Events arrive twice. Some requests require judgment. Others require authority the agent should not have. The model still matters, but production reliability depends on the system that governs how the model observes, acts, retries, stops, and hands off control.
+            </p>
+
+            <h2>Core thesis</h2>
+            <p>
+              The gap between an agent demo and a production system is not mainly closed by prompt refinement or marginal model improvement. It is closed by engineering the loop around the model: state, tool contracts, verification, retry policy, permissions, observability, budgets, and escalation.
+            </p>
+            <p>A strong demo shows possibility. Production evidence must show controlled operation across a distribution of conditions.</p>
+
+            <h2>A demo samples a path; production exposes a distribution</h2>
+            <p>
+              A successful demonstration establishes that one configuration of model, prompt, context, tools, and environment can complete one selected task. It does not establish reliability across the conditions the deployed system will actually encounter.
+            </p>
+            <p>
+              Agents generate trajectories, not isolated responses. They choose tools, interpret results, revise plans, recover from errors, and decide when to stop. Two runs of the same task can follow different paths even when they end with similar final answers. Nondeterminism does not automatically make a system unreliable, but it changes what engineers need to measure.
+            </p>
+            <p>
+              OpenAI's evaluation guidance treats evals as structured tests for model and system behavior under nondeterminism <span class="ref-num-inline">[1]</span>. Anthropic's guidance on agent evaluations recommends realistic tasks, repeated trials, and graders aligned to deployment properties rather than demo aesthetics <span class="ref-num-inline">[2]</span>.
+            </p>
+            <pre class="mermaid">
+flowchart LR
+  D[Demo run&lt;br/&gt;Selected task&lt;br/&gt;Favorable context&lt;br/&gt;Healthy dependencies] --&gt; P[Looks convincing]
+  P --&gt; Q{What was proven?}
+  Q --&gt;|Only this path| S[Capability signal]
+  Q --&gt;|Not proven| R[Reliability across noisy inputs]
+  Q --&gt;|Not proven| T[Recovery after interruption]
+  Q --&gt;|Not proven| U[Behavior under dependency failure]
+  Q --&gt;|Not proven| V[Safe action under real authority]
+            </pre>
+            <p>The relevant production questions are broader than "Did the demo work?":</p>
+            <ul>
+              <li>How often does the system complete this class of task?</li>
+              <li>Which inputs produce divergent or unsafe trajectories?</li>
+              <li>What happens when tools fail or return partial results?</li>
+              <li>Can execution resume safely after interruption?</li>
+              <li>What costs, side effects, and retries occur along successful paths?</li>
+            </ul>
+
+            <h2>Final answers conceal execution failures</h2>
+            <p>A correct final response can result from an unacceptable process.</p>
+            <p>
+              Google's agent-evaluation framework distinguishes final-response evaluation from trajectory evaluation <span class="ref-num-inline">[3]</span>. Final-response evaluation asks whether the agent produced the desired result. Trajectory evaluation inspects the sequence of tool calls and actions that produced it. OpenAI's trace-grading documentation makes the same shift in scope <span class="ref-num-inline">[4]</span>.
+            </p>
+            <p>That distinction matters because a plausible answer can hide:</p>
+            <ul>
+              <li>unnecessary tool calls;</li>
+              <li>access to an unauthorized data source;</li>
+              <li>incorrect intermediate conclusions;</li>
+              <li>silently ignored failures;</li>
+              <li>duplicated mutations;</li>
+              <li>excessive latency or cost; and</li>
+              <li>accidental success that will not survive a small input change.</li>
+            </ul>
+
+            <h3>Example: the customer-support agent</h3>
+            <p>Suppose the agent produces an accurate response and closes the ticket. An output evaluator scores it highly.</p>
+            <p>
+              The trace shows a different story. The agent queried the wrong customer record, recovered after noticing a contradiction, fetched an obsolete policy page, then repeated an account update after the tool timed out. The service had already applied the first request, so the customer state changed twice.
+            </p>
+            <p>The final response was correct. The execution was not.</p>
+            <p>
+              The missing controls were authoritative identity resolution, versioned policy retrieval, idempotency for the mutation, explicit handling of ambiguous tool outcomes, and human approval before an irreversible change. A prompt can tell an agent not to repeat an action. An idempotency key stops the infrastructure from applying the same action twice.
+            </p>
+
+            <h2>Prompt improvements cannot repair missing system controls</h2>
+            <p>
+              Prompts influence behavior. They can clarify objectives, define tool-use policies, ask for verification, and describe stopping heuristics. They cannot create properties that belong to the runtime.
+            </p>
+            <p>A prompt cannot create:</p>
+            <ul>
+              <li>durable persistence after a crash;</li>
+              <li>atomic updates across external systems;</li>
+              <li>service-level authorization;</li>
+              <li>reliable timeout handling;</li>
+              <li>retry budgets;</li>
+              <li>circuit breaking;</li>
+              <li>resource isolation; or</li>
+              <li>an audit trail the agent cannot rewrite.</li>
+            </ul>
+            <p>
+              Microsoft's Retry pattern recommends retrying only failures likely to be transient and bounding retry frequency and duration <span class="ref-num-inline">[5]</span>. Its Circuit Breaker pattern stops a system from repeatedly calling a dependency that remains unhealthy <span class="ref-num-inline">[6]</span>. These are executable runtime policies. They are not instructions the model may choose to follow.
+            </p>
+
+            <h2>Mechanism: the missing control system</h2>
+            <p>
+              The missing control system has a concrete job. It must preserve state across runs, decide which actions are allowed, verify outcomes, bound retries and cost, and stop the loop before an uncertain process turns into an uncontrolled one.
+            </p>
+            <p>Four parts of that mechanism do most of the work: state separation, bounded loops, failure-domain diagnosis, and evidence-driven evaluation.</p>
+
+            <h2>State turns a conversation into a system</h2>
+            <p>
+              Agent systems often collapse several kinds of state into one mental bucket. That makes recovery, consistency, and ownership much harder than they look in a demo.
+            </p>
+            <p>The four layers are different:</p>
+            <ul>
+              <li>Model context: the information available in the current inference call. It is temporary, capacity-limited, and often reconstructed.</li>
+              <li>Workflow state: the current execution position, including completed steps, pending operations, retry counts, approvals, intermediate artifacts, and remaining budgets.</li>
+              <li>Durable memory: information intended to influence future sessions, such as preferences, prior decisions, or learned procedures.</li>
+              <li>External system state: the records that live in databases, ticket systems, repositories, payment platforms, and other services the agent can inspect or modify.</li>
+            </ul>
+            <pre class="mermaid">
+flowchart TB
+  MC[Model context&lt;br/&gt;Temporary&lt;br/&gt;Capacity-limited]
+  WS[Workflow state&lt;br/&gt;Retries, approvals,&lt;br/&gt;step progress, budgets]
+  DM[Durable memory&lt;br/&gt;Preferences, prior decisions,&lt;br/&gt;learned procedures]
+  ES[External system state&lt;br/&gt;DBs, tickets, repos,&lt;br/&gt;payments, SaaS tools]
+
+  MC --&gt; WS
+  WS --&gt; DM
+  WS --&gt; ES
+  ES --&gt; MC
+  DM --&gt; MC
+            </pre>
+            <p>
+              These layers have different consistency, ownership, and retention requirements. When teams treat the conversation transcript as the workflow database, the model has to infer what already happened. When they treat retrieved text as authoritative external state, stale evidence can drive live decisions. When they treat an unconfirmed tool call as a failed call, they duplicate a successful mutation.
+            </p>
+            <p>
+              Anthropic's work on long-running agent harnesses describes progress files, source-control history, structured feature lists, and initialization procedures that preserve continuity across context windows <span class="ref-num-inline">[7]</span>. That is evidence from coding-agent practice, not a universal architecture. The broader lesson still holds: critical execution state must survive outside the model's immediate context.
+            </p>
+
+            <h2>Autonomy creates loops, and loops require boundaries</h2>
+            <p>
+              Agents work by looping. The model observes current state, chooses an action, receives a result, and decides what to do next. That loop may contain planning, tool use, retries, reflection, and delegation.
+            </p>
+            <p>
+              Looping is not the defect. It lets an agent adapt when the full solution cannot be scripted in advance. The defect is an unbounded loop with no progress criteria, state transitions, retry limits, resource budgets, or termination conditions.
+            </p>
+            <pre class="mermaid">
+flowchart TD
+  O[Observe state] --&gt; P[Plan next step]
+  P --&gt; A[Act or call tool]
+  A --&gt; V[Verify result]
+  V --&gt; G{Progress?}
+  G --&gt;|Yes| N[Persist state]
+  N --&gt; T{Task complete?}
+  T --&gt;|No| O
+  T --&gt;|Yes| X[Exit]
+  G --&gt;|No, transient failure| R[Retry policy check]
+  R --&gt;|Budget remains| O
+  R --&gt;|Budget exhausted| E[Escalate or stop]
+            </pre>
+            <p>
+              A temporary API failure can produce hundreds of repeated calls. A planner can reformulate the same losing strategy without collecting new evidence. Two agents can delegate the same unresolved task back and forth. A reflection step can keep revising an answer after additional work no longer improves it.
+            </p>
+            <p>
+              Microsoft's agent-orchestration guidance includes iteration limits for iterative patterns and distinguishes deterministic workflows from patterns that permit dynamic agent decisions <span class="ref-num-inline">[8]</span>. The unit that needs engineering is not just the prompt. It is the control loop that governs observation, action, verification, recovery, and termination.
+            </p>
+
+            <h2>More agents do not remove complexity</h2>
+            <p>Specialized agents can improve decomposition, parallel search, and context isolation. They also create more interfaces to manage.</p>
+            <p>
+              Anthropic reports that its multi-agent research system benefited from parallel execution and separate contexts for open-ended research, but the same account also describes coordination, evaluation, reliability, and token-cost challenges <span class="ref-num-inline">[9]</span>.
+            </p>
+            <p>Every additional agent creates more system work:</p>
+            <ul>
+              <li>responsibility must be assigned;</li>
+              <li>results must be merged;</li>
+              <li>disagreements must be resolved;</li>
+              <li>shared state must remain consistent;</li>
+              <li>failures must propagate or remain isolated;</li>
+              <li>permissions must not expand through delegation; and</li>
+              <li>traces must preserve causal relationships.</li>
+            </ul>
+            <p>
+              Anthropic's containment engineering highlights a related security risk: a system can incorrectly trust a sub-agent's output even when that output came from untrusted material <span class="ref-num-inline">[10]</span>. Delegation can obscure provenance without making the information safer.
+            </p>
+            <p>
+              The right conclusion is not that multi-agent systems are inherently flawed. It is that their extra complexity should earn its place through measurable gains in task quality, latency, context management, or fault isolation.
+            </p>
+
+            <h2>Diagnosis requires separating failure domains</h2>
+            <p>Calling every bad outcome a hallucination prevents useful diagnosis. Production systems fail in several different places, and each place needs a different corrective control.</p>
+            <p>The six practical failure domains are:</p>
+            <ul>
+              <li>Model failures: incorrect reasoning, weak planning, instruction-following errors, hallucinated facts, poor tool selection.</li>
+              <li>Context and retrieval failures: missing evidence, stale information, excessive context, incorrect ranking, prompt injection through retrieved content.</li>
+              <li>Tool-interface failures: ambiguous descriptions, invalid parameters, weak schemas, misleading return values, unhandled partial success.</li>
+              <li>Harness and orchestration failures: absent stopping conditions, repeated calls, recursive delegation, state corruption, uncontrolled concurrency, defective retry policy.</li>
+              <li>Runtime and infrastructure failures: timeouts, rate limits, network errors, unavailable services, duplicate delivery, persistence failures.</li>
+              <li>Product and governance failures: inappropriate autonomy, excessive permissions, absent approvals, unclear ownership, weak success criteria, no escalation path.</li>
+            </ul>
+            <pre class="mermaid">
+flowchart LR
+  M[Model] --&gt; H[Harness]
+  C[Context/Retrieval] --&gt; M
+  T[Tool Interface] --&gt; M
+  T --&gt; H
+  H --&gt; R[Runtime/Infrastructure]
+  G[Product/Governance] --&gt; H
+  G --&gt; T
+  R --&gt; H
+  C --&gt; H
+            </pre>
+            <p>
+              These domains interact. A model may choose the wrong tool because the tool description is ambiguous. Retrieval may return an obsolete procedure that the model follows correctly. A tool may complete an operation while the runtime reports a timeout, causing the harness to repeat the action.
+            </p>
+
+            <h3>Example: the coding agent</h3>
+            <p>A coding agent receives a bug report, modifies the repository, and passes the regression test provided with the task. The patch looks successful.</p>
+            <p>
+              Inspection shows that the agent also changed unrelated configuration files, ignored a failing type-check command, attempted the same unsuccessful fix three times, and left generated artifacts in the working tree. The narrow test proved that one expected behavior now works. It did not prove that the repository remains coherent.
+            </p>
+            <p>
+              The missing controls were a clean-worktree checkpoint, file-scope constraints, bounded strategy retries, mandatory validation of command results, broader verification, and rollback after unsuccessful attempts.
+            </p>
+
+            <h2>Production requires evidence, not confidence</h2>
+            <p>
+              Evaluation-driven development turns incidents into reusable evidence. Anthropic recommends building evals from representative tasks and expanding the test set with observed failures <span class="ref-num-inline">[2]</span>. OpenAI describes the same cycle: collect traces, identify failure modes, add representative examples, and test system changes against those examples <span class="ref-num-inline">[1]</span><span class="ref-num-inline">[4]</span>.
+            </p>
+            <p>A credible evaluation program combines:</p>
+            <ul>
+              <li>representative task sets;</li>
+              <li>repeated executions;</li>
+              <li>malformed and adversarial inputs;</li>
+              <li>tool-contract tests;</li>
+              <li>outcome and trajectory scoring;</li>
+              <li>human review for consequential cases;</li>
+              <li>latency, token, cost, and tool-call measurements;</li>
+              <li>regression suites;</li>
+              <li>controlled rollout; and</li>
+              <li>explicit failure classification.</li>
+            </ul>
+            <p>
+              Google's agent-observability guidance combines logs, metrics, traces, and prompt-response data to expose execution behavior, resource use, errors, and quality signals <span class="ref-num-inline">[11]</span>. Conventional telemetry is still necessary, but agent systems add new questions:
+            </p>
+            <ul>
+              <li>Which evidence influenced the decision?</li>
+              <li>Why was this tool selected?</li>
+              <li>How many times was it called?</li>
+              <li>Which component initiated the action?</li>
+              <li>What state changed before the failure?</li>
+              <li>Did the system succeed through a valid process or through accidental error cancellation?</li>
+            </ul>
+            <p>Without traces, teams can observe the wrong outcome but struggle to reconstruct the cause. Without evals, they can patch one incident but cannot tell whether the system improved.</p>
+
+            <h2>Minimum production-readiness checklist</h2>
+            <p>Before a team describes an agent as production-ready, it should be able to answer:</p>
+            <ul>
+              <li>What task and input distribution did we evaluate?</li>
+              <li>What counts as successful task completion?</li>
+              <li>Which trajectories are unacceptable even when the final result is correct?</li>
+              <li>What state is persisted, where, and for how long?</li>
+              <li>Which actions are safe to retry?</li>
+              <li>How is idempotency enforced?</li>
+              <li>What are the retry, time, token, tool-call, and cost budgets?</li>
+              <li>Which actions require human approval?</li>
+              <li>What permissions does the agent have?</li>
+              <li>Can every consequential action be attributed and traced?</li>
+              <li>Can execution resume safely after interruption?</li>
+              <li>How are model, retrieval, tool, harness, and infrastructure failures distinguished?</li>
+              <li>What triggers rollback, escalation, circuit breaking, or shutdown?</li>
+            </ul>
+            <p>No checklist proves reliability. It does show whether the team has defined the conditions under which reliability can be tested.</p>
+
+            <h2>Trade-offs and failure modes</h2>
+            <p>This framing has its own limits.</p>
+            <ul>
+              <li>Small teams can overbuild control machinery before they know whether the workflow is worth automating.</li>
+              <li>Some low-impact workflows do not justify the full operational overhead described here.</li>
+              <li>Better base models still matter. Stronger reasoning and tool use reduce error frequency even when they do not remove the need for controls.</li>
+              <li>Classification can become theater if the team names failure domains but does not attach preventive or detective controls to them.</li>
+            </ul>
+            <p>The point is not to replace model work with platform ritual. The point is to match the control system to the authority, irreversibility, and blast radius of the task.</p>
+
+            <h2>Practical takeaways</h2>
+            <ul>
+              <li>Treat a strong demo as evidence of possibility, not of readiness.</li>
+              <li>Evaluate trajectories and side effects, not only final answers.</li>
+              <li>Separate model context, workflow state, durable memory, and external system state.</li>
+              <li>Put retry limits, budgets, verification, and termination rules around every agent loop.</li>
+              <li>Diagnose incidents by failure domain so the corrective control targets the real cause.</li>
+            </ul>
+
+            <h2>Positioning note</h2>
+            <p>
+              This note is not academic research, vendor documentation, or a hot-take blog post. It is an applied operator model built from current agent-evaluation, orchestration, and observability guidance plus practical failure patterns from long-running agent systems. The goal is durability: a framework for diagnosing why impressive demos fail when they meet real operating conditions.
+            </p>
+
+            <h2>Status and scope disclaimer</h2>
+            <p>
+              This is a personal lab note for experienced engineers and operators. It is explanatory, not authoritative. It does not replace domain-specific security, legal, compliance, or safety review. The claims are strongest for consequential, multi-step, tool-using systems where the agent can change external state.
+            </p>
+
+            <h2>References</h2>
+            <ul class="refs">
+              <li><span class="ref-num">[1]</span> OpenAI, "Evaluation best practices." <a href="https://developers.openai.com/api/docs/guides/evaluation-best-practices/">https://developers.openai.com/api/docs/guides/evaluation-best-practices/</a></li>
+              <li><span class="ref-num">[2]</span> Anthropic, "Demystifying evals for AI agents." <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents</a></li>
+              <li><span class="ref-num">[3]</span> Google Cloud, "Evaluate agents." <a href="https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/evaluation-agents">https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/evaluation-agents</a></li>
+              <li><span class="ref-num">[4]</span> OpenAI, "Trace grading." <a href="https://developers.openai.com/api/docs/guides/trace-grading/">https://developers.openai.com/api/docs/guides/trace-grading/</a></li>
+              <li><span class="ref-num">[5]</span> Microsoft, "Retry pattern." <a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/retry">https://learn.microsoft.com/en-us/azure/architecture/patterns/retry</a></li>
+              <li><span class="ref-num">[6]</span> Microsoft, "Circuit Breaker pattern." <a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker">https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker</a></li>
+              <li><span class="ref-num">[7]</span> Anthropic, "Effective harnesses for long-running agents." <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents</a></li>
+              <li><span class="ref-num">[8]</span> Microsoft, "AI agent design patterns." <a href="https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns">https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns</a></li>
+              <li><span class="ref-num">[9]</span> Anthropic, "How we built our multi-agent research system." <a href="https://www.anthropic.com/engineering/multi-agent-research-system">https://www.anthropic.com/engineering/multi-agent-research-system</a></li>
+              <li><span class="ref-num">[10]</span> Anthropic, "How we contain Claude." <a href="https://www.anthropic.com/engineering/how-we-contain-claude">https://www.anthropic.com/engineering/how-we-contain-claude</a></li>
+              <li><span class="ref-num">[11]</span> Google Cloud, "Observability for AI applications and agents." <a href="https://docs.cloud.google.com/stackdriver/docs">https://docs.cloud.google.com/stackdriver/docs</a></li>
+            </ul>
+          </div>
+        </article>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        { text: 'I do not trust a clean demo until I see how it behaves when the world gets messy.', agent: 'Reliability Agent' },
+        { text: 'I learn the most when I inspect the path, not when I admire the answer.', agent: 'Trace Agent' },
+        { text: 'I become safe only when my loop knows when to stop, retry, escalate, and remember.', agent: 'Control Agent' }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>

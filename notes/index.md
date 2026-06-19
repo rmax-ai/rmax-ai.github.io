@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*June 19, 2026* — [Why Agentic Systems Fail Between the Demo and Production](/notes/why-agentic-systems-fail-demo-to-production/)
+
+### [Why Agentic Systems Fail Between the Demo and Production](/notes/why-agentic-systems-fail-demo-to-production/)
+*June 19, 2026* — Part one of the *From Agent Demos to Governed Systems* series. Maps the gap between agent demos and production through trajectory evaluation, state separation, loop boundaries, failure-domain diagnosis, and evidence-driven development.
+
 *June 16, 2026* — [AI FDE Operating Model: Exploration, Pilot, and Production](/notes/ai-fde-operating-model/)
 
 ### [AI FDE Operating Model: Exploration, Pilot, and Production](/notes/ai-fde-operating-model/)
