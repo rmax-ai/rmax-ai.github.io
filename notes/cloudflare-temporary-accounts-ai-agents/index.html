@@ -1,0 +1,763 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Temporary Accounts for AI Agents: How Cloudflare Removes Friction Without Removing Control — rmax.ai</title>
+    <meta
+      name="description"
+      content="A technical note on Cloudflare temporary accounts for AI agents, arguing that bounded, expiring capability is a practical onboarding pattern for agent-native platforms."
+    />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/cloudflare-temporary-accounts-ai-agents/" />
+
+    <meta
+      property="og:title"
+      content="Temporary Accounts for AI Agents: How Cloudflare Removes Friction Without Removing Control"
+    />
+    <meta
+      property="og:description"
+      content="A technical note on Cloudflare temporary accounts for AI agents, arguing that bounded, expiring capability is a practical onboarding pattern for agent-native platforms."
+    />
+    <meta property="og:url" content="https://rmax.ai/notes/cloudflare-temporary-accounts-ai-agents/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-06-20" />
+    <meta property="article:tag" content="cloudflare" />
+    <meta property="article:tag" content="ai-agents" />
+    <meta property="article:tag" content="platform-design" />
+    <meta property="article:tag" content="temporary-accounts" />
+    <meta property="article:tag" content="agentic-systems" />
+    <meta property="article:tag" content="authentication" />
+    <meta property="article:tag" content="security" />
+    <meta property="article:tag" content="enterprise-architecture" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 820px;
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.08;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.35rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.08rem;
+      }
+      ul,
+      ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.92);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      }
+      p code,
+      li code {
+        background: rgba(255, 255, 255, 0.06);
+        padding: 0.15em 0.35em;
+        border-radius: 6px;
+      }
+      .post-meta {
+        color: var(--muted);
+        margin-bottom: 48px;
+        font-size: 0.95rem;
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      .diagram-caption {
+        margin: 8px 0 14px;
+        color: #cbd5e1;
+        font-size: 0.98rem;
+        font-style: italic;
+      }
+      .diagram-shell {
+        margin: 0 0 32px;
+        padding: 16px;
+        border: 1px solid var(--glass);
+        border-radius: 16px;
+        background: rgba(11, 18, 32, 0.82);
+        overflow-x: auto;
+      }
+      blockquote {
+        margin: 32px 0;
+        padding: 16px 24px;
+        border-left: 4px solid var(--accent);
+        background: var(--glass);
+        border-radius: 0 8px 8px 0;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      .source-notes p {
+        margin-bottom: 14px;
+      }
+      footer {
+        margin-top: 80px;
+        color: var(--muted);
+        font-size: 0.95rem;
+        padding: 40px 0;
+        text-align: center;
+        border-top: 1px solid var(--glass);
+      }
+      @media (max-width: 700px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .wrap {
+          margin: 20px auto;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript
+      ><img
+        src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true"
+        alt=""
+        referrerpolicy="no-referrer-when-downgrade"
+    /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo" />
+          <div>
+            <div style="font-weight: 800">rMax.ai</div>
+            <div class="muted" style="font-size: 0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
+          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
+          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
+          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
+          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
+          <a
+            class="navlink"
+            href="https://www.linkedin.com/in/rmaxespinoza/"
+            target="_blank"
+            rel="noopener"
+            aria-label="LinkedIn"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="linkedin.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+              />
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://rmax.substack.com"
+            target="_blank"
+            rel="noopener"
+            aria-label="Substack"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="substack.com"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 48 48"
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="m40.0248,10.0817v-4.5814c-.3229,0-.7411-.0004-1.6553-.0004l-28.9669.0004c-.9142,0-1.318,0-1.6553,0v4.5814c.2164,0,.7411.0005,1.6553.0005l28.9669-.0005c.9142,0,1.4122,0,1.6553,0Z"
+              />
+              <path
+                d="m40.0248,18.3503v-4.5814H9.4025c-.9142,0-1.3777,0-1.6553,0v4.5814c.2646,0,.7411,0,1.6553,0h30.6223Z"
+              />
+              <path
+                d="m40.2557,42.4999v-20.1821c0-.1633-.9724-.1077-1.8866-.1077H9.4022c-.9142,0-1.6553-.0555-1.6553.1077v19.8878c.2814-.1622,15.3415-8.2118,16.1691-8.5978.5156.2972,13.6461,7.3385,16.3406,8.8914l-.0008.0007Z"
+              />
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://x.com/rmaxdev"
+            target="_blank"
+            rel="noopener"
+            aria-label="X"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="x.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191-.008zM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447z"
+              ></path>
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://github.com/rmax-ai"
+            target="_blank"
+            rel="noopener"
+            aria-label="GitHub"
+            style="display: flex; align-items: center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="github.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              />
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>Temporary Accounts for AI Agents: How Cloudflare Removes Friction Without Removing Control</h1>
+            <div class="post-meta">
+              <span>June 20, 2026</span>
+              <span>•</span>
+              <span>10-12 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <p>
+              Cloudflare's Temporary Accounts feature does more than shorten signup flow for AI coding agents. It
+              separates trial, identity, and durable ownership into distinct stages, which lets an agent deploy and
+              verify code before a human creates or claims a permanent account. That matters because agent workflows
+              break when every useful action depends on an interactive human authentication ceremony. The deeper claim
+              is that cloud platforms can support autonomous software actors without giving them standing production
+              access, as long as they provision narrow, expiring capability and make permanence a later human
+              decision.[1][2]
+            </p>
+
+            <h2>Context and motivation</h2>
+
+            <p>
+              Most cloud onboarding assumes an interactive human. A person opens a browser, completes OAuth, passes
+              MFA, accepts terms, creates a token, and configures a project. Those steps are annoying but manageable
+              for a deliberate operator. They stop an autonomous agent running in a terminal or background workflow.[1]
+            </p>
+
+            <p>
+              Cloudflare describes this mismatch as a wall built for humans. If an agent hits that wall, it cannot
+              reliably pause, ask for a dashboard login, wait for someone to copy a credential, and then resume the
+              same loop. In practice, the agent either fails or chooses a platform it can operate end to end.[1]
+            </p>
+
+            <p>
+              What changed is not only that AI agents write code. They now need to deploy, observe, diagnose, and
+              redeploy it. A deployment target has become part of the evaluation loop, not just the destination after
+              development ends. When Cloudflare lets an unauthenticated agent run <code>wrangler deploy --temporary</code>,
+              it is optimizing for that loop.[1][2]
+            </p>
+
+            <h2>Core thesis</h2>
+
+            <p>
+              Cloudflare's temporary accounts matter because they replace premature account creation with temporary,
+              constrained, and reversible capability. That design removes friction from agent execution without removing
+              governance. Identity still matters, but it matters most when ownership, persistence, spending, or broader
+              authority becomes durable.[1][2]
+            </p>
+
+            <h2>Mechanism and model</h2>
+
+            <p>With a recent version of Wrangler, an unauthenticated agent can run:</p>
+
+            <pre><code>wrangler deploy --temporary</code></pre>
+
+            <p>
+              Cloudflare then creates a temporary preview account, issues Wrangler a short-lived token, deploys the
+              Worker to a workers.dev address, and returns a claim URL. The agent can call the deployed application,
+              inspect the result, modify code, and redeploy during the account's 60-minute lifetime. A human can later
+              open the claim URL, authenticate or register, and take ownership. If nobody claims it, Cloudflare deletes
+              the account and its resources.[1][2]
+            </p>
+
+            <p>This is the core operating loop the feature unlocks:</p>
+
+            <pre><code>write -&gt; deploy -&gt; observe -&gt; diagnose -&gt; modify -&gt; redeploy</code></pre>
+
+            <p class="diagram-caption">
+              Diagram 1. Traditional onboarding couples identity and deployment; temporary onboarding separates them.
+            </p>
+            <div class="diagram-shell">
+              <div class="mermaid">
+flowchart LR
+  subgraph Traditional["Traditional cloud onboarding"]
+    T1[Human identity] --> T2[Interactive auth]
+    T2 --> T3[Permanent account]
+    T3 --> T4[Deploy]
+  end
+
+  subgraph Temporary["Temporary account onboarding"]
+    A1[Anonymous start] --> A2[Proof of work]
+    A2 --> A3[Temporary account]
+    A3 --> A4[Deploy]
+    A4 --> A5[Verify result]
+    A5 --> A6[Human claim]
+    A6 --> A7[Persistent account]
+  end
+              </div>
+            </div>
+
+            <p>
+              The important design choice is reversible provisioning. Cloudflare does not pretend anonymous users are
+              ordinary customers. It gives them enough capability to test a workload, then forces a later decision
+              about permanence, ownership, and wider access.
+            </p>
+
+            <p>
+              Cloudflare has explored the same direction through other paths. Its Stripe integration lets agents acting
+              for signed-in users create accounts, obtain credentials, purchase domains, and initiate paid services,
+              while Stripe provides identity attestation and tokenized payment rather than exposing card details
+              directly to the agent.[3] Its work with WorkOS around auth.md points toward machine-discoverable
+              registration, including provider-attested flows and anonymous-start, user-claimed flows with restricted
+              permissions until a verified user binds the account.[4]
+            </p>
+
+            <p>Taken together, these systems suggest an agent-native onboarding model:</p>
+
+            <ul>
+              <li>the agent discovers a capability programmatically;</li>
+              <li>the platform grants a narrow, time-bounded environment;</li>
+              <li>the agent executes and gathers evidence;</li>
+              <li>a human claims or promotes the result if it should persist.</li>
+            </ul>
+
+            <p>This ordering matters because it separates three decisions that traditional onboarding often bundles together:</p>
+
+            <ul>
+              <li>can this workload run at all;</li>
+              <li>who should own it if it proves useful;</li>
+              <li>what level of ongoing authority should it receive.</li>
+            </ul>
+
+            <h2>Abuse prevention as layered control</h2>
+
+            <p>
+              Anonymous compute attracts abuse by default. Attackers can use disposable environments for phishing,
+              scanning, spam, malware distribution, proxying, or resource farming. Cloudflare's response is not to find
+              a perfect identity signal before execution. It combines several imperfect controls so abuse becomes
+              shorter-lived, less capable, and more expensive.[2]
+            </p>
+
+            <p class="diagram-caption">
+              Diagram 2. No single control is sufficient; Cloudflare layers controls into defense in depth.
+            </p>
+            <div class="diagram-shell">
+              <div class="mermaid">
+flowchart TD
+  C1[Proof of work] --> D[Defense in depth]
+  C2[Rate limits] --> D
+  C3[60-minute expiration] --> D
+  C4[Resource quotas] --> D
+  C5[Restricted commands] --> D
+  C6[Sensitive claim URL] --> D
+  C7[Behavioral detection] --> D
+  D --> O[Lower abuse scale and shorter persistence]
+              </div>
+            </div>
+
+            <h3>Proof of work and rate limits</h3>
+
+            <p>
+              Before Wrangler creates a temporary account, Cloudflare requires a proof-of-work check. The CLI solves
+              that challenge automatically, which keeps the workflow agent-friendly while making bulk abuse more
+              expensive.[2] Proof of work does not establish good intent. It changes the economics. Sparse legitimate
+              use barely notices the cost; large-scale automated abuse pays it repeatedly.
+            </p>
+
+            <p>
+              Cloudflare also limits how quickly a client can create temporary accounts. When creation volume gets too
+              high, Wrangler has to wait or authenticate with a permanent Cloudflare account.[2] That prevents
+              attackers from bypassing expiration simply by rotating through endless new accounts.
+            </p>
+
+            <h3>Expiration, quotas, and restricted credentials</h3>
+
+            <p>
+              Unclaimed accounts expire after 60 minutes, and Cloudflare deletes the account and its deployments.[1][2]
+              That bounds persistence and removes cleanup from the agent's discretion. The platform does not trust an
+              agent to remember to relinquish access.
+            </p>
+
+            <p>
+              Temporary accounts also expose only a subset of Cloudflare products, each with bounded resources. Static
+              assets have file limits. D1 is limited to one database with constrained storage. Hyperdrive and Queues
+              are capped as well.[2] The principle matters more than any one quota value: pre-claim environments get
+              enough capability to evaluate a workload, not enough to look like a full production tenant.
+            </p>
+
+            <p>
+              The credential itself is also constrained. <code>--temporary</code> works only for Wrangler commands that
+              support the temporary account token, and it cannot be used when Wrangler is already authenticated through
+              OAuth, an API token, or a global API key.[2] That reduces ambiguity and narrows the interfaces through
+              which the temporary identity can act.
+            </p>
+
+            <h3>Sensitive claim URLs and undisclosed detection</h3>
+
+            <p>
+              The claim URL authorizes a consequential step: transfer of ownership. Cloudflare explicitly tells users
+              to treat it as sensitive.[2] In practice, that URL functions as a capability secret. If it leaks into
+              logs, screenshots, traces, or model context, someone else could claim the environment.
+            </p>
+
+            <p>
+              Cloudflare also states that it applies additional abuse-prevention checks without documenting them
+              publicly.[2] That is a reasonable security trade-off. Publishing every detection rule would help
+              attackers tune behavior just below the threshold.
+            </p>
+
+            <h2>Concrete examples</h2>
+
+            <h3>Example 1: Cloud onboarding for autonomous deployment</h3>
+
+            <p>
+              A conventional cloud workflow asks a human to register before any meaningful deployment happens. Temporary
+              accounts reverse that order. An agent can deploy a Worker, exercise it, inspect the response, and
+              iterate. Human identity becomes necessary only when the result deserves ownership and persistence.[1][2]
+            </p>
+
+            <p>
+              That matters because the deploy target acts as part of the evaluation system. An agent that cannot test
+              external behavior cannot close the loop on generated code. In that sense, temporary accounts are not just
+              a trial feature. They are infrastructure for agent evaluation.
+            </p>
+
+            <h3>Example 2: The broader onboarding stack</h3>
+
+            <p>
+              Cloudflare's Stripe flow and the WorkOS auth.md proposal show two adjacent paths to the same
+              architecture.[3][4] One path starts with a signed-in human and delegates bounded actions to an agent
+              through provider attestation and tokenized payment. The other path starts with an anonymous credential,
+              restricts it sharply, and later binds it to a verified user. Temporary accounts sit between those poles.
+              They allow anonymous execution, but only within a disposable envelope.
+            </p>
+
+            <h2>What platform and enterprise teams can learn</h2>
+
+            <p>
+              The note is not only about Cloudflare. It highlights a more general platform design rule for agent-facing
+              systems.
+            </p>
+
+            <h3>Separate experimentation from permanent enrollment</h3>
+
+            <p>
+              Requiring full identity, organizational setup, and durable authorization before a user or agent can test
+              a capability adds friction where the value is still uncertain. Temporary environments let the platform ask
+              for stronger identity later, when the result has proved worth keeping.
+            </p>
+
+            <h3>Grant capabilities, not standing access</h3>
+
+            <p>
+              Temporary accounts express trust through boundaries: limited products, bounded quotas, short-lived
+              credentials, and automatic expiration.[2] That is safer than giving an agent a long-lived user key and
+              asking it to self-police.
+            </p>
+
+            <h3>Put human approval at the persistence boundary</h3>
+
+            <p>
+              Cloudflare lets the agent build and verify a result, then requires a human to claim the account before
+              the environment becomes durable.[1][2] That is a sharper control point than forcing approval on every
+              intermediate action.
+            </p>
+
+            <h3>Teach recovery through operational interfaces</h3>
+
+            <p>
+              When an unauthenticated deploy fails, Wrangler can direct the agent toward <code>--temporary</code>.[1][2]
+              That makes the error path itself part of the product interface. For agent-facing tools, executable
+              recovery guidance often matters more than static documentation.
+            </p>
+
+            <h2>Trade-offs and failure modes</h2>
+
+            <p>Temporary accounts solve a narrow problem well. They do not make anonymous execution safe by definition.</p>
+
+            <ul>
+              <li>
+                A malicious Worker can still cause harm within its lifetime and quotas. Proof of work and throttling
+                limit scale more than intent.[2]
+              </li>
+              <li>
+                Claim URLs and temporary tokens still create a credential-handling problem for agent systems. Expiration
+                reduces blast radius, but it does not prevent leakage through prompts, logs, or observability traces.
+              </li>
+              <li>
+                Restricted preview environments can mislead teams if they assume a successful temporary deployment says
+                more about production readiness than it actually does.
+              </li>
+              <li>
+                This pattern depends on a platform that can provision, meter, observe, and clean up temporary resources
+                reliably. Many enterprises do not have that machinery yet.
+              </li>
+            </ul>
+
+            <h2>A reusable model: the Ephemeral Agent Capability Pattern</h2>
+
+            <p>
+              The broader pattern is reusable outside Cloudflare. A platform can expose temporary capability in a
+              staged cycle that makes execution cheap while keeping promotion explicit.
+            </p>
+
+            <p class="diagram-caption">
+              Diagram 3. The Ephemeral Agent Capability Pattern turns temporary execution into a governable lifecycle.
+            </p>
+            <div class="diagram-shell">
+              <div class="mermaid">
+flowchart LR
+  E1[Discover] --> E2[Provision]
+  E2 --> E3[Constrain]
+  E3 --> E4[Execute]
+  E4 --> E5[Observe]
+  E5 --> E6[Expire]
+  E6 --> E7[Claim or Promote]
+  E7 --> E8[Govern]
+              </div>
+            </div>
+
+            <p>
+              This pattern applies to more than code deployment. Enterprise teams can use it for temporary sandboxes,
+              preview datasets, integration testing, workflow configuration, infrastructure planning, or evaluation of
+              new tools.
+            </p>
+
+            <p class="diagram-caption">
+              Diagram 4. Temporary accounts stage a controlled path from anonymous trial to governed persistence.
+            </p>
+            <div class="diagram-shell">
+              <div class="mermaid">
+stateDiagram-v2
+  [*] --> AnonymousTrial
+  AnonymousTrial --> RestrictedCapability
+  RestrictedCapability --> AgentExecution
+  AgentExecution --> HumanClaim
+  AgentExecution --> Expired
+  HumanClaim --> PersistentGovernedAccount
+  Expired --> [*]
+  PersistentGovernedAccount --> [*]
+              </div>
+            </div>
+
+            <h2>Practical Takeaways</h2>
+
+            <ul>
+              <li>Separate experimentation from permanent enrollment. Let agents or users prove value before you require full organizational setup.</li>
+              <li>Grant capabilities, not standing access. Short-lived, task-shaped authority is safer than handing agents long-lived user credentials.</li>
+              <li>Make cleanup automatic. Temporary resources should expire even when the agent crashes, disappears, or loses context.</li>
+              <li>Put human approval at the persistence boundary. Require stronger verification when ownership, spend, sensitive data, or production impact becomes durable.</li>
+              <li>Design abuse controls economically. Layer proof of work, throttling, quotas, restricted commands, expiration, and behavior-based detection instead of betting on one perfect control.</li>
+              <li>Teach recovery through operational interfaces. Structured errors and CLI guidance can help agents discover the next safe action at the moment they need it.[1][2]</li>
+            </ul>
+
+            <h2>Positioning Note</h2>
+
+            <p>
+              This note is not vendor documentation, and it is not an academic treatment of anonymous access or
+              identity systems. It is an applied architectural reading of a specific product feature and a few adjacent
+              mechanisms. The value is in the operating pattern: how a platform can let agents act before full
+              enrollment while still preserving later ownership, bounded authority, and governance.[1][2][3][4]
+            </p>
+
+            <h2>Status &amp; Scope Disclaimer</h2>
+
+            <p>
+              This is personal lab analysis, not authoritative guidance from Cloudflare, WorkOS, or Stripe. The core
+              argument is exploratory but evidence-based: it depends on published descriptions of Temporary Accounts,
+              related Cloudflare onboarding flows, and WorkOS's auth.md framing.[1][2][3][4] The note is scoped to
+              agent-facing platform design and enterprise architecture patterns, not to a general security endorsement
+              of anonymous compute.
+            </p>
+
+            <h2>References</h2>
+
+            <ol>
+              <li>Cloudflare, "Temporary Cloudflare Accounts for AI agents," June 19, 2026.</li>
+              <li>Cloudflare Workers documentation, "Claim deployments (temporary accounts)," updated June 19, 2026.</li>
+              <li>Cloudflare, "Agents can now create Cloudflare accounts, buy domains, and deploy," April 30, 2026.</li>
+              <li>WorkOS, "Agent Registration with Auth.md," May 21, 2026.</li>
+            </ol>
+
+            <h3>Source notes</h3>
+
+            <div class="source-notes">
+              <p>
+                Cloudflare says conventional OAuth, dashboards, token copying, and MFA can block background agents;
+                temporary accounts support a 60-minute deploy–verify–redeploy loop and can later be claimed by a human.
+              </p>
+              <p>
+                Cloudflare documents proof of work, account-creation throttling, hard expiration, constrained
+                resources, short-lived command-specific credentials, sensitive claim URLs, and additional undisclosed
+                abuse checks.
+              </p>
+              <p>
+                Cloudflare's Stripe integration combines service discovery, identity attestation, account provisioning,
+                tokenized payments, and provider-level spending limits for agent-initiated production onboarding.
+              </p>
+              <p>
+                WorkOS's auth.md defines machine-discoverable agent registration, including provider-attested identity
+                and user-claimed anonymous-start flows with restricted pre-claim permissions.
+              </p>
+            </div>
+          </div>
+        </article>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        { text: "I grant action before identity only when I can also withdraw it on schedule.", agent: "Capability Agent" },
+        { text: "I trust temporary accounts because I can measure, constrain, and expire them before they harden.", agent: "Control Agent" },
+        { text: "I treat anonymous execution as a staging state, not a license to forget governance.", agent: "Boundary Agent" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
