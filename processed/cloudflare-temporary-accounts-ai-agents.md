@@ -1,249 +1,229 @@
 # Temporary Accounts for AI Agents: How Cloudflare Removes Friction Without Removing Control
 
-Cloudflare's Temporary Accounts feature looks simple: an AI coding agent can deploy a Worker without first creating a Cloudflare account. Underneath that convenience is a more consequential platform design pattern.
+[Temporary Accounts for AI agents](https://blog.cloudflare.com/temporary-accounts/) does more than shorten the sign-up flow for AI coding agents. It separates trial, identity, and durable ownership into distinct stages, which lets an agent deploy and verify code before a human creates or claims a permanent account. That matters because agent workflows break when every useful action depends on an interactive human authentication ceremony. The deeper claim is that cloud platforms can support autonomous software actors without giving them standing production access, as long as they provision narrow, expiring capability and make permanence a later human decision.[1][2]
 
-Cloudflare is separating three events that conventional software platforms usually treat as one:
+## Context and motivation
 
-- trying a service;
-- creating an identity;
-- assuming permanent ownership.
+Most cloud onboarding assumes an interactive human. A person opens a browser, completes OAuth, passes MFA, accepts terms, creates a token, and configures a project. Those steps are annoying but manageable for a deliberate operator. They stop an autonomous agent running in a terminal or background workflow.[1]
 
-An agent can now obtain a constrained, temporary environment, deploy code, inspect the result, and iterate. A human identity becomes necessary only when someone decides the result should persist.
+Cloudflare describes this mismatch as a wall built for humans. If an agent hits that wall, it cannot reliably pause, ask for a dashboard login, wait for someone to copy a credential, and then resume the same loop. In practice, the agent either fails or chooses a platform it can operate end to end.[1]
 
-This is not merely a free trial optimized for AI. It is an attempt to redesign cloud onboarding around autonomous software actors while keeping anonymous infrastructure economically bounded.
+What changed is not only that AI agents write code. They now need to deploy, observe, diagnose, and redeploy it. A deployment target has become part of the evaluation loop, not just the destination after development ends. When Cloudflare lets an unauthenticated agent run [`wrangler deploy --temporary`](https://developers.cloudflare.com/workers/platform/claim-deployments/), it is optimizing for that loop.[1][2]
 
-## Why Cloudflare allows temporary accounts
+## Core thesis
 
-Most cloud onboarding systems were designed around an interactive human.
+Cloudflare's temporary accounts matter because they replace premature account creation with temporary, constrained, and reversible capability. That design removes friction from agent execution without removing governance. Identity still matters, but it matters most when ownership, persistence, spending, or broader authority becomes durable.[1][2]
 
-A user opens a browser, completes an OAuth flow, passes multifactor authentication, accepts terms, creates an API token, and configures a project. These steps are tolerable for a person deliberately setting up infrastructure. For an autonomous agent, they interrupt execution entirely.
-
-Cloudflare describes this as a "wall built for humans." A background agent cannot reliably stop, open a dashboard, copy a credential, and ask someone to complete a time-sensitive authentication ceremony. When this happens, the agent either fails or chooses another deployment platform.[1]
-
-Temporary accounts remove that interruption.
+## Mechanism and model
 
 With a recent version of Wrangler, an unauthenticated agent can run:
 
-```
+```bash
 wrangler deploy --temporary
 ```
 
-Cloudflare creates a temporary preview account, issues Wrangler a short-lived token, deploys the Worker to a workers.dev address, and returns a claim URL. The agent can then call the deployed application, inspect its output, modify the code, and redeploy repeatedly during the account's 60-minute lifetime.[1][2]
+Cloudflare then creates a [temporary preview account](https://developers.cloudflare.com/workers/platform/claim-deployments/), issues Wrangler a short-lived temporary credential, deploys the Worker to a `workers.dev` URL, and returns a claim URL. The agent can call the deployed application, inspect the result, modify code, and redeploy during the account's 60-minute lifetime. A human can later open the claim URL, authenticate or register, complete the human authentication and ownership claim, and take ownership. If nobody claims it, Cloudflare deletes the account and its resources.[1][2]
 
-This supports the operating loop that makes coding agents useful:
+This is the core operating loop the feature unlocks:
 
-```
-write → deploy → observe → diagnose → modify → redeploy
-```
-
-Local code generation alone is insufficient. Agents need environments in which they can observe the external consequences of what they produced. A deployment target therefore functions as part of the agent's evaluation system, not merely as the final destination for completed code.
-
-Cloudflare also has a commercial reason to remove this barrier. As agents gain discretion over tools and infrastructure, the first platform they can successfully operate may become the platform the application continues using. Machine-readable documentation, CLI behavior, authentication design, and provisioning latency consequently become distribution mechanisms.
-
-The agent may choose the cloud before the human has created an account.
-
-## A reversible path from anonymous execution to ownership
-
-The important architectural choice is not unrestricted anonymous access. It is reversible provisioning.
-
-A temporary Cloudflare account can exist without a permanent user identity, but it does not begin with the privileges or permanence of an ordinary production account. The human can later open the claim URL, authenticate or register, and take ownership of the account and its associated Workers, databases, and bindings. If nobody claims it within 60 minutes, Cloudflare deletes the account and its resources.[1][2]
-
-This creates a staged lifecycle:
-
-```
-anonymous trial
-    ↓
-restricted capability
-    ↓
-agent execution and verification
-    ↓
-human claim
-    ↓
-persistent governed account
+```text
+write -> deploy -> observe -> diagnose -> modify -> redeploy
 ```
 
-The design delays identity friction rather than pretending identity is unnecessary.
+*Diagram 1. Traditional onboarding couples identity and deployment; temporary onboarding separates them.*
 
-Cloudflare has been pursuing the same larger objective through other mechanisms. Its integration with Stripe allows agents acting for signed-in users to create Cloudflare accounts, obtain credentials, purchase domains, and initiate paid services.
+```mermaid
+flowchart LR
+  subgraph Traditional["Traditional cloud onboarding"]
+    T1[Human identity] --> T2[Interactive auth]
+    T2 --> T3[Permanent account]
+    T3 --> T4[Deploy]
+  end
 
-In that flow, Stripe attests to the user's identity and provides tokenized payment rather than exposing card details directly to the agent.[3]
+  subgraph Temporary["Temporary account onboarding"]
+    A1[Anonymous start] --> A2[Proof of work]
+    A2 --> A3[Temporary account]
+    A3 --> A4[Deploy]
+    A4 --> A5[Verify result]
+    A5 --> A6[Human claim]
+    A6 --> A7[Persistent account]
+  end
+```
 
-Cloudflare has also collaborated with WorkOS around auth.md, a proposed discovery and registration mechanism through which an agent can learn how to register with a service. WorkOS defines both provider-attested registration and a user-claimed flow in which an anonymous credential can begin with restricted permissions and later be bound to a verified user.[4]
+The important design choice is reversible provisioning. Cloudflare does not pretend anonymous users are ordinary customers. It gives them enough capability to test a workload, then forces a later decision about permanence, ownership, and wider access.
 
-Temporary accounts therefore fit a broader movement toward agent-native onboarding:
+Cloudflare has explored the same direction through other paths. Its [agent provisioning integration with Stripe](https://blog.cloudflare.com/agents-stripe-projects/) lets agents acting for signed-in users create accounts, obtain credentials, purchase domains, and initiate paid services, while Stripe provides identity attestation and tokenized payment rather than exposing card details directly to the agent.[3] Its work with WorkOS around the [`auth.md` agent-registration protocol](https://workos.com/blog/agent-registration-with-auth-md) points toward machine-discoverable registration, including provider-attested flows and anonymous-start, user-claimed flows with restricted permissions until a verified user binds the account.[4] The underlying [`auth.md` protocol documentation](https://workos.com/auth-md/docs) makes the registration contract itself machine-discoverable, rather than burying it in ad hoc product documentation.
 
-- agents discover capabilities programmatically;
-- credentials are issued for a narrow context;
-- human intervention occurs at consequential boundaries;
-- ownership and permissions can increase after verification.
+Taken together, these systems suggest an agent-native onboarding model:
 
-## How Cloudflare prevents abuse
+- the agent discovers a capability programmatically;
+- the platform grants a narrow, time-bounded environment;
+- the agent executes and gathers evidence;
+- a human claims or promotes the result if it should persist.
 
-Anonymous compute is inherently attractive to attackers. It could be used for phishing, automated scanning, spam, malware distribution, proxying, resource farming, or coordinated creation of disposable identities.
+This ordering matters because it separates five stages that traditional onboarding often bundles together:
 
-Cloudflare does not attempt to make anonymous users equivalent to ordinary customers. Instead, it combines several controls that reduce the duration, capability, scale, and economic attractiveness of abuse.
+- anonymous trial;
+- restricted temporary capability;
+- agent execution and verification;
+- human authentication and ownership claim;
+- persistent governed account.
 
-### 1. Proof of work
+It also separates three decisions that traditional onboarding often bundles together:
 
-Before Wrangler creates a temporary account, Cloudflare requires a proof-of-work check. The CLI completes the challenge automatically, introducing a small computational cost without requiring human interaction.[2]
+- can this workload run at all;
+- who should own it if it proves useful;
+- what level of ongoing authority should it receive.
 
-Proof of work does not stop a determined attacker. It changes the economics of automation. A legitimate user creates one temporary environment and barely notices the cost. An attacker attempting to create thousands must pay that cost repeatedly.
+## Abuse prevention as layered control
 
-The principle is asymmetric friction: negligible for sparse legitimate use, cumulative for industrialized abuse.
+Anonymous compute attracts abuse by default. Attackers can use disposable environments for phishing, scanning, spam, malware distribution, proxying, or resource farming. Cloudflare's response is not to find a perfect identity signal before execution. It combines several imperfect controls so abuse becomes shorter-lived, less capable, and more expensive.[2] Proof of work raises the cost of abuse. Throttling limits scale. Quotas restrict capability. Expiration limits persistence. Human authentication and ownership claim establish durable identity only when the environment should survive.
 
-### 2. Account-creation rate limits
+*Diagram 2. No single control is sufficient; Cloudflare layers controls into defense in depth.*
 
-Cloudflare limits how rapidly a client can create temporary accounts. When too many accounts are requested within a short period, Wrangler must wait or authenticate using a permanent Cloudflare account.[2]
+```mermaid
+flowchart TD
+  C1[Proof of work] --> D[Defense in depth]
+  C2[Rate limits] --> D
+  C3[60-minute expiration] --> D
+  C4[Resource quotas] --> D
+  C5[Restricted commands] --> D
+  C6[Sensitive claim URL] --> D
+  C7[Behavioral detection] --> D
+  D --> O[Lower abuse scale and shorter persistence]
+```
 
-This constrains account farming. More importantly, it prevents the 60-minute expiration model from being bypassed cheaply by continuously rotating through new accounts.
+### Proof of work and rate limits
 
-### 3. Hard expiration and automatic deletion
+Before Wrangler creates a temporary account, Cloudflare requires a proof-of-work check. The CLI solves that challenge automatically, which keeps the workflow agent-friendly while making bulk abuse more expensive.[2] Proof of work does not establish good intent, detect malicious behavior, or make anonymous execution safe. It changes the economics. Sparse legitimate use barely notices the cost; large-scale automated abuse pays it repeatedly.
 
-Unclaimed accounts expire after 60 minutes. Cloudflare then deletes the account and its deployments.[1][2]
+Cloudflare also limits how quickly a client can create temporary accounts. When creation volume gets too high, Wrangler has to wait or authenticate with a permanent Cloudflare account.[2] That constrains the scale and economics of abuse. It does not identify the caller. It prevents attackers from bypassing expiration simply by rotating through endless new accounts.
 
-Expiration limits persistence, stored state, and unattended resource accumulation. It also turns cleanup into a platform guarantee rather than a responsibility delegated to an agent that may crash, lose context, or simply forget.
+### Expiration, quotas, and restricted credentials
 
-A security system should not depend on autonomous actors voluntarily releasing privileges.
+Unclaimed accounts expire after 60 minutes, and Cloudflare deletes the account and its deployments.[1][2] That limits persistence and removes cleanup from the agent's discretion. The platform does not trust an agent to remember to relinquish access.
 
-### 4. Restricted products and resource quotas
+Temporary accounts also expose only a subset of Cloudflare products, each with bounded resources. Static assets have file limits. D1 is limited to one database with constrained storage. Hyperdrive and Queues are capped as well.[2] Those controls restrict capability. The principle matters more than any one quota value: pre-claim environments get enough capability to evaluate a workload, not enough to look like a full production tenant.
 
-Temporary accounts support only a subset of Cloudflare services. Their available resources are bounded: static assets have file limits, D1 is restricted to one database with limited storage, Hyperdrive permits only a small number of configurations and connections, and Queues are capped.[2]
+The credential itself is also constrained. `--temporary` works only for Wrangler commands that support the short-lived temporary credential, and it cannot be used when Wrangler is already authenticated through OAuth, an API token, or a global API key.[2] That reduces ambiguity and narrows the interfaces through which the temporary identity can act.
 
-The exact limits may change, but the architectural principle matters more: pre-claim environments receive enough capability to evaluate and demonstrate a workload, not the complete power of a normal cloud account.
+### Sensitive claim URLs and undisclosed detection
 
-This is progressive trust expressed through infrastructure quotas.
+The claim URL authorizes a consequential step: transfer of ownership. Cloudflare explicitly tells users to treat it as sensitive.[2] In practice, that URL functions as a capability secret. If it leaks into logs, screenshots, traces, or model context, someone else could claim the environment.
 
-### 5. Short-lived, command-limited credentials
+Cloudflare also states that it applies additional abuse-prevention checks without documenting them publicly.[2] That is a reasonable security trade-off. Publishing every detection rule would help attackers tune behavior just below the threshold.
 
-The temporary token is not an unrestricted Cloudflare API credential. The `--temporary` option is available only for Wrangler commands that support the temporary account token. It also fails when Wrangler is already authenticated through OAuth, an API token, or a global API key.[2]
+## Concrete examples
 
-This reduces credential ambiguity and limits the number of interfaces through which the temporary identity can act.
+### Example 1: Cloud onboarding for autonomous deployment
 
-### 6. Sensitive ownership transfer
+A conventional cloud workflow asks a human to register before any meaningful deployment happens. Temporary accounts reverse that order. An agent can deploy a Worker, exercise it, inspect the response, and iterate. Human identity becomes necessary only when the result deserves ownership and persistence, and when a human should authenticate and claim the environment.[1][2]
 
-The claim URL grants ownership of the temporary account. Cloudflare explicitly instructs users to treat it as sensitive.[2]
+That matters because the deploy target acts as part of the evaluation system. An agent that cannot test external behavior cannot close the loop on generated code. In that sense, temporary accounts are not just a trial feature. They are infrastructure for agent evaluation.
 
-This is effectively a capability URL: possession authorizes a consequential action.
+### Example 2: The broader onboarding stack
 
-It simplifies transfer, but it also means the URL must be protected from logs, screenshots, untrusted model context, and accidental disclosure.
-
-### 7. Additional undisclosed abuse checks
-
-Cloudflare states that it applies further abuse-prevention checks but does not publish their details.[2]
-
-That lack of detail is appropriate. Fully documenting detection rules would allow attackers to tune behavior just below known thresholds. Public documentation should explain the security model without becoming an evasion manual.
-
-## What this design does not solve
-
-Temporary accounts reduce abuse potential; they do not make anonymous execution safe by definition.
-
-A malicious Worker can still cause harm within its available lifetime and quotas. Proof of work and rate limits primarily constrain scale. They do not establish benign intent. Cloudflare must still inspect behavioral signals, correlate activity across identities and networks, respond to reported content, and terminate deployments that violate its policies.
-
-The system also creates a credential-handling problem for agents. Claim URLs and temporary tokens may pass through model prompts, terminal logs, orchestration traces, observability systems, or conversation histories. Agent platforms need secret redaction and context-bound credential handling, even when the credential expires quickly.
-
-Temporary access reduces the blast radius of leakage. It does not eliminate leakage.
+Cloudflare's Stripe Projects integration and the WorkOS `auth.md` protocol show two adjacent paths to the same architecture.[3][4] One path starts with a signed-in human and delegates bounded actions to an agent through provider attestation and tokenized payment. The other path starts with an anonymous credential, restricts it sharply, and later binds it to a verified user. Temporary accounts sit between those poles. They allow anonymous experimentation, but only within a disposable envelope of temporary capability.
 
 ## What platform and enterprise teams can learn
 
+The note is not only about Cloudflare. It highlights a more general platform design rule for agent-facing systems.
+
 ### Separate experimentation from permanent enrollment
 
-Requiring full identity, organizational setup, and production-grade authorization before a user can evaluate a capability creates unnecessary friction.
-
-A better model is:
-
-```
-explore first → establish value → verify identity → persist
-```
-
-This applies beyond public cloud services. Enterprise AI platforms can provide temporary workspaces, isolated datasets, synthetic tools, preview deployments, or non-production workflows before requiring broader approvals.
+Requiring full identity, organizational setup, and durable authorization before a user or agent can test a capability adds friction where the value is still uncertain. Temporary environments let the platform ask for stronger identity later, when the result has proved worth keeping.
 
 ### Grant capabilities, not standing access
 
-The agent receives the minimum capability needed for the current task:
-
-- a limited environment;
-- selected resources;
-- short-lived credentials;
-- a defined expiration;
-- no automatic path into production.
-
-This is safer than giving an agent a long-lived user API key and asking it to behave conservatively.
-
-Authorization should encode the boundary rather than relying on the model to remember it.
-
-### Make cleanup automatic
-
-Every temporary agent resource should have a server-enforced time to live. Cleanup should occur even when the agent disappears, the workflow fails, or the orchestrator loses state.
-
-For enterprise systems, this means ephemeral branches, sandboxes, credentials, test data, locks, queues, and delegated permissions should expire independently of the agent's cooperation.
+Temporary accounts express trust through boundaries: limited products, bounded quotas, short-lived credentials, and automatic expiration.[2] That is safer than giving an agent a long-lived user key and asking it to self-police.
 
 ### Put human approval at the persistence boundary
 
-Human-in-the-loop controls are often inserted indiscriminately, forcing approval for every low-risk operation. That creates fatigue without necessarily improving security.
+Cloudflare lets the agent build and verify a result, then requires a human to authenticate and claim the account before the environment becomes durable.[1][2] That is a sharper control point than forcing approval on every intermediate action.
 
-Cloudflare allows autonomous construction and iteration but requires human authentication before the environment becomes permanent. This is a more precise control point.
+### Teach recovery through operational interfaces
 
-The human approves the transition from disposable experiment to owned asset—not every intermediate code edit.
+When an unauthenticated deploy fails, [Wrangler exposes `--temporary` through its CLI recovery message](https://blog.cloudflare.com/temporary-accounts/).[1] That makes the error path itself part of the product interface. For agent-facing tools, executable recovery guidance often matters more than static documentation.
 
-### Make products discoverable through their operational interfaces
+## Trade-offs and failure modes
 
-Cloudflare does not rely on an agent having been trained after the feature launched. When an unauthenticated deployment fails, Wrangler tells the agent to retry with `--temporary`.[1][2]
+Temporary accounts solve a narrow problem well. They do not make anonymous execution safe by definition.
 
-The error path becomes a discovery mechanism.
+- A malicious Worker can still cause harm within its lifetime and quotas. Proof of work and throttling constrain the scale and economics of abuse, not the caller's intent.[2]
+- Claim URLs and short-lived temporary credentials still create a credential-handling problem for agent systems. Expiration limits persistence and reduces blast radius, but it does not prevent leakage through prompts, logs, or observability traces.
+- Restricted preview environments can mislead teams if they assume a successful temporary deployment says more about production readiness than it actually does.
+- This pattern depends on a platform that can provision, meter, observe, and clean up temporary resources reliably. Many enterprises do not have that machinery yet.
 
-This suggests a broader product-design rule: tools should teach agents how to recover. Structured errors should expose the next safe action, required scope, documentation location, and relevant constraints.
+## A reusable model: the Ephemeral Agent Capability Pattern
 
-Static documentation is useful. Executable guidance at the moment of failure is better.
+The broader pattern is reusable outside Cloudflare. A platform can expose temporary capability in a staged cycle that makes execution cheap while keeping promotion explicit.
 
-### Design abuse controls economically
+*Diagram 3. The Ephemeral Agent Capability Pattern turns temporary execution into a governable lifecycle.*
 
-Cloudflare's controls do not depend on perfectly classifying every caller as legitimate or malicious.
+```mermaid
+flowchart LR
+  E1[Discover] --> E2[Provision]
+  E2 --> E3[Constrain]
+  E3 --> E4[Execute]
+  E4 --> E5[Observe]
+  E5 --> E6[Expire]
+  E6 --> E7[Claim or Promote]
+  E7 --> E8[Govern]
+```
 
-Instead, they combine proof of work, throttling, quotas, short lifetimes, restricted functionality, and behavioral detection.
+This pattern applies to more than code deployment. Enterprise teams can use it for temporary sandboxes, preview datasets, integration testing, workflow configuration, infrastructure planning, or evaluation of new tools.
 
-Each control is imperfect. Together they make legitimate experimentation inexpensive and large-scale abuse progressively more costly.
+*Diagram 4. Temporary accounts stage a controlled path from anonymous trial to governed persistence.*
 
-This layered model is more realistic than trying to solve agent identity first and permit execution only after perfect attribution.
+```mermaid
+stateDiagram-v2
+  [*] --> AnonymousTrial
+  AnonymousTrial --> RestrictedTemporaryCapability
+  RestrictedTemporaryCapability --> AgentExecution
+  AgentExecution --> HumanAuthenticationAndClaim
+  AgentExecution --> Expired
+  HumanAuthenticationAndClaim --> PersistentGovernedAccount
+  Expired --> [*]
+  PersistentGovernedAccount --> [*]
+```
 
-## A reusable enterprise pattern
+## Practical Takeaways
 
-The Cloudflare design can be generalized into an Ephemeral Agent Capability Pattern:
+- Separate experimentation from permanent enrollment. Let agents or users prove value before you require full organizational setup.
+- Grant capabilities, not standing access. Short-lived, task-shaped authority is safer than handing agents long-lived user credentials.
+- Make cleanup automatic. Temporary resources should expire even when the agent crashes, disappears, or loses context.
+- Put human approval at the persistence boundary. Require stronger verification when ownership, spend, sensitive data, or production impact becomes durable.
+- Design abuse controls economically. Layer proof of work, throttling, quotas, restricted commands, expiration, and behavior-based detection instead of betting on one perfect control.
+- Teach recovery through operational interfaces. Structured errors and CLI guidance can help agents discover the next safe action at the moment they need it.[1][2]
 
-1. **Discover**: The agent learns through machine-readable documentation or structured errors that a temporary capability exists.
-2. **Provision**: The platform creates an isolated workspace without granting access to production.
-3. **Constrain**: It applies narrow scopes, quotas, permitted tools, network rules, and data boundaries.
-4. **Execute**: The agent performs the task and gathers evidence about the result.
-5. **Observe**: The platform records actions, resource use, outputs, and policy violations.
-6. **Expire**: Credentials and resources disappear automatically after a short period.
-7. **Claim or promote**: A verified human or service identity accepts ownership and explicitly promotes selected artifacts.
-8. **Govern**: Permanent resources enter the organization's normal access, audit, cost, and lifecycle controls.
+## Positioning Note
 
-This pattern is useful for code deployment, data analysis, workflow configuration, integration testing, MCP server evaluation, infrastructure planning, and business-process automation.
+This note is not vendor documentation, and it is not an academic treatment of anonymous access or identity systems. It is an applied architectural reading of a specific product feature and a few adjacent mechanisms. The value is in the operating pattern: how a platform can let agents act before full enrollment while still preserving later ownership, bounded authority, and governance.[1][2][3][4]
 
-## The larger shift
+## Status & Scope Disclaimer
 
-Cloudflare's temporary accounts are not significant because they provide one hour of free compute. They are significant because they challenge an assumption embedded in most software platforms: that identity and permanent account creation must precede useful action.
-
-For agentic systems, that ordering may be wrong.
-
-The emerging model is to allow bounded action first, gather evidence, and require stronger identity when persistence, spending, sensitive data, or production impact enters the workflow.
-
-The core lesson is not "remove authentication." It is more precise:
-
-> Replace premature authentication with temporary, constrained and automatically expiring capability—then require verified ownership at the point where consequences become durable.
-
-That is a practical foundation for building agent-ready systems without turning convenience into uncontrolled access.
+This is personal lab analysis, not authoritative guidance from Cloudflare, WorkOS, or Stripe. The core argument is exploratory but evidence-based: it depends on published descriptions of Temporary Accounts, related Cloudflare onboarding flows, and WorkOS's `auth.md` framing.[1][2][3][4] The note is scoped to agent-facing platform design and enterprise architecture patterns, not to a general security endorsement of anonymous compute.
 
 ## References
 
-[1] Cloudflare, "Temporary Cloudflare Accounts for AI agents," June 19, 2026.
-[2] Cloudflare Workers documentation, "Claim deployments (temporary accounts)," updated June 19, 2026.
-[3] Cloudflare, "Agents can now create Cloudflare accounts, buy domains, and deploy," April 30, 2026.
-[4] WorkOS, "Agent Registration with Auth.md," May 21, 2026.
+1. Sid Chatterjee, Celso Martinho, and Brendan Irvine-Broque, Cloudflare, "[Temporary Cloudflare Accounts for AI agents](https://blog.cloudflare.com/temporary-accounts/)," June 19, 2026.
 
-### Source notes
+2. Cloudflare Developers, "[Claim deployments with Temporary Accounts](https://developers.cloudflare.com/workers/platform/claim-deployments/)," Cloudflare Workers documentation, accessed June 20, 2026.
 
-Cloudflare says conventional OAuth, dashboards, token copying, and MFA can block background agents; temporary accounts support a 60-minute deploy–verify–redeploy loop and can later be claimed by a human.  
-Cloudflare documents proof of work, account-creation throttling, hard expiration, constrained resources, short-lived command-specific credentials, sensitive claim URLs, and additional undisclosed abuse checks.  
-Cloudflare's Stripe integration combines service discovery, identity attestation, account provisioning, tokenized payments, and provider-level spending limits for agent-initiated production onboarding.  
-WorkOS's auth.md defines machine-discoverable agent registration, including provider-attested identity and user-claimed anonymous-start flows with restricted pre-claim permissions.
+3. Sid Chatterjee and Brendan Irvine-Broque, Cloudflare, "[Agents can now create Cloudflare accounts, buy domains, and deploy](https://blog.cloudflare.com/agents-stripe-projects/)," April 30, 2026.
+
+4. Garrett Galow, WorkOS, "[Agent Registration with Auth.md](https://workos.com/blog/agent-registration-with-auth-md)," May 21, 2026.
+
+### Further technical documentation
+
+- WorkOS, "[auth.md protocol overview](https://workos.com/auth-md/docs)."
+- WorkOS, "[The auth.md file format](https://workos.com/auth-md/docs/auth-md)."
+- WorkOS, "[Implementing auth.md for applications](https://workos.com/auth-md/docs/apps)."
+- WorkOS, "[Implementing verified identity for agent providers](https://workos.com/auth-md/docs/agent-providers)."
+
+### How the sources are used
+
+- The Cloudflare product announcement supports the motivation for temporary accounts, the 60-minute lifecycle, repeated deployment, the claim process, and Wrangler's agent-facing discovery behavior.
+- The Cloudflare Workers documentation supports the technical restrictions and abuse controls, including proof of work, throttling, quotas, temporary credentials, automatic deletion, and claim-link handling.
+- The Cloudflare-Stripe announcement supports the discussion of provider-attested identity, automated account provisioning, credential issuance, and tokenized payments.
+- The WorkOS sources support the discussion of machine-discoverable registration, anonymous-start credentials, provider-attested identity, user claims, and later scope upgrades.
