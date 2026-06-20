@@ -11,6 +11,8 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-06-20: Published technical note: [loop-engineering](notes/loop-engineering/). Part 2 of From Agent Demos to Governed Systems — defines loop engineering as the design of deterministic control systems around probabilistic agent workers.
+  - *Warnings*: Publish with caution — the note argues a design philosophy grounded in a single reference architecture (adk-loop-lab); its claims should be understood as operator judgment and personal lab work, not as independently validated industry practice.
 - 2026-06-20: Published technical note: [cloudflare-temporary-accounts-ai-agents](notes/cloudflare-temporary-accounts-ai-agents/). Analyzes Cloudflare temporary accounts as a platform pattern that lets AI agents deploy into bounded, expiring environments before a human claims durable ownership.
   - *Warnings*: Publish with caution — the note can be over-read as a general endorsement of anonymous compute rather than a design for tightly constrained, expiring capability; several takeaways assume strong platform maturity around quotas, cleanup, observability, and secret handling; Cloudflare and WorkOS implementation details may evolve even if the staged-capability pattern remains useful; intake used `mv` after `git mv` was unavailable because the inbox source file was not under version control.
 

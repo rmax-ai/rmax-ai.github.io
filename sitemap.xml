@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-06-20T11:17:14Z</lastmod>
+    <lastmod>2026-06-20T21:19:21Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-06-20T11:17:14Z</lastmod>
+    <lastmod>2026-06-20T21:19:21Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -54,7 +54,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/cloudflare-temporary-accounts-ai-agents/</loc>
-    <lastmod>2026-06-20T11:16:43Z</lastmod>
+    <lastmod>2026-06-20T21:07:20Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/code-is-the-new-assembly/</loc>
@@ -115,6 +115,10 @@
   <url>
     <loc>https://rmax.ai/notes/knowledge-as-source-code/</loc>
     <lastmod>2026-06-14T21:50:36Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/loop-engineering/</loc>
+    <lastmod>2026-06-20T21:18:44Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/mcp-design-best-practices-for-agents/</loc>
