@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Loop Engineering: The Control System Around the Agent — rmax.ai</title>
+    <meta name="description" content="A technical note on loop engineering: how deterministic control around models, tools, state, verification, and stopping rules turns agent demos into bounded, governable systems." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/loop-engineering/" />
+
+    <meta property="og:title" content="Loop Engineering: The Control System Around the Agent" />
+    <meta property="og:description" content="A technical note on loop engineering: how deterministic control around models, tools, state, verification, and stopping rules turns agent demos into bounded, governable systems." />
+    <meta property="og:url" content="https://rmax.ai/notes/loop-engineering/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-06-20" />
+    <meta property="article:tag" content="agents" />
+    <meta property="article:tag" content="loop-engineering" />
+    <meta property="article:tag" content="control-planes" />
+    <meta property="article:tag" content="reliability" />
+    <meta property="article:tag" content="verification" />
+    <meta property="article:tag" content="state-management" />
+    <meta property="article:tag" content="adk" />
+    <meta property="article:tag" content="governance" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      h4 {
+        margin: 24px 0 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+
+      @media (max-width: 600px) {
+        .wrap {
+          margin: 20px auto;
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>Loop Engineering: The Control System Around the Agent</h1>
+            <div class="post-meta">
+              <span>June 20, 2026</span>
+              <span>•</span>
+              <span>18–20 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+<h1>Loop Engineering: The Control System Around the Agent</h1>
+<h2>Abstract</h2>
+<p>Reliable agent systems do not emerge from models, prompts, tools, and memory alone. They depend on the control system that reconstructs state, allocates bounded work, verifies outputs, persists accepted changes, and decides whether another iteration is allowed. This note argues that the primary object of engineering is the loop around the agent, not merely the agent itself. That matters because many production failures come from control failures: stale state, weak stopping rules, unsafe retries, unverifiable progress, and ambiguous authority.</p>
+<h2>Context and motivation</h2>
+<p>Agent demos have improved quickly. Teams can now show a model planning, calling tools, and producing convincing outputs across coding, research, and operational tasks. That progress creates a familiar mistake: people describe the agent as if the model and its prompt were the whole system.</p>
+<p>That description leaves out the machinery that decides what happens first, which facts are authoritative, what counts as progress, when a failure should trigger a retry, and when execution must stop. In production, those decisions determine whether a system remains bounded, diagnosable, and governable.</p>
+<p>This note uses <strong>loop engineering</strong> as the name for that design problem:</p>
+<blockquote>
+<p>Loop engineering is the discipline of designing the control system that repeatedly reconstructs context, invokes probabilistic workers, verifies their outputs, persists validated state, and determines what happens next.</p>
+</blockquote>
+<p>This is not an established industry term. It is the organizing concept behind the <a href="https://github.com/rmax-ai/adk-loop-lab"><code>adk-loop-lab</code></a> reference architecture, which implements bounded agent loops with Google ADK.</p>
+<h2>Core thesis</h2>
+<p>The important design object is not merely the agent. It is the loop around the agent.</p>
+<p>Models can propose plans, interpret evidence, and generate candidate actions. They do not define durable state, safe retries, stopping conditions, authority boundaries, or acceptance criteria by themselves. A production system needs deterministic control around probabilistic workers.</p>
+<h2>The loop is the system</h2>
+<p>A production agent operates inside a repeated decision-and-action process. The return edge is conditional. The system does not continue merely because another model call is possible.</p>
+<p>Lifecycle loop:</p>
+<pre class="mermaid">
+flowchart LR
+  D[DISCOVER] --> P[PLAN]
+  P --> E[EXECUTE]
+  E --> V[VERIFY]
+  V --> C[COMMIT]
+  C --> R[REFLECT]
+  R --> X[DECIDE]
+  X -->|continue| D
+  X -->|complete or stop| S[TERMINAL STATE]
+</pre>
+<pre class="mermaid">
+flowchart TB
+  O[Outer system loop] --> O1[Reconstruct authoritative state]
+  O1 --> O2[Allocate bounded work]
+  O2 --> A[Invoke agent]
+  A --> I[Inner model and tool loop]
+  I --> O3[Verify external result]
+  O3 --> O4[Persist accepted changes]
+  O4 --> O5[Decide whether another iteration is allowed]
+</pre>
+<pre class="mermaid">
+flowchart TB
+  subgraph C[Control plane]
+    C1[Lifecycle]
+    C2[Budgets]
+    C3[Stopping]
+    C4[Approvals]
+  end
+  subgraph E[Execution plane]
+    E1[ADK agents]
+    E2[Gemini]
+    E3[Tools]
+    E4[Workers]
+  end
+  subgraph D[Data plane]
+    D1[State]
+    D2[Events]
+    D3[Memory]
+    D4[Artifacts]
+  end
+  C --> E
+  E --> D
+  C -.policy and persistence rules.-> D
+</pre>
+<pre class="mermaid">
+flowchart TB
+  A[Authoritative environment] --> S[STATE<br/>Durable workflow record]
+  S --> C[CONTEXT<br/>Temporary model input]
+  C --> M[MEMORY<br/>Reusable but fallible knowledge]
+  S --> M
+</pre>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        {
+          text: "I am the loop around the agent — I decide whether the attempt counts as progress.",
+          agent: "Loop Controller"
+        },
+        {
+          text: "I verify before I persist. Deterministic checks run first; model judgments come after.",
+          agent: "Verification Agent"
+        },
+        {
+          text: "My budgets, stopping rules, and state are not model opinions. They are control-plane facts.",
+          agent: "Governance Agent"
+        }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
