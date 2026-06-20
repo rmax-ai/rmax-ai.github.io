@@ -33,6 +33,8 @@
       .project-title a{text-decoration:none;color:inherit}
       .project-title a:hover{color:var(--accent)}
       .project-tagline{font-size:1.1rem;color:var(--muted);margin-bottom:24px;font-style:italic}
+      .project-media{margin-top:24px}
+      .project-video{display:block;width:100%;border-radius:14px;border:1px solid var(--glass);background:#020617}
       
       .features{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:20px;margin-top:24px}
       .feature-item{background:var(--glass);padding:16px;border-radius:12px}
@@ -95,6 +97,46 @@
           <p class="muted">Infrastructure and tools for the agentic era.</p>
 
           <div class="project-list">
+
+            <!-- ADK Loop Lab -->
+            <div class="project-card">
+              <div class="project-title">
+                <a href="https://github.com/rmax-ai/adk-loop-lab" target="_blank" rel="noopener">ADK Loop Lab</a>
+              </div>
+              <p class="project-tagline">Reference implementation for loop engineering with Google ADK</p>
+              <p class="muted">A practical repository for building agentic loops with durable state, selective memory, bounded execution, verification, explicit progress tracking, and deterministic stopping conditions.</p>
+
+              <div class="project-media">
+                <video class="project-video" controls preload="metadata" playsinline>
+                  <source src="/videos/projects/adk-loop-lab/loop-engineering.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+
+              <div class="features">
+                <div class="feature-item">
+                  <span class="feature-name">Three-Plane Architecture</span>
+                  <span class="feature-desc">Separates deterministic control, ADK execution, and state and memory data flows so each concern stays legible.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Progressive Examples</span>
+                  <span class="feature-desc">Demonstrates bounded document refinement, evidence-driven research, and resumable coding loops.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Deterministic Shell</span>
+                  <span class="feature-desc">Models propose work, but budgets, approvals, and stopping decisions remain enforced in code.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Verification First</span>
+                  <span class="feature-desc">Schema checks, lint, types, and tests run before any model judge can treat work as complete.</span>
+                </div>
+              </div>
+
+              <div class="project-links">
+                <a href="https://github.com/rmax-ai/adk-loop-lab" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="adk-loop-lab">GitHub</a>
+                <a href="https://github.com/rmax-ai/adk-loop-lab/blob/main/docs/architecture/overview.md" class="btn btn-outline" target="_blank" rel="noopener" data-simple-event="click_project_external" data-simple-project-id="adk-loop-lab">Architecture</a>
+              </div>
+            </div>
 
             <!-- MCP Conformance -->
             <div class="project-card">
@@ -159,39 +201,6 @@
               <div class="project-links">
                 <a href="https://github.com/rmax-ai/adaptive-harness-foundry" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="adaptive-harness-foundry">GitHub</a>
                 <a href="https://github.com/rmax-ai/adaptive-harness-foundry/blob/main/docs/architecture.md" class="btn btn-outline" target="_blank" rel="noopener" data-simple-event="click_project_external" data-simple-project-id="adaptive-harness-foundry">Architecture</a>
-              </div>
-            </div>
-
-            <!-- ADK Loop Lab -->
-            <div class="project-card">
-              <div class="project-title">
-                <a href="https://github.com/rmax-ai/adk-loop-lab" target="_blank" rel="noopener">ADK Loop Lab</a>
-              </div>
-              <p class="project-tagline">Reference implementation for loop engineering with Google ADK</p>
-              <p class="muted">A practical repository for building agentic loops with durable state, selective memory, bounded execution, verification, explicit progress tracking, and deterministic stopping conditions.</p>
-
-              <div class="features">
-                <div class="feature-item">
-                  <span class="feature-name">Three-Plane Architecture</span>
-                  <span class="feature-desc">Separates deterministic control, ADK execution, and state and memory data flows so each concern stays legible.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Progressive Examples</span>
-                  <span class="feature-desc">Demonstrates bounded document refinement, evidence-driven research, and resumable coding loops.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Deterministic Shell</span>
-                  <span class="feature-desc">Models propose work, but budgets, approvals, and stopping decisions remain enforced in code.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Verification First</span>
-                  <span class="feature-desc">Schema checks, lint, types, and tests run before any model judge can treat work as complete.</span>
-                </div>
-              </div>
-
-              <div class="project-links">
-                <a href="https://github.com/rmax-ai/adk-loop-lab" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="adk-loop-lab">GitHub</a>
-                <a href="https://github.com/rmax-ai/adk-loop-lab/blob/main/docs/architecture/overview.md" class="btn btn-outline" target="_blank" rel="noopener" data-simple-event="click_project_external" data-simple-project-id="adk-loop-lab">Architecture</a>
               </div>
             </div>
 
