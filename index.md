@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Temporary Accounts for AI Agents: How Cloudflare Removes Friction Without Removing Control](/notes/cloudflare-temporary-accounts-ai-agents/)
+*June 20, 2026* — A technical note on Cloudflare temporary accounts for AI agents, and why bounded, expiring capability is a practical onboarding pattern for agent-native platforms.
+
 ### [Why Agentic Systems Fail Between the Demo and Production](/notes/why-agentic-systems-fail-demo-to-production/)
 *June 19, 2026* — Part one of the *From Agent Demos to Governed Systems* series. Maps the gap between demos and production through trajectory evaluation, state separation, loop boundaries, failure-domain diagnosis, and evidence-driven development.
 

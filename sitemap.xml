@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-06-19T21:00:43Z</lastmod>
+    <lastmod>2026-06-20T11:17:14Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-06-19T21:00:36Z</lastmod>
+    <lastmod>2026-06-20T11:17:14Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -30,11 +30,11 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/agents-repeating-service-complexity-crisis/</loc>
-    <lastmod>2026-06-14T23:12:06Z</lastmod>
+    <lastmod>2026-06-20T11:05:56Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/ai-fde-operating-model/</loc>
-    <lastmod>2026-06-19T20:52:55Z</lastmod>
+    <lastmod>2026-06-20T11:05:56Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/ai-native-engineering/</loc>
@@ -51,6 +51,10 @@
   <url>
     <loc>https://rmax.ai/notes/building-an-autonomous-development-loop/</loc>
     <lastmod>2026-05-23T18:04:44Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/cloudflare-temporary-accounts-ai-agents/</loc>
+    <lastmod>2026-06-20T11:16:43Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/code-is-the-new-assembly/</loc>
@@ -82,7 +86,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/fde-playbook-governed-agentic-adoption/</loc>
-    <lastmod>2026-06-13T10:09:32Z</lastmod>
+    <lastmod>2026-06-20T11:08:38Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/forward-deployed-engineer-enterprise-ai/</loc>
@@ -162,11 +166,11 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/why-agentic-systems-fail-demo-to-production/</loc>
-    <lastmod>2026-06-19T21:00:27Z</lastmod>
+    <lastmod>2026-06-20T11:05:56Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/projects/</loc>
-    <lastmod>2026-06-19T20:52:55Z</lastmod>
+    <lastmod>2026-06-20T11:05:56Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/research/</loc>

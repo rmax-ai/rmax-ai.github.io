@@ -11,6 +11,9 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-06-20: Published technical note: [cloudflare-temporary-accounts-ai-agents](notes/cloudflare-temporary-accounts-ai-agents/). Analyzes Cloudflare temporary accounts as a platform pattern that lets AI agents deploy into bounded, expiring environments before a human claims durable ownership.
+  - *Warnings*: Publish with caution — the note can be over-read as a general endorsement of anonymous compute rather than a design for tightly constrained, expiring capability; several takeaways assume strong platform maturity around quotas, cleanup, observability, and secret handling; Cloudflare and WorkOS implementation details may evolve even if the staged-capability pattern remains useful; intake used `mv` after `git mv` was unavailable because the inbox source file was not under version control.
+
 - 2026-06-19: Published technical note: [why-agentic-systems-fail-demo-to-production](notes/why-agentic-systems-fail-demo-to-production/). Explains why agent demos fail in production when teams evaluate final answers instead of trajectories and neglect state, loop control, failure-domain diagnosis, and operational evidence.
   - *Warnings*: Publish with caution — the note can be over-read as a universal control template rather than guidance for consequential, multi-step agent workflows; several recommendations assume teams can persist state, enforce idempotency, inspect traces, and gate authority with real operational discipline; intake used `mv` after `git mv` failed because the inbox source file was not under version control.
 

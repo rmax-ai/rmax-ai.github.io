@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*June 20, 2026* — [Temporary Accounts for AI Agents: How Cloudflare Removes Friction Without Removing Control](/notes/cloudflare-temporary-accounts-ai-agents/)
+
+### [Temporary Accounts for AI Agents: How Cloudflare Removes Friction Without Removing Control](/notes/cloudflare-temporary-accounts-ai-agents/)
+*June 20, 2026* — A technical note on Cloudflare temporary accounts for AI agents, and why bounded, expiring capability is a practical onboarding pattern for agent-native platforms.
+
 *June 19, 2026* — [Why Agentic Systems Fail Between the Demo and Production](/notes/why-agentic-systems-fail-demo-to-production/)
 
 ### [Why Agentic Systems Fail Between the Demo and Production](/notes/why-agentic-systems-fail-demo-to-production/)
