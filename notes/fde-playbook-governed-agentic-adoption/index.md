@@ -7,7 +7,7 @@ site: "rmax.ai"
 section: "notes"
 type: "technical-note"
 status: "published"
-date: "2026-06-06"
+date: "2026-06-07"
 updated: "2026-06-07"
 tags: ["fde", "enterprise-ai", "agentic-workflows", "workflow-governance", "delegation", "mcp", "evaluation", "operating-model"]
 reading_time: "10-12 min"
