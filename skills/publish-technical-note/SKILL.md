@@ -35,6 +35,10 @@ Then use the fixed prompts referenced by the contract:
 - `.agent/prompts/link-audit.prompt.md`
 - `.agent/prompts/update-changelog.prompt.md`
 
+Also load this local editorial skill before the review phase:
+
+- `skills/technical-effective-writing-and-revision/SKILL.md`
+
 ## Expanded Write Scope
 
 The contract treats these files as expanded write scope:
@@ -67,6 +71,9 @@ Execute phases in strict order.
 ### 3. Review the draft
 
 - Run an editorial pass against the draft.
+- Apply `technical-effective-writing-and-revision` during this pass.
+- Optimize for human understandability without weakening technical correctness.
+- Make the main claim easy to identify, keep reasoning chains explicit, and preserve uncertainty, trade-offs, and source-backed claims.
 - Preserve factual claims and any explicit source links that materially support the note.
 - Overwrite `notes/<slug>/index.md` with only the revised markdown.
 - Run `python3 scripts/audit_technical_note_structure.py notes/<slug>/index.md`.

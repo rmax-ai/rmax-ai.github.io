@@ -1,0 +1,4 @@
+interface:
+  display_name: "Technical Writing Revision"
+  short_description: "Clarify technical writing for humans"
+  default_prompt: "Use $technical-effective-writing-and-revision to revise a technical article or document so its reasoning is easier for a human reader to understand, verify, and act on."

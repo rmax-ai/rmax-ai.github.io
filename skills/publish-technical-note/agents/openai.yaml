@@ -1,4 +1,4 @@
 interface:
   display_name: "Publish Technical Note"
   short_description: "Publish a note from draft to site"
-  default_prompt: "Use $publish-technical-note to publish an article from inbox into notes, HTML, indexes, changelog, and sitemap."
+  default_prompt: "Use $publish-technical-note to publish an article from inbox into notes, HTML, indexes, changelog, and sitemap, applying the technical writing revision skill during editorial review."
