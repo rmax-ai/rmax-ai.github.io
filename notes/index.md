@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*June 22, 2026* — [Deep Research Is an Evidence Workflow, Not a Long-Running Agent](/notes/deep-research-evidence-workflow/)
+
+### [Deep Research Is an Evidence Workflow, Not a Long-Running Agent](/notes/deep-research-evidence-workflow/)
+*June 22, 2026* — Part 3 of the *From Agent Demos to Governed Systems* series. Argues that serious deep research systems should preserve questions, evidence, claims, contradictions, and checkpoints as durable state rather than rely on a single opaque trajectory.
+
 *June 20, 2026* — [Loop Engineering: The Control System Around the Agent](/notes/loop-engineering/)
 *June 20, 2026* — [Temporary Accounts for AI Agents: How Cloudflare Removes Friction Without Removing Control](/notes/cloudflare-temporary-accounts-ai-agents/)
 
