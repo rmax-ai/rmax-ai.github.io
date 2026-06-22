@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Deep Research Is an Evidence Workflow, Not a Long-Running Agent](/notes/deep-research-evidence-workflow/)
+*June 22, 2026* — Part 3 of the *From Agent Demos to Governed Systems* series. Argues that serious deep research systems should preserve questions, evidence, claims, contradictions, and checkpoints as durable state rather than rely on a single opaque trajectory.
+
 ### [Loop Engineering: The Control System Around the Agent](/notes/loop-engineering/)
 *June 20, 2026* — Part 2 of From Agent Demos to Governed Systems: how deterministic control around models, tools, state, verification, and stopping rules turns agent demos into bounded, governable systems.
 
