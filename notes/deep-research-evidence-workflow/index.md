@@ -8,7 +8,7 @@ section: notes
 type: essay
 status: published
 date: 2026-06-22
-updated: 2026-06-22
+updated: 2026-06-23
 tags:
   - deep research
   - evidence workflows
@@ -29,7 +29,7 @@ Deep research systems often produce polished reports that look similar on the su
 
 ## Context and motivation
 
-Deep research products now routinely advertise multi-step browsing, iterative search, parallel subagents, and report generation with citations. That is real progress. OpenAI, Google, and Anthropic have all described research systems that plan, search, revise, and synthesize across many steps rather than answering in one pass. [1][2][3]
+Deep research products now routinely advertise multi-step browsing, iterative search, parallel subagents, and report generation with citations. That is real progress. OpenAI's [deep research](https://openai.com/index/introducing-deep-research/), Google's [Gemini Deep Research](https://blog.google/products-and-platforms/products/gemini/google-gemini-deep-research/), and Anthropic's [multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system) all describe systems that plan, search, revise, and synthesize across many steps rather than answering in one pass.
 
 That shift makes a narrower architectural question more urgent. If a system can spend minutes or hours researching, what exactly becomes durable state? If the answer is "the final report and maybe the transcript," then the system still hides most of the epistemic work inside an execution trace that is hard to inspect, challenge, resume, or reuse.
 
@@ -116,7 +116,7 @@ Claim-level representation exposes the common failure modes:
 - Missing qualification where the source contains conditions or uncertainty that the prose omits
 - Contradiction suppression where synthesis drops conflicting evidence
 
-Citation-evaluation work supports this decomposition. ALCE separates citation correctness, completeness, and answer quality. RAGAS separates dimensions such as faithfulness and context relevance. These frameworks are imperfect, especially when model judges assess model outputs, but they reinforce the architectural point: research quality is easier to evaluate when the workflow preserves smaller verifiable units. [4][5]
+Citation-evaluation work supports this decomposition. [ALCE](https://arxiv.org/abs/2305.14627) evaluates citation-grounded long-form generation at the levels of answer quality and citation quality, while [RAGAS](https://arxiv.org/abs/2309.15217) frames RAG evaluation across retrieval focus, faithfulness, and generation quality. These frameworks are imperfect, especially when model judges assess model outputs, but they reinforce the architectural point: research quality is easier to evaluate when the workflow preserves smaller verifiable units.
 
 *Caption: Claim-level provenance makes it possible to inspect what the report actually asks the reader to accept.*
 
@@ -149,7 +149,7 @@ The authoritative state of a research run should include more than the draft:
 
 Contradictions deserve first-class representation. Conflicting sources do not necessarily mean one source is wrong. They may use different definitions, time periods, populations, or causal assumptions. A contradiction record should capture the competing claims, source relationships, possible explanations, temporal or definitional differences, and resolution status. "Some experts disagree" is not enough structure to investigate the conflict.
 
-W3C PROV and related provenance standards are useful here because they make outputs more assessable by preserving the entities, activities, agents, and derivations that produced them. A research workflow does not need to implement PROV literally to benefit from that design principle. [6][7]
+[W3C PROV](https://www.w3.org/TR/prov-overview/) and [related provenance standards](https://pav-ontology.github.io/pav/) are useful here because they make outputs more assessable by preserving the [entities, activities, agents, and derivations](https://www.w3.org/TR/prov-o/) that produced them. A research workflow does not need to implement PROV literally to benefit from that design principle.
 
 ## Loop engineering applied to research
 
@@ -184,9 +184,9 @@ In an evidence workflow, the reviewer can inspect the committed state directly: 
 
 ### Example 2: the `deep-research-assistant` architecture
 
-[deep-research-assistant](https://github.com/rmax-ai/deep-research-assistant) is an experimental governed research runtime built to test this architecture. Its central premise is sound: generated prose should be a projection over research state, not the authoritative state itself.
+[deep-research-assistant](https://deep-research-assistant.rmax.tech/) is an experimental governed research runtime built to test this architecture. Its central premise is sound: generated prose should be a projection over research state, not the authoritative state itself.
 
-The inspected deployment exposes architecture, implementation-phase, and API documentation plus a public repository. The repository contains Python source, tests, architecture and threat-model documents, a specification, and CI configuration. The deployed site appears documentation-oriented rather than a public interactive research service. Its API examples target `localhost:8080`, so I could inspect the documented API and source implementation but not execute live runs against the public deployment.
+The inspected deployment exposes [architecture](https://deep-research-assistant.rmax.tech/architecture/), [implementation phases](https://deep-research-assistant.rmax.tech/phases/), and [API reference](https://deep-research-assistant.rmax.tech/api/) pages plus a [public repository](https://github.com/rmax-ai/deep-research-assistant). The repository contains Python source, tests, a [README](https://github.com/rmax-ai/deep-research-assistant/blob/main/README.md), [`docs/ARCHITECTURE.md`](https://github.com/rmax-ai/deep-research-assistant/blob/main/docs/ARCHITECTURE.md), a [threat-model document](https://github.com/rmax-ai/deep-research-assistant/blob/main/docs/THREAT_MODEL.md), [`SPEC.md`](https://github.com/rmax-ai/deep-research-assistant/blob/main/SPEC.md), and CI configuration. The deployed site appears documentation-oriented rather than a public interactive research service. Its API examples target `localhost:8080`, so I could inspect the documented API and source implementation but not execute live runs against the public deployment.
 
 The implementation separates three planes:
 
@@ -194,11 +194,11 @@ The implementation separates three planes:
 - Workflow plane for orchestration, scheduling, budgets, stopping, persistence, and recovery
 - Cognitive plane for scope interpretation, question generation, retrieval, extraction, claim construction, contradiction analysis, drafting, and verification
 
-That separation is visible in code, not only in diagrams. `src/deep_research/workflow/graph.py` defines an ADK workflow with roles such as research director, question architect, query planner, evidence curator, claim builder, counter-evidence agent, section writer, and verifier. The same graph invokes deterministic modules for scheduling, coverage calculation, deduplication, source clustering, policy evaluation, checkpoints, and stopping decisions. It also records run identifiers, phases, logical-input hashes, idempotency keys, node execution records, approval pauses, and checkpoints.
+That separation is visible in code, not only in diagrams. [`src/deep_research/workflow/graph.py`](https://github.com/rmax-ai/deep-research-assistant/blob/main/src/deep_research/workflow/graph.py) defines an ADK workflow with roles such as research director, question architect, query planner, evidence curator, claim builder, counter-evidence agent, section writer, and verifier. The same graph invokes deterministic modules for scheduling, coverage calculation, deduplication, source clustering, policy evaluation, checkpoints, and stopping decisions. It also records run identifiers, phases, logical-input hashes, idempotency keys, node execution records, approval pauses, and checkpoints.
 
 That is strong evidence that the project treats persistence, approvals, identity propagation, and recovery as runtime concerns rather than prompt instructions. The architecture is not fully decoupled, though. The main workflow graph still concentrates a large amount of routing, instrumentation, persistence, event publication, approval handling, and cognitive execution. The separation is real but not yet minimal.
 
-The project specification also defines typed state for research runs, objectives, scopes, perspectives, questions, search plans, sources, evidence fragments, claims, contradictions, outlines, drafts, verification findings, approval decisions, and metrics. That schema design matters because it reduces the authority of prose. A section can be regenerated while preserving the claims and evidence on which it depends.
+The project [`SPEC.md`](https://github.com/rmax-ai/deep-research-assistant/blob/main/SPEC.md) also defines typed state for research runs, objectives, scopes, perspectives, questions, search plans, sources, evidence fragments, claims, contradictions, outlines, drafts, verification findings, approval decisions, and metrics. That schema design matters because it reduces the authority of prose. A section can be regenerated while preserving the claims and evidence on which it depends.
 
 ## What the architecture buys
 
@@ -230,7 +230,7 @@ A structured workflow does not make research true. It makes the path from questi
 
 Several hard problems remain:
 
-- Search-provider dependence. The workflow inherits ranking biases, indexing gaps, personalization effects, and crawler restrictions from its search provider. [8]
+- Search-provider dependence. The workflow inherits [source-selection differences, crawler-blocking effects, inconsistency, and sensitivity to minor query changes across search systems](https://arxiv.org/abs/2604.27790) from its search provider.
 - Source access and modality. PDFs, tables, datasets, images, dynamic pages, and paywalled sources require different extraction strategies.
 - Citation drift. Correct evidence links can become incorrect when prose is merged or rewritten.
 - Model-judge bias. A verifier from the same model family provides procedural separation, not independent ground truth.
@@ -240,7 +240,7 @@ Several hard problems remain:
 - Ground truth. Verification can test entailment, provenance, and consistency. It cannot manufacture truth when evidence remains incomplete.
 - Reuse and invalidation. Claims are reusable only if scope, dependencies, versions, and source freshness remain explicit.
 
-Evaluation therefore has to decompose as well. Teams should separately test question decomposition, retrieval recall and diversity, extraction fidelity, claim atomicity, claim-evidence entailment, citation correctness and completeness, contradiction discovery, calibration, coverage decisions, resume correctness, approval enforcement, and final decision usefulness. No single benchmark captures all of that. [9][10][11]
+Evaluation therefore has to decompose as well. Teams should separately test question decomposition, retrieval recall and diversity, extraction fidelity, claim atomicity, claim-evidence entailment, citation correctness and completeness, contradiction discovery, calibration, coverage decisions, resume correctness, approval enforcement, and final decision usefulness across [Enterprise Deep Research](https://arxiv.org/abs/2510.17797)-style multi-agent planning and tool use, [STORM](https://arxiv.org/abs/2402.14207)-style perspective-guided retrieval and long-form synthesis, and [Co-STORM](https://arxiv.org/abs/2408.15232)-style collaborative steering and evolving knowledge structures. No single benchmark captures all of that.
 
 ## Practical takeaways
 
@@ -256,61 +256,34 @@ This note is not academic research, vendor documentation, or a general manifesto
 
 ## Status and scope disclaimer
 
-This note reflects personal lab analysis and inspection of available public artifacts as of June 22, 2026. It is not an authoritative evaluation of every deep-research product, and it does not claim that the referenced implementation has already validated superior research outcomes against simpler alternatives. The strongest claims here are architectural: if a system wants research outputs to be defensible, it needs durable evidence state between intent and report.
+This note reflects personal lab analysis and inspection of available public artifacts as of June 23, 2026. It is not an authoritative evaluation of every deep-research product, and it does not claim that the referenced implementation has already validated superior research outcomes against simpler alternatives. The strongest claims here are architectural: if a system wants research outputs to be defensible, it needs durable evidence state between intent and report.
 
 ## References
 
-[1] "Introducing Deep Research" — OpenAI, February 2, 2025; updated February 10, 2026. Describes OpenAI's multi-step browsing, reasoning, source citation, progress, and intervention model.
-
-[2] "Try Deep Research in Gemini" — Dave Citron, Google, December 11, 2024. Describes research-plan generation, iterative web research, report synthesis, and source links.
-
-[3] "How We Built Our Multi-Agent Research System" — Anthropic, June 13, 2025. Provides engineering evidence on parallel research agents, coordination, evaluation, and production reliability.
-
-[4] "ALCE: Enabling Large Language Models to Generate Text with Citations" — Gao et al., 2023. Separates citation correctness, completeness, and response quality in long-form generation.
-
-[5] "RAGAS: Automated Evaluation of Retrieval-Augmented Generation" — Es et al., 2023. Provides evaluation dimensions for retrieval relevance, faithfulness, and answer quality.
-
-[6] "PROV-Overview" — Paul Groth and Luc Moreau, W3C, April 30, 2013. Defines provenance concepts for entities, activities, agents, derivations, versioning, and reproducibility.
-
-[7] "PAV Ontology: Provenance, Authoring and Versioning" — Ciccarese et al., 2013. Presents a lightweight model for distinguishing source, authoring, curation, and representation provenance.
-
-[8] "How Generative AI Disrupts Search" — Grossman et al., April 30, 2026. Examines source-selection differences and instability across conventional and generative search systems.
-
-[9] "Enterprise Deep Research: Steerable Multi-Agent Deep Research for Enterprise Analytics" — Akshara Prabhakar et al., October 20, 2025. Presents a steerable multi-agent architecture with planning, specialized search, reflection, enterprise tools, and benchmark evaluation.
-
-[10] "STORM: Synthesis of Topic Outlines through Retrieval and Multi-Perspective Question Asking" — Shao et al., 2024. Introduces perspective-guided question generation and iterative retrieval for long-form knowledge synthesis.
-
-[11] "Co-STORM: Collaborative Knowledge Curation through Dynamic Discourse" — Jiang et al., 2024. Explores collaborative steering and evolving knowledge structures during research.
-
-[12] "PRISMA 2020 Statement" — Page et al., March 29, 2021. Provides established guidance for transparent reporting of systematic-review search, selection, exclusion, and synthesis processes.
-
-[13] "GRADE Handbook" — GRADE Working Group. Describes structured evaluation of evidence certainty without reducing every judgment to source prestige alone.
-
-[14] Deep Research Assistant — rmax.ai, inspected June 22, 2026. Deployed project documentation describing the runtime, workflow, and exposed capabilities.
-
-[15] Deep Research Assistant source repository — rmax-ai, inspected June 22, 2026. Primary implementation source for workflow orchestration, schemas, governance, persistence, and tests.
-
-[16] Deep Research Assistant: System Architecture — rmax-ai, 2026. Defines the three-plane architecture, workflow topology, agent responsibilities, and data model.
-
-[17] Deep Research Assistant: Specification — rmax-ai, 2026. Defines intended features, acceptance criteria, and research-quality requirements.
-
-[18] "Deep Research System Card" — OpenAI, February 25, 2025. Documents safety evaluation and risks including prompt injection, hallucination, privacy, bias, and code execution.
+1. [Introducing deep research](https://openai.com/index/introducing-deep-research/) — OpenAI, February 2, 2025; updated February 10, 2026. Product announcement describing multi-step browsing, reasoning, source citation, and progress reporting.
+2. [Try Deep Research and our new experimental model in Gemini, your AI assistant](https://blog.google/products-and-platforms/products/gemini/google-gemini-deep-research/) — Google, December 11, 2024. Product announcement describing research-plan generation, iterative web research, and source-linked reports.
+3. [How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system) — Anthropic, June 13, 2025. Engineering write-up on parallel research agents, coordination, and production evaluation.
+4. [ALCE: Enabling Large Language Models to Generate Text with Citations](https://arxiv.org/abs/2305.14627) — Gao et al., 2023. Citation-grounded long-form generation benchmark covering answer quality and citation quality.
+5. [RAGAS: Automated Evaluation of Retrieval Augmented Generation](https://arxiv.org/abs/2309.15217) — Es et al., 2023. RAG evaluation framework spanning retrieval focus, faithfulness, and generation quality.
+6. [PROV-Overview](https://www.w3.org/TR/prov-overview/) — Paul Groth and Luc Moreau, W3C, April 30, 2013. Overview of provenance concepts and relationships.
+7. [PROV-O: The PROV Ontology](https://www.w3.org/TR/prov-o/) — W3C, April 30, 2013. Ontology for entities, activities, agents, and derivations.
+8. [PAV ontology documentation](https://pav-ontology.github.io/pav/) — PAV ontology project. Lightweight provenance, authoring, and versioning model relevant to research-state design.
+9. [How Generative AI Disrupts Search: An Empirical Study of Google Search, Gemini, and AI Overviews](https://arxiv.org/abs/2604.27790) — Grossman et al., 2026. Evidence on source-selection differences, crawler blocking, inconsistency, and query sensitivity across search systems.
+10. [Enterprise Deep Research: Steerable Multi-Agent Deep Research for Enterprise Analytics](https://arxiv.org/abs/2510.17797) — Prabhakar et al., 2025. Multi-agent enterprise research architecture with planning, specialized search, reflection, and benchmark evaluation.
+11. [Assisting in Writing Wikipedia-like Articles From Scratch with Pre-Writing Augmented Language Models](https://arxiv.org/abs/2402.14207) — Shao et al., 2024. STORM paper on perspective-guided question generation, retrieval, and long-form synthesis.
+12. [Into the Unknown Unknowns: Engaged Human Learning through Participation in Language Model Agent Conversations](https://arxiv.org/abs/2408.15232) — Jiang et al., 2024. Co-STORM paper on collaborative steering and evolving knowledge structures during research.
 
 ### Project materials inspected
 
-- Deployed landing page
-- Deployed architecture page
-- Deployed implementation-phases page
-- Deployed API reference
-- GitHub repository
-- Repository README.md
-- Repository SPEC.md
-- Repository docs/ARCHITECTURE.md
-- Repository pyproject.toml
-- Repository src/deep_research/workflow/graph.py
-- Workflow checkpoint, approval, persistence, identity, policy, scheduling, coverage, deduplication, and stopping integrations imported and invoked by the workflow graph
-- Documented REST routes for run creation, inspection, graph, frontier, progress, events, logs, interventions, approvals, and export
-- Documented phase status and roadmap boundaries, including partial continuous-research support
-- Repository-level deterministic and opt-in live-validation strategy
+13. [Deep Research Assistant](https://deep-research-assistant.rmax.tech/) — Deployed landing page inspected June 23, 2026. Public overview of the governed research runtime and exposed capabilities.
+14. [Architecture](https://deep-research-assistant.rmax.tech/architecture/) — Deployed architecture page inspected June 23, 2026. Public description of the three-plane design, workflow topology, and data model.
+15. [Implementation Phases](https://deep-research-assistant.rmax.tech/phases/) — Deployed implementation-phases page inspected June 23, 2026. Public roadmap and shipped-capability status.
+16. [API Reference](https://deep-research-assistant.rmax.tech/api/) — Deployed API page inspected June 23, 2026. Public route documentation and approval-flow examples.
+17. [Deep Research Assistant repository](https://github.com/rmax-ai/deep-research-assistant) — GitHub repository inspected June 23, 2026. Primary implementation source for orchestration, schemas, governance, persistence, and tests.
+18. [README.md](https://github.com/rmax-ai/deep-research-assistant/blob/main/README.md) — Repository overview inspected June 23, 2026. Summarizes architecture, agent roster, validation split, and implementation status.
+19. [`SPEC.md`](https://github.com/rmax-ai/deep-research-assistant/blob/main/SPEC.md) — Product specification inspected June 23, 2026. Defines features, phased acceptance criteria, and typed research-state expectations.
+20. [`docs/ARCHITECTURE.md`](https://github.com/rmax-ai/deep-research-assistant/blob/main/docs/ARCHITECTURE.md) — Architecture document inspected June 23, 2026. Details the workflow graph, deterministic services, trust boundaries, and runtime records.
+21. [`docs/THREAT_MODEL.md`](https://github.com/rmax-ai/deep-research-assistant/blob/main/docs/THREAT_MODEL.md) — Threat-model document inspected June 23, 2026. Structured analysis of attack paths, controls, and residual risk.
+22. [`src/deep_research/workflow/graph.py`](https://github.com/rmax-ai/deep-research-assistant/blob/main/src/deep_research/workflow/graph.py) — Workflow graph implementation inspected June 23, 2026. Shows role routing, deterministic integrations, checkpointing, and approval-aware execution.
 
 No completed public live research run, generated evidence package, trace, or final report was exposed by the deployed application during inspection. The API documentation points to a local service, so the two requested representative live runs could not be executed against the deployment. No run artifacts were fabricated.
