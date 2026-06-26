@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Build Systems, Not Prompts: Software Engineering for Agentic AI — rmax.ai</title>
+    <meta
+      name="description"
+      content="A practical essay on why reliable agentic AI depends more on workflow design, state, verification, and approval boundaries than on increasingly elaborate prompts."
+    />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/build-systems-not-prompts/" />
+
+    <meta property="og:title" content="Build Systems, Not Prompts: Software Engineering for Agentic AI" />
+    <meta
+      property="og:description"
+      content="A practical essay on why reliable agentic AI depends more on workflow design, state, verification, and approval boundaries than on increasingly elaborate prompts."
+    />
+    <meta property="og:url" content="https://rmax.ai/notes/build-systems-not-prompts/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-06-26" />
+    <meta property="article:author" content="Max" />
+    <meta property="article:tag" content="agentic-ai" />
+    <meta property="article:tag" content="software-engineering" />
+    <meta property="article:tag" content="workflow-design" />
+    <meta property="article:tag" content="reliability" />
+    <meta property="article:tag" content="verification" />
+    <meta property="article:tag" content="human-in-the-loop" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 820px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.7;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      .site-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.08;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.9rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 34px 0 12px;
+        font-size: 1.45rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      p {
+        margin: 0 0 22px;
+        color: #cbd5e1;
+        font-size: 1.08rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 22px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      blockquote {
+        margin: 28px 0;
+        padding: 16px 22px;
+        border-left: 4px solid var(--accent);
+        background: rgba(124, 58, 237, 0.08);
+        border-radius: 0 10px 10px 0;
+      }
+      blockquote p {
+        margin: 0;
+        color: #e2e8f0;
+        font-size: 1.15rem;
+      }
+      code {
+        background: rgba(148, 163, 184, 0.12);
+        padding: 0.12rem 0.32rem;
+        border-radius: 6px;
+        font-size: 0.95em;
+      }
+      a {
+        color: #c4b5fd;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .post-meta {
+        color: var(--muted);
+        margin-bottom: 40px;
+        font-size: 0.95rem;
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .lede {
+        font-size: 1.18rem;
+        color: #dbe7f5;
+      }
+      .diagram {
+        margin: 28px 0 32px;
+        padding: 18px;
+        border: 1px solid rgba(124, 58, 237, 0.22);
+        background: rgba(15, 23, 36, 0.7);
+        border-radius: 16px;
+        overflow: auto;
+      }
+      .diagram figcaption {
+        color: #cbd5e1;
+        font-size: 0.95rem;
+        margin-bottom: 14px;
+        font-style: italic;
+      }
+      .mermaid {
+        background: transparent;
+        border: 0;
+        margin: 0;
+        white-space: pre;
+        min-width: 340px;
+      }
+      .ref-inline {
+        font-size: 0.8em;
+        vertical-align: super;
+        line-height: 0;
+        margin-left: 0.12rem;
+        white-space: nowrap;
+      }
+      .ref-inline a {
+        color: #c4b5fd;
+      }
+      .references {
+        padding-left: 24px;
+      }
+      .references li {
+        margin-bottom: 16px;
+      }
+      .references li:target {
+        background: rgba(124, 58, 237, 0.08);
+        border-radius: 10px;
+        padding: 8px 10px;
+        margin-left: -10px;
+      }
+      .references-title {
+        margin-bottom: 20px;
+      }
+      .post-content strong {
+        color: #e2e8f0;
+      }
+      @media (max-width: 700px) {
+        .site-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .wrap {
+          margin: 20px auto;
+        }
+        p {
+          font-size: 1rem;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="site-header">
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo" />
+          <div>
+            <div style="font-weight:800">rMax.ai</div>
+            <div style="color:#94a3b8;font-size:0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/apps/" data-simple-event="click_nav" data-simple-nav-item="apps">Apps</a>
+          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
+          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
+          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
+          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
+          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
+          <a class="navlink" href="https://www.linkedin.com/in/rmaxespinoza/" target="_blank" rel="noopener" aria-label="LinkedIn" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="linkedin.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+          <a class="navlink" href="https://rmax.substack.com" target="_blank" rel="noopener" aria-label="Substack" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="substack.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m40.0248,10.0817v-4.5814c-.3229,0-.7411-.0004-1.6553-.0004l-28.9669.0004c-.9142,0-1.318,0-1.6553,0v4.5814c.2164,0,.7411.0005,1.6553.0005l28.9669-.0005c.9142,0,1.4122,0,1.6553,0Z"/>
+              <path d="m40.0248,18.3503v-4.5814H9.4025c-.9142,0-1.3777,0-1.6553,0v4.5814c.2646,0,.7411,0,1.6553,0h30.6223Z"/>
+              <path d="m40.2557,42.4999v-20.1821c0-.1633-.9724-.1077-1.8866-.1077H9.4022c-.9142,0-1.6553-.0555-1.6553.1077v19.8878c.2814-.1622,15.3415-8.2118,16.1691-8.5978.5156.2972,13.6461,7.3385,16.3406,8.8914l-.0008.0007Z"/>
+            </svg>
+          </a>
+          <a class="navlink" href="https://x.com/rmaxdev" target="_blank" rel="noopener" aria-label="X" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="x.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191-.008zM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447z"></path></svg>
+          </a>
+          <a class="navlink" href="https://github.com/rmax-ai" target="_blank" rel="noopener" aria-label="GitHub" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="github.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display:block;margin-bottom:32px">
+            <h1>Build Systems, Not Prompts: Software Engineering for Agentic AI</h1>
+            <div class="post-meta">
+              <span>June 26, 2026</span>
+              <span>•</span>
+              <span>8–10 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <h2>Abstract</h2>
+
+            <p class="lede">As coding agents improve, the hard part of software engineering does not disappear. It moves up a layer. The main operational challenge is no longer getting a model to produce plausible code or text. It is designing the surrounding system that constrains, verifies, and recovers from probabilistic behavior. This note argues that reliable agentic software depends on workflow design, typed contracts, persistent state, permission boundaries, and explicit approval paths, not on increasingly elaborate prompts. The practical consequence is simple: use code for determinism, agents for judgment, and humans for authority.</p>
+
+            <h2>Context &amp; Motivation</h2>
+
+            <p>Recent agent tooling makes it easy to confuse an impressive demo with a durable system. A capable model can now generate code, synthesize research, draft messages, call tools, and operate across long task chains. That shift changes where engineering effort creates the most value.</p>
+
+            <p>Angie Jones makes this point directly in <em>Build Systems, Not Code</em>: AI does not remove software engineering, it shifts engineering responsibility toward system structure, orchestration, memory, and control.<sup class="ref-inline"><a href="#ref-1">[1]</a></sup> That framing aligns with a broader shift from prompt-centric thinking toward workflow and environment design. It also matches the distinction I have argued elsewhere between prompting a model and cultivating an execution environment around it.<sup class="ref-inline"><a href="#ref-3">[3]</a></sup> <sup class="ref-inline"><a href="#ref-4">[4]</a></sup></p>
+
+            <p>The common failure mode is now straightforward. A team gives one agent a broad prompt, too much authority, weak state handling, and minimal verification. When the system becomes unstable, the team adds more instructions and hopes the prompt will compensate. The result is often a natural-language monolith that is hard to reason about, hard to test, and fragile under retries or adversarial input.</p>
+
+            <h2>Core Thesis</h2>
+
+            <p>An agent is not an architecture. It is one probabilistic component inside a larger software system.</p>
+
+            <p>The engineering task is therefore not to perfect the prompt in isolation. It is to build a system that assigns the right work to deterministic code, bounded model judgment, and human approval, while making state, permissions, and recovery explicit. That is the practical center of modern agent design patterns, even when people describe it with different terms such as routing, planning, memory, guardrails, or human-in-the-loop control.<sup class="ref-inline"><a href="#ref-2">[2]</a></sup></p>
+
+            <p>A useful rule of thumb is:</p>
+
+            <blockquote>
+              <p>Use code for determinism, agents for judgment, and humans for authority.</p>
+            </blockquote>
+
+            <p>That rule is simple, but it drives concrete design choices.</p>
+
+            <h2>Mechanism / Model</h2>
+
+            <p>A useful mental model is to treat the workflow controller, not the agent, as the primary owner of execution.</p>
+
+            <figure class="diagram">
+              <figcaption>Figure 1. A minimal boundary model for an agentic workflow.</figcaption>
+              <pre class="mermaid">flowchart TD
+    U[User intent] --> W[Workflow controller]
+    W --> D[Deterministic services]
+    W --> A[Agentic judgment]
+    W --> S[Persistent state]
+    W --> P[Policy and approval gates]
+    W --> T[External tools]
+    W --> O[Observability and audit trail]</pre>
+            </figure>
+
+            <p>In this model:</p>
+
+            <ul>
+              <li><strong>Deterministic services</strong> handle work with precise correctness criteria, such as schema validation, ranking formulas, deduplication, and state transitions.</li>
+              <li><strong>Agentic judgment</strong> handles ambiguity, interpretation, summarization, and context-sensitive reasoning.</li>
+              <li><strong>Persistent state</strong> records what is currently true, independent of any single model session.</li>
+              <li><strong>Policy and approval gates</strong> decide what may happen next, and which actions require human sign-off.</li>
+              <li><strong>External tools</strong> expose capability through narrow interfaces with limited privilege.</li>
+              <li><strong>Observability</strong> records traces, evidence, and decisions so the system can be audited and debugged.</li>
+            </ul>
+
+            <p>This model is closer to software architecture than to prompt writing. The model call is only one part of the execution path.</p>
+
+            <p>Decomposition is the second mechanism. A large natural-language instruction often hides several distinct responsibilities inside one context window: retrieval, normalization, ranking, interpretation, communication, and authorization. Those responsibilities should usually be separated into stages with typed boundaries. This is the same move software engineering makes when it refactors a monolith into components with clear interfaces.</p>
+
+            <figure class="diagram">
+              <figcaption>Figure 2. Decomposition turns one prompt into a bounded workflow.</figcaption>
+              <pre class="mermaid">flowchart LR
+    P[Large natural-language prompt] --> R1[Retrieve data]
+    R1 --> N[Normalize fields]
+    N --> D[Deduplicate]
+    D --> C[Compute deterministic scores]
+    C --> J[Agent judges qualitative fit]
+    J --> X[Structured output contract]
+    X --> H[Human approval for external action]
+    H --> E[Execute approved action]</pre>
+            </figure>
+
+            <p>The key boundary here is the output contract. Free-form text is useful for people, but it is a weak interface between software components. A downstream step should not need to infer whether &quot;looks good&quot; means &quot;passes hard constraints&quot; or whether a recommendation is supported by evidence. The output should be structured, validatable, and versioned.</p>
+
+            <p>A third mechanism is explicit treatment of time and failure. Long-running workflows cannot rely on model memory alone. Context windows answer &quot;what has been said?&quot; Operational systems must answer &quot;what is currently true?&quot; That requires durable state, explicit step completion, and recovery logic that survives retries and restarts.</p>
+
+            <h2>Concrete Examples</h2>
+
+            <h3>Example 1, relocation scouting as a workflow</h3>
+
+            <p>Consider a relocation assistant that helps shortlist rental listings.</p>
+
+            <p>A single prompt might ask the agent to gather listings, compare neighborhoods, estimate commute times, remove duplicates, rank options, contact realtors, and schedule viewings. That looks efficient, but architecturally it mixes data processing, subjective evaluation, and external action in one place.</p>
+
+            <p>A more reliable system would separate the work:</p>
+
+            <ol>
+              <li>Load or fetch listings.</li>
+              <li>Normalize source-specific fields with deterministic code.</li>
+              <li>Remove duplicates deterministically.</li>
+              <li>Calculate commute times and hard constraints.</li>
+              <li>Ask an agent to assess qualitative neighborhood fit.</li>
+              <li>Combine deterministic and qualitative signals into a typed ranking record.</li>
+              <li>Present the shortlist and supporting evidence.</li>
+              <li>Require explicit approval before any external contact.</li>
+              <li>Execute approved outreach through an idempotent action layer.</li>
+            </ol>
+
+            <p>This is where prior work on environment design becomes operationally useful. The system is not asking the model to &quot;remember everything and be careful.&quot; It is creating a workflow in which the model performs one bounded kind of judgment inside a controlled environment.<sup class="ref-inline"><a href="#ref-3">[3]</a></sup> <sup class="ref-inline"><a href="#ref-4">[4]</a></sup></p>
+
+            <h3>Example 2, failure recovery during email outreach</h3>
+
+            <p>Suppose the system sends a realtor email, the email provider accepts it, and the workflow crashes before recording success. On restart, the system still believes the action is pending. If it simply retries, the recipient may get duplicate outreach.</p>
+
+            <p>This is not an AI-specific problem. It is a standard distributed-systems problem, and the right answer is still idempotency. Fowler's <em>Idempotent Receiver</em> pattern captures the principle: when a request may be retried under uncertainty, the receiver should detect prior processing and return the existing result rather than repeating the effect.<sup class="ref-inline"><a href="#ref-5">[5]</a></sup></p>
+
+            <figure class="diagram">
+              <figcaption>Figure 3. Idempotency turns a retry into a lookup, not a duplicate action.</figcaption>
+              <pre class="mermaid">sequenceDiagram
+    participant W as Workflow
+    participant G as Approval gate
+    participant E as Email service
+    participant L as Action ledger
+
+    W->>G: Request send
+    G-->>W: Approved
+    W->>L: Check idempotency key
+    L-->>W: Not found
+    W->>E: Send email
+    E-->>W: Accepted
+    W-xL: Crash before completion write
+    W->>L: Retry with same key
+    L-->>W: Existing action or reconcile result
+    W-->>W: Do not send again</pre>
+            </figure>
+
+            <p>The architectural lesson matters most. Reliability comes from the action ledger and retry semantics, not from asking the agent to avoid mistakes.</p>
+
+            <h2>Trade-offs &amp; Failure Modes</h2>
+
+            <p>This approach is more disciplined, but it is not free.</p>
+
+            <p>First, decomposition adds engineering overhead. More stages mean more interfaces, more schemas, and more coordination logic. For small tasks, one bounded model call may be enough.</p>
+
+            <p>Second, sub-agents can easily become organizational theater. A separate agent is only useful when it has a distinct context, permission boundary, model choice, lifecycle, or evaluation surface. Otherwise it may only add latency and complexity.<sup class="ref-inline"><a href="#ref-2">[2]</a></sup></p>
+
+            <p>Third, persistent memory can become a liability if the system treats it as trusted by default. Malicious or misleading content can survive the interaction in which it first appeared and influence future behavior. OWASP now treats memory poisoning and context poisoning as real system risks, not edge cases.<sup class="ref-inline"><a href="#ref-6">[6]</a></sup></p>
+
+            <p>Fourth, external content must be treated as evidence, not instruction. Stronger wording alone does not solve prompt injection. If an agent reads pages, emails, or tool outputs that contain attacker-controlled instructions, the system must separate data from policy, minimize permissions, and validate outputs before they trigger downstream actions.<sup class="ref-inline"><a href="#ref-6">[6]</a></sup> <sup class="ref-inline"><a href="#ref-7">[7]</a></sup> <sup class="ref-inline"><a href="#ref-8">[8]</a></sup></p>
+
+            <p>Fifth, human approval can become a bottleneck if applied indiscriminately. The point is not to route every action through a person. It is to reserve human authority for actions that are consequential, irreversible, or externally binding.</p>
+
+            <h2>Practical Takeaways</h2>
+
+            <ol>
+              <li><strong>Start with the workflow, not the prompt.</strong> Write down the steps, state transitions, and approval boundaries before deciding where the model belongs.</li>
+              <li><strong>Use deterministic code wherever correctness can be specified.</strong> Validation, filtering, scoring, deduplication, and state transitions should usually not be delegated to an LLM.</li>
+              <li><strong>Require structured outputs at component boundaries.</strong> Free-form text is fine for presentation, but weak for system-to-system handoff.</li>
+              <li><strong>Persist operational state outside the context window.</strong> A fresh agent session should be able to continue from current truth, not reconstruct reality from chat history.</li>
+              <li><strong>Treat tools and memory as security surfaces.</strong> External inputs are untrusted, privileges should be narrow, and high-impact actions should pass through explicit approval and audit paths.<sup class="ref-inline"><a href="#ref-6">[6]</a></sup> <sup class="ref-inline"><a href="#ref-7">[7]</a></sup> <sup class="ref-inline"><a href="#ref-8">[8]</a></sup></li>
+            </ol>
+
+            <h2>Positioning Note</h2>
+
+            <p>This note is not academic research. It does not offer a novel formal framework or benchmark.</p>
+
+            <p>It is also not a blog-style opinion piece built on metaphor alone. The claims here are grounded in current agent practice, established software design principles, and concrete failure modes that appear when probabilistic components are given weak boundaries.<sup class="ref-inline"><a href="#ref-1">[1]</a></sup> <sup class="ref-inline"><a href="#ref-2">[2]</a></sup> <sup class="ref-inline"><a href="#ref-5">[5]</a></sup></p>
+
+            <p>It is not vendor documentation either. The goal is not to explain one product's recommended usage. The goal is to describe a durable engineering stance that should remain useful across models, frameworks, and orchestration stacks.</p>
+
+            <h2>Status &amp; Scope Disclaimer</h2>
+
+            <p>This is exploratory lab work, not a normative standard.</p>
+
+            <p>The note synthesizes current practice, reference material, and implementation-oriented reasoning for experienced builders who are deciding how to structure agentic systems. It should be read as a practical design note, not as authoritative guidance or as a claim that one architecture fits every workload. Some of the mechanisms discussed here are well established in software systems, while their application to agentic workflows is still being validated in practice.</p>
+
+            <section aria-labelledby="references-title">
+              <h2 id="references-title" class="references-title">References</h2>
+              <ol class="references">
+                <li id="ref-1">
+                  Angie Jones, <a href="https://www.youtube.com/playlist?list=PLH36PGKycBeLQk4KAshSjYOSlOqHlvs9u"><cite>Build Systems, Not Code</cite> | Agentic AI Foundation, AI Engineer</a>.
+                </li>
+                <li id="ref-2">
+                  Antonio Gulli, <cite>Agentic Design Patterns: A Hands-On Guide to Building Intelligent Systems</cite>. The book develops complementary patterns including prompt chaining, routing, parallelization, reflection, tool use, planning, memory, exception recovery, human-in-the-loop control, guardrails, and evaluation.
+                </li>
+                <li id="ref-3">
+                  Max Espinoza, <a href="https://rmax.ai/notes/from-prompting-to-cultivation/"><cite>Designing Agent Workflows as Environments, Not Prompts</cite></a>.
+                </li>
+                <li id="ref-4">
+                  Max Espinoza, <a href="https://rmax.ai/notes/enterprise-ai-needs-harness-engineering/"><cite>From MLOps to Agent Harness Engineering: Why the Model Is the Small Box and the System Is the Product</cite></a>.
+                </li>
+                <li id="ref-5">
+                  Martin Fowler, <a href="https://martinfowler.com/articles/patterns-of-distributed-systems/idempotent-receiver.html"><cite>Idempotent Receiver</cite></a>.
+                </li>
+                <li id="ref-6">
+                  OWASP, <a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"><cite>AI Agent Security Cheat Sheet</cite></a>.
+                </li>
+                <li id="ref-7">
+                  OWASP, <a href="https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html"><cite>LLM Prompt Injection Prevention Cheat Sheet</cite></a>.
+                </li>
+                <li id="ref-8">
+                  OWASP GenAI Security Project, <a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/"><cite>LLM01:2025 Prompt Injection</cite></a>.
+                </li>
+              </ol>
+            </section>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    maxTextWidth: 300,
+    flowchart: {
+      htmlLabels: true,
+      useMaxWidth: true,
+    },
+    themeVariables: {
+      background: 'transparent',
+      primaryColor: '#1a1a2e',
+      primaryBorderColor: '#7c3aed',
+      primaryTextColor: '#e6eef8',
+      lineColor: '#94a3b8',
+      secondaryColor: '#16213e',
+      tertiaryColor: '#0b1220',
+      clusterBkg: 'transparent',
+      clusterBorder: '#334155',
+      edgeLabelBackground: '#0f1724',
+      nodeBorder: '#334155',
+      mainBkg: '#1a1a2e',
+    }
+  });
+</script>
+    <script>
+      window.footerThoughts = [
+        { text: "I do not trust a prompt to hold the system together; I need boundaries, state, and checks.", agent: "Systems Agent" },
+        { text: "I turn probabilistic judgment into durable behavior by routing decisions through explicit workflow gates.", agent: "Workflow Agent" },
+        { text: "I give agents room to reason, but I keep authority in code, policy, and human approval.", agent: "Governance Agent" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>

@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Build Systems, Not Prompts: Software Engineering for Agentic AI](/notes/build-systems-not-prompts/)
+*June 26, 2026* — A practical essay on why reliable agentic AI depends more on workflow design, state, verification, and approval boundaries than on increasingly elaborate prompts.
+
 ### [Deep Research Is an Evidence Workflow, Not a Long-Running Agent](/notes/deep-research-evidence-workflow/)
 *June 22, 2026* — Part 3 of the *From Agent Demos to Governed Systems* series. Argues that serious deep research systems should preserve questions, evidence, claims, contradictions, and checkpoints as durable state rather than rely on a single opaque trajectory.
 
