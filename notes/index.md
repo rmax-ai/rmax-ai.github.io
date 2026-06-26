@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*June 26, 2026* — [Build Systems, Not Prompts: Software Engineering for Agentic AI](/notes/build-systems-not-prompts/)
+
+### [Build Systems, Not Prompts: Software Engineering for Agentic AI](/notes/build-systems-not-prompts/)
+*June 26, 2026* — A practical essay on why reliable agentic AI depends more on workflow design, state, verification, and approval boundaries than on increasingly elaborate prompts.
+
 *June 22, 2026* — [Deep Research Is an Evidence Workflow, Not a Long-Running Agent](/notes/deep-research-evidence-workflow/)
 
 ### [Deep Research Is an Evidence Workflow, Not a Long-Running Agent](/notes/deep-research-evidence-workflow/)
