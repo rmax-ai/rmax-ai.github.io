@@ -25,7 +25,7 @@ As coding agents improve, the hard part of software engineering does not disappe
 
 Recent agent tooling makes it easy to confuse an impressive demo with a durable system. A capable model can now generate code, synthesize research, draft messages, call tools, and operate across long task chains. That shift changes where engineering effort creates the most value.
 
-Angie Jones makes this point directly in *Build Systems, Not Code*: AI does not remove software engineering, it shifts engineering responsibility toward system structure, orchestration, memory, and control. [1] That framing aligns with a broader shift from prompt-centric thinking toward workflow and environment design. It also matches the distinction I have argued elsewhere between prompting a model and cultivating an execution environment around it. [3] [4]
+Angie Jones makes this point directly in [*Build Systems, Not Code*](https://www.youtube.com/playlist?list=PLH36PGKycBeLQk4KAshSjYOSlOqHlvs9u): AI does not remove software engineering; it shifts engineering responsibility toward system structure, orchestration, memory, and control. That framing aligns with a broader shift from prompt-centric thinking toward workflow and environment design. It also matches the distinction I have explored in [*Designing Agent Workflows as Environments, Not Prompts*](https://rmax.ai/notes/from-prompting-to-cultivation/) and [*Enterprise AI Needs Harness Engineering, Not Better Chatbots*](https://rmax.ai/notes/enterprise-ai-needs-harness-engineering/).
 
 The common failure mode is now straightforward. A team gives one agent a broad prompt, too much authority, weak state handling, and minimal verification. When the system becomes unstable, the team adds more instructions and hopes the prompt will compensate. The result is often a natural-language monolith that is hard to reason about, hard to test, and fragile under retries or adversarial input.
 
@@ -33,7 +33,7 @@ The common failure mode is now straightforward. A team gives one agent a broad p
 
 An agent is not an architecture. It is one probabilistic component inside a larger software system.
 
-The engineering task is therefore not to perfect the prompt in isolation. It is to build a system that assigns the right work to deterministic code, bounded model judgment, and human approval, while making state, permissions, and recovery explicit. That is the practical center of modern agent design patterns, even when people describe it with different terms such as routing, planning, memory, guardrails, or human-in-the-loop control. [2]
+The engineering task is therefore not to perfect the prompt in isolation. It is to build a system that assigns the right work to deterministic code, bounded model judgment, and human approval, while making state, permissions, and recovery explicit. That is the practical center of the patterns described in Antonio Gulli's [*Agentic Design Patterns: A Hands-On Guide to Building Intelligent Systems*](https://www.linkedin.com/posts/searchguy_agentic-design-patterns-a-hands-on-guide-activity-7391360984860348416-lcyE), even when people use different terms such as routing, planning, memory, guardrails, or human-in-the-loop control.
 
 A useful rule of thumb is:
 
@@ -91,9 +91,11 @@ A third mechanism is explicit treatment of time and failure. Long-running workfl
 
 ## Concrete Examples
 
-### Example 1, relocation scouting as a workflow
+### Example 1: Relocation scouting as a workflow
 
 Consider a relocation assistant that helps shortlist rental listings.
+
+A working implementation of this architecture is available in the [Relocation Scout proof of concept](https://relocation-scout.rmax.tech/). Its [source code and technical documentation](https://github.com/rmax-ai/relocation-scout) are available on GitHub.
 
 A single prompt might ask the agent to gather listings, compare neighborhoods, estimate commute times, remove duplicates, rank options, contact realtors, and schedule viewings. That looks efficient, but architecturally it mixes data processing, subjective evaluation, and external action in one place.
 
@@ -109,13 +111,13 @@ A more reliable system would separate the work:
 8. Require explicit approval before any external contact.
 9. Execute approved outreach through an idempotent action layer.
 
-This is where prior work on environment design becomes operationally useful. The system is not asking the model to "remember everything and be careful." It is creating a workflow in which the model performs one bounded kind of judgment inside a controlled environment. [3] [4]
+This is where the environment-design approach described in [*Designing Agent Workflows as Environments, Not Prompts*](https://rmax.ai/notes/from-prompting-to-cultivation/) and the harness model developed in [*Enterprise AI Needs Harness Engineering, Not Better Chatbots*](https://rmax.ai/notes/enterprise-ai-needs-harness-engineering/) become operationally useful. The system is not asking the model to "remember everything and be careful." It creates a workflow in which the model performs one bounded kind of judgment inside a controlled environment.
 
-### Example 2, failure recovery during email outreach
+### Example 2: Failure recovery during email outreach
 
 Suppose the system sends a realtor email, the email provider accepts it, and the workflow crashes before recording success. On restart, the system still believes the action is pending. If it simply retries, the recipient may get duplicate outreach.
 
-This is not an AI-specific problem. It is a standard distributed-systems problem, and the right answer is still idempotency. Fowler's *Idempotent Receiver* pattern captures the principle: when a request may be retried under uncertainty, the receiver should detect prior processing and return the existing result rather than repeating the effect. [5]
+This is not an AI-specific problem. It is a standard distributed-systems problem, and the right answer is still idempotency. Martin Fowler's [*Idempotent Receiver* pattern](https://martinfowler.com/articles/patterns-of-distributed-systems/idempotent-receiver.html) captures the principle: when a request may be retried under uncertainty, the receiver should detect prior processing and return the existing result rather than repeating the effect.
 
 *Figure 3. Idempotency turns a retry into a lookup, not a duplicate action.*
 
@@ -146,11 +148,11 @@ This approach is more disciplined, but it is not free.
 
 First, decomposition adds engineering overhead. More stages mean more interfaces, more schemas, and more coordination logic. For small tasks, one bounded model call may be enough.
 
-Second, sub-agents can easily become organizational theater. A separate agent is only useful when it has a distinct context, permission boundary, model choice, lifecycle, or evaluation surface. Otherwise it may only add latency and complexity. [2]
+Second, sub-agents can easily become organizational theater. A separate agent is only useful when it has a distinct context, permission boundary, model choice, lifecycle, or evaluation surface. Otherwise it may only add latency and complexity. This is one of the decomposition trade-offs covered in [*Agentic Design Patterns*](https://www.linkedin.com/posts/searchguy_agentic-design-patterns-a-hands-on-guide-activity-7391360984860348416-lcyE).
 
-Third, persistent memory can become a liability if the system treats it as trusted by default. Malicious or misleading content can survive the interaction in which it first appeared and influence future behavior. OWASP now treats memory poisoning and context poisoning as real system risks, not edge cases. [6]
+Third, persistent memory can become a liability if the system treats it as trusted by default. Malicious or misleading content can survive the interaction in which it first appeared and influence future behavior. The [OWASP AI Agent Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html) treats memory and context as security surfaces that require validation, isolation, integrity controls, and provenance tracking.
 
-Fourth, external content must be treated as evidence, not instruction. Stronger wording alone does not solve prompt injection. If an agent reads pages, emails, or tool outputs that contain attacker-controlled instructions, the system must separate data from policy, minimize permissions, and validate outputs before they trigger downstream actions. [6] [7] [8]
+Fourth, external content must be treated as evidence, not instruction. Stronger wording alone does not solve prompt injection. If an agent reads pages, emails, or tool outputs that contain attacker-controlled instructions, the system must separate data from policy, minimize permissions, and validate outputs before they trigger downstream actions. These controls are described in the [OWASP AI Agent Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html), the [LLM Prompt Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html), and [OWASP LLM01:2025 Prompt Injection](https://genai.owasp.org/llmrisk/llm01-prompt-injection/).
 
 Fifth, human approval can become a bottleneck if applied indiscriminately. The point is not to route every action through a person. It is to reserve human authority for actions that are consequential, irreversible, or externally binding.
 
@@ -160,13 +162,13 @@ Fifth, human approval can become a bottleneck if applied indiscriminately. The p
 2. **Use deterministic code wherever correctness can be specified.** Validation, filtering, scoring, deduplication, and state transitions should usually not be delegated to an LLM.
 3. **Require structured outputs at component boundaries.** Free-form text is fine for presentation, but weak for system-to-system handoff.
 4. **Persist operational state outside the context window.** A fresh agent session should be able to continue from current truth, not reconstruct reality from chat history.
-5. **Treat tools and memory as security surfaces.** External inputs are untrusted, privileges should be narrow, and high-impact actions should pass through explicit approval and audit paths. [6] [7] [8]
+5. **Treat tools and memory as security surfaces.** External inputs are untrusted, privileges should be narrow, and high-impact actions should pass through explicit approval and audit paths. Apply the controls described in the [OWASP guidance for agent security and prompt-injection prevention](https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html).
 
 ## Positioning Note
 
 This note is not academic research. It does not offer a novel formal framework or benchmark.
 
-It is also not a blog-style opinion piece built on metaphor alone. The claims here are grounded in current agent practice, established software design principles, and concrete failure modes that appear when probabilistic components are given weak boundaries. [1] [2] [5]
+It is also not a blog-style opinion piece built on metaphor alone. The claims combine current agent practice, the system-level framing in Angie Jones's [*Build Systems, Not Code*](https://www.youtube.com/playlist?list=PLH36PGKycBeLQk4KAshSjYOSlOqHlvs9u), established design patterns such as the [Idempotent Receiver](https://martinfowler.com/articles/patterns-of-distributed-systems/idempotent-receiver.html), and concrete failure modes documented by [OWASP](https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html).
 
 It is not vendor documentation either. The goal is not to explain one product's recommended usage. The goal is to describe a durable engineering stance that should remain useful across models, frameworks, and orchestration stacks.
 
@@ -180,11 +182,11 @@ The note synthesizes current practice, reference material, and implementation-or
 
 1. Angie Jones, [*Build Systems, Not Code* — Agentic AI Foundation, AI Engineer](https://www.youtube.com/playlist?list=PLH36PGKycBeLQk4KAshSjYOSlOqHlvs9u).
 
-2. Antonio Gulli, *Agentic Design Patterns: A Hands-On Guide to Building Intelligent Systems*. The book develops complementary patterns including prompt chaining, routing, parallelization, reflection, tool use, planning, memory, exception recovery, human-in-the-loop control, guardrails, and evaluation.
+2. Antonio Gulli, [*Agentic Design Patterns: A Hands-On Guide to Building Intelligent Systems*](https://www.linkedin.com/posts/searchguy_agentic-design-patterns-a-hands-on-guide-activity-7391360984860348416-lcyE). The book develops complementary patterns including prompt chaining, routing, parallelization, reflection, tool use, planning, memory, exception recovery, human-in-the-loop control, guardrails, and evaluation.
 
 3. Max Espinoza, [*Designing Agent Workflows as Environments, Not Prompts*](https://rmax.ai/notes/from-prompting-to-cultivation/).
 
-4. Max Espinoza, [*From MLOps to Agent Harness Engineering: Why the Model Is the Small Box and the System Is the Product*](https://rmax.ai/notes/enterprise-ai-needs-harness-engineering/).
+4. Max Espinoza, [*Enterprise AI Needs Harness Engineering, Not Better Chatbots*](https://rmax.ai/notes/enterprise-ai-needs-harness-engineering/).
 
 5. Martin Fowler, [*Idempotent Receiver*](https://martinfowler.com/articles/patterns-of-distributed-systems/idempotent-receiver.html).
 
