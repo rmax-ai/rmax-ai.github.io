@@ -393,10 +393,25 @@ flowchart LR
 <p>The model below is a practitioner synthesis, not a new theory. It draws on workflow engineering, socio-technical systems, and operational measurement to provide a repeatable evaluation sequence.</p>
 <pre class="mermaid">
 flowchart LR
-    A[1. Baseline] --> B[2. Decompose]
-    B --> C[3. Allocate authority]
-    C --> D[4. Design validation]
-    D --> E[5. Measure outcomes]
+    A["1. Baseline<br/>Map the current end-to-end workflow"] -->
+    B["2. Decompose<br/>Separate cognitive and operational tasks"]
+
+    B -->
+    C["3. Allocate authority<br/>Define who may recommend, approve, or execute"]
+
+    C -->
+    D["4. Design validation<br/>Add controls, evidence, escalation, and recovery"]
+
+    D -->
+    E["5. Measure outcomes<br/>Evaluate flow, quality, effort, and risk"]
+
+    E -. "Observed failures and opportunities" .-> B
+
+    A1["Cycle time<br/>Handoffs<br/>Rework<br/>Failure modes"] -.-> A
+    B1["Model<br/>Software<br/>Rules engine<br/>Human"] -.-> B
+    C1["Recommend<br/>Prepare<br/>Execute within bounds<br/>Escalate"] -.-> C
+    D1["Pre-execution<br/>Runtime<br/>Post-execution"] -.-> D
+    E1["Operational outcomes<br/>not task speed alone"] -.-> E
 </pre>
 <h3>1. Baseline the current workflow</h3>
 <p>Document how the workflow operates before introducing AI. Capture the trigger, the final outcome, participating roles and systems, major handoffs, cycle time, queue depth, rework rate, exception rate, review effort, failure modes, and compliance requirements.</p>
