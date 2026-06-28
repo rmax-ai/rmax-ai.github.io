@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*June 28, 2026* — [Enterprise AI Adoption Is a Workflow Redesign Problem](/notes/enterprise-ai-workflow-redesign/)
+
+### [Enterprise AI Adoption Is a Workflow Redesign Problem](/notes/enterprise-ai-workflow-redesign/)
+*June 28, 2026* — A practical essay on why durable enterprise AI value comes from redesigning workflows, validation, authority, and ownership, not merely deploying copilots and agents.
+
 *June 26, 2026* — [Build Systems, Not Prompts: Software Engineering for Agentic AI](/notes/build-systems-not-prompts/)
 
 ### [Build Systems, Not Prompts: Software Engineering for Agentic AI](/notes/build-systems-not-prompts/)
