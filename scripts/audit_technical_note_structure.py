@@ -19,7 +19,7 @@ PRACTICAL_RE = re.compile(
     r"(?im)^(?:#{1,6}\s*|\*\*\s*)practical\s+takeaways(?:\s*\([^)]*\))?(?::)?(?:\s*\*\*)?\s*$"
 )
 POSITIONING_RE = re.compile(
-    r"(?im)^(?:#{1,6}\s*|\*\*\s*)(?:positioning(?:\s+note)?(?:\s*\([^)]*\))?|scope\s+and\s+positioning)(?::)?(?:\s*\*\*)?\s*$"
+    r"(?im)^(?:#{1,6}\s*|\*\*\s*)(?:positioning(?:\s+note)?(?:\s*\([^)]*\))?|scope\s+and\s+positioning|conclusion)(?::)?(?:\s*\*\*)?\s*$"
 )
 STATUS_HEADING_RE = re.compile(
     r"(?im)^(?:#{1,6}\s*|\*\*\s*)status(?:\s*&\s*|\s+and\s+)?(?:scope(?:\s+disclaimer)?|disclaimer)(?::)?(?:\s*\*\*)?\s*$"
