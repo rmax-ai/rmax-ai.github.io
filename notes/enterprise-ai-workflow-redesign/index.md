@@ -210,10 +210,25 @@ The model below is a practitioner synthesis, not a new theory. It draws on workf
 
 ```mermaid
 flowchart LR
-    A[1. Baseline] --> B[2. Decompose]
-    B --> C[3. Allocate authority]
-    C --> D[4. Design validation]
-    D --> E[5. Measure outcomes]
+    A["1. Baseline<br/>Map the current end-to-end workflow"] -->
+    B["2. Decompose<br/>Separate cognitive and operational tasks"]
+
+    B -->
+    C["3. Allocate authority<br/>Define who may recommend, approve, or execute"]
+
+    C -->
+    D["4. Design validation<br/>Add controls, evidence, escalation, and recovery"]
+
+    D -->
+    E["5. Measure outcomes<br/>Evaluate flow, quality, effort, and risk"]
+
+    E -. "Observed failures and opportunities" .-> B
+
+    A1["Cycle time<br/>Handoffs<br/>Rework<br/>Failure modes"] -.-> A
+    B1["Model<br/>Software<br/>Rules engine<br/>Human"] -.-> B
+    C1["Recommend<br/>Prepare<br/>Execute within bounds<br/>Escalate"] -.-> C
+    D1["Pre-execution<br/>Runtime<br/>Post-execution"] -.-> D
+    E1["Operational outcomes<br/>not task speed alone"] -.-> E
 ```
 
 ### 1. Baseline the current workflow
