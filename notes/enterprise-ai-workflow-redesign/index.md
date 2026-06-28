@@ -8,7 +8,7 @@ section: "notes"
 type: "essay"
 status: "published"
 date: "2026-06-28"
-updated: "2026-06-30"
+updated: "2026-06-28"
 tags: ["Enterprise AI", "Workflow Design", "AI Adoption", "Forward-Deployed Engineering", "Governance", "Operating Models"]
 reading_time: "10–12 min"
 canonical_url: "https://rmax.ai/notes/enterprise-ai-workflow-redesign/"
