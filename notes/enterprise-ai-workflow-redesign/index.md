@@ -8,7 +8,7 @@ section: "notes"
 type: "essay"
 status: "published"
 date: "2026-06-28"
-updated: "2026-06-28"
+updated: "2026-06-30"
 tags: ["Enterprise AI", "Workflow Design", "AI Adoption", "Forward-Deployed Engineering", "Governance", "Operating Models"]
 reading_time: "10–12 min"
 canonical_url: "https://rmax.ai/notes/enterprise-ai-workflow-redesign/"
@@ -49,7 +49,7 @@ Traditional software rollouts often follow a plausible chain:
 
 `acquire software -> configure software -> train users -> realize productivity gains`
 
-That model works best when software encodes relatively stable, deterministic processes. Generative and agentic systems do not behave that way. Their outputs are probabilistic, context-sensitive, and uneven across adjacent tasks. Research on the jagged technological frontier shows that AI can improve speed and quality inside its capability boundary while degrading outcomes outside it [1].
+That model works best when software encodes relatively stable, deterministic processes. Generative and agentic systems do not behave that way. Their outputs are probabilistic, context-sensitive, and uneven across adjacent tasks. [Research on the jagged technological frontier](https://doi.org/10.1287/orsc.2025.21838) shows that AI can improve speed and quality inside its capability boundary while degrading outcomes outside it. [[1]](https://doi.org/10.1287/orsc.2025.21838)
 
 Local acceleration, therefore, is not evidence of system improvement.
 
@@ -175,7 +175,7 @@ This is the most common failure. AI is added on top of unchanged approvals, hand
 
 Generic AI literacy programs often teach prompting in the abstract while leaving operational barriers in place: no access to the right data, unclear policy, no manager support, no workflow owner, and no safe production path. The problem is not user enthusiasm. The problem is missing organizational support.
 
-Programs such as 1Password's AI Champions are more useful because they connect domain-specific workflows, peer support, and reusable internal practice [8].
+Programs such as [1Password's AI Champions](https://1password.com/blog/how-1password-is-building-a-culture-of-ai-fluency-through-ai-champions) are more useful because they connect domain-specific workflows, peer support, and reusable internal practice. [[6]](https://1password.com/blog/how-1password-is-building-a-culture-of-ai-fluency-through-ai-champions)
 
 ### Executive enthusiasm without manager alignment
 
@@ -204,7 +204,7 @@ flowchart LR
 
 ## Adoption requires joint optimization
 
-Socio-technical systems theory remains a useful frame here. Trist and Bamforth showed that technical and social systems cannot be optimized independently without damaging overall performance [3]. Enterprise AI follows the same rule.
+Socio-technical systems theory remains a useful frame here. [Trist and Bamforth](https://doi.org/10.1177/001872675100400101) showed that technical and social systems cannot be optimized independently without damaging overall performance. [[3]](https://doi.org/10.1177/001872675100400101) Enterprise AI follows the same rule.
 
 The technical subsystem includes:
 
@@ -230,7 +230,7 @@ If an organization optimizes only the technical side, it gets impressive but fra
 
 The target is joint optimization: a technically reliable system embedded in a workflow that people are authorized, motivated, and able to operate.
 
-That is also why acceptance models are only partly sufficient. Perceived usefulness and ease of use matter [4][5], but enterprise adoption also depends on whether people have permission, data access, accountability clarity, and protected time to change how work gets done. Weiner's framing of change commitment and change efficacy is especially relevant here [2].
+That is also why acceptance models are only partly sufficient. [Perceived usefulness and ease of use](https://doi.org/10.2307/249008) matter. [[4]](https://doi.org/10.2307/249008)[[5]](https://doi.org/10.2307/30036540) But enterprise adoption also depends on whether people have permission, data access, accountability clarity, and protected time to change how work gets done. [Weiner's framing of change commitment and change efficacy](https://doi.org/10.1186/1748-5908-4-67) is especially relevant here. [[2]](https://doi.org/10.1186/1748-5908-4-67)
 
 ## Forward-Deployed Engineering as adoption engineering
 
@@ -247,7 +247,7 @@ At its best, FDE is not just implementation support. It combines:
 - stakeholder negotiation
 - capability transfer
 
-Palantir's AI FDE material describes one formalized version of this pattern [9]. Broader commentary from First Round Review and PostHog points to the same underlying idea: useful systems are built close to operational reality, not at an abstract distance [10][11].
+[Palantir's AI FDE material](https://palantir.com/docs/foundry/ai-fde/overview/) describes one formalized version of this pattern. [[7]](https://palantir.com/docs/foundry/ai-fde/overview/) Broader commentary from [First Round Review](https://review.firstround.com/so-you-want-to-hire-a-forward-deployed-engineer/) and [PostHog](https://posthog.com/blog/forward-deployed-engineer) points to the same underlying idea: useful systems are built close to operational reality, not at an abstract distance. [[8]](https://review.firstround.com/so-you-want-to-hire-a-forward-deployed-engineer/)[[9]](https://posthog.com/blog/forward-deployed-engineer)
 
 A useful pairing is a technical operator who understands systems, models, and runtime constraints, plus a domain operator who understands institutional process, incentives, and failure costs. The labels matter less than the complement.
 
@@ -320,28 +320,26 @@ Dashboards showing model usage, prompt volume, or active users can create false 
 4. **Measure workflow outcomes, not just tool activity.** Cycle time, rework, first-pass yield, exception load, and released capacity matter more than prompt counts.
 5. **Treat adoption as a capability, not a campaign.** The durable asset is the organization's ability to redesign workflows repeatedly under governance.
 
-## Positioning note
+## Conclusion
 
-This note is not academic research. It does not attempt formal causal proof.
+Enterprise AI adoption is often discussed as if employees need better tools, better prompts, or more enthusiasm. That framing is too shallow.
 
-It is also not a blog opinion. The claims here are operational and meant to guide implementation choices.
+The difficult work is reconstructing the system around the model: tasks, data, authority, validation, management, incentives, governance, and ownership. Models will continue to improve. Access to capable models will diffuse. Individual features will be copied quickly. Durable advantage will come from an organization's ability to redesign work around probabilistic systems without losing control, accountability, or institutional knowledge.
 
-It is not vendor documentation either. Vendor material usually explains what a product can do. This note is about the organizational and workflow conditions under which AI capability becomes durable value.
+A deployment changes what people can access. A redesigned workflow changes how the organization operates.
 
-## Status and scope disclaimer
+---
 
-This is an applied technical note based on current enterprise patterns, field observations, and published supporting material. Its framing is exploratory, but it is grounded in recurring implementation failure modes and adoption patterns. It is not authoritative guidance, and it does not replace domain-specific governance, legal review, or formal evaluation in regulated settings.
+*This is an applied technical note based on current enterprise patterns, field observations, and published supporting material. It is not authoritative and does not replace domain-specific governance, legal review, or formal evaluation in regulated settings.*
 
 ## References
 
-1. Dell'Acqua, F., McFowland, E., Mollick, E., et al. "Navigating the Jagged Technological Frontier: Field Experimental Evidence of the Effects of AI on Knowledge Worker Productivity and Quality." *Organization Science*.
-2. Weiner, B. J. "A Theory of Organizational Readiness for Change." *Implementation Science*, 2009.
-3. Trist, E. L., and Bamforth, K. W. "Some Social and Psychological Consequences of the Longwall Method of Coal-Getting." *Human Relations*, 1951.
-4. Davis, F. D. "Perceived Usefulness, Perceived Ease of Use, and User Acceptance of Information Technology." *MIS Quarterly*, 1989.
-5. Venkatesh, V., Morris, M. G., Davis, G. B., and Davis, F. D. "User Acceptance of Information Technology: Toward a Unified View." *MIS Quarterly*, 2003.
-6. Heilman, A., Kyllo, A., and Murphy-Hill, E. "GitHub Copilot and Developer Productivity: An Observational Dose-Response Analysis." arXiv, 2026.
-7. Stray, V., Brandtzæg, E. G., Wivestad, V. T., Barbala, A., and Moe, N. B. "Developer Productivity With and Without GitHub Copilot: A Longitudinal Mixed-Methods Case Study." arXiv, 2025.
-8. 1Password. "How 1Password Is Building a Culture of AI Fluency Through AI Champions."
-9. Palantir. "AI FDE Overview."
-10. First Round Review. "So You Want to Hire a Forward Deployed Engineer."
-11. PostHog. "WTF Is a Forward Deployed Engineer."
+1. Dell'Acqua, F., McFowland, E., Mollick, E., et al. "[Navigating the Jagged Technological Frontier: Field Experimental Evidence of the Effects of AI on Knowledge Worker Productivity and Quality](https://doi.org/10.1287/orsc.2025.21838)." *Organization Science*, 2026.
+2. Weiner, B. J. "[A Theory of Organizational Readiness for Change](https://doi.org/10.1186/1748-5908-4-67)." *Implementation Science*, 2009.
+3. Trist, E. L., and Bamforth, K. W. "[Some Social and Psychological Consequences of the Longwall Method of Coal-Getting](https://doi.org/10.1177/001872675100400101)." *Human Relations*, 1951.
+4. Davis, F. D. "[Perceived Usefulness, Perceived Ease of Use, and User Acceptance of Information Technology](https://doi.org/10.2307/249008)." *MIS Quarterly*, 1989.
+5. Venkatesh, V., Morris, M. G., Davis, G. B., and Davis, F. D. "[User Acceptance of Information Technology: Toward a Unified View](https://doi.org/10.2307/30036540)." *MIS Quarterly*, 2003.
+6. 1Password. "[How 1Password Is Building a Culture of AI Fluency Through AI Champions](https://1password.com/blog/how-1password-is-building-a-culture-of-ai-fluency-through-ai-champions)." 2026.
+7. Palantir. "[AI FDE Overview](https://palantir.com/docs/foundry/ai-fde/overview/)."
+8. First Round Review. "[So You Want to Hire a Forward Deployed Engineer](https://review.firstround.com/so-you-want-to-hire-a-forward-deployed-engineer/)."
+9. PostHog. "[WTF Is a Forward Deployed Engineer](https://posthog.com/blog/forward-deployed-engineer)." 2026.
