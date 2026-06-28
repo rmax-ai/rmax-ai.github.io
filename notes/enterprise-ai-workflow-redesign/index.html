@@ -391,6 +391,7 @@ flowchart LR
 <h2>A practical workflow-redesign model</h2>
 <p>When an enterprise team sits down to redesign a workflow around AI, they need more than a conviction that local automation is insufficient. They need a structured way to evaluate the workflow before and after the change.</p>
 <p>The model below is a practitioner synthesis, not a new theory. It draws on workflow engineering, socio-technical systems, and operational measurement to provide a repeatable evaluation sequence.</p>
+<p>The model is sequential, but not linear: measured outcomes feed back into decomposition, authority boundaries, and validation design.</p>
 <pre class="mermaid">
 flowchart LR
     A["1. Baseline<br/>Map the current end-to-end workflow"] -->
@@ -413,6 +414,7 @@ flowchart LR
     D1["Pre-execution<br/>Runtime<br/>Post-execution"] -.-> D
     E1["Operational outcomes<br/>not task speed alone"] -.-> E
 </pre>
+<p>Each stage constrains the next; skipping one usually moves cost or risk downstream rather than removing it.</p>
 <h3>1. Baseline the current workflow</h3>
 <p>Document how the workflow operates before introducing AI. Capture the trigger, the final outcome, participating roles and systems, major handoffs, cycle time, queue depth, rework rate, exception rate, review effort, failure modes, and compliance requirements.</p>
 <p>The baseline must measure the complete workflow, not only the task selected for automation. Reducing drafting time from 40 minutes to 5 minutes is not meaningful if verification downstream adds another hour.</p>
