@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Enterprise AI Adoption Is a Workflow Redesign Problem](/notes/enterprise-ai-workflow-redesign/)
+*June 28, 2026* — Why durable enterprise AI value comes from redesigning workflows, validation, authority, and ownership, not merely deploying copilots and agents.
+
 ### [Build Systems, Not Prompts: Software Engineering for Agentic AI](/notes/build-systems-not-prompts/)
 *June 26, 2026* — A practical essay on why reliable agentic AI depends more on workflow design, state, verification, and approval boundaries than on increasingly elaborate prompts.
 
