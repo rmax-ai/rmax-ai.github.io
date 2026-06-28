@@ -208,6 +208,8 @@ When an enterprise team sits down to redesign a workflow around AI, they need mo
 
 The model below is a practitioner synthesis, not a new theory. It draws on workflow engineering, socio-technical systems, and operational measurement to provide a repeatable evaluation sequence.
 
+The model is sequential, but not linear: measured outcomes feed back into decomposition, authority boundaries, and validation design.
+
 ```mermaid
 flowchart LR
     A["1. Baseline<br/>Map the current end-to-end workflow"] -->
@@ -230,6 +232,8 @@ flowchart LR
     D1["Pre-execution<br/>Runtime<br/>Post-execution"] -.-> D
     E1["Operational outcomes<br/>not task speed alone"] -.-> E
 ```
+
+Each stage constrains the next; skipping one usually moves cost or risk downstream rather than removing it.
 
 ### 1. Baseline the current workflow
 
