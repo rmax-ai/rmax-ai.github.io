@@ -10,7 +10,7 @@ status: "published"
 date: "2026-06-28"
 updated: "2026-06-28"
 tags: ["Enterprise AI", "Workflow Design", "AI Adoption", "Forward-Deployed Engineering", "Governance", "Operating Models"]
-reading_time: "10–12 min"
+reading_time: "12–14 min"
 canonical_url: "https://rmax.ai/notes/enterprise-ai-workflow-redesign/"
 license: "CC BY 4.0"
 ---
@@ -201,6 +201,115 @@ flowchart LR
     B --> D
     C --> D
 ```
+
+## A practical workflow-redesign model
+
+When an enterprise team sits down to redesign a workflow around AI, they need more than a conviction that local automation is insufficient. They need a structured way to evaluate the workflow before and after the change.
+
+The model below is a practitioner synthesis, not a new theory. It draws on workflow engineering, socio-technical systems, and operational measurement to provide a repeatable evaluation sequence.
+
+```mermaid
+flowchart LR
+    A[1. Baseline] --> B[2. Decompose]
+    B --> C[3. Allocate authority]
+    C --> D[4. Design validation]
+    D --> E[5. Measure outcomes]
+```
+
+### 1. Baseline the current workflow
+
+Document how the workflow operates before introducing AI. Capture the trigger, the final outcome, participating roles and systems, major handoffs, cycle time, queue depth, rework rate, exception rate, review effort, failure modes, and compliance requirements.
+
+The baseline must measure the complete workflow, not only the task selected for automation. Reducing drafting time from 40 minutes to 5 minutes is not meaningful if verification downstream adds another hour.
+
+| Dimension | Baseline question |
+|---|---|
+| Outcome | What result must the workflow reliably produce? |
+| Flow | Where does work wait, repeat, or move between teams? |
+| Effort | Which steps consume the most human attention? |
+| Risk | Where can errors create material consequences? |
+| Evidence | What records are required for review or audit? |
+
+### 2. Decompose the work
+
+Break the workflow into discrete cognitive and operational tasks. Do not treat the job as one unit. Categories include information retrieval, context assembly, classification, extraction, drafting, calculation, decision support, approval, execution, monitoring, and exception handling.
+
+For each task, assess input quality, output verifiability, error tolerance, frequency, variability, dependency on tacit knowledge, and reversibility.
+
+Allocate tasks according to their characteristics: deterministic software for stable rules, models for interpretation and synthesis, evaluators for repeatable checks, humans for ambiguous judgment and accountability.
+
+Decomposition should expose steps that can be removed, combined, reordered, or made continuous — not reproduce the existing workflow unchanged.
+
+| Task | Best executor | Reason |
+|---|---|---|
+| Retrieve account history | System | Structured and deterministic |
+| Summarize prior interactions | Model | High-volume synthesis |
+| Check policy eligibility | Rules engine | Explicit policy constraints |
+| Approve high-risk exception | Human | Accountability and contextual judgment |
+
+### 3. Allocate authority
+
+Define not only what the system can produce, but what it is permitted to decide or execute. For every task, specify an authority level:
+
+1. **Recommend** — AI proposes; human decides.
+2. **Prepare** — AI completes the work; human approves.
+3. **Execute within bounds** — AI acts when explicit conditions are satisfied.
+4. **Execute and report** — AI acts autonomously but produces evidence and remains observable.
+5. **Escalate** — AI must stop and transfer control when confidence, risk, or policy thresholds are crossed.
+
+Authority should be determined by consequence of error, reversibility, regulatory exposure, financial and customer impact, confidence quality, and policy clarity.
+
+> Capability answers, "Can the system do this?" Authority answers, "Under what conditions is the system allowed to do this?"
+
+| Task | Authority level | Boundary |
+|---|---|---|
+| Draft response | Prepare | Human approval required |
+| Issue small refund | Execute within bounds | Maximum €50 and eligible policy case |
+| Close fraud investigation | Recommend | Human investigator decides |
+| Update CRM summary | Execute and report | Source links and audit log required |
+
+### 4. Design validation
+
+Validation is not a final review step — it is part of the workflow architecture. For each AI-supported task, define what must be checked, when the check happens, which mechanism performs it, what evidence is retained, and what happens when the check fails.
+
+Mechanisms include schema validation, deterministic business rules, source-grounding checks, permission checks, confidence thresholds, model-based evaluators, reconciliation against systems of record, sampled human review, anomaly detection, and rollback.
+
+Distinguish pre-execution controls that prevent unsafe actions from runtime controls that constrain behavior and post-execution controls that detect failures for audit and recovery.
+
+Human review should be concentrated on ambiguity and risk, not applied uniformly. Otherwise automation moves the bottleneck into a review queue.
+
+| Risk | Validation mechanism | Failure response |
+|---|---|---|
+| Unsupported factual claim | Source-grounding check | Regenerate or escalate |
+| Policy violation | Deterministic policy engine | Block execution |
+| Unusual transaction | Anomaly detector | Route to specialist |
+| Low-confidence classification | Confidence threshold | Human review |
+
+### 5. Measure workflow outcomes
+
+Evaluate the redesigned workflow against operational outcomes, not model-centric metrics alone. Model accuracy, latency, and token cost are intermediate engineering indicators. They do not establish whether the workflow improved.
+
+| Dimension | Before | After | Target |
+|---|---:|---:|---:|
+| Cycle time | 3 days | 8 hours | <12 hours |
+| Human review rate | 100% | 22% | <25% |
+| Rework rate | 18% | 7% | <8% |
+| Cost per case | €42 | €19 | <€22 |
+| Audit completeness | 71% | 99% | >98% |
+
+Measure across four dimensions: **flow** (cycle time, handoffs, throughput), **quality** (first-pass rate, rework, compliance), **human effort** (attention per case, review burden, released capacity), and **risk** (error rate, escalation precision, audit completeness).
+
+#### Worked example: customer-support resolution
+
+**Before redesign:** An employee gathers context from several systems, AI drafts a response, a reviewer checks every draft, missing context causes rework, and total cycle time remains nearly unchanged despite faster drafting.
+
+**After redesign:** Systems assemble context automatically, deterministic rules classify routine cases, AI drafts only where interpretation is required, policy checks run before execution, low-risk cases proceed without review, humans handle only exceptions, and evidence is logged for audit. Cycle time drops from 3 days to under 12 hours.
+
+The improvement comes from changing task allocation, authority, validation, and handoffs — not from generating text faster.
+
+---
+
+A workflow is meaningfully redesigned only when the end-to-end system improves across flow, quality, human effort, and risk. Faster output from one task is not sufficient evidence of transformation.
 
 ## Adoption requires joint optimization
 
