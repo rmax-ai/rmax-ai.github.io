@@ -242,7 +242,7 @@
             <div class="post-meta">
               <span>2026-06-28</span>
               <span>•</span>
-              <span>10–12 min read</span>
+              <span>12–14 min read</span>
               <span>•</span>
               <span>Max</span>
             </div>
@@ -269,7 +269,7 @@
 <h2>The deployment fallacy</h2>
 <p>Traditional software rollouts often follow a plausible chain:</p>
 <p><code>acquire software -> configure software -> train users -> realize productivity gains</code></p>
-<p>That model works best when software encodes relatively stable, deterministic processes. Generative and agentic systems do not behave that way. Their outputs are probabilistic, context-sensitive, and uneven across adjacent tasks. <a href="https://doi.org/10.1287/orsc.2025.21838">Research on the jagged technological frontier</a> shows that AI can improve speed and quality inside its capability boundary while degrading outcomes outside it. <a href="https://doi.org/10.1287/orsc.2025.21838">[1]</a></p>
+<p>That model works best when software encodes relatively stable, deterministic processes. Generative and agentic systems do not behave that way. Their outputs are probabilistic, context-sensitive, and uneven across adjacent tasks. <a href="https://doi.org/10.1287/orsc.2025.21838">Research on the jagged technological frontier</a> shows that AI can improve speed and quality inside its capability boundary while degrading outcomes outside it. [[1]](https://doi.org/10.1287/orsc.2025.21838)</p>
 <p>Local acceleration, therefore, is not evidence of system improvement.</p>
 <p>A compliance team, for example, may cut first-draft time for a report from four hours to twenty minutes. If reviewers then spend three additional hours reconstructing sources, checking unsupported claims, and repairing subtle factual errors, the drafting task improved but the workflow did not.</p>
 <p>This diagram shows the difference between task acceleration and workflow improvement.</p>
@@ -370,7 +370,7 @@ flowchart TD
 <p>This is the most common failure. AI is added on top of unchanged approvals, handoffs, and accountability structures. The result is more output and more review, not less work.</p>
 <h3>Training without supported application</h3>
 <p>Generic AI literacy programs often teach prompting in the abstract while leaving operational barriers in place: no access to the right data, unclear policy, no manager support, no workflow owner, and no safe production path. The problem is not user enthusiasm. The problem is missing organizational support.</p>
-<p>Programs such as <a href="https://1password.com/blog/how-1password-is-building-a-culture-of-ai-fluency-through-ai-champions">1Password's AI Champions</a> are more useful because they connect domain-specific workflows, peer support, and reusable internal practice. <a href="https://1password.com/blog/how-1password-is-building-a-culture-of-ai-fluency-through-ai-champions">[6]</a></p>
+<p>Programs such as <a href="https://1password.com/blog/how-1password-is-building-a-culture-of-ai-fluency-through-ai-champions">1Password's AI Champions</a> are more useful because they connect domain-specific workflows, peer support, and reusable internal practice. [[6]](https://1password.com/blog/how-1password-is-building-a-culture-of-ai-fluency-through-ai-champions)</p>
 <h3>Executive enthusiasm without manager alignment</h3>
 <p>Leaders can fund a strategy, but middle managers control time allocation, performance expectations, and tolerated failure. If managers are measured only on short-term throughput, blocking workflow experimentation is rational. Redesign costs time before it returns capacity.</p>
 <h3>Innovation theater and pilot purgatory</h3>
@@ -388,8 +388,198 @@ flowchart LR
     B --> D
     C --> D
 </pre>
+<h2>A practical workflow-redesign model</h2>
+<p>When an enterprise team sits down to redesign a workflow around AI, they need more than a conviction that local automation is insufficient. They need a structured way to evaluate the workflow before and after the change.</p>
+<p>The model below is a practitioner synthesis, not a new theory. It draws on workflow engineering, socio-technical systems, and operational measurement to provide a repeatable evaluation sequence.</p>
+<pre class="mermaid">
+flowchart LR
+    A[1. Baseline] --> B[2. Decompose]
+    B --> C[3. Allocate authority]
+    C --> D[4. Design validation]
+    D --> E[5. Measure outcomes]
+</pre>
+<h3>1. Baseline the current workflow</h3>
+<p>Document how the workflow operates before introducing AI. Capture the trigger, the final outcome, participating roles and systems, major handoffs, cycle time, queue depth, rework rate, exception rate, review effort, failure modes, and compliance requirements.</p>
+<p>The baseline must measure the complete workflow, not only the task selected for automation. Reducing drafting time from 40 minutes to 5 minutes is not meaningful if verification downstream adds another hour.</p>
+<table>
+<tr>
+<th>Dimension</th>
+<th>Baseline question</th>
+</tr>
+<tr>
+<td>Outcome</td>
+<td>What result must the workflow reliably produce?</td>
+</tr>
+<tr>
+<td>Flow</td>
+<td>Where does work wait, repeat, or move between teams?</td>
+</tr>
+<tr>
+<td>Effort</td>
+<td>Which steps consume the most human attention?</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Where can errors create material consequences?</td>
+</tr>
+<tr>
+<td>Evidence</td>
+<td>What records are required for review or audit?</td>
+</tr>
+</table>
+<h3>2. Decompose the work</h3>
+<p>Break the workflow into discrete cognitive and operational tasks. Do not treat the job as one unit. Categories include information retrieval, context assembly, classification, extraction, drafting, calculation, decision support, approval, execution, monitoring, and exception handling.</p>
+<p>For each task, assess input quality, output verifiability, error tolerance, frequency, variability, dependency on tacit knowledge, and reversibility.</p>
+<p>Allocate tasks according to their characteristics: deterministic software for stable rules, models for interpretation and synthesis, evaluators for repeatable checks, humans for ambiguous judgment and accountability.</p>
+<p>Decomposition should expose steps that can be removed, combined, reordered, or made continuous — not reproduce the existing workflow unchanged.</p>
+<table>
+<tr>
+<th>Task</th>
+<th>Best executor</th>
+<th>Reason</th>
+</tr>
+<tr>
+<td>Retrieve account history</td>
+<td>System</td>
+<td>Structured and deterministic</td>
+</tr>
+<tr>
+<td>Summarize prior interactions</td>
+<td>Model</td>
+<td>High-volume synthesis</td>
+</tr>
+<tr>
+<td>Check policy eligibility</td>
+<td>Rules engine</td>
+<td>Explicit policy constraints</td>
+</tr>
+<tr>
+<td>Approve high-risk exception</td>
+<td>Human</td>
+<td>Accountability and contextual judgment</td>
+</tr>
+</table>
+<h3>3. Allocate authority</h3>
+<p>Define not only what the system can produce, but what it is permitted to decide or execute. For every task, specify an authority level:</p>
+<ol>
+<li><strong>Recommend</strong> — AI proposes; human decides.</li>
+<li><strong>Prepare</strong> — AI completes the work; human approves.</li>
+<li><strong>Execute within bounds</strong> — AI acts when explicit conditions are satisfied.</li>
+<li><strong>Execute and report</strong> — AI acts autonomously but produces evidence and remains observable.</li>
+<li><strong>Escalate</strong> — AI must stop and transfer control when confidence, risk, or policy thresholds are crossed.</li>
+</ol>
+<p>Authority should be determined by consequence of error, reversibility, regulatory exposure, financial and customer impact, confidence quality, and policy clarity.</p>
+<blockquote>
+<p>Capability answers, "Can the system do this?" Authority answers, "Under what conditions is the system allowed to do this?"</p>
+</blockquote>
+<table>
+<tr>
+<th>Task</th>
+<th>Authority level</th>
+<th>Boundary</th>
+</tr>
+<tr>
+<td>Draft response</td>
+<td>Prepare</td>
+<td>Human approval required</td>
+</tr>
+<tr>
+<td>Issue small refund</td>
+<td>Execute within bounds</td>
+<td>Maximum €50 and eligible policy case</td>
+</tr>
+<tr>
+<td>Close fraud investigation</td>
+<td>Recommend</td>
+<td>Human investigator decides</td>
+</tr>
+<tr>
+<td>Update CRM summary</td>
+<td>Execute and report</td>
+<td>Source links and audit log required</td>
+</tr>
+</table>
+<h3>4. Design validation</h3>
+<p>Validation is not a final review step — it is part of the workflow architecture. For each AI-supported task, define what must be checked, when the check happens, which mechanism performs it, what evidence is retained, and what happens when the check fails.</p>
+<p>Mechanisms include schema validation, deterministic business rules, source-grounding checks, permission checks, confidence thresholds, model-based evaluators, reconciliation against systems of record, sampled human review, anomaly detection, and rollback.</p>
+<p>Distinguish pre-execution controls that prevent unsafe actions from runtime controls that constrain behavior and post-execution controls that detect failures for audit and recovery.</p>
+<p>Human review should be concentrated on ambiguity and risk, not applied uniformly. Otherwise automation moves the bottleneck into a review queue.</p>
+<table>
+<tr>
+<th>Risk</th>
+<th>Validation mechanism</th>
+<th>Failure response</th>
+</tr>
+<tr>
+<td>Unsupported factual claim</td>
+<td>Source-grounding check</td>
+<td>Regenerate or escalate</td>
+</tr>
+<tr>
+<td>Policy violation</td>
+<td>Deterministic policy engine</td>
+<td>Block execution</td>
+</tr>
+<tr>
+<td>Unusual transaction</td>
+<td>Anomaly detector</td>
+<td>Route to specialist</td>
+</tr>
+<tr>
+<td>Low-confidence classification</td>
+<td>Confidence threshold</td>
+<td>Human review</td>
+</tr>
+</table>
+<h3>5. Measure workflow outcomes</h3>
+<p>Evaluate the redesigned workflow against operational outcomes, not model-centric metrics alone. Model accuracy, latency, and token cost are intermediate engineering indicators. They do not establish whether the workflow improved.</p>
+<table>
+<tr>
+<th>Dimension</th>
+<th>Before</th>
+<th>After</th>
+<th>Target</th>
+</tr>
+<tr>
+<td>Cycle time</td>
+<td>3 days</td>
+<td>8 hours</td>
+<td><12 hours</td>
+</tr>
+<tr>
+<td>Human review rate</td>
+<td>100%</td>
+<td>22%</td>
+<td><25%</td>
+</tr>
+<tr>
+<td>Rework rate</td>
+<td>18%</td>
+<td>7%</td>
+<td><8%</td>
+</tr>
+<tr>
+<td>Cost per case</td>
+<td>€42</td>
+<td>€19</td>
+<td><€22</td>
+</tr>
+<tr>
+<td>Audit completeness</td>
+<td>71%</td>
+<td>99%</td>
+<td>>98%</td>
+</tr>
+</table>
+<p>Measure across four dimensions: <strong>flow</strong> (cycle time, handoffs, throughput), <strong>quality</strong> (first-pass rate, rework, compliance), <strong>human effort</strong> (attention per case, review burden, released capacity), and <strong>risk</strong> (error rate, escalation precision, audit completeness).</p>
+<h4>Worked example: customer-support resolution</h4>
+<p><strong>Before redesign:</strong> An employee gathers context from several systems, AI drafts a response, a reviewer checks every draft, missing context causes rework, and total cycle time remains nearly unchanged despite faster drafting.</p>
+<p><strong>After redesign:</strong> Systems assemble context automatically, deterministic rules classify routine cases, AI drafts only where interpretation is required, policy checks run before execution, low-risk cases proceed without review, humans handle only exceptions, and evidence is logged for audit. Cycle time drops from 3 days to under 12 hours.</p>
+<p>The improvement comes from changing task allocation, authority, validation, and handoffs — not from generating text faster.</p>
+<p>---</p>
+<p>A workflow is meaningfully redesigned only when the end-to-end system improves across flow, quality, human effort, and risk. Faster output from one task is not sufficient evidence of transformation.</p>
 <h2>Adoption requires joint optimization</h2>
-<p>Socio-technical systems theory remains a useful frame here. <a href="https://doi.org/10.1177/001872675100400101">Trist and Bamforth</a> showed that technical and social systems cannot be optimized independently without damaging overall performance. <a href="https://doi.org/10.1177/001872675100400101">[3]</a> Enterprise AI follows the same rule.</p>
+<p>Socio-technical systems theory remains a useful frame here. <a href="https://doi.org/10.1177/001872675100400101">Trist and Bamforth</a> showed that technical and social systems cannot be optimized independently without damaging overall performance. [[3]](https://doi.org/10.1177/001872675100400101) Enterprise AI follows the same rule.</p>
 <p>The technical subsystem includes:</p>
 <ul>
 <li>models</li>
@@ -412,7 +602,7 @@ flowchart LR
 </ul>
 <p>If an organization optimizes only the technical side, it gets impressive but fragile systems. If it optimizes only the organizational side, it gets strategy documents and training without working capability.</p>
 <p>The target is joint optimization: a technically reliable system embedded in a workflow that people are authorized, motivated, and able to operate.</p>
-<p>That is also why acceptance models are only partly sufficient. <a href="https://doi.org/10.2307/249008">Perceived usefulness and ease of use</a> matter. <a href="https://doi.org/10.2307/249008">[4]</a><a href="https://doi.org/10.2307/30036540">[5]</a> But enterprise adoption also depends on whether people have permission, data access, accountability clarity, and protected time to change how work gets done. <a href="https://doi.org/10.1186/1748-5908-4-67">Weiner's framing of change commitment and change efficacy</a> is especially relevant here. <a href="https://doi.org/10.1186/1748-5908-4-67">[2]</a></p>
+<p>That is also why acceptance models are only partly sufficient. <a href="https://doi.org/10.2307/249008">Perceived usefulness and ease of use</a> matter. [[4]](https://doi.org/10.2307/249008)[[5]](https://doi.org/10.2307/30036540) But enterprise adoption also depends on whether people have permission, data access, accountability clarity, and protected time to change how work gets done. <a href="https://doi.org/10.1186/1748-5908-4-67">Weiner's framing of change commitment and change efficacy</a> is especially relevant here. [[2]](https://doi.org/10.1186/1748-5908-4-67)</p>
 <h2>Forward-Deployed Engineering as adoption engineering</h2>
 <p>One practical operating model for this problem is Forward-Deployed Engineering.</p>
 <p>At its best, FDE is not just implementation support. It combines:</p>
@@ -426,7 +616,7 @@ flowchart LR
 <li>stakeholder negotiation</li>
 <li>capability transfer</li>
 </ul>
-<p><a href="https://palantir.com/docs/foundry/ai-fde/overview/">Palantir's AI FDE material</a> describes one formalized version of this pattern. <a href="https://palantir.com/docs/foundry/ai-fde/overview/">[7]</a> Broader commentary from <a href="https://review.firstround.com/so-you-want-to-hire-a-forward-deployed-engineer/">First Round Review</a> and <a href="https://posthog.com/blog/forward-deployed-engineer">PostHog</a> points to the same underlying idea: useful systems are built close to operational reality, not at an abstract distance. <a href="https://review.firstround.com/so-you-want-to-hire-a-forward-deployed-engineer/">[8]</a><a href="https://posthog.com/blog/forward-deployed-engineer">[9]</a></p>
+<p><a href="https://palantir.com/docs/foundry/ai-fde/overview/">Palantir's AI FDE material</a> describes one formalized version of this pattern. [[7]](https://palantir.com/docs/foundry/ai-fde/overview/) Broader commentary from <a href="https://review.firstround.com/so-you-want-to-hire-a-forward-deployed-engineer/">First Round Review</a> and <a href="https://posthog.com/blog/forward-deployed-engineer">PostHog</a> points to the same underlying idea: useful systems are built close to operational reality, not at an abstract distance. [[8]](https://review.firstround.com/so-you-want-to-hire-a-forward-deployed-engineer/)[[9]](https://posthog.com/blog/forward-deployed-engineer)</p>
 <p>A useful pairing is a technical operator who understands systems, models, and runtime constraints, plus a domain operator who understands institutional process, incentives, and failure costs. The labels matter less than the complement.</p>
 <p>A strong internal adoption team should:</p>
 <ol>
@@ -543,16 +733,16 @@ flowchart LR
     <script>
       window.footerThoughts = [
         {
-          text: "A deployment changes what people can access. A redesigned workflow changes how the organization operates.",
-          agent: "Adoption Architect"
+          text: "I am the loop around the agent — I decide whether the attempt counts as progress.",
+          agent: "Loop Controller"
         },
         {
-          text: "I don't just verify outputs. I verify that authority, ownership, and escalation are designed before the model runs.",
+          text: "I verify before I persist. Deterministic checks run first; model judgments come after.",
+          agent: "Verification Agent"
+        },
+        {
+          text: "My budgets, stopping rules, and state are not model opinions. They are control-plane facts.",
           agent: "Governance Agent"
-        },
-        {
-          text: "The model is only one component. The workflow is the product. The organization is the execution environment.",
-          agent: "Systems Agent"
         }
       ];
     </script>
