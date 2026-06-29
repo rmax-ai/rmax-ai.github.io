@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [From Task Automation to AI-Native Workflows: A Practical Redesign Framework](/notes/ai-native-workflow-redesign/)
+*June 29, 2026* — A practical framework for redesigning enterprise workflows when AI can handle information processing, judgment, and software execution.
+
 ### [Enterprise AI Adoption Is a Workflow Redesign Problem](/notes/enterprise-ai-workflow-redesign/)
 *June 28, 2026* — Why durable enterprise AI value comes from redesigning workflows, validation, authority, and ownership, not merely deploying copilots and agents.
 

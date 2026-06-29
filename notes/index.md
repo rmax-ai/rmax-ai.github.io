@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*June 29, 2026* — [From Task Automation to AI-Native Workflows: A Practical Redesign Framework](/notes/ai-native-workflow-redesign/)
+
+### [From Task Automation to AI-Native Workflows: A Practical Redesign Framework](/notes/ai-native-workflow-redesign/)
+*June 29, 2026* — A practical framework for redesigning enterprise workflows when AI can handle information processing, judgment, and software execution.
+
 *June 28, 2026* — [Enterprise AI Adoption Is a Workflow Redesign Problem](/notes/enterprise-ai-workflow-redesign/)
 
 ### [Enterprise AI Adoption Is a Workflow Redesign Problem](/notes/enterprise-ai-workflow-redesign/)
