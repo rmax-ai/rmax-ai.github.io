@@ -37,9 +37,9 @@ This document is a practical design framework. It does not claim that all enterp
 
 AI capability is not the same thing as operational value. A model may summarize documents, extract fields, classify requests, draft decisions, or recommend actions. None of those capabilities, on its own, tells us whether the surrounding workflow performs better.
 
-Consider a contract review process. It may include intake queues, policy reconstruction, exception routing, approval bottlenecks, system handoffs, and authorized sign-off. A model can accelerate clause extraction and draft redlines in seconds while total elapsed time remains dominated by waiting, escalation, and approval. The same pattern appears in invoice processing, customer operations, clinical workflows, and software engineering.
+Consider a contract review process. It may include intake queues, policy reconstruction, exception routing, approval bottlenecks, system handoffs, and authorized sign-off. A model can accelerate clause extraction and draft redlines in seconds while total elapsed time remains dominated by waiting, escalation, and approval. The same pattern appears in invoice processing, customer operations, clinical applications, and software engineering, where research has similarly argued for [sociotechnical evaluation beyond model capability](https://doi.org/10.2196/95899).
 
-That is why workflow redesign matters more than model insertion. Deploying AI changes access to capability. Redesigning the workflow changes how the organization operates.
+That is why [workflow redesign matters more than model deployment](https://rmax.ai/notes/enterprise-ai-workflow-redesign/). Deploying AI changes access to capability. Redesigning the workflow changes how the organization operates.
 
 ## Thesis
 
@@ -53,7 +53,7 @@ This principle separates four capabilities that organizations often collapse int
 
 The operational question is not whether generation is possible. The real question is whether the full process improves once verification, governance, and recovery are included.
 
-Little's Law offers a useful reminder:
+[Little's Law](https://doi.org/10.1287/opre.9.3.383) offers a useful reminder:
 
 `L = λW`
 
@@ -82,7 +82,7 @@ This is not a formal accounting identity. It is a discipline for avoiding false 
 
 ## Treat the Workflow as a Sociotechnical System
 
-Enterprise work emerges from people, policies, software, incentives, and external constraints acting together. AI is one component inside that larger system.
+Enterprise work emerges from people, policies, software, incentives, and external constraints acting together. This follows the core premise of [sociotechnical systems theory](https://doi.org/10.1177/001872675100400101): organizational performance arises from the joint design of social and technical systems. AI is one component inside that larger system.
 
 A useful working model has four interacting layers:
 
@@ -99,6 +99,8 @@ A useful working model has four interacting layers:
    Databases, APIs, workflow engines, policy services, identity systems, ledgers, and systems of record.
 
 Workflows often fail at the interfaces between these layers. A model may produce a plausible recommendation without current permissions data. A human may remain accountable without enough evidence to supervise the decision. A deterministic rule may block a valid case because the exception model is incomplete. An agent may coordinate several steps while relying on reconstructed context instead of authoritative state.
+
+Recent work on [intelligent sociotechnical systems](https://arxiv.org/abs/2401.03223) extends this joint-optimization principle across individual, organizational, ecosystem, and societal levels. This perspective has also been developed as a practical [systems-engineering approach to sociotechnical design](https://doi.org/10.1016/j.intcom.2010.07.003).
 
 ```mermaid
 flowchart TD
@@ -278,7 +280,7 @@ This separation keeps the reasoning component from becoming the permission syste
 
 ## Human Oversight as Epistemic Access and Causal Power
 
-"Human in the loop" is not enough. Effective oversight requires two concrete properties.
+"Human in the loop" is not enough. Research on the [attack surface of human oversight](https://arxiv.org/abs/2509.12290) shows that nominal human involvement does not itself guarantee effective control. Effective oversight requires two concrete properties.
 
 ### Epistemic access
 
@@ -303,6 +305,8 @@ The operator must be able to:
 - reverse the action where possible
 
 A person who can only click approve is not exercising meaningful oversight. That person is absorbing residual blame without adequate control.
+
+Effective oversight must therefore be designed as work, not represented as an approval checkbox. [Human-oversight co-design research](https://arxiv.org/abs/2510.19512) similarly emphasizes the operator's information, authority, and ability to intervene.
 
 ## The Autonomy Ladder
 
@@ -341,6 +345,8 @@ The gating variables are not just model confidence. They include:
 - historical failure rate
 - environmental volatility
 - recovery capability
+
+The gating variables extend beyond model confidence to include applicable requirements such as the [EU Artificial Intelligence Act's human-oversight obligations](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689).
 
 ## Redesign Around Events and Shared State
 
@@ -469,6 +475,8 @@ A practical matrix distinguishes at least four dimensions:
 | Legal accountability | Designated organizational authority |
 
 Delegating execution does not delegate authority. Delegating authority does not erase accountability.
+
+Research on [organizational decision-making structures involving AI](https://doi.org/10.1177/0008125619862257) distinguishes among fully human, hybrid, and increasingly automated decision arrangements. The precise roles will differ by organization; the requirement is that they are explicit.
 
 ## Team Organization Around Workflow Outcomes
 
@@ -732,7 +740,7 @@ The right question is not whether the architecture looks sophisticated. The righ
 
 ## Organizational Redesign Implications
 
-At small scale, workflow redesign changes one process. At larger scale, it changes the organization.
+At small scale, workflow redesign changes one process. At larger scale, it changes the organization. Recent economic modelling treats AI as [coordination-compressing capital](https://arxiv.org/abs/2602.16078): technology that can alter spans of control, hierarchy, task allocation, and organizational structure rather than merely automate fixed tasks.
 
 If information gathering, routine interpretation, coordination, and low-risk execution become cheaper, organizations may be able to:
 
@@ -753,7 +761,7 @@ But those effects do not follow automatically from model deployment. They requir
 - operating procedures
 - accountability mechanisms
 
-One important implication concerns skill formation. If junior staff only review AI outputs and never do enough foundational work themselves, the organization may weaken the expertise it needs for exception handling and long-term control.
+One important implication concerns skill formation. If junior staff only review AI outputs and never do enough foundational work themselves, the organization may weaken the expertise it needs for exception handling and long-term control. This risk is consistent with research describing a shift in software engineering from direct production toward [intent specification, verification, orchestration, governance, and accountable oversight](https://arxiv.org/abs/2606.03394).
 
 ## Open Research Questions
 
@@ -808,15 +816,15 @@ The model matters. It is not the operating model. The decisive enterprise capabi
 
 ## References
 
-Max, "Enterprise AI Transformation Requires Workflow Redesign, Not Model Deployment," rmax.ai, 2026.  
-John D. C. Little, "A Proof for the Queuing Formula: L = λW," Operations Research, vol. 9, no. 3, 1961.  
-Wei Xu and Zaifeng Gao, "An Intelligent Sociotechnical Systems Framework: Enabling a Hierarchical Human-Centered AI Approach," arXiv:2401.03223, 2024.  
-Mamdouh Alenezi, "Human-AI Collaboration and the Transformation of Software Engineering Work," arXiv:2606.03394, 2026.  
-Alex Farach, "AI as Coordination-Compressing Capital: Task Reallocation, Organizational Redesign, and the Regime Fork," arXiv:2602.16078, 2026.  
-European Parliament and Council of the European Union, "Regulation (EU) 2024/1689, Artificial Intelligence Act," Official Journal of the European Union, 2024.  
-Jonas C. Ditz, Veronika Lazar, Elmar Lichtmeß, Carola Plesch, Matthias Heck, Kevin Baum, and Markus Langer, "Secure Human Oversight of AI: Exploring the Attack Surface of Human Oversight," arXiv:2509.12290, 2025.  
-Cedric Faas, Sophie Kerstan, Richard Uth, Markus Langer, and Anna Maria Feit, "Design Considerations for Human Oversight of AI: Insights from Co-Design Workshops and Work Design Theory," arXiv:2510.19512, 2025.  
-Qian Qian, "Large Language Models in Clinical Trial Recruitment: Sociotechnical and Economic Framework Development Study," JMIR AI, vol. 5, e95899, 2026.  
-Eric L. Trist and Ken W. Bamforth, "Some Social and Psychological Consequences of the Longwall Method of Coal-Getting," Human Relations, vol. 4, no. 1, 1951.  
-Yash Raj Shrestha, Shiko M. Ben-Menahem, and Georg von Krogh, "Organizational Decision-Making Structures in the Age of Artificial Intelligence," California Management Review, vol. 61, no. 4, 2019.  
-Gordon Baxter and Ian Sommerville, "Socio-Technical Systems: From Design Methods to Systems Engineering," Interacting with Computers, vol. 23, no. 1, 2011.
+- Max, "[Enterprise AI Transformation Requires Workflow Redesign, Not Model Deployment](https://rmax.ai/notes/enterprise-ai-workflow-redesign/)," rmax.ai, 2026.
+- John D. C. Little, "[A Proof for the Queuing Formula: L = λW](https://doi.org/10.1287/opre.9.3.383)," *Operations Research*, vol. 9, no. 3, 1961.
+- Wei Xu and Zaifeng Gao, "[An Intelligent Sociotechnical Systems Framework: Enabling a Hierarchical Human-Centered AI Approach](https://arxiv.org/abs/2401.03223)," arXiv:2401.03223, 2024.
+- Mamdouh Alenezi, "[Human-AI Collaboration and the Transformation of Software Engineering Work](https://arxiv.org/abs/2606.03394)," arXiv:2606.03394, 2026.
+- Alex Farach, "[AI as Coordination-Compressing Capital: Task Reallocation, Organizational Redesign, and the Regime Fork](https://arxiv.org/abs/2602.16078)," arXiv:2602.16078, 2026.
+- European Parliament and Council of the European Union, "[Regulation (EU) 2024/1689 — Artificial Intelligence Act](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689)," *Official Journal of the European Union*, 2024.
+- Jonas C. Ditz et al., "[Secure Human Oversight of AI: Exploring the Attack Surface of Human Oversight](https://arxiv.org/abs/2509.12290)," arXiv:2509.12290, 2025.
+- Cedric Faas et al., "[Design Considerations for Human Oversight of AI: Insights from Co-Design Workshops and Work Design Theory](https://arxiv.org/abs/2510.19512)," arXiv:2510.19512, 2025.
+- Qian Qian, "[Large Language Models in Clinical Trial Recruitment: Sociotechnical and Economic Framework Development Study](https://doi.org/10.2196/95899)," *JMIR AI*, vol. 5, e95899, 2026.
+- Eric L. Trist and Ken W. Bamforth, "[Some Social and Psychological Consequences of the Longwall Method of Coal-Getting](https://doi.org/10.1177/001872675100400101)," *Human Relations*, vol. 4, no. 1, 1951.
+- Yash Raj Shrestha, Shiko M. Ben-Menahem, and Georg von Krogh, "[Organizational Decision-Making Structures in the Age of Artificial Intelligence](https://doi.org/10.1177/0008125619862257)," *California Management Review*, vol. 61, no. 4, 2019.
+- Gordon Baxter and Ian Sommerville, "[Socio-Technical Systems: From Design Methods to Systems Engineering](https://doi.org/10.1016/j.intcom.2010.07.003)," *Interacting with Computers*, vol. 23, no. 1, 2011.
