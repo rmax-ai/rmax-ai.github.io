@@ -280,7 +280,7 @@
 <p>Many of these constraints become visible only when the system is used against production data by real operators.</p>
 <p>This is why FDE teams are embedded.</p>
 <p>They are not merely implementing a predefined product. They are discovering the real problem while building the solution.</p>
-<p>Databricks describes its FDE model as replacing consultant-style handoffs with embedded engineers who build alongside customers, while maintaining a direct connection with product and research teams. Crucially, it states that when the platform cannot yet support a customer requirement, the field team works with R&D to extend it and lets field learning shape the product <a href="#ref-1">[1]</a>.</p>
+<p>Databricks describes its FDE model as replacing consultant-style handoffs with embedded engineers who build alongside customers, while maintaining a direct connection with product and research teams. Crucially, when the platform cannot yet support a customer requirement, the field team works with R&D to extend it, allowing field learning to shape the product.</p>
 <p>This makes each FDE engagement a form of field research.</p>
 <p>The team observes where the platform fails, where workflows diverge from documented procedures, where deterministic controls are required, where users override model recommendations, and where local context cannot be generalized.</p>
 <p>The mistake is treating these findings as incidental details of delivery.</p>
@@ -318,7 +318,7 @@
 <p>The first model scales mainly through headcount.</p>
 <p>The second can create compounding leverage.</p>
 <p>As field discoveries become shared capabilities, later teams begin with better infrastructure, stronger evaluations, clearer controls, and a more accurate understanding of the problem space. The marginal effort required for similar deployments should decline.</p>
-<p>This maps to James March's distinction between exploration and exploitation in organizational learning. Exploration searches for new knowledge and possibilities; exploitation refines, standardizes, and applies what has already been learned <a href="#ref-2">[2]</a>.</p>
+<p>This maps to James March's distinction between exploration and exploitation in organizational learning. Exploration searches for new knowledge and possibilities; exploitation refines, standardizes, and applies what has already been learned.</p>
 <p>FDE teams operate at the exploratory edge of the organization. They encounter new workflows, unfamiliar constraints, and real production failures.</p>
 <p>Platform and product teams perform exploitation. They turn validated discoveries into capabilities that can be maintained and reused.</p>
 <p>A scalable FDE model needs both.</p>
@@ -553,7 +553,7 @@ flowchart LR
 <p>Much of what FDE teams learn is initially tacit.</p>
 <p>An experienced engineer may recognize that a user does not trust an answer even when the evaluation score is high. A domain operator may know that one approval can be skipped in ordinary cases but never at month-end. A platform engineer may notice that a seemingly generic API hides business-unit-specific authorization assumptions.</p>
 <p>This knowledge is difficult to transfer because it is contextual, experiential, and often unspoken.</p>
-<p>Ikujiro Nonaka's work on organizational knowledge creation describes how organizations convert tacit knowledge into explicit forms, combine it with other knowledge, and eventually internalize it as shared practice <a href="#ref-3">[3]</a>.</p>
+<p>Ikujiro Nonaka's work on organizational knowledge creation describes how organizations convert tacit knowledge into explicit forms, combine it with other knowledge, and eventually internalize it as shared practice.</p>
 <p>Applied to FDE:</p>
 <ul>
 <li><strong>Socialization</strong>: FDEs work alongside operators and learn how the workflow actually functions.</li>
@@ -977,7 +977,7 @@ flowchart LR
 <p>That position makes FDE a distributed sensing network.</p>
 <p>But sensing alone does not create learning.</p>
 <p>The organization needs a mechanism that converts observations into evidence, evidence into patterns, patterns into reusable capability, and reusable capability into better future deployments.</p>
-<p>This is closely related to the idea of absorptive capacity: an organization's ability to recognize valuable external knowledge, assimilate it, and apply it <a href="#ref-4">[4]</a>.</p>
+<p>This is closely related to Cohen and Levinthal's concept of absorptive capacity: an organization's ability to recognize valuable external knowledge, assimilate it, and apply it.</p>
 <p>FDE teams give the organization access to high-value operational knowledge.</p>
 <p>The learning system determines whether that knowledge becomes institutional capability or disappears with the engagement.</p>
 <p>In a weak FDE model, every deployment consumes expertise.</p>
@@ -993,17 +993,13 @@ flowchart LR
 <p>It is the rate at which field experience becomes reusable organizational capability.</p>
 <p>Each deployment should leave the organization better equipped to deliver the next one.</p>
 <h2>References</h2>
-<ol>
-<li id="ref-1">Databricks — "Forward Deployed Engineering: Delivering Business Outcomes with AI"</li>
-<li id="ref-2">James G. March — "Exploration and Exploitation in Organizational Learning"</li>
-<li id="ref-3">Ikujiro Nonaka — "The Knowledge-Creating Company"</li>
-<li id="ref-4">Wesley M. Cohen and Daniel A. Levinthal — "Absorptive Capacity: A New Perspective on Learning and Innovation"</li>
-</ol>
-<p><a href="#ref-1">[1]</a> Databricks — "Forward Deployed Engineering: Delivering Business Outcomes with AI"</p>
-<p><a href="#ref-2">[2]</a> James G. March — "Exploration and Exploitation in Organizational Learning"</p>
-<p><a href="#ref-3">[3]</a> Ikujiro Nonaka — "The Knowledge-Creating Company"</p>
-<p><a href="#ref-4">[4]</a> Wesley M. Cohen and Daniel A. Levinthal — "Absorptive Capacity: A New Perspective on Learning and Innovation"</p>
-<p><em>Architectural Decision Records — Michael Nygard, "Documenting Architecture Decisions"</em></p>
+<ul>
+<li>Jason Martin, Databricks — <a href="https://www.databricks.com/blog/forward-deployed-engineering-delivering-business-outcomes-ai">"Forward Deployed Engineering: Delivering Business Outcomes with AI"</a></li>
+<li>James G. March — <a href="https://pubsonline.informs.org/doi/10.1287/orsc.2.1.71">"Exploration and Exploitation in Organizational Learning"</a>, <em>Organization Science</em>, 1991</li>
+<li>Ikujiro Nonaka — <a href="https://hbr.org/2007/07/the-knowledge-creating-company">"The Knowledge-Creating Company"</a>, <em>Harvard Business Review</em></li>
+<li>Wesley M. Cohen and Daniel A. Levinthal — <a href="https://www.jstor.org/stable/2393553">"Absorptive Capacity: A New Perspective on Learning and Innovation"</a>, <em>Administrative Science Quarterly</em>, 1990</li>
+<li>Michael Nygard — <a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions">"Documenting Architecture Decisions"</a></li>
+</ul>
           </div>
         </article>
 

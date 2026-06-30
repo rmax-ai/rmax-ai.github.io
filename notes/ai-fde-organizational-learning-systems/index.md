@@ -77,7 +77,7 @@ This is why FDE teams are embedded.
 
 They are not merely implementing a predefined product. They are discovering the real problem while building the solution.
 
-Databricks describes its FDE model as replacing consultant-style handoffs with embedded engineers who build alongside customers, while maintaining a direct connection with product and research teams. Crucially, it states that when the platform cannot yet support a customer requirement, the field team works with R&D to extend it and lets field learning shape the product [1].
+Databricks describes its FDE model as replacing consultant-style handoffs with embedded engineers who build alongside customers, while maintaining a direct connection with product and research teams. Crucially, when the platform cannot yet support a customer requirement, the field team works with R&D to extend it, allowing field learning to shape the product.
 
 This makes each FDE engagement a form of field research.
 
@@ -126,7 +126,7 @@ The second can create compounding leverage.
 
 As field discoveries become shared capabilities, later teams begin with better infrastructure, stronger evaluations, clearer controls, and a more accurate understanding of the problem space. The marginal effort required for similar deployments should decline.
 
-This maps to James March's distinction between exploration and exploitation in organizational learning. Exploration searches for new knowledge and possibilities; exploitation refines, standardizes, and applies what has already been learned [2].
+This maps to James March's distinction between exploration and exploitation in organizational learning. Exploration searches for new knowledge and possibilities; exploitation refines, standardizes, and applies what has already been learned.
 
 FDE teams operate at the exploratory edge of the organization. They encounter new workflows, unfamiliar constraints, and real production failures.
 
@@ -435,7 +435,7 @@ An experienced engineer may recognize that a user does not trust an answer even 
 
 This knowledge is difficult to transfer because it is contextual, experiential, and often unspoken.
 
-Ikujiro Nonaka's work on organizational knowledge creation describes how organizations convert tacit knowledge into explicit forms, combine it with other knowledge, and eventually internalize it as shared practice [3].
+Ikujiro Nonaka's work on organizational knowledge creation describes how organizations convert tacit knowledge into explicit forms, combine it with other knowledge, and eventually internalize it as shared practice.
 
 Applied to FDE:
 
@@ -1014,7 +1014,7 @@ But sensing alone does not create learning.
 
 The organization needs a mechanism that converts observations into evidence, evidence into patterns, patterns into reusable capability, and reusable capability into better future deployments.
 
-This is closely related to the idea of absorptive capacity: an organization's ability to recognize valuable external knowledge, assimilate it, and apply it [4].
+This is closely related to Cohen and Levinthal's concept of absorptive capacity: an organization's ability to recognize valuable external knowledge, assimilate it, and apply it.
 
 FDE teams give the organization access to high-value operational knowledge.
 
@@ -1046,12 +1046,8 @@ Each deployment should leave the organization better equipped to deliver the nex
 
 ## References
 
-[1] Databricks — "Forward Deployed Engineering: Delivering Business Outcomes with AI"
-
-[2] James G. March — "Exploration and Exploitation in Organizational Learning"
-
-[3] Ikujiro Nonaka — "The Knowledge-Creating Company"
-
-[4] Wesley M. Cohen and Daniel A. Levinthal — "Absorptive Capacity: A New Perspective on Learning and Innovation"
-
-*Architectural Decision Records — Michael Nygard, "Documenting Architecture Decisions"*
+- Jason Martin, Databricks — ["Forward Deployed Engineering: Delivering Business Outcomes with AI"](https://www.databricks.com/blog/forward-deployed-engineering-delivering-business-outcomes-ai)
+- James G. March — ["Exploration and Exploitation in Organizational Learning"](https://pubsonline.informs.org/doi/10.1287/orsc.2.1.71), *Organization Science*, 1991
+- Ikujiro Nonaka — ["The Knowledge-Creating Company"](https://hbr.org/2007/07/the-knowledge-creating-company), *Harvard Business Review*
+- Wesley M. Cohen and Daniel A. Levinthal — ["Absorptive Capacity: A New Perspective on Learning and Innovation"](https://www.jstor.org/stable/2393553), *Administrative Science Quarterly*, 1990
+- Michael Nygard — ["Documenting Architecture Decisions"](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
