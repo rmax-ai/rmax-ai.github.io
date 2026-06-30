@@ -69,7 +69,7 @@ This is why FDE teams are embedded.
 
 They are not merely implementing a predefined product. They are discovering the real problem while building the solution.
 
-Databricks describes its FDE model as replacing consultant-style handoffs with embedded engineers who build alongside customers, while maintaining a direct connection with product and research teams. Crucially, when the platform cannot yet support a customer requirement, the field team works with R&D to extend it, allowing field learning to shape the product.
+Databricks describes its [Forward Deployed Engineering model](https://www.databricks.com/blog/forward-deployed-engineering-delivering-business-outcomes-ai) as replacing consultant-style handoffs with embedded engineers who build alongside customers, while maintaining a direct connection with product and research teams. Crucially, when the platform cannot yet support a customer requirement, the field team works with R&D to extend it, allowing field learning to shape the product.
 
 This makes each FDE engagement a form of field research.
 
@@ -97,7 +97,7 @@ The second can create compounding leverage.
 
 As field discoveries become shared capabilities, later teams begin with better infrastructure, stronger evaluations, clearer controls, and a more accurate understanding of the problem space. The marginal effort required for similar deployments should decline.
 
-This maps to James March's distinction between exploration and exploitation in organizational learning. Exploration searches for new knowledge and possibilities; exploitation refines, standardizes, and applies what has already been learned.
+This maps to James March's [distinction between exploration and exploitation in organizational learning](https://pubsonline.informs.org/doi/10.1287/orsc.2.1.71). Exploration searches for new knowledge and possibilities; exploitation refines, standardizes, and applies what has already been learned.
 
 FDE teams operate at the exploratory edge of the organization. They encounter new workflows, unfamiliar constraints, and real production failures.
 
@@ -172,7 +172,7 @@ The team converts the raw discovery into a durable artifact.
 
 The appropriate artifact depends on the discovery. It might be an Architecture Decision Record, an evaluation case, a postmortem, a reusable test, a workflow diagram, an integration note, or an anti-pattern.
 
-An Architecture Decision Record captures a significant design decision together with its rationale, trade-offs, and consequences. This makes ADRs particularly useful for FDE work: the code records what the team built, while the ADR preserves why the team chose that design under the constraints it encountered.
+An [Architecture Decision Record](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions) captures a significant design decision together with its rationale, trade-offs, and consequences. This makes ADRs particularly useful for FDE work: the code records what the team built, while the ADR preserves why the team chose that design under the constraints it encountered.
 
 The objective is not comprehensive prose. It is to preserve enough context that another team can understand the problem, the environment in which it occurred, the attempted solution, the result, the known limitations, and the evidence supporting the conclusion. Knowledge capture should remain close to engineering work, because documentation treated as a separate post-delivery activity is usually incomplete, delayed, or abandoned.
 
@@ -234,7 +234,7 @@ Some abstractions will fail.
 
 Others will become obsolete because model or cloud providers absorb the capability. Some will prove too rigid for the variation found in the field.
 
-This process mirrors Nonaka's model of organizational knowledge creation: field teams acquire tacit knowledge through direct work, externalize it into artifacts, combine it across deployments, and allow future teams to internalize it through repeated use.
+This process mirrors [Nonaka's model of organizational knowledge creation](https://hbr.org/2007/07/the-knowledge-creating-company): field teams acquire tacit knowledge through direct work, externalize it into artifacts, combine it across deployments, and allow future teams to internalize it through repeated use.
 
 The learning loop must therefore include deprecation.
 
@@ -424,7 +424,7 @@ But sensing alone does not create learning.
 
 The organization needs a mechanism that converts observations into evidence, evidence into patterns, patterns into validated capability, and validated capability into better future deployments.
 
-This is closely related to Cohen and Levinthal's concept of absorptive capacity: an organization's ability to recognize valuable external knowledge, assimilate it, and apply it.
+This is closely related to Cohen and Levinthal's [concept of absorptive capacity](https://www.jstor.org/stable/2393553): an organization's ability to recognize valuable external knowledge, assimilate it, and apply it.
 
 FDE teams give the organization access to high-value operational knowledge.
 
