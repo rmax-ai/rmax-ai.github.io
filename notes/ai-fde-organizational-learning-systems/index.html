@@ -242,7 +242,7 @@
             <div class="post-meta">
               <span>2026-06-30</span>
               <span>•</span>
-              <span>22-24 min read</span>
+              <span>15-17 min read</span>
               <span>•</span>
               <span>Max</span>
             </div>
@@ -267,15 +267,7 @@
 <h2>FDE exists because enterprise AI cannot be fully specified in advance</h2>
 <p>Traditional software delivery often assumes that requirements can be gathered, translated into specifications, and handed to an implementation team.</p>
 <p>Enterprise AI systems frequently resist this model.</p>
-<p>The visible task may appear simple:</p>
-<ul>
-<li>summarize a contract;</li>
-<li>classify a support request;</li>
-<li>retrieve company knowledge;</li>
-<li>investigate a payment anomaly;</li>
-<li>draft a compliance assessment.</li>
-</ul>
-<p>The actual workflow is usually more complicated.</p>
+<p>The visible task may appear simple: summarize a contract, classify a support request, retrieve company knowledge, investigate a payment anomaly, or draft a compliance assessment. The actual workflow is usually more complicated.</p>
 <p>Important decisions depend on tacit business rules. Data definitions vary between teams. Permissions are encoded across several systems. Human operators apply undocumented exceptions. Model behaviour changes when prompts, context, tools, or underlying model versions change.</p>
 <p>Many of these constraints become visible only when the system is used against production data by real operators.</p>
 <p>This is why FDE teams are embedded.</p>
@@ -286,35 +278,11 @@
 <p>The mistake is treating these findings as incidental details of delivery.</p>
 <p>They are among the most valuable outputs of the engagement.</p>
 <h2>The difference between delivery and learning</h2>
-<p>A delivery organization asks:</p>
-<ul>
-<li>Did the system launch?</li>
-<li>Did the project meet its deadline?</li>
-<li>Did the business unit accept the handover?</li>
-<li>How many engineers were utilized?</li>
-</ul>
-<p>A learning organization asks additional questions:</p>
-<ul>
-<li>What did this deployment reveal that the platform did not previously understand?</li>
-<li>Which parts of the solution are specific to this environment?</li>
-<li>Which parts reflect a recurring structural problem?</li>
-<li>What evidence would allow another team to reuse the solution safely?</li>
-<li>Did this engagement make the next one faster, safer, or easier to operate?</li>
-</ul>
+<p>A delivery organization asks whether the system launched, whether the project met its deadline, whether the business unit accepted the handover, and how many engineers were utilized.</p>
+<p>A learning organization asks additional questions: What did this deployment reveal that the platform did not previously understand? Which parts of the solution are specific to this environment? Which parts reflect a recurring structural problem? What evidence would allow another team to reuse the solution safely? Did this engagement make the next one faster, safer, or easier to operate?</p>
 <p>The distinction changes the economics of FDE.</p>
 <p>In a bespoke delivery model, each deployment produces a local application.</p>
-<p>In a learning model, each deployment may also produce:</p>
-<ul>
-<li>a reusable integration;</li>
-<li>an evaluation dataset;</li>
-<li>a governance control;</li>
-<li>a reference architecture;</li>
-<li>a workflow pattern;</li>
-<li>a failure taxonomy;</li>
-<li>a shared library;</li>
-<li>a platform-native capability;</li>
-<li>a clearer boundary between global infrastructure and local business logic.</li>
-</ul>
+<p>In a learning model, each deployment may also produce a reusable integration, an evaluation dataset, a governance control, a reference architecture, a workflow pattern, a shared library, or a clearer boundary between global infrastructure and local business logic.</p>
 <p>The first model scales mainly through headcount.</p>
 <p>The second can create compounding leverage.</p>
 <p>As field discoveries become shared capabilities, later teams begin with better infrastructure, stronger evaluations, clearer controls, and a more accurate understanding of the problem space. The marginal effort required for similar deployments should decline.</p>
@@ -324,67 +292,16 @@
 <p>A scalable FDE model needs both.</p>
 <p>Exploration without exploitation produces endless custom work.</p>
 <p>Exploitation without exploration produces centralized platforms detached from operational reality.</p>
-<h2>Every deployment should be treated as an experiment</h2>
+<h2>Every deployment produces outcomes and evidence</h2>
 <p>An FDE engagement has two outputs.</p>
 <p>The first is the local business outcome.</p>
 <p>The second is evidence.</p>
-<p>That evidence may include several kinds of discovery.</p>
-<h3>Workflow discoveries</h3>
-<p>The team learns how work is actually performed rather than how the official process describes it.</p>
-<p>Examples include:</p>
-<ul>
-<li>hidden approval steps;</li>
-<li>informal escalation rules;</li>
-<li>manual verification routines;</li>
-<li>local definitions of acceptable risk;</li>
-<li>conditions under which operators ignore model recommendations.</li>
-</ul>
-<h3>Data discoveries</h3>
-<p>The team encounters:</p>
-<ul>
-<li>inconsistent identifiers;</li>
-<li>undocumented schemas;</li>
-<li>stale records;</li>
-<li>missing lineage;</li>
-<li>contradictory business definitions;</li>
-<li>access restrictions that were not visible during planning.</li>
-</ul>
-<h3>Model discoveries</h3>
-<p>The team observes:</p>
-<ul>
-<li>hallucination patterns;</li>
-<li>incorrect tool selection;</li>
-<li>prompt sensitivity;</li>
-<li>reasoning loops;</li>
-<li>context degradation;</li>
-<li>output-format instability;</li>
-<li>failure under ambiguous instructions.</li>
-</ul>
-<h3>Integration discoveries</h3>
-<p>The team identifies:</p>
-<ul>
-<li>authentication assumptions;</li>
-<li>token-routing constraints;</li>
-<li>unreliable APIs;</li>
-<li>hidden rate limits;</li>
-<li>incomplete event semantics;</li>
-<li>incompatibilities between systems.</li>
-</ul>
-<h3>Adoption discoveries</h3>
-<p>The team learns:</p>
-<ul>
-<li>where users require explanations;</li>
-<li>which latency thresholds disrupt the workflow;</li>
-<li>where human review is mandatory;</li>
-<li>which interface details determine trust;</li>
-<li>what local teams need before they can own the system.</li>
-</ul>
+<p>That evidence may include workflow discoveries such as hidden approval steps or informal escalation rules; data and integration discoveries such as inconsistent identifiers, undocumented schemas, access restrictions, or unreliable APIs; model discoveries such as prompt sensitivity, tool-selection failures, or unstable output formats; and adoption discoveries such as where users require explanations, where human review is mandatory, or which latency thresholds break trust.</p>
 <p>This knowledge is generated at the boundary between the platform and the operational environment.</p>
 <p>It decays quickly when it remains inside chat threads, individual memory, local repositories, or undocumented code.</p>
-<p>A learning system must therefore capture not only what was built, but why it was built and what evidence justified it.</p>
+<p>A learning system must therefore capture not only what was built, but why it was built, what assumptions it depended on, what failed, and what evidence justified the result.</p>
 <h2>The field-to-platform learning loop</h2>
-<p>Organizational learning does not happen because teams produce more documentation.</p>
-<p>It happens when field evidence moves through a repeatable decision process.</p>
+<p>Organizational learning does not happen because teams produce more documentation. It happens when field evidence moves through a repeatable decision process.</p>
 <p>A practical FDE learning loop contains six stages.</p>
 <pre class="mermaid">
 flowchart LR
@@ -414,116 +331,33 @@ flowchart LR
 </pre>
 <h3>1. Observe</h3>
 <p>During deployment, the team records significant operational discoveries.</p>
-<p>This does not require documenting every implementation detail. The aim is to capture events that reveal something important about the system:</p>
-<ul>
-<li>a user repeatedly corrects a model output;</li>
-<li>a workflow requires an undocumented approval;</li>
-<li>an integration fails under a particular permission model;</li>
-<li>a prompt works only because it embeds volatile business rules;</li>
-<li>a human-review structure appears across several tasks;</li>
-<li>a model failure requires deterministic validation.</li>
-</ul>
-<p>The observation should be connected to evidence wherever possible:</p>
-<ul>
-<li>execution traces;</li>
-<li>user feedback;</li>
-<li>code changes;</li>
-<li>incident records;</li>
-<li>evaluation failures;</li>
-<li>performance measurements.</li>
-</ul>
-<p>The unit of learning is not the opinion that something went wrong.</p>
-<p>It is the traceable relationship between context, intervention, and outcome.</p>
+<p>This does not require documenting every implementation detail. The aim is to capture events that reveal something important about the system: a user repeatedly correcting a model output, an undocumented approval step, an integration failing under a particular permission model, or a model failure that requires deterministic validation.</p>
+<p>The observation should be connected to evidence wherever possible through traces, user feedback, code changes, incident records, evaluation failures, or performance measurements. The unit of learning is not the opinion that something went wrong. It is the traceable relationship between context, intervention, and outcome.</p>
 <h3>2. Preserve</h3>
 <p>The team converts the raw discovery into a durable artifact.</p>
-<p>The appropriate artifact depends on the discovery. It might be:</p>
-<ul>
-<li>an Architecture Decision Record;</li>
-<li>an evaluation case;</li>
-<li>a postmortem;</li>
-<li>a reusable test;</li>
-<li>a workflow diagram;</li>
-<li>an integration note;</li>
-<li>a code sample;</li>
-<li>a pattern proposal;</li>
-<li>an anti-pattern.</li>
-</ul>
+<p>The appropriate artifact depends on the discovery. It might be an Architecture Decision Record, an evaluation case, a postmortem, a reusable test, a workflow diagram, an integration note, or an anti-pattern.</p>
 <p>An Architecture Decision Record captures a significant design decision together with its rationale, trade-offs, and consequences. This makes ADRs particularly useful for FDE work: the code records what the team built, while the ADR preserves why the team chose that design under the constraints it encountered.</p>
-<p>The objective is not comprehensive prose.</p>
-<p>It is to preserve enough context that another team can understand:</p>
-<ul>
-<li>the problem;</li>
-<li>the environment in which it occurred;</li>
-<li>the attempted solution;</li>
-<li>the result;</li>
-<li>the known limitations;</li>
-<li>the evidence supporting the conclusion.</li>
-</ul>
-<p>Knowledge capture should remain close to engineering work.</p>
-<p>When documentation is treated as a separate activity performed after delivery, it is usually incomplete, delayed, or abandoned.</p>
+<p>The objective is not comprehensive prose. It is to preserve enough context that another team can understand the problem, the environment in which it occurred, the attempted solution, the result, the known limitations, and the evidence supporting the conclusion. Knowledge capture should remain close to engineering work, because documentation treated as a separate post-delivery activity is usually incomplete, delayed, or abandoned.</p>
 <h3>3. Compare</h3>
 <p>A local solution becomes strategically interesting when similar problems appear across independent engagements.</p>
-<p>This comparison cannot rely only on industry labels or project names.</p>
-<p>Two workflows may look unrelated at the business level while sharing the same technical structure.</p>
-<p>A legal contract-review agent and an insurance claims system may both require:</p>
-<ul>
-<li>document extraction;</li>
-<li>structured validation;</li>
-<li>permission-aware retrieval;</li>
-<li>human approval;</li>
-<li>deterministic output schemas;</li>
-<li>audit logging.</li>
-</ul>
-<p>The business language differs.</p>
-<p>The underlying system problem is similar.</p>
-<p>A learning organization therefore needs to compare engagements by problem class:</p>
-<ul>
-<li>integration pattern;</li>
-<li>authorization requirement;</li>
-<li>model failure mode;</li>
-<li>human-review structure;</li>
-<li>evaluation need;</li>
-<li>governance control;</li>
-<li>data-retrieval pattern;</li>
-<li>operational constraint.</li>
-</ul>
-<p>This is where a shared registry, searchable repository, or developer portal becomes useful.</p>
-<p>Its value is not that it stores information.</p>
-<p>Its value is that it helps teams recognize repeated structure across different environments.</p>
+<p>This comparison cannot rely only on industry labels or project names. Two workflows may look unrelated at the business level while sharing the same technical structure. A legal contract-review agent and an insurance claims system may both require document extraction, permission-aware retrieval, deterministic output schemas, human approval, and audit logging.</p>
+<p>A learning organization therefore needs to compare engagements by problem class: integration pattern, authorization requirement, model failure mode, human-review structure, evaluation need, governance control, or operational constraint. AI can help cluster similar failures, retrieve prior evidence, identify duplicated implementations, and surface candidate patterns. But semantic similarity does not prove that two solutions are equivalent under their security, regulatory, performance, or ownership constraints. AI can assist sensing and synthesis; humans must validate the abstraction.</p>
 <h3>4. Validate recurrence</h3>
 <p>The first occurrence of a problem does not justify a platform abstraction.</p>
-<p>It may be a local anomaly.</p>
-<p>The second occurrence suggests a pattern but may still conceal important differences.</p>
-<p>By the third occurrence, the organization can begin to distinguish invariant behaviour from environmental variation.</p>
+<p>It may be a local anomaly. The second occurrence suggests a pattern but may still conceal important differences. By the third occurrence, the organization can begin to distinguish invariant behaviour from environmental variation.</p>
 <p>A practical rule is:</p>
 <ol>
 <li>Solve the first occurrence locally.</li>
 <li>Reuse or adapt the solution in a second environment.</li>
 <li>Abstract only when repeated use has clarified what remains stable.</li>
 </ol>
-<p>This is commonly described as a Rule of Three. It is not a mathematical law. It is a constraint against speculative platform engineering.</p>
-<p>The first implementation reveals the problem.</p>
-<p>The second tests whether the solution travels.</p>
-<p>The third exposes the boundaries of the abstraction.</p>
-<p>The rule protects the organization from two opposite failures:</p>
-<ul>
-<li>rebuilding the same capability indefinitely;</li>
-<li>standardizing a narrow solution before its real shape is understood.</li>
-</ul>
+<p>This Rule of Three is not a mathematical law. It is a constraint against speculative platform engineering: the first implementation reveals the problem, the second tests whether the solution travels, and the third exposes the boundaries of the abstraction.</p>
+<p>The rule protects the organization from two opposite failures: rebuilding the same capability indefinitely or standardizing a narrow solution before its real shape is understood.</p>
 <h3>5. Productize at the appropriate level</h3>
 <p>Not every recurring discovery should become a platform service.</p>
 <p>This is one of the most important decisions in the learning system.</p>
-<p>A validated discovery might become:</p>
-<ul>
-<li>a written pattern;</li>
-<li>a reusable evaluation;</li>
-<li>a small library;</li>
-<li>an integration adapter;</li>
-<li>a workflow template;</li>
-<li>a governance requirement;</li>
-<li>a reference architecture;</li>
-<li>a platform-native service.</li>
-</ul>
+<p>A validated discovery might become a written pattern, a reusable evaluation, a small library, an integration adapter, a workflow template, a governance requirement, a reference architecture, or a platform-native service.</p>
+<p>A field discovery may mature from an observation, to a documented decision, repeated pattern, reusable asset, reference architecture, and eventually a platform-native capability. Most discoveries should stop before the final stage.</p>
 <p>The correct level depends on the stability, recurrence, risk, and local variation of the problem.</p>
 <p>A common human-review pattern might justify a reusable queue and context-serialization interface.</p>
 <p>A business unit's definition of a high-risk transaction should probably remain local configuration.</p>
@@ -533,64 +367,13 @@ flowchart LR
 <p>It should not merely move complexity from local repositories into the central platform.</p>
 <h3>6. Measure, update, and deprecate</h3>
 <p>A reusable capability is valuable only when later teams adopt it and obtain better outcomes.</p>
-<p>The organization should measure whether the capability:</p>
-<ul>
-<li>reduces implementation effort;</li>
-<li>prevents duplicate work;</li>
-<li>lowers incident recurrence;</li>
-<li>improves evaluation coverage;</li>
-<li>reduces security risk;</li>
-<li>simplifies handover;</li>
-<li>decreases dependence on FDE support;</li>
-<li>remains useful as models and vendors evolve.</li>
-</ul>
+<p>The organization should measure whether the capability reduces implementation effort, prevents duplicate work, lowers incident recurrence, simplifies handover, decreases dependence on FDE support, and remains useful as models and vendors evolve.</p>
 <p>Some abstractions will fail.</p>
 <p>Others will become obsolete because model or cloud providers absorb the capability. Some will prove too rigid for the variation found in the field.</p>
+<p>This process mirrors Nonaka's model of organizational knowledge creation: field teams acquire tacit knowledge through direct work, externalize it into artifacts, combine it across deployments, and allow future teams to internalize it through repeated use.</p>
 <p>The learning loop must therefore include deprecation.</p>
 <p>A platform that only accumulates abstractions is not learning.</p>
 <p>It is preserving past assumptions.</p>
-<h2>Turning tacit field knowledge into organizational capability</h2>
-<p>Much of what FDE teams learn is initially tacit.</p>
-<p>An experienced engineer may recognize that a user does not trust an answer even when the evaluation score is high. A domain operator may know that one approval can be skipped in ordinary cases but never at month-end. A platform engineer may notice that a seemingly generic API hides business-unit-specific authorization assumptions.</p>
-<p>This knowledge is difficult to transfer because it is contextual, experiential, and often unspoken.</p>
-<p>Ikujiro Nonaka's work on organizational knowledge creation describes how organizations convert tacit knowledge into explicit forms, combine it with other knowledge, and eventually internalize it as shared practice.</p>
-<p>Applied to FDE:</p>
-<ul>
-<li><strong>Socialization</strong>: FDEs work alongside operators and learn how the workflow actually functions.</li>
-<li><strong>Externalization</strong>: The team expresses those observations through traces, ADRs, evaluations, diagrams, and pattern descriptions.</li>
-<li><strong>Combination</strong>: The organization compares discoveries across deployments and combines them into reusable assets or reference architectures.</li>
-<li><strong>Internalization</strong>: Future teams use those assets until the knowledge becomes part of standard engineering practice.</li>
-</ul>
-<p>The repository is only one part of this process.</p>
-<p>The deeper task is converting local experience into forms that can travel without losing the context necessary to use them safely.</p>
-<h2>A capability ladder for field discoveries</h2>
-<p>Organizational learning should not be reduced to code reuse.</p>
-<p>A useful discovery can mature through several levels.</p>
-<ol>
-<li><strong>Observation</strong> — A field team records a failure, constraint, workaround, or user behaviour.</li>
-</ol>
-<ol>
-<li><strong>Documented decision</strong> — The team explains why a particular design or control was selected.</li>
-</ol>
-<ol>
-<li><strong>Repeated pattern</strong> — The same structural problem appears across several environments.</li>
-</ol>
-<ol>
-<li><strong>Reusable asset</strong> — The organization creates a shared evaluation, connector, template, library, or control.</li>
-</ol>
-<ol>
-<li><strong>Reference architecture</strong> — Several assets are composed into a supported implementation path for a recurring workflow class.</li>
-</ol>
-<ol>
-<li><strong>Platform-native capability</strong> — The central platform adopts the capability, provides stable interfaces, and assumes long-term maintenance.</li>
-</ol>
-<p>This ladder matters because engineering teams often jump directly from local code to generic framework.</p>
-<p>Most discoveries do not need to travel that far.</p>
-<p>Sometimes the right output is a better evaluation dataset.</p>
-<p>Sometimes it is a known anti-pattern.</p>
-<p>Sometimes it is a documented decision boundary.</p>
-<p>Sometimes it is a supported platform primitive.</p>
-<p>Maturity should reflect evidence and actual reuse, not architectural ambition.</p>
 <h2>The danger of premature abstraction</h2>
 <p>Strong engineers are often attracted to generalization.</p>
 <p>They see several similar code paths and imagine a unified framework.</p>
@@ -631,181 +414,38 @@ flowchart LR
 <p>The burden of proof belongs to the abstraction.</p>
 <p>Local code does not need to prove that it can serve the entire organization.</p>
 <p>A shared platform component does.</p>
-<h2>The repository is not the learning system</h2>
+<h2>A pattern registry, not a documentation repository</h2>
 <p>Organizations often respond to fragmented knowledge by creating a central repository.</p>
-<p>The repository gradually fills with:</p>
-<ul>
-<li>architecture documents;</li>
-<li>code snippets;</li>
-<li>postmortems;</li>
-<li>templates;</li>
-<li>diagrams;</li>
-<li>evaluation files;</li>
-<li>abandoned experiments.</li>
-</ul>
-<p>Search quality declines.</p>
-<p>Ownership becomes unclear.</p>
-<p>Engineers return to asking colleagues directly because finding and validating the correct artifact requires more effort than rebuilding the solution.</p>
-<p>The repository becomes a documentation graveyard.</p>
+<p>The repository gradually fills with architecture documents, code snippets, postmortems, templates, diagrams, evaluation files, and abandoned experiments. Search quality declines, ownership becomes unclear, and engineers return to asking colleagues directly because finding and validating the correct artifact requires more effort than rebuilding the solution.</p>
 <p>Storage is necessary but insufficient.</p>
-<p>A functioning learning system requires:</p>
-<ul>
-<li>structured intake;</li>
-<li>clear ownership;</li>
-<li>links between artifacts and source evidence;</li>
-<li>search by problem class;</li>
-<li>review and validation;</li>
-<li>versioning;</li>
-<li>usage telemetry;</li>
-<li>deprecation;</li>
-<li>connection to roadmap decisions.</li>
-</ul>
-<p>Artifacts should remain connected to the deployments that produced them.</p>
-<p>A reusable integration should link back to the original code, incidents, constraints, and validation evidence.</p>
-<p>An evaluation should record which failure mode it protects against.</p>
-<p>A pattern should state where it applies and where it does not.</p>
-<p>A deprecated component should include a migration path.</p>
+<p>A useful pattern registry requires evidence-linked entries, problem-oriented classification rather than business-domain tags, clear ownership, review and validation, usage signals, versioning, and deprecation. Artifacts should remain connected to the deployments that produced them. A reusable integration should link back to the original code, incidents, constraints, and validation evidence. An evaluation should record which failure mode it protects against. A pattern should state where it applies and where it does not. A deprecated component should include a migration path.</p>
 <p>The goal is not to preserve everything indefinitely.</p>
 <p>It is to maintain a reliable body of organizational capability.</p>
-<h2>AI can help find patterns, but it cannot decide the abstraction</h2>
-<p>AI can reduce the cost of processing evidence across many FDE engagements.</p>
-<p>An internal analysis agent could inspect:</p>
-<ul>
-<li>repositories;</li>
-<li>pull requests;</li>
-<li>ADRs;</li>
-<li>evaluation traces;</li>
-<li>incident reports;</li>
-<li>issue trackers;</li>
-<li>support discussions;</li>
-<li>platform usage telemetry.</li>
-</ul>
-<p>It could then:</p>
-<ul>
-<li>cluster similar failures;</li>
-<li>detect duplicated integration code;</li>
-<li>connect incidents to known model failure modes;</li>
-<li>recommend relevant prior implementations;</li>
-<li>identify stale documentation;</li>
-<li>surface repeated authorization workarounds;</li>
-<li>draft candidate pattern reports;</li>
-<li>identify shared assets that nobody uses.</li>
-</ul>
-<p>For example, the system might detect that several teams have independently implemented similar permission-filtering middleware.</p>
-<p>It could produce a report showing:</p>
-<ul>
-<li>source deployments;</li>
-<li>related code;</li>
-<li>common input and output contracts;</li>
-<li>differences between implementations;</li>
-<li>associated incidents;</li>
-<li>candidate invariant behaviour;</li>
-<li>possible platform owners.</li>
-</ul>
-<p>This helps the organization find patterns that humans may miss.</p>
-<p>It does not determine whether the implementations are meaningfully equivalent.</p>
-<p>Two code paths may look similar while operating under different security, regulatory, performance, or ownership constraints.</p>
-<p>Semantic similarity is evidence for review, not proof of a valid abstraction.</p>
-<p>AI should support the sensing and synthesis functions of the learning system.</p>
-<p>It should not automatically turn repeated code into mandatory architecture.</p>
-<h2>Learning must change the platform roadmap</h2>
+<h2>Field evidence must change roadmap and ownership</h2>
 <p>A field-learning system is ineffective when discoveries never alter platform investment.</p>
 <p>Teams may produce excellent postmortems, pattern catalogs, and evaluation suites, but the organization still fails to learn if platform priorities are set independently of field evidence.</p>
 <p>There must be a formal mechanism connecting recurring deployment friction to product and engineering decisions.</p>
-<p>A field-to-platform review should include the people who see different parts of the system:</p>
-<ul>
-<li>FDE leads;</li>
-<li>platform engineers;</li>
-<li>product managers;</li>
-<li>architects;</li>
-<li>security and risk specialists;</li>
-<li>relevant business engineers.</li>
-</ul>
-<p>Its purpose is not to review every local implementation.</p>
-<p>It is to decide what the organization should do with repeated evidence.</p>
-<p>For each recurring pattern, the group might decide to:</p>
-<ul>
-<li>keep the solution local;</li>
-<li>document it as a pattern;</li>
-<li>publish a shared component;</li>
-<li>create a reference architecture;</li>
-<li>fund a platform-native implementation;</li>
-<li>revise an existing platform capability;</li>
-<li>deprecate an abstraction that no longer works.</li>
-</ul>
-<p>Roadmap proposals should be expressed as testable leverage hypotheses.</p>
-<p>For example:</p>
+<p>A recurring field-to-platform review should bring together FDE, platform, product, and relevant control functions to decide what the organization should do with repeated evidence. Its purpose is not to review every local implementation. It is to decide whether a recurring problem should remain local, become documented guidance, be reused experimentally, or be funded as a shared capability.</p>
+<p>Roadmap proposals should be expressed as testable leverage hypotheses. For example:</p>
 <blockquote>
 <p>Standardizing permission-aware retrieval will remove repeated identity and filtering work from future enterprise-search deployments.</p>
 </blockquote>
-<p>Or:</p>
-<blockquote>
-<p>A shared human-review queue will reduce the custom state-management code required in regulated workflows.</p>
-</blockquote>
-<p>The proposal should state:</p>
-<ul>
-<li>the repeated field evidence;</li>
-<li>the target problem class;</li>
-<li>the expected reduction in effort or risk;</li>
-<li>the environments likely to adopt it;</li>
-<li>the cost of central maintenance;</li>
-<li>the conditions under which the investment should be reconsidered.</li>
-</ul>
-<p>This makes the platform roadmap partly empirical.</p>
-<p>Instead of asking only what leaders or architects believe the organization should build, it also asks what repeated production evidence shows that it should build.</p>
-<h2>Ownership must follow the capability</h2>
-<p>Every shared capability requires an explicit owner.</p>
-<p>Ownership includes:</p>
-<ul>
-<li>maintenance;</li>
-<li>versioning;</li>
-<li>support;</li>
-<li>security review;</li>
-<li>compatibility;</li>
-<li>documentation;</li>
-<li>usage monitoring;</li>
-<li>deprecation.</li>
-</ul>
-<p>A component without an owner is not a platform capability.</p>
-<p>It is abandoned code with internal visibility.</p>
-<p>Ownership should follow the nature of the asset.</p>
-<p>A shared evaluation framework may belong to an AI reliability team.</p>
-<p>An identity-aware retrieval control may belong jointly to platform engineering and identity security.</p>
-<p>A business-specific policy configuration should remain with the business unit.</p>
-<p>A core orchestration runtime may belong to the central AI platform.</p>
-<p>The organizational boundary should be as deliberate as the technical API boundary.</p>
-<p>This also prevents the FDE organization from becoming a shadow platform team.</p>
-<p>FDEs should help identify and validate reusable capabilities. They may produce the first implementation.</p>
-<p>But long-lived platform components require stable ownership outside a temporary field engagement.</p>
-<h2>Handover is part of the learning loop</h2>
+<p>The proposal should state the repeated field evidence, the target problem class, the expected reduction in effort or risk, the environments likely to adopt it, the cost of central maintenance, and the conditions under which the investment should be reconsidered. That makes the platform roadmap partly empirical. Instead of asking only what leaders or architects believe the organization should build, it also asks what repeated production evidence shows that it should build.</p>
+<p>When the organization accepts a capability, it must also select the appropriate reuse level and assign ownership for maintenance, versioning, support, security review, compatibility, usage monitoring, and deprecation. A component without an owner is not a platform capability. It is abandoned code with internal visibility.</p>
+<p>Ownership should follow the nature of the asset. Some capabilities belong in a central platform, some in a reliability or security function, and some should remain with the business unit as local configuration. The organizational boundary should be as deliberate as the technical API boundary. This prevents FDE from becoming a permanent shadow platform team. FDEs should help identify and validate reusable capabilities and may produce the first implementation, but long-lived platform components require stable funding and ownership outside a temporary field engagement.</p>
+<h2>Handover creates the second learning flow</h2>
 <p>The FDE model fails when embedded teams become permanent operators.</p>
 <p>A system may be technically complete while remaining organizationally dependent on the people who built it.</p>
-<p>The local team does not understand the evaluation suite.</p>
-<p>Production incidents are routed back to the FDEs.</p>
-<p>Business rules change, but nobody knows which prompts, policies, or tools must be updated.</p>
-<p>The FDE team becomes a support function for its previous deployments.</p>
-<p>New work slows as old engagements consume more capacity.</p>
+<p>The local team does not understand the evaluation suite. Production incidents are routed back to the FDEs. Business rules change, but nobody knows which prompts, policies, or tools must be updated. The FDE team becomes a support function for its previous deployments, and new work slows as old engagements consume more capacity.</p>
 <p>A complete engagement must therefore transfer operational capability.</p>
-<p>The receiving team should be able to:</p>
-<ul>
-<li>run and interpret evaluations;</li>
-<li>monitor system behaviour;</li>
-<li>diagnose common failures;</li>
-<li>modify local business rules;</li>
-<li>operate the deployment pipeline;</li>
-<li>respond to incidents;</li>
-<li>distinguish local defects from platform defects;</li>
-<li>know when to escalate.</li>
-</ul>
-<p>Documentation alone does not prove this.</p>
-<p>Handover should be demonstrated through operation.</p>
-<p>The local team should run the system, execute changes, respond to controlled failures, and complete production cycles without direct FDE intervention.</p>
+<p>The receiving team should be able to run and interpret evaluations, monitor system behaviour, diagnose common failures, modify local business rules, operate the deployment pipeline, respond to incidents, and distinguish local defects from platform defects.</p>
+<p>Documentation alone does not prove this. Handover should be demonstrated through operation. The local team should run the system, execute changes, respond to controlled failures, and complete production cycles without direct FDE intervention.</p>
 <p>This creates two complementary learning flows:</p>
 <p>Field evidence moves inward toward the platform.</p>
 <p>Operational capability moves outward toward the local team.</p>
 <p>Without the first, the platform does not improve.</p>
 <p>Without the second, the FDE organization does not regain capacity.</p>
-<h2>Measure leverage, not activity</h2>
+<h2>Measure leverage rather than activity</h2>
 <p>FDE organizations are often measured through visible activity:</p>
 <ul>
 <li>number of engagements;</li>
@@ -819,176 +459,37 @@ flowchart LR
 <p>They do not show whether the organization is becoming more capable.</p>
 <p>A learning system should measure leverage.</p>
 <h3>Delivery acceleration</h3>
-<p>How quickly can later teams deliver a validated system for a previously encountered problem class?</p>
-<p>Useful measures include:</p>
-<ul>
-<li>time to first validated production outcome;</li>
-<li>engineering effort per deployment;</li>
-<li>time spent on repeated integration work;</li>
-<li>time from field discovery to reusable capability.</li>
-</ul>
-<h3>Reuse</h3>
-<p>Are validated capabilities actually used?</p>
-<p>Useful measures include:</p>
-<ul>
-<li>adoption across independent environments;</li>
-<li>duplicate implementation rate;</li>
-<li>proportion of deployments using standard evaluations or controls;</li>
-<li>frequency with which teams bypass shared components.</li>
-</ul>
+<p>How quickly can later teams deliver a validated system for a previously encountered problem class? Useful measures include time to first validated production outcome and engineering effort per deployment.</p>
+<h3>Reuse and bypass</h3>
+<p>Are validated capabilities actually used? Useful measures include adoption across independent environments and bypass or duplicate-implementation rate.</p>
 <p>Raw reuse counts are insufficient.</p>
 <p>A team can import a library without obtaining value from it.</p>
 <p>Reuse should be connected to delivery, quality, or risk reduction.</p>
-<h3>Quality</h3>
-<p>Does organizational memory prevent repeated failures?</p>
-<p>Useful measures include:</p>
-<ul>
-<li>recurrence of known incidents;</li>
-<li>regression failures caught before production;</li>
-<li>repeated security exceptions;</li>
-<li>repeated model failure classes;</li>
-<li>unresolved platform gaps.</li>
-</ul>
+<h3>Repeated failure reduction</h3>
+<p>Does organizational memory prevent repeated failures? Useful measures include recurrence of known incidents and regressions caught before production.</p>
 <h3>Capability transfer</h3>
-<p>Can local teams operate independently?</p>
-<p>Useful measures include:</p>
-<ul>
-<li>support requests after handover;</li>
-<li>production changes completed without FDE assistance;</li>
-<li>local contributions to shared assets;</li>
-<li>successful incident response by the receiving team;</li>
-<li>time until the FDE team can disengage.</li>
-</ul>
-<h3>Learning quality</h3>
-<p>Is the organization making disciplined abstraction decisions?</p>
-<p>Useful measures include:</p>
-<ul>
-<li>proportion of proposed abstractions rejected;</li>
-<li>time taken to validate recurrence;</li>
-<li>adoption of productized capabilities;</li>
-<li>components deprecated after low usage;</li>
-<li>divergence between predicted and actual leverage.</li>
-</ul>
+<p>Can local teams operate independently? Useful measures include support requests after handover and production changes completed without FDE assistance.</p>
 <p>The rejection rate matters.</p>
 <p>If every pattern becomes a platform feature, the review process is not selective enough.</p>
 <p>The purpose is not to maximize the number of shared components.</p>
 <p>It is to increase the number of useful capabilities while controlling complexity.</p>
-<h2>Common failure modes</h2>
-<p>Several recurring failures indicate that the learning loop is broken.</p>
-<p><strong>The hero FDE</strong></p>
-<p>A small number of engineers retain critical context, solve the hardest problems, and become indispensable to multiple systems.</p>
-<p>The organization rewards local rescue rather than capability creation.</p>
-<p>Delivery appears successful until those engineers rotate, burn out, or leave.</p>
-<p><strong>The documentation graveyard</strong></p>
-<p>Teams produce large amounts of material disconnected from code, evidence, ownership, and current platform behaviour.</p>
-<p>The information exists but cannot be trusted.</p>
-<p><strong>Postmortems without consequences</strong></p>
-<p>Incidents are analyzed, but the findings never become tests, controls, platform changes, or roadmap priorities.</p>
-<p>The same failure reappears in another business unit.</p>
-<p><strong>Premature platformization</strong></p>
-<p>A successful local solution is generalized after one deployment.</p>
-<p>The resulting abstraction encodes assumptions that other teams do not share.</p>
-<p><strong>Copy-pasted local systems</strong></p>
-<p>Teams repeatedly implement the same integration, identity control, evaluation logic, or workflow pattern because existing solutions are difficult to discover or reuse.</p>
-<p><strong>Platform engineering detached from the field</strong></p>
-<p>The central platform builds features from architecture plans rather than current deployment friction.</p>
-<p>FDE teams bypass the resulting capabilities because they do not solve the problems encountered in practice.</p>
-<p><strong>Permanent FDE ownership</strong></p>
-<p>Local teams never acquire the capability to operate the system.</p>
-<p>Embedded engineers remain responsible for support, blocking future strategic deployments.</p>
-<p>These failures are connected.</p>
-<p>They occur when field knowledge cannot travel, platform decisions are disconnected from evidence, or ownership does not transfer.</p>
+<p>The organization should also track rejected abstractions, low-usage components, and incorrect leverage predictions. Those are signals that the learning system is at least testing its assumptions instead of merely accumulating artifacts.</p>
 <h2>A minimum viable FDE learning system</h2>
-<p>An organization does not need a large knowledge-management program to begin.</p>
-<p>It needs a small number of connected mechanisms.</p>
-<h3>1. A standard engagement record</h3>
-<p>Each deployment should maintain one lightweight record containing:</p>
-<ul>
-<li>workflow and business context;</li>
-<li>architecture decisions;</li>
-<li>discovered constraints;</li>
-<li>major failures;</li>
-<li>evaluation assets;</li>
-<li>local versus reusable components;</li>
-<li>handover owner.</li>
-</ul>
-<p>This should live close to the code and evolve during the engagement.</p>
-<h3>2. A post-engagement extraction review</h3>
-<p>Shortly after the system reaches a stable production state, the FDE team and platform representatives review:</p>
-<ul>
-<li>what was genuinely new;</li>
-<li>what was already known;</li>
-<li>what was duplicated;</li>
-<li>what should remain local;</li>
-<li>what may recur;</li>
-<li>which evaluations should be retained;</li>
-<li>which platform gaps were exposed.</li>
-</ul>
-<p>The output should be concrete backlog items and assets, not only retrospective notes.</p>
-<h3>3. A shared pattern registry</h3>
-<p>The organization needs a searchable index of:</p>
-<ul>
-<li>patterns;</li>
-<li>anti-patterns;</li>
-<li>integrations;</li>
-<li>evaluations;</li>
-<li>reference architectures;</li>
-<li>reusable components;</li>
-<li>deprecated approaches.</li>
-</ul>
-<p>Entries should be tagged by technical problem, not only by business domain.</p>
-<p>Searching for "permission-aware retrieval" is more useful than searching for "healthcare chatbot project."</p>
-<h3>4. A field-to-platform decision forum</h3>
-<p>A recurring review should decide what happens to candidate patterns.</p>
-<p>Possible outcomes include:</p>
-<ul>
-<li>insufficient evidence;</li>
-<li>keep local;</li>
-<li>document as guidance;</li>
-<li>reuse experimentally;</li>
-<li>publish as an inner-source component;</li>
-<li>fund productization;</li>
-<li>revise an existing platform capability;</li>
-<li>deprecate an obsolete abstraction.</li>
-</ul>
-<p>The forum should remain small enough to make decisions and broad enough to prevent local optimization.</p>
-<h3>5. A leverage scorecard</h3>
-<p>The organization should track whether the system improves over time.</p>
-<p>A useful starting scorecard includes:</p>
-<ul>
-<li>delivery time for recurring workflow classes;</li>
-<li>duplicate implementation rate;</li>
-<li>adoption of shared evaluations and controls;</li>
-<li>repeated incident rate;</li>
-<li>post-handover support dependency;</li>
-<li>time from field discovery to reusable capability;</li>
-<li>usage and bypass rates for shared components;</li>
-<li>deprecated low-value abstractions.</li>
-</ul>
-<p>These mechanisms are enough to begin generating compounding returns.</p>
-<p>A sophisticated portal, semantic clustering system, or automated knowledge agent can be added later.</p>
-<p>Automation should accelerate an existing learning process.</p>
-<p>It cannot substitute for one.</p>
-<h2>From deployed systems to compounding capability</h2>
+<p>An organization does not need a large knowledge-management program to begin. It needs a small set of connected mechanisms: structured evidence capture during the engagement, recurring cross-deployment comparison, a governed pattern registry, a productization decision forum, named ownership for anything that becomes shared, reuse and outcome measurement, and feedback into future deployments and handovers.</p>
+<p>These mechanisms are enough to begin generating compounding returns. A sophisticated portal, semantic clustering system, or automated knowledge agent can be added later. Automation should accelerate an existing learning process. It cannot substitute for one.</p>
+<h2>Conclusion: make adaptation cumulative</h2>
 <p>Forward Deployed Engineering is often described as the function that closes the last mile between a platform and a production workflow.</p>
 <p>That description is incomplete.</p>
 <p>FDE teams also occupy the point where the organization encounters reality.</p>
 <p>They see which platform assumptions survive production, which controls fail, which workflows resist automation, which abstractions travel, and which local differences matter.</p>
 <p>That position makes FDE a distributed sensing network.</p>
 <p>But sensing alone does not create learning.</p>
-<p>The organization needs a mechanism that converts observations into evidence, evidence into patterns, patterns into reusable capability, and reusable capability into better future deployments.</p>
+<p>The organization needs a mechanism that converts observations into evidence, evidence into patterns, patterns into validated capability, and validated capability into better future deployments.</p>
 <p>This is closely related to Cohen and Levinthal's concept of absorptive capacity: an organization's ability to recognize valuable external knowledge, assimilate it, and apply it.</p>
 <p>FDE teams give the organization access to high-value operational knowledge.</p>
 <p>The learning system determines whether that knowledge becomes institutional capability or disappears with the engagement.</p>
-<p>In a weak FDE model, every deployment consumes expertise.</p>
-<p>In a strong FDE model, every deployment also produces expertise in a form that the rest of the organization can use.</p>
-<p>The objective is not to eliminate customization.</p>
-<p>Enterprise workflows will continue to require local adaptation.</p>
-<p>The objective is to make adaptation cumulative.</p>
-<p>The objective is not to standardize every local solution.</p>
-<p>It is to identify what should remain local, what should be shared, and what should become part of the platform.</p>
-<p>The objective is not to maximize reuse.</p>
-<p>It is to create justified reuse that reduces total organizational effort and risk.</p>
+<p>In a weak FDE model, every deployment consumes expertise. In a strong FDE model, every deployment also produces expertise in a form that the rest of the organization can use.</p>
+<p>The objective is not maximum reuse. Enterprise workflows will continue to require local adaptation. The objective is to make adaptation cumulative by identifying what should remain local, what should be shared, and what should become part of the platform.</p>
 <p>The scalable output of Forward Deployed Engineering is not the number of systems delivered.</p>
 <p>It is the rate at which field experience becomes reusable organizational capability.</p>
 <p>Each deployment should leave the organization better equipped to deliver the next one.</p>
