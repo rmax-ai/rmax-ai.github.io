@@ -13,11 +13,10 @@ tags:
   - "ai fde"
   - "forward deployed engineering"
   - "organizational learning"
-  - "enterprise ai"
-  - "platform strategy"
+  - "field-to-platform"
+  - "platform engineering"
   - "knowledge management"
-  - "operating model"
-reading_time: "10-12 min"
+reading_time: "15-17 min"
 canonical_url: "https://rmax.ai/notes/ai-fde-organizational-learning-systems/"
 license: "CC BY 4.0"
 ---
@@ -303,19 +302,364 @@ These failures are linked. They appear when field knowledge does not travel, pla
 4. Use repeated occurrence to justify reuse, and repeated recurrence to justify platformization.
 5. Measure leverage, not activity. Track whether later deployments become faster, safer, easier to evaluate, easier to hand over, and less dependent on specialist intervention.
 
-## Positioning Note
+## The operating model in one loop
 
-This note is not academic research. It does not attempt a formal theory of organizational learning or a quantified model of FDE economics.
+The full system can be expressed as a continuous loop:
 
-It is also not a blog opinion piece built on a loose metaphor or a single anecdote. The aim is to offer an operator-oriented model for how field engineering organizations can accumulate capability instead of repeatedly consuming expertise.
+```mermaid
+flowchart LR
+    A[Embedded FDE deployment] --> B[Capture field evidence]
+    B --> C[Compare across engagements]
+    C --> D{Recurring pattern?}
 
-It is not vendor documentation either. It does not describe a product feature set or prescribe a platform stack. Its focus is the operating model that should govern how field discoveries become reusable organizational capability.
+    D -->|Not yet| E[Keep local and continue observing]
+    D -->|Yes| F[Validate invariant and variable parts]
 
-## Status & Scope Disclaimer
+    F --> G{Choose the right reuse level}
+    G --> H[Evaluation asset]
+    G --> I[Documented pattern]
+    G --> J[Shared library or adapter]
+    G --> K[Reference architecture]
+    G --> L[Platform-native capability]
 
-This note is exploratory but grounded in practical engineering patterns. It is written as personal lab work, not as an authoritative standard. The claims are intended as an operational design frame for teams running AI FDE organizations, especially where deployments repeatedly encounter similar workflow, integration, evaluation, governance, and handover problems. It does not attempt to solve all knowledge-management, platform, or organizational-design questions.
+    H --> M[Future deployments]
+    I --> M
+    J --> M
+    K --> M
+    L --> M
 
-## References
+    M --> N[Measure reuse, acceleration and quality]
+    N --> O[Update or deprecate]
+    O --> A
+```
 
-No explicit external references or source links were included in the source note.
+The loop contains three distinct organizational motions.
 
+First, FDE teams move outward into operational environments to discover how AI systems behave under real constraints.
+
+Second, field evidence moves inward toward shared organizational memory and platform decision-making.
+
+Third, reusable capability moves outward again into future deployments and local engineering teams.
+
+The loop is complete only when all three motions occur.
+
+A deployment that produces evidence but no reusable capability is research without exploitation.
+
+A platform capability built without field evidence is abstraction without validation.
+
+A system handed over without local capability transfer is delivery without organizational adoption.
+
+## What the organization must make explicit
+
+A functioning learning system requires several decisions that organizations often leave ambiguous.
+
+### What must every engagement capture?
+
+At minimum:
+
+- important architecture decisions;
+- recurring model and workflow failures;
+- local workarounds;
+- evaluation cases;
+- integration constraints;
+- security and permission boundaries;
+- human approval points;
+- ownership after handover.
+
+The capture process should be proportional to the importance of the discovery.
+
+A one-line integration fix does not need a ten-page report. A repeated authorization failure affecting several deployments probably requires traces, an architectural decision, a regression test, and a platform proposal.
+
+### Who identifies recurring patterns?
+
+FDE teams should propose patterns, but they should not unilaterally declare their own implementations to be organizational standards.
+
+Cross-engagement comparison should involve people with visibility across deployments, such as:
+
+- FDE technical leads;
+- platform product managers;
+- platform engineers;
+- architects;
+- security specialists;
+- evaluation or reliability engineers.
+
+This creates a useful separation between invention and standardization.
+
+The people closest to the field identify candidate patterns.
+
+The wider organization determines whether those patterns should become shared commitments.
+
+### Who owns a reusable asset?
+
+Every shared capability requires an explicit owner.
+
+Ownership includes:
+
+- maintenance;
+- versioning;
+- support;
+- security review;
+- compatibility;
+- documentation;
+- usage monitoring;
+- deprecation.
+
+A component without an owner is not a platform capability.
+
+It is abandoned code with internal visibility.
+
+Ownership should follow the nature of the asset.
+
+A shared evaluation framework may belong to an AI reliability team.
+
+An identity-aware retrieval control may belong jointly to platform engineering and identity security.
+
+A business-specific policy configuration should remain with the business unit.
+
+A core orchestration runtime may belong to the central AI platform.
+
+The organizational boundary should be as deliberate as the technical API boundary.
+
+### Who decides when to deprecate?
+
+The same organization that approves shared capabilities must be willing to remove them.
+
+Deprecation should be considered when:
+
+- usage remains low;
+- teams consistently bypass the abstraction;
+- support costs exceed delivered value;
+- the underlying problem has changed;
+- model or cloud providers now offer the capability natively;
+- a simpler pattern has replaced it;
+- the abstraction creates more coupling than leverage.
+
+Deletion is part of learning.
+
+Without it, each generation of platform thinking remains embedded in the next.
+
+## A minimum viable FDE learning system
+
+The complete operating model may appear large, but an organization can begin with a small implementation.
+
+A minimum viable system requires five mechanisms.
+
+### 1. A standard engagement record
+
+Each deployment should maintain one lightweight record containing:
+
+- workflow and business context;
+- architecture decisions;
+- discovered constraints;
+- major failures;
+- evaluation assets;
+- local versus reusable components;
+- handover owner.
+
+This should live close to the code and evolve during the engagement.
+
+### 2. A post-engagement extraction review
+
+Shortly after the system reaches a stable production state, the FDE team and platform representatives review:
+
+- what was genuinely new;
+- what was already known;
+- what was duplicated;
+- what should remain local;
+- what may recur;
+- which evaluations should be retained;
+- which platform gaps were exposed.
+
+The output should be concrete backlog items and assets, not only retrospective notes.
+
+### 3. A shared pattern registry
+
+The organization needs a searchable index of:
+
+- patterns;
+- anti-patterns;
+- integrations;
+- evaluations;
+- reference architectures;
+- reusable components;
+- deprecated approaches.
+
+Entries should be tagged by technical problem, not only by business domain.
+
+Searching for "permission-aware retrieval" is more useful than searching for "healthcare chatbot project."
+
+### 4. A field-to-platform decision forum
+
+A recurring review should decide what happens to candidate patterns.
+
+Possible outcomes include:
+
+- insufficient evidence;
+- keep local;
+- document as guidance;
+- reuse experimentally;
+- publish as an inner-source component;
+- fund productization;
+- revise an existing platform capability;
+- deprecate an obsolete abstraction.
+
+The forum should remain small enough to make decisions and broad enough to prevent local optimization.
+
+### 5. A leverage scorecard
+
+The organization should track whether the system improves over time.
+
+A useful starting scorecard includes:
+
+- delivery time for recurring workflow classes;
+- duplicate implementation rate;
+- adoption of shared evaluations and controls;
+- repeated incident rate;
+- post-handover support dependency;
+- time from field discovery to reusable capability;
+- usage and bypass rates for shared components;
+- number of deprecated low-value abstractions.
+
+These mechanisms are enough to begin generating compounding returns.
+
+A sophisticated portal, semantic clustering system, or automated knowledge agent can be added later.
+
+Automation should accelerate an existing learning process.
+
+It cannot substitute for one.
+
+## The role of AI in the learning system itself
+
+AI can help the organization process the volume of evidence produced by FDE engagements.
+
+It can assist with:
+
+- clustering similar incidents;
+- detecting duplicated code;
+- summarizing architecture decisions;
+- extracting candidate patterns from deployment journals;
+- linking support tickets to known failure modes;
+- identifying evaluation gaps;
+- recommending relevant prior implementations;
+- detecting stale documentation;
+- drafting deprecation candidates.
+
+For example, an internal agent could analyze repositories, traces, issue trackers, architecture records, and support discussions to identify that several teams have independently created similar permission-filtering middleware.
+
+It could then produce a candidate pattern report containing:
+
+- source deployments;
+- related code;
+- common inputs and outputs;
+- differences between implementations;
+- relevant incidents;
+- possible invariant behaviour;
+- likely platform owners.
+
+This would reduce the cost of finding patterns.
+
+It would not remove the need for engineering judgment.
+
+Similarity is not equivalence.
+
+Two implementations may look similar in code while operating under different security, regulatory, or performance constraints.
+
+The final abstraction decision remains organizational and technical, not merely statistical.
+
+AI should support the sensing and synthesis functions of the learning system.
+
+It should not automatically turn repeated code into mandatory platform architecture.
+
+## The deeper organizational shift
+
+Treating FDE as a learning system changes how the function is understood.
+
+FDE is no longer only downstream of product and platform engineering.
+
+It also operates upstream.
+
+Field teams generate evidence about:
+
+- missing platform capabilities;
+- incorrect product assumptions;
+- unstable abstractions;
+- recurring customer or business needs;
+- security gaps;
+- evaluation requirements;
+- adoption constraints.
+
+The platform roadmap therefore becomes partly empirical.
+
+Instead of asking only what the organization intends to build, it also asks what repeated production evidence shows that it should build.
+
+This changes the relationship between FDE and platform teams.
+
+The FDE organization should not become an alternative platform organization.
+
+The platform team should not treat FDE as a ticket-driven implementation function.
+
+Their relationship should be cyclical:
+
+The platform provides reusable capabilities to the field.
+
+FDE teams combine them with local context.
+
+Deployments expose gaps and new patterns.
+
+Validated patterns return to the platform.
+
+The improved platform reduces future deployment effort.
+
+The health of the system depends on the speed and quality of this cycle.
+
+## Conclusion
+
+AI FDE teams are often created to solve the final integration problem between capable models and complex enterprise workflows.
+
+That role gives them unusual access to reality.
+
+They see where models fail against live data.
+
+They discover which business rules were never documented.
+
+They encounter the authorization boundaries hidden behind nominally simple APIs.
+
+They observe where users need explanations, where humans must remain in control, and where central platforms fail to support local execution.
+
+This makes FDE one of the organization's most valuable sources of product, platform, and operational intelligence.
+
+But that intelligence has little cumulative value when it remains inside individual deployments.
+
+Without a learning system, each engagement begins another cycle of rediscovery. The organization delivers more applications but does not become proportionally better at delivering them.
+
+A scalable FDE model must therefore do more than deploy AI systems.
+
+It must convert field experience into:
+
+- organizational memory;
+- reusable engineering assets;
+- better evaluations;
+- stronger controls;
+- clearer ownership;
+- improved platform capabilities;
+- faster future delivery.
+
+The objective is not to standardize every local solution.
+
+It is to identify what should remain local, what should be shared, and what should become part of the platform.
+
+The objective is not to eliminate custom engineering.
+
+It is to prevent custom engineering from being repeatedly forgotten.
+
+The objective is not to maximize reuse.
+
+It is to create justified reuse that reduces total organizational effort and risk.
+
+In a weak FDE organization, every deployment consumes scarce expertise.
+
+In a strong FDE organization, every deployment also converts part of that expertise into durable capability.
+
+That is the shift from forward deployed engineering as a delivery function to forward deployed engineering as an organizational learning system.
+
+And it is what allows each deployment to make the next one easier.

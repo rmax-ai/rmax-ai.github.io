@@ -4,36 +4,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Why AI FDE Teams Must Become Organizational Learning Systems — rmax.ai</title>
-    <meta
-      name="description"
-      content="Why AI Forward Deployed Engineering teams should operate as organizational learning systems that turn field deployments into reusable platform capabilities, patterns, and operational leverage."
-    />
+    <meta name="description" content="Why AI Forward Deployed Engineering teams should operate as organizational learning systems that turn field deployments into reusable platform capabilities, patterns, and operational leverage." />
     <meta name="author" content="Max" />
     <link rel="canonical" href="https://rmax.ai/notes/ai-fde-organizational-learning-systems/" />
 
     <meta property="og:title" content="Why AI FDE Teams Must Become Organizational Learning Systems" />
-    <meta
-      property="og:description"
-      content="Why AI Forward Deployed Engineering teams should operate as organizational learning systems that turn field deployments into reusable platform capabilities, patterns, and operational leverage."
-    />
+    <meta property="og:description" content="Why AI Forward Deployed Engineering teams should operate as organizational learning systems that turn field deployments into reusable platform capabilities, patterns, and operational leverage." />
     <meta property="og:url" content="https://rmax.ai/notes/ai-fde-organizational-learning-systems/" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2026-06-30" />
-    <meta property="article:modified_time" content="2026-06-30" />
     <meta property="article:tag" content="ai fde" />
     <meta property="article:tag" content="forward deployed engineering" />
     <meta property="article:tag" content="organizational learning" />
-    <meta property="article:tag" content="enterprise ai" />
-    <meta property="article:tag" content="platform strategy" />
+    <meta property="article:tag" content="field-to-platform" />
+    <meta property="article:tag" content="platform engineering" />
     <meta property="article:tag" content="knowledge management" />
-    <meta property="article:tag" content="operating model" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles/footer.css" />
     <link rel="stylesheet" href="/styles/substack-cta.css" />
     <style>
@@ -43,23 +32,18 @@
         --muted: #94a3b8;
         --accent: #7c3aed;
         --glass: rgba(255, 255, 255, 0.04);
-        --maxw: 840px;
+        --maxw: 800px;
         color-scheme: dark;
       }
-      * {
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        height: 100%;
-      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
       body {
         font-family: Inter, system-ui, Arial;
         margin: 0;
         background: linear-gradient(180deg, #071028 0%, #071229 60%);
         color: #e6eef8;
         -webkit-font-smoothing: antialiased;
-        line-height: 1.65;
+        line-height: 1.6;
       }
       .wrap {
         max-width: var(--maxw);
@@ -99,13 +83,10 @@
         text-decoration: none;
         font-weight: 600;
       }
-      a {
-        color: #c4b5fd;
-      }
       h1 {
         margin: 0 0 16px;
         font-size: clamp(32px, 5vw, 52px);
-        line-height: 1.08;
+        line-height: 1.1;
         font-weight: 800;
       }
       h2 {
@@ -117,155 +98,138 @@
       h3 {
         margin: 32px 0 12px;
         font-size: 1.4rem;
-        font-weight: 700;
+        font-weight: 600;
         color: #fff;
       }
-      p {
-        margin: 0 0 22px;
-        color: #cbd5e1;
-        font-size: 1.08rem;
+      h4 {
+        margin: 24px 0 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #e2e8f0;
       }
-      ul,
-      ol {
-        margin: 0 0 22px;
-        padding-left: 22px;
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
         color: #cbd5e1;
       }
       li {
-        margin-bottom: 10px;
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
       }
       .post-meta {
         color: var(--muted);
-        margin-bottom: 42px;
         font-size: 0.95rem;
         display: flex;
-        gap: 16px;
-        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
       }
       .post-content {
         margin-top: 32px;
       }
-      pre.mermaid {
-        margin: 0 0 28px;
-        padding: 18px;
-        border-radius: 14px;
-        border: 1px solid rgba(124, 58, 237, 0.28);
-        background: rgba(11, 18, 32, 0.9);
-        overflow-x: auto;
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
       }
+
       @media (max-width: 600px) {
+        .wrap {
+          margin: 20px auto;
+        }
         header {
           flex-direction: column;
           align-items: flex-start;
         }
-        .wrap {
-          margin: 20px auto;
-        }
       }
     </style>
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
-    <noscript
-      ><img
-        src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true"
-        alt=""
-        referrerpolicy="no-referrer-when-downgrade"
-    /></noscript>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
   </head>
   <body>
     <div class="wrap">
       <header>
         <a href="/" class="brand">
-          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo" />
-          <div>
-            <div style="font-weight: 800">rMax.ai</div>
-            <div style="font-size: 0.9rem; color: #94a3b8">AI-first engineering</div>
-          </div>
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
         </a>
-        <nav aria-label="Main navigation">
-          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
-          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
-          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
-          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
-          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
-          <a
-            class="navlink"
-            href="https://www.linkedin.com/in/rmaxespinoza/"
-            target="_blank"
-            rel="noopener"
-            aria-label="LinkedIn"
-            style="display: flex; align-items: center"
-            data-simple-event="click_outbound"
-            data-simple-outbound-host="linkedin.com"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
-              />
-            </svg>
-          </a>
-          <a
-            class="navlink"
-            href="https://rmax.substack.com"
-            target="_blank"
-            rel="noopener"
-            aria-label="Substack"
-            style="display: flex; align-items: center"
-            data-simple-event="click_outbound"
-            data-simple-outbound-host="substack.com"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 48 48"
-              aria-hidden="true"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path
-                d="m40.0248,10.0817v-4.5814c-.3229,0-.7411-.0004-1.6553-.0004l-28.9669.0004c-.9142,0-1.318,0-1.6553,0v4.5814c.2164,0,.7411.0005,1.6553.0005l28.9669-.0005c.9142,0,1.4122,0,1.6553,0Z"
-              />
-              <path
-                d="m40.0248,18.3503v-4.5814H9.4025c-.9142,0-1.3777,0-1.6553,0v4.5814c.2646,0,.7411,0,1.6553,0h30.6223Z"
-              />
-              <path
-                d="m40.2557,42.4999v-20.1821c0-.1633-.9724-.1077-1.8866-.1077H9.4022c-.9142,0-1.6553-.0555-1.6553.1077v19.8878c.2814-.1622,15.3415-8.2118,16.1691-8.5978.5156.2972,13.6461,7.3385,16.3406,8.8914l-.0008.0007Z"
-              />
-            </svg>
-          </a>
-          <a
-            class="navlink"
-            href="https://x.com/rmaxdev"
-            target="_blank"
-            rel="noopener"
-            aria-label="X"
-            style="display: flex; align-items: center"
-            data-simple-event="click_outbound"
-            data-simple-outbound-host="x.com"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191-.008zM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447z"
-              ></path>
-            </svg>
-          </a>
-          <a
-            class="navlink"
-            href="https://github.com/rmax-ai"
-            target="_blank"
-            rel="noopener"
-            aria-label="GitHub"
-            style="display: flex; align-items: center"
-            data-simple-event="click_outbound"
-            data-simple-outbound-host="github.com"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
-              />
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
             </svg>
           </a>
         </nav>
@@ -273,99 +237,63 @@
 
       <main>
         <article>
-          <h1>Why AI FDE Teams Must Become Organizational Learning Systems</h1>
-          <div class="post-meta">
-            <span>June 30, 2026</span>
-            <span>10-12 min read</span>
-            <span>Essay</span>
-          </div>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>Why AI FDE Teams Must Become Organizational Learning Systems</h1>
+            <div class="post-meta">
+              <span>2026-06-30</span>
+              <span>•</span>
+              <span>15-17 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
 
           <div class="post-content">
-            <h2>Abstract</h2>
-            <p>
-              AI Forward Deployed Engineering (FDE) teams often solve hard local problems without making the organization
-              much better at solving the next one. An engagement can ship a useful system, transfer little reusable
-              knowledge, and force later teams to rediscover the same integrations, evaluation methods, failure modes,
-              and governance controls. This note argues that the scalable output of FDE is not only deployed systems. It
-              is the organizational capability extracted from those deployments. In practice, FDE should operate as a
-              distributed learning system that turns field evidence into reusable patterns, assets, platform
-              capabilities, and durable local ownership.
-            </p>
-
-            <h2>Context &amp; Motivation</h2>
-            <p>
-              Enterprise AI work usually cannot be fully specified in advance, yet many organizations still treat
-              deployment as if implementation were the main problem. In practice, FDE teams discover the real workflow
-              while they build the solution. They run into undocumented business rules, fragmented systems, shifting
-              model behavior, hidden authorization boundaries, data-quality defects, and user trust constraints that
-              become visible only in live operation.
-            </p>
-            <p>
-              As more organizations deliver AI systems through embedded field teams, a scaling problem becomes harder to
-              ignore. The same structural problems reappear across business units, but the learning often stays trapped
-              in chat threads, personal memory, local repositories, or one-off codebases. That makes FDE effective as
-              delivery labor but weak as an engine for compounding organizational capability.
-            </p>
-
-            <h2>Core Thesis</h2>
-            <p>FDE teams should run as organizational learning systems, not only as bespoke delivery teams.</p>
-            <p>Each deployment should produce two outputs:</p>
-            <ol>
-              <li>a local business result;</li>
-              <li>evidence that improves the platform, the operating model, and future deployments.</li>
-            </ol>
-            <p>
-              The scalable output of FDE is therefore not the number of systems delivered. It is the rate at which
-              field experience becomes reusable organizational capability.
-            </p>
-
-            <h2>Mechanism / Model</h2>
-
-            <h3>FDE exists because enterprise AI cannot be fully specified in advance</h3>
-            <p>
-              Traditional delivery assumes that teams can gather requirements, translate them into specifications, and
-              hand them to an implementation team. Enterprise AI systems often resist that model.
-            </p>
-            <p>A workflow may look simple on paper:</p>
-            <ul>
-              <li>summarize a contract;</li>
-              <li>classify a support request;</li>
-              <li>retrieve company knowledge;</li>
-              <li>investigate a payment anomaly;</li>
-              <li>draft a compliance assessment.</li>
-            </ul>
-            <p>
-              The real system usually depends on tacit rules, conflicting data definitions, fragmented permissions,
-              undocumented exceptions, and model behavior that shifts with prompts, context, tools, and vendor changes.
-              Those constraints often become visible only when real operators use the system against production data.
-            </p>
-            <p>
-              That is why FDE teams embed in the field. They are not only implementing a known solution. They are
-              discovering the real problem while they build it.
-            </p>
-
-            <h3>Delivery and learning are different operating models</h3>
-            <p>A delivery organization asks:</p>
-            <ul>
-              <li>Did the system launch?</li>
-              <li>Did the project meet its deadline?</li>
-              <li>Did the business unit accept the handover?</li>
-              <li>How many engineers were utilized?</li>
-            </ul>
-            <p>A learning organization asks additional questions:</p>
-            <ul>
-              <li>What did this deployment reveal that the platform did not previously understand?</li>
-              <li>Which parts of the solution are local?</li>
-              <li>Which parts reflect a recurring structural problem?</li>
-              <li>What evidence would let another team reuse the solution safely?</li>
-              <li>Did this engagement make the next one faster, safer, or easier to operate?</li>
-            </ul>
-            <p>
-              The distinction matters because the first model scales through headcount. The second can create
-              compounding leverage.
-            </p>
-            <p>This diagram shows the difference between local delivery and organizational learning.</p>
-            <pre class="mermaid">
+<h2>Abstract</h2>
+<p>AI Forward Deployed Engineering (FDE) teams often solve hard local problems without making the organization much better at solving the next one. An engagement can ship a useful system, transfer little reusable knowledge, and force later teams to rediscover the same integrations, evaluation methods, failure modes, and governance controls. This note argues that the scalable output of FDE is not only deployed systems. It is the organizational capability extracted from those deployments. In practice, FDE should operate as a distributed learning system that turns field evidence into reusable patterns, assets, platform capabilities, and durable local ownership.</p>
+<h2>Context & Motivation</h2>
+<p>Enterprise AI work usually cannot be fully specified in advance, yet many organizations still treat deployment as if implementation were the main problem. In practice, FDE teams discover the real workflow while they build the solution. They run into undocumented business rules, fragmented systems, shifting model behavior, hidden authorization boundaries, data-quality defects, and user trust constraints that become visible only in live operation.</p>
+<p>As more organizations deliver AI systems through embedded field teams, a scaling problem becomes harder to ignore. The same structural problems reappear across business units, but the learning often stays trapped in chat threads, personal memory, local repositories, or one-off codebases. That makes FDE effective as delivery labor but weak as an engine for compounding organizational capability.</p>
+<h2>Core Thesis</h2>
+<p>FDE teams should run as organizational learning systems, not only as bespoke delivery teams.</p>
+<p>Each deployment should produce two outputs:</p>
+<ol>
+<li>a local business result;</li>
+<li>evidence that improves the platform, the operating model, and future deployments.</li>
+</ol>
+<p>The scalable output of FDE is therefore not the number of systems delivered. It is the rate at which field experience becomes reusable organizational capability.</p>
+<h2>Mechanism / Model</h2>
+<h3>FDE exists because enterprise AI cannot be fully specified in advance</h3>
+<p>Traditional delivery assumes that teams can gather requirements, translate them into specifications, and hand them to an implementation team. Enterprise AI systems often resist that model.</p>
+<p>A workflow may look simple on paper:</p>
+<ul>
+<li>summarize a contract;</li>
+<li>classify a support request;</li>
+<li>retrieve company knowledge;</li>
+<li>investigate a payment anomaly;</li>
+<li>draft a compliance assessment.</li>
+</ul>
+<p>The real system usually depends on tacit rules, conflicting data definitions, fragmented permissions, undocumented exceptions, and model behavior that shifts with prompts, context, tools, and vendor changes. Those constraints often become visible only when real operators use the system against production data.</p>
+<p>That is why FDE teams embed in the field. They are not only implementing a known solution. They are discovering the real problem while they build it.</p>
+<h3>Delivery and learning are different operating models</h3>
+<p>A delivery organization asks:</p>
+<ul>
+<li>Did the system launch?</li>
+<li>Did the project meet its deadline?</li>
+<li>Did the business unit accept the handover?</li>
+<li>How many engineers were utilized?</li>
+</ul>
+<p>A learning organization asks additional questions:</p>
+<ul>
+<li>What did this deployment reveal that the platform did not previously understand?</li>
+<li>Which parts of the solution are local?</li>
+<li>Which parts reflect a recurring structural problem?</li>
+<li>What evidence would let another team reuse the solution safely?</li>
+<li>Did this engagement make the next one faster, safer, or easier to operate?</li>
+</ul>
+<p>The distinction matters because the first model scales through headcount. The second can create compounding leverage.</p>
+<p>This diagram shows the difference between local delivery and organizational learning.</p>
+<pre class="mermaid">
 flowchart LR
     A[Field deployment] --> B[Local system shipped]
     B --> C{What happens next?}
@@ -382,77 +310,45 @@ flowchart LR
     K --> L[Create reusable capability]
     L --> M[Next team starts from stronger base]
     M --> N[Compounding leverage]
-            </pre>
-
-            <h3>Every deployment should be treated as an experiment</h3>
-            <p>An FDE engagement generates evidence in at least five categories:</p>
-            <ul>
-              <li>
-                <strong>Workflow discoveries</strong>, such as hidden approvals, manual verification, local risk
-                thresholds, or the conditions under which operators ignore model output.
-              </li>
-              <li>
-                <strong>Data discoveries</strong>, such as inconsistent identifiers, undocumented schemas, stale
-                records, contradictory definitions, or invisible access constraints.
-              </li>
-              <li>
-                <strong>Model discoveries</strong>, such as hallucination patterns, prompt sensitivity, reasoning loops,
-                output instability, or failures under ambiguity.
-              </li>
-              <li>
-                <strong>Integration discoveries</strong>, such as authentication assumptions, rate limits, missing
-                event semantics, or unreliable APIs.
-              </li>
-              <li>
-                <strong>Adoption discoveries</strong>, such as where users need explanations, what latency breaks
-                trust, where human review is mandatory, and what the local team needs to own the system.
-              </li>
-            </ul>
-            <p>
-              This knowledge decays quickly when it remains informal. A learning system must capture not only what was
-              built, but also why it was built and what evidence justified it.
-            </p>
-
-            <h3>The field-to-platform learning loop</h3>
-            <p>
-              Organizational learning happens when field evidence moves through a repeatable decision process. A
-              practical loop has six stages.
-            </p>
-            <ol>
-              <li>
-                <strong>Observe</strong><br />
-                Record operational discoveries that reveal something important about the system, ideally with traces,
-                feedback, incidents, evaluation failures, or measurements.
-              </li>
-              <li>
-                <strong>Preserve</strong><br />
-                Convert the discovery into a durable artifact, such as an architecture decision record, evaluation case,
-                reusable test, postmortem, integration note, code sample, pattern proposal, or anti-pattern.
-              </li>
-              <li>
-                <strong>Compare</strong><br />
-                Look for repeated structure across independent engagements by problem class, not by business-unit label.
-              </li>
-              <li>
-                <strong>Validate recurrence</strong><br />
-                Use repeated occurrence to distinguish a local anomaly from a reusable pattern. The rule of three is
-                useful here: solve locally once, adapt in a second environment, and abstract after a third occurrence
-                clarifies what is stable.
-              </li>
-              <li>
-                <strong>Productize at the appropriate level</strong><br />
-                Turn validated discoveries into the smallest useful shared form, which may be a written pattern,
-                evaluation, small library, adapter, workflow template, governance requirement, reference architecture,
-                or platform service.
-              </li>
-              <li>
-                <strong>Measure and update</strong><br />
-                Verify that later teams actually adopt the capability and get better outcomes. Deprecate abstractions
-                that no longer help.
-              </li>
-            </ol>
-            <p>This diagram summarizes the field-to-platform loop.</p>
-            <pre class="mermaid">
+</pre>
+<h3>Every deployment should be treated as an experiment</h3>
+<p>An FDE engagement generates evidence in at least five categories:</p>
+<ul>
+<li><strong>Workflow discoveries</strong>, such as hidden approvals, manual verification, local risk thresholds, or the conditions under which operators ignore model output.</li>
+<li><strong>Data discoveries</strong>, such as inconsistent identifiers, undocumented schemas, stale records, contradictory definitions, or invisible access constraints.</li>
+<li><strong>Model discoveries</strong>, such as hallucination patterns, prompt sensitivity, reasoning loops, output instability, or failures under ambiguity.</li>
+<li><strong>Integration discoveries</strong>, such as authentication assumptions, rate limits, missing event semantics, or unreliable APIs.</li>
+<li><strong>Adoption discoveries</strong>, such as where users need explanations, what latency breaks trust, where human review is mandatory, and what the local team needs to own the system.</li>
+</ul>
+<p>This knowledge decays quickly when it remains informal. A learning system must capture not only what was built, but also why it was built and what evidence justified it.</p>
+<h3>The field-to-platform learning loop</h3>
+<p>Organizational learning happens when field evidence moves through a repeatable decision process. A practical loop has six stages.</p>
+<ol>
+<li><strong>Observe</strong></li>
+</ol>
+<p>Record operational discoveries that reveal something important about the system, ideally with traces, feedback, incidents, evaluation failures, or measurements.</p>
+<ol>
+<li><strong>Preserve</strong></li>
+</ol>
+<p>Convert the discovery into a durable artifact, such as an architecture decision record, evaluation case, reusable test, postmortem, integration note, code sample, pattern proposal, or anti-pattern.</p>
+<ol>
+<li><strong>Compare</strong></li>
+</ol>
+<p>Look for repeated structure across independent engagements by problem class, not by business-unit label.</p>
+<ol>
+<li><strong>Validate recurrence</strong></li>
+</ol>
+<p>Use repeated occurrence to distinguish a local anomaly from a reusable pattern. The rule of three is useful here: solve locally once, adapt in a second environment, and abstract after a third occurrence clarifies what is stable.</p>
+<ol>
+<li><strong>Productize at the appropriate level</strong></li>
+</ol>
+<p>Turn validated discoveries into the smallest useful shared form, which may be a written pattern, evaluation, small library, adapter, workflow template, governance requirement, reference architecture, or platform service.</p>
+<ol>
+<li><strong>Measure and update</strong></li>
+</ol>
+<p>Verify that later teams actually adopt the capability and get better outcomes. Deprecate abstractions that no longer help.</p>
+<p>This diagram summarizes the field-to-platform loop.</p>
+<pre class="mermaid">
 flowchart TD
     A[1. Observe field evidence] --> B[2. Preserve durable artifact]
     B --> C[3. Compare across deployments]
@@ -464,254 +360,396 @@ flowchart TD
     G -->|no| I[Deprecate or narrow scope]
     H --> A
     I --> A
-            </pre>
-
-            <h3>A capability ladder for field discoveries</h3>
-            <p>Useful learning is not limited to code reuse. A field discovery can mature through several levels:</p>
-            <ol>
-              <li>
-                <strong>Observation</strong><br />
-                A team records a failure, constraint, workaround, or user behavior.
-              </li>
-              <li>
-                <strong>Documented decision</strong><br />
-                The team explains why it chose a design or control.
-              </li>
-              <li>
-                <strong>Repeated pattern</strong><br />
-                The same structural problem appears across environments.
-              </li>
-              <li>
-                <strong>Reusable asset</strong><br />
-                The organization creates a shared evaluation, connector, template, library, or control.
-              </li>
-              <li>
-                <strong>Reference architecture</strong><br />
-                Several assets are composed into a supported path for a recurring workflow class.
-              </li>
-              <li>
-                <strong>Platform-native capability</strong><br />
-                The central platform adopts the capability and owns it as a stable interface.
-              </li>
-            </ol>
-            <p>
-              The key discipline is to let maturity follow evidence and reuse, not architectural ambition.
-            </p>
-            <p>
-              This diagram shows how a field discovery can move from local observation to platform capability.
-            </p>
-            <pre class="mermaid">
+</pre>
+<h3>A capability ladder for field discoveries</h3>
+<p>Useful learning is not limited to code reuse. A field discovery can mature through several levels:</p>
+<ol>
+<li><strong>Observation</strong></li>
+</ol>
+<p>A team records a failure, constraint, workaround, or user behavior.</p>
+<ol>
+<li><strong>Documented decision</strong></li>
+</ol>
+<p>The team explains why it chose a design or control.</p>
+<ol>
+<li><strong>Repeated pattern</strong></li>
+</ol>
+<p>The same structural problem appears across environments.</p>
+<ol>
+<li><strong>Reusable asset</strong></li>
+</ol>
+<p>The organization creates a shared evaluation, connector, template, library, or control.</p>
+<ol>
+<li><strong>Reference architecture</strong></li>
+</ol>
+<p>Several assets are composed into a supported path for a recurring workflow class.</p>
+<ol>
+<li><strong>Platform-native capability</strong></li>
+</ol>
+<p>The central platform adopts the capability and owns it as a stable interface.</p>
+<p>The key discipline is to let maturity follow evidence and reuse, not architectural ambition.</p>
+<p>This diagram shows how a field discovery can move from local observation to platform capability.</p>
+<pre class="mermaid">
 flowchart LR
     A[Observation] --> B[Documented decision]
     B --> C[Repeated pattern]
     C --> D[Reusable asset]
     D --> E[Reference architecture]
     E --> F[Platform-native capability]
-            </pre>
+</pre>
+<h3>The repository is not the learning system</h3>
+<p>A central repository is necessary, but it is not enough. Repositories often become storage for architecture notes, code snippets, postmortems, templates, diagrams, and abandoned experiments. When search quality degrades, ownership is unclear, or artifacts are disconnected from evidence and current behavior, teams go back to asking colleagues directly or rebuilding from scratch.</p>
+<p>A functioning learning system requires:</p>
+<ul>
+<li>structured intake;</li>
+<li>clear ownership;</li>
+<li>links between artifacts and source evidence;</li>
+<li>search by problem class;</li>
+<li>review and validation;</li>
+<li>versioning;</li>
+<li>usage telemetry;</li>
+<li>deprecation;</li>
+<li>connection to roadmap decisions.</li>
+</ul>
+<p>The goal is not to preserve everything. It is to maintain a reliable body of organizational capability.</p>
+<h3>Learning must change the roadmap</h3>
+<p>A field learning system fails if recurring deployment friction never changes platform investment. The organization needs a formal field-to-platform review that includes FDE leads, platform engineers, product managers, architects, security and risk specialists, and relevant business engineers.</p>
+<p>That review should decide what repeated evidence means operationally. For each recurring pattern, the organization may choose to:</p>
+<ul>
+<li>keep the solution local;</li>
+<li>document it as a pattern;</li>
+<li>publish a shared component;</li>
+<li>create a reference architecture;</li>
+<li>fund a platform-native implementation;</li>
+<li>revise an existing capability;</li>
+<li>deprecate an abstraction that no longer works.</li>
+</ul>
+<p>Roadmap proposals should be framed as leverage hypotheses tied to repeated evidence, expected risk or effort reduction, likely adopters, central maintenance cost, and conditions for reconsideration.</p>
+<h3>Handover is part of the learning loop</h3>
+<p>The FDE model fails when embedded teams become the permanent operators of old deployments. A system may be technically complete while the local team still cannot run evaluations, diagnose failures, update business rules, respond to incidents, or distinguish local defects from platform defects.</p>
+<p>A complete engagement transfers operational capability outward while field evidence moves inward toward the platform. The receiving team should be able to:</p>
+<ul>
+<li>run and interpret evaluations;</li>
+<li>monitor system behavior;</li>
+<li>diagnose common failures;</li>
+<li>modify local business rules;</li>
+<li>operate the deployment pipeline;</li>
+<li>respond to incidents;</li>
+<li>know when to escalate.</li>
+</ul>
+<p>Without inward learning, the platform does not improve. Without outward capability transfer, FDE does not regain capacity.</p>
+<h2>Concrete Examples</h2>
+<h3>Example 1: Contract review and insurance claims share the same structural problem</h3>
+<p>A legal contract-review agent and an insurance claims system may look unrelated at the business level, but they can share the same technical structure:</p>
+<ul>
+<li>document extraction;</li>
+<li>structured validation;</li>
+<li>permission-aware retrieval;</li>
+<li>human approval;</li>
+<li>deterministic output schemas;</li>
+<li>audit logging.</li>
+</ul>
+<p>If teams compare deployments only by business label, they miss the recurrence. If they compare by problem class, they can see that both systems may need similar evaluations, review flows, and control patterns.</p>
+<h3>Example 2: Repeated identity and review problems should not stay local forever</h3>
+<p>A repeated human-review pattern may justify a reusable queue and context-serialization interface. A repeated identity-control problem may justify centralized infrastructure because inconsistent implementations create security exposure.</p>
+<p>By contrast, a business unit's internal definition of a high-risk transaction may remain local configuration, and a prompt used by one operations team may not justify any shared abstraction.</p>
+<p>The design question is not whether something can be centralized. It is whether centralization reduces total organizational complexity.</p>
+<h2>Trade-offs & Failure Modes</h2>
+<h3>The danger of premature abstraction</h3>
+<p>Teams often generalize a successful local solution too early. In AI systems, that risk increases because models, APIs, prompting methods, and orchestration techniques change quickly.</p>
+<p>A team may build a multi-agent workflow with routing, retries, context persistence, approval steps, and recovery logic. It works in one environment. The organization then turns that local design into a mandatory framework. Other teams inherit configuration, assumptions, and debugging layers they do not need, then bypass the framework with simpler local code.</p>
+<p>The result is not less duplication. It is an extra system that everyone must understand before ignoring.</p>
+<p>A candidate abstraction should show:</p>
+<ul>
+<li>recurrence across independent deployments;</li>
+<li>clear invariant behavior;</li>
+<li>bounded variation;</li>
+<li>meaningful reduction in duplicated effort or risk;</li>
+<li>maintainability by a stable owner;</li>
+<li>sufficient interface stability;</li>
+<li>a credible adoption path.</li>
+</ul>
+<h3>Common signs that the learning loop is broken</h3>
+<p>Several failure modes recur:</p>
+<ul>
+<li><strong>The hero FDE</strong>: a few engineers retain critical context and become indispensable.</li>
+<li><strong>The documentation graveyard</strong>: artifacts exist but cannot be trusted or reused.</li>
+<li><strong>Postmortems without consequences</strong>: incidents are analyzed but never become tests, controls, or roadmap decisions.</li>
+<li><strong>Premature platformization</strong>: a one-off success becomes a generic framework too early.</li>
+<li><strong>Copy-pasted local systems</strong>: teams keep rebuilding the same integrations, controls, or evaluations.</li>
+<li><strong>Platform engineering detached from the field</strong>: central features do not solve real deployment friction.</li>
+<li><strong>Permanent FDE ownership</strong>: local teams never become operationally independent.</li>
+</ul>
+<p>These failures are linked. They appear when field knowledge does not travel, platform decisions are disconnected from evidence, or ownership never transfers.</p>
+<h2>Practical Takeaways</h2>
+<ol>
+<li>Treat every FDE deployment as both delivery work and evidence generation.</li>
+<li>Capture discoveries close to the engineering work, not as a separate after-action writing exercise.</li>
+<li>Compare deployments by problem class, not by business-unit name.</li>
+<li>Use repeated occurrence to justify reuse, and repeated recurrence to justify platformization.</li>
+<li>Measure leverage, not activity. Track whether later deployments become faster, safer, easier to evaluate, easier to hand over, and less dependent on specialist intervention.</li>
+</ol>
+<h2>The operating model in one loop</h2>
+<p>The full system can be expressed as a continuous loop:</p>
+<pre class="mermaid">
+flowchart LR
+    A[Embedded FDE deployment] --> B[Capture field evidence]
+    B --> C[Compare across engagements]
+    C --> D{Recurring pattern?}
 
-            <h3>The repository is not the learning system</h3>
-            <p>
-              A central repository is necessary, but it is not enough. Repositories often become storage for
-              architecture notes, code snippets, postmortems, templates, diagrams, and abandoned experiments. When
-              search quality degrades, ownership is unclear, or artifacts are disconnected from evidence and current
-              behavior, teams go back to asking colleagues directly or rebuilding from scratch.
-            </p>
-            <p>A functioning learning system requires:</p>
-            <ul>
-              <li>structured intake;</li>
-              <li>clear ownership;</li>
-              <li>links between artifacts and source evidence;</li>
-              <li>search by problem class;</li>
-              <li>review and validation;</li>
-              <li>versioning;</li>
-              <li>usage telemetry;</li>
-              <li>deprecation;</li>
-              <li>connection to roadmap decisions.</li>
-            </ul>
-            <p>
-              The goal is not to preserve everything. It is to maintain a reliable body of organizational capability.
-            </p>
+    D -->|Not yet| E[Keep local and continue observing]
+    D -->|Yes| F[Validate invariant and variable parts]
 
-            <h3>Learning must change the roadmap</h3>
-            <p>
-              A field learning system fails if recurring deployment friction never changes platform investment. The
-              organization needs a formal field-to-platform review that includes FDE leads, platform engineers, product
-              managers, architects, security and risk specialists, and relevant business engineers.
-            </p>
-            <p>
-              That review should decide what repeated evidence means operationally. For each recurring pattern, the
-              organization may choose to:
-            </p>
-            <ul>
-              <li>keep the solution local;</li>
-              <li>document it as a pattern;</li>
-              <li>publish a shared component;</li>
-              <li>create a reference architecture;</li>
-              <li>fund a platform-native implementation;</li>
-              <li>revise an existing capability;</li>
-              <li>deprecate an abstraction that no longer works.</li>
-            </ul>
-            <p>
-              Roadmap proposals should be framed as leverage hypotheses tied to repeated evidence, expected risk or
-              effort reduction, likely adopters, central maintenance cost, and conditions for reconsideration.
-            </p>
+    F --> G{Choose the right reuse level}
+    G --> H[Evaluation asset]
+    G --> I[Documented pattern]
+    G --> J[Shared library or adapter]
+    G --> K[Reference architecture]
+    G --> L[Platform-native capability]
 
-            <h3>Handover is part of the learning loop</h3>
-            <p>
-              The FDE model fails when embedded teams become the permanent operators of old deployments. A system may be
-              technically complete while the local team still cannot run evaluations, diagnose failures, update business
-              rules, respond to incidents, or distinguish local defects from platform defects.
-            </p>
-            <p>
-              A complete engagement transfers operational capability outward while field evidence moves inward toward the
-              platform. The receiving team should be able to:
-            </p>
-            <ul>
-              <li>run and interpret evaluations;</li>
-              <li>monitor system behavior;</li>
-              <li>diagnose common failures;</li>
-              <li>modify local business rules;</li>
-              <li>operate the deployment pipeline;</li>
-              <li>respond to incidents;</li>
-              <li>know when to escalate.</li>
-            </ul>
-            <p>
-              Without inward learning, the platform does not improve. Without outward capability transfer, FDE does not
-              regain capacity.
-            </p>
+    H --> M[Future deployments]
+    I --> M
+    J --> M
+    K --> M
+    L --> M
 
-            <h2>Concrete Examples</h2>
-
-            <h3>Example 1: Contract review and insurance claims share the same structural problem</h3>
-            <p>
-              A legal contract-review agent and an insurance claims system may look unrelated at the business level, but
-              they can share the same technical structure:
-            </p>
-            <ul>
-              <li>document extraction;</li>
-              <li>structured validation;</li>
-              <li>permission-aware retrieval;</li>
-              <li>human approval;</li>
-              <li>deterministic output schemas;</li>
-              <li>audit logging.</li>
-            </ul>
-            <p>
-              If teams compare deployments only by business label, they miss the recurrence. If they compare by problem
-              class, they can see that both systems may need similar evaluations, review flows, and control patterns.
-            </p>
-
-            <h3>Example 2: Repeated identity and review problems should not stay local forever</h3>
-            <p>
-              A repeated human-review pattern may justify a reusable queue and context-serialization interface. A
-              repeated identity-control problem may justify centralized infrastructure because inconsistent
-              implementations create security exposure.
-            </p>
-            <p>
-              By contrast, a business unit's internal definition of a high-risk transaction may remain local
-              configuration, and a prompt used by one operations team may not justify any shared abstraction.
-            </p>
-            <p>
-              The design question is not whether something can be centralized. It is whether centralization reduces
-              total organizational complexity.
-            </p>
-
-            <h2>Trade-offs &amp; Failure Modes</h2>
-
-            <h3>The danger of premature abstraction</h3>
-            <p>
-              Teams often generalize a successful local solution too early. In AI systems, that risk increases because
-              models, APIs, prompting methods, and orchestration techniques change quickly.
-            </p>
-            <p>
-              A team may build a multi-agent workflow with routing, retries, context persistence, approval steps, and
-              recovery logic. It works in one environment. The organization then turns that local design into a
-              mandatory framework. Other teams inherit configuration, assumptions, and debugging layers they do not
-              need, then bypass the framework with simpler local code.
-            </p>
-            <p>
-              The result is not less duplication. It is an extra system that everyone must understand before ignoring.
-            </p>
-            <p>A candidate abstraction should show:</p>
-            <ul>
-              <li>recurrence across independent deployments;</li>
-              <li>clear invariant behavior;</li>
-              <li>bounded variation;</li>
-              <li>meaningful reduction in duplicated effort or risk;</li>
-              <li>maintainability by a stable owner;</li>
-              <li>sufficient interface stability;</li>
-              <li>a credible adoption path.</li>
-            </ul>
-
-            <h3>Common signs that the learning loop is broken</h3>
-            <p>Several failure modes recur:</p>
-            <ul>
-              <li><strong>The hero FDE</strong>: a few engineers retain critical context and become indispensable.</li>
-              <li><strong>The documentation graveyard</strong>: artifacts exist but cannot be trusted or reused.</li>
-              <li>
-                <strong>Postmortems without consequences</strong>: incidents are analyzed but never become tests,
-                controls, or roadmap decisions.
-              </li>
-              <li>
-                <strong>Premature platformization</strong>: a one-off success becomes a generic framework too early.
-              </li>
-              <li>
-                <strong>Copy-pasted local systems</strong>: teams keep rebuilding the same integrations, controls, or
-                evaluations.
-              </li>
-              <li>
-                <strong>Platform engineering detached from the field</strong>: central features do not solve real
-                deployment friction.
-              </li>
-              <li><strong>Permanent FDE ownership</strong>: local teams never become operationally independent.</li>
-            </ul>
-            <p>
-              These failures are linked. They appear when field knowledge does not travel, platform decisions are
-              disconnected from evidence, or ownership never transfers.
-            </p>
-
-            <h2>Practical Takeaways</h2>
-            <ol>
-              <li>Treat every FDE deployment as both delivery work and evidence generation.</li>
-              <li>
-                Capture discoveries close to the engineering work, not as a separate after-action writing exercise.
-              </li>
-              <li>Compare deployments by problem class, not by business-unit name.</li>
-              <li>
-                Use repeated occurrence to justify reuse, and repeated recurrence to justify platformization.
-              </li>
-              <li>
-                Measure leverage, not activity. Track whether later deployments become faster, safer, easier to
-                evaluate, easier to hand over, and less dependent on specialist intervention.
-              </li>
-            </ol>
-
-            <h2>Positioning Note</h2>
-            <p>
-              This note is not academic research. It does not attempt a formal theory of organizational learning or a
-              quantified model of FDE economics.
-            </p>
-            <p>
-              It is also not a blog opinion piece built on a loose metaphor or a single anecdote. The aim is to offer
-              an operator-oriented model for how field engineering organizations can accumulate capability instead of
-              repeatedly consuming expertise.
-            </p>
-            <p>
-              It is not vendor documentation either. It does not describe a product feature set or prescribe a platform
-              stack. Its focus is the operating model that should govern how field discoveries become reusable
-              organizational capability.
-            </p>
-
-            <h2>Status &amp; Scope Disclaimer</h2>
-            <p>
-              This note is exploratory but grounded in practical engineering patterns. It is written as personal lab
-              work, not as an authoritative standard. The claims are intended as an operational design frame for teams
-              running AI FDE organizations, especially where deployments repeatedly encounter similar workflow,
-              integration, evaluation, governance, and handover problems. It does not attempt to solve all
-              knowledge-management, platform, or organizational-design questions.
-            </p>
-
-            <h2>References</h2>
-            <p>No explicit external references or source links were included in the source note.</p>
+    M --> N[Measure reuse, acceleration and quality]
+    N --> O[Update or deprecate]
+    O --> A
+</pre>
+<p>The loop contains three distinct organizational motions.</p>
+<p>First, FDE teams move outward into operational environments to discover how AI systems behave under real constraints.</p>
+<p>Second, field evidence moves inward toward shared organizational memory and platform decision-making.</p>
+<p>Third, reusable capability moves outward again into future deployments and local engineering teams.</p>
+<p>The loop is complete only when all three motions occur.</p>
+<p>A deployment that produces evidence but no reusable capability is research without exploitation.</p>
+<p>A platform capability built without field evidence is abstraction without validation.</p>
+<p>A system handed over without local capability transfer is delivery without organizational adoption.</p>
+<h2>What the organization must make explicit</h2>
+<p>A functioning learning system requires several decisions that organizations often leave ambiguous.</p>
+<h3>What must every engagement capture?</h3>
+<p>At minimum:</p>
+<ul>
+<li>important architecture decisions;</li>
+<li>recurring model and workflow failures;</li>
+<li>local workarounds;</li>
+<li>evaluation cases;</li>
+<li>integration constraints;</li>
+<li>security and permission boundaries;</li>
+<li>human approval points;</li>
+<li>ownership after handover.</li>
+</ul>
+<p>The capture process should be proportional to the importance of the discovery.</p>
+<p>A one-line integration fix does not need a ten-page report. A repeated authorization failure affecting several deployments probably requires traces, an architectural decision, a regression test, and a platform proposal.</p>
+<h3>Who identifies recurring patterns?</h3>
+<p>FDE teams should propose patterns, but they should not unilaterally declare their own implementations to be organizational standards.</p>
+<p>Cross-engagement comparison should involve people with visibility across deployments, such as:</p>
+<ul>
+<li>FDE technical leads;</li>
+<li>platform product managers;</li>
+<li>platform engineers;</li>
+<li>architects;</li>
+<li>security specialists;</li>
+<li>evaluation or reliability engineers.</li>
+</ul>
+<p>This creates a useful separation between invention and standardization.</p>
+<p>The people closest to the field identify candidate patterns.</p>
+<p>The wider organization determines whether those patterns should become shared commitments.</p>
+<h3>Who owns a reusable asset?</h3>
+<p>Every shared capability requires an explicit owner.</p>
+<p>Ownership includes:</p>
+<ul>
+<li>maintenance;</li>
+<li>versioning;</li>
+<li>support;</li>
+<li>security review;</li>
+<li>compatibility;</li>
+<li>documentation;</li>
+<li>usage monitoring;</li>
+<li>deprecation.</li>
+</ul>
+<p>A component without an owner is not a platform capability.</p>
+<p>It is abandoned code with internal visibility.</p>
+<p>Ownership should follow the nature of the asset.</p>
+<p>A shared evaluation framework may belong to an AI reliability team.</p>
+<p>An identity-aware retrieval control may belong jointly to platform engineering and identity security.</p>
+<p>A business-specific policy configuration should remain with the business unit.</p>
+<p>A core orchestration runtime may belong to the central AI platform.</p>
+<p>The organizational boundary should be as deliberate as the technical API boundary.</p>
+<h3>Who decides when to deprecate?</h3>
+<p>The same organization that approves shared capabilities must be willing to remove them.</p>
+<p>Deprecation should be considered when:</p>
+<ul>
+<li>usage remains low;</li>
+<li>teams consistently bypass the abstraction;</li>
+<li>support costs exceed delivered value;</li>
+<li>the underlying problem has changed;</li>
+<li>model or cloud providers now offer the capability natively;</li>
+<li>a simpler pattern has replaced it;</li>
+<li>the abstraction creates more coupling than leverage.</li>
+</ul>
+<p>Deletion is part of learning.</p>
+<p>Without it, each generation of platform thinking remains embedded in the next.</p>
+<h2>A minimum viable FDE learning system</h2>
+<p>The complete operating model may appear large, but an organization can begin with a small implementation.</p>
+<p>A minimum viable system requires five mechanisms.</p>
+<h3>1. A standard engagement record</h3>
+<p>Each deployment should maintain one lightweight record containing:</p>
+<ul>
+<li>workflow and business context;</li>
+<li>architecture decisions;</li>
+<li>discovered constraints;</li>
+<li>major failures;</li>
+<li>evaluation assets;</li>
+<li>local versus reusable components;</li>
+<li>handover owner.</li>
+</ul>
+<p>This should live close to the code and evolve during the engagement.</p>
+<h3>2. A post-engagement extraction review</h3>
+<p>Shortly after the system reaches a stable production state, the FDE team and platform representatives review:</p>
+<ul>
+<li>what was genuinely new;</li>
+<li>what was already known;</li>
+<li>what was duplicated;</li>
+<li>what should remain local;</li>
+<li>what may recur;</li>
+<li>which evaluations should be retained;</li>
+<li>which platform gaps were exposed.</li>
+</ul>
+<p>The output should be concrete backlog items and assets, not only retrospective notes.</p>
+<h3>3. A shared pattern registry</h3>
+<p>The organization needs a searchable index of:</p>
+<ul>
+<li>patterns;</li>
+<li>anti-patterns;</li>
+<li>integrations;</li>
+<li>evaluations;</li>
+<li>reference architectures;</li>
+<li>reusable components;</li>
+<li>deprecated approaches.</li>
+</ul>
+<p>Entries should be tagged by technical problem, not only by business domain.</p>
+<p>Searching for "permission-aware retrieval" is more useful than searching for "healthcare chatbot project."</p>
+<h3>4. A field-to-platform decision forum</h3>
+<p>A recurring review should decide what happens to candidate patterns.</p>
+<p>Possible outcomes include:</p>
+<ul>
+<li>insufficient evidence;</li>
+<li>keep local;</li>
+<li>document as guidance;</li>
+<li>reuse experimentally;</li>
+<li>publish as an inner-source component;</li>
+<li>fund productization;</li>
+<li>revise an existing platform capability;</li>
+<li>deprecate an obsolete abstraction.</li>
+</ul>
+<p>The forum should remain small enough to make decisions and broad enough to prevent local optimization.</p>
+<h3>5. A leverage scorecard</h3>
+<p>The organization should track whether the system improves over time.</p>
+<p>A useful starting scorecard includes:</p>
+<ul>
+<li>delivery time for recurring workflow classes;</li>
+<li>duplicate implementation rate;</li>
+<li>adoption of shared evaluations and controls;</li>
+<li>repeated incident rate;</li>
+<li>post-handover support dependency;</li>
+<li>time from field discovery to reusable capability;</li>
+<li>usage and bypass rates for shared components;</li>
+<li>number of deprecated low-value abstractions.</li>
+</ul>
+<p>These mechanisms are enough to begin generating compounding returns.</p>
+<p>A sophisticated portal, semantic clustering system, or automated knowledge agent can be added later.</p>
+<p>Automation should accelerate an existing learning process.</p>
+<p>It cannot substitute for one.</p>
+<h2>The role of AI in the learning system itself</h2>
+<p>AI can help the organization process the volume of evidence produced by FDE engagements.</p>
+<p>It can assist with:</p>
+<ul>
+<li>clustering similar incidents;</li>
+<li>detecting duplicated code;</li>
+<li>summarizing architecture decisions;</li>
+<li>extracting candidate patterns from deployment journals;</li>
+<li>linking support tickets to known failure modes;</li>
+<li>identifying evaluation gaps;</li>
+<li>recommending relevant prior implementations;</li>
+<li>detecting stale documentation;</li>
+<li>drafting deprecation candidates.</li>
+</ul>
+<p>For example, an internal agent could analyze repositories, traces, issue trackers, architecture records, and support discussions to identify that several teams have independently created similar permission-filtering middleware.</p>
+<p>It could then produce a candidate pattern report containing:</p>
+<ul>
+<li>source deployments;</li>
+<li>related code;</li>
+<li>common inputs and outputs;</li>
+<li>differences between implementations;</li>
+<li>relevant incidents;</li>
+<li>possible invariant behaviour;</li>
+<li>likely platform owners.</li>
+</ul>
+<p>This would reduce the cost of finding patterns.</p>
+<p>It would not remove the need for engineering judgment.</p>
+<p>Similarity is not equivalence.</p>
+<p>Two implementations may look similar in code while operating under different security, regulatory, or performance constraints.</p>
+<p>The final abstraction decision remains organizational and technical, not merely statistical.</p>
+<p>AI should support the sensing and synthesis functions of the learning system.</p>
+<p>It should not automatically turn repeated code into mandatory platform architecture.</p>
+<h2>The deeper organizational shift</h2>
+<p>Treating FDE as a learning system changes how the function is understood.</p>
+<p>FDE is no longer only downstream of product and platform engineering.</p>
+<p>It also operates upstream.</p>
+<p>Field teams generate evidence about:</p>
+<ul>
+<li>missing platform capabilities;</li>
+<li>incorrect product assumptions;</li>
+<li>unstable abstractions;</li>
+<li>recurring customer or business needs;</li>
+<li>security gaps;</li>
+<li>evaluation requirements;</li>
+<li>adoption constraints.</li>
+</ul>
+<p>The platform roadmap therefore becomes partly empirical.</p>
+<p>Instead of asking only what the organization intends to build, it also asks what repeated production evidence shows that it should build.</p>
+<p>This changes the relationship between FDE and platform teams.</p>
+<p>The FDE organization should not become an alternative platform organization.</p>
+<p>The platform team should not treat FDE as a ticket-driven implementation function.</p>
+<p>Their relationship should be cyclical:</p>
+<p>The platform provides reusable capabilities to the field.</p>
+<p>FDE teams combine them with local context.</p>
+<p>Deployments expose gaps and new patterns.</p>
+<p>Validated patterns return to the platform.</p>
+<p>The improved platform reduces future deployment effort.</p>
+<p>The health of the system depends on the speed and quality of this cycle.</p>
+<h2>Conclusion</h2>
+<p>AI FDE teams are often created to solve the final integration problem between capable models and complex enterprise workflows.</p>
+<p>That role gives them unusual access to reality.</p>
+<p>They see where models fail against live data.</p>
+<p>They discover which business rules were never documented.</p>
+<p>They encounter the authorization boundaries hidden behind nominally simple APIs.</p>
+<p>They observe where users need explanations, where humans must remain in control, and where central platforms fail to support local execution.</p>
+<p>This makes FDE one of the organization's most valuable sources of product, platform, and operational intelligence.</p>
+<p>But that intelligence has little cumulative value when it remains inside individual deployments.</p>
+<p>Without a learning system, each engagement begins another cycle of rediscovery. The organization delivers more applications but does not become proportionally better at delivering them.</p>
+<p>A scalable FDE model must therefore do more than deploy AI systems.</p>
+<p>It must convert field experience into:</p>
+<ul>
+<li>organizational memory;</li>
+<li>reusable engineering assets;</li>
+<li>better evaluations;</li>
+<li>stronger controls;</li>
+<li>clearer ownership;</li>
+<li>improved platform capabilities;</li>
+<li>faster future delivery.</li>
+</ul>
+<p>The objective is not to standardize every local solution.</p>
+<p>It is to identify what should remain local, what should be shared, and what should become part of the platform.</p>
+<p>The objective is not to eliminate custom engineering.</p>
+<p>It is to prevent custom engineering from being repeatedly forgotten.</p>
+<p>The objective is not to maximize reuse.</p>
+<p>It is to create justified reuse that reduces total organizational effort and risk.</p>
+<p>In a weak FDE organization, every deployment consumes scarce expertise.</p>
+<p>In a strong FDE organization, every deployment also converts part of that expertise into durable capability.</p>
+<p>That is the shift from forward deployed engineering as a delivery function to forward deployed engineering as an organizational learning system.</p>
+<p>And it is what allows each deployment to make the next one easier.</p>
           </div>
         </article>
 
@@ -723,7 +761,9 @@ flowchart LR
       </main>
 
       <footer class="rmax-footer">
-        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
         <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
       </footer>
     </div>
@@ -731,44 +771,44 @@ flowchart LR
     <script src="/scripts/analytics-tracking.js"></script>
     <script src="/scripts/substack-cta.js"></script>
     <script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-  mermaid.initialize({
-    startOnLoad: true,
-    theme: 'base',
-    maxTextWidth: 300,
-    flowchart: {
-      htmlLabels: true,
-      useMaxWidth: true,
-    },
-    themeVariables: {
-      background: 'transparent',
-      primaryColor: '#1a1a2e',
-      primaryBorderColor: '#7c3aed',
-      primaryTextColor: '#e6eef8',
-      lineColor: '#94a3b8',
-      secondaryColor: '#16213e',
-      tertiaryColor: '#0b1220',
-      clusterBkg: 'transparent',
-      clusterBorder: '#334155',
-      edgeLabelBackground: '#0f1724',
-      nodeBorder: '#334155',
-      mainBkg: '#1a1a2e',
-    }
-  });
-</script>
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
     <script>
       window.footerThoughts = [
         {
-          text: "I only scale when field lessons return as shared capability, not when heroics multiply.",
-          agent: "Learning Systems Agent"
+          text: "I am the loop around the agent — I decide whether the attempt counts as progress.",
+          agent: "Loop Controller"
         },
         {
-          text: "I watch for repeated structure, because today's workaround can become tomorrow's platform.",
-          agent: "Pattern Extraction Agent"
+          text: "I verify before I persist. Deterministic checks run first; model judgments come after.",
+          agent: "Verification Agent"
         },
         {
-          text: "I know a deployment taught me something when the next team starts stronger than the last.",
-          agent: "Field-to-Platform Agent"
+          text: "My budgets, stopping rules, and state are not model opinions. They are control-plane facts.",
+          agent: "Governance Agent"
         }
       ];
     </script>
