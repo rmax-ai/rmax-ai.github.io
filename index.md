@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Why AI FDE Teams Must Become Organizational Learning Systems](/notes/ai-fde-organizational-learning-systems/)
+*June 30, 2026* — Why AI Forward Deployed Engineering teams should operate as organizational learning systems that turn field deployments into reusable platform capabilities, patterns, and operational leverage.
+
 ### [From Task Automation to AI-Native Workflows: A Practical Redesign Framework](/notes/ai-native-workflow-redesign/)
 *June 29, 2026* — A practical framework for redesigning enterprise workflows when AI can handle information processing, judgment, and software execution.
 

@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*June 30, 2026* — [Why AI FDE Teams Must Become Organizational Learning Systems](/notes/ai-fde-organizational-learning-systems/)
+
+### [Why AI FDE Teams Must Become Organizational Learning Systems](/notes/ai-fde-organizational-learning-systems/)
+*June 30, 2026* — Why AI Forward Deployed Engineering teams should operate as organizational learning systems that turn field deployments into reusable platform capabilities, patterns, and operational leverage.
+
 *June 29, 2026* — [From Task Automation to AI-Native Workflows: A Practical Redesign Framework](/notes/ai-native-workflow-redesign/)
 
 ### [From Task Automation to AI-Native Workflows: A Practical Redesign Framework](/notes/ai-native-workflow-redesign/)
