@@ -98,7 +98,138 @@
 
           <div class="project-list">
 
-            <!-- ADK Loop Lab -->
+                        <!-- MCP-Hurl -->
+            <div class="project-card">
+              <div class="project-title">
+                <a href="https://github.com/rmax-ai/mcph" target="_blank" rel="noopener">MCP-Hurl</a>
+              </div>
+              <p class="project-tagline">Declarative conformance testing DSL for Model Context Protocol servers</p>
+              <p class="muted">A Hurl-inspired declarative DSL with a custom Python async runner for transport-agnostic MCP conformance testing. Write readable <code>.mcph</code> test files, run them against stdio or Streamable HTTP servers, and get CI-native JUnit/JSON reports.</p>
+
+              <div class="features">
+                <div class="feature-item">
+                  <span class="feature-name">Hurl-Inspired Syntax</span>
+                  <span class="feature-desc">Readable, self-documenting <code>.mcph</code> test files for MCP server conformance with minimal ceremony.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Transport-Agnostic</span>
+                  <span class="feature-desc">Native support for stdio subprocesses and Streamable HTTP transports in a single test file.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Rich Assertions</span>
+                  <span class="feature-desc">JSONPath, regex, fuzzy type assertions, and variable capture with injection into subsequent requests.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">CI-Native Output</span>
+                  <span class="feature-desc">JUnit XML and JSON report formats for direct integration into CI/CD pipelines.</span>
+                </div>
+              </div>
+
+              <div class="project-links">
+                <a href="https://github.com/rmax-ai/mcph" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="mcph">GitHub</a>
+              </div>
+            </div>
+
+                        <!-- Relocation Scout -->
+            <div class="project-card">
+              <div class="project-title">
+                <a href="http://relocation-scout.rmax.tech/" target="_blank">Relocation Scout</a>
+              </div>
+              <p class="project-tagline">Production-oriented agentic systems PoC — governed AI workflow for house hunting</p>
+              <p class="muted">A full-stack house-hunting assistant that demonstrates governed AI workflow engineering: code handles determinism and constraints, agents handle qualitative judgment, and humans retain final authority through an approval gateway. The LLM is a narrowly-scoped component inside a conventional software system.</p>
+
+              <div class="features">
+                <div class="feature-item">
+                  <span class="feature-name">Three-Layer Architecture</span>
+                  <span class="feature-desc">Code for determinism and constraints, agents for qualitative judgment, humans for authority over side effects.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Governed Workflow Engine</span>
+                  <span class="feature-desc">State machine with explicit transitions, idempotency, retries, and full audit logging.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Approval Gateway</span>
+                  <span class="feature-desc">All external side effects (emails, messages) require explicit human approval before execution.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Agent as Component</span>
+                  <span class="feature-desc">LLM is a narrowly-scoped component; workflow, persistence, and security are conventional engineering.</span>
+                </div>
+              </div>
+
+              <div class="project-links">
+                <a href="http://relocation-scout.rmax.tech/" class="btn btn-primary" target="_blank" data-simple-event="click_project_external" data-simple-project-id="relocation-scout">Visit Project</a>
+                <a href="https://github.com/rmax-ai/relocation-scout" class="btn btn-outline" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="relocation-scout">GitHub</a>
+              </div>
+            </div>
+          </div>
+        </section>
+                  <!-- ADK Agentic Patterns -->
+            <div class="project-card">
+              <div class="project-title">
+                <a href="https://github.com/rmax-ai/adk-agentic-patterns" target="_blank" rel="noopener">ADK Agentic Patterns</a>
+              </div>
+              <p class="project-tagline">Executable catalogue of 23 agentic design patterns using Google ADK</p>
+              <p class="muted">A practical reference implementation cataloguing 23 agentic design patterns — planning, reflection, tool-use, multi-agent, and governance — each as an isolated, runnable example built on Google's Agent Development Kit.</p>
+
+              <div class="features">
+                <div class="feature-item">
+                  <span class="feature-name">23 Runnable Patterns</span>
+                  <span class="feature-desc">Isolated, executable examples of planning, reflection, tool-use, multi-agent, and governance patterns.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">ADK-Native</span>
+                  <span class="feature-desc">Each pattern leverages ADK's agent composition, tool binding, and session management primitives.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Progressive Complexity</span>
+                  <span class="feature-desc">Patterns progress from basic tool-using agents to governed multi-agent workflows with structured state.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Pattern Catalogue CLI</span>
+                  <span class="feature-desc">List, inspect, and run patterns interactively through a unified command-line interface.</span>
+                </div>
+              </div>
+
+              <div class="project-links">
+                <a href="https://github.com/rmax-ai/adk-agentic-patterns" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="adk-agentic-patterns">GitHub</a>
+              </div>
+            </div>
+
+                        <!-- Deep Research Assistant -->
+            <div class="project-card">
+              <div class="project-title">
+                <a href="https://github.com/rmax-ai/deep-research-assistant" target="_blank" rel="noopener">Deep Research Assistant</a>
+              </div>
+              <p class="project-tagline">Governed research runtime that turns questions into traceable claims</p>
+              <p class="muted">An enterprise-grade ADK research system that decomposes broad investigations into scoped questions, evidence collection, claim building, contradiction analysis, verification, approvals, and final reports.</p>
+
+              <div class="features">
+                <div class="feature-item">
+                  <span class="feature-name">Staged Epistemic Pipeline</span>
+                  <span class="feature-desc">Moves from intent to scope, evidence, claims, contradictions, coverage analysis, drafts, verification, and approval.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Three-Plane Runtime</span>
+                  <span class="feature-desc">Separates governance, deterministic workflow orchestration, and bounded cognitive agents.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Bounded Agent Roster</span>
+                  <span class="feature-desc">Uses narrow-role agents for planning, evidence curation, contradiction search, verification, and synthesis.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Claim-First Quality</span>
+                  <span class="feature-desc">Optimizes for supported, qualified, and traceable claims rather than polished but weak prose.</span>
+                </div>
+              </div>
+
+              <div class="project-links">
+                <a href="https://github.com/rmax-ai/deep-research-assistant" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="deep-research-assistant">GitHub</a>
+                <a href="https://github.com/rmax-ai/deep-research-assistant/blob/main/docs/ARCHITECTURE.md" class="btn btn-outline" target="_blank" rel="noopener" data-simple-event="click_project_external" data-simple-project-id="deep-research-assistant">Architecture</a>
+              </div>
+            </div>
+
+                        <!-- ADK Loop Lab -->
             <div class="project-card">
               <div class="project-title">
                 <a href="https://github.com/rmax-ai/adk-loop-lab" target="_blank" rel="noopener">ADK Loop Lab</a>
@@ -138,40 +269,7 @@
               </div>
             </div>
 
-            <!-- MCP Conformance -->
-            <div class="project-card">
-              <div class="project-title">
-                <a href="https://mcp-conformance.rmax.tech/" target="_blank" rel="noopener">MCP Conformance</a>
-              </div>
-              <p class="project-tagline">Scenario-driven test runner for evaluating MCP client and server implementations</p>
-              <p class="muted">A declarative conformance harness that runs HTTP and JSON-RPC scenarios against MCP servers, gateways, and client runtimes, then emits audit-grade pass/fail reports for protocol and auth behavior.</p>
-
-              <div class="features">
-                <div class="feature-item">
-                  <span class="feature-name">Declarative Scenarios</span>
-                  <span class="feature-desc">YAML scenario sequences model OAuth, bearer-token, protocol, and error-path interactions step by step.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Partner Adapters</span>
-                  <span class="feature-desc">The same conformance suite can target servers, gateways, or client runtimes through configurable adapters.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Protocol Assertions</span>
-                  <span class="feature-desc">Checks HTTP status, headers, JSON bodies, JSON-RPC schema, and OAuth-specific response behavior.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Audit-Grade Reports</span>
-                  <span class="feature-desc">Produces JSON and human-readable pass/fail output for certification, regression tracking, and side-by-side evaluation.</span>
-                </div>
-              </div>
-
-              <div class="project-links">
-                <a href="https://mcp-conformance.rmax.tech/" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_external" data-simple-project-id="mcp-conformance">Visit Project</a>
-                <a href="https://github.com/rmax-ai/mcp-conformance" class="btn btn-outline" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="mcp-conformance">GitHub</a>
-              </div>
-            </div>
-
-            <!-- Adaptive Harness Foundry -->
+                        <!-- Adaptive Harness Foundry -->
             <div class="project-card">
               <div class="project-title">
                 <a href="https://github.com/rmax-ai/adaptive-harness-foundry" target="_blank" rel="noopener">Adaptive Harness Foundry</a>
@@ -204,40 +302,7 @@
               </div>
             </div>
 
-            <!-- Deep Research Assistant -->
-            <div class="project-card">
-              <div class="project-title">
-                <a href="https://github.com/rmax-ai/deep-research-assistant" target="_blank" rel="noopener">Deep Research Assistant</a>
-              </div>
-              <p class="project-tagline">Governed research runtime that turns questions into traceable claims</p>
-              <p class="muted">An enterprise-grade ADK research system that decomposes broad investigations into scoped questions, evidence collection, claim building, contradiction analysis, verification, approvals, and final reports.</p>
-
-              <div class="features">
-                <div class="feature-item">
-                  <span class="feature-name">Staged Epistemic Pipeline</span>
-                  <span class="feature-desc">Moves from intent to scope, evidence, claims, contradictions, coverage analysis, drafts, verification, and approval.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Three-Plane Runtime</span>
-                  <span class="feature-desc">Separates governance, deterministic workflow orchestration, and bounded cognitive agents.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Bounded Agent Roster</span>
-                  <span class="feature-desc">Uses narrow-role agents for planning, evidence curation, contradiction search, verification, and synthesis.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Claim-First Quality</span>
-                  <span class="feature-desc">Optimizes for supported, qualified, and traceable claims rather than polished but weak prose.</span>
-                </div>
-              </div>
-
-              <div class="project-links">
-                <a href="https://github.com/rmax-ai/deep-research-assistant" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="deep-research-assistant">GitHub</a>
-                <a href="https://github.com/rmax-ai/deep-research-assistant/blob/main/docs/ARCHITECTURE.md" class="btn btn-outline" target="_blank" rel="noopener" data-simple-event="click_project_external" data-simple-project-id="deep-research-assistant">Architecture</a>
-              </div>
-            </div>
-
-            <!-- Constrained Agent Harness -->
+                        <!-- Constrained Agent Harness -->
             <div class="project-card">
               <div class="project-title">
                 <a href="https://github.com/rmax-ai/constrained-agent-harness" target="_blank" rel="noopener">Constrained Agent Harness</a>
@@ -270,7 +335,40 @@
               </div>
             </div>
 
-            <!-- MCP Auth Test Server -->
+                        <!-- MCP Conformance -->
+            <div class="project-card">
+              <div class="project-title">
+                <a href="https://mcp-conformance.rmax.tech/" target="_blank" rel="noopener">MCP Conformance</a>
+              </div>
+              <p class="project-tagline">Scenario-driven test runner for evaluating MCP client and server implementations</p>
+              <p class="muted">A declarative conformance harness that runs HTTP and JSON-RPC scenarios against MCP servers, gateways, and client runtimes, then emits audit-grade pass/fail reports for protocol and auth behavior.</p>
+
+              <div class="features">
+                <div class="feature-item">
+                  <span class="feature-name">Declarative Scenarios</span>
+                  <span class="feature-desc">YAML scenario sequences model OAuth, bearer-token, protocol, and error-path interactions step by step.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Partner Adapters</span>
+                  <span class="feature-desc">The same conformance suite can target servers, gateways, or client runtimes through configurable adapters.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Protocol Assertions</span>
+                  <span class="feature-desc">Checks HTTP status, headers, JSON bodies, JSON-RPC schema, and OAuth-specific response behavior.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Audit-Grade Reports</span>
+                  <span class="feature-desc">Produces JSON and human-readable pass/fail output for certification, regression tracking, and side-by-side evaluation.</span>
+                </div>
+              </div>
+
+              <div class="project-links">
+                <a href="https://mcp-conformance.rmax.tech/" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_external" data-simple-project-id="mcp-conformance">Visit Project</a>
+                <a href="https://github.com/rmax-ai/mcp-conformance" class="btn btn-outline" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="mcp-conformance">GitHub</a>
+              </div>
+            </div>
+
+                        <!-- MCP Auth Test Server -->
             <div class="project-card">
               <div class="project-title">
                 <a href="http://mcp-auth-test-server.rmax.tech/" target="_blank" rel="noopener">MCP Auth Test Server</a>
@@ -303,237 +401,7 @@
               </div>
             </div>
 
-              <!-- Shardlake -->
-              <div class="project-card">
-                <div class="project-title">
-                  <a href="https://github.com/rmax-ai/shardlake" target="_blank" rel="noopener">Shardlake</a>
-                </div>
-                <p class="project-tagline">Decoupled vector search prototype with immutable index artifacts</p>
-                <p class="muted">Shardlake is a Rust prototype for personal-scale vector search inspired by billion-scale architectures. It separates raw embeddings from serving, builds sharded indexes offline, publishes immutable manifest-driven artifacts, and answers queries through stateless HTTP workers with lazy shard loading.</p>
-
-                <div class="features">
-                  <div class="feature-item">
-                    <span class="feature-name">Decoupled Data Plane</span>
-                    <span class="feature-desc">Raw vectors are ingested into versioned storage separately from query-serving indexes and aliases.</span>
-                  </div>
-                  <div class="feature-item">
-                    <span class="feature-name">Offline Shard Builds</span>
-                    <span class="feature-desc">K-means sharding and shard-local search produce reproducible index artifacts without coupling build time to serving time.</span>
-                  </div>
-                  <div class="feature-item">
-                    <span class="feature-name">Lazy Query Serving</span>
-                    <span class="feature-desc">Stateless HTTP workers route via persisted metadata and only load shard bodies on demand to keep memory bounded.</span>
-                  </div>
-                  <div class="feature-item">
-                    <span class="feature-name">Benchmarkable Lifecycle</span>
-                    <span class="feature-desc">Manifest publishing, aliases, and a recall and latency benchmark harness make versions easy to compare and audit.</span>
-                  </div>
-                </div>
-
-                <div class="project-links">
-                  <a href="https://github.com/rmax-ai/shardlake" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="shardlake">GitHub</a>
-                  <a href="https://github.com/rmax-ai/shardlake/blob/main/docs/getting-started.md" class="btn btn-outline" target="_blank" rel="noopener" data-simple-event="click_project_external" data-simple-project-id="shardlake">Getting Started</a>
-                </div>
-              </div>
-
-            <!-- AI-First Software Engineering (Book) -->
-            <div class="project-card">
-              <div class="project-title">
-                <a href="https://ai-first-software-engineering-book.rmax.tech" target="_blank">AI-First Software Engineering (Book)</a>
-              </div>
-              <p class="project-tagline">Technical book + research artifact on harness-first, governed AI software engineering.</p>
-              <p class="muted">A working book and repo exploring AI-first software engineering where the harness is the primary design surface. Includes patterns for governance, evaluation/traces, and memory systems, plus a deterministic kernel loop (planner/writer/critic) and eval contracts to keep autonomy safe and reproducible.</p>
-
-              <div class="features">
-                <div class="feature-item">
-                  <span class="feature-name">Harness-First Design</span>
-                  <span class="feature-desc">Treats the harness as the primary design surface for reliability, cost, and iteration speed.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Governance + Tracing</span>
-                  <span class="feature-desc">Patterns for policy, evaluation, and traces to make autonomy auditable and safe.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Deterministic Kernel Loop</span>
-                  <span class="feature-desc">A planner/writer/critic loop designed for reproducible behavior under constraints.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Eval Contracts</span>
-                  <span class="feature-desc">Contracts and checks that keep autonomy bounded, testable, and replayable.</span>
-                </div>
-              </div>
-
-              <div class="project-links">
-                <a href="https://ai-first-software-engineering-book.rmax.tech" class="btn btn-primary" target="_blank" data-simple-event="click_project_external" data-simple-project-id="ai-first-se-book">Visit Project</a>
-                <a href="https://github.com/rmax-ai/ai-first-software-engineering-book" class="btn btn-outline" target="_blank" data-simple-event="click_project_github" data-simple-project-id="ai-first-se-book">GitHub</a>
-              </div>
-            </div>
-
-            <!-- rx -->
-            <div class="project-card">
-              <div class="project-title">
-                <a href="https://github.com/rmax-ai/rx?tab=readme-ov-file#rx" target="_blank" rel="noopener">RX</a>
-              </div>
-              <p class="project-tagline">Minimal autonomous systems agent with a microkernel architecture</p>
-              <p class="muted">RX is a goal-directed execution engine capable of modifying files, running commands, invoking tools, and operating locally or in distributed mode. It is not a chatbot: the kernel owns reasoning and iteration, tools own side effects, state is append-only, and transport is replaceable.</p>
-
-              <div class="features">
-                <div class="feature-item">
-                  <span class="feature-name">Kernel Decides</span>
-                  <span class="feature-desc">Executes the autonomous loop, dispatches tool calls, enforces iteration limits, and evaluates termination.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Tools Act</span>
-                  <span class="feature-desc">Filesystem, shell, and networking side effects live in the tool runtime, not the kernel.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">State Persists</span>
-                  <span class="feature-desc">Structured events are persisted append-only (memory today, sqlite next), enabling replay and auditability.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Transport Delivers</span>
-                  <span class="feature-desc">CLI, HTTP, and workers are interchangeable front-ends; transport can evolve without kernel bloat.</span>
-                </div>
-              </div>
-
-              <div class="project-links">
-                <a href="https://github.com/rmax-ai/rx?tab=readme-ov-file#rx" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="rx">GitHub</a>
-                <a href="/notes/rx-lean-agent-kernels-beat-general-coding-frameworks/" class="btn btn-outline" data-simple-event="click_project_external" data-simple-project-id="rx">Read Note</a>
-              </div>
-            </div>
-
-            <!-- Ratelord -->
-            <div class="project-card">
-              <div class="project-title">
-                <a href="https://ratelord.rmax.tech" target="_blank">Ratelord</a>
-              </div>
-              <p class="project-tagline">Budget-Literate Autonomy for Agentic Systems</p>
-              <p class="muted">Ratelord provides a "sensory organ" and "prefrontal cortex" for resource availability and budget planning, enabling autonomous systems to negotiate, forecast, govern, and adapt under constraints.</p>
-              
-              <div class="features">
-                <div class="feature-item">
-                  <span class="feature-name">Local-First Architecture</span>
-                  <span class="feature-desc">Zero-ops daemon that runs alongside your agents, providing low-latency constraint management.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Predictive Modeling</span>
-                  <span class="feature-desc">Time-to-exhaustion forecasts help agents plan activities based on real-time resource availability.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Intent Negotiation</span>
-                  <span class="feature-desc">Standardized protocol for agents to request resources and negotiate budgets before execution.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Event-Sourced Audit</span>
-                  <span class="feature-desc">Complete audit trail of all decisions and allocations, fully replayable for debugging and analysis.</span>
-                </div>
-              </div>
-
-              <div class="project-links">
-                <a href="https://ratelord.rmax.tech" class="btn btn-primary" target="_blank" data-simple-event="click_project_external" data-simple-project-id="ratelord">Visit Project</a>
-                <a href="https://github.com/rmax-ai/ratelord" class="btn btn-outline" target="_blank" data-simple-event="click_project_github" data-simple-project-id="ratelord">GitHub</a>
-              </div>
-            </div>
-
-            <!-- RLinks -->
-            <div class="project-card">
-              <div class="project-title">
-                <a href="https://rlinks.rmax.tech" target="_blank">RLinks</a>
-              </div>
-              <p class="project-tagline">The authoritative control plane and global edge runtime for the rmax.to redirect fabric</p>
-              <p class="muted">A typed, schema-first redirect system managed via a CLI-first workflow, treated as critical identity infrastructure rather than a generic marketing tool.</p>
-              
-              <div class="features">
-                <div class="feature-item">
-                  <span class="feature-name">Global Edge Runtime</span>
-                  <span class="feature-desc">Stateless Cloudflare Workers serving from KV at the edge with <10ms global latency.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Safety Guarantees</span>
-                  <span class="feature-desc">Strict enforcement of invariants: no loops, reserved names, and disable-over-delete policy.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">CLI-First Workflow</span>
-                  <span class="feature-desc">The rlinks CLI is the only way to mutate state, enforcing a strict validation pipeline.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Typed Redirect Objects</span>
-                  <span class="feature-desc">Redirects move through a strict lifecycle with forward-only versioning and audit trails.</span>
-                </div>
-              </div>
-
-              <div class="project-links">
-                <a href="https://rlinks.rmax.tech" class="btn btn-primary" target="_blank" data-simple-event="click_project_external" data-simple-project-id="rlinks">Visit Project</a>
-                <a href="https://github.com/rmax-ai/rlinks" class="btn btn-outline" target="_blank" data-simple-event="click_project_github" data-simple-project-id="rlinks">GitHub</a>
-              </div>
-            </div>
-
-            <!-- Dotslash Files -->
-            <div class="project-card">
-              <div class="project-title">
-                <a href="https://dotslash-files.rmax.tech" target="_blank">Dotslash Files</a>
-              </div>
-              <p class="project-tagline">Smart pointers for hermetic binary management</p>
-              <p class="muted">A repository of DotSlash wrapper files and tools that facilitate fetching, verifying, and running executables transparently across platforms.</p>
-              
-              <div class="features">
-                <div class="feature-item">
-                  <span class="feature-name">Polyglot Manifests</span>
-                  <span class="feature-desc">Tiny JSON files with shebangs that point to large binaries, avoiding "bloat" in git repositories.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Content Addressing</span>
-                  <span class="feature-desc">All binaries are verified by hash (sha256/blake3) before execution, ensuring integrity.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Cross-Platform shim</span>
-                  <span class="feature-desc">Automatically detects OS/Arch to fetch and run the correct binary for the current host.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Hermetic Sandbox</span>
-                  <span class="feature-desc">Include scripts for running manifests in secure, isolated Podman containers.</span>
-                </div>
-              </div>
-
-              <div class="project-links">
-                <a href="https://dotslash-files.rmax.tech" class="btn btn-primary" target="_blank" data-simple-event="click_project_external" data-simple-project-id="dotslash-files">Visit Project</a>
-                <a href="https://github.com/rmax-ai/dotslash-files" class="btn btn-outline" target="_blank" data-simple-event="click_project_github" data-simple-project-id="dotslash-files">GitHub</a>
-              </div>
-            </div>
-
-            <!-- ADK Agentic Patterns -->
-            <div class="project-card">
-              <div class="project-title">
-                <a href="https://github.com/rmax-ai/adk-agentic-patterns" target="_blank" rel="noopener">ADK Agentic Patterns</a>
-              </div>
-              <p class="project-tagline">Executable catalogue of 23 agentic design patterns using Google ADK</p>
-              <p class="muted">A practical reference implementation cataloguing 23 agentic design patterns — planning, reflection, tool-use, multi-agent, and governance — each as an isolated, runnable example built on Google's Agent Development Kit.</p>
-
-              <div class="features">
-                <div class="feature-item">
-                  <span class="feature-name">23 Runnable Patterns</span>
-                  <span class="feature-desc">Isolated, executable examples of planning, reflection, tool-use, multi-agent, and governance patterns.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">ADK-Native</span>
-                  <span class="feature-desc">Each pattern leverages ADK's agent composition, tool binding, and session management primitives.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Progressive Complexity</span>
-                  <span class="feature-desc">Patterns progress from basic tool-using agents to governed multi-agent workflows with structured state.</span>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-name">Pattern Catalogue CLI</span>
-                  <span class="feature-desc">List, inspect, and run patterns interactively through a unified command-line interface.</span>
-                </div>
-              </div>
-
-              <div class="project-links">
-                <a href="https://github.com/rmax-ai/adk-agentic-patterns" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="adk-agentic-patterns">GitHub</a>
-              </div>
-            </div>
-
-            <!-- Operational Semantics Lab -->
+                          <!-- Operational Semantics Lab -->
             <div class="project-card">
               <div class="project-title">
                 <a href="https://github.com/rmax-ai/operational-semantics-lab" target="_blank" rel="noopener">Operational Semantics Lab</a>
@@ -566,73 +434,205 @@
               </div>
             </div>
 
-            <!-- MCP-Hurl -->
+                        <!-- Shardlake -->
+              <div class="project-card">
+                <div class="project-title">
+                  <a href="https://github.com/rmax-ai/shardlake" target="_blank" rel="noopener">Shardlake</a>
+                </div>
+                <p class="project-tagline">Decoupled vector search prototype with immutable index artifacts</p>
+                <p class="muted">Shardlake is a Rust prototype for personal-scale vector search inspired by billion-scale architectures. It separates raw embeddings from serving, builds sharded indexes offline, publishes immutable manifest-driven artifacts, and answers queries through stateless HTTP workers with lazy shard loading.</p>
+
+                <div class="features">
+                  <div class="feature-item">
+                    <span class="feature-name">Decoupled Data Plane</span>
+                    <span class="feature-desc">Raw vectors are ingested into versioned storage separately from query-serving indexes and aliases.</span>
+                  </div>
+                  <div class="feature-item">
+                    <span class="feature-name">Offline Shard Builds</span>
+                    <span class="feature-desc">K-means sharding and shard-local search produce reproducible index artifacts without coupling build time to serving time.</span>
+                  </div>
+                  <div class="feature-item">
+                    <span class="feature-name">Lazy Query Serving</span>
+                    <span class="feature-desc">Stateless HTTP workers route via persisted metadata and only load shard bodies on demand to keep memory bounded.</span>
+                  </div>
+                  <div class="feature-item">
+                    <span class="feature-name">Benchmarkable Lifecycle</span>
+                    <span class="feature-desc">Manifest publishing, aliases, and a recall and latency benchmark harness make versions easy to compare and audit.</span>
+                  </div>
+                </div>
+
+                <div class="project-links">
+                  <a href="https://github.com/rmax-ai/shardlake" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="shardlake">GitHub</a>
+                  <a href="https://github.com/rmax-ai/shardlake/blob/main/docs/getting-started.md" class="btn btn-outline" target="_blank" rel="noopener" data-simple-event="click_project_external" data-simple-project-id="shardlake">Getting Started</a>
+                </div>
+              </div>
+
+                        <!-- AI-First Software Engineering (Book) -->
             <div class="project-card">
               <div class="project-title">
-                <a href="https://github.com/rmax-ai/mcph" target="_blank" rel="noopener">MCP-Hurl</a>
+                <a href="https://ai-first-software-engineering-book.rmax.tech" target="_blank">AI-First Software Engineering (Book)</a>
               </div>
-              <p class="project-tagline">Declarative conformance testing DSL for Model Context Protocol servers</p>
-              <p class="muted">A Hurl-inspired declarative DSL with a custom Python async runner for transport-agnostic MCP conformance testing. Write readable <code>.mcph</code> test files, run them against stdio or Streamable HTTP servers, and get CI-native JUnit/JSON reports.</p>
+              <p class="project-tagline">Technical book + research artifact on harness-first, governed AI software engineering.</p>
+              <p class="muted">A working book and repo exploring AI-first software engineering where the harness is the primary design surface. Includes patterns for governance, evaluation/traces, and memory systems, plus a deterministic kernel loop (planner/writer/critic) and eval contracts to keep autonomy safe and reproducible.</p>
 
               <div class="features">
                 <div class="feature-item">
-                  <span class="feature-name">Hurl-Inspired Syntax</span>
-                  <span class="feature-desc">Readable, self-documenting <code>.mcph</code> test files for MCP server conformance with minimal ceremony.</span>
+                  <span class="feature-name">Harness-First Design</span>
+                  <span class="feature-desc">Treats the harness as the primary design surface for reliability, cost, and iteration speed.</span>
                 </div>
                 <div class="feature-item">
-                  <span class="feature-name">Transport-Agnostic</span>
-                  <span class="feature-desc">Native support for stdio subprocesses and Streamable HTTP transports in a single test file.</span>
+                  <span class="feature-name">Governance + Tracing</span>
+                  <span class="feature-desc">Patterns for policy, evaluation, and traces to make autonomy auditable and safe.</span>
                 </div>
                 <div class="feature-item">
-                  <span class="feature-name">Rich Assertions</span>
-                  <span class="feature-desc">JSONPath, regex, fuzzy type assertions, and variable capture with injection into subsequent requests.</span>
+                  <span class="feature-name">Deterministic Kernel Loop</span>
+                  <span class="feature-desc">A planner/writer/critic loop designed for reproducible behavior under constraints.</span>
                 </div>
                 <div class="feature-item">
-                  <span class="feature-name">CI-Native Output</span>
-                  <span class="feature-desc">JUnit XML and JSON report formats for direct integration into CI/CD pipelines.</span>
+                  <span class="feature-name">Eval Contracts</span>
+                  <span class="feature-desc">Contracts and checks that keep autonomy bounded, testable, and replayable.</span>
                 </div>
               </div>
 
               <div class="project-links">
-                <a href="https://github.com/rmax-ai/mcph" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="mcph">GitHub</a>
+                <a href="https://ai-first-software-engineering-book.rmax.tech" class="btn btn-primary" target="_blank" data-simple-event="click_project_external" data-simple-project-id="ai-first-se-book">Visit Project</a>
+                <a href="https://github.com/rmax-ai/ai-first-software-engineering-book" class="btn btn-outline" target="_blank" data-simple-event="click_project_github" data-simple-project-id="ai-first-se-book">GitHub</a>
               </div>
             </div>
 
-            <!-- Relocation Scout -->
+                        <!-- rx -->
             <div class="project-card">
               <div class="project-title">
-                <a href="http://relocation-scout.rmax.tech/" target="_blank">Relocation Scout</a>
+                <a href="https://github.com/rmax-ai/rx?tab=readme-ov-file#rx" target="_blank" rel="noopener">RX</a>
               </div>
-              <p class="project-tagline">Production-oriented agentic systems PoC — governed AI workflow for house hunting</p>
-              <p class="muted">A full-stack house-hunting assistant that demonstrates governed AI workflow engineering: code handles determinism and constraints, agents handle qualitative judgment, and humans retain final authority through an approval gateway. The LLM is a narrowly-scoped component inside a conventional software system.</p>
+              <p class="project-tagline">Minimal autonomous systems agent with a microkernel architecture</p>
+              <p class="muted">RX is a goal-directed execution engine capable of modifying files, running commands, invoking tools, and operating locally or in distributed mode. It is not a chatbot: the kernel owns reasoning and iteration, tools own side effects, state is append-only, and transport is replaceable.</p>
 
               <div class="features">
                 <div class="feature-item">
-                  <span class="feature-name">Three-Layer Architecture</span>
-                  <span class="feature-desc">Code for determinism and constraints, agents for qualitative judgment, humans for authority over side effects.</span>
+                  <span class="feature-name">Kernel Decides</span>
+                  <span class="feature-desc">Executes the autonomous loop, dispatches tool calls, enforces iteration limits, and evaluates termination.</span>
                 </div>
                 <div class="feature-item">
-                  <span class="feature-name">Governed Workflow Engine</span>
-                  <span class="feature-desc">State machine with explicit transitions, idempotency, retries, and full audit logging.</span>
+                  <span class="feature-name">Tools Act</span>
+                  <span class="feature-desc">Filesystem, shell, and networking side effects live in the tool runtime, not the kernel.</span>
                 </div>
                 <div class="feature-item">
-                  <span class="feature-name">Approval Gateway</span>
-                  <span class="feature-desc">All external side effects (emails, messages) require explicit human approval before execution.</span>
+                  <span class="feature-name">State Persists</span>
+                  <span class="feature-desc">Structured events are persisted append-only (memory today, sqlite next), enabling replay and auditability.</span>
                 </div>
                 <div class="feature-item">
-                  <span class="feature-name">Agent as Component</span>
-                  <span class="feature-desc">LLM is a narrowly-scoped component; workflow, persistence, and security are conventional engineering.</span>
+                  <span class="feature-name">Transport Delivers</span>
+                  <span class="feature-desc">CLI, HTTP, and workers are interchangeable front-ends; transport can evolve without kernel bloat.</span>
                 </div>
               </div>
 
               <div class="project-links">
-                <a href="http://relocation-scout.rmax.tech/" class="btn btn-primary" target="_blank" data-simple-event="click_project_external" data-simple-project-id="relocation-scout">Visit Project</a>
-                <a href="https://github.com/rmax-ai/relocation-scout" class="btn btn-outline" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="relocation-scout">GitHub</a>
+                <a href="https://github.com/rmax-ai/rx?tab=readme-ov-file#rx" class="btn btn-primary" target="_blank" rel="noopener" data-simple-event="click_project_github" data-simple-project-id="rx">GitHub</a>
+                <a href="/notes/rx-lean-agent-kernels-beat-general-coding-frameworks/" class="btn btn-outline" data-simple-event="click_project_external" data-simple-project-id="rx">Read Note</a>
               </div>
             </div>
-          </div>
-        </section>
-      </main>
+
+                        <!-- Ratelord -->
+            <div class="project-card">
+              <div class="project-title">
+                <a href="https://ratelord.rmax.tech" target="_blank">Ratelord</a>
+              </div>
+              <p class="project-tagline">Budget-Literate Autonomy for Agentic Systems</p>
+              <p class="muted">Ratelord provides a "sensory organ" and "prefrontal cortex" for resource availability and budget planning, enabling autonomous systems to negotiate, forecast, govern, and adapt under constraints.</p>
+              
+              <div class="features">
+                <div class="feature-item">
+                  <span class="feature-name">Local-First Architecture</span>
+                  <span class="feature-desc">Zero-ops daemon that runs alongside your agents, providing low-latency constraint management.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Predictive Modeling</span>
+                  <span class="feature-desc">Time-to-exhaustion forecasts help agents plan activities based on real-time resource availability.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Intent Negotiation</span>
+                  <span class="feature-desc">Standardized protocol for agents to request resources and negotiate budgets before execution.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Event-Sourced Audit</span>
+                  <span class="feature-desc">Complete audit trail of all decisions and allocations, fully replayable for debugging and analysis.</span>
+                </div>
+              </div>
+
+              <div class="project-links">
+                <a href="https://ratelord.rmax.tech" class="btn btn-primary" target="_blank" data-simple-event="click_project_external" data-simple-project-id="ratelord">Visit Project</a>
+                <a href="https://github.com/rmax-ai/ratelord" class="btn btn-outline" target="_blank" data-simple-event="click_project_github" data-simple-project-id="ratelord">GitHub</a>
+              </div>
+            </div>
+
+                        <!-- RLinks -->
+            <div class="project-card">
+              <div class="project-title">
+                <a href="https://rlinks.rmax.tech" target="_blank">RLinks</a>
+              </div>
+              <p class="project-tagline">The authoritative control plane and global edge runtime for the rmax.to redirect fabric</p>
+              <p class="muted">A typed, schema-first redirect system managed via a CLI-first workflow, treated as critical identity infrastructure rather than a generic marketing tool.</p>
+              
+              <div class="features">
+                <div class="feature-item">
+                  <span class="feature-name">Global Edge Runtime</span>
+                  <span class="feature-desc">Stateless Cloudflare Workers serving from KV at the edge with <10ms global latency.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Safety Guarantees</span>
+                  <span class="feature-desc">Strict enforcement of invariants: no loops, reserved names, and disable-over-delete policy.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">CLI-First Workflow</span>
+                  <span class="feature-desc">The rlinks CLI is the only way to mutate state, enforcing a strict validation pipeline.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Typed Redirect Objects</span>
+                  <span class="feature-desc">Redirects move through a strict lifecycle with forward-only versioning and audit trails.</span>
+                </div>
+              </div>
+
+              <div class="project-links">
+                <a href="https://rlinks.rmax.tech" class="btn btn-primary" target="_blank" data-simple-event="click_project_external" data-simple-project-id="rlinks">Visit Project</a>
+                <a href="https://github.com/rmax-ai/rlinks" class="btn btn-outline" target="_blank" data-simple-event="click_project_github" data-simple-project-id="rlinks">GitHub</a>
+              </div>
+            </div>
+
+                        <!-- Dotslash Files -->
+            <div class="project-card">
+              <div class="project-title">
+                <a href="https://dotslash-files.rmax.tech" target="_blank">Dotslash Files</a>
+              </div>
+              <p class="project-tagline">Smart pointers for hermetic binary management</p>
+              <p class="muted">A repository of DotSlash wrapper files and tools that facilitate fetching, verifying, and running executables transparently across platforms.</p>
+              
+              <div class="features">
+                <div class="feature-item">
+                  <span class="feature-name">Polyglot Manifests</span>
+                  <span class="feature-desc">Tiny JSON files with shebangs that point to large binaries, avoiding "bloat" in git repositories.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Content Addressing</span>
+                  <span class="feature-desc">All binaries are verified by hash (sha256/blake3) before execution, ensuring integrity.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Cross-Platform shim</span>
+                  <span class="feature-desc">Automatically detects OS/Arch to fetch and run the correct binary for the current host.</span>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-name">Hermetic Sandbox</span>
+                  <span class="feature-desc">Include scripts for running manifests in secure, isolated Podman containers.</span>
+                </div>
+              </div>
+
+              <div class="project-links">
+                <a href="https://dotslash-files.rmax.tech" class="btn btn-primary" target="_blank" data-simple-event="click_project_external" data-simple-project-id="dotslash-files">Visit Project</a>
+                <a href="https://github.com/rmax-ai/dotslash-files" class="btn btn-outline" target="_blank" data-simple-event="click_project_github" data-simple-project-id="dotslash-files">GitHub</a>
+              </div>
+            </div>
+
+            </main>
 
       <footer class="rmax-footer">
         <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
