@@ -3,11 +3,6 @@
 
 Thoughts on software, AI, and systems.
 
-*July 1, 2026* — [New to AI Forward Deployed Engineering](/notes/new-to-ai-fde/)
-
-### [New to AI Forward Deployed Engineering](/notes/new-to-ai-fde/)
-*July 1, 2026* — A guide for engineers and technical leaders: what AI FDEs do, how they operate, the capabilities they bring, and the challenges they face — with links to deeper references.
-
 *June 30, 2026* — [Why AI FDE Teams Must Become Organizational Learning Systems](/notes/ai-fde-organizational-learning-systems/)
 
 ### [Why AI FDE Teams Must Become Organizational Learning Systems](/notes/ai-fde-organizational-learning-systems/)
