@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [New to AI Forward Deployed Engineering](/notes/new-to-ai-fde/)
+*July 1, 2026* — A guide for engineers and technical leaders: what AI FDEs do, how they operate, the capabilities they bring, and the challenges they face — with links to deeper references.
+
 ### [Why AI FDE Teams Must Become Organizational Learning Systems](/notes/ai-fde-organizational-learning-systems/)
 *June 30, 2026* — Why AI Forward Deployed Engineering teams should operate as organizational learning systems that turn field deployments into reusable platform capabilities, patterns, and operational leverage.
 
