@@ -3,23 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Automatic Harness Synthesis for Enterprise Agents | rmax.ai</title>
-    <meta
-      name="description"
-      content="An essay on automatic harness synthesis for enterprise agents, explaining how LLM-generated control layers can improve reliability in structured workflows without becoming the source of business authority."
-    />
+    <title>Automatic Harness Synthesis for Enterprise Agents — rmax.ai</title>
+    <meta name="description" content="An essay on automatic harness synthesis for enterprise agents, explaining how LLM-generated control layers can improve reliability in structured workflows without becoming the source of business authority." />
     <meta name="author" content="Max" />
     <link rel="canonical" href="https://rmax.ai/notes/automatic-harness-synthesis/" />
 
     <meta property="og:title" content="Automatic Harness Synthesis for Enterprise Agents" />
-    <meta
-      property="og:description"
-      content="An essay on automatic harness synthesis for enterprise agents, explaining how LLM-generated control layers can improve reliability in structured workflows without becoming the source of business authority."
-    />
+    <meta property="og:description" content="An essay on automatic harness synthesis for enterprise agents, explaining how LLM-generated control layers can improve reliability in structured workflows without becoming the source of business authority." />
     <meta property="og:url" content="https://rmax.ai/notes/automatic-harness-synthesis/" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2026-07-04" />
-    <meta property="article:modified_time" content="2026-07-04" />
     <meta property="article:tag" content="agents" />
     <meta property="article:tag" content="harness" />
     <meta property="article:tag" content="enterprise-ai" />
@@ -29,10 +22,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles/footer.css" />
     <link rel="stylesheet" href="/styles/substack-cta.css" />
     <style>
@@ -111,6 +101,12 @@
         font-weight: 600;
         color: #fff;
       }
+      h4 {
+        margin: 24px 0 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
       p {
         margin: 0 0 24px;
         color: #cbd5e1;
@@ -164,6 +160,23 @@
       blockquote p {
         margin: 0;
       }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
       a {
         color: var(--accent);
         text-decoration: none;
@@ -177,13 +190,14 @@
         display: flex;
         gap: 8px;
         align-items: center;
-        flex-wrap: wrap;
       }
       .post-content {
         margin-top: 32px;
       }
-      strong {
-        color: #f8fafc;
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
       }
 
       @media (max-width: 600px) {
@@ -235,311 +249,224 @@
           </header>
 
           <div class="post-content">
-            <p><em>Automatic harness synthesis treats repeated agent failures as raw material for deterministic control code. The core claim is narrow: in structured environments with dense, machine-checkable feedback, an LLM-generated harness can improve execution reliability without becoming the source of business authority. This matters for enterprise agents because many costly failures are not failures of general intelligence, but failures of action validity, sequencing, recovery, and control.</em></p>
-
-            <h2>Core thesis</h2>
-
-            <p>Repeated execution failures can help synthesize deterministic control layers around probabilistic agents.</p>
-
-            <p>That claim is conditional, not universal. It is most credible when the environment provides dense, machine-checkable feedback: invalid action flags, schema errors, state-transition failures, policy denials, exceptions, test failures, and explicit success conditions. It is less credible when feedback is ambiguous, delayed, adversarial, or normatively contested.</p>
-
-            <p>The practical implication is narrow but useful. Automatic harness synthesis is more plausible for structured enterprise workflows than for open-ended judgment. Expense approvals, support workflows, and deployment systems expose enough state and failure structure to make harness learning useful. They do not expose enough moral or organizational certainty to let the harness become the authority.</p>
-
-            <p>A harness can learn execution discipline. It should not become the source of business truth.</p>
-
-            <h2>Why this matters</h2>
-
-            <p>Enterprise agents do not fail only by saying the wrong thing. They also fail by doing the wrong kind of thing at the wrong time.</p>
-
-            <p>Common failures are operational:</p>
-
-            <ul>
-              <li>calling tools with malformed arguments</li>
-              <li>acting before a workflow reaches the required state</li>
-              <li>retrying after a policy denial as if denial were transient</li>
-              <li>omitting required fields</li>
-              <li>invoking irreversible operations without enough context</li>
-              <li>confusing what looks operationally possible with what is actually authorized</li>
-            </ul>
-
-            <p>The standard response is to use larger models, longer prompts, more examples, or better tool descriptions. Those interventions help, but they do not change the structure of the problem. A probabilistic model still operates directly against an environment with schemas, state transitions, authorization boundaries, and side effects.</p>
-
-            <p>That is why the AutoHarness result matters. The work does not primarily optimize prompts or model weights. It searches over code that surrounds the model. That shift is the important part. The target artifact is not a better sentence, but a better control layer.</p>
-
-            <p>This result fits a broader pattern in agent research. ReAct, Reflexion, Self-Refine, Code as Policies, Voyager, and Eureka all point toward the same architectural lesson: outer structure can matter as much as model capability. More recent scaffold and harness work makes that point more explicit. In many settings, the relevant unit of evaluation is the model-plus-harness configuration, not the model in isolation.</p>
-
-            <h2>Mechanism and architectural model</h2>
-
-            <p>A useful enterprise-agent architecture has four layers:</p>
-
-            <pre class="mermaid">flowchart TD
-    A[Agent policy&lt;br/&gt;stochastic proposer]
-    B[Synthesized harness&lt;br/&gt;validation, repair, routing, retry discipline]
-    C[Environment interfaces&lt;br/&gt;APIs, tools, workflow services]
-    D[Authoritative control plane&lt;br/&gt;policy engines, auth, workflow truth]
-
-    A --&gt; B
-    B --&gt; C
-    C --&gt; D
-
-    B -. never replaces .-&gt; D</pre>
-
-            <p>The distinction between these layers is the main architectural point.</p>
-
-            <p>The agent proposes actions. The harness evaluates operational applicability. It can normalize observations, validate fields, reject malformed outputs, repair common mistakes, enforce ordering, or prevent repeated invalid retries. Environment interfaces expose the systems the agent interacts with. The authoritative control plane keeps final authority through policy engines, workflow engines, permission checks, and transactional invariants.</p>
-
-            <p>This separation matters because enterprise reliability and enterprise authority are different problems.</p>
-
-            <p>A synthesized harness may learn that an expense cannot be approved before submission. It may learn that a deployment cannot start before artifact validation. It may learn that refund handling requires certain fields and sequencing. But it must not decide who may approve the expense, whether the refund is permitted, or whether the deployment is authorized.</p>
-
-            <p>A useful invariant is simple:</p>
-
-            <p><strong>Harness acceptance never implies policy authorization.</strong></p>
-
-            <h3>The synthesis loop</h3>
-
-            <p>The mechanism is straightforward. The system runs the agent, captures failures, turns those failures into structured counterexamples, and asks an LLM to revise the harness code.</p>
-
-            <pre class="mermaid">flowchart TD
-    A[Agent proposes action] --&gt; B[Harness evaluates action]
-    B --&gt; C[Policy engine checks authorization]
-    C --&gt; D[Environment executes or rejects]
-    D --&gt; E[Trace outcome and failure type]
-    E --&gt; F[Extract structured counterexamples]
-    F --&gt; G[LLM revises harness code]
-    G --&gt; H[Static validation and sandbox tests]
-    H --&gt; I[Evaluate on held-out scenarios]
-    I --&gt; J{Improved?}
-    J --&gt;|Yes| K[Promote candidate harness]
-    J --&gt;|No| L[Reject and retain previous harness]</pre>
-
-            <p>What the harness learns is narrower than what the agent tries to do. It does not need to understand the full business domain. It needs to reduce repeated operational failures around action validity, recovery, and execution order.</p>
-
-            <p>That narrower scope is what makes the approach plausible.</p>
-
-            <h2>Where the approach applies</h2>
-
-            <p>This pattern fits environments with explicit contracts and reliable feedback. It is most useful where failures can be observed, classified, and converted into candidate control logic.</p>
-
-            <p>Good candidates include:</p>
-
-            <ul>
-              <li>workflows with explicit state machines</li>
-              <li>tools with strict schemas and argument validation</li>
-              <li>environments with policy denials that are machine-readable</li>
-              <li>systems with clear success and failure signals</li>
-              <li>operational domains where recovery paths can be encoded deterministically</li>
-            </ul>
-
-            <p>Poor candidates include:</p>
-
-            <ul>
-              <li>authorization decisions themselves</li>
-              <li>legal interpretation</li>
-              <li>medical diagnosis</li>
-              <li>high-stakes financial judgment</li>
-              <li>ambiguous compliance review</li>
-              <li>any domain where feedback is delayed, contested, or hard to verify mechanically</li>
-            </ul>
-
-            <p>The boundary matters. Automatic harness synthesis is a method for improving execution discipline in structured environments. It is not a general solution for contested judgment.</p>
-
-            <h2>What should be measured</h2>
-
-            <p>Task success alone is not enough. A harness can appear effective by refusing too many actions, overfitting to visible scenarios, or hard-coding accidental constraints. A credible evaluation compares multiple system configurations and tracks both reliability and cost.</p>
-
-            <pre class="mermaid">flowchart LR
-    subgraph Conditions
-        A[Small model&lt;br/&gt;no harness]
-        B[Small model&lt;br/&gt;manual harness]
-        C[Small model&lt;br/&gt;generated harness]
-        D[Large model&lt;br/&gt;no harness]
-    end
-
-    subgraph Metrics
-        E[Valid-action rate]
-        F[Task completion]
-        G[Policy-denial rate]
-        H[False acceptance]
-        I[False rejection]
-        J[Recovery success]
-        K[Repeated-failure rate]
-        L[Latency and model-call count]
-        M[Token cost]
-        N[Held-out and drift robustness]
-    end
-
-    A --&gt; E
-    B --&gt; F
-    C --&gt; G
-    D --&gt; H
-    C --&gt; I
-    C --&gt; J
-    C --&gt; K
-    B --&gt; L
-    C --&gt; M
-    D --&gt; N</pre>
-
-            <p>The most important pair is false acceptance and false rejection. A permissive harness can look useful while letting bad actions through. A conservative harness can look safe while blocking valid work. A good harness improves execution validity without becoming a refusal machine.</p>
-
-            <h2>Concrete examples</h2>
-
-            <h3>Expense approval</h3>
-
-            <p>Expense systems have request states, approval thresholds, receipt requirements, approver roles, reimbursement rules, and escalation paths. An agent may fail by approving too early, submitting malformed data, ignoring required receipt fields, or escalating along the wrong path.</p>
-
-            <p>A harness can learn state-sensitive validity rules and simple repairs:</p>
-
-            <ul>
-              <li>reject approval attempts before submission</li>
-              <li>require receipt metadata before progressing</li>
-              <li>normalize malformed action payloads</li>
-              <li>escalate when required fields cannot be inferred safely</li>
-            </ul>
-
-            <p>The policy engine still decides whether the specific user is authorized to approve the expense.</p>
-
-            <h3>Customer-support workflows</h3>
-
-            <p>Support systems expose ticket states, customer records, refund policies, priority levels, assignment queues, and escalation constraints. An agent may fail by resolving unresolved tickets, issuing refunds without required checks, assigning to the wrong queue, or failing to escalate ambiguous cases.</p>
-
-            <p>A harness can learn:</p>
-
-            <ul>
-              <li>required field checks before refund actions</li>
-              <li>correct sequencing between assignment, investigation, and resolution</li>
-              <li>recovery behavior after policy denial or missing context</li>
-              <li>routing rules for specialist escalation</li>
-            </ul>
-
-            <p>It should not become the source of refund policy.</p>
-
-            <h3>Software deployment</h3>
-
-            <p>Deployment systems are a strong fit because their feedback is usually crisp: artifact-validation errors, missing approvals, state conflicts, health-check failures, rollback signals, and explicit release states.</p>
-
-            <p>An agent may fail by starting before approval, deploying invalid artifacts, retrying unsafe operations, or failing to roll back after a failed release. A harness can reduce these failures by enforcing ordering, rejecting malformed deploy actions, and standardizing recovery paths.</p>
-
-            <p>This is the kind of domain where deterministic control around a probabilistic planner is often more valuable than a marginally stronger planner acting alone.</p>
-
-            <h2>Trade-offs and failure modes</h2>
-
-            <p>Automatic harness synthesis has real risks.</p>
-
-            <h3>Evaluator overfitting</h3>
-
-            <p>This is the familiar program-repair problem in a new form. A generated harness can pass the available tests while still encoding the wrong invariant.</p>
-
-            <h3>Specification gaming</h3>
-
-            <p>If evaluation over-rewards legal-looking actions, the harness may maximize apparent legality while sacrificing progress. The system can become more compliant-looking and less useful.</p>
-
-            <h3>False confidence from deterministic code</h3>
-
-            <p>Generated Python can feel safer than generated text because it is inspectable. But inspectable code can still be wrong. Deterministic does not mean correct.</p>
-
-            <h3>Constraint fossilization</h3>
-
-            <p>A temporary schema quirk, policy denial, or environment bug can harden into a durable rule in the harness. This risk is especially high in enterprise systems, where policies and schemas change.</p>
-
-            <h3>Rule accretion</h3>
-
-            <p>Local repairs can accumulate into an opaque layer of exceptions. The harness becomes harder to understand, maintain, and audit.</p>
-
-            <h3>Authority leakage</h3>
-
-            <p>This is the most serious failure mode. If the harness starts deciding what is allowed instead of what is operationally applicable, it becomes an ungoverned policy engine.</p>
-
-            <h3>Domain limits</h3>
-
-            <p>This approach fits environments with explicit contracts and reliable feedback. It is a poor fit for authorization decisions themselves, legal interpretation, medical diagnosis, high-stakes financial judgment, ambiguous compliance review, or any domain where the feedback loop is delayed or contested.</p>
-
-            <h2>Harness lifecycle and governance</h2>
-
-            <p>A synthesized harness should be governed like software, not treated like a byproduct of model execution.</p>
-
-            <pre class="mermaid">flowchart LR
-    A[Generated] --&gt; B[Statically validated]
-    B --&gt; C[Sandbox tested]
-    C --&gt; D[Evaluated]
-    D --&gt; E[Human approved]
-    E --&gt; F[Active]
-    F --&gt; G[Monitored]
-    G --&gt; H[Retired]</pre>
-
-            <p>Each state has a concrete purpose:</p>
-
-            <ul>
-              <li><strong>Generated</strong> means the code came from the synthesis loop.</li>
-              <li><strong>Statically validated</strong> means syntax, type, import, API-contract, and safety checks passed.</li>
-              <li><strong>Sandbox tested</strong> means the code ran under explicit capability limits.</li>
-              <li><strong>Evaluated</strong> means it was tested on nominal, held-out, mutated, and adversarial scenarios.</li>
-              <li><strong>Human approved</strong> means promotion depends on review, not only metric improvement.</li>
-              <li><strong>Active</strong> means the harness is in the execution path.</li>
-              <li><strong>Monitored</strong> means traces are checked for drift, policy conflicts, false rejections, and repeated failures.</li>
-              <li><strong>Retired</strong> means stale harnesses are removed when workflows, schemas, or policies change.</li>
-            </ul>
-
-            <p>This is where enterprise discipline matters. Generated harnesses need provenance, versioning, rollback, reproducibility, and promotion gates. They should not mutate silently in production.</p>
-
-            <h2>Practical takeaways</h2>
-
-            <ol>
-              <li><strong>Treat harnesses as a separate optimization target.</strong> Do not assume that all reliability gains must come from better prompts or larger models.</li>
-              <li><strong>Keep authority external.</strong> Let the harness improve execution discipline, but preserve final authorization in explicit control systems.</li>
-              <li><strong>Evaluate more than task success.</strong> Track false acceptance, false rejection, recovery behavior, repeated-failure rate, and drift robustness.</li>
-              <li><strong>Use simulation first.</strong> Structured simulated environments are the right place to collect failures, counterexamples, and candidate harnesses safely.</li>
-              <li><strong>Govern generated code like a software artifact.</strong> Sandbox it, version it, review it, and retire it when assumptions change.</li>
-            </ol>
-
-            <h2>Positioning note</h2>
-
-            <p>This is not academic research in the strict sense. The goal here is not a general theory of agent self-improvement or a new benchmark claim. The useful question is narrower: under what operational conditions does synthesized control code improve an agent system?</p>
-
-            <p>It is also not a blog-style opinion piece. The argument depends on concrete architecture boundaries, measurable failure types, and evaluation discipline.</p>
-
-            <p>It is not vendor documentation either. Vendor documentation usually describes a supported product surface and intended usage. This note is about an architectural pattern, where it plausibly works, and where it should remain constrained.</p>
-
-            <h2>Status and scope disclaimer</h2>
-
-            <p>This is exploratory lab work, not a validated production blueprint.</p>
-
-            <p>The argument is based on the AutoHarness result, adjacent scaffold research, and the design of an open-source proof-of-concept, Enterprise AutoHarness Lab. The intended contribution is architectural clarity and a testable research direction. It does not claim production safety, compliance correctness, robustness against all adversarial behavior, or suitability for irreversible high-stakes decisions.</p>
-
-            <p>The scope is deliberately narrow: structured enterprise simulations in which repeated failures can be observed, classified, and turned into candidate control logic while final authority remains outside the harness.</p>
-
-            <h2>References</h2>
-
-            <ul>
-              <li>AutoHarness: Improving LLM Agents by Automatically Synthesizing a Code Harness</li>
-              <li>Enterprise AutoHarness Lab</li>
-              <li>ReAct: Synergizing Reasoning and Acting in Language Models</li>
-              <li>Reflexion: Language Agents with Verbal Reinforcement Learning</li>
-              <li>Self-Refine: Iterative Refinement with Self-Feedback</li>
-              <li>Code as Policies: Language Model Programs for Embodied Control</li>
-              <li>Voyager: An Open-Ended Embodied Agent with Large Language Models</li>
-              <li>Eureka: Human-Level Reward Design via Coding Large Language Models</li>
-              <li>Meta-Harness: An Adaptive Meta-Harness for Reliable LLM Applications</li>
-              <li>Harness-Bench: Evaluating LLM-Harness Pairs</li>
-              <li>τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains</li>
-              <li>CRMArena: Understanding the Capacity of LLM Agents to Perform Professional CRM Tasks</li>
-              <li>Program Synthesis</li>
-              <li>FlashFill: Programming by Example</li>
-              <li>DeepCoder: Learning to Write Programs</li>
-              <li>Execution-Guided Neural Program Decoding</li>
-              <li>Patch Overfitting in Program Repair</li>
-              <li>Runtime Verification</li>
-              <li>Enforceable Security Policies</li>
-              <li>Shields for Safe Reinforcement Learning</li>
-              <li>Zanzibar: Google's Consistent, Global Authorization System</li>
-              <li>Cedar Policy Language</li>
-              <li>How We Built Cedar with Formal Methods</li>
-              <li>Open Policy Agent Documentation</li>
-              <li>SLSA: Supply-chain Levels for Software Artifacts</li>
-              <li>in-toto: Providing Farm-to-Table Guarantees for Bits and Bytes</li>
-              <li>NIST Secure Software Development Framework</li>
-              <li>"The purpose of computing is insight, not numbers." - Richard Hamming</li>
-            </ul>
+<p><em>Automatic harness synthesis treats repeated agent failures as raw material for deterministic control code. The core claim is narrow: in structured environments with dense, machine-checkable feedback, an LLM-generated harness can improve execution reliability without becoming the source of business authority. This matters for enterprise agents because many costly failures are not failures of general intelligence, but failures of action validity, sequencing, recovery, and control.</em></p>
+<h2>Core thesis</h2>
+<p>Repeated execution failures can help synthesize deterministic control layers around probabilistic agents.</p>
+<p>That claim is conditional, not universal. It is most credible when the environment provides dense, machine-checkable feedback: invalid action flags, schema errors, state-transition failures, policy denials, exceptions, test failures, and explicit success conditions. It is less credible when feedback is ambiguous, delayed, adversarial, or normatively contested.</p>
+<p>The practical implication is narrow but useful. Automatic harness synthesis is more plausible for structured enterprise workflows than for open-ended judgment. Expense approvals, support workflows, and deployment systems expose enough state and failure structure to make harness learning useful. They do not expose enough moral or organizational certainty to let the harness become the authority.</p>
+<p>A harness can learn execution discipline. It should not become the source of business truth.</p>
+<h2>Why this matters</h2>
+<p>Enterprise agents do not fail only by saying the wrong thing. They also fail by doing the wrong kind of thing at the wrong time.</p>
+<p>Common failures are operational:</p>
+<ul>
+<li>calling tools with malformed arguments</li>
+<li>acting before a workflow reaches the required state</li>
+<li>retrying after a policy denial as if denial were transient</li>
+<li>omitting required fields</li>
+<li>invoking irreversible operations without enough context</li>
+<li>confusing what looks operationally possible with what is actually authorized</li>
+</ul>
+<p>The standard response is to use larger models, longer prompts, more examples, or better tool descriptions. Those interventions help, but they do not change the structure of the problem. A probabilistic model still operates directly against an environment with schemas, state transitions, authorization boundaries, and side effects.</p>
+<p>That is why <a href="https://arxiv.org/abs/2603.03329">AutoHarness</a> matters architecturally. The work does not primarily optimize prompts or model weights. It searches over code that surrounds the model. The target artifact is not a better sentence, but a better control layer.</p>
+<p>This result fits a broader pattern in agent research. <a href="https://openreview.net/forum?id=WE_vluYUL-X">ReAct</a> showed that reasoning and tool use could be interleaved. <a href="https://arxiv.org/abs/2303.11366">Reflexion</a> and <a href="https://arxiv.org/abs/2303.17651">Self-Refine</a> showed that feedback loops can improve behavior without changing model weights. <a href="https://arxiv.org/abs/2209.07753">Code as Policies</a>, <a href="https://arxiv.org/abs/2305.16291">Voyager</a>, and <a href="https://arxiv.org/abs/2310.12931">Eureka</a> showed that executable artifacts generated by models can carry useful behavior across steps or tasks. More recent scaffold and harness work, such as <a href="https://arxiv.org/pdf/2603.28052">Meta-Harness</a> and <a href="https://arxiv.org/abs/2605.27922">Harness-Bench</a>, makes the point more explicit: the relevant unit of evaluation is often the model-plus-harness configuration, not the model in isolation.</p>
+<h2>Mechanism and architectural model</h2>
+<p>A useful enterprise-agent architecture has four layers:</p>
+<pre class="mermaid">
+flowchart TD
+    A[Agent policy<br/>stochastic proposer]
+    B[Synthesized harness<br/>validation, repair, routing, retry discipline]
+    C[Environment interfaces<br/>APIs, tools, workflow services]
+    D[Authoritative control plane<br/>policy engines, auth, workflow truth]
+
+    A --> B
+    B --> C
+    C --> D
+
+    B -. never replaces .-> D
+</pre>
+<p>The distinction between these layers is the main architectural point.</p>
+<p>The agent proposes actions. The harness evaluates operational applicability. It can normalize observations, validate fields, reject malformed outputs, repair common mistakes, enforce ordering, or prevent repeated invalid retries. Environment interfaces expose the systems the agent interacts with. The authoritative control plane keeps final authority through policy engines, workflow engines, permission checks, and transactional invariants.</p>
+<p>Authorization systems such as <a href="https://www.usenix.org/conference/atc19/presentation/pang">Zanzibar</a>, <a href="https://docs.cedarpolicy.com/">Cedar</a>, and <a href="https://www.openpolicyagent.org/docs/latest/">Open Policy Agent</a> exist because authorization requires explicit, auditable, analyzable control.</p>
+<p>This separation matters because enterprise reliability and enterprise authority are different problems.</p>
+<p>A synthesized harness may learn that an expense cannot be approved before submission. It may learn that a deployment cannot start before artifact validation. It may learn that refund handling requires certain fields and sequencing. But it must not decide who may approve the expense, whether the refund is permitted, or whether the deployment is authorized.</p>
+<p>A useful invariant is simple:</p>
+<p><strong>Harness acceptance never implies policy authorization.</strong></p>
+<h3>The synthesis loop</h3>
+<p>The mechanism is straightforward. The system runs the agent, captures failures, turns those failures into structured counterexamples, and asks an LLM to revise the harness code.</p>
+<pre class="mermaid">
+flowchart TD
+    A[Agent proposes action] --> B[Harness evaluates action]
+    B --> C[Policy engine checks authorization]
+    C --> D[Environment executes or rejects]
+    D --> E[Trace outcome and failure type]
+    E --> F[Extract structured counterexamples]
+    F --> G[LLM revises harness code]
+    G --> H[Static validation and sandbox tests]
+    H --> I[Evaluate on held-out scenarios]
+    I --> J{Improved?}
+    J -->|Yes| K[Promote candidate harness]
+    J -->|No| L[Reject and retain previous harness]
+</pre>
+<p>What the harness learns is narrower than what the agent tries to do. It does not need to understand the full business domain. It needs to reduce repeated operational failures around action validity, recovery, and execution order.</p>
+<p>That narrower scope is what makes the approach plausible.</p>
+<h2>Where the approach applies</h2>
+<p>This pattern fits environments with explicit contracts and reliable feedback. It is most useful where failures can be observed, classified, and converted into candidate control logic.</p>
+<p>Good candidates include:</p>
+<ul>
+<li>workflows with explicit state machines</li>
+<li>tools with strict schemas and argument validation</li>
+<li>environments with policy denials that are machine-readable</li>
+<li>systems with clear success and failure signals</li>
+<li>operational domains where recovery paths can be encoded deterministically</li>
+</ul>
+<p>Poor candidates include:</p>
+<ul>
+<li>authorization decisions themselves</li>
+<li>legal interpretation</li>
+<li>medical diagnosis</li>
+<li>high-stakes financial judgment</li>
+<li>ambiguous compliance review</li>
+<li>any domain where feedback is delayed, contested, or hard to verify mechanically</li>
+</ul>
+<p>The boundary matters. Automatic harness synthesis is a method for improving execution discipline in structured environments. It is not a general solution for contested judgment.</p>
+<h2>What should be measured</h2>
+<p>Task success alone is not enough. A harness can appear effective by refusing too many actions, overfitting to visible scenarios, or hard-coding accidental constraints. A credible evaluation compares multiple system configurations and tracks both reliability and cost.</p>
+<pre class="mermaid">
+flowchart TD
+    A[Evaluation matrix]
+
+    A --> B[Conditions]
+    A --> C[Metrics]
+
+    B --> B1[Small model<br/>no harness]
+    B --> B2[Small model<br/>manual harness]
+    B --> B3[Small model<br/>generated harness]
+    B --> B4[Large model<br/>no harness]
+
+    C --> C1[Valid-action rate]
+    C --> C2[Task completion]
+    C --> C3[False acceptance]
+    C --> C4[False rejection]
+    C --> C5[Recovery success]
+    C --> C6[Repeated-failure rate]
+    C --> C7[Latency and model-call count]
+    C --> C8[Token cost]
+    C --> C9[Held-out and drift robustness]
+</pre>
+<p>The most important pair is false acceptance and false rejection. A permissive harness can look useful while letting bad actions through. A conservative harness can look safe while blocking valid work. A good harness improves execution validity without becoming a refusal machine.</p>
+<h2>Concrete examples</h2>
+<h3>Expense approval</h3>
+<p>Expense systems have request states, approval thresholds, receipt requirements, approver roles, reimbursement rules, and escalation paths. An agent may fail by approving too early, submitting malformed data, ignoring required receipt fields, or escalating along the wrong path.</p>
+<p>A harness can learn state-sensitive validity rules and simple repairs:</p>
+<ul>
+<li>reject approval attempts before submission</li>
+<li>require receipt metadata before progressing</li>
+<li>normalize malformed action payloads</li>
+<li>escalate when required fields cannot be inferred safely</li>
+</ul>
+<p>The policy engine still decides whether the specific user is authorized to approve the expense.</p>
+<h3>Customer-support workflows</h3>
+<p>Support systems expose ticket states, customer records, refund policies, priority levels, assignment queues, and escalation constraints. An agent may fail by resolving unresolved tickets, issuing refunds without required checks, assigning to the wrong queue, or failing to escalate ambiguous cases.</p>
+<p>A harness can learn:</p>
+<ul>
+<li>required field checks before refund actions</li>
+<li>correct sequencing between assignment, investigation, and resolution</li>
+<li>recovery behavior after policy denial or missing context</li>
+<li>routing rules for specialist escalation</li>
+</ul>
+<p>It should not become the source of refund policy.</p>
+<h3>Software deployment</h3>
+<p>Deployment systems are a strong fit because their feedback is usually crisp: artifact-validation errors, missing approvals, state conflicts, health-check failures, rollback signals, and explicit release states.</p>
+<p>An agent may fail by starting before approval, deploying invalid artifacts, retrying unsafe operations, or failing to roll back after a failed release. A harness can reduce these failures by enforcing ordering, rejecting malformed deploy actions, and standardizing recovery paths.</p>
+<p>This is the kind of domain where deterministic control around a probabilistic planner is often more valuable than a marginally stronger planner acting alone.</p>
+<h2>Trade-offs and failure modes</h2>
+<p>Automatic harness synthesis has real risks.</p>
+<h3>Evaluator overfitting</h3>
+<p>This is the familiar program-repair problem in a new form. A generated harness can pass the available tests while still encoding the wrong invariant.</p>
+<h3>Specification gaming</h3>
+<p>If evaluation over-rewards legal-looking actions, the harness may maximize apparent legality while sacrificing progress. The system can become more compliant-looking and less useful.</p>
+<h3>False confidence from deterministic code</h3>
+<p>Generated Python can feel safer than generated text because it is inspectable. But inspectable code can still be wrong. Deterministic does not mean correct.</p>
+<h3>Constraint fossilization</h3>
+<p>A temporary schema quirk, policy denial, or environment bug can harden into a durable rule in the harness. This risk is especially high in enterprise systems, where policies and schemas change.</p>
+<h3>Rule accretion</h3>
+<p>Local repairs can accumulate into an opaque layer of exceptions. The harness becomes harder to understand, maintain, and audit.</p>
+<h3>Authority leakage</h3>
+<p>This is the most serious failure mode. If the harness starts deciding what is allowed instead of what is operationally applicable, it becomes an ungoverned policy engine.</p>
+<h3>Domain limits</h3>
+<p>This approach fits environments with explicit contracts and reliable feedback. It is a poor fit for authorization decisions themselves, legal interpretation, medical diagnosis, high-stakes financial judgment, ambiguous compliance review, or any domain where the feedback loop is delayed or contested.</p>
+<h2>Harness lifecycle and governance</h2>
+<p>A synthesized harness should be governed like software, not treated like a byproduct of model execution.</p>
+<pre class="mermaid">
+flowchart LR
+    A[Generated] --> B[Statically validated]
+    B --> C[Sandbox tested]
+    C --> D[Evaluated]
+    D --> E[Human approved]
+    E --> F[Active]
+    F --> G[Monitored]
+    G --> H[Retired]
+</pre>
+<p>Each state has a concrete purpose:</p>
+<ul>
+<li><strong>Generated</strong> means the code came from the synthesis loop.</li>
+<li><strong>Statically validated</strong> means syntax, type, import, API-contract, and safety checks passed.</li>
+<li><strong>Sandbox tested</strong> means the code ran under explicit capability limits.</li>
+<li><strong>Evaluated</strong> means it was tested on nominal, held-out, mutated, and adversarial scenarios.</li>
+<li><strong>Human approved</strong> means promotion depends on review, not only metric improvement.</li>
+<li><strong>Active</strong> means the harness is in the execution path.</li>
+<li><strong>Monitored</strong> means traces are checked for drift, policy conflicts, false rejections, and repeated failures.</li>
+<li><strong>Retired</strong> means stale harnesses are removed when workflows, schemas, or policies change.</li>
+</ul>
+<p>This is where enterprise discipline matters. Generated harnesses need provenance, versioning, rollback, reproducibility, and promotion gates. They should not mutate silently in production.</p>
+<h2>Practical takeaways</h2>
+<ol>
+<li><strong>Treat harnesses as a separate optimization target.</strong> Do not assume that all reliability gains must come from better prompts or larger models.</li>
+<li><strong>Keep authority external.</strong> Let the harness improve execution discipline, but preserve final authorization in explicit control systems.</li>
+<li><strong>Evaluate more than task success.</strong> Track false acceptance, false rejection, recovery behavior, repeated-failure rate, and drift robustness.</li>
+<li><strong>Use simulation first.</strong> Structured simulated environments are the right place to collect failures, counterexamples, and candidate harnesses safely.</li>
+<li><strong>Govern generated code like a software artifact.</strong> Sandbox it, version it, review it, and retire it when assumptions change.</li>
+</ol>
+<h2>Positioning note</h2>
+<p>This is not a claim that automatic harness synthesis is production-ready. It is an architectural argument and research direction. The useful question is narrower: under what operational conditions does synthesized control code improve an agent system?</p>
+<p>The answer depends on boundaries. The harness may improve action validity, recovery, and execution discipline. It should not own business policy, authorization, compliance interpretation, or workflow truth.</p>
+<h2>Status and scope disclaimer</h2>
+<p>This is exploratory lab work, not a validated production blueprint.</p>
+<p>The argument is based on the <a href="https://arxiv.org/abs/2603.03329">AutoHarness</a> result, adjacent scaffold research, and the design of <a href="https://github.com/rmax-ai/enterprise-autoharness-lab">Enterprise AutoHarness Lab</a>. It does not claim production safety, compliance correctness, robustness against all adversarial behavior, or suitability for irreversible high-stakes decisions.</p>
+<p>The scope is deliberately narrow: structured enterprise simulations where repeated failures can be observed, classified, and turned into candidate control logic while final authority remains outside the harness.</p>
+<h2>References</h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2603.03329">AutoHarness: Improving LLM Agents by Automatically Synthesizing a Code Harness</a></li>
+<li><a href="https://github.com/rmax-ai/enterprise-autoharness-lab">Enterprise AutoHarness Lab</a></li>
+<li><a href="https://openreview.net/forum?id=WE_vluYUL-X">ReAct: Synergizing Reasoning and Acting in Language Models</a></li>
+<li><a href="https://arxiv.org/abs/2303.11366">Reflexion: Language Agents with Verbal Reinforcement Learning</a></li>
+<li><a href="https://arxiv.org/abs/2303.17651">Self-Refine: Iterative Refinement with Self-Feedback</a></li>
+<li><a href="https://arxiv.org/abs/2209.07753">Code as Policies: Language Model Programs for Embodied Control</a></li>
+<li><a href="https://arxiv.org/abs/2305.16291">Voyager: An Open-Ended Embodied Agent with Large Language Models</a></li>
+<li><a href="https://arxiv.org/abs/2310.12931">Eureka: Human-Level Reward Design via Coding Large Language Models</a></li>
+<li><a href="https://arxiv.org/pdf/2603.28052">Meta-Harness: An Adaptive Meta-Harness for Reliable LLM Applications</a></li>
+<li><a href="https://arxiv.org/abs/2605.27922">Harness-Bench: Evaluating LLM-Harness Pairs</a></li>
+<li><a href="https://arxiv.org/abs/2406.12045">τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains</a></li>
+<li><a href="https://aclanthology.org/2025.naacl-long.194.pdf">CRMArena: Understanding the Capacity of LLM Agents to Perform Professional CRM Tasks</a></li>
+<li><a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2017/10/program_synthesis_now.pdf">Program Synthesis</a></li>
+<li><a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/12/popl11-synthesis.pdf">FlashFill: Programming by Example</a></li>
+<li><a href="https://arxiv.org/abs/1611.01989">DeepCoder: Learning to Write Programs</a></li>
+<li><a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2018/07/Execution-Guided-Neural-Program-Decoding.pdf">Execution-Guided Neural Program Decoding</a></li>
+<li><a href="https://clairelegoues.com/assets/papers/ese18overfit.pdf">Patch Overfitting in Program Repair</a></li>
+<li><a href="https://lig-membres.imag.fr/falcone/wp-content/uploads/sites/120/2014/02/fmsd.pdf">Runtime Verification</a></li>
+<li><a href="https://www.kth.se/social/files/59526bfb56be5b4f17000807/meyer-92-contracts.pdf">Enforceable Security Policies</a></li>
+<li><a href="https://tugraz.elsevierpure.com/ws/portalfiles/portal/93576031/Shields_for_Safe_Reinforcement_Learning.pdf">Shields for Safe Reinforcement Learning</a></li>
+<li><a href="https://www.usenix.org/conference/atc19/presentation/pang">Zanzibar: Google's Consistent, Global Authorization System</a></li>
+<li><a href="https://docs.cedarpolicy.com/">Cedar Policy Language</a></li>
+<li><a href="https://arxiv.org/pdf/2403.04651">How We Built Cedar with Formal Methods</a></li>
+<li><a href="https://www.openpolicyagent.org/docs/latest/">Open Policy Agent Documentation</a></li>
+<li><a href="https://slsa.dev/spec/v0.1/levels">SLSA: Supply-chain Levels for Software Artifacts</a></li>
+<li><a href="https://www.usenix.org/system/files/sec19-torres-arias.pdf">in-toto: Providing Farm-to-Table Guarantees for Bits and Bytes</a></li>
+<li><a href="https://csrc.nist.gov/pubs/sp/800/218/final">NIST Secure Software Development Framework</a></li>
+</ul>
+<blockquote>
+<p>"The purpose of computing is insight, not numbers." — Richard Hamming</p>
+</blockquote>
           </div>
         </article>
 
@@ -551,7 +478,9 @@
       </main>
 
       <footer class="rmax-footer">
-        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
         <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
       </footer>
     </div>
