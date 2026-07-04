@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Automatic Harness Synthesis for Enterprise Agents](/notes/automatic-harness-synthesis/)
+*July 4, 2026* — An essay on automatic harness synthesis for enterprise agents, explaining how LLM-generated control layers can improve reliability in structured workflows without becoming the source of business authority.
+
 ### [Why AI FDE Teams Must Become Organizational Learning Systems](/notes/ai-fde-organizational-learning-systems/)
 *June 30, 2026* — Why AI Forward Deployed Engineering teams should operate as organizational learning systems that turn field deployments into reusable platform capabilities, patterns, and operational leverage.
 
