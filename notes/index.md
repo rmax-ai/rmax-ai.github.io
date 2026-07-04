@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*July 4, 2026* — [Automatic Harness Synthesis for Enterprise Agents](/notes/automatic-harness-synthesis/)
+
+### [Automatic Harness Synthesis for Enterprise Agents](/notes/automatic-harness-synthesis/)
+*July 4, 2026* — An essay on automatic harness synthesis for enterprise agents, explaining how LLM-generated control layers can improve reliability in structured workflows without becoming the source of business authority.
+
 *June 30, 2026* — [Why AI FDE Teams Must Become Organizational Learning Systems](/notes/ai-fde-organizational-learning-systems/)
 
 ### [Why AI FDE Teams Must Become Organizational Learning Systems](/notes/ai-fde-organizational-learning-systems/)
