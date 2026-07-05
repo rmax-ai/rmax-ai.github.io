@@ -170,6 +170,8 @@ A recursive execution harness would treat the same task differently:
 
 The final answer may still be wrong. But if it is wrong, the system can usually explain why.
 
+A companion proof of concept, the [Recursive Execution Harness Lab](https://github.com/rmax-ai/recursive-execution-harness-lab), implements this comparison and runs at [recursive-execution-harness-lab.rmax.tech](http://recursive-execution-harness-lab.rmax.tech).
+
 ### Example 2: policy-constrained enterprise workflow
 
 Consider expense approval or support-ticket routing. These workflows combine state, permissions, side effects, and delayed approvals. A chat-style agent will often keep asking itself what to do next while carrying the whole interaction in memory. That makes error recovery difficult and policy boundaries blurry.
@@ -270,4 +272,5 @@ The scope is deliberately limited to workflows where state, side effects, proven
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 - [Prose2Policy: A Practical LLM Pipeline for Translating Natural-Language Access Policies into Executable Rego](https://arxiv.org/abs/2603.15799)
 - [Continual Learning for Long-Running Agents: Agents That Keep Getting Better](https://youtu.be/SVWmuJx0hHM) — Jackmanong, Prime Intellect, hosted by NVIDIA Developer
+- [Recursive Execution Harness Lab](https://github.com/rmax-ai/recursive-execution-harness-lab) — companion proof of concept. Live at [recursive-execution-harness-lab.rmax.tech](http://recursive-execution-harness-lab.rmax.tech).
 
