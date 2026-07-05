@@ -463,10 +463,13 @@ flowchart LR
       mermaid.initialize({
         startOnLoad: true,
         theme: 'base',
-        maxTextWidth: 300,
+        maxTextWidth: '600px',
+        fontSize: 14,
         flowchart: {
           htmlLabels: true,
           useMaxWidth: true,
+          nodeSpacing: 80,
+          rankSpacing: 80,
         },
         themeVariables: {
           background: 'transparent',
