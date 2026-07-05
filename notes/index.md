@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*July 5, 2026* — [Recursive Execution Is the Missing Layer for Long-Running Agents](/notes/recursive-execution-missing-layer/)
+
+### [Recursive Execution Is the Missing Layer for Long-Running Agents](/notes/recursive-execution-missing-layer/)
+*July 5, 2026* — A technical essay arguing that long-running agents need recursive execution over externalized state, durable workflows, policy gates, and traceable verification instead of ever-larger chat context.
+
 *July 4, 2026* — [Automatic Harness Synthesis for Enterprise Agents](/notes/automatic-harness-synthesis/)
 
 ### [Automatic Harness Synthesis for Enterprise Agents](/notes/automatic-harness-synthesis/)

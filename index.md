@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Recursive Execution Is the Missing Layer for Long-Running Agents](/notes/recursive-execution-missing-layer/)
+*July 5, 2026* — A technical essay arguing that long-running agents need recursive execution over externalized state, durable workflows, policy gates, and traceable verification instead of ever-larger chat context.
+
 ### [Automatic Harness Synthesis for Enterprise Agents](/notes/automatic-harness-synthesis/)
 *July 4, 2026* — An essay on automatic harness synthesis for enterprise agents, explaining how LLM-generated control layers can improve reliability in structured workflows without becoming the source of business authority.
 
