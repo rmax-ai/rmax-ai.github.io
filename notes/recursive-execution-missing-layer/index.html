@@ -13,7 +13,14 @@
     <meta property="og:url" content="https://rmax.ai/notes/recursive-execution-missing-layer/" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2026-07-05" />
-
+    <meta property="article:tag" content="agent-architecture" />
+    <meta property="article:tag" content="recursive-execution" />
+    <meta property="article:tag" content="workflow-orchestration" />
+    <meta property="article:tag" content="policy-as-code" />
+    <meta property="article:tag" content="observability" />
+    <meta property="article:tag" content="continual-learning" />
+    <meta property="article:tag" content="MCP" />
+    <meta property="article:tag" content="durable-execution" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -355,6 +362,7 @@ flowchart TB
 <li>synthesize only from verified evidence</li>
 </ul>
 <p>The final answer may still be wrong. But if it is wrong, the system can usually explain why.</p>
+<p>A companion proof of concept, the <a href="https://github.com/rmax-ai/recursive-execution-harness-lab">Recursive Execution Harness Lab</a>, implements this comparison and runs at <a href="http://recursive-execution-harness-lab.rmax.tech">recursive-execution-harness-lab.rmax.tech</a>.</p>
 <h3>Example 2: policy-constrained enterprise workflow</h3>
 <p>Consider expense approval or support-ticket routing. These workflows combine state, permissions, side effects, and delayed approvals. A chat-style agent will often keep asking itself what to do next while carrying the whole interaction in memory. That makes error recovery difficult and policy boundaries blurry.</p>
 <p>A recursive execution system would:</p>
@@ -428,6 +436,7 @@ flowchart LR
 <li><a href="https://modelcontextprotocol.io/">Model Context Protocol</a></li>
 <li><a href="https://arxiv.org/abs/2603.15799">Prose2Policy: A Practical LLM Pipeline for Translating Natural-Language Access Policies into Executable Rego</a></li>
 <li><a href="https://youtu.be/SVWmuJx0hHM">Continual Learning for Long-Running Agents: Agents That Keep Getting Better</a> — Jackmanong, Prime Intellect, hosted by NVIDIA Developer</li>
+<li><a href="https://github.com/rmax-ai/recursive-execution-harness-lab">Recursive Execution Harness Lab</a> — companion proof of concept. Live at <a href="http://recursive-execution-harness-lab.rmax.tech">recursive-execution-harness-lab.rmax.tech</a>.</li>
 </ul>
           </div>
         </article>
