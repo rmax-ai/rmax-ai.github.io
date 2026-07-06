@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Personas, Skills, Agents, and Harnesses in AI System Design](/notes/personas-skills-agents-harnesses/)
+*July 6, 2026* — A technical note arguing that persona prompting belongs in the UX layer, while reliable AI systems need explicit lenses, skills, agents, and harnesses.
+
 ### [Recursive Execution Is the Missing Layer for Long-Running Agents](/notes/recursive-execution-missing-layer/)
 *July 5, 2026* — A technical essay arguing that long-running agents need recursive execution over externalized state, durable workflows, policy gates, and traceable verification instead of ever-larger chat context.
 

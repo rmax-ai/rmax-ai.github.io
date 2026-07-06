@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-07-05T07:39:26Z</lastmod>
+    <lastmod>2026-07-06T20:05:26Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-07-05T07:39:19Z</lastmod>
+    <lastmod>2026-07-06T20:05:22Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -173,8 +173,12 @@
     <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
   <url>
+    <loc>https://rmax.ai/notes/personas-skills-agents-harnesses/</loc>
+    <lastmod>2026-07-06T20:03:49Z</lastmod>
+  </url>
+  <url>
     <loc>https://rmax.ai/notes/recursive-execution-missing-layer/</loc>
-    <lastmod>2026-07-05T07:39:07Z</lastmod>
+    <lastmod>2026-07-05T22:24:48Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/rx-lean-agent-kernels-beat-general-coding-frameworks/</loc>

@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*July 6, 2026* — [Personas, Skills, Agents, and Harnesses in AI System Design](/notes/personas-skills-agents-harnesses/)
+
+### [Personas, Skills, Agents, and Harnesses in AI System Design](/notes/personas-skills-agents-harnesses/)
+*July 6, 2026* — Argues that persona prompting belongs in the interaction layer, while reliable AI systems need explicit lenses, skills, agents, and harnesses chosen by task reliability requirements.
+
 *July 5, 2026* — [Recursive Execution Is the Missing Layer for Long-Running Agents](/notes/recursive-execution-missing-layer/)
 
 ### [Recursive Execution Is the Missing Layer for Long-Running Agents](/notes/recursive-execution-missing-layer/)

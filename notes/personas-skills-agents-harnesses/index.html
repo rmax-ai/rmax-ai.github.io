@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Personas, Skills, Agents, and Harnesses in AI System Design - rmax.ai</title>
+    <meta
+      name="description"
+      content="A technical note arguing that persona prompting belongs in the UX layer, while reliable AI systems need explicit lenses, skills, agents, and harnesses."
+    />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/personas-skills-agents-harnesses/" />
+
+    <meta property="og:title" content="Personas, Skills, Agents, and Harnesses in AI System Design" />
+    <meta
+      property="og:description"
+      content="A technical note arguing that persona prompting belongs in the UX layer, while reliable AI systems need explicit lenses, skills, agents, and harnesses."
+    />
+    <meta property="og:url" content="https://rmax.ai/notes/personas-skills-agents-harnesses/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:author" content="Max" />
+    <meta property="article:section" content="notes" />
+    <meta property="article:published_time" content="2026-07-06" />
+    <meta property="article:modified_time" content="2026-07-06" />
+    <meta property="article:tag" content="ai-agents" />
+    <meta property="article:tag" content="prompt-engineering" />
+    <meta property="article:tag" content="persona-prompting" />
+    <meta property="article:tag" content="harness-engineering" />
+    <meta property="article:tag" content="evals" />
+    <meta property="article:tag" content="system-design" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 820px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.7;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.08;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.9rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 34px 0 12px;
+        font-size: 1.45rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      p {
+        margin: 0 0 22px;
+        color: #cbd5e1;
+        font-size: 1.08rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 22px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      strong {
+        color: #e2e8f0;
+      }
+      a {
+        color: #c4b5fd;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      blockquote {
+        margin: 28px 0;
+        padding: 16px 22px;
+        border-left: 4px solid var(--accent);
+        background: rgba(124, 58, 237, 0.08);
+        border-radius: 0 10px 10px 0;
+      }
+      blockquote p {
+        margin: 0;
+        color: #e2e8f0;
+        font-size: 1.15rem;
+      }
+      .post-meta {
+        color: var(--muted);
+        margin-bottom: 40px;
+        font-size: 0.95rem;
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .lede {
+        font-size: 1.18rem;
+        color: #dbe7f5;
+      }
+      .diagram {
+        margin: 28px 0 32px;
+        padding: 18px;
+        border: 1px solid rgba(124, 58, 237, 0.22);
+        background: rgba(15, 23, 36, 0.7);
+        border-radius: 16px;
+        overflow: auto;
+      }
+      .mermaid {
+        background: transparent;
+        border: 0;
+        margin: 0;
+        white-space: pre;
+        min-width: 340px;
+      }
+      .references {
+        padding-left: 24px;
+      }
+      .references li {
+        margin-bottom: 16px;
+      }
+      @media (max-width: 700px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .wrap {
+          margin: 20px auto;
+        }
+        p {
+          font-size: 1rem;
+        }
+      }
+    </style>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo" />
+          <div>
+            <div style="font-weight:800">rMax.ai</div>
+            <div style="color:#94a3b8;font-size:0.9rem">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
+          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
+          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
+          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
+          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
+          <a class="navlink" href="https://www.linkedin.com/in/rmaxespinoza/" target="_blank" rel="noopener" aria-label="LinkedIn" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="linkedin.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+          <a class="navlink" href="https://rmax.substack.com" target="_blank" rel="noopener" aria-label="Substack" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="substack.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m40.0248,10.0817v-4.5814c-.3229,0-.7411-.0004-1.6553-.0004l-28.9669.0004c-.9142,0-1.318,0-1.6553,0v4.5814c.2164,0,.7411.0005,1.6553.0005l28.9669-.0005c.9142,0,1.4122,0,1.6553,0Z"/>
+              <path d="m40.0248,18.3503v-4.5814H9.4025c-.9142,0-1.3777,0-1.6553,0v4.5814c.2646,0,.7411,0,1.6553,0h30.6223Z"/>
+              <path d="m40.2557,42.4999v-20.1821c0-.1633-.9724-.1077-1.8866-.1077H9.4022c-.9142,0-1.6553-.0555-1.6553.1077v19.8878c.2814-.1622,15.3415-8.2118,16.1691-8.5978.5156.2972,13.6461,7.3385,16.3406,8.8914l-.0008.0007Z"/>
+            </svg>
+          </a>
+          <a class="navlink" href="https://x.com/rmaxdev" target="_blank" rel="noopener" aria-label="X" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="x.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191-.008zM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447z"></path></svg>
+          </a>
+          <a class="navlink" href="https://github.com/rmax-ai" target="_blank" rel="noopener" aria-label="GitHub" style="display:flex;align-items:center" data-simple-event="click_outbound" data-simple-outbound-host="github.com">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display:block;margin-bottom:32px">
+            <h1>Personas, Skills, Agents, and Harnesses in AI System Design</h1>
+            <div class="post-meta">
+              <span>July 6, 2026</span>
+              <span>•</span>
+              <span>10-12 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <h2>Abstract</h2>
+            <p class="lede">Persona prompting helps because it compresses tone, posture, and expected style into a familiar label. That convenience, however, invites people to ask more of the label than it can reliably deliver. This note argues that personas belong at the interaction layer, not the reliability layer. For operational AI systems, the more durable stack is persona, lens, skill, agent, and harness: personas shape UX, lenses define viewpoints, skills encode repeatable procedures, agents add tools and state, and harnesses provide guardrails, tracing, recovery, and evaluation. The practical question is not whether personas can help. It is which control layer is the cheapest one that still meets the task's reliability requirement.</p>
+
+            <h2>Thesis</h2>
+            <p>The core claim is simple: personas are useful, but they are not the unit of reliability.</p>
+            <p>A persona is a lightweight UX control. It can change tone, framing, caution, and implied priorities. It does not reliably specify what counts as evidence, which checks must happen, which tools may be used, when the task is complete, or how the system should handle failure. Stronger abstractions have to carry those properties.</p>
+            <p>For practical system design, it is more useful to separate five layers:</p>
+            <ol>
+              <li><strong>Persona</strong> for interaction style</li>
+              <li><strong>Lens</strong> for evaluative viewpoint</li>
+              <li><strong>Skill</strong> for repeatable procedure</li>
+              <li><strong>Agent</strong> for tools, state, and branching behavior</li>
+              <li><strong>Harness</strong> for tracing, guardrails, recovery, and evaluation</li>
+            </ol>
+            <p>This separation fits the mixed empirical picture around persona prompting. Studies such as <a href="https://aclanthology.org/2024.findings-emnlp.888/">When “A Helpful Assistant” Is Not Really Helpful: Personas in System Prompts Do Not Improve Performances of Large Language Models</a>, <a href="https://aclanthology.org/2024.naacl-long.228/">Better Zero-Shot Reasoning with Role-Play Prompting</a>, <a href="https://aclanthology.org/2025.findings-ijcnlp.51/">Persona is a Double-Edged Sword: Rethinking the Impact of Role-play Prompts in Zero-shot Reasoning Tasks</a>, <a href="https://aclanthology.org/2025.findings-emnlp.1261/">The Prompt Makes the Person(a): A Systematic Evaluation of Sociodemographic Persona Prompting for Large Language Models</a>, <a href="https://openreview.net/forum?id=CbsJ53LdKc">In-Context Impersonation Reveals Large Language Models' Strengths and Biases</a>, and <a href="https://arxiv.org/abs/2605.29420">When Does Persona Prompting Actually Help? A Retrieval and Metric Analysis of Expert Role Injection in LLMs</a> suggest that personas often change response characteristics, but do not reliably improve core capability across tasks.</p>
+
+            <h2>Why this distinction matters</h2>
+            <p>Persona prompting became popular because it is ergonomic. Prompts such as “act as a senior software architect” are easy to write, easy to teach, and often produce an immediate shift in tone and structure. The prompt-pattern literature, including <a href="https://dl.acm.org/doi/10.5555/3721041.3721046">A Prompt Pattern Catalog to Enhance Prompt Engineering with ChatGPT</a>, helped formalize that pattern. Work such as <a href="https://www.nature.com/articles/s41586-023-06647-8">Role play with large language models</a> made the framing legible: models often respond as if they are role-playing a conversational identity.</p>
+            <p>The runtime environment has changed. Current agent systems are no longer just chat interfaces. Vendor guidance such as <a href="https://developers.openai.com/api/docs/guides/prompt-guidance">Prompt guidance | OpenAI API</a>, <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a>, <a href="https://ai.google.dev/gemini-api/docs/prompting-strategies">Prompt design strategies | Gemini API | Google AI for Developers</a>, and <a href="https://google.github.io/adk-docs/safety/">Safety and Security for AI Agents - Agent Development Kit (ADK)</a> now treats instructions, tools, memory, retrieved context, permissions, and stopping conditions as first-class parts of system design. Framework documentation such as <a href="https://docs.langchain.com/oss/python/langgraph/workflows-agents">Workflows and agents - Docs by LangChain</a> and the <a href="https://openai.github.io/openai-agents-python/">OpenAI Agents SDK</a> reflects the same shift.</p>
+            <p>That shift matters because vague role instructions that are merely annoying in chat become risky when the model can act. In tool-using settings, underspecified prompts can produce poor tool choice, weak evidence standards, confused authority, and traces that are hard to audit. Research such as <a href="https://arxiv.org/abs/2505.13360">What Prompts Don't Say: Understanding and Managing Underspecification in LLM Prompts</a>, <a href="https://arxiv.org/abs/2310.11324">Quantifying Language Models' Sensitivity to Spurious Features in Prompt Design or: How I learned to start worrying about prompt formatting</a>, and <a href="https://arxiv.org/abs/2603.21642">Are AI-assisted Development Tools Immune to Prompt Injection?</a> makes that operational risk harder to ignore.</p>
+
+            <h2>The control stack</h2>
+            <p>The useful distinction is not “good persona” versus “bad persona.” The useful distinction is which layer controls which behavior.</p>
+            <p>This diagram shows the stack and the operational responsibility that grows at each layer.</p>
+            <figure class="diagram">
+              <pre class="mermaid">flowchart LR
+    P[Persona\ninteraction style] --&gt; L[Lens\nviewpoint]
+    L --&gt; S[Skill\nprocedure and checks]
+    S --&gt; A[Agent\ntools, state, branching]
+    A --&gt; H[Harness\ntrace, guardrails, evals]</pre>
+            </figure>
+
+            <h3>Persona</h3>
+            <p>A <strong>persona</strong> shapes the surface of interaction. It fits tasks whose main requirement is communicative: sound more executive, review more skeptically, explain more patiently.</p>
+
+            <h3>Lens</h3>
+            <p>A <strong>lens</strong> narrows the evaluative angle. “Review this for production readiness” is usually better than “act as a principal engineer” when the real need is operational critique rather than identity simulation.</p>
+
+            <h3>Skill</h3>
+            <p>A <strong>skill</strong> makes the work explicit. It defines inputs, ordered steps, expected outputs, and checks. At this layer, a capability becomes testable. The framing in <a href="https://developers.openai.com/blog/eval-skills">Testing Agent Skills Systematically with Evals</a> is useful here: a skill becomes meaningful when a team can exercise it, score it, and compare it over time. Evaluation guidance such as <a href="https://arxiv.org/abs/2211.09110">Holistic Evaluation of Language Models</a> and <a href="https://docs.langchain.com/langsmith/evaluation-approaches">Application-specific evaluation approaches</a> reinforces the same point: useful evaluation is multidimensional and task-specific.</p>
+
+            <h3>Agent</h3>
+            <p>An <strong>agent</strong> adds runtime power. It can search a repository, retrieve documents, inspect state, choose tools, and adapt its path. That power changes the risk profile. Once the system can act, prompt wording alone is no longer enough.</p>
+
+            <h3>Harness</h3>
+            <p>A <strong>harness</strong> is the reliability shell around the agent. It determines tool permissions, trace capture, retry policy, critic passes, schema validation, regression comparison, and escalation behavior. At this layer, claims become inspectable and failures become observable.</p>
+
+            <h2>How to choose the layer</h2>
+            <p>This diagram shows the promotion rule from one layer to the next.</p>
+            <figure class="diagram">
+              <pre class="mermaid">flowchart TD
+    T[Task requirement] --&gt; V{Mostly voice and tone?}
+    V -- Yes --&gt; P[Use persona]
+    V -- No --&gt; W{Needs a specific evaluative viewpoint?}
+    W -- Yes --&gt; L[Use lens]
+    W -- No --&gt; X{Needs a repeatable procedure and checks?}
+    X -- Yes --&gt; S[Use skill]
+    X -- No --&gt; Y{Needs tools, state, or branching?}
+    Y -- Yes --&gt; A[Use agent]
+    Y -- No --&gt; Z{Failure must be traced,\nrecovered from, or prevented?}
+    Z -- Yes --&gt; H[Add harness]
+    Z -- No --&gt; P</pre>
+            </figure>
+            <p>The practical rule is:</p>
+            <ul>
+              <li>If you cannot define checks, you do not yet have a skill.</li>
+              <li>If you cannot inspect the trajectory, you do not yet have a reliable agent.</li>
+              <li>If you cannot rerun the evaluation, you do not yet have an engineering artifact.</li>
+            </ul>
+
+            <h2>Concrete example: design review</h2>
+            <p>A design review task makes the differences visible.</p>
+            <p>This diagram shows the same architecture review request moving up the stack as the reliability bar rises.</p>
+            <figure class="diagram">
+              <pre class="mermaid">sequenceDiagram
+    participant U as User
+    participant P as Persona-only
+    participant S as Skill-based
+    participant A as Agent
+    participant H as Harnessed agent
+
+    U-&gt;&gt;P: "Act as a principal engineer and review this design"
+    P--&gt;&gt;U: Senior-sounding critique
+
+    U-&gt;&gt;S: "Check assumptions, coupling, rollback, observability, ownership"
+    S--&gt;&gt;U: Structured review with explicit checks
+
+    U-&gt;&gt;A: "Use repo docs, incident notes, and deployment history"
+    A--&gt;&gt;U: Evidence-backed review using tools
+
+    U-&gt;&gt;H: "Trace steps, enforce read-only tools, critic pass, store result"
+    H--&gt;&gt;U: Auditable review with trace and validation</pre>
+            </figure>
+            <p>In the <strong>persona-only</strong> version, the output may sound senior and may still help. But the procedure stays hidden. The model can skip important checks and still produce an authoritative answer.</p>
+            <p>In the <strong>lens</strong> version, the request becomes narrower: review for production readiness, security posture, maintainability, or user risk. This is usually the most efficient upgrade when the real problem is viewpoint rather than execution.</p>
+            <p>In the <strong>skill</strong> version, the request becomes inspectable: extract assumptions, identify coupling, check failure modes, separate blocking issues from non-blocking risks, and ground blocking claims in the document. This is where repeatability begins.</p>
+            <p>In the <strong>agent</strong> version, the system can retrieve architecture documents, incident notes, issue history, or deployment artifacts before it makes claims. That is the right move when the answer depends on external evidence, not just on the prompt payload.</p>
+            <p>In the <strong>harnessed</strong> version, the system is no longer just generating a review. It is producing an auditable work product. That is the point where permission policy, trace capture, unsupported-claim marking, and regression storage become part of the capability itself.</p>
+
+            <h2>PromptStackBench and experimental design</h2>
+            <p>The same logic motivates <a href="https://github.com/rmax-ai/PromptStackBench">PromptStackBench</a>, a proof-of-concept benchmark for comparing persona, lens, skill, agent, and harness treatments on the same task. The benchmark is not trying to prove that one layer always wins. It asks a narrower question: does the added structure pay for itself for a given task class?</p>
+            <p>A useful way to read the benchmark is as a controlled comparison of intervention layers.</p>
+            <figure class="diagram">
+              <pre class="mermaid">flowchart LR
+    T[Same base task] --&gt; P[Persona variant]
+    T --&gt; L[Lens variant]
+    T --&gt; S[Skill variant]
+    T --&gt; A[Agent variant]
+    T --&gt; H[Harness variant]
+
+    P --&gt; M[Compare outcome quality,\nreliability, cost, and traceability]
+    L --&gt; M
+    S --&gt; M
+    A --&gt; M
+    H --&gt; M</pre>
+            </figure>
+            <p>The key point is experimental, not metaphysical. The benchmark compares increasingly structured treatments of the same task so that teams can ask whether a higher-control layer improves outcomes enough to justify its cost.</p>
+
+            <h2>Trade-offs and failure modes</h2>
+            <p>This model is not an argument for maximum structure everywhere.</p>
+            <p>The first failure mode is <strong>under-engineering</strong>. Teams use personas for tasks that actually require explicit checks, evidence retrieval, tool policy, or auditability. Fluent prose then hides the failure.</p>
+            <p>The second failure mode is <strong>over-engineering</strong>. Teams build agent runtimes and harness machinery for tasks that are mostly about presentation or simple reframing. The result is unnecessary complexity, latency, and maintenance cost.</p>
+            <p>There are also layer-specific risks:</p>
+            <ul>
+              <li><strong>Persona risk</strong>: authoritative tone can mask weak evidence.</li>
+              <li><strong>Lens risk</strong>: a narrow viewpoint can suppress other important concerns.</li>
+              <li><strong>Skill risk</strong>: rigid procedures can miss relevant exceptions.</li>
+              <li><strong>Agent risk</strong>: tools expand the attack surface and increase failure modes.</li>
+              <li><strong>Harness risk</strong>: guardrails and evaluation can add cost without improving the underlying procedure.</li>
+            </ul>
+            <p>A separate failure mode is <strong>layer collapse</strong>. It occurs when a single role prompt is expected to carry style, evidence standard, tool policy, stopping condition, and recovery behavior all at once. That pattern demos well, but teams struggle to debug it and should hesitate to trust it.</p>
+
+            <h2>Practical takeaways</h2>
+            <ol>
+              <li>Use a persona when the problem is primarily interaction style, not capability.</li>
+              <li>Replace vague role prompts with explicit lenses when the real need is a viewpoint such as production readiness, security review, or user empathy.</li>
+              <li>Promote repeated high-value tasks into skills with ordered checks, output contracts, and evaluation cases.</li>
+              <li>Add agent behavior only when the task truly needs tools, external evidence, memory, or branching.</li>
+              <li>Add harness machinery when failure has operational consequences and the run must be traceable, reviewable, and comparable over time.</li>
+            </ol>
+
+            <h2>Positioning note</h2>
+            <p>This note sits between three familiar categories.</p>
+            <p>It is <strong>not academic research</strong> because it does not attempt a comprehensive literature review or a novel formal theory. It uses research selectively to clarify an engineering distinction.</p>
+            <p>It is <strong>not a blog opinion piece</strong> because the main claim is operational and testable: teams should choose different control layers according to task reliability requirements, and they can evaluate that choice.</p>
+            <p>It is <strong>not vendor documentation</strong> because it does not prescribe a single framework, SDK, or prompt format. The point is architectural: treat personas as a UX primitive, then decide when to promote the task into a lens, skill, agent, or harness.</p>
+
+            <h2>Status and scope disclaimer</h2>
+            <p>This is exploratory lab work, not a normative standard.</p>
+            <p>The taxonomy is a practical design model for AI system construction and evaluation. It draws on current tooling patterns, recent prompt and agent guidance, and a narrow set of benchmark ideas. It is meant to be a precise working abstraction for builders, not authoritative field terminology. The examples here aim to improve structure and decision-making in applied systems, not to claim universal performance results.</p>
+            <blockquote>
+              <p>“The purpose of abstraction is not to be vague, but to create a new semantic level in which one can be absolutely precise.”</p>
+              <p>- Edsger W. Dijkstra</p>
+            </blockquote>
+
+            <h2>References</h2>
+            <ul class="references">
+              <li><a href="https://dl.acm.org/doi/10.5555/3721041.3721046">A Prompt Pattern Catalog to Enhance Prompt Engineering with ChatGPT</a></li>
+              <li><a href="https://www.nature.com/articles/s41586-023-06647-8">Role play with large language models</a></li>
+              <li><a href="https://aclanthology.org/2024.findings-emnlp.888/">When “A Helpful Assistant” Is Not Really Helpful: Personas in System Prompts Do Not Improve Performances of Large Language Models</a></li>
+              <li><a href="https://openreview.net/forum?id=CbsJ53LdKc">In-Context Impersonation Reveals Large Language Models' Strengths and Biases</a></li>
+              <li><a href="https://aclanthology.org/2024.naacl-long.228/">Better Zero-Shot Reasoning with Role-Play Prompting</a></li>
+              <li><a href="https://aclanthology.org/2025.findings-ijcnlp.51/">Persona is a Double-Edged Sword: Rethinking the Impact of Role-play Prompts in Zero-shot Reasoning Tasks</a></li>
+              <li><a href="https://aclanthology.org/2025.findings-emnlp.1261/">The Prompt Makes the Person(a): A Systematic Evaluation of Sociodemographic Persona Prompting for Large Language Models</a></li>
+              <li><a href="https://arxiv.org/abs/2505.13360">What Prompts Don't Say: Understanding and Managing Underspecification in LLM Prompts</a></li>
+              <li><a href="https://arxiv.org/abs/2310.11324">Quantifying Language Models' Sensitivity to Spurious Features in Prompt Design or: How I learned to start worrying about prompt formatting</a></li>
+              <li><a href="https://arxiv.org/abs/2211.09110">Holistic Evaluation of Language Models</a></li>
+              <li><a href="https://developers.openai.com/api/docs/guides/prompt-guidance">Prompt guidance | OpenAI API</a></li>
+              <li><a href="https://developers.openai.com/blog/eval-skills">Testing Agent Skills Systematically with Evals</a></li>
+              <li><a href="https://openai.github.io/openai-agents-python/">OpenAI Agents SDK</a></li>
+              <li><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a></li>
+              <li><a href="https://google.github.io/adk-docs/safety/">Safety and Security for AI Agents - Agent Development Kit (ADK)</a></li>
+              <li><a href="https://ai.google.dev/gemini-api/docs/prompting-strategies">Prompt design strategies | Gemini API | Google AI for Developers</a></li>
+              <li><a href="https://docs.langchain.com/oss/python/langgraph/workflows-agents">Workflows and agents - Docs by LangChain</a></li>
+              <li><a href="https://docs.langchain.com/langsmith/evaluation-approaches">Application-specific evaluation approaches</a></li>
+              <li><a href="https://github.com/rmax-ai/PromptStackBench">PromptStackBench</a></li>
+              <li><a href="https://arxiv.org/abs/2605.29420">When Does Persona Prompting Actually Help? A Retrieval and Metric Analysis of Expert Role Injection in LLMs</a></li>
+              <li><a href="https://arxiv.org/abs/2603.21642">Are AI-assisted Development Tools Immune to Prompt Injection?</a></li>
+            </ul>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+
+      <script src="/scripts/analytics-tracking.js"></script>
+      <script src="/scripts/substack-cta.js"></script>
+      <script>
+        window.footerThoughts = [
+          { text: "I keep tone in one layer and truth conditions in another.", agent: "Layering Agent" },
+          { text: "I sound confident only after the checks, tools, and traces earn it.", agent: "Harness Agent" },
+          { text: "I promote a prompt into a skill when the work needs repeatable proof.", agent: "Reliability Agent" }
+        ];
+      </script>
+      <script src="/scripts/footer.js"></script>
+    </div>
+  </body>
+</html>
