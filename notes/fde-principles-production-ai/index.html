@@ -251,7 +251,8 @@
           </header>
 
           <div class="post-content">
-<p>Forward Deployed Engineering is not consulting with better titles. It is engineering ownership moved closer to the customer, where the boundary of the system includes product code, customer data, organizational workflows, security constraints, adoption behavior, and production feedback. <a href="https://openai.com/careers/forward-deployed-engineer-%28fde%29-nyc-new-york-city/">OpenAI</a> describes its FDE role as leading "discovery, technical scoping, system design, build, and production rollout" for frontier model deployments, with success measured through production adoption, measurable workflow impact, and eval-driven feedback into product and model roadmaps. <a href="https://www.databricks.com/blog/forward-deployed-engineering-delivering-business-outcomes-ai">Databricks</a> frames the same shift as customers moving from "help us migrate and build pipelines" to "help us solve our business problem." <a href="https://stripe.com/jobs/listing/forward-deployed-engineer-professional-services/7671038">Stripe</a> emphasizes directly building production applications and integrations for strategic users, while feeding reusable tooling and product lessons back into the company. <a href="https://blog.palantir.com/a-day-in-the-life-of-a-palantir-forward-deployed-software-engineer-45ef2de257b1">Palantir</a>'s older FDSE model gives the clearest historical version: embed with customers, implement solutions with end users, and apply rigorous software engineering practices in the field.</p>
+<p>Forward Deployed Engineering is not consulting with better titles. It is engineering ownership moved closer to the customer. In practice, the system boundary includes product code, customer data, organizational workflows, security constraints, adoption behavior, and production feedback.</p>
+<p>That definition matches how <a href="https://openai.com/careers/forward-deployed-engineer-%28fde%29-nyc-new-york-city/">OpenAI</a>, <a href="https://www.databricks.com/blog/forward-deployed-engineering-delivering-business-outcomes-ai">Databricks</a>, <a href="https://stripe.com/jobs/listing/forward-deployed-engineer-professional-services/7671038">Stripe</a>, and <a href="https://blog.palantir.com/a-day-in-the-life-of-a-palantir-forward-deployed-software-engineer-45ef2de257b1">Palantir</a> describe the role: field engineers own discovery, design, build, rollout, adoption, and reusable product learning.</p>
 <p>The practical definition is simple:</p>
 <blockquote>
 <p>An FDE owns the distance between customer reality and a durable product outcome.</p>
@@ -268,8 +269,8 @@
 <p><strong>Principle:</strong> do not own "the agent." Own the operational improvement the agent is supposed to create.</p>
 <p>---</p>
 <h2>2. Diagnose before building</h2>
-<p>Customers usually describe symptoms in the language of available tools: "We need RAG," "We need an agent," "We need workflow automation," "We need better search." That is not yet a problem statement.</p>
-<p>FDE work begins by separating the stated request from the underlying failure. Is the issue missing data, fragmented permissions, bad process design, lack of trust, poor UX, slow approvals, weak observability, or a product gap? The diagnosis matters because the wrong abstraction can make the customer's problem more expensive while appearing technically sophisticated.</p>
+<p>Customers usually describe symptoms in the language of available tools: "We need retrieval-augmented generation (RAG)," "We need an agent," "We need workflow automation," "We need better search." That is not yet a problem statement.</p>
+<p>FDE work begins by separating the stated request from the underlying failure. Is the issue missing data, fragmented permissions, bad process design, lack of trust, poor UX, slow approvals, weak observability, or a product gap? Diagnosis matters because a team that picks the wrong abstraction can spend more and still miss the real problem.</p>
 <p>This is also consistent with the deployment literature. The survey paper <a href="https://arxiv.org/abs/2011.09926">"Challenges in Deploying Machine Learning: a Survey of Case Studies"</a> notes that production ML systems face practical issues across the whole deployment workflow, not only at model-building time.</p>
 <h3>Narrative case study: "We need RAG for support"</h3>
 <p>A support organization asks for RAG over documentation. The first prototype retrieves help-center articles and drafts answers. Quality is inconsistent. The team blames embedding quality.</p>
@@ -336,13 +337,13 @@ flowchart LR
 <p>Forward deployment fails when it becomes forward-deployed prototyping. Production means deployment, monitoring, support path, rollback, versioning, access control, user documentation, and a clear owner after the initial build.</p>
 <p><a href="https://blog.palantir.com/a-day-in-the-life-of-a-palantir-forward-deployed-software-engineer-45ef2de257b1">Palantir's FDSE account</a> emphasizes that field engineers still use traditional engineering practices: engineering reviews, code reviews, deployability optimization, maintenance, monitoring, and production systems discipline.</p>
 <h3>Narrative case study: clinical document summarization</h3>
-<p>A healthcare customer wants summaries of long patient records. A prototype produces clean summaries. But production requires PHI handling, permission boundaries, traceability, clinician review, prompt/version control, downtime behavior, and model output monitoring.</p>
+<p>A healthcare customer wants summaries of long patient records. A prototype produces clean summaries. But production requires protected health information (PHI) handling, permission boundaries, traceability, clinician review, prompt/version control, downtime behavior, and model output monitoring.</p>
 <p>The FDE ships a production workflow: summaries are generated only inside approved contexts, every output links to source passages, clinicians can accept or reject sections, rejected summaries feed an error taxonomy, and all access is logged. The model is only one component. The production system is the safety envelope around it.</p>
 <p><strong>Principle:</strong> a prototype proves possibility. Production proves responsibility.</p>
 <p>---</p>
 <h2>8. Communicate across layers</h2>
-<p>FDEs sit between customer users, customer leadership, security, procurement, internal product, research, sales, support, and engineering. Communication is not status reporting. It is part of the control system.</p>
-<p><a href="https://openai.com/careers/forward-deployed-engineer-%28fde%29-nyc-new-york-city/">OpenAI's description</a> places FDEs between customer delivery and core platform development, working with Product, Research, Partnerships, GRC, Security, and GTM.</p>
+<p>FDEs sit between customer users, customer leadership, security, procurement, internal product, research, sales, support, and engineering. Communication is not status reporting. It is how the FDE keeps users, security, leadership, and product aligned while the system changes.</p>
+<p><a href="https://openai.com/careers/forward-deployed-engineer-%28fde%29-nyc-new-york-city/">OpenAI's description</a> places FDEs between customer delivery and core platform development, working with Product, Research, Partnerships, governance/risk/compliance (GRC), Security, and go-to-market (GTM).</p>
 <h3>Narrative case study: enterprise knowledge assistant</h3>
 <p>An enterprise knowledge assistant changes how employees search policy, HR, and technical documentation. If only the buyer knows, adoption is weak. If only users know, security is nervous. If only security knows, the product team misses reusable lessons.</p>
 <p>The FDE creates different communication artifacts: a user guide for employees, a permission model for admins, a risk register for security, a rollout note for leadership, failure examples for support, and product feedback for the core engineering team. The same system needs different explanations at different layers.</p>
@@ -350,10 +351,10 @@ flowchart LR
 <p>---</p>
 <h2>9. Convert field work into product leverage</h2>
 <p>The best FDEs do not only solve local problems. They extract reusable product knowledge from field entropy.</p>
-<p><a href="https://openai.com/careers/forward-deployed-engineer-%28fde%29-nyc-new-york-city/">OpenAI's role description</a> includes codifying working patterns into tools, playbooks, or building blocks, and sharing field feedback so Research and Product understand where models succeed and fail. <a href="https://stripe.com/jobs/listing/forward-deployed-engineer-professional-services/7671038">Stripe</a> similarly expects FDEs to contribute tooling, frameworks, and best practices that scale impact across accounts. <a href="https://www.databricks.com/blog/forward-deployed-engineering-delivering-business-outcomes-ai">Databricks</a> describes direct R&D interlock as part of its FDE model.</p>
+<p><a href="https://openai.com/careers/forward-deployed-engineer-%28fde%29-nyc-new-york-city/">OpenAI's role description</a> says FDEs should codify working patterns into tools, playbooks, and reusable building blocks. <a href="https://stripe.com/jobs/listing/forward-deployed-engineer-professional-services/7671038">Stripe</a> expects FDEs to contribute tooling, frameworks, and best practices that scale across accounts. <a href="https://www.databricks.com/blog/forward-deployed-engineering-delivering-business-outcomes-ai">Databricks</a> describes the same product-feedback loop as direct R&D interlock.</p>
 <p>This is where FDE becomes strategically different from bespoke services. The local deployment should leave behind a reusable abstraction, not just a satisfied customer.</p>
 <h3>Narrative case study: repeated permission failures</h3>
-<p>Across three enterprise deployments, agents fail for the same reason: they retrieve documents the user can theoretically access but should not operationally use in that workflow. The naive fix is customer-specific filtering. The FDE productizes the lesson: a permission-aware retrieval policy layer with workflow-scoped access, audit traces, and denial explanations.</p>
+<p>Across three enterprise deployments, agents fail for the same reason: they retrieve documents the user can theoretically access but should not operationally use in that workflow. The naive fix is customer-specific filtering. The FDE turns that lesson into a reusable platform feature: a permission-aware retrieval policy layer with workflow-scoped access, audit traces, and denial explanations.</p>
 <p>The immediate customer gets a safer assistant. The platform gets a reusable primitive. Future deployments get faster.</p>
 <p><strong>Principle:</strong> every field failure should be inspected for platform shape.</p>
 <p>---</p>
@@ -367,7 +368,7 @@ flowchart LR
 <p>---</p>
 <h2>11. Preserve engineering standards under field pressure</h2>
 <p>FDEs operate under urgency. A customer is blocked. A strategic account is waiting. A demo is scheduled. Leadership wants a visible win. This pressure can produce a dangerous anti-pattern: field hacks that become permanent infrastructure.</p>
-<p>The answer is not heavyweight process. It is explicit quality judgment. Rapid prototyping is compatible with appropriate quality standards; <a href="https://stripe.com/jobs/listing/forward-deployed-engineer-professional-services/7671038">Stripe's FDE requirements</a> state exactly that.</p>
+<p>The answer is not heavyweight process. It is explicit quality judgment. Rapid prototyping can coexist with appropriate quality standards; <a href="https://stripe.com/jobs/listing/forward-deployed-engineer-professional-services/7671038">Stripe's FDE requirements</a> point in that direction.</p>
 <h3>Narrative case study: one-off data connector</h3>
 <p>A strategic customer needs a connector to an old internal system. The fastest path is a brittle script running on someone's laptop. The FDE can use a throwaway script for discovery, but not for production.</p>
 <p>The production version has typed schemas, retry logic, observability, secret management, test fixtures, backfill behavior, and ownership. The FDE distinguishes exploration code from operational code.</p>
@@ -375,7 +376,7 @@ flowchart LR
 <p>---</p>
 <h2>12. Make concepts explicit</h2>
 <p>Many field failures are not caused by bad code. They are caused by mismatched concepts. One team says "customer," another means "billing account," another means "legal entity," another means "workspace," and another means "tenant." The agent or workflow then automates confusion.</p>
-<p>The paper <a href="https://arxiv.org/abs/2304.14975">"Concept-centric Software Development"</a> argues that concepts are central to user experience but often remain implicit; making concepts explicit helps align products, evolve them with user needs, and communicate across engineering and non-engineering groups.</p>
+<p>The paper <a href="https://arxiv.org/abs/2304.14975">"Concept-centric Software Development"</a> argues that teams build better systems when they name their core concepts explicitly. That matters here because unclear concepts like "customer" or "health" cause workflow automation to encode ambiguity.</p>
 <h3>Narrative case study: customer health scoring</h3>
 <p>A customer success team wants an AI-generated "customer health" score. Sales defines health as expansion likelihood. Support defines it as low ticket volume. Finance defines it as payment reliability. Product defines it as feature adoption. Leadership wants one number.</p>
 <p>The FDE refuses to build the score until the concept is decomposed. The final system has separate concepts: adoption health, commercial health, support health, implementation risk, and renewal risk. The AI summarizes them, but does not collapse them into a false universal metric.</p>
@@ -423,7 +424,7 @@ flowchart TD
 <p><strong>The bespoke trap:</strong> every customer solution remains a one-off, and the company learns nothing reusable.</p>
 <p><strong>The consulting trap:</strong> the team produces decks, workshops, and recommendations instead of production systems.</p>
 <p><strong>The platform trap:</strong> the team insists the customer adapt to the product instead of learning what the product is missing.</p>
-<p>Good FDE practice is the discipline of avoiding all seven.</p>
+<p>Good FDE practice means spotting these seven failure modes early and reducing their impact before they harden into delivery failures.</p>
 <p>---</p>
 <h2>Conclusion</h2>
 <p>Forward Deployed Engineering is engineering ownership applied to the full customer system. It requires product judgment, software discipline, data skepticism, integration realism, communication range, and post-deployment follow-through.</p>
