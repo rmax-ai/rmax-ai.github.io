@@ -282,32 +282,28 @@
 <p>In product engineering, the system boundary often stops at services, APIs, databases, queues, and UI. In FDE work, that boundary is too narrow. The system includes people, permissions, spreadsheets, Slack channels, approval meetings, compliance rules, shadow processes, and the old workaround everyone pretends does not exist.</p>
 <p><a href="https://blog.palantir.com/a-day-in-the-life-of-a-palantir-forward-deployed-software-engineer-45ef2de257b1">Palantir's FDSE description</a> captures this field reality: FDSEs focus on enabling many capabilities for a single customer, working across software development, data engineering, customer engagement, and creative problem-solving, while implementing solutions with end users.</p>
 <pre class="mermaid">
+%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 18, 'rankSpacing': 26, 'curve': 'basis'}}}%%
 flowchart TD
-    subgraph Product["Product Engineering Boundary"]
+    PB(["Product boundary<br/>Services, APIs, data,<br/>queues, UI"])
+    Gap{{"Too narrow for<br/>field reality"}}
+
+    subgraph FDE["FDE boundary: the full workflow"]
         direction TD
-        S[Services]
-        A[APIs]
-        D[Databases]
-        Q[Queues]
-        U[UI]
-        S --> A --> D --> Q --> U
+        H["People and permissions"]
+        G["Approvals and compliance"]
+        W["Slack, spreadsheets,<br/>shadow processes, workarounds"]
+        H --> G --> W
     end
 
-    Product -->|"too narrow"| FDE
+    PB --> Gap --> H
 
-    subgraph FDE["FDE System Boundary"]
-        direction TD
-        P[People]
-        PM[Permissions]
-        SS[Spreadsheets]
-        SL[Slack<br/>Channels]
-        AP[Approval<br/>Meetings]
-        CR[Compliance<br/>Rules]
-        SP[Shadow<br/>Processes]
-        WA[Workarounds]
-        P --> PM --> SS --> SL
-        SL --> AP --> CR --> SP --> WA
-    end
+    classDef product fill:#1f1635,stroke:#7c3aed,stroke-width:2px,color:#f5f3ff;
+    classDef boundary fill:#2a1d47,stroke:#a78bfa,stroke-width:2px,color:#f5f3ff;
+    classDef warning fill:#3b1226,stroke:#f472b6,stroke-width:2px,color:#fde7f3;
+    class PB product;
+    class H,G,W boundary;
+    class Gap warning;
+    style FDE fill:#120f20,stroke:#7c3aed,stroke-width:1px,color:#f5f3ff;
 </pre>
 <p><em>Figure: Product engineering draws the boundary at services and APIs. FDE work extends it to people, permissions, and informal workflows.</em></p>
 <h3>Narrative case study: supply chain exception handling</h3>
@@ -407,17 +403,47 @@ flowchart TD
 <h2>The seven failure modes</h2>
 <p>FDE work usually fails in predictable patterns:</p>
 <pre class="mermaid">
-%%{init: {'flowchart': {'nodeSpacing': 30, 'rankSpacing': 30}}}%%
+%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 16, 'rankSpacing': 22, 'curve': 'linear'}}}%%
 flowchart TD
-    FDE[FDE Engagement]
+    FDE(["Seven failure modes<br/>in FDE delivery"])
 
-    FDE --> T1["Demo Trap<br/>Prototype disconnected<br/>from production"]
-    T1 --> T2["Request Trap<br/>Built what was asked,<br/>not what was needed"]
-    T2 --> T3["Integration Trap<br/>Identity, permissions, data<br/>discovered too late"]
-    T3 --> T4["Adoption Trap<br/>System works, users<br/>don't change behavior"]
-    T4 --> T5["Bespoke Trap<br/>Every solution<br/>is a one-off"]
-    T5 --> T6["Consulting Trap<br/>Decks and workshops<br/>instead of systems"]
-    T6 --> T7["Platform Trap<br/>Customer adapts to product,<br/>not vice versa"]
+    subgraph P["Process failures"]
+        direction TD
+        T1["1. Demo trap<br/>Impressive prototype,<br/>no production path"]
+        T2["2. Request trap<br/>Built the ask,<br/>missed the need"]
+        T3["3. Integration trap<br/>Identity, permissions, data,<br/>ownership found too late"]
+        T1 --> T2 --> T3
+    end
+
+    subgraph O["Organizational failures"]
+        direction TD
+        T4["4. Adoption trap<br/>System works,<br/>behavior does not change"]
+        T5["5. Bespoke trap<br/>Each delivery stays<br/>a one-off"]
+        T4 --> T5
+    end
+
+    subgraph S["Strategy failures"]
+        direction TD
+        T6["6. Consulting trap<br/>Recommendations instead<br/>of production systems"]
+        T7["7. Platform trap<br/>Customer bends to product,<br/>not product to workflow"]
+        T6 --> T7
+    end
+
+    FDE --> T1
+    T3 --> T4
+    T5 --> T6
+
+    classDef lead fill:#1f1635,stroke:#7c3aed,stroke-width:2px,color:#f5f3ff;
+    classDef process fill:#1a2338,stroke:#60a5fa,stroke-width:2px,color:#eff6ff;
+    classDef org fill:#1f2a1c,stroke:#34d399,stroke-width:2px,color:#ecfdf5;
+    classDef strat fill:#3a1e12,stroke:#fb923c,stroke-width:2px,color:#fff7ed;
+    class FDE lead;
+    class T1,T2,T3 process;
+    class T4,T5 org;
+    class T6,T7 strat;
+    style P fill:#0f172a,stroke:#60a5fa,stroke-width:1px,color:#eff6ff;
+    style O fill:#0b1f18,stroke:#34d399,stroke-width:1px,color:#ecfdf5;
+    style S fill:#26130c,stroke:#fb923c,stroke-width:1px,color:#fff7ed;
 </pre>
 <p><strong>The demo trap:</strong> the prototype is impressive but disconnected from production constraints.</p>
 <p><strong>The request trap:</strong> the FDE builds what the customer asked for without diagnosing the real problem.</p>
