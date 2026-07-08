@@ -79,15 +79,18 @@ In product engineering, the system boundary often stops at services, APIs, datab
 [Palantir's FDSE description](https://blog.palantir.com/a-day-in-the-life-of-a-palantir-forward-deployed-software-engineer-45ef2de257b1) captures this field reality: FDSEs focus on enabling many capabilities for a single customer, working across software development, data engineering, customer engagement, and creative problem-solving, while implementing solutions with end users.
 
 ```mermaid
-flowchart LR
+flowchart TD
     subgraph Product["Product Engineering Boundary"]
+        direction LR
         S[Services]
         A[APIs]
         D[(Databases)]
         Q[Queues]
         U[UI]
     end
+    Product -->|"too narrow"| FDE
     subgraph FDE["FDE System Boundary"]
+        direction LR
         P[People]
         PM[Permissions]
         SS[Spreadsheets]
@@ -97,7 +100,6 @@ flowchart LR
         SP[Shadow Processes]
         WA[Workarounds]
     end
-    Product -.->|"too narrow"| FDE
 ```
 
 *Figure: Product engineering draws the boundary at services and APIs. FDE work extends it to people, permissions, and informal workflows.*
@@ -286,21 +288,15 @@ FDE work usually fails in predictable patterns:
 
 ```mermaid
 flowchart TD
-    FDE[FDE Engagement] --> DT[Demo Trap]
-    FDE --> RT[Request Trap]
-    FDE --> IT[Integration Trap]
-    FDE --> AT[Adoption Trap]
-    FDE --> BT[Bespoke Trap]
-    FDE --> CT[Consulting Trap]
-    FDE --> PT[Platform Trap]
-    
-    DT --- D1["Prototype disconnected from production"]
-    RT --- R1["Built what was asked, not what was needed"]
-    IT --- I1["Identity, permissions, data discovered too late"]
-    AT --- A1["System works, users don't change behavior"]
-    BT --- B1["Every solution is a one-off"]
-    CT --- C1["Decks and workshops instead of systems"]
-    PT --- P1["Customer adapts to product, not vice versa"]
+    FDE[FDE Engagement]
+
+    FDE --> T1["Demo Trap<br/>Prototype disconnected<br/>from production"]
+    FDE --> T2["Request Trap<br/>Built what was asked,<br/>not what was needed"]
+    FDE --> T3["Integration Trap<br/>Identity, permissions, data<br/>discovered too late"]
+    FDE --> T4["Adoption Trap<br/>System works, users<br/>don't change behavior"]
+    FDE --> T5["Bespoke Trap<br/>Every solution<br/>is a one-off"]
+    FDE --> T6["Consulting Trap<br/>Decks and workshops<br/>instead of systems"]
+    FDE --> T7["Platform Trap<br/>Customer adapts to product,<br/>not vice versa"]
 ```
 
 **The demo trap:** the prototype is impressive but disconnected from production constraints.
