@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*July 8, 2026* — [Forward Deployed Engineering Principles for Production AI Systems](/notes/fde-principles-production-ai/)
+
+### [Forward Deployed Engineering Principles for Production AI Systems](/notes/fde-principles-production-ai/)
+*July 8, 2026* — Twelve field-tested principles for forward deployed engineers building production AI systems: own the outcome, diagnose before building, treat the workflow as the system, build for adoption, make integration risk explicit, verify against reality, ship production systems, communicate across layers, convert field work into product leverage, and follow up after release.
+
 *July 6, 2026* — [Personas, Skills, Agents, and Harnesses in AI System Design](/notes/personas-skills-agents-harnesses/)
 
 ### [Personas, Skills, Agents, and Harnesses in AI System Design](/notes/personas-skills-agents-harnesses/)

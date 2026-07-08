@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Forward Deployed Engineering Principles for Production AI Systems](/notes/fde-principles-production-ai/)
+*July 8, 2026* — Twelve field-tested principles for forward deployed engineers building production AI systems — from owning outcomes over artifacts to converting field work into platform leverage.
+
 ### [Personas, Skills, Agents, and Harnesses in AI System Design](/notes/personas-skills-agents-harnesses/)
 *July 6, 2026* — A technical note arguing that persona prompting belongs in the UX layer, while reliable AI systems need explicit lenses, skills, agents, and harnesses.
 

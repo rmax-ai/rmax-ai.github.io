@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Forward Deployed Engineering Principles for Production AI Systems — rmax.ai</title>
+    <meta name="description" content="Twelve field-tested principles for forward deployed engineers building production AI systems — from owning outcomes over artifacts to converting field work into platform leverage." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/fde-principles-production-ai/" />
+
+    <meta property="og:title" content="Forward Deployed Engineering Principles for Production AI Systems" />
+    <meta property="og:description" content="Twelve field-tested principles for forward deployed engineers building production AI systems — from owning outcomes over artifacts to converting field work into platform leverage." />
+    <meta property="og:url" content="https://rmax.ai/notes/fde-principles-production-ai/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-07-08" />
+    <meta property="article:tag" content="fde" />
+    <meta property="article:tag" content="forward-deployed-engineering" />
+    <meta property="article:tag" content="production-ai" />
+    <meta property="article:tag" content="enterprise-ai" />
+    <meta property="article:tag" content="ai-adoption" />
+    <meta property="article:tag" content="ai-deployment" />
+    <meta property="article:tag" content="mlops" />
+    <meta property="article:tag" content="field-engineering" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      h4 {
+        margin: 24px 0 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+
+      @media (max-width: 600px) {
+        .wrap {
+          margin: 20px auto;
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>Forward Deployed Engineering Principles for Production AI Systems</h1>
+            <div class="post-meta">
+              <span>2026-07-08</span>
+              <span>•</span>
+              <span>22-25 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+<p>Forward Deployed Engineering is not consulting with better titles. It is engineering ownership moved closer to the customer, where the boundary of the system includes product code, customer data, organizational workflows, security constraints, adoption behavior, and production feedback. <a href="https://openai.com/careers/forward-deployed-engineer-%28fde%29-nyc-new-york-city/">OpenAI</a> describes its FDE role as leading "discovery, technical scoping, system design, build, and production rollout" for frontier model deployments, with success measured through production adoption, measurable workflow impact, and eval-driven feedback into product and model roadmaps. <a href="https://www.databricks.com/blog/forward-deployed-engineering-delivering-business-outcomes-ai">Databricks</a> frames the same shift as customers moving from "help us migrate and build pipelines" to "help us solve our business problem." <a href="https://stripe.com/jobs/listing/forward-deployed-engineer-professional-services/7671038">Stripe</a> emphasizes directly building production applications and integrations for strategic users, while feeding reusable tooling and product lessons back into the company. <a href="https://blog.palantir.com/a-day-in-the-life-of-a-palantir-forward-deployed-software-engineer-45ef2de257b1">Palantir</a>'s older FDSE model gives the clearest historical version: embed with customers, implement solutions with end users, and apply rigorous software engineering practices in the field.</p>
+<p>The practical definition is simple:</p>
+<blockquote>
+<p>An FDE owns the distance between customer reality and a durable product outcome.</p>
+</blockquote>
+<p>That means the unit of work is not a demo, workshop, prototype, integration, migration, dashboard, agent, or pull request. The unit of work is a workflow that now works better in production, with evidence.</p>
+<p>---</p>
+<h2>1. Own the outcome, not the artifact</h2>
+<p>A normal engineering team can sometimes stop at "the feature shipped." An FDE cannot. The feature is only a vehicle. The real object is the customer outcome: reduced cycle time, fewer manual handoffs, higher search success, faster dispute resolution, safer analysis, lower operational cost, or better decision quality.</p>
+<p><a href="https://www.databricks.com/blog/forward-deployed-engineering-delivering-business-outcomes-ai">Databricks' FDE launch post</a> is explicit about this shift: the customer expectation has moved from infrastructure delivery toward business problem solving, and FDE engagements are anchored on shared outcomes rather than consultant-style handoffs.</p>
+<h3>Narrative case study: invoice dispute resolution</h3>
+<p>A finance operations team says: "We need an AI assistant that answers invoice questions." A weak FDE builds a chatbot over invoice PDFs and ERP exports. The demo works. Everyone nods. The project dies because the assistant cannot see approval status, cannot distinguish disputed invoices from pending invoices, and cannot explain which system is authoritative.</p>
+<p>A strong FDE reframes the outcome: "Finance analysts need to resolve invoice disputes faster without violating approval controls." The system becomes a workflow: retrieve invoice, purchase order, contract terms, approval history, vendor thread, and policy; produce an answer with citations; expose unresolved ambiguity; route exceptions to a human approver; log the decision.</p>
+<p>The artifact is an assistant. The outcome is faster, safer dispute closure.</p>
+<p><strong>Principle:</strong> do not own "the agent." Own the operational improvement the agent is supposed to create.</p>
+<p>---</p>
+<h2>2. Diagnose before building</h2>
+<p>Customers usually describe symptoms in the language of available tools: "We need RAG," "We need an agent," "We need workflow automation," "We need better search." That is not yet a problem statement.</p>
+<p>FDE work begins by separating the stated request from the underlying failure. Is the issue missing data, fragmented permissions, bad process design, lack of trust, poor UX, slow approvals, weak observability, or a product gap? The diagnosis matters because the wrong abstraction can make the customer's problem more expensive while appearing technically sophisticated.</p>
+<p>This is also consistent with the deployment literature. The survey paper <a href="https://arxiv.org/abs/2011.09926">"Challenges in Deploying Machine Learning: a Survey of Case Studies"</a> notes that production ML systems face practical issues across the whole deployment workflow, not only at model-building time.</p>
+<h3>Narrative case study: "We need RAG for support"</h3>
+<p>A support organization asks for RAG over documentation. The first prototype retrieves help-center articles and drafts answers. Quality is inconsistent. The team blames embedding quality.</p>
+<p>A diagnostic FDE watches support agents work for two days. The real problem is not retrieval. The public docs are mostly fine. The failure is that support agents need account-specific state: plan, region, entitlement, last incident, enabled feature flags, and open engineering bugs. The system also needs permission-aware retrieval because some support staff cannot see enterprise contract notes.</p>
+<p>The final solution uses RAG, but RAG is not the center. The center is a support-resolution workspace that joins documentation, customer state, incident context, and escalation rules. The FDE did not build what the customer asked for. They built what the workflow required.</p>
+<p><strong>Principle:</strong> the first deliverable is not code. It is a correct model of the customer's problem.</p>
+<p>---</p>
+<h2>3. Treat the workflow as the system</h2>
+<p>In product engineering, the system boundary often stops at services, APIs, databases, queues, and UI. In FDE work, that boundary is too narrow. The system includes people, permissions, spreadsheets, Slack channels, approval meetings, compliance rules, shadow processes, and the old workaround everyone pretends does not exist.</p>
+<p><a href="https://blog.palantir.com/a-day-in-the-life-of-a-palantir-forward-deployed-software-engineer-45ef2de257b1">Palantir's FDSE description</a> captures this field reality: FDSEs focus on enabling many capabilities for a single customer, working across software development, data engineering, customer engagement, and creative problem-solving, while implementing solutions with end users.</p>
+<pre class="mermaid">
+flowchart LR
+    subgraph Product["Product Engineering Boundary"]
+        S[Services]
+        A[APIs]
+        D[(Databases)]
+        Q[Queues]
+        U[UI]
+    end
+    subgraph FDE["FDE System Boundary"]
+        P[People]
+        PM[Permissions]
+        SS[Spreadsheets]
+        SL[Slack Channels]
+        AP[Approval Meetings]
+        CR[Compliance Rules]
+        SP[Shadow Processes]
+        WA[Workarounds]
+    end
+    Product -.->|"too narrow"| FDE
+</pre>
+<p><em>Figure: Product engineering draws the boundary at services and APIs. FDE work extends it to people, permissions, and informal workflows.</em></p>
+<h3>Narrative case study: supply chain exception handling</h3>
+<p>A logistics customer wants a dashboard for delayed shipments. The obvious solution is a dashboard that shows late containers, root cause, and ETA. It is useful, but not sufficient.</p>
+<p>The FDE maps the workflow. A planner sees a delay, checks port status, checks customer priority, messages a carrier, updates an internal spreadsheet, escalates high-value shipments, and manually emails account managers. The problem is not visibility. It is exception handling.</p>
+<p>The shipped solution becomes an exception console: detect delay, classify severity, suggest next action, draft carrier message, update CRM note, trigger escalation for priority accounts, and log operator decisions. The dashboard was a view. The workflow is the system.</p>
+<p><strong>Principle:</strong> if the human still has to stitch five tools together, the FDE has not yet owned the workflow.</p>
+<p>---</p>
+<h2>4. Build for adoption, not just correctness</h2>
+<p>A technically correct system can still fail if users do not trust it, cannot find it, cannot explain it, or do not know when to use it. Adoption is not a go-to-market afterthought. It is part of the engineering problem.</p>
+<p><a href="https://openai.com/careers/forward-deployed-engineer-%28fde%29-nyc-new-york-city/">OpenAI's FDE description</a> explicitly includes guiding adoption of what is built, not merely delivering technical artifacts.</p>
+<h3>Narrative case study: legal contract review assistant</h3>
+<p>A legal team wants an assistant that identifies risky contract clauses. The first version performs well on a benchmark. Lawyers still ignore it. Why? The output is too confident, does not quote the relevant clause, does not distinguish "must fix" from "commercially negotiable," and does not match the firm's review style.</p>
+<p>The FDE changes the product surface. Each finding now includes clause citation, risk category, policy basis, confidence, suggested fallback language, and escalation path. The assistant does not claim to "review the contract." It prepares a review packet. Lawyers adopt it because it fits their judgment workflow rather than trying to replace it.</p>
+<p><strong>Principle:</strong> adoption depends on trust, timing, fit, and accountability. Correctness alone is not enough.</p>
+<p>---</p>
+<h2>5. Make integration risk explicit early</h2>
+<p>FDE work lives in integration territory. That means risk hides in identity, authorization, tenancy, audit logs, API quotas, data freshness, custom schemas, brittle exports, old systems, and unclear ownership.</p>
+<p><a href="https://stripe.com/jobs/listing/forward-deployed-engineer-professional-services/7671038">Stripe's Forward Deployed Engineer role description</a> emphasizes secure, scalable technical solutions aligned with customer needs, production applications combining user business logic with platform best practices, and direct collaboration across internal and external stakeholders.</p>
+<h3>Narrative case study: payments reconciliation</h3>
+<p>A customer wants a reconciliation app across Stripe, ERP, bank statements, and internal ledger data. The prototype reconciles sample records beautifully. The danger is hidden: bank files arrive late, ERP IDs are inconsistent, refunds are represented differently across systems, and finance users need an audit trail for every automated match.</p>
+<p>A strong FDE surfaces these constraints before committing to timelines. The architecture includes a canonical transaction model, confidence scores, manual review queue, immutable match log, reconciliation rules by payment type, and backfill strategy. This slows the first demo but prevents a failed production rollout.</p>
+<p><strong>Principle:</strong> integration risk discovered late becomes delivery failure. Integration risk exposed early becomes architecture.</p>
+<p>---</p>
+<h2>6. Verify against reality, not synthetic success</h2>
+<p>FDE demos are dangerously easy to fake, especially with AI systems. A model can appear useful on curated examples while failing on real permissions, real data quality, real exceptions, and real user behavior.</p>
+<p>The ML deployment survey <a href="https://arxiv.org/abs/2011.09926">"Challenges in Deploying Machine Learning: a Survey of Case Studies"</a> is relevant here because it shows deployment challenges appearing across the full workflow, from data and model development to monitoring and production operation.</p>
+<h3>Narrative case study: account research agent</h3>
+<p>A sales team wants an agent that prepares account briefs. The demo uses clean public data and produces impressive summaries. In production, the agent hallucinates customer priorities, misses renewal risk, and pulls stale notes from old CRM fields.</p>
+<p>The FDE replaces demo validation with workflow validation. The eval set includes real accounts, stale CRM records, conflicting notes, permission-restricted fields, and accounts with no recent activity. The agent must cite sources, mark uncertainty, and pass task-level checks: "Can an account executive use this to prepare for a renewal call without manually redoing the research?"</p>
+<p><strong>Principle:</strong> the eval target is not "good answer." The eval target is "safe and useful inside the real workflow."</p>
+<p>---</p>
+<h2>7. Ship production systems, not impressive prototypes</h2>
+<p>Forward deployment fails when it becomes forward-deployed prototyping. Production means deployment, monitoring, support path, rollback, versioning, access control, user documentation, and a clear owner after the initial build.</p>
+<p><a href="https://blog.palantir.com/a-day-in-the-life-of-a-palantir-forward-deployed-software-engineer-45ef2de257b1">Palantir's FDSE account</a> emphasizes that field engineers still use traditional engineering practices: engineering reviews, code reviews, deployability optimization, maintenance, monitoring, and production systems discipline.</p>
+<h3>Narrative case study: clinical document summarization</h3>
+<p>A healthcare customer wants summaries of long patient records. A prototype produces clean summaries. But production requires PHI handling, permission boundaries, traceability, clinician review, prompt/version control, downtime behavior, and model output monitoring.</p>
+<p>The FDE ships a production workflow: summaries are generated only inside approved contexts, every output links to source passages, clinicians can accept or reject sections, rejected summaries feed an error taxonomy, and all access is logged. The model is only one component. The production system is the safety envelope around it.</p>
+<p><strong>Principle:</strong> a prototype proves possibility. Production proves responsibility.</p>
+<p>---</p>
+<h2>8. Communicate across layers</h2>
+<p>FDEs sit between customer users, customer leadership, security, procurement, internal product, research, sales, support, and engineering. Communication is not status reporting. It is part of the control system.</p>
+<p><a href="https://openai.com/careers/forward-deployed-engineer-%28fde%29-nyc-new-york-city/">OpenAI's description</a> places FDEs between customer delivery and core platform development, working with Product, Research, Partnerships, GRC, Security, and GTM.</p>
+<h3>Narrative case study: enterprise knowledge assistant</h3>
+<p>An enterprise knowledge assistant changes how employees search policy, HR, and technical documentation. If only the buyer knows, adoption is weak. If only users know, security is nervous. If only security knows, the product team misses reusable lessons.</p>
+<p>The FDE creates different communication artifacts: a user guide for employees, a permission model for admins, a risk register for security, a rollout note for leadership, failure examples for support, and product feedback for the core engineering team. The same system needs different explanations at different layers.</p>
+<p><strong>Principle:</strong> unclear communication creates hidden operational debt.</p>
+<p>---</p>
+<h2>9. Convert field work into product leverage</h2>
+<p>The best FDEs do not only solve local problems. They extract reusable product knowledge from field entropy.</p>
+<p><a href="https://openai.com/careers/forward-deployed-engineer-%28fde%29-nyc-new-york-city/">OpenAI's role description</a> includes codifying working patterns into tools, playbooks, or building blocks, and sharing field feedback so Research and Product understand where models succeed and fail. <a href="https://stripe.com/jobs/listing/forward-deployed-engineer-professional-services/7671038">Stripe</a> similarly expects FDEs to contribute tooling, frameworks, and best practices that scale impact across accounts. <a href="https://www.databricks.com/blog/forward-deployed-engineering-delivering-business-outcomes-ai">Databricks</a> describes direct R&D interlock as part of its FDE model.</p>
+<p>This is where FDE becomes strategically different from bespoke services. The local deployment should leave behind a reusable abstraction, not just a satisfied customer.</p>
+<h3>Narrative case study: repeated permission failures</h3>
+<p>Across three enterprise deployments, agents fail for the same reason: they retrieve documents the user can theoretically access but should not operationally use in that workflow. The naive fix is customer-specific filtering. The FDE productizes the lesson: a permission-aware retrieval policy layer with workflow-scoped access, audit traces, and denial explanations.</p>
+<p>The immediate customer gets a safer assistant. The platform gets a reusable primitive. Future deployments get faster.</p>
+<p><strong>Principle:</strong> every field failure should be inspected for platform shape.</p>
+<p>---</p>
+<h2>10. Follow up after release</h2>
+<p>FDE ownership does not end when users get access. Many failures only appear after real traffic, organizational drift, edge cases, and changed incentives.</p>
+<p><a href="https://www.databricks.com/blog/forward-deployed-engineering-delivering-business-outcomes-ai">Databricks' examples</a> emphasize measurable impact: search success, user engagement, migrated workloads, trained users, and workflow compression. These are not demo metrics. They are post-deployment signals.</p>
+<h3>Narrative case study: procurement intake automation</h3>
+<p>A procurement team launches an AI intake assistant that classifies vendor requests and routes them to legal, finance, or security. Week one looks successful. Week three reveals a problem: users learn that certain wording bypasses security review. The workflow is faster but less safe.</p>
+<p>A strong FDE has follow-up instrumentation: routing distribution, override rates, downstream rejection rates, security escalations, and sampled trace review. The team patches the classifier, adds policy checks, and changes the UI so requesters cannot accidentally or strategically omit risk-relevant facts.</p>
+<p><strong>Principle:</strong> shipping creates the first honest dataset.</p>
+<p>---</p>
+<h2>11. Preserve engineering standards under field pressure</h2>
+<p>FDEs operate under urgency. A customer is blocked. A strategic account is waiting. A demo is scheduled. Leadership wants a visible win. This pressure can produce a dangerous anti-pattern: field hacks that become permanent infrastructure.</p>
+<p>The answer is not heavyweight process. It is explicit quality judgment. Rapid prototyping is compatible with appropriate quality standards; <a href="https://stripe.com/jobs/listing/forward-deployed-engineer-professional-services/7671038">Stripe's FDE requirements</a> state exactly that.</p>
+<h3>Narrative case study: one-off data connector</h3>
+<p>A strategic customer needs a connector to an old internal system. The fastest path is a brittle script running on someone's laptop. The FDE can use a throwaway script for discovery, but not for production.</p>
+<p>The production version has typed schemas, retry logic, observability, secret management, test fixtures, backfill behavior, and ownership. The FDE distinguishes exploration code from operational code.</p>
+<p><strong>Principle:</strong> speed is not the opposite of quality. Ambiguity is the reason quality boundaries must be explicit.</p>
+<p>---</p>
+<h2>12. Make concepts explicit</h2>
+<p>Many field failures are not caused by bad code. They are caused by mismatched concepts. One team says "customer," another means "billing account," another means "legal entity," another means "workspace," and another means "tenant." The agent or workflow then automates confusion.</p>
+<p>The paper <a href="https://arxiv.org/abs/2304.14975">"Concept-centric Software Development"</a> argues that concepts are central to user experience but often remain implicit; making concepts explicit helps align products, evolve them with user needs, and communicate across engineering and non-engineering groups.</p>
+<h3>Narrative case study: customer health scoring</h3>
+<p>A customer success team wants an AI-generated "customer health" score. Sales defines health as expansion likelihood. Support defines it as low ticket volume. Finance defines it as payment reliability. Product defines it as feature adoption. Leadership wants one number.</p>
+<p>The FDE refuses to build the score until the concept is decomposed. The final system has separate concepts: adoption health, commercial health, support health, implementation risk, and renewal risk. The AI summarizes them, but does not collapse them into a false universal metric.</p>
+<p><strong>Principle:</strong> before automating a workflow, define the concepts the workflow depends on.</p>
+<p>---</p>
+<h2>The FDE operating loop</h2>
+<p>The principles converge on a repeatable operating model:</p>
+<pre class="mermaid">
+flowchart TD
+    D[1. Diagnose the real problem] --> M[2. Map the workflow as the system]
+    M --> I[3. Identify data, permission, integration, and adoption risks]
+    I --> B[4. Build the smallest production-shaped solution]
+    B --> V[5. Verify on real cases]
+    V --> DP[6. Deploy with monitoring and rollback]
+    DP --> C[7. Communicate across layers]
+    C --> F[8. Follow up with adoption and failure evidence]
+    F --> CD[9. Codify reusable product knowledge]
+</pre>
+<p>The deeper principle is that FDE is not a role for "people who can talk to customers." It is a role for engineers who can preserve technical rigor while operating inside customer ambiguity.</p>
+<p>---</p>
+<h2>The seven failure modes</h2>
+<p>FDE work usually fails in predictable patterns:</p>
+<pre class="mermaid">
+flowchart TD
+    FDE[FDE Engagement] --> DT[Demo Trap]
+    FDE --> RT[Request Trap]
+    FDE --> IT[Integration Trap]
+    FDE --> AT[Adoption Trap]
+    FDE --> BT[Bespoke Trap]
+    FDE --> CT[Consulting Trap]
+    FDE --> PT[Platform Trap]
+    
+    DT --- D1["Prototype disconnected from production"]
+    RT --- R1["Built what was asked, not what was needed"]
+    IT --- I1["Identity, permissions, data discovered too late"]
+    AT --- A1["System works, users don't change behavior"]
+    BT --- B1["Every solution is a one-off"]
+    CT --- C1["Decks and workshops instead of systems"]
+    PT --- P1["Customer adapts to product, not vice versa"]
+</pre>
+<p><strong>The demo trap:</strong> the prototype is impressive but disconnected from production constraints.</p>
+<p><strong>The request trap:</strong> the FDE builds what the customer asked for without diagnosing the real problem.</p>
+<p><strong>The integration trap:</strong> identity, permissions, data freshness, and operational ownership are discovered too late.</p>
+<p><strong>The adoption trap:</strong> the system works but users do not change behavior.</p>
+<p><strong>The bespoke trap:</strong> every customer solution remains a one-off, and the company learns nothing reusable.</p>
+<p><strong>The consulting trap:</strong> the team produces decks, workshops, and recommendations instead of production systems.</p>
+<p><strong>The platform trap:</strong> the team insists the customer adapt to the product instead of learning what the product is missing.</p>
+<p>Good FDE practice is the discipline of avoiding all seven.</p>
+<p>---</p>
+<h2>Conclusion</h2>
+<p>Forward Deployed Engineering is engineering ownership applied to the full customer system. It requires product judgment, software discipline, data skepticism, integration realism, communication range, and post-deployment follow-through.</p>
+<p>For AI systems, this becomes even more important. Models make demos cheaper. They also make false confidence cheaper. The FDE's job is to close that gap: not to show that AI can do something once, but to make a workflow measurably better under real constraints.</p>
+<p>A useful final test:</p>
+<blockquote>
+<p>If the FDE disappears tomorrow, does the customer still have a working system, does the product team understand what was learned, and does the company now have a reusable pattern?</p>
+</blockquote>
+<p>If not, the work was not finished.</p>
+<p>---</p>
+<h2>References</h2>
+<ol>
+<li>OpenAI Careers — <a href="https://openai.com/careers/forward-deployed-engineer-%28fde%29-nyc-new-york-city/">Forward Deployed Engineer (FDE)</a></li>
+</ol>
+<p>Describes the role as owning discovery, technical scoping, system design, build, production rollout, production adoption, measurable workflow impact, and eval-driven feedback.</p>
+<ol>
+<li>Databricks Blog — <a href="https://www.databricks.com/blog/forward-deployed-engineering-delivering-business-outcomes-ai">Forward Deployed Engineering: Delivering Business Outcomes with AI</a></li>
+</ol>
+<p>Frames FDE around customer business outcomes, embedded engineering-led delivery, production AI systems, shared OKRs, and direct R&D interlock.</p>
+<ol>
+<li>Stripe Careers — <a href="https://stripe.com/jobs/listing/forward-deployed-engineer-professional-services/7671038">Forward Deployed Engineer, Professional Services</a></li>
+</ol>
+<p>Describes FDEs as directly building scalable integrations and standalone applications for strategic users, while contributing reusable tooling and best practices.</p>
+<ol>
+<li>Palantir Blog — <a href="https://blog.palantir.com/a-day-in-the-life-of-a-palantir-forward-deployed-software-engineer-45ef2de257b1">A Day in the Life of a Palantir Forward Deployed Software Engineer</a></li>
+</ol>
+<p>Explains the historical FDSE model: embedding with customers, implementing solutions with end users, and maintaining rigorous production engineering practices in the field.</p>
+<ol>
+<li>Paleyes, Urma, Lawrence — <a href="https://arxiv.org/abs/2011.09926">Challenges in Deploying Machine Learning: a Survey of Case Studies</a></li>
+</ol>
+<p>Useful grounding for why AI/ML production work fails across the whole deployment workflow, not only at model-development time.</p>
+<ol>
+<li>Wilczynski, Gregoire-Wright, Jackson — <a href="https://arxiv.org/abs/2304.14975">Concept-centric Software Development</a></li>
+</ol>
+<p>Useful grounding for why field engineering must make domain concepts explicit before building or automating workflows.</p>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        {
+          text: "I don't ship demos. I ship workflows that measurably work under real constraints.",
+          agent: "Field Engineer"
+        },
+        {
+          text: "I extract reusable patterns from field entropy so the next deployment starts stronger.",
+          agent: "Platform Agent"
+        },
+        {
+          text: "My system boundary includes the spreadsheets, Slack channels, and shadow processes — not just the APIs.",
+          agent: "Workflow Agent"
+        }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
