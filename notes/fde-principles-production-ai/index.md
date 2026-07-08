@@ -81,24 +81,29 @@ In product engineering, the system boundary often stops at services, APIs, datab
 ```mermaid
 flowchart TD
     subgraph Product["Product Engineering Boundary"]
-        direction LR
+        direction TD
         S[Services]
         A[APIs]
-        D[(Databases)]
+        D[Databases]
         Q[Queues]
         U[UI]
+        S --> A --> D --> Q --> U
     end
+
     Product -->|"too narrow"| FDE
+
     subgraph FDE["FDE System Boundary"]
-        direction LR
+        direction TD
         P[People]
         PM[Permissions]
         SS[Spreadsheets]
-        SL[Slack Channels]
-        AP[Approval Meetings]
-        CR[Compliance Rules]
-        SP[Shadow Processes]
+        SL[Slack<br/>Channels]
+        AP[Approval<br/>Meetings]
+        CR[Compliance<br/>Rules]
+        SP[Shadow<br/>Processes]
         WA[Workarounds]
+        P --> PM --> SS --> SL
+        SL --> AP --> CR --> SP --> WA
     end
 ```
 
@@ -287,16 +292,17 @@ The deeper principle is that FDE is not a role for "people who can talk to custo
 FDE work usually fails in predictable patterns:
 
 ```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 30, 'rankSpacing': 30}}}%%
 flowchart TD
     FDE[FDE Engagement]
 
     FDE --> T1["Demo Trap<br/>Prototype disconnected<br/>from production"]
-    FDE --> T2["Request Trap<br/>Built what was asked,<br/>not what was needed"]
-    FDE --> T3["Integration Trap<br/>Identity, permissions, data<br/>discovered too late"]
-    FDE --> T4["Adoption Trap<br/>System works, users<br/>don't change behavior"]
-    FDE --> T5["Bespoke Trap<br/>Every solution<br/>is a one-off"]
-    FDE --> T6["Consulting Trap<br/>Decks and workshops<br/>instead of systems"]
-    FDE --> T7["Platform Trap<br/>Customer adapts to product,<br/>not vice versa"]
+    T1 --> T2["Request Trap<br/>Built what was asked,<br/>not what was needed"]
+    T2 --> T3["Integration Trap<br/>Identity, permissions, data<br/>discovered too late"]
+    T3 --> T4["Adoption Trap<br/>System works, users<br/>don't change behavior"]
+    T4 --> T5["Bespoke Trap<br/>Every solution<br/>is a one-off"]
+    T5 --> T6["Consulting Trap<br/>Decks and workshops<br/>instead of systems"]
+    T6 --> T7["Platform Trap<br/>Customer adapts to product,<br/>not vice versa"]
 ```
 
 **The demo trap:** the prototype is impressive but disconnected from production constraints.
