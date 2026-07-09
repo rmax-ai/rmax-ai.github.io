@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Workflow-Centered Agent Deployment: What Uber's Agentic Pods Reveal About Enterprise AI Adoption](/notes/workflow-agent-deployment/)
+*July 9, 2026* — An analysis of Uber's Agentic Pods and what workflow-centered agent deployment, MCP, governance, and forward-deployed engineering reveal about enterprise AI adoption.
+
 ### [Forward Deployed Engineering Principles for Production AI Systems](/notes/fde-principles-production-ai/)
 *July 8, 2026* — Twelve field-tested principles for forward deployed engineers building production AI systems — from owning outcomes over artifacts to converting field work into platform leverage.
 

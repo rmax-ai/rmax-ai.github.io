@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*July 9, 2026* — [Workflow-Centered Agent Deployment: What Uber's Agentic Pods Reveal About Enterprise AI Adoption](/notes/workflow-agent-deployment/)
+
+### [Workflow-Centered Agent Deployment: What Uber's Agentic Pods Reveal About Enterprise AI Adoption](/notes/workflow-agent-deployment/)
+*July 9, 2026* — An analysis of Uber's Agentic Pods and what workflow-centered agent deployment, MCP, governance, and forward-deployed engineering reveal about enterprise AI adoption.
+
 *July 8, 2026* — [Forward Deployed Engineering Principles for Production AI Systems](/notes/fde-principles-production-ai/)
 
 ### [Forward Deployed Engineering Principles for Production AI Systems](/notes/fde-principles-production-ai/)
