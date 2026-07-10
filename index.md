@@ -46,6 +46,8 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Building First-Class Identities for Enterprise AI Agents](/notes/first-class-agent-identities/)
+*July 10, 2026* — Why enterprise AI agents need first-class identities, combining runtime attestation, delegated authority, ABAC policy, MCP enforcement, and audits.
 ### [Workflow-Centered Agent Deployment: What Uber's Agentic Pods Reveal About Enterprise AI Adoption](/notes/workflow-agent-deployment/)
 *July 9, 2026* — An analysis of Uber's Agentic Pods and what workflow-centered agent deployment, MCP, governance, and forward-deployed engineering reveal about enterprise AI adoption.
 
