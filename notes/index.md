@@ -3,6 +3,10 @@
 
 Thoughts on software, AI, and systems.
 
+*July 10, 2026* — [Building First-Class Identities for Enterprise AI Agents](/notes/first-class-agent-identities/)
+
+### [Building First-Class Identities for Enterprise AI Agents](/notes/first-class-agent-identities/)
+*July 10, 2026* — Why enterprise AI agents need first-class identities, combining runtime attestation, delegated authority, ABAC policy, MCP enforcement, and audits.
 *July 9, 2026* — [Workflow-Centered Agent Deployment: What Uber's Agentic Pods Reveal About Enterprise AI Adoption](/notes/workflow-agent-deployment/)
 
 ### [Workflow-Centered Agent Deployment: What Uber's Agentic Pods Reveal About Enterprise AI Adoption](/notes/workflow-agent-deployment/)

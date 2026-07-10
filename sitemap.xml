@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-07-09T16:55:44Z</lastmod>
+    <lastmod>2026-07-10T19:07:24Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-07-09T16:55:38Z</lastmod>
+    <lastmod>2026-07-10T19:07:24Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -121,6 +121,10 @@
     <lastmod>2026-07-09T16:43:13Z</lastmod>
   </url>
   <url>
+    <loc>https://rmax.ai/notes/first-class-agent-identities/</loc>
+    <lastmod>2026-07-10T19:06:39Z</lastmod>
+  </url>
+  <url>
     <loc>https://rmax.ai/notes/forward-deployed-engineer-enterprise-ai/</loc>
     <lastmod>2026-05-30T07:02:37Z</lastmod>
   </url>
@@ -214,7 +218,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/workflow-agent-deployment/</loc>
-    <lastmod>2026-07-09T16:55:15Z</lastmod>
+    <lastmod>2026-07-10T19:06:59Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/projects/</loc>

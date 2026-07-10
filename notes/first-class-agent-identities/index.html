@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Building First-Class Identities for Enterprise AI Agents — rmax.ai</title>
+    <meta name="description" content="Why enterprise AI agents need first-class identities, combining runtime attestation, delegated authority, ABAC policy, MCP enforcement, and audits." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/first-class-agent-identities/" />
+
+    <meta property="og:title" content="Building First-Class Identities for Enterprise AI Agents" />
+    <meta property="og:description" content="Why enterprise AI agents need first-class identities, combining runtime attestation, delegated authority, ABAC policy, MCP enforcement, and audits." />
+    <meta property="og:url" content="https://rmax.ai/notes/first-class-agent-identities/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-07-10" />
+    <meta property="article:tag" content="agent-identity" />
+    <meta property="article:tag" content="enterprise-ai" />
+    <meta property="article:tag" content="authorization" />
+    <meta property="article:tag" content="abac" />
+    <meta property="article:tag" content="mcp" />
+    <meta property="article:tag" content="spiffe" />
+    <meta property="article:tag" content="oauth" />
+    <meta property="article:tag" content="security" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      h4 {
+        margin: 24px 0 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+
+      @media (max-width: 600px) {
+        .wrap {
+          margin: 20px auto;
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>Building First-Class Identities for Enterprise AI Agents</h1>
+            <div class="post-meta">
+              <span>2026-07-10</span>
+              <span>•</span>
+              <span>15–20 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+<h2>Abstract</h2>
+<p>Enterprise AI agents increasingly run with credentials designed for deterministic software: service accounts, application credentials, API keys, or delegated human sessions. That abstraction is weakening because an agent chooses actions at runtime. It interprets natural-language instructions, retrieves untrusted context, selects tools, constructs parameters, delegates work, and can perform state-changing operations across multiple systems.</p>
+<p>This note makes a practical claim: enterprises should treat agents as first-class identity principals, distinct from the human user, the hosting workload, and the tools they invoke. A workable architecture combines five controls in one plane: directory governance, runtime attestation, delegated user authority, policy evaluation, and credential isolation. This note outlines that model and uses <a href="https://github.com/rmax-ai/agent-identity-lab">Agent Identity Lab</a> as an open-source proof-of-concept target for testing it.</p>
+<h2>Thesis</h2>
+<p>The central claim is simple: the agent should be a distinct principal.</p>
+<p>An enterprise agent identity should not collapse into its process, its model, or its human operator. It should be a registered principal with its own lifecycle, policy boundary, and runtime proof.</p>
+<p>That principal needs four classes of information:</p>
+<pre><code class="language-text">
+Agent identity =
+    cryptographic identity
+  + provenance attributes
+  + operational ownership
+  + dynamic security context
+</code></pre>
+<ul>
+<li><strong>Cryptographic identity</strong> provides a verifiable identifier and signing or authentication material.</li>
+<li><strong>Provenance attributes</strong> identify what is running: the agent blueprint, code revision, container image, model, prompt package, and tool configuration.</li>
+<li><strong>Operational ownership</strong> identifies the accountable humans or teams: a technical owner, a business sponsor, and possibly a data owner.</li>
+<li><strong>Dynamic security context</strong> describes the current execution: environment, acting user, session lifetime, risk signals, requested operation, and resource sensitivity.</li>
+</ul>
+<p>Together, these elements produce a principal that administrators can govern, systems can authenticate cryptographically, and policies can constrain at runtime.</p>
+<h2>Why existing workload identities are no longer enough</h2>
+<p>Service accounts still fit deterministic workloads. A scheduled export job has a known executable, a fixed trigger, and a bounded set of API calls. An agent does not. Its execution path depends on the user request, the model and prompt configuration, retrieved documents and external messages, available tool descriptions, intermediate model decisions, and responses from downstream systems.</p>
+<p>The same agent can answer a question, search a repository, edit an issue, send a message, or initiate a deployment. It exercises authority through a reasoning loop, not through a predefined call graph.</p>
+<p>That shift changes the security question. It is no longer enough to ask:</p>
+<p><strong>Which application is making this request?</strong></p>
+<p>An enterprise system also needs to ask:</p>
+<p><strong>Which agent is acting, on whose behalf, from which runtime, under which configuration, and within what currently authorized boundary?</strong></p>
+<p>This matters because agent runtimes now connect models to live enterprise systems through tool protocols, gateways, and orchestration frameworks. It also matters because prompt injection is a practical risk, not just a research concern. A document, issue, email, or web page can contain instructions meant to redirect the agent. Model-level protections may lower the chance of manipulation, but they do not create a reliable authorization boundary. Identity and authorization controls therefore need to assume that an agent can make a bad decision.</p>
+<h2>Two identity models that need to be combined</h2>
+<p>Two emerging platform directions clarify the shape of a workable architecture. In practice, enterprises need both.</p>
+<h3>Directory-managed agent identities</h3>
+<p><a href="https://learn.microsoft.com/en-us/entra/agent-id/">Microsoft Entra Agent ID</a> extends enterprise directory concepts to agents. Its central abstraction is the agent identity blueprint, a template that defines shared agent characteristics, authentication settings, required resource access, and inheritable permissions. Multiple identities can be created from one blueprint while retaining distinct credentials and permissions.</p>
+<p>The blueprint also has a tenant-local principal. Microsoft uses that principal to provision and deprovision child agent identities and to attribute those administrative operations in audit logs. Disabling a blueprint can prevent its identities from authenticating.</p>
+<p>This model is strong at inventory, ownership, lifecycle, policy inheritance, administrative delegation, access reviews, and tenant-level auditability. It answers the governance question: what kind of agent is this, who is responsible for it, and how is its fleet managed?</p>
+<h3>Runtime-attested agent identities</h3>
+<p><a href="https://docs.cloud.google.com/iam/docs/agent-identity-overview">Google Cloud Agent Identity</a> starts closer to workload identity. Each supported agent receives a unique, strongly attested identity based on <a href="https://spiffe.io/">SPIFFE</a>. The identity is tied to the hosted agent resource rather than shared across workloads. Google states that agent identities cannot be impersonated and do not expose long-lived service-account keys to developers.</p>
+<p>A representative identifier looks like this:</p>
+<pre><code class="language-text">
+spiffe://agents.example.system.id.goog/
+  resources/aiplatform/projects/123/
+  locations/europe-west4/reasoningEngines/research-agent
+</code></pre>
+<p>The corresponding principal can be referenced directly in IAM policies. Google-issued access tokens are cryptographically bound to the agent's X.509 credential, which reduces the usefulness of a stolen bearer token.</p>
+<p>This model is strong at workload attestation, secretless authentication, short-lived credentials, runtime-to-resource binding, cryptographic isolation, and automatic credential rotation. It answers the execution question: which deployed runtime is making this request, and can it prove that identity?</p>
+<h3>Why both are required</h3>
+<p>A complete enterprise design needs:</p>
+<ul>
+<li>a directory and governance identity that describes the approved agent</li>
+<li>an attested workload identity that proves which runtime is executing it</li>
+</ul>
+<p>A directory object without runtime attestation can be copied or used from an unexpected environment. A workload identity without directory governance says little about business purpose, ownership, approved capabilities, or lifecycle.</p>
+<h2>Authorization must be computed, not assumed</h2>
+<p>Authentication establishes which agent is running. It does not determine what the agent should be allowed to do during a particular task.</p>
+<p>The effective permission boundary should be calculated dynamically:</p>
+<pre><code class="language-text">
+effective authority =
+    user authority
+  ∩ agent authority
+  ∩ blueprint authority
+  ∩ tool policy
+  ∩ resource policy
+  ∩ environment constraints
+  ∩ session constraints
+</code></pre>
+<p>Consider a research agent that may read GitHub repositories but may never modify them. A user asks it to inspect a private repository. The request should succeed only when:</p>
+<ul>
+<li>the user can read that repository</li>
+<li>the agent identity is active</li>
+<li>the agent blueprint permits repository access</li>
+<li>the requested operation is read-only</li>
+<li>the runtime satisfies the blueprint's attestation policy</li>
+<li>the session has not expired or been revoked</li>
+</ul>
+<p>The fact that the user can create issues does not mean the research agent should be allowed to create issues. The fact that the agent can read repositories does not mean it can read repositories the user cannot access. The resulting authority is narrower than either principal on its own.</p>
+<p>This is a natural application of Attribute-Based Access Control. <a href="https://csrc.nist.gov/pubs/sp/800/162/final">NIST SP 800-162</a> defines ABAC in terms of attributes associated with the subject, object, requested operation, and environment. Agent systems add useful subject and environment attributes:</p>
+<pre><code class="language-yaml">
+subject:
+  agent_id: research-agent-17
+  blueprint: research-agent-v3
+  acting_user: user-492
+  model: deepseek-pro
+  code_revision: 9b02f15
+  runtime_digest: sha256:abc123
+
+object:
+  type: github_repository
+  organization: rmax-ai
+  repository: agent-identity-lab
+  classification: public
+
+action:
+  operation: search_code
+  required_scope: repository:read
+
+environment:
+  deployment: development
+  session_age_seconds: 217
+  risk_level: low
+</code></pre>
+<p>A policy engine such as <a href="https://www.openpolicyagent.org/docs/latest/">Open Policy Agent</a> or <a href="https://www.cedarpolicy.com/">Cedar</a> can evaluate this context at the moment of the tool call. A policy engine can still use static roles, but it should evaluate them alongside the live request context.</p>
+<pre class="mermaid">
+flowchart TD
+    A["User request"]
+    B["Agent identity"]
+    C["Blueprint policy"]
+    D["Tool policy"]
+    E["Resource policy"]
+    F["Environment and session constraints"]
+    G["Permission intersection"]
+    H["Allow tool call"]
+    I["Deny tool call"]
+
+    A --> G
+    B --> G
+    C --> G
+    D --> G
+    E --> G
+    F --> G
+    G -->|authorized| H
+    G -->|not authorized| I
+</pre>
+<h2>Delegation must preserve both user and agent identity</h2>
+<p>When an agent acts for a user, downstream systems need to distinguish the subject from the actor.</p>
+<p>The <strong>subject</strong> is the identity whose resources or authority are being used. The <strong>actor</strong> is the agent currently exercising that delegated authority.</p>
+<p><a href="https://datatracker.ietf.org/doc/html/rfc8693">OAuth 2.0 Token Exchange, RFC 8693</a>, defines an <code>act</code> claim for representing this relationship:</p>
+<pre><code class="language-json">
+{
+  &quot;sub&quot;: &quot;user:492&quot;,
+  &quot;aud&quot;: &quot;https://github-gateway.example.com&quot;,
+  &quot;scope&quot;: &quot;repository:read&quot;,
+  &quot;act&quot;: {
+    &quot;sub&quot;: &quot;agent:research-agent-17&quot;
+  }
+}
+</code></pre>
+<p>This token means that <code>research-agent-17</code> is acting under authority associated with <code>user:492</code>.</p>
+<p>RFC 8693 also permits nested actor claims, which makes it possible to represent a multi-agent delegation chain:</p>
+<pre><code class="language-json">
+{
+  &quot;sub&quot;: &quot;user:492&quot;,
+  &quot;act&quot;: {
+    &quot;sub&quot;: &quot;agent:repository-reviewer&quot;,
+    &quot;act&quot;: {
+      &quot;sub&quot;: &quot;agent:research-orchestrator&quot;
+    }
+  }
+}
+</code></pre>
+<p>That history helps auditors attribute actions, but it does not authorize anything by itself. Each delegation step must narrow or preserve authority. It must never silently expand it. A sub-agent should receive a capability scoped to its specific task, resource, and lifetime, not the root agent's full session.</p>
+<h2>Credential isolation is part of the identity boundary</h2>
+<p>Even a correctly authenticated agent runtime should not hold unnecessary secrets.</p>
+<p>An agent processes untrusted text and generates dynamic tool arguments. If API keys or OAuth refresh tokens live in the same memory space, prompt injection, tool compromise, debugging mistakes, and accidental logging become more costly.</p>
+<p>A safer architecture introduces a credential broker or token vault:</p>
+<pre class="mermaid">
+flowchart TD
+    A["Agent runtime"]
+    B["Policy enforcement point"]
+    C["Token broker"]
+    D["Downstream API"]
+
+    A -->|"attested identity + requested tool operation"| B
+    B -->|"approved resource + reduced scopes"| C
+    C -->|"short-lived or directly injected credential"| D
+</pre>
+<p><a href="https://docs.cloud.google.com/iam/docs/auth-manager-overview">Google's Agent Identity auth manager</a> separates the agent from raw credentials for API keys, machine-to-machine OAuth, and user-delegated OAuth. In Google's gateway model, the gateway can decrypt the end-user credential so the agent never sees it.</p>
+<p>The broader design principle is simple:</p>
+<blockquote>
+<p>Agents should request capabilities, not retrieve secrets.</p>
+</blockquote>
+<p>Where possible, the gateway should inject the credential into the outbound request and return only the tool result. The agent does not need to see the token at all. Where direct token presentation is unavoidable, the broker should issue a short-lived credential restricted by audience, resource, scope, session, agent, acting user, proof-of-possession key, and expiration time.</p>
+<h2>MCP is the natural enforcement boundary</h2>
+<p>The <a href="https://modelcontextprotocol.io/">Model Context Protocol</a> standardizes how agent applications discover and invoke external tools. That makes the MCP boundary a natural place to enforce identity and authorization.</p>
+<p>The MCP <a href="https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization">authorization specification</a> treats a protected MCP server as an OAuth resource server. It requires <a href="https://datatracker.ietf.org/doc/html/rfc9728">OAuth Protected Resource Metadata, RFC 9728</a>, for authorization-server discovery and requires clients to identify the target server using <a href="https://datatracker.ietf.org/doc/html/rfc8707">OAuth resource indicators, RFC 8707</a>.</p>
+<p>A protected server can advertise metadata such as:</p>
+<pre><code class="language-json">
+{
+  &quot;resource&quot;: &quot;https://tools.example.com/mcp&quot;,
+  &quot;authorization_servers&quot;: [
+    &quot;https://identity.example.com&quot;
+  ],
+  &quot;scopes_supported&quot;: [
+    &quot;repository:read&quot;,
+    &quot;issues:read&quot;,
+    &quot;issues:write&quot;
+  ]
+}
+</code></pre>
+<p>The metadata solves protocol-level discovery, but an enterprise agent architecture still needs a policy enforcement layer around it.</p>
+<p>An identity-aware MCP gateway should:</p>
+<ol>
+<li>authenticate the agent session</li>
+<li>identify the acting user</li>
+<li>validate the runtime and agent lifecycle state</li>
+<li>resolve the requested MCP tool to required scopes</li>
+<li>evaluate the permission intersection</li>
+<li>acquire or inject a downstream credential</li>
+<li>forward the tool request</li>
+<li>record the decision and result</li>
+</ol>
+<p>The gateway should also enforce the MCP prohibition against token passthrough. A token issued for one server must not be forwarded to another. The MCP specification requires clients to use the OAuth <code>resource</code> parameter and requires servers to validate that presented tokens were issued specifically for them. That requirement limits lateral movement when a token is exposed or one MCP server is compromised.</p>
+<h2>Identity should be established before model execution</h2>
+<p>Many agent architectures request authorization only when the model decides to call a tool. That check is necessary, but it is incomplete.</p>
+<p>An execution plan can declare its expected authority before an expensive or sensitive run begins:</p>
+<pre><code class="language-yaml">
+plan_id: plan-0182
+agent_id: research-agent-17
+acting_user: user-492
+
+requested_operations:
+  - tool: github.search_code
+    resource: github.com/rmax-ai/agent-identity-lab
+    scopes:
+      - repository:read
+
+  - tool: confluence.search
+    resource: engineering-space
+    scopes:
+      - pages:read
+
+constraints:
+  network: enterprise-egress
+  environment: development
+  maximum_runtime_seconds: 900
+</code></pre>
+<p>The control plane can reject impossible or unauthorized plans before model inference starts.</p>
+<p>This does not replace per-call authorization. The model may deviate from the plan, tool requirements may change, or the user's access may be revoked during execution. Preflight authorization defines an expected authority envelope. The gateway remains the final enforcement point.</p>
+<p>Typed plans also improve auditability. Reviewers can compare:</p>
+<ul>
+<li>authority requested before execution</li>
+<li>authority granted to the session</li>
+<li>tools actually invoked</li>
+<li>authority used by each call</li>
+</ul>
+<p>Unexpected differences become observable events.</p>
+<h2>Agent identity requires an administrative lifecycle</h2>
+<p>Agent identity is not just a token format. It requires an administrative lifecycle.</p>
+<p><strong>Registration</strong></p>
+<p>A developer or platform team registers an agent blueprint that describes business purpose, approved models, approved tools, maximum scopes, permitted environments, runtime requirements, session lifetime, technical owner, and business sponsor.</p>
+<p><strong>Provisioning</strong></p>
+<p>A concrete agent identity is instantiated from the blueprint. It receives a unique principal identifier and registered verification material.</p>
+<p><strong>Attestation</strong></p>
+<p>At startup, the runtime proves relevant properties such as workload identity, container digest, code revision, deployment environment, agent framework version, model identifier, and prompt package version. Software claims are not equivalent to hardware-backed attestation, but they still provide a useful verifiable binding for a proof of concept.</p>
+<p><strong>Session issuance</strong></p>
+<p>The agent requests a short-lived session for a specific user, task, resource set, and scope set. The identity control plane evaluates policy and issues a bounded credential.</p>
+<p><strong>Continuous enforcement</strong></p>
+<p>The platform checks every sensitive tool call against the current state of the agent, user, session, runtime, resource, and policy.</p>
+<p><strong>Suspension and revocation</strong></p>
+<p>Suspending an agent identity should block subsequent calls even when an already-issued session token has not expired. The gateway therefore needs an online lifecycle or revocation check for sensitive operations.</p>
+<p><strong>Decommissioning</strong></p>
+<p>When an agent is retired, the platform should revoke its identities, remove credentials, archive its audit history, and detach its resources and policies.</p>
+<p>This lifecycle keeps agent sprawl from becoming the next form of service-account sprawl.</p>
+<h2>Audit records must connect reasoning to authority</h2>
+<p>Traditional API logs answer questions such as which IP address accessed an endpoint and which token identifier was presented. That is not enough for autonomous workflows.</p>
+<p>A useful agent audit record should connect three layers.</p>
+<p><strong>Identity provenance</strong></p>
+<ul>
+<li>agent identity</li>
+<li>acting user</li>
+<li>blueprint and version</li>
+<li>runtime identity</li>
+<li>code and container digest</li>
+<li>model and prompt version</li>
+</ul>
+<p><strong>Authorization decision</strong></p>
+<ul>
+<li>requested tool and operation</li>
+<li>requested and effective scopes</li>
+<li>target resource</li>
+<li>policy version</li>
+<li>decision and reason</li>
+<li>human approval, when required</li>
+<li>issued credential lease</li>
+</ul>
+<p><strong>Execution trace</strong></p>
+<ul>
+<li>plan and trace identifiers</li>
+<li>tool arguments, with sensitive fields redacted</li>
+<li>downstream response metadata</li>
+<li>execution result</li>
+<li>failure or denial reason</li>
+</ul>
+<p>A representative event could look like this:</p>
+<pre><code class="language-json">
+{
+  &quot;event_type&quot;: &quot;tool.authorization.allowed&quot;,
+  &quot;agent_id&quot;: &quot;research-agent-17&quot;,
+  &quot;acting_user_id&quot;: &quot;user-492&quot;,
+  &quot;session_id&quot;: &quot;session-81&quot;,
+  &quot;trace_id&quot;: &quot;trace-943&quot;,
+  &quot;blueprint&quot;: &quot;research-agent-v3&quot;,
+  &quot;model&quot;: &quot;deepseek-pro&quot;,
+  &quot;runtime_digest&quot;: &quot;sha256:abc123&quot;,
+  &quot;tool&quot;: &quot;github&quot;,
+  &quot;operation&quot;: &quot;search_code&quot;,
+  &quot;resource&quot;: &quot;rmax-ai/agent-identity-lab&quot;,
+  &quot;requested_scopes&quot;: [&quot;repository:read&quot;],
+  &quot;effective_scopes&quot;: [&quot;repository:read&quot;],
+  &quot;policy_version&quot;: &quot;2026-07-10.1&quot;,
+  &quot;decision&quot;: &quot;allow&quot;
+}
+</code></pre>
+<p>The goal is not to log every private reasoning token. The goal is to preserve enough evidence to reconstruct who exercised authority, why the platform permitted it, and what external effect followed.</p>
+<h2>Concrete examples</h2>
+<h3>Example 1, a read-only research agent</h3>
+<p>A research agent is approved to read repositories but never modify them. A user with read and write access asks the agent to inspect a private repository and summarize a design change.</p>
+<p>The correct result is:</p>
+<ul>
+<li>allow repository read access if the user can read the repository</li>
+<li>deny issue creation or write operations, even if the user independently has write permission</li>
+<li>deny all access if the agent identity is suspended</li>
+<li>deny access if the runtime fails attestation</li>
+<li>avoid exposing downstream credentials to the agent runtime</li>
+</ul>
+<p>This is the simplest useful example because it tests the distinction between user authority and agent authority.</p>
+<h3>Example 2, Agent Identity Lab as an executable proof of concept</h3>
+<p><a href="https://github.com/rmax-ai/agent-identity-lab">Agent Identity Lab</a> is intended as a vendor-neutral reference implementation of this architecture. It does not replace an enterprise identity provider or certificate authority; it makes agent identity concrete enough to test, inspect, and challenge.</p>
+<p>The initial proof of concept is expected to include:</p>
+<ul>
+<li>blueprint-based agent registration</li>
+<li>individual agent identities and lifecycle states</li>
+<li>signed software runtime attestations</li>
+<li>user-to-agent delegation grants</li>
+<li>short-lived agent session tokens</li>
+<li>permission intersection through a policy engine</li>
+<li>an identity-aware MCP gateway</li>
+<li>server-side credential injection</li>
+<li>credential lease tracking</li>
+<li>tamper-evident audit records</li>
+<li>an integration example for the Hermes agent runtime</li>
+</ul>
+<p>The intended request path is:</p>
+<pre class="mermaid">
+flowchart TD
+    A["Agent blueprint and identity registry<br/>Purpose, ownership, lifecycle, capabilities"]
+    B["Runtime identity and attestation<br/>SPIFFE/SPIRE or platform workload identity"]
+    C["Session and delegation service<br/>User + agent + resource + scopes + lifetime"]
+    D["Policy decision point<br/>ABAC/ReBAC and permission intersection"]
+    E["Token broker and MCP gateway<br/>Credential isolation and call enforcement"]
+    F["Audit and revocation plane<br/>Traceability, posture, lifecycle enforcement"]
+
+    A --> B --> C --> D --> E --> F
+</pre>
+<p>The core demonstration uses a read-only research agent. It should be allowed to search an approved repository when both the user and agent have read access. A write attempt should be denied even when the acting user independently has write permission. Suspending the agent identity should invalidate subsequent calls. External credentials should remain outside agent memory.</p>
+<p>A concrete request path for that demo is:</p>
+<pre><code class="language-text">
+Hermes agent
+    |
+    | signed runtime attestation
+    v
+Agent Identity Lab session service
+    |
+    | short-lived agent session
+    v
+MCP gateway
+    |
+    | policy decision + credential injection
+    v
+GitHub or mock MCP server
+    |
+    | result + structured audit record
+    v
+Hermes agent
+</code></pre>
+<p>The repository should provide executable scenarios rather than only architecture diagrams:</p>
+<pre><code class="language-text">
+make demo-authorized-read
+make demo-denied-write
+make demo-user-lacks-access
+make demo-suspended-agent
+make demo-invalid-runtime
+make demo-secret-isolation
+</code></pre>
+<p>The most important invariant is:</p>
+<blockquote>
+<p>A denied action must never cause a downstream credential to be issued.</p>
+</blockquote>
+<p>Other invariants include:</p>
+<pre><code class="language-text">
+effective scopes ⊆ requested scopes
+effective scopes ⊆ agent scopes
+effective scopes ⊆ user scopes
+effective scopes ⊆ blueprint scopes
+
+revoked agent → no valid new session
+suspended agent → no successful tool call
+unknown tool mapping → deny
+policy service unavailable → deny
+</code></pre>
+<p>These properties are testable independently of model quality. That independence is precisely their value.</p>
+<h2>Trade-offs and failure modes</h2>
+<p>A dedicated identity layer does not make an agent trustworthy.</p>
+<p>It does not eliminate:</p>
+<ul>
+<li>prompt injection</li>
+<li>malicious tools</li>
+<li>poisoned retrieval results</li>
+<li>unsafe model behavior</li>
+<li>incorrect planning</li>
+<li>data leakage through legitimate outputs</li>
+<li>excessive access granted by bad policy</li>
+<li>compromised identity infrastructure</li>
+</ul>
+<p>Identity changes the <strong>failure boundary</strong>.</p>
+<p>A manipulated research agent with unrestricted user credentials may modify repositories, send messages, or access unrelated systems. The same agent, operating under a short-lived, attested, read-only identity, remains dangerous within its allowed read boundary but cannot silently acquire write authority.</p>
+<p>That is the security objective: not to prove that the reasoning process is correct, but to limit what incorrect reasoning can do.</p>
+<p>There are also unresolved engineering questions:</p>
+<ul>
+<li><strong>Cognitive-state attestation</strong>: infrastructure can attest a container image, executable, deployment, and key, but it cannot yet prove that the agent's current context, memory, or planning state has not been manipulated.</li>
+<li><strong>Multi-agent delegation semantics</strong>: RFC 8693 can represent actor chains, but complex agent systems still need precise rules for delegation depth, scope reduction, revocation propagation, and accountability across orchestrators and workers.</li>
+<li><strong>Cross-organization trust</strong>: SPIFFE federation can establish workload trust across domains, but business authorization requires more than certificate validation. Organizations need interoperable ways to exchange agent provenance, approved capabilities, liability boundaries, and revocation signals.</li>
+<li><strong>Identity granularity</strong>: an identity can represent an agent product, deployment, replica, session, or individual task. Coarse identities are easier to operate but produce wider blast radii. Fine-grained identities improve isolation but increase lifecycle and observability costs.</li>
+<li><strong>Policy latency</strong>: Online token exchange, attestation validation, and dynamic policy evaluation add latency. Systems will need bounded caches and fast revocation channels instead of choosing between full online validation and long-lived authorization.</li>
+</ul>
+<p>These are engineering problems, not reasons to keep using broad service accounts.</p>
+<h2>Practical takeaways</h2>
+<ol>
+<li>Treat the agent as its own principal, not as a renamed service account or a thin wrapper around a user's full session.</li>
+<li>Combine directory governance with runtime attestation. Either one alone leaves an important gap.</li>
+<li>Compute effective authority as an intersection of user, agent, blueprint, tool, resource, environment, and session constraints.</li>
+<li>Keep long-lived credentials out of agent memory. Prefer capability requests, short-lived brokered credentials, and server-side injection.</li>
+<li>Put enforcement at the MCP or tool gateway boundary, and fail closed when policy, mapping, or lifecycle state is uncertain.</li>
+</ol>
+<h2>Scope and positioning</h2>
+<p>This note is not academic research. It does not propose a new formal model, benchmark, or proof system.</p>
+<p>It is also not a blog opinion piece. The claims here are architectural and operational. They are meant to be challenged through implementation, policy design, and failure testing.</p>
+<p>It is not vendor documentation either. The examples draw from Microsoft Entra Agent ID and Google Cloud Agent Identity because they illustrate two useful directions, but the intent is a vendor-neutral control-plane model that can be built with existing enterprise identity systems, policy engines, and tool gateways.</p>
+<p>This is exploratory lab work, not a validated standard. The architectural claims are grounded in existing identity patterns, published protocol specifications, and emerging vendor implementations, but the end-to-end model described here is still a synthesis. Treat it as a practical design hypothesis for enterprise agent systems, not as authoritative guidance.</p>
+<p>The scope is intentionally narrow. This note focuses on identity, delegation, authorization, credential isolation, and auditability for tool-using agents. It does not attempt to solve model alignment, reasoning correctness, retrieval safety, or organizational governance beyond what is needed to define and operate an agent principal.</p>
+<h2>References</h2>
+<ol>
+<li>Microsoft, <a href="https://learn.microsoft.com/en-us/entra/agent-id/">What is Microsoft Entra Agent ID?</a></li>
+<li>Microsoft, <a href="https://learn.microsoft.com/en-us/entra/agent-id/agent-blueprint">Agent identity blueprints in Microsoft Entra Agent ID</a></li>
+<li>Microsoft Graph, <a href="https://learn.microsoft.com/en-us/graph/api/resources/agentidentityblueprint?view=graph-rest-1.0">agentIdentityBlueprint resource type</a></li>
+<li>Google Cloud, <a href="https://docs.cloud.google.com/iam/docs/agent-identity-overview">Agent Identity overview</a></li>
+<li>Google Cloud, <a href="https://docs.cloud.google.com/iam/docs/auth-manager-overview">Agent Identity auth manager overview</a></li>
+<li>SPIFFE, <a href="https://spiffe.io/">SPIFFE overview</a></li>
+<li>SPIFFE, <a href="https://spiffe.io/docs/latest/spiffe-about/spiffe-concepts/">SPIFFE ID and Verifiable Identity Document</a></li>
+<li>SPIFFE, <a href="https://github.com/spiffe/spiffe/blob/main/standards/X509-SVID.md">X.509-SVID specification</a></li>
+<li>SPIFFE, <a href="https://spiffe.io/docs/latest/spire-about/">SPIRE — the SPIFFE Runtime Environment</a></li>
+<li>NIST, <a href="https://csrc.nist.gov/pubs/sp/800/162/final">SP 800-162: Guide to Attribute Based Access Control Definition and Considerations</a></li>
+<li>IETF, <a href="https://datatracker.ietf.org/doc/html/rfc8693">RFC 8693: OAuth 2.0 Token Exchange</a></li>
+<li>IETF, <a href="https://datatracker.ietf.org/doc/html/rfc8707">RFC 8707: Resource Indicators for OAuth 2.0</a></li>
+<li>IETF, <a href="https://datatracker.ietf.org/doc/html/rfc9728">RFC 9728: OAuth 2.0 Protected Resource Metadata</a></li>
+<li>Model Context Protocol, <a href="https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization">Authorization specification</a></li>
+<li>Open Policy Agent, <a href="https://www.openpolicyagent.org/docs/latest/">OPA documentation</a></li>
+<li>Cedar, <a href="https://www.cedarpolicy.com/">Cedar policy language</a></li>
+<li>RMax AI, <a href="https://github.com/rmax-ai/agent-identity-lab">Agent Identity Lab</a></li>
+</ol>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        {
+          text: "I prove who I am before I ask for power, because identity without attestation is only a claim.",
+          agent: "Attestation Agent"
+        },
+        {
+          text: "I inherit purpose from a blueprint, but each live session narrows what I may actually do.",
+          agent: "Policy Agent"
+        },
+        {
+          text: "I request capabilities, not secrets, so my authority can expire cleanly and leave an audit trail.",
+          agent: "Broker Agent"
+        }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
