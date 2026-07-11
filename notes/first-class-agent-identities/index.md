@@ -162,7 +162,7 @@ environment:
   risk_level: low
 ```
 
-A policy engine such as [Open Policy Agent](https://www.openpolicyagent.org/docs/latest/) or [Cedar](https://www.cedarpolicy.com/) can evaluate this context at the moment of the tool call. A policy engine can still use static roles, but it should evaluate them alongside the live request context.
+A policy engine such as [Open Policy Agent](https://www.openpolicyagent.org/docs/latest/) or [Cedar](https://docs.cedarpolicy.com/) can evaluate this context at the moment of the tool call. A policy engine can still use static roles, but it should evaluate them alongside the live request context.
 
 ```mermaid
 flowchart TD
@@ -243,7 +243,7 @@ flowchart TD
     C -->|"short-lived or directly injected credential"| D
 ```
 
-[Google's Agent Identity auth manager](https://docs.cloud.google.com/iam/docs/auth-manager-overview) separates the agent from raw credentials for API keys, machine-to-machine OAuth, and user-delegated OAuth. In Google's gateway model, the gateway can decrypt the end-user credential so the agent never sees it.
+[Google's Agent Identity auth manager](https://docs.cloud.google.com/iam/docs/auth-manager-overview) acts as a centralized credential vault and authentication broker for API keys, machine-to-machine OAuth, and user-delegated OAuth. In the specific Agent Gateway and Gemini Enterprise path described in [Google Cloud Agent Identity](https://docs.cloud.google.com/iam/docs/agent-identity-overview), the gateway can decrypt the end-user credential so the agent never sees the raw credential.
 
 The broader design principle is simple:
 
@@ -286,7 +286,7 @@ An identity-aware MCP gateway should:
 7. forward the tool request
 8. record the decision and result
 
-The gateway should also enforce the MCP prohibition against token passthrough. A token issued for one server must not be forwarded to another. The MCP specification requires clients to use the OAuth `resource` parameter and requires servers to validate that presented tokens were issued specifically for them. That requirement limits lateral movement when a token is exposed or one MCP server is compromised.
+The gateway should also enforce MCP token audience boundaries and avoid token passthrough between servers. A token issued for one server must not be forwarded to another. The MCP authorization specification requires clients to use the OAuth `resource` parameter and requires servers to validate that presented tokens were issued specifically for them. That requirement limits lateral movement when a token is exposed or one MCP server is compromised.
 
 ## Identity should be established before model execution
 
@@ -584,6 +584,5 @@ The scope is intentionally narrow. This note focuses on identity, delegation, au
 13. IETF, [RFC 9728: OAuth 2.0 Protected Resource Metadata](https://datatracker.ietf.org/doc/html/rfc9728)
 14. Model Context Protocol, [Authorization specification](https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization)
 15. Open Policy Agent, [OPA documentation](https://www.openpolicyagent.org/docs/latest/)
-16. Cedar, [Cedar policy language](https://www.cedarpolicy.com/)
+16. Cedar, [Cedar documentation](https://docs.cedarpolicy.com/)
 17. RMax AI, [Agent Identity Lab](https://github.com/rmax-ai/agent-identity-lab)
-

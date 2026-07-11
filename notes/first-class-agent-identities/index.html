@@ -351,7 +351,7 @@ environment:
   session_age_seconds: 217
   risk_level: low
 </code></pre>
-<p>A policy engine such as <a href="https://www.openpolicyagent.org/docs/latest/">Open Policy Agent</a> or <a href="https://www.cedarpolicy.com/">Cedar</a> can evaluate this context at the moment of the tool call. A policy engine can still use static roles, but it should evaluate them alongside the live request context.</p>
+<p>A policy engine such as <a href="https://www.openpolicyagent.org/docs/latest/">Open Policy Agent</a> or <a href="https://docs.cedarpolicy.com/">Cedar</a> can evaluate this context at the moment of the tool call. A policy engine can still use static roles, but it should evaluate them alongside the live request context.</p>
 <pre class="mermaid">
 flowchart TD
     A["User request"]
@@ -416,7 +416,7 @@ flowchart TD
     B -->|"approved resource + reduced scopes"| C
     C -->|"short-lived or directly injected credential"| D
 </pre>
-<p><a href="https://docs.cloud.google.com/iam/docs/auth-manager-overview">Google's Agent Identity auth manager</a> separates the agent from raw credentials for API keys, machine-to-machine OAuth, and user-delegated OAuth. In Google's gateway model, the gateway can decrypt the end-user credential so the agent never sees it.</p>
+<p><a href="https://docs.cloud.google.com/iam/docs/auth-manager-overview">Google's Agent Identity auth manager</a> acts as a centralized credential vault and authentication broker for API keys, machine-to-machine OAuth, and user-delegated OAuth. In the specific Agent Gateway and Gemini Enterprise path described in <a href="https://docs.cloud.google.com/iam/docs/agent-identity-overview">Google Cloud Agent Identity</a>, the gateway can decrypt the end-user credential so the agent never sees the raw credential.</p>
 <p>The broader design principle is simple:</p>
 <blockquote>
 <p>Agents should request capabilities, not retrieve secrets.</p>
@@ -451,7 +451,7 @@ flowchart TD
 <li>forward the tool request</li>
 <li>record the decision and result</li>
 </ol>
-<p>The gateway should also enforce the MCP prohibition against token passthrough. A token issued for one server must not be forwarded to another. The MCP specification requires clients to use the OAuth <code>resource</code> parameter and requires servers to validate that presented tokens were issued specifically for them. That requirement limits lateral movement when a token is exposed or one MCP server is compromised.</p>
+<p>The gateway should also enforce MCP token audience boundaries and avoid token passthrough between servers. A token issued for one server must not be forwarded to another. The MCP authorization specification requires clients to use the OAuth <code>resource</code> parameter and requires servers to validate that presented tokens were issued specifically for them. That requirement limits lateral movement when a token is exposed or one MCP server is compromised.</p>
 <h2>Identity should be established before model execution</h2>
 <p>Many agent architectures request authorization only when the model decides to call a tool. That check is necessary, but it is incomplete.</p>
 <p>An execution plan can declare its expected authority before an expensive or sensitive run begins:</p>
@@ -697,7 +697,7 @@ policy service unavailable → deny
 <li>IETF, <a href="https://datatracker.ietf.org/doc/html/rfc9728">RFC 9728: OAuth 2.0 Protected Resource Metadata</a></li>
 <li>Model Context Protocol, <a href="https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization">Authorization specification</a></li>
 <li>Open Policy Agent, <a href="https://www.openpolicyagent.org/docs/latest/">OPA documentation</a></li>
-<li>Cedar, <a href="https://www.cedarpolicy.com/">Cedar policy language</a></li>
+<li>Cedar, <a href="https://docs.cedarpolicy.com/">Cedar documentation</a></li>
 <li>RMax AI, <a href="https://github.com/rmax-ai/agent-identity-lab">Agent Identity Lab</a></li>
 </ol>
           </div>
