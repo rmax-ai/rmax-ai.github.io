@@ -263,9 +263,9 @@ A useful design principle for long-running agents is:
 
 > Workers should be replaceable; state should not be.
 
-[Temporal](https://temporal.io/how-it-works) offers a durability model in which workflow state is reconstructed from recorded history rather than held only in live process memory. That lets a workflow pause for minutes or weeks without requiring the same worker process to remain alive.
+[Temporal](https://temporal.io/how-it-works) offers a durability model in which workflow state is reconstructed from recorded history rather than held only in live process memory. That lets execution recover after crashes or worker replacement without requiring the same worker process to remain alive.
 
-These systems differ in implementation, but share the same structural principle:
+The same structural principle is useful even in smaller agent runtimes:
 
 > durable state + ephemeral execution workers + replayable transitions
 
@@ -366,7 +366,7 @@ A model with a tool is also a principal with authority.
 
 Every tool call raises questions about: identity; delegated permissions; resource scope; user consent; credential handling; network access; auditability.
 
-The Model Context Protocol and related agent tooling make the security boundary more explicit: tools are separate capabilities exposed across a protocol boundary, not just helper functions inside one prompt. That makes identity, delegated authority, approval flow and execution isolation first-class runtime concerns rather than incidental implementation details.
+Protocols such as the [Model Context Protocol](https://modelcontextprotocol.io/docs/getting-started/intro) make that boundary more explicit: tools are separate capabilities exposed across a protocol boundary, not just helper functions inside one prompt. That makes identity, delegated authority, approval flow and execution isolation first-class runtime concerns rather than incidental implementation details.
 
 An agent runtime should therefore distinguish:
 
@@ -551,4 +551,5 @@ The scope is intentionally operational. This article focuses on execution semant
 4. Brito dos Santos Filho, E. ["ESAA: Event Sourcing for Autonomous Agents in LLM-Based Software Engineering."](https://arxiv.org/abs/2602.23193) arXiv, 2026.
 5. Temporal. ["How Temporal Works."](https://temporal.io/how-it-works)
 6. OpenAI. ["Agents SDK."](https://developers.openai.com/api/docs/guides/agents)
-7. rmax.ai. [durable-agent-runtime-lab: Experimental Runtime for Reliable Long-Horizon Agents.](https://github.com/rmax-ai/durable-agent-runtime-lab)
+7. Model Context Protocol. ["What is the Model Context Protocol (MCP)?"](https://modelcontextprotocol.io/docs/getting-started/intro)
+8. rmax.ai. [durable-agent-runtime-lab: Experimental Runtime for Reliable Long-Horizon Agents.](https://github.com/rmax-ai/durable-agent-runtime-lab)
