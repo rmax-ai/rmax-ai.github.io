@@ -46,6 +46,8 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Deterministic Runtimes for Long-Horizon AI Agents](/notes/deterministic-runtimes/)
+*July 11, 2026* — Why long-horizon AI agent reliability requires compiling stochastic model proposals into deterministic, durable, verifiable execution — not a longer tool loop.
 ### [Building First-Class Identities for Enterprise AI Agents](/notes/first-class-agent-identities/)
 *July 10, 2026* — Why enterprise AI agents need first-class identities, combining runtime attestation, delegated authority, ABAC policy, MCP enforcement, and audits.
 ### [Workflow-Centered Agent Deployment: What Uber's Agentic Pods Reveal About Enterprise AI Adoption](/notes/workflow-agent-deployment/)
