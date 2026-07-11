@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*July 11, 2026* — [Deterministic Runtimes for Long-Horizon AI Agents](/notes/deterministic-runtimes/)
+
+### [Deterministic Runtimes for Long-Horizon AI Agents](/notes/deterministic-runtimes/)
+*July 11, 2026* — Why long-horizon AI agent reliability requires compiling stochastic model proposals into deterministic, durable, verifiable execution — not a longer tool loop.
+
 *July 10, 2026* — [Building First-Class Identities for Enterprise AI Agents](/notes/first-class-agent-identities/)
 
 ### [Building First-Class Identities for Enterprise AI Agents](/notes/first-class-agent-identities/)
