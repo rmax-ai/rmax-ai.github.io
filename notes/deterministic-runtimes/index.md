@@ -527,6 +527,24 @@ But production systems cannot delegate correctness to probabilistic inference.
 
 That is the transition from an agent loop to an agent runtime.
 
+## Practical takeaways
+
+1. Make the stochastic-deterministic boundary explicit by requiring every model proposal to pass schema, policy and precondition checks before it can touch external state.
+2. Represent execution as an event-sourced ledger so the orchestrator-worker topology can replay, audit and resume workflows without asking the model to recreate prior decisions.
+3. Compile natural-language intent into typed plans with dependency edges, task-level postcondition checks and bounded state transitions instead of leaving the plan embedded in free-form prompt text.
+4. Put verification gates around every state-changing step by validating proposals before execution and enforcing postcondition checks such as type checks, tests and invariant checks after execution.
+5. Treat durable execution as a first-class runtime property by persisting checkpoints, commit state and workflow history outside ephemeral workers.
+6. Require idempotency keys for non-trivial actions so retries, duplicate messages and uncertain acknowledgements cannot silently produce duplicate writes or destructive side effects.
+7. Keep the orchestrator authoritative and workers bounded so models can propose and execute scoped tasks while deterministic control logic decides what is committed.
+
+## Scope and positioning
+
+This note is not a claim that long-horizon reliability comes primarily from a smarter base model, a longer context window or a more elaborate prompt loop. It does not propose a new benchmark, proof system or universal agent architecture. Its argument is narrower: reliability depends on where the stochastic-deterministic boundary is drawn and how execution is compiled, recorded and verified after the model proposes an action.
+
+It is also not a product pitch for any single framework, workflow engine or multi-agent pattern. The references to event sourcing, typed plans, durable execution, verification gates and the orchestrator-worker topology are architectural primitives, not a requirement to adopt one vendor stack. The examples are meant to show which runtime properties matter, not to collapse the design space into one implementation.
+
+The scope is intentionally operational. This article focuses on execution semantics: authority, replay, postcondition checks, idempotency and recovery under failure. It does not attempt to cover agent UX, evaluation culture, model training or organizational process beyond the point where those concerns affect runtime correctness.
+
 ---
 
 ## References
