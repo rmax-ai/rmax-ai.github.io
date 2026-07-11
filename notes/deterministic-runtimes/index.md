@@ -70,9 +70,9 @@ This works well for short tasks. It is easy to implement, flexible and allows th
 
 Its weakness appears when early decisions have delayed consequences.
 
-The paper ["Why Reasoning Fails to Plan"](https://arxiv.org/abs/2501.12351) argues that step-by-step reasoning tends to induce a locally greedy policy. A model selects an action that looks useful from the current state but does not sufficiently account for how that commitment constrains future states. Over a long trajectory, these small local commitments become difficult to reverse. The paper introduces future-aware lookahead to let downstream outcomes influence earlier choices.
+The paper ["Why Reasoning Fails to Plan"](https://arxiv.org/abs/2601.22311) argues that step-by-step reasoning tends to induce a locally greedy policy. A model selects an action that looks useful from the current state but does not sufficiently account for how that commitment constrains future states. Over a long trajectory, these small local commitments become difficult to reverse. The paper introduces future-aware lookahead to let downstream outcomes influence earlier choices.
 
-Related work on [task-decoupled planning](https://arxiv.org/abs/2410.11571) identifies another problem: agents frequently reason over a single entangled history containing multiple partially independent subtasks. Errors and irrelevant context then spread across the whole execution. By representing work as a directed graph of scoped subtasks, planning and recovery can remain local to the affected branch.
+Related work on [task-decoupled planning](https://arxiv.org/abs/2601.07577) identifies another problem: agents frequently reason over a single entangled history containing multiple partially independent subtasks. Errors and irrelevant context then spread across the whole execution. By representing work as a directed graph of scoped subtasks, planning and recovery can remain local to the affected branch.
 
 The practical conclusion is not that agents need perfect plans before execution. One-shot plans are also brittle when the environment produces unexpected results.
 
@@ -227,7 +227,7 @@ CHECKPOINT_CREATED
 
 The current workflow state becomes a projection of this event history.
 
-The [ESAA architecture](https://arxiv.org/abs/2504.19951) applies event-sourcing principles to LLM-based software engineering. Agents emit structured intentions, while a deterministic orchestrator validates and records those intentions before materializing changes. This separates cognitive proposals from state mutation and provides a basis for replay and forensic inspection.
+The [ESAA architecture](https://arxiv.org/abs/2602.23193) applies event-sourcing principles to LLM-based software engineering. Agents emit structured intentions, while a deterministic orchestrator validates and records those intentions before materializing changes. This separates cognitive proposals from state mutation and provides a basis for replay and forensic inspection.
 
 This separation produces several benefits.
 
@@ -549,10 +549,10 @@ The scope is intentionally operational. This article focuses on execution semant
 
 ## References
 
-1. Wang, Z. et al. ["Why Reasoning Fails to Plan: A Planning-Centric Analysis of Long-Horizon Decision Making in LLM Agents."](https://arxiv.org/abs/2501.12351) arXiv, 2026.
-2. Li, Y. et al. ["Beyond Entangled Planning: Task-Decoupled Planning for Long-Horizon Agents."](https://arxiv.org/abs/2410.11571) arXiv, 2026.
-3. Wang, T. et al. ["A Subgoal-driven Framework for Improving Long-Horizon LLM Agents."](https://arxiv.org/abs/2506.06048) arXiv, 2026.
-4. Brito dos Santos Filho, E. ["ESAA: Event Sourcing for Autonomous Agents in LLM-Based Software Engineering."](https://arxiv.org/abs/2504.19951) arXiv, 2026.
+1. Wang, Z. et al. ["Why Reasoning Fails to Plan: A Planning-Centric Analysis of Long-Horizon Decision Making in LLM Agents."](https://arxiv.org/abs/2601.22311) arXiv, 2026.
+2. Li, Y. et al. ["Beyond Entangled Planning: Task-Decoupled Planning for Long-Horizon Agents."](https://arxiv.org/abs/2601.07577) arXiv, 2026.
+3. Wang, T. et al. ["A Subgoal-driven Framework for Improving Long-Horizon LLM Agents."](https://arxiv.org/abs/2603.19685) arXiv, 2026.
+4. Brito dos Santos Filho, E. ["ESAA: Event Sourcing for Autonomous Agents in LLM-Based Software Engineering."](https://arxiv.org/abs/2602.23193) arXiv, 2026.
 5. Atlassian Engineering. ["Long Horizon: How Atlassian Built a Reasoning Engine for Complex AI Tasks."](https://www.atlassian.com/blog/announcements/long-horizon) 2026.
 6. Firetiger. ["How Firetiger Works: Long Horizon Agents in Production."](https://www.firecrawl.dev/blog/firetiger-architecture) 2026.
 7. Temporal. ["Introducing Temporal and Agentic Sandboxes: The OpenAI Agents SDK."](https://temporal.io/blog/introducing-temporal-and-agentic-sandboxes) 2026.
