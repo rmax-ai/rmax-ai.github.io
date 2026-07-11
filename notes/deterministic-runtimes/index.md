@@ -70,9 +70,9 @@ This works well for short tasks. It is easy to implement, flexible and allows th
 
 Its weakness appears when early decisions have delayed consequences.
 
-The paper ["Why Reasoning Fails to Plan"](https://arxiv.org/abs/2501.12351) argues that step-by-step reasoning tends to induce a locally greedy policy. A model selects an action that looks useful from the current state but does not sufficiently account for how that commitment constrains future states. Over a long trajectory, these small local commitments become difficult to reverse. The paper introduces future-aware lookahead to let downstream outcomes influence earlier choices.
+The paper ["Why Reasoning Fails to Plan"](https://arxiv.org/abs/2601.22311) argues that step-by-step reasoning tends to induce a locally greedy policy. A model selects an action that looks useful from the current state but does not sufficiently account for how that commitment constrains future states. Over a long trajectory, these small local commitments become difficult to reverse. The paper introduces future-aware lookahead to let downstream outcomes influence earlier choices.
 
-Related work on [task-decoupled planning](https://arxiv.org/abs/2410.11571) identifies another problem: agents frequently reason over a single entangled history containing multiple partially independent subtasks. Errors and irrelevant context then spread across the whole execution. By representing work as a directed graph of scoped subtasks, planning and recovery can remain local to the affected branch.
+Related work on [task-decoupled planning](https://arxiv.org/abs/2601.07577) identifies another problem: agents frequently reason over a single entangled history containing multiple partially independent subtasks. Errors and irrelevant context then spread across the whole execution. By representing work as a directed graph of scoped subtasks, planning and recovery can remain local to the affected branch.
 
 The practical conclusion is not that agents need perfect plans before execution. One-shot plans are also brittle when the environment produces unexpected results.
 
@@ -92,7 +92,7 @@ As the execution horizon expands, several failure modes compound.
 
 Raw tool outputs, command traces, source files and intermediate explanations are appended to the active conversation. The context becomes increasingly expensive while important constraints compete with incidental execution details.
 
-Atlassian encountered this pressure while developing its [Long Horizon reasoning engine](https://www.atlassian.com/blog/announcements/long-horizon). Its architecture supports loops of up to 150 iterations, requiring explicit context compaction, progressive tool disclosure, prompt-prefix caching and decomposition into child instances for wide tasks.
+Modern agent tooling has started to expose explicit primitives for this problem, including conversation state, compaction, prompt caching, scoped orchestration and sandboxed workers. Those features are a sign that "just keep appending to the chat" does not scale cleanly once trajectories become long and stateful.
 
 This illustrates an important boundary: a larger context window increases storage capacity, but it does not determine what information should remain active.
 
@@ -227,7 +227,7 @@ CHECKPOINT_CREATED
 
 The current workflow state becomes a projection of this event history.
 
-The [ESAA architecture](https://arxiv.org/abs/2504.19951) applies event-sourcing principles to LLM-based software engineering. Agents emit structured intentions, while a deterministic orchestrator validates and records those intentions before materializing changes. This separates cognitive proposals from state mutation and provides a basis for replay and forensic inspection.
+The [ESAA architecture](https://arxiv.org/abs/2602.23193) applies event-sourcing principles to LLM-based software engineering. Agents emit structured intentions, while a deterministic orchestrator validates and records those intentions before materializing changes. This separates cognitive proposals from state mutation and provides a basis for replay and forensic inspection.
 
 This separation produces several benefits.
 
@@ -263,9 +263,7 @@ A useful design principle for long-running agents is:
 
 > Workers should be replaceable; state should not be.
 
-[Firetiger](https://www.firecrawl.dev/blog/firetiger-architecture) describes a long-horizon architecture in which immutable snapshots live in object storage while AWS Lambda workers perform one execution cycle at a time. Each invocation loads a snapshot, processes a model or tool step and writes a new snapshot. Failed workers can be retried from the last immutable state without requiring a persistent agent process.
-
-[Temporal](https://temporal.io/blog/introducing-temporal-and-agentic-sandboxes) offers a different durability model. Workflow state is reconstructed from recorded history, allowing an agent to pause for minutes or weeks without retaining active compute. Its OpenAI Agents SDK integration demonstrates resumable sandbox sessions, workflow forking and recovery across worker restarts.
+[Temporal](https://temporal.io/how-it-works) offers a durability model in which workflow state is reconstructed from recorded history rather than held only in live process memory. That lets a workflow pause for minutes or weeks without requiring the same worker process to remain alive.
 
 These systems differ in implementation, but share the same structural principle:
 
@@ -368,7 +366,7 @@ A model with a tool is also a principal with authority.
 
 Every tool call raises questions about: identity; delegated permissions; resource scope; user consent; credential handling; network access; auditability.
 
-The [Model Context Protocol security guidance](https://modelcontextprotocol.io/docs/concepts/security) documents risks including confused-deputy behavior, session hijacking, server compromise, SSRF and unsafe local execution. Its mitigations emphasize per-request authorization, secure session handling, restricted network behavior and explicit trust boundaries.
+The Model Context Protocol and related agent tooling make the security boundary more explicit: tools are separate capabilities exposed across a protocol boundary, not just helper functions inside one prompt. That makes identity, delegated authority, approval flow and execution isolation first-class runtime concerns rather than incidental implementation details.
 
 An agent runtime should therefore distinguish:
 
@@ -389,9 +387,7 @@ Multi-agent systems are often presented as collections of autonomous specialists
 
 This can be useful, but communication introduces its own failure surface. Each handoff can lose constraints, evidence and error details. Peer-to-peer coordination also grows rapidly as more agents are added.
 
-Atlassian's Long Horizon architecture moved many operations away from product-specific subagent handoffs toward one model operating over a flattened tool surface. Its engineers reported that summarized handoffs had hidden raw tool failures and intermediate information from the orchestrator. They retained child instances for wide, independently decomposable tasks rather than routing every operation through specialist agents.
-
-The implication is not that single-agent systems always outperform multi-agent systems. It is that agents should be introduced to isolate work, not to imitate an organization chart.
+The implication is not that single-agent systems always outperform multi-agent systems. It is that additional agents should be introduced to isolate work, narrow authority and localize failure, not simply to imitate an organization chart.
 
 A practical topology is:
 
@@ -412,7 +408,7 @@ For cost-sensitive systems, model roles can also be separated:
 - cheaper workers for narrow execution steps;
 - deterministic verification wherever possible.
 
-The [OpenAI Agents SDK](https://platform.openai.com/docs/guides/agents) exposes primitives for tool loops, handoffs, guardrails, sessions, human intervention, tracing and sandboxed workers. These are useful building blocks, but the application still needs to define its own durability, authority and commit semantics.
+The [OpenAI Agents SDK](https://developers.openai.com/api/docs/guides/agents) exposes primitives for tool execution, orchestration, guardrails, results and state, integrations and observability, and sandbox agents. These are useful building blocks, but the application still needs to define its own durability, authority and commit semantics.
 
 ## The companion project: durable-agent-runtime-lab
 
@@ -549,13 +545,10 @@ The scope is intentionally operational. This article focuses on execution semant
 
 ## References
 
-1. Wang, Z. et al. ["Why Reasoning Fails to Plan: A Planning-Centric Analysis of Long-Horizon Decision Making in LLM Agents."](https://arxiv.org/abs/2501.12351) arXiv, 2026.
-2. Li, Y. et al. ["Beyond Entangled Planning: Task-Decoupled Planning for Long-Horizon Agents."](https://arxiv.org/abs/2410.11571) arXiv, 2026.
-3. Wang, T. et al. ["A Subgoal-driven Framework for Improving Long-Horizon LLM Agents."](https://arxiv.org/abs/2506.06048) arXiv, 2026.
-4. Brito dos Santos Filho, E. ["ESAA: Event Sourcing for Autonomous Agents in LLM-Based Software Engineering."](https://arxiv.org/abs/2504.19951) arXiv, 2026.
-5. Atlassian Engineering. ["Long Horizon: How Atlassian Built a Reasoning Engine for Complex AI Tasks."](https://www.atlassian.com/blog/announcements/long-horizon) 2026.
-6. Firetiger. ["How Firetiger Works: Long Horizon Agents in Production."](https://www.firecrawl.dev/blog/firetiger-architecture) 2026.
-7. Temporal. ["Introducing Temporal and Agentic Sandboxes: The OpenAI Agents SDK."](https://temporal.io/blog/introducing-temporal-and-agentic-sandboxes) 2026.
-8. OpenAI. ["OpenAI Agents SDK Documentation."](https://platform.openai.com/docs/guides/agents)
-9. Model Context Protocol. ["Security Best Practices."](https://modelcontextprotocol.io/docs/concepts/security)
-10. rmax.ai. [durable-agent-runtime-lab: Experimental Runtime for Reliable Long-Horizon Agents.](https://github.com/rmax-ai/durable-agent-runtime-lab)
+1. Wang, Z. et al. ["Why Reasoning Fails to Plan: A Planning-Centric Analysis of Long-Horizon Decision Making in LLM Agents."](https://arxiv.org/abs/2601.22311) arXiv, 2026.
+2. Li, Y. et al. ["Beyond Entangled Planning: Task-Decoupled Planning for Long-Horizon Agents."](https://arxiv.org/abs/2601.07577) arXiv, 2026.
+3. Wang, T. et al. ["A Subgoal-driven Framework for Improving Long-Horizon LLM Agents."](https://arxiv.org/abs/2603.19685) arXiv, 2026.
+4. Brito dos Santos Filho, E. ["ESAA: Event Sourcing for Autonomous Agents in LLM-Based Software Engineering."](https://arxiv.org/abs/2602.23193) arXiv, 2026.
+5. Temporal. ["How Temporal Works."](https://temporal.io/how-it-works)
+6. OpenAI. ["Agents SDK."](https://developers.openai.com/api/docs/guides/agents)
+7. rmax.ai. [durable-agent-runtime-lab: Experimental Runtime for Reliable Long-Horizon Agents.](https://github.com/rmax-ai/durable-agent-runtime-lab)
