@@ -46,6 +46,8 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Evidence-Carrying Changes: From AI Code Production to Verifiable Software Delivery](/notes/evidence-carrying-changes/)
+*July 13, 2026* — AI coding systems produce implementations faster than delivery processes can evaluate them. This article proposes evidence-carrying changes: structured claims about intended behavior, independently generated verification evidence, provenance, residual uncertainty, and risk-calibrated policy decisions.
 ### [Deterministic Runtimes for Long-Horizon AI Agents](/notes/deterministic-runtimes/)
 *July 11, 2026* — Why long-horizon AI agent reliability requires compiling stochastic model proposals into deterministic, durable, verifiable execution — not a longer tool loop.
 ### [Building First-Class Identities for Enterprise AI Agents](/notes/first-class-agent-identities/)

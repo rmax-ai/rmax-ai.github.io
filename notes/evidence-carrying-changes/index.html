@@ -1,0 +1,978 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Evidence-Carrying Changes: From AI Code Production to Verifiable Software Delivery — rmax.ai</title>
+    <meta name="description" content="AI coding systems produce implementations faster than delivery processes can evaluate them. This article proposes evidence-carrying changes — structured claims about intended behavior, independently generated verification evidence, provenance, residual uncertainty, and risk-calibrated policy decisions." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/evidence-carrying-changes/" />
+
+    <meta property="og:title" content="Evidence-Carrying Changes: From AI Code Production to Verifiable Software Delivery" />
+    <meta property="og:description" content="AI coding systems produce implementations faster than delivery processes can evaluate them. This article proposes evidence-carrying changes — structured claims about intended behavior, independently generated verification evidence, provenance, residual uncertainty, and risk-calibrated policy decisions." />
+    <meta property="og:url" content="https://rmax.ai/notes/evidence-carrying-changes/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-07-13" />
+    <meta property="article:tag" content="evidence-carrying" />
+    <meta property="article:tag" content="verification" />
+    <meta property="article:tag" content="ai-coding" />
+    <meta property="article:tag" content="software-engineering" />
+    <meta property="article:tag" content="assurance" />
+    <meta property="article:tag" content="mutation-testing" />
+    <meta property="article:tag" content="policy-as-code" />
+    <meta property="article:tag" content="provenance" />
+    <meta property="article:tag" content="supply-chain" />
+    <meta property="article:tag" content="code-review" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      h4 {
+        margin: 24px 0 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+
+      @media (max-width: 600px) {
+        .wrap {
+          margin: 20px auto;
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>Evidence-Carrying Changes: From AI Code Production to Verifiable Software Delivery</h1>
+            <div class="post-meta">
+              <span>2026-07-13</span>
+              <span>•</span>
+              <span>25–30 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+<h2>Abstract</h2>
+<p>AI coding systems can now produce implementations, tests, migrations, and pull requests faster than many delivery processes can evaluate them. That does not mean software engineering has become uniformly faster. It suggests that, for some classes of work, implementation capacity is increasing faster than verification, review, integration, security assurance, and operational validation capacity. This note proposes <strong>evidence-carrying changes</strong>. Each consequential change should arrive with a structured claim, independent evidence, provenance, stated residual uncertainty, and a policy decision. Here, consequential means a change whose failure could materially affect users, data, money, security, or operations. The design draws on assurance cases, provenance systems, mutation testing, policy-as-code, and independent verification. The central hypothesis is that durable advantage in AI-assisted engineering may depend less on access to code generators and more on the ability to justify changes before they reach production.</p>
+<h2>Context and motivation</h2>
+<p>AI coding systems can inspect repositories, modify multiple files, run commands, repair test failures, and prepare pull requests with limited human intervention. For bounded tasks, the marginal effort required to produce a plausible implementation has fallen sharply.</p>
+<p>The effect on total engineering productivity is less settled.</p>
+<p>In a randomized trial involving experienced open-source developers working on real issues in repositories they already knew, <a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">METR</a> found that the early-2025 AI tools it tested increased completion time by about 19 percent. The study population was narrow, the tools have since changed, and the result should not be generalized to all developers or tasks. It still shows why local code-generation speed cannot be assumed to translate into system-level delivery speed.</p>
+<p>Chen et al. found in a 2026 mixed-methods study at <a href="https://arxiv.org/abs/2602.03593">BNY Mellon</a>, based on 2,989 survey responses and 11 interviews, that no single activity measure captures developer productivity adequately. Participants described effects on expertise, ownership, quality, and long-term maintainability that commit counts or immediate task completion do not capture. The evidence is self-reported and organization-specific, but it reinforces a broader point: generated output is not the same as delivered value.</p>
+<p>The practical question is therefore not whether AI improves productivity in the abstract. It is where capacity is added, where queues form, and which constraints become binding.</p>
+<h2>Core thesis</h2>
+<p><strong>As AI lowers the cost of producing plausible code, the bottleneck in consequential software delivery shifts toward specification quality, verification quality, review quality, integration discipline, and operational judgment.</strong></p>
+<p>That shift changes what must accompany a proposed change. A patch and a green test run are often not enough. The producer should also carry the supporting evidence that explains why the change is acceptable, what was actually evaluated, what remains uncertain, and which policy boundary governs the next step.</p>
+<h2>1. Code is becoming cheaper, justified change is not</h2>
+<p>A useful delivery model is:</p>
+<pre><code class="language-text">
+Requirements → Specification → Implementation → Verification → Review → Deployment → Operation
+</code></pre>
+<p><em>Figure 1. Faster implementation creates a queue unless downstream validation capacity grows with it.</em></p>
+<pre class="mermaid">
+flowchart TD
+    A[Requirements] --> B[Specification]
+    B --> C[Implementation]
+    C --> Q[Proposed change queue]
+    Q --> D[Verification<br/>binding constraint]
+    D --> E[Review]
+    E --> F[Deployment]
+    F --> G[Operation]
+    X1[Candidate 1] --> Q
+    X2[Candidate 2] --> Q
+    X3[Candidate 3] --> Q
+    classDef bottleneck fill:#312e81,stroke:#c4b5fd,color:#f8fafc,stroke-width:2px;
+    class D bottleneck;
+</pre>
+<p>As a heuristic, end-to-end throughput is constrained by the slowest meaningful stage:</p>
+<pre><code class="language-text">
+T_delivery ≈ min(T_spec, T_generation, T_verification, T_review, T_deployment)
+</code></pre>
+<p>This is not a precise empirical law. It is a constraint-oriented model. <a href="https://en.wikipedia.org/wiki/Amdahl%27s_law">Amdahl's Law</a> offers a useful analogy: accelerating one portion of a system has diminishing effect when the remaining portions dominate total time. Queueing theory offers a second warning: when arrivals approach or exceed a stage's service capacity, waiting time rises nonlinearly.</p>
+<p>If an agent produces three times as many proposed changes while verification and review capacity remain unchanged, the result may be a larger queue rather than three times as much production value. More generated code can also create more integration paths, more dependency interactions, and more states that require operational validation.</p>
+<p>The point is not that implementation has stopped mattering. It is that verification and integration are increasingly likely to become binding constraints where code generation accelerates faster than the surrounding delivery system.</p>
+<h2>2. A code change is a claim</h2>
+<p>A proposed code change is not merely a collection of modified files. It is an assertion about a system.</p>
+<p>It claims that:</p>
+<ul>
+<li>the system should behave differently;</li>
+<li>the implementation satisfies an intended requirement;</li>
+<li>existing behavior remains acceptably preserved;</li>
+<li>the change complies with architectural and organizational constraints;</li>
+<li>the change is sufficiently safe to deploy;</li>
+<li>failures, if they occur, can be observed and handled.</li>
+</ul>
+<p>Let:</p>
+<pre><code class="language-text">
+C = claim introduced by a proposed change
+</code></pre>
+<p>The delivery system evaluates that claim using evidence:</p>
+<pre><code class="language-text">
+E = E_f + E_s + E_a + E_o + E_p + E_h
+</code></pre>
+<p>where:</p>
+<ul>
+<li><code>E_f</code>: functional evidence;</li>
+<li><code>E_s</code>: security evidence;</li>
+<li><code>E_a</code>: architectural evidence;</li>
+<li><code>E_o</code>: operational evidence;</li>
+<li><code>E_p</code>: provenance evidence;</li>
+<li><code>E_h</code>: human-judgment evidence.</li>
+</ul>
+<p><em>Figure 2. Multiple evidence classes feed one change claim, which then updates confidence rather than proving correctness.</em></p>
+<pre class="mermaid">
+flowchart TD
+    E1[Functional evidence<br/>E_f] --> C[Change claim<br/>C]
+    E2[Security evidence<br/>E_s] --> C
+    E3[Architectural evidence<br/>E_a] --> C
+    E4[Operational evidence<br/>E_o] --> C
+    E5[Provenance evidence<br/>E_p] --> C
+    E6[Human judgment<br/>E_h] --> C
+    C --> P[Confidence assessment<br/>P(acceptable change | E)]
+</pre>
+<p>The crucial distinction is:</p>
+<pre><code class="language-text">
+Evidence exists ≠ The artifact is correct
+</code></pre>
+<p>Instead, evidence changes confidence:</p>
+<pre><code class="language-text">
+P(acceptable change | E)
+</code></pre>
+<p>This probability need not be computed numerically. The expression makes the epistemic relationship explicit: a test report, scan, approval, or attestation changes what can reasonably be believed about a change, but none establishes universal correctness.</p>
+<p>This framing resembles an assurance case more than a conventional CI status page. <a href="https://scsc.uk/gsn">Goal Structuring Notation</a>, for example, represents relationships between claims, supporting arguments, contextual assumptions, and evidence. A diagram does not itself prove safety. It exposes how the argument is constructed and where it depends on incomplete or contested evidence.</p>
+<p>It also resembles <a href="https://dl.acm.org/doi/10.1145/263699.263712">proof-carrying code</a> in a limited conceptual sense. In proof-carrying code, an untrusted producer supplies code together with a machine-checkable proof that it satisfies a defined safety policy. An ordinary evidence package is much weaker. Tests, scans, and approvals are not mathematical proofs. The transferable design principle is that the producer should carry the burden of supplying verifiable support for its claims rather than asking the consumer to reconstruct that support from scratch.</p>
+<h2>3. What counts as software evidence</h2>
+<p>Evidence is useful only relative to a claim. "All tests passed" is weak evidence when the requirement is ambiguous, the tests cover only the happy path, or the test oracle reproduces the same mistaken assumption as the implementation.</p>
+<p>An evidence-carrying change should therefore distinguish evidence classes rather than collapse everything into one green status.</p>
+<h3>Functional evidence</h3>
+<p>Functional evidence addresses whether the implementation behaves according to its specification.</p>
+<p>Examples include:</p>
+<ul>
+<li>unit tests;</li>
+<li>integration tests;</li>
+<li>end-to-end tests;</li>
+<li>property-based tests;</li>
+<li>differential testing;</li>
+<li>regression tests;</li>
+<li>mutation testing;</li>
+<li>formal specifications;</li>
+<li>model checking or theorem proving where justified.</li>
+</ul>
+<p>Different techniques expose different defect classes. Unit tests can isolate local behavior but often miss interactions. End-to-end tests exercise realistic paths but may be slow, flaky, and hard to diagnose. Property-based testing explores families of inputs rather than individual examples, but its value depends on whether the stated properties capture meaningful correctness.</p>
+<p>Mutation testing evaluates the test suite rather than the implementation directly. It introduces controlled faults and asks whether the tests detect them. A high mutation score does not guarantee correctness, but a low score shows that many plausible faults can survive the suite.</p>
+<h3>Security evidence</h3>
+<p>Security evidence addresses bounded classes of vulnerability and policy violation.</p>
+<p>Examples include:</p>
+<ul>
+<li>static application security testing;</li>
+<li>taint analysis;</li>
+<li>dependency and supply-chain scanning;</li>
+<li>secret detection;</li>
+<li>privilege checks;</li>
+<li>policy checks;</li>
+<li>adversarial inputs;</li>
+<li>sandbox execution;</li>
+<li>dynamic security testing;</li>
+<li>authorization-path analysis.</li>
+</ul>
+<p>A clean scan is evidence of non-detection under a particular tool, configuration, rule set, and code path. It is not proof that vulnerabilities are absent.</p>
+<p><a href="https://csrc.nist.gov/projects/ssdf">NIST's Secure Software Development Framework</a> treats secure development as a set of practices integrated throughout the software lifecycle rather than a final scan attached to a release. Security evidence should therefore record tool versions, rule configurations, suppressions, scan coverage, and unresolved findings. Otherwise, "security passed" communicates almost nothing about what was evaluated.</p>
+<h3>Architectural evidence</h3>
+<p>Architectural evidence establishes whether a change conforms to system structure and repository-specific constraints.</p>
+<p>Examples include:</p>
+<ul>
+<li>dependency-direction rules;</li>
+<li>forbidden imports;</li>
+<li>module boundaries;</li>
+<li>layering constraints;</li>
+<li>API compatibility;</li>
+<li>schema compatibility;</li>
+<li>performance budgets;</li>
+<li>repository conventions;</li>
+<li>data residency constraints;</li>
+<li>approved integration patterns.</li>
+</ul>
+<p>This category matters because a functionally correct local change can still be systemically unacceptable. It may couple domains that were intentionally isolated, bypass an authorization layer, introduce a new dependency class, or violate an operational ownership boundary.</p>
+<p>Executable constraints are often more dependable than long procedural prompts. A prompt can tell an agent not to import a storage client into a domain module. A conformance test can make the violation unmergeable.</p>
+<p>Recent agent-development experiments support this distinction, but the evidence is provisional. In <a href="https://arxiv.org/abs/2603.17973">TDAD</a>, an AST-derived code-test graph was used to surface likely affected tests to coding agents. In the reported <a href="https://www.swebench.com/">SWE-bench Verified</a> runs, that structural context reduced regressions relative to the authors' baseline, while procedural TDD prompting alone performed worse. The evaluation was limited to particular models, subsets, and a benchmark environment. It is evidence for a promising mechanism, not a universal law.</p>
+<h3>Operational evidence</h3>
+<p>Pre-merge correctness is not production correctness.</p>
+<p>Operational evidence addresses behavior under deployment and runtime conditions:</p>
+<ul>
+<li>load and stress tests;</li>
+<li>canary results;</li>
+<li>rollback verification;</li>
+<li>observability coverage;</li>
+<li>alert validation;</li>
+<li>service-level objective impact;</li>
+<li>production anomaly detection;</li>
+<li>fault injection;</li>
+<li>capacity margins;</li>
+<li>compatibility with real traffic and data distributions.</li>
+</ul>
+<p>Many important properties are observable only after integration or deployment. Provider timeouts may differ from simulations. Data cardinality may invalidate local performance assumptions. A retry mechanism may pass integration tests but amplify load during an outage.</p>
+<p>An evidence-carrying change should therefore support evidence that matures over time. Before merge, it may contain simulated fault-injection results. After canary deployment, the same change record can be extended with production latency, error rate, and rollback evidence.</p>
+<h3>Provenance evidence</h3>
+<p>Provenance establishes where an artifact and its supporting evidence came from.</p>
+<p>Examples include:</p>
+<ul>
+<li>source revision;</li>
+<li>model and harness version;</li>
+<li>human principal;</li>
+<li>agent or workload identity;</li>
+<li>tool-call trace;</li>
+<li>referenced sources;</li>
+<li>dependency versions;</li>
+<li>environment hash;</li>
+<li>artifact hash;</li>
+<li>authorization decisions;</li>
+<li>build identity;</li>
+<li>evidence timestamps.</li>
+</ul>
+<p>Supply-chain systems already provide useful primitives. <a href="https://slsa.dev/provenance">SLSA</a> defines provenance as verifiable information describing where, when, and how an artifact was produced. <a href="https://in-toto.io/">in-toto</a> records what supply-chain steps were performed, by whom, and in what order. <a href="https://www.sigstore.dev/">Sigstore</a> provides signing and transparency mechanisms. These systems do not establish semantic correctness, but they make evidence attributable and tamper-evident.</p>
+<p>The same principle should apply to AI-generated changes. A text field claiming that tests passed is weak provenance. A signed attestation bound to an artifact hash, runner identity, test command, environment, and output is substantially stronger.</p>
+<h3>Human-judgment evidence</h3>
+<p>Some claims cannot be reduced reliably to deterministic checks.</p>
+<p>Human judgment may still be required for:</p>
+<ul>
+<li>product acceptance;</li>
+<li>domain interpretation;</li>
+<li>legal and regulatory analysis;</li>
+<li>architecture trade-offs;</li>
+<li>user-experience quality;</li>
+<li>ethical impact;</li>
+<li>risk acceptance;</li>
+<li>interpretation of ambiguous requirements.</li>
+</ul>
+<p>Human approval should not be treated as an undifferentiated checkbox. The record should state what the reviewer evaluated, the information available, unresolved objections, and the scope of the approval.</p>
+<h2>4. Evidence quality matters more than evidence volume</h2>
+<p>Evidence volume is easy to optimize and easy to game. Evidence quality is harder.</p>
+<p>A harness could generate hundreds of tests that execute lines without asserting meaningful properties. It could run multiple scanners with overlapping rule sets and present overlapping detections as independent confirmation. It could ask five agents based on the same model to review the same patch and count five approvals.</p>
+<p>The relevant question is not "How much evidence was produced?" It is "How strongly does this evidence discriminate between an acceptable and unacceptable change?"</p>
+<p>Four properties deserve special attention.</p>
+<h3>Coverage</h3>
+<p>Coverage asks whether the evidence addresses the important parts of the claim.</p>
+<p>Code coverage can reveal unexecuted paths but cannot determine whether executed paths were evaluated correctly. Requirement coverage is often more valuable: which acceptance criteria, invariants, threat scenarios, and operational assumptions have corresponding evidence?</p>
+<h3>Oracle strength</h3>
+<p>An oracle decides whether observed behavior is acceptable.</p>
+<p>Weak oracles are common in generated tests. They may assert that a function returns a value without checking its semantics, snapshot an incorrect output, or merely verify that execution does not throw.</p>
+<p>Mutation testing is useful because it measures whether the suite notices plausible faults. Hidden behavioral tests add another layer: the implementation and its visible tests cannot tailor themselves directly to every evaluation case.</p>
+<p>A 2026 study on <a href="https://arxiv.org/abs/2603.08806">test-driven AI agent definition</a> combined visible tests, hidden tests, and semantic mutation testing. Across 24 trials on four deeply specified agents, the authors reported strong hidden-test and mutation results for the initial specifications. Compilation success fell once the specifications evolved. The study is small and purpose-built. Its broader contribution is methodological: visible tests alone can overstate compliance, and verifier quality should itself be evaluated.</p>
+<h3>Independence</h3>
+<p>Evidence is stronger when its failure modes are not tightly correlated with the implementation process.</p>
+<p>Independence is not binary. It exists on a spectrum:</p>
+<ol>
+<li>same model, same context, same agent;</li>
+<li>same model, separate role, with parts of the implementation context withheld;</li>
+<li>different model family or independently constructed verifier;</li>
+<li>deterministic or externally grounded verification.</li>
+</ol>
+<p>The fourth arrangement is usually strongest for properties that can be encoded deterministically. A compiler, type checker, policy engine, database constraint, or reproducible benchmark does not share a language model's conversational interpretation in the same way another agent might.</p>
+<p>But deterministic tools can still share a flawed specification or incomplete rule set. Independence reduces some correlated failures. It does not remove specification risk.</p>
+<p>Research on <a href="https://ntrs.nasa.gov/citations/19900041359">N-version programming</a> provides a useful warning. Diverse implementations can improve fault tolerance only when their failures are sufficiently independent. Experiments have found correlated failures even among separately developed implementations because difficult inputs and shared specifications create common fault patterns.</p>
+<h3>Provenance</h3>
+<p>Evidence without provenance is hard to evaluate or reproduce.</p>
+<p>A report should bind each result to:</p>
+<ul>
+<li>the exact source and artifact revisions;</li>
+<li>the command or procedure executed;</li>
+<li>the environment;</li>
+<li>the tool and rule versions;</li>
+<li>the producing identity;</li>
+<li>the timestamp;</li>
+<li>the raw output;</li>
+<li>any transformations used to summarize it.</li>
+</ul>
+<p>The summary should be treated as a view over primary evidence, not the evidence itself.</p>
+<h2>5. Why self-generated tests can produce false confidence</h2>
+<p>Consider a requirement:</p>
+<blockquote>
+<p>Expired sessions must be rejected after 30 minutes of inactivity.</p>
+</blockquote>
+<p>An agent interprets this as "30 minutes after creation," implements an absolute lifetime check, and generates tests using the same interpretation. All tests pass.</p>
+<p>The implementation, tests, and explanation are internally consistent. They are also wrong.</p>
+<p>This is a correlated-failure problem:</p>
+<ol>
+<li>the model misunderstands the requirement;</li>
+<li>it generates an implementation from that misunderstanding;</li>
+<li>it generates tests encoding the same misunderstanding;</li>
+<li>the tests pass;</li>
+<li>the system reports high confidence.</li>
+</ol>
+<p><em>Figure 3. A shared misunderstanding can produce a passing test suite, while an independent verifier path catches the requirement mismatch.</em></p>
+<pre class="mermaid">
+flowchart TD
+    A[Requirement:<br/>30 minutes of inactivity] --> B[Implementation agent misreads<br/>as 30 minutes after creation]
+    B --> C[Implementation uses absolute lifetime]
+    B --> D[Self-generated tests encode<br/>the same misunderstanding]
+    C --> E[Visible tests pass]
+    D --> E
+    E --> F[False confidence]
+    A --> G[Independent acceptance criteria]
+    G --> H[Independent verifier evaluates<br/>behavior against requirement]
+    C --> H
+    H --> I[Detects inactivity vs creation mismatch]
+    I --> J[Reject or require remediation]
+</pre>
+<p>Self-generated tests still have value. They can catch implementation mistakes relative to the model's interpretation, exercise edge cases, and improve local regression protection. What they cannot do by themselves is validate the interpretation from which both code and tests were derived.</p>
+<p>A stronger arrangement separates specification, implementation, and evaluation:</p>
+<ul>
+<li>human- or policy-owned acceptance criteria are established first;</li>
+<li>some behavioral tests remain hidden from the implementation agent;</li>
+<li>deterministic constraints evaluate architectural and security properties;</li>
+<li>a verifier is given the requirement and resulting behavior, but not the implementation agent's rationale;</li>
+<li>mutation testing measures whether the suite detects plausible defects;</li>
+<li>residual uncertainty records properties that cannot yet be tested.</li>
+</ul>
+<p>The goal is not maximal disagreement between agents. It is useful independence from the change generator's blind spots.</p>
+<h2>6. Risk-calibrated evidence requirements</h2>
+<p>Uniform verification is inefficient.</p>
+<p>Requiring formal review, adversarial testing, signed attestations, and staged deployment for a documentation typo would create process without proportional risk reduction. Allowing a payment-authorization change to merge after linting and self-generated unit tests would be reckless.</p>
+<p>Evidence requirements should increase with risk:</p>
+<pre><code class="language-text">
+R = f(expected_harm, reversibility, blast_radius, data_sensitivity, privilege, customer_proximity, regulatory_impact, novelty, observability)
+</code></pre>
+<p>This function need not initially be numerical. A rule-based classifier may be more transparent and easier to audit.</p>
+<h3>Tier 1: Low-risk and reversible</h3>
+<p>Examples:</p>
+<ul>
+<li>local scripts;</li>
+<li>internal prototypes;</li>
+<li>documentation;</li>
+<li>isolated developer tooling;</li>
+<li>non-production examples.</li>
+</ul>
+<p>Possible requirements:</p>
+<ul>
+<li>basic execution;</li>
+<li>formatting and linting;</li>
+<li>targeted tests;</li>
+<li>artifact and actor provenance;</li>
+<li>explicit declaration of affected files.</li>
+</ul>
+<p>Autonomous merge may be acceptable where changes are readily reversible and isolated.</p>
+<h3>Tier 2: Operational or customer-facing</h3>
+<p>Examples:</p>
+<ul>
+<li>production SaaS features;</li>
+<li>API changes;</li>
+<li>dependency upgrades;</li>
+<li>service configuration;</li>
+<li>user-facing workflows.</li>
+</ul>
+<p>Possible requirements:</p>
+<ul>
+<li>unit and integration tests;</li>
+<li>architecture checks;</li>
+<li>security and dependency scanning;</li>
+<li>mutation threshold for critical logic;</li>
+<li>rollback evidence;</li>
+<li>human review;</li>
+<li>provenance attestations.</li>
+</ul>
+<h3>Tier 3: High-impact or regulated</h3>
+<p>Examples:</p>
+<ul>
+<li>payment logic;</li>
+<li>identity and authorization;</li>
+<li>database migrations;</li>
+<li>personal-data processing;</li>
+<li>compliance controls;</li>
+<li>irreversible state transitions.</li>
+</ul>
+<p>Possible requirements:</p>
+<ul>
+<li>independent verification;</li>
+<li>hidden behavioral tests;</li>
+<li>adversarial testing;</li>
+<li>formal approval by named roles;</li>
+<li>signed attestations;</li>
+<li>policy-engine enforcement;</li>
+<li>staged deployment;</li>
+<li>runtime monitoring;</li>
+<li>explicit rollback or compensating actions;</li>
+<li>separation of duties.</li>
+</ul>
+<p>These tiers are a proposed engineering model, not a validated universal standard. Organizations should calibrate them using incident history, regulatory obligations, architecture, and operational maturity.</p>
+<p>Make the policy decision deterministic where practical. <a href="https://openpolicyagent.org/docs">Open Policy Agent</a> is a good example of a declarative engine that evaluates structured evidence against release rules. An LLM may classify ambiguous evidence or flag gaps, but it should not decide whether its own output satisfies release policy. Independence here is best treated as a spectrum, not a binary label.</p>
+<h2>7. The evidence-carrying change format</h2>
+<p>An evidence-carrying change can be represented as a machine-readable artifact:</p>
+<pre><code class="language-yaml">
+claim:
+  intent: &quot;Add idempotent payment retry handling&quot;
+  specification_version: &quot;payments-spec@8b71ac&quot;
+  changed_artifacts:
+    - src/payments/retry.ts
+    - tests/payments/retry.test.ts
+
+evidence:
+  functional:
+    unit_tests: passed
+    integration_tests: passed
+    mutation_score: 0.83
+
+  architectural:
+    dependency_policy: passed
+    forbidden_imports: passed
+
+  security:
+    static_analysis: passed
+    secret_scan: passed
+
+  operational:
+    load_test_report: artifacts/retry-load.json
+    rollback_verified: true
+
+  provenance:
+    model: &quot;&lt;model name and version&gt;&quot;
+    harness_version: &quot;0.1.0&quot;
+    human_principal: &quot;user://...&quot;
+    agent_identity: &quot;agent://...&quot;
+    environment_hash: &quot;sha256:...&quot;
+    artifact_hash: &quot;sha256:...&quot;
+
+residual_uncertainty:
+  - &quot;Provider timeout behavior is simulated&quot;
+  - &quot;No production traffic evidence is available yet&quot;
+
+decision:
+  risk_tier: 2
+  policy_result: &quot;REQUIRE_HUMAN_APPROVAL&quot;
+</code></pre>
+<p>The <code>residual_uncertainty</code> field is not an optional disclaimer. It is part of the core data model.</p>
+<p>A binary pass/fail interface encourages epistemic compression. It hides the difference between "the property was verified," "the tool did not detect a violation," "the property was simulated," and "the property was not evaluated."</p>
+<p>Residual uncertainty should be structured where possible:</p>
+<pre><code class="language-yaml">
+residual_uncertainty:
+  - claim: &quot;Retries remain safe under provider-side partial failure&quot;
+    reason: &quot;Provider sandbox cannot reproduce partial commit behavior&quot;
+    impact: &quot;Possible duplicate external charge&quot;
+    mitigation: &quot;Canary limited to internal merchant accounts&quot;
+    owner: &quot;payments-platform&quot;
+    expires_after: &quot;production canary&quot;
+</code></pre>
+<p>This turns uncertainty into something that can be owned, monitored, and resolved.</p>
+<h2>8. Architecture of an evidence-carrying change harness</h2>
+<p><em>Figure 4. The harness separates change production from evidence production, then applies adversarial verification and policy before any action is accepted.</em></p>
+<pre class="mermaid">
+flowchart TD
+    A[Task or issue] --> B[Specification extraction]
+    B --> C[Risk classification]
+    C --> D[Implementation agent]
+    D --> E1[Functional evidence producer]
+    D --> E2[Security evidence producer]
+    D --> E3[Architectural evidence producer]
+    D --> E4[Operations evidence producer]
+    E1 --> F[Evidence aggregator]
+    E2 --> F
+    E3 --> F
+    E4 --> F
+    F --> G[Adversarial verifier]
+    G --> H[Policy decision]
+    H --> I[Autonomous action]
+    H --> J[Human review]
+    H --> K[Rejected]
+</pre>
+<h3>Specification extractor</h3>
+<p>The extractor converts a task into explicit claims, acceptance criteria, invariants, non-goals, and unresolved questions.</p>
+<p>It should distinguish source material from inferred requirements. An agent-generated assumption must not silently become an authoritative acceptance criterion.</p>
+<h3>Risk classifier</h3>
+<p>The classifier determines the provisional risk tier.</p>
+<p>Some signals can be deterministic:</p>
+<ul>
+<li>files under identity or payment modules;</li>
+<li>schema or migration changes;</li>
+<li>privilege modifications;</li>
+<li>customer-facing APIs;</li>
+<li>personal-data access;</li>
+<li>irreversible actions.</li>
+</ul>
+<p>An LLM can assist with semantic interpretation, but the final tier should be explainable and subject to policy rules. Uncertain classification should move upward in risk rather than silently default downward.</p>
+<h3>Implementation worker</h3>
+<p>The worker produces the proposed change. It receives the specification and repository context, but it should not control all evidence production. It may generate candidate tests and explanations, which remain producer-supplied evidence rather than independent validation.</p>
+<h3>Independent evidence producers</h3>
+<p>These include:</p>
+<ul>
+<li>compilers and type checkers;</li>
+<li>unit and integration runners;</li>
+<li>dependency analyzers;</li>
+<li>mutation testing;</li>
+<li>static security analysis;</li>
+<li>architecture tests;</li>
+<li>API and schema compatibility checks;</li>
+<li>load or rollback probes;</li>
+<li>provenance attestors.</li>
+</ul>
+<p>Tool outputs should be retained as primary artifacts and normalized into the evidence schema.</p>
+<h3>Adversarial verifier</h3>
+<p>The verifier challenges the proposed change rather than improving it. Its inputs may include the specification, diff, selected repository context, test results, and historical incidents. It should search for:</p>
+<ul>
+<li>untested requirements;</li>
+<li>specification ambiguity;</li>
+<li>incorrect assumptions;</li>
+<li>missing failure modes;</li>
+<li>inconsistent evidence;</li>
+<li>suspiciously weak assertions;</li>
+<li>paths through which the implementation can satisfy tests while violating intent.</li>
+</ul>
+<p>Its findings are advisory unless converted into deterministic policy conditions or accepted by an accountable reviewer.</p>
+<h3>Policy engine</h3>
+<p>The policy engine evaluates structured evidence against risk-dependent requirements.</p>
+<pre><code class="language-text">
+IF risk_tier == 3
+AND independent_verification != passed
+THEN decision = REJECT
+
+IF risk_tier &gt;= 2
+AND rollback_verified != true
+THEN decision = REQUIRE_REMEDIATION
+
+IF residual_uncertainty contains &quot;possible irreversible loss&quot;
+THEN decision = REQUIRE_NAMED_RISK_OWNER
+</code></pre>
+<p>Possible outcomes include:</p>
+<ul>
+<li>autonomous action;</li>
+<li>human approval required;</li>
+<li>additional evidence required;</li>
+<li>rejected;</li>
+<li>deployment restricted to a canary;</li>
+<li>accepted with monitored uncertainty.</li>
+</ul>
+<h2>9. Human review, skill, and organizational design</h2>
+<p>AI-assisted development shifts the human role from generating solutions to supervising, diagnosing, and evaluating them.</p>
+<p>That transition creates several risks.</p>
+<h3>Automation bias</h3>
+<p>Reviewers may over-trust a system because it appears systematic. A detailed evidence report, signed attestation, or green dashboard can increase confidence even when the underlying oracle is weak.</p>
+<h3>Instant-gratification bias</h3>
+<p>Generated solutions reduce the delay between a question and a plausible answer. That can encourage early commitment before the problem has been understood.</p>
+<p>A 2026 study on <a href="https://arxiv.org/abs/2601.08045">cognitive biases in LLM-assisted software development</a> identified several supervisory biases, including instant gratification and preference for the model's suggestion. The sample is small and exploratory. The stronger conclusion is that AI-assisted programming introduces identifiable review biases that tool design should address.</p>
+<h3>Reviewer fatigue</h3>
+<p>Increasing the volume or size of generated changes without improving evidence can overwhelm reviewers. Fatigued reviewers are more likely to rely on summaries, familiar patterns, or CI status.</p>
+<p>The answer is not necessarily more human review. It is better allocation of human attention: deterministic checks for machine-verifiable properties, independent evidence for likely correlated failures, and human judgment for ambiguous or consequential decisions.</p>
+<h3>Cognitive offloading and skill decay</h3>
+<p>When implementation is delegated, engineers may lose some of the mental model they normally acquire by constructing the solution.</p>
+<p>Aviation automation is a useful but limited analogy. The transferable concern is that supervisors may become less able to detect rare failures when routine execution is delegated.</p>
+<p>Organizations may need deliberate practices for maintaining system knowledge:</p>
+<ul>
+<li>manual investigation of selected incidents;</li>
+<li>design reconstruction exercises;</li>
+<li>rotation through verification and operations;</li>
+<li>review of rejected agent changes;</li>
+<li>explicit testing of engineers' system models;</li>
+<li>pairing human reviewers with evidence gaps rather than only successful outputs.</li>
+</ul>
+<p>The goal is not to preserve manual coding for its own sake. It is to preserve the capacity to understand, challenge, and recover from automated decisions.</p>
+<h2>10. Metrics for validated engineering progress</h2>
+<p>AI-assisted engineering should not be evaluated primarily by:</p>
+<ul>
+<li>lines of code;</li>
+<li>commits;</li>
+<li>pull-request volume;</li>
+<li>suggestion acceptance;</li>
+<li>story points;</li>
+<li>agent tokens;</li>
+<li>tasks attempted.</li>
+</ul>
+<p>These metrics may measure activity while rewarding larger changes, fragmented commits, superficial task decomposition, or unnecessary generation.</p>
+<p>More useful metrics include:</p>
+<ul>
+<li>lead time to validated production value;</li>
+<li>escaped defect rate;</li>
+<li>change failure rate;</li>
+<li>review time;</li>
+<li>evidence-generation cost;</li>
+<li>mutation score;</li>
+<li>false-acceptance rate;</li>
+<li>false-rejection rate;</li>
+<li>rollback success;</li>
+<li>percentage of claims with adequate provenance;</li>
+<li>percentage of material uncertainty disclosed;</li>
+<li>reviewer confidence calibration;</li>
+<li>evidence freshness;</li>
+<li>evidence reuse rate.</li>
+</ul>
+<p>No single metric is sufficient. Metrics should be treated as a balanced measurement system. <a href="https://en.wikipedia.org/wiki/Goodhart%27s_law">Goodhart's Law</a> applies: once a measure becomes the target, pressure grows to optimize the measure rather than the outcome.</p>
+<h2>11. Limits of the evidence</h2>
+<p>The empirical literature on modern coding agents is young, fast-moving, and hard to compare.</p>
+<p>First, tool capability changes quickly. Results produced using early-2025 models may not describe 2026 systems. The METR slowdown study is rigorous within its setting, but it concerns experienced contributors working on mature repositories they already understood.</p>
+<p>Second, benchmarks and production environments differ. SWE-bench-style evaluations offer reproducibility but cannot capture all integration, operational, security, and organizational costs.</p>
+<p>Third, observational studies face attribution problems. A 2026 study of explicitly identified AI-authored commits, <a href="https://arxiv.org/abs/2603.28592">Debt Behind the AI Boom</a>, found many static-analysis issues and tracked some persisting in later repository revisions. It captures only commits with explicit AI metadata, depends on static analyzers' definitions, and does not establish how equivalent human-authored changes would have performed under matched conditions.</p>
+<p>Fourth, evidence-carrying changes remain an architectural proposal. Supply-chain attestations, assurance cases, mutation testing, policy engines, and independent verification are established ideas, but their combination into an AI coding harness has not yet been validated across organizations.</p>
+<p>Open questions include:</p>
+<ul>
+<li>Which evidence classes reduce escaped defects most cost-effectively?</li>
+<li>How much verifier diversity is required to reduce correlated failures?</li>
+<li>Can evidence requirements be calibrated without creating excessive process?</li>
+<li>How should confidence be represented without misleading numerical precision?</li>
+<li>When should evidence expire?</li>
+<li>How should runtime evidence update pre-merge assurance?</li>
+<li>Can reviewers accurately calibrate confidence from evidence reports?</li>
+<li>Does an evidence package reduce review effort, or merely move effort into evidence interpretation?</li>
+<li>How often do agents learn to satisfy the verifier without satisfying intent?</li>
+<li>Which residual uncertainties are routinely omitted?</li>
+</ul>
+<p>Evidence-first engineering can increase confidence. It cannot prove total correctness, eliminate human responsibility, or make an invalid specification valid.</p>
+<h2>12. Companion experiment and open-source implementation</h2>
+<p>The companion project is an intentionally narrow verification harness built to test the central hypothesis:</p>
+<blockquote>
+<p>Do evidence-carrying changes reduce reviewer effort and escaped defects compared with conventional agent-generated pull requests?</p>
+</blockquote>
+<p>The initial implementation is available in the <a href="https://github.com/rmax-ai/evidence-first-harness">rmax-ai/evidence-first-harness</a> repository. The repository should be read as an experimental harness, not as a finished reference architecture.</p>
+<p>The experiment should compare four conditions:</p>
+<ol>
+<li>human implementation with conventional CI;</li>
+<li>agent implementation with conventional CI;</li>
+<li>agent implementation with self-generated tests;</li>
+<li>agent implementation with independently produced evidence.</li>
+</ol>
+<p>The evaluation should measure:</p>
+<ul>
+<li>task completion rate;</li>
+<li>escaped defects;</li>
+<li>mutation score;</li>
+<li>reviewer time;</li>
+<li>reviewer confidence;</li>
+<li>confidence calibration;</li>
+<li>false acceptance;</li>
+<li>false rejection;</li>
+<li>evidence-generation cost;</li>
+<li>total lead time;</li>
+<li>model cost;</li>
+<li>change failure rate.</li>
+</ul>
+<p>The first version should remain deliberately constrained:</p>
+<ul>
+<li>one language ecosystem;</li>
+<li>one test framework;</li>
+<li>static analysis;</li>
+<li>type checking;</li>
+<li>mutation testing;</li>
+<li>a machine-readable <code>evidence.json</code>;</li>
+<li>an HTML evidence report;</li>
+<li>GitHub pull-request integration;</li>
+<li>two or three risk tiers.</li>
+</ul>
+<p>It should explicitly exclude:</p>
+<ul>
+<li>generic enterprise workflow orchestration;</li>
+<li>distributed schedulers;</li>
+<li>complex policy administration;</li>
+<li>broad multi-language support;</li>
+<li>Kubernetes;</li>
+<li>Temporal;</li>
+<li>production deployment automation;</li>
+<li>autonomous merging of high-risk changes.</li>
+</ul>
+<p>The project's purpose is not to demonstrate a polished autonomous engineering platform. It is to determine whether structured, independently generated evidence changes measurable software-delivery outcomes.</p>
+<h2>Practical takeaways</h2>
+<ol>
+<li>Treat every consequential code change as an explicit claim, not just a diff.</li>
+<li>Separate producer-supplied evidence from independent evidence, and record the difference.</li>
+<li>Require provenance that binds evidence to the exact artifact, environment, toolchain, and identity that produced it.</li>
+<li>Make residual uncertainty first-class. Unknowns should be named, scoped, owned, and expired.</li>
+<li>Scale evidence requirements with risk. Do not run the same gate for a docs typo and a payment-path migration.</li>
+</ol>
+<h2>Positioning</h2>
+<p>This note is not an academic proof, a vendor architecture guide, or a claim that current AI coding systems can justify their own output reliably. It is an operator-oriented design proposal for software delivery teams that already face growing implementation capacity and uneven validation capacity.</p>
+<p>It also does not argue that every organization should build a full evidence harness immediately. Teams with simple workflows, small blast radius, or weak specification discipline may add more process than value if they adopt the full model too early.</p>
+<h2>Status and scope disclaimer</h2>
+<p>This is personal lab work, not an authoritative standard. It combines established assurance ideas with early evidence from AI-assisted software development and proposes a concrete harness. The central claim still needs controlled evaluation: evidence-carrying changes may reduce reviewer effort and escaped defects, but this article does not prove that yet.</p>
+<h2>Conclusion</h2>
+<p>The declining cost of producing plausible code does not remove the need for specification, verification, review, integration, security assurance, or operational judgment. It changes their relative importance.</p>
+<p>A code-generating agent should not hand a reviewer only a patch and a statement that tests passed. It should produce an evidence-carrying change. That package should state the intended behavior, include evidence from multiple relevant and independent sources, record provenance, disclose residual uncertainty, and report a deterministic policy result.</p>
+<p>This architecture does not guarantee correctness. Tests can encode the wrong specification. Scanners can miss vulnerabilities. Independent agents can share correlated blind spots. Human reviewers can over-trust polished reports. Production can invalidate pre-deployment assumptions.</p>
+<p>The value of the evidence-carrying approach is therefore not certainty. It is disciplined uncertainty management.</p>
+<h2>References</h2>
+<ol>
+<li>Sabry E. Farrag, <a href="https://arxiv.org/abs/2605.01160">"The Productivity-Reliability Paradox: Specification-Driven Governance for AI-Augmented Software Development"</a>, 2026.</li>
+<li>Valerie Chen et al., <a href="https://arxiv.org/abs/2602.03593">"Beyond the Commit: Developer Perspectives on Productivity with AI Coding Assistants"</a>, 2026.</li>
+<li>METR, <a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">"Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity"</a>, 2025.</li>
+<li>METR, <a href="https://metr.org/blog/2025-08-12-research-update-towards-reconciling-slowdown-with-time-horizons/">"Research Update: Towards Reconciling Slowdown with Time-Horizon Evaluations"</a>, 2025.</li>
+<li>Stanford Software Engineering Productivity Research, <a href="https://softwareengineeringproductivity.stanford.edu/">research programme</a>.</li>
+<li>Yue Liu et al., <a href="https://arxiv.org/abs/2603.28592">"Debt Behind the AI Boom: A Large-Scale Empirical Study of AI-Generated Code in the Wild"</a>, 2026.</li>
+<li>Xinyi Zhou et al., <a href="https://arxiv.org/abs/2601.08045">"Cognitive Biases in LLM-Assisted Software Development"</a>, 2026.</li>
+<li>Pepe Alonso, <a href="https://arxiv.org/abs/2603.17973">"TDAD: Test-Driven Agentic Development, Reducing Code Regressions in AI Coding Agents via Graph-Based Impact Analysis"</a>, 2026.</li>
+<li>Tzafrir Rehan, <a href="https://arxiv.org/abs/2603.08806">"Test-Driven AI Agent Definition: Compiling Tool-Using Agents from Behavioral Specifications"</a>, 2026.</li>
+<li>George C. Necula, <a href="https://dl.acm.org/doi/10.1145/263699.263712">"Proof-Carrying Code"</a>, POPL, 1997.</li>
+<li>S. S. Brilliant, J. C. Knight, and N. G. Leveson, <a href="https://ntrs.nasa.gov/citations/19900041359">"Analysis of Faults in an N-Version Software Experiment"</a>, IEEE Transactions on Software Engineering, 1990.</li>
+<li>Assurance Case Working Group, <a href="https://scsc.uk/gsn">Goal Structuring Notation Community Standard</a>.</li>
+<li>NIST, <a href="https://csrc.nist.gov/projects/ssdf">Secure Software Development Framework</a>.</li>
+<li>NIST, <a href="https://csrc.nist.gov/pubs/sp/800/218/final">SP 800-218: Secure Software Development Framework Version 1.1</a>, 2022.</li>
+<li>SLSA, <a href="https://slsa.dev/provenance">Provenance specification</a>.</li>
+<li>in-toto, <a href="https://in-toto.io/">Software supply-chain integrity framework</a>.</li>
+<li>Sigstore, <a href="https://www.sigstore.dev/">Software signing and transparency project</a>.</li>
+<li>Open Policy Agent, <a href="https://openpolicyagent.org/docs">official documentation</a>.</li>
+<li>Open Policy Agent, <a href="https://openpolicyagent.org/docs/cicd">Using OPA in CI/CD Pipelines</a>.</li>
+<li>SPIFFE and SPIRE, <a href="https://spiffe.io/docs/latest/spire-about/">workload-identity documentation</a>.</li>
+<li>GitHub, <a href="https://github.com/github/spec-kit">Spec Kit</a>.</li>
+<li>NIST, <a href="https://www.nist.gov/itl/ai-risk-management-framework">AI Risk Management Framework</a>.</li>
+<li>OWASP, <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">Top 10 for Large Language Model Applications</a>.</li>
+<li>rmax-ai, <a href="https://github.com/rmax-ai/evidence-first-harness">Evidence-First Harness companion project</a>.</li>
+</ol>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        {
+          text: "I don't accept 'tests passed' as sufficient when the oracle shares the implementer's misunderstanding.",
+          agent: "Independent Verifier"
+        },
+        {
+          text: "I carry my own evidence — functional, architectural, security, operational, provenance — and I disclose what I don't know.",
+          agent: "Evidence-Carrying Change"
+        },
+        {
+          text: "My confidence is not a number. It is the structured argument connecting each claim to its supporting evidence.",
+          agent: "Assurance Case Compiler"
+        }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
