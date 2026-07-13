@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*July 13, 2026* — [Evidence-Carrying Changes: From AI Code Production to Verifiable Software Delivery](/notes/evidence-carrying-changes/)
+
+### [Evidence-Carrying Changes: From AI Code Production to Verifiable Software Delivery](/notes/evidence-carrying-changes/)
+*July 13, 2026* — AI coding systems produce implementations faster than delivery processes can evaluate them. This article proposes evidence-carrying changes: structured claims about intended behavior, independently generated verification evidence, provenance, residual uncertainty, and risk-calibrated policy decisions.
+
 *July 11, 2026* — [Deterministic Runtimes for Long-Horizon AI Agents](/notes/deterministic-runtimes/)
 
 ### [Deterministic Runtimes for Long-Horizon AI Agents](/notes/deterministic-runtimes/)

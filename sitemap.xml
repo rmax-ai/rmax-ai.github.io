@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-07-10T19:07:24Z</lastmod>
+    <lastmod>2026-07-13T19:15:41Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-07-10T19:07:24Z</lastmod>
+    <lastmod>2026-07-13T19:15:32Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -85,6 +85,10 @@
     <lastmod>2026-06-28T13:29:37Z</lastmod>
   </url>
   <url>
+    <loc>https://rmax.ai/notes/deterministic-runtimes/</loc>
+    <lastmod>2026-07-13T19:10:16Z</lastmod>
+  </url>
+  <url>
     <loc>https://rmax.ai/notes/docs-vs-skills-agent-context-delivery/</loc>
     <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
@@ -105,6 +109,10 @@
     <lastmod>2026-06-28T19:21:53Z</lastmod>
   </url>
   <url>
+    <loc>https://rmax.ai/notes/evidence-carrying-changes/</loc>
+    <lastmod>2026-07-13T19:15:05Z</lastmod>
+  </url>
+  <url>
     <loc>https://rmax.ai/notes/evolution-of-ai-coding-agents-autocomplete-to-autonomous-sdlc/</loc>
     <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
@@ -118,15 +126,11 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/fde-principles-production-ai/</loc>
-    <lastmod>2026-07-09T16:43:13Z</lastmod>
-  </url>
-  <url>
-    <loc>https://rmax.ai/notes/deterministic-runtimes/</loc>
-    <lastmod>2026-07-11T00:00:00Z</lastmod>
+    <lastmod>2026-07-11T16:58:18Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/first-class-agent-identities/</loc>
-    <lastmod>2026-07-10T19:06:39Z</lastmod>
+    <lastmod>2026-07-13T19:10:16Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/forward-deployed-engineer-enterprise-ai/</loc>
@@ -186,7 +190,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/personas-skills-agents-harnesses/</loc>
-    <lastmod>2026-07-06T20:03:49Z</lastmod>
+    <lastmod>2026-07-11T16:58:18Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/recursive-execution-missing-layer/</loc>
@@ -222,7 +226,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/workflow-agent-deployment/</loc>
-    <lastmod>2026-07-10T19:06:59Z</lastmod>
+    <lastmod>2026-07-11T16:58:18Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/projects/</loc>
