@@ -37,7 +37,7 @@ AI coding systems can inspect repositories, modify multiple files, run commands,
 
 The effect on total engineering productivity is less settled.
 
-In a randomized trial involving experienced open-source developers working on real issues in repositories they already knew, [METR](https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/) found that the early-2025 AI tools it tested increased completion time by about 19 percent. The study population was narrow, the tools have since changed, and the result should not be generalized to all developers or tasks. It still shows why local code-generation speed cannot be assumed to translate into system-level delivery speed.
+In a randomized trial involving experienced open-source developers working on real issues in repositories they already knew, [METR](https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/) found that the early-2025 AI tools it tested increased completion time by about 19 percent. The study population was narrow, the tools have since changed, and the result should not be generalized to all developers or tasks. METR later labeled this estimate outdated; a [follow-up experiment with late-2025 tools](https://metr.org/blog/2026-02-24-uplift-update/) produced weak evidence of speedups but faced substantial selection effects that prevented a reliable estimate. The original study still shows why local code-generation speed cannot be assumed to translate into system-level delivery speed.
 
 Chen et al. found in a 2026 mixed-methods study at [BNY Mellon](https://arxiv.org/abs/2602.03593), based on 2,989 survey responses and 11 interviews, that no single activity measure captures developer productivity adequately. Participants described effects on expertise, ownership, quality, and long-term maintainability that commit counts or immediate task completion do not capture. The evidence is self-reported and organization-specific, but it reinforces a broader point: generated output is not the same as delivered value.
 
@@ -81,7 +81,7 @@ As a heuristic, end-to-end throughput is constrained by the slowest meaningful s
 T_delivery ≈ min(T_spec, T_generation, T_verification, T_review, T_deployment)
 ```
 
-This is not a precise empirical law. It is a constraint-oriented model. [Amdahl's Law](https://en.wikipedia.org/wiki/Amdahl%27s_law) offers a useful analogy: accelerating one portion of a system has diminishing effect when the remaining portions dominate total time. Queueing theory offers a second warning: when arrivals approach or exceed a stage's service capacity, waiting time rises nonlinearly.
+This is not a precise empirical law. It is a constraint-oriented model. The formula above describes latency (time per change); throughput — accepted changes per unit of time — is bounded by the stage with the lowest capacity, not by elapsed stage time. [Amdahl's Law](https://en.wikipedia.org/wiki/Amdahl%27s_law) offers a useful analogy: accelerating one portion of a system has diminishing effect when the remaining portions dominate total time. Queueing theory offers a second warning: when arrivals approach or exceed a stage's service capacity, waiting time rises nonlinearly.
 
 If an agent produces three times as many proposed changes while verification and review capacity remain unchanged, the result may be a larger queue rather than three times as much production value. More generated code can also create more integration paths, more dependency interactions, and more states that require operational validation.
 
@@ -176,7 +176,7 @@ Examples include:
 
 Different techniques expose different defect classes. Unit tests can isolate local behavior but often miss interactions. End-to-end tests exercise realistic paths but may be slow, flaky, and hard to diagnose. Property-based testing explores families of inputs rather than individual examples, but its value depends on whether the stated properties capture meaningful correctness.
 
-Mutation testing evaluates the test suite rather than the implementation directly. It introduces controlled faults and asks whether the tests detect them. A high mutation score does not guarantee correctness, but a low score shows that many plausible faults can survive the suite.
+[Mutation testing](https://dl.acm.org/doi/10.1109/C-M.1978.218136) evaluates the test suite rather than the implementation directly. It introduces controlled faults and asks whether the tests detect them. A high mutation score does not guarantee correctness, but a low score shows that many plausible faults can survive the suite.
 
 ### Security evidence
 
@@ -220,7 +220,7 @@ This category matters because a functionally correct local change can still be s
 
 Executable constraints are often more dependable than long procedural prompts. A prompt can tell an agent not to import a storage client into a domain module. A conformance test can make the violation unmergeable.
 
-Recent agent-development experiments support this distinction, but the evidence is provisional. In [TDAD](https://arxiv.org/abs/2603.17973), an AST-derived code-test graph was used to surface likely affected tests to coding agents. In the reported [SWE-bench Verified](https://www.swebench.com/) runs, that structural context reduced regressions relative to the authors' baseline, while procedural TDD prompting alone performed worse. The evaluation was limited to particular models, subsets, and a benchmark environment. It is evidence for a promising mechanism, not a universal law.
+Recent agent-development experiments support this distinction, but the evidence is provisional. In [TDAD](https://arxiv.org/abs/2603.17973), an AST-derived code-test graph was used to surface likely affected tests to coding agents. In the authors' reported SWE-bench Verified runs, that structural context reduced test-level regressions from 6.08% to 1.82%, while procedural TDD prompting alone produced a 9.94% regression rate. The evaluation was limited to particular models, subsets, and a benchmark environment. It is evidence for a promising mechanism, not a universal law.
 
 ### Operational evidence
 
@@ -307,7 +307,7 @@ Weak oracles are common in generated tests. They may assert that a function retu
 
 Mutation testing is useful because it measures whether the suite notices plausible faults. Hidden behavioral tests add another layer: the implementation and its visible tests cannot tailor themselves directly to every evaluation case.
 
-A 2026 study on [test-driven AI agent definition](https://arxiv.org/abs/2603.08806) combined visible tests, hidden tests, and semantic mutation testing. Across 24 trials on four deeply specified agents, the authors reported strong hidden-test and mutation results for the initial specifications. Compilation success fell once the specifications evolved. The study is small and purpose-built. Its broader contribution is methodological: visible tests alone can overstate compliance, and verifier quality should itself be evaluated.
+A 2026 study on [test-driven AI agent definition](https://arxiv.org/abs/2603.08806) combined visible tests, hidden tests, and semantic mutation testing. Across 24 trials on four purpose-built agent specifications, the authors reported 92% initial compilation success and a 97% mean hidden-test pass rate. Compilation success fell to 58% once the specifications evolved, with mutation scores between 86% and 100%. The study is small and purpose-built. Its broader contribution is methodological: visible tests alone can overstate compliance, and verifier quality should itself be evaluated.
 
 ### Independence
 
@@ -851,3 +851,5 @@ The value of the evidence-carrying approach is therefore not certainty. It is di
 22. NIST, [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework).
 23. OWASP, [Top 10 for Large Language Model Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/).
 24. rmax-ai, [Evidence-First Harness companion project](https://github.com/rmax-ai/evidence-first-harness).
+25. Richard A. DeMillo, Richard J. Lipton, and Frederick G. Sayward, ["Hints on Test Data Selection: Help for the Practicing Programmer"](https://dl.acm.org/doi/10.1109/C-M.1978.218136), Computer, 1978.
+26. METR, ["We are Changing our Developer Productivity Experiment Design"](https://metr.org/blog/2026-02-24-uplift-update/), 2026.
