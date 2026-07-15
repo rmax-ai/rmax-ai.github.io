@@ -27,13 +27,13 @@ license: CC BY 4.0
 
 ## Abstract
 
-As models improve at planning, tool use, and instruction following, prompt design shifts away from procedural scripting and toward contract design. This note argues that a prompt's operational job is no longer to prescribe every step. Its job is to define the outcome, constraints, evidence requirements, authorization boundaries, and completion conditions that a capable model must satisfy. That shift matters because it changes agent architecture. The prompt becomes one control layer inside a larger governed runtime, not the whole program.
+OpenAI's [prompting guidance for GPT-5.6](https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6) points toward a simpler prompt style: define the task clearly, specify what success requires, expose only relevant tools, and avoid unnecessary procedural scaffolding. This article interprets that guidance through a broader architectural lens: prompts are increasingly useful as behavioral contracts rather than procedural programs. A prompt's operational job becomes defining the outcome, constraints, evidence requirements, authorization boundaries, and completion conditions that the model must satisfy. The prompt becomes one control layer inside a larger governed runtime, not the whole program.
 
 ## Core Thesis
 
-For modern agents, the prompt should primarily define what must be true at completion, not the exact sequence of actions used to get there.
+For GPT-5.6-class models, the prompt should primarily define what must be true at completion, not the exact sequence of actions used to get there.
 
-A good prompt contract specifies:
+This article proposes that a good prompt contract specifies:
 
 - the desired outcome;
 - success criteria;
@@ -50,8 +50,8 @@ flowchart TD
     A[User request] --> B{Prompt style}
     B -->|Procedural| C[Specify many steps]
     B -->|Contractual| D[Specify outcome and constraints]
-    C --> E[Higher prompt interference]
-    C --> F[Lower adaptability]
+    C --> E[More contradictory instructions]
+    C --> F[Less execution flexibility]
     D --> G[Adaptive execution]
     D --> H[Clear completion test]
     G --> I[Governed runtime]
@@ -60,9 +60,11 @@ flowchart TD
 
 ## Context and Motivation
 
-Recent [OpenAI prompt engineering guidance](https://platform.openai.com/docs/guides/prompt-engineering) for GPT-5.6 points toward a simpler prompt style: define the task clearly, specify what success requires, expose only relevant tools, and avoid unnecessary procedural scaffolding. That advice reflects a real change in model behavior. Earlier agent systems often needed long instructions because models planned poorly and used tools unreliably. More capable systems can often infer the sequence. They still cannot safely infer permission boundaries, evidence standards, stop conditions, or validation requirements.
+The [GPT-5.6 prompting guidance](https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6) recommends starting from a working prompt and tool set, then iteratively removing instructions that do not materially improve behavior. Repeated rules, generic process narration, redundant style requirements, irrelevant tools, and duplicated tool descriptions are candidates for removal. The guidance describes what should remain: the user-visible outcome, success criteria, stopping conditions, safety and permission constraints, tool-routing rules where routes depend on context, and required output shape with validation requirements.
 
-That change makes prompt design less like writing a program in natural language and more like specifying a contract for an adaptive runtime.
+Earlier agent systems were often given longer procedural prompts to compensate for perceived weaknesses in planning, tool use, and instruction following. GPT-5.6 can often infer the sequence. It still cannot safely infer permission boundaries, evidence standards, stop conditions, or validation requirements.
+
+The architectural implication is that prompt design becomes less like writing a program in natural language and more like specifying a contract for an adaptive runtime.
 
 ## From Procedural Instructions to Declarative Contracts
 
@@ -74,21 +76,21 @@ A contract prompt says what completion requires:
 
 > Implement the requested behavior without changing unrelated functionality. Preserve repository conventions. Validate the change with relevant tests. Report remaining uncertainty.
 
-The second form does not remove planning, inspection, or validation. It delegates the order and scope of those actions to the model. That is the important change.
+The second form does not remove planning, inspection, or validation. It delegates the order and scope of those actions to the model.
 
-The structure is similar to declarative infrastructure. An imperative deployment script lists commands. A declarative system defines the desired state and relies on a control loop to reconcile the actual system state with the desired state. In the same way, the prompt defines the destination and the boundaries, while the model and runtime decide how to reconcile the current state against the completion contract.
+A useful way to model this is through the lens of declarative infrastructure. An imperative deployment script lists commands. A declarative system defines the desired state and relies on a control loop to reconcile the actual system state with the desired state. In the same way, the prompt defines the destination and the boundaries, while the model and runtime decide how to reconcile the current state against the completion contract.
 
 ## Prompt Simplification Is a Behavioral Change
 
 Prompt reduction is not only a latency or token optimization. It changes behavior.
 
-OpenAI reports, in internal coding-agent evaluations, that leaner system prompts improved evaluation scores by 10–15%, reduced total token use by 41–66%, and reduced cost by 33–67%. Because those results are internal, treat them as directional rather than universal. The accompanying guidance recommends validating any prompt change against representative application-specific evals.
+OpenAI reports that, in internal coding-agent evaluations, configurations with leaner system prompts improved evaluation scores by roughly 10–15% while reducing total token use by 41–66% and cost by 33–67%. These ranges are directional results from particular prompt migrations, not universal benchmarks or guaranteed gains. The guidance recommends validating any prompt change against representative application-specific evaluations.
 
-The mechanism is simple: every instruction adds another optimization pressure. A prompt that says "always investigate thoroughly," "use the fewest tool calls," "never make assumptions," "do not ask unnecessary questions," and "respond quickly" does not define a coherent policy. It defines competing objectives.
+The mechanism is straightforward: every instruction adds another possible source of interference. A prompt that says "always investigate thoroughly," "use the fewest tool calls," "never make assumptions," "do not ask unnecessary questions," and "respond quickly" does not define a coherent policy. It defines competing objectives.
 
 The practical goal is not minimalism. The goal is to remove instructions that do not materially improve behavior.
 
-Keep the information the model cannot safely invent:
+One practical interpretation of the guidance is to keep the information the model cannot safely invent:
 
 - outcome;
 - completion criteria;
@@ -98,15 +100,15 @@ Keep the information the model cannot safely invent:
 - tool-routing policy;
 - output schema.
 
-Remove repeated rules, generic process narration, redundant style demands, irrelevant tools, and duplicated tool descriptions.
+And to remove repeated rules, generic process narration, redundant style demands, irrelevant tools, and duplicated tool descriptions.
 
 ## Define Completion, Not Activity
 
-Agents perform better when the prompt defines observable completion conditions instead of vague activity.
+GPT-5.6 is generally better directed by observable completion conditions than by vague activity instructions.
 
 "Research this topic" does not tell the system when to stop. "Produce a report that answers three questions, supports material claims with retrieved sources, distinguishes evidence from inference, and identifies unresolved gaps" does.
 
-That difference gives the runtime a usable completion predicate. After each action, the system can compare current evidence against the contract and decide whether to continue, ask, narrow the result, or stop.
+An architectural implication of this guidance is that the runtime gains a usable completion predicate. After each action, the system can compare current evidence against the contract and decide whether to continue, ask, narrow the result, or stop.
 
 ```mermaid
 flowchart TD
@@ -118,26 +120,28 @@ flowchart TD
     C -->|No| F[Terminate and report result]
 ```
 
-For agents that work against evolving evidence, this is usually a better organizing model than a generic "plan, act, observe, reflect" loop. The central question is not "what step comes next?" The central question is "what contract condition is still unsatisfied?"
+For GPT-5.6-class agents working against evolving evidence, this article proposes that contract-based state reconciliation is usually a better organizing model than a generic "plan, act, observe, reflect" loop. The central question is not "what step comes next?" The central question is "what contract condition is still unsatisfied?"
 
 ## Separate Invariants, Policies, and Preferences
 
-Prompt stacks often become brittle because they mix hard rules with softer guidance.
+Prompt stacks often become brittle because they mix hard rules with softer guidance. The GPT-5.6 guidance advises against absolute rules such as `ALWAYS`, `NEVER`, `must`, and `only` unless they express true invariants. For judgment calls — when to search, ask, use a tool, or keep iterating — the guidance recommends decision rules instead.
 
-Use absolute language only for real invariants:
+This article proposes a three-way separation:
+
+**Invariants** — use absolute language only where it must always hold:
 
 - never expose secrets;
 - never claim an action succeeded without tool confirmation;
 - never perform destructive actions without approval;
 - output must match the required schema.
 
-Express context-sensitive behavior as policies:
+**Policies** — express context-sensitive behavior as decision rules:
 
 - search when available evidence is insufficient or may be stale;
 - ask only when missing information blocks a correct or authorized action;
 - use account tools only when the answer depends on account state.
 
-Treat preferences separately:
+**Preferences** — treat separately and never let them override correctness:
 
 - concise tone;
 - preferred validation order;
@@ -147,7 +151,7 @@ This separation matters operationally. Invariants must always hold. Policies gui
 
 ## Authorization Is Part of the Prompt Contract
 
-More capable agents act more proactively. They inspect more context, call more tools, and continue longer without intervention. That makes authorization semantics non-optional.
+GPT-5.6 can behave proactively and persist across multi-step tasks, which makes explicit authorization boundaries and stopping conditions more important.
 
 A working contract should distinguish:
 
@@ -168,13 +172,13 @@ A compact policy often works better than repeated "ask first" language scattered
 | Destructive or irreversible action | Requires approval |
 | Material scope expansion | Requires approval |
 
-The prompt should communicate this policy, but high-consequence systems should not rely on prompting alone. Runtime gates should independently classify and allow, deny, or route proposed actions for approval.
+The prompt should communicate this policy, but high-consequence systems should not rely on prompting alone. This article proposes that runtime gates should independently classify and allow, deny, or route proposed actions for approval. The prompt is one layer of the authorization system. It is not the authorization system itself.
 
 ## Tools Are Part of the Prompt
 
 Tooling is not separate from prompting. The tool set defines the model's action space, and tool descriptions are part of the behavioral contract.
 
-[OpenAI's tools guidance](https://platform.openai.com/docs/guides/tools) supports a simple rule: expose only the tools relevant to the current task, and describe them with routing and failure semantics rather than vague labels.
+The GPT-5.6 guidance treats tools as part of the prompt simplification process: expose only the tools relevant to the current task, and describe them with routing and failure semantics rather than vague labels. The guidance recommends trimming tool descriptions that duplicate the schema and keeping only descriptions that materially change tool selection.
 
 A useful tool description explains:
 
@@ -184,13 +188,13 @@ A useful tool description explains:
 - important limitations;
 - expected errors.
 
-That is why tool schemas and descriptions should be treated as interface contracts. A vague tool name increases decision entropy. A precise description reduces it.
+Tool schemas and descriptions should be treated as executable interface contracts. A vague tool name increases decision entropy. A precise description reduces it.
 
 ## Let the Runtime Choose the Execution Pattern
 
 Fixed workflow graphs still have value, but they work best where the sequence is known and stable.
 
-Where sequence depends on context, the prompt should define execution policy rather than a rigid script. The source material condenses OpenAI's GPT-5.6 guidance into a simple execution policy: resolve prerequisites first, parallelize independent reads, and keep dependent steps sequential. Then synthesize those results before acting, and if retrieval comes back empty, try one or two materially different fallbacks.
+Where sequence depends on context, the prompt should define execution policy rather than a rigid script. The GPT-5.6 guidance can be interpreted as a simple execution policy: resolve prerequisites first, parallelize independent reads, and keep dependent steps sequential. Then synthesize those results before acting, and if retrieval comes back empty, try one or two materially different fallbacks.
 
 That policy lets the model construct a task-specific execution graph without hard-coding every sequence in the prompt.
 
@@ -235,7 +239,7 @@ Direct model-controlled calls are better when:
 - intermediate artifacts are small;
 - citations or native outputs must be preserved.
 
-A useful pattern is:
+This article proposes a layered architecture:
 
 probabilistic interpretation and orchestration  
 → deterministic processing  
@@ -263,21 +267,25 @@ The most operationally important distinction is between absence of evidence and 
 
 ## Keep the Contract Stable and Task State Compact
 
-Long-running agents accumulate too much state if everything stays in the live context. The source material proposes three layers:
+Long-running agents can accumulate obsolete plans, verbose tool outputs, failed attempts, and superseded assumptions. OpenAI's GPT-5.6 guidance recommends compacting after meaningful milestones, keeping reusable prompt prefixes stable, and avoiding persisted reasoning when it has become stale.
 
-- stable contract;
-- current task state;
-- historical trace.
+Building on the guide's recommendations around compaction, reusable prompt prefixes, [prompt caching](https://platform.openai.com/docs/guides/prompt-caching), and persisted reasoning, a useful architecture separates three forms of state:
 
-The stable contract contains the durable rules: role, permissions, evidence policy, schema, and completion criteria. The current task state contains what is active now: objective, retrieved evidence, completed actions, remaining gaps, and blockers. The historical trace contains prior plans, failed attempts, verbose tool outputs, and superseded reasoning.
+**Stable contract** — durable goals, permissions, evidence policy, output requirements, and completion criteria.
 
-This is where [prompt caching](https://platform.openai.com/docs/guides/prompt-caching) becomes architecturally useful, not just financially useful. A stable contract can remain cache-friendly and durable while task state stays compact and authoritative.
+**Current task state** — the active objective, retrieved evidence, completed actions, remaining gaps, and blockers.
+
+**Historical trace** — prior attempts, verbose tool results, discarded plans, and superseded reasoning.
+
+This three-layer model is not an OpenAI-defined standard. It is a practical design pattern derived from the guide's recommendations on prompt stability, compaction, caching, and persisted state.
+
+Prompt caching then becomes architecturally useful as well as financially useful: stable instructions can remain in a reusable prefix, while compact task state changes as the work progresses.
 
 ## More Reasoning Is Not Better Architecture
 
-Increasing reasoning effort is not a substitute for missing system design. [OpenAI's reasoning best practices](https://platform.openai.com/docs/guides/reasoning-best-practices) support a more disciplined view: if outputs are weak, first check the architecture: does the system define success, route tools correctly, enforce permissions, and validate results?
+Increasing reasoning effort is not a substitute for missing system design. The GPT-5.6 guidance recommends checking for missing success criteria, dependency rules, tool-routing rules, and verification loops before increasing reasoning effort.
 
-Reasoning amplifies the model operating inside the architecture. It does not replace the architecture.
+An architectural inference from this guidance is that reasoning amplifies the model operating inside the architecture. It does not replace the architecture.
 
 A model cannot reliably compensate for undefined completion, missing permissions, absent validation tools, or unavailable evidence sources. Raising reasoning effort may make a broken design slower and more expensive without making it safer or more correct.
 
@@ -289,13 +297,15 @@ For software changes, that evidence may include targeted tests, type checks, lin
 
 The prompt contract should define which checks matter before completion can be claimed. The runtime should gather the evidence. The final response should report both the result and the validation status.
 
-This is where [function calling](https://platform.openai.com/docs/guides/function-calling) and structured outputs become practically important: they make it easier to return a result plus evidence, not just a narrative summary.
+[Function calling](https://platform.openai.com/docs/guides/function-calling) and [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs) make it easier to require a consistent result-and-evidence schema, although the runtime must still validate whether the evidence is relevant, accurate, and sufficient. Schema compliance does not guarantee evidentiary validity.
 
 ## Prompts Should Evolve Through Evals
 
 Prompt development should be treated more like engineering change management than copywriting.
 
-The source material outlines a disciplined migration loop aligned with [Working with evals](https://platform.openai.com/docs/guides/evals) and [Evaluate agent workflows](https://platform.openai.com/docs/guides/agent-evals):
+The GPT-5.6 guidance recommends an iterative, eval-driven process: start from a working prompt, remove one group of instructions at a time, and re-evaluate after each change. OpenAI's [Evaluate agent workflows](https://platform.openai.com/docs/guides/agent-evals) documentation provides trace grading and dataset-based evaluation tools for this purpose. The older [Working with evals](https://platform.openai.com/docs/guides/evals) page describes API-specific evaluation features, though OpenAI notes that the Evals platform is transitioning.
+
+A disciplined migration loop aligns with this guidance:
 
 1. Change the model while preserving the current reasoning setting.
 2. Run representative evaluations before changing the prompt.
@@ -368,21 +378,23 @@ This note is not academic research. It does not propose a formal theory of agent
 
 It is also not a blog-style opinion piece. Its claims are operational and architectural. They are meant to help practitioners design systems that behave better under real tool, permission, and validation constraints.
 
-It is not vendor documentation either. Although the argument is grounded in current [OpenAI API documentation](https://platform.openai.com/docs), the point is broader than any single endpoint or product surface. The useful abstraction is the contract model itself: prompts define governed behavioral boundaries inside a larger runtime.
+It is not vendor documentation either. Although the argument is grounded in current OpenAI documentation, the point is broader than any single endpoint or product surface. The useful abstraction is the contract model itself: prompts define governed behavioral boundaries inside a larger runtime.
 
 ## Status and Scope Disclaimer
 
 This is exploratory but evidence-informed lab work, not authoritative guidance. It reflects a practical reading of current OpenAI documentation and the design implications suggested by the source material, not a universal law of agent engineering.
 
-The note is scoped to modern tool-using agents operating in software and research workflows. It does not attempt to cover all model classes, all safety regimes, or highly regulated deployment environments.
+The architectural interpretations in this article — including prompts as contracts, completion predicates, governed runtimes, invariant/policy/preference categories, and the three-layer state model — are the article's own synthesis. OpenAI's guidance provides the foundation; this article builds on it.
+
+The note is scoped to GPT-5.6-class tool-using agents operating in software and research workflows. It does not attempt to cover all model classes, all safety regimes, or highly regulated deployment environments.
 
 ## References
 
-1. [OpenAI — Prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering)
-2. [OpenAI — Using tools](https://platform.openai.com/docs/guides/tools)
-3. [OpenAI — Programmatic Tool Calling](https://platform.openai.com/docs/guides/tools-programmatic-tool-calling)
-4. [OpenAI — Working with evals](https://platform.openai.com/docs/guides/evals)
-5. [OpenAI — Prompt caching](https://platform.openai.com/docs/guides/prompt-caching)
-6. [OpenAI — Function calling](https://platform.openai.com/docs/guides/function-calling)
-7. [OpenAI — Reasoning best practices](https://platform.openai.com/docs/guides/reasoning-best-practices)
-8. [OpenAI — Evaluate agent workflows](https://platform.openai.com/docs/guides/agent-evals)
+1. OpenAI — [Prompting guidance for GPT-5.6](https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6). OpenAI API Documentation. Accessed July 15, 2026.
+2. OpenAI — [Programmatic Tool Calling](https://platform.openai.com/docs/guides/tools-programmatic-tool-calling). OpenAI API Documentation. Accessed July 15, 2026.
+3. OpenAI — [Evaluate agent workflows](https://platform.openai.com/docs/guides/agent-evals). OpenAI API Documentation. Accessed July 15, 2026.
+4. OpenAI — [Prompt caching](https://platform.openai.com/docs/guides/prompt-caching). OpenAI API Documentation. Accessed July 15, 2026.
+5. OpenAI — [Function calling](https://platform.openai.com/docs/guides/function-calling). OpenAI API Documentation. Accessed July 15, 2026.
+6. OpenAI — [Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs). OpenAI API Documentation. Accessed July 15, 2026.
+7. OpenAI — [Reasoning best practices](https://platform.openai.com/docs/guides/reasoning-best-practices). OpenAI API Documentation. Accessed July 15, 2026.
+8. OpenAI — [Working with evals](https://platform.openai.com/docs/guides/evals). OpenAI API Documentation. Accessed July 15, 2026. Note: the Evals platform is transitioning; see Evaluate agent workflows for current evaluation guidance.
