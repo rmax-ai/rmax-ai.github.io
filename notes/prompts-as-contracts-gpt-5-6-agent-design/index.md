@@ -315,6 +315,8 @@ A disciplined migration loop aligns with this guidance:
 
 This sequence isolates variables. If the model, prompt, tools, reasoning level, and runtime all change at once, regressions become hard to diagnose and improvements become hard to trust.
 
+A companion project, [PromptBench](https://rmax.ai/promptbench/), explores eval-driven prompt development for GPT-5.6-class agents in practice.
+
 ## Concrete Examples
 
 ### Example 1: Repository implementation agent
