@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*July 15, 2026* — [Prompts Are Contracts, Not Programs: What GPT-5.6 Changes About Agent Design](/notes/prompts-as-contracts-gpt-5-6-agent-design/)
+
+### [Prompts Are Contracts, Not Programs: What GPT-5.6 Changes About Agent Design](/notes/prompts-as-contracts-gpt-5-6-agent-design/)
+*July 15, 2026* — GPT-5.6's prompting guidance reflects a deeper architectural shift: prompts are becoming contracts that govern adaptive runtimes, not programs that prescribe every step — with implications for authorization, tool design, and evaluation.
+
 *July 13, 2026* — [Evidence-Carrying Changes: From AI Code Production to Verifiable Software Delivery](/notes/evidence-carrying-changes/)
 
 ### [Evidence-Carrying Changes: From AI Code Production to Verifiable Software Delivery](/notes/evidence-carrying-changes/)
