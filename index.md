@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Prompts Are Contracts, Not Programs: What GPT-5.6 Changes About Agent Design](/notes/prompts-as-contracts-gpt-5-6-agent-design/)
+GPT-5.6's prompting guidance reflects a deeper architectural shift: prompts are becoming contracts that govern adaptive runtimes, not programs that prescribe every step.
+
 ### [Evidence-Carrying Changes: From AI Code Production to Verifiable Software Delivery](/notes/evidence-carrying-changes/)
 *July 13, 2026* — AI coding systems produce implementations faster than delivery processes can evaluate them. This article proposes evidence-carrying changes: structured claims about intended behavior, independently generated verification evidence, provenance, residual uncertainty, and risk-calibrated policy decisions.
 ### [Deterministic Runtimes for Long-Horizon AI Agents](/notes/deterministic-runtimes/)

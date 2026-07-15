@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Prompts Are Contracts, Not Programs: What GPT-5.6 Changes About Agent Design — rmax.ai</title>
+    <meta name="description" content="GPT-5.6&#x27;s prompting guidance reflects a deeper shift: prompts are becoming contracts that govern adaptive runtimes, not programs that prescribe every step. What that means for agent architecture, authorization, tool design, and evaluation." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/prompts-as-contracts-gpt-5-6-agent-design/" />
+
+    <meta property="og:title" content="Prompts Are Contracts, Not Programs: What GPT-5.6 Changes About Agent Design" />
+    <meta property="og:description" content="GPT-5.6&#x27;s prompting guidance reflects a deeper shift: prompts are becoming contracts that govern adaptive runtimes, not programs that prescribe every step. What that means for agent architecture, authorization, tool design, and evaluation." />
+    <meta property="og:url" content="https://rmax.ai/notes/prompts-as-contracts-gpt-5-6-agent-design/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-07-15" />
+    <meta property="article:tag" content="prompting" />
+    <meta property="article:tag" content="agent-architecture" />
+    <meta property="article:tag" content="gpt-5-6" />
+    <meta property="article:tag" content="contracts" />
+    <meta property="article:tag" content="declarative" />
+    <meta property="article:tag" content="authorization" />
+    <meta property="article:tag" content="evals" />
+    <meta property="article:tag" content="tool-design" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      h4 {
+        margin: 24px 0 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+
+      @media (max-width: 600px) {
+        .wrap {
+          margin: 20px auto;
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>Prompts Are Contracts, Not Programs: What GPT-5.6 Changes About Agent Design</h1>
+            <div class="post-meta">
+              <span>2026-07-15</span>
+              <span>•</span>
+              <span>18-20 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+<h2>Abstract</h2>
+<p>As models improve at planning, tool use, and instruction following, prompt design shifts away from procedural scripting and toward contract design. This note argues that a prompt's operational job is no longer to prescribe every step. Its job is to define the outcome, constraints, evidence requirements, authorization boundaries, and completion conditions that a capable model must satisfy. That shift matters because it changes agent architecture. The prompt becomes one control layer inside a larger governed runtime, not the whole program.</p>
+<h2>Core Thesis</h2>
+<p>For modern agents, the prompt should primarily define what must be true at completion, not the exact sequence of actions used to get there.</p>
+<p>A good prompt contract specifies:</p>
+<ul>
+<li>the desired outcome;</li>
+<li>success criteria;</li>
+<li>authority and permission boundaries;</li>
+<li>evidence and citation requirements;</li>
+<li>validation requirements;</li>
+<li>output structure;</li>
+<li>stop and escalation rules.</li>
+</ul>
+<p>A weak prompt spends too much of its budget on generic activity instructions such as "investigate thoroughly," "use tools carefully," or "respond quickly." Those instructions often conflict, and the system usually reveals the conflict only after it behaves badly.</p>
+<pre class="mermaid">
+flowchart TD
+    A[User request] --> B{Prompt style}
+    B -->|Procedural| C[Specify many steps]
+    B -->|Contractual| D[Specify outcome and constraints]
+    C --> E[Higher prompt interference]
+    C --> F[Lower adaptability]
+    D --> G[Adaptive execution]
+    D --> H[Clear completion test]
+    G --> I[Governed runtime]
+    H --> I
+</pre>
+<h2>Context and Motivation</h2>
+<p>Recent <a href="https://platform.openai.com/docs/guides/prompt-engineering">OpenAI prompt engineering guidance</a> for GPT-5.6 points toward a simpler prompt style: define the task clearly, specify what success requires, expose only relevant tools, and avoid unnecessary procedural scaffolding. That advice reflects a real change in model behavior. Earlier agent systems often needed long instructions because models planned poorly and used tools unreliably. More capable systems can often infer the sequence. They still cannot safely infer permission boundaries, evidence standards, stop conditions, or validation requirements.</p>
+<p>That change makes prompt design less like writing a program in natural language and more like specifying a contract for an adaptive runtime.</p>
+<h2>From Procedural Instructions to Declarative Contracts</h2>
+<p>A procedural prompt says how to work:</p>
+<blockquote>
+<p>Inspect the repository. Make a plan. Implement the change. Review the result. Run tests. Return a summary.</p>
+</blockquote>
+<p>A contract prompt says what completion requires:</p>
+<blockquote>
+<p>Implement the requested behavior without changing unrelated functionality. Preserve repository conventions. Validate the change with relevant tests. Report remaining uncertainty.</p>
+</blockquote>
+<p>The second form does not remove planning, inspection, or validation. It delegates the order and scope of those actions to the model. That is the important change.</p>
+<p>The structure is similar to declarative infrastructure. An imperative deployment script lists commands. A declarative system defines the desired state and relies on a control loop to reconcile the actual system state with the desired state. In the same way, the prompt defines the destination and the boundaries, while the model and runtime decide how to reconcile the current state against the completion contract.</p>
+<h2>Prompt Simplification Is a Behavioral Change</h2>
+<p>Prompt reduction is not only a latency or token optimization. It changes behavior.</p>
+<p>OpenAI reports, in internal coding-agent evaluations, that leaner system prompts improved evaluation scores by 10–15%, reduced total token use by 41–66%, and reduced cost by 33–67%. Because those results are internal, treat them as directional rather than universal. The accompanying guidance recommends validating any prompt change against representative application-specific evals.</p>
+<p>The mechanism is simple: every instruction adds another optimization pressure. A prompt that says "always investigate thoroughly," "use the fewest tool calls," "never make assumptions," "do not ask unnecessary questions," and "respond quickly" does not define a coherent policy. It defines competing objectives.</p>
+<p>The practical goal is not minimalism. The goal is to remove instructions that do not materially improve behavior.</p>
+<p>Keep the information the model cannot safely invent:</p>
+<ul>
+<li>outcome;</li>
+<li>completion criteria;</li>
+<li>permission model;</li>
+<li>evidence rules;</li>
+<li>validation requirements;</li>
+<li>tool-routing policy;</li>
+<li>output schema.</li>
+</ul>
+<p>Remove repeated rules, generic process narration, redundant style demands, irrelevant tools, and duplicated tool descriptions.</p>
+<h2>Define Completion, Not Activity</h2>
+<p>Agents perform better when the prompt defines observable completion conditions instead of vague activity.</p>
+<p>"Research this topic" does not tell the system when to stop. "Produce a report that answers three questions, supports material claims with retrieved sources, distinguishes evidence from inference, and identifies unresolved gaps" does.</p>
+<p>That difference gives the runtime a usable completion predicate. After each action, the system can compare current evidence against the contract and decide whether to continue, ask, narrow the result, or stop.</p>
+<pre class="mermaid">
+flowchart TD
+    A[Current evidence] --> B[Evaluate against completion contract]
+    B --> C{Any material gap left?}
+    C -->|Yes| D[Choose smallest useful action]
+    D --> E[Retrieve / inspect / validate]
+    E --> A
+    C -->|No| F[Terminate and report result]
+</pre>
+<p>For agents that work against evolving evidence, this is usually a better organizing model than a generic "plan, act, observe, reflect" loop. The central question is not "what step comes next?" The central question is "what contract condition is still unsatisfied?"</p>
+<h2>Separate Invariants, Policies, and Preferences</h2>
+<p>Prompt stacks often become brittle because they mix hard rules with softer guidance.</p>
+<p>Use absolute language only for real invariants:</p>
+<ul>
+<li>never expose secrets;</li>
+<li>never claim an action succeeded without tool confirmation;</li>
+<li>never perform destructive actions without approval;</li>
+<li>output must match the required schema.</li>
+</ul>
+<p>Express context-sensitive behavior as policies:</p>
+<ul>
+<li>search when available evidence is insufficient or may be stale;</li>
+<li>ask only when missing information blocks a correct or authorized action;</li>
+<li>use account tools only when the answer depends on account state.</li>
+</ul>
+<p>Treat preferences separately:</p>
+<ul>
+<li>concise tone;</li>
+<li>preferred validation order;</li>
+<li>favored output style.</li>
+</ul>
+<p>This separation matters operationally. Invariants must always hold. Policies guide decisions between valid options. Preferences should never override correctness.</p>
+<h2>Authorization Is Part of the Prompt Contract</h2>
+<p>More capable agents act more proactively. They inspect more context, call more tools, and continue longer without intervention. That makes authorization semantics non-optional.</p>
+<p>A working contract should distinguish:</p>
+<ul>
+<li>read versus write;</li>
+<li>planning versus execution;</li>
+<li>local versus external effects;</li>
+<li>reversible versus irreversible actions;</li>
+<li>task completion versus scope expansion.</li>
+</ul>
+<p>A compact policy often works better than repeated "ask first" language scattered throughout the prompt:</p>
+<table>
+<tr>
+<th>Action class</th>
+<th>Default policy</th>
+</tr>
+<tr>
+<td>Read or analyze</td>
+<td>Allowed</td>
+</tr>
+<tr>
+<td>Local in-scope modification</td>
+<td>Allowed by implementation request</td>
+</tr>
+<tr>
+<td>Non-destructive validation</td>
+<td>Allowed</td>
+</tr>
+<tr>
+<td>External write</td>
+<td>Requires approval</td>
+</tr>
+<tr>
+<td>Destructive or irreversible action</td>
+<td>Requires approval</td>
+</tr>
+<tr>
+<td>Material scope expansion</td>
+<td>Requires approval</td>
+</tr>
+</table>
+<p>The prompt should communicate this policy, but high-consequence systems should not rely on prompting alone. Runtime gates should independently classify and allow, deny, or route proposed actions for approval.</p>
+<h2>Tools Are Part of the Prompt</h2>
+<p>Tooling is not separate from prompting. The tool set defines the model's action space, and tool descriptions are part of the behavioral contract.</p>
+<p><a href="https://platform.openai.com/docs/guides/tools">OpenAI's tools guidance</a> supports a simple rule: expose only the tools relevant to the current task, and describe them with routing and failure semantics rather than vague labels.</p>
+<p>A useful tool description explains:</p>
+<ul>
+<li>what the tool does;</li>
+<li>when to use it;</li>
+<li>what it returns;</li>
+<li>important limitations;</li>
+<li>expected errors.</li>
+</ul>
+<p>That is why tool schemas and descriptions should be treated as interface contracts. A vague tool name increases decision entropy. A precise description reduces it.</p>
+<h2>Let the Runtime Choose the Execution Pattern</h2>
+<p>Fixed workflow graphs still have value, but they work best where the sequence is known and stable.</p>
+<p>Where sequence depends on context, the prompt should define execution policy rather than a rigid script. The source material condenses OpenAI's GPT-5.6 guidance into a simple execution policy: resolve prerequisites first, parallelize independent reads, and keep dependent steps sequential. Then synthesize those results before acting, and if retrieval comes back empty, try one or two materially different fallbacks.</p>
+<p>That policy lets the model construct a task-specific execution graph without hard-coding every sequence in the prompt.</p>
+<pre class="mermaid">
+flowchart TD
+    A[Task arrives] --> B{Prerequisites resolved?}
+    B -->|No| C[Resolve prerequisites]
+    C --> B
+    B -->|Yes| D{Independent reads available?}
+    D -->|Yes| E[Run reads in parallel]
+    D -->|No| F[Run dependent step]
+    E --> G[Synthesize results]
+    G --> F
+    F --> H{Retrieval empty or suspiciously narrow?}
+    H -->|Yes| I[Try up to two materially different fallbacks]
+    I --> G
+    H -->|No| J[Proceed or finish]
+</pre>
+<p>Dynamic orchestration is not automatically better. Regulated or repetitive business processes may still fit deterministic graphs better. Adaptivity matters when the right path depends on local context.</p>
+<h2>Use Deterministic Code for Deterministic Work</h2>
+<p><a href="https://platform.openai.com/docs/guides/tools-programmatic-tool-calling">Programmatic Tool Calling</a> draws a cleaner boundary: use deterministic code when a bounded stage can transform structured data more reliably than the model can, and keep the model in control when each result may change the next decision.</p>
+<p>Deterministic code is well suited to:</p>
+<ul>
+<li>filtering;</li>
+<li>sorting;</li>
+<li>joining;</li>
+<li>ranking;</li>
+<li>deduplication;</li>
+<li>aggregation;</li>
+<li>repeated validation;</li>
+<li>bulk processing of similar records.</li>
+</ul>
+<p>Direct model-controlled calls are better when:</p>
+<ul>
+<li>each result changes the next decision;</li>
+<li>semantic judgment is required;</li>
+<li>approval may be needed;</li>
+<li>intermediate artifacts are small;</li>
+<li>citations or native outputs must be preserved.</li>
+</ul>
+<p>A useful pattern is:</p>
+<p>probabilistic interpretation and orchestration</p>
+<p>→ deterministic processing</p>
+<p>→ probabilistic synthesis and judgment</p>
+<p>→ deterministic validation and policy enforcement</p>
+<p>In an incident investigation, the model can decide which systems matter, deterministic code can normalize and order thousands of records, the model can interpret the timeline, and deterministic checks can verify the final output against policy.</p>
+<h2>Grounding Must Be Explicit</h2>
+<p>Retrieval access does not automatically create grounded answers. The contract must define what counts as evidence.</p>
+<p>That includes:</p>
+<ul>
+<li>which claims require support;</li>
+<li>which sources are allowed;</li>
+<li>how citations attach to claims;</li>
+<li>how disagreement is represented;</li>
+<li>how inference is labeled;</li>
+<li>what to do when evidence is missing.</li>
+</ul>
+<p>A strong evidence contract requires retrieved support for every material external claim, places citations beside the claims they support, labels synthesis as synthesis, and leaves unresolved gaps visible.</p>
+<p>The most operationally important distinction is between absence of evidence and evidence of absence. "No supporting document was found" is a retrieval observation. It is not automatically proof that an event did not happen.</p>
+<h2>Keep the Contract Stable and Task State Compact</h2>
+<p>Long-running agents accumulate too much state if everything stays in the live context. The source material proposes three layers:</p>
+<ul>
+<li>stable contract;</li>
+<li>current task state;</li>
+<li>historical trace.</li>
+</ul>
+<p>The stable contract contains the durable rules: role, permissions, evidence policy, schema, and completion criteria. The current task state contains what is active now: objective, retrieved evidence, completed actions, remaining gaps, and blockers. The historical trace contains prior plans, failed attempts, verbose tool outputs, and superseded reasoning.</p>
+<p>This is where <a href="https://platform.openai.com/docs/guides/prompt-caching">prompt caching</a> becomes architecturally useful, not just financially useful. A stable contract can remain cache-friendly and durable while task state stays compact and authoritative.</p>
+<h2>More Reasoning Is Not Better Architecture</h2>
+<p>Increasing reasoning effort is not a substitute for missing system design. <a href="https://platform.openai.com/docs/guides/reasoning-best-practices">OpenAI's reasoning best practices</a> support a more disciplined view: if outputs are weak, first check the architecture: does the system define success, route tools correctly, enforce permissions, and validate results?</p>
+<p>Reasoning amplifies the model operating inside the architecture. It does not replace the architecture.</p>
+<p>A model cannot reliably compensate for undefined completion, missing permissions, absent validation tools, or unavailable evidence sources. Raising reasoning effort may make a broken design slower and more expensive without making it safer or more correct.</p>
+<h2>Validation Defines Completion</h2>
+<p>Producing an artifact is not the same as completing a task. Completion requires evidence that the required conditions hold.</p>
+<p>For software changes, that evidence may include targeted tests, type checks, linting, builds, or smoke tests. For visual work, it may include rendering and checking layout, spacing, clipping, responsive behavior, and content integrity.</p>
+<p>The prompt contract should define which checks matter before completion can be claimed. The runtime should gather the evidence. The final response should report both the result and the validation status.</p>
+<p>This is where <a href="https://platform.openai.com/docs/guides/function-calling">function calling</a> and structured outputs become practically important: they make it easier to return a result plus evidence, not just a narrative summary.</p>
+<h2>Prompts Should Evolve Through Evals</h2>
+<p>Prompt development should be treated more like engineering change management than copywriting.</p>
+<p>The source material outlines a disciplined migration loop aligned with <a href="https://platform.openai.com/docs/guides/evals">Working with evals</a> and <a href="https://platform.openai.com/docs/guides/agent-evals">Evaluate agent workflows</a>:</p>
+<ol>
+<li>Change the model while preserving the current reasoning setting.</li>
+<li>Run representative evaluations before changing the prompt.</li>
+<li>Remove obsolete scaffolding, repeated instructions, and irrelevant tools.</li>
+<li>Add only the smallest targeted instruction needed to fix a measured regression.</li>
+<li>Rerun evaluations after each prompt or reasoning change.</li>
+</ol>
+<p>This sequence isolates variables. If the model, prompt, tools, reasoning level, and runtime all change at once, regressions become hard to diagnose and improvements become hard to trust.</p>
+<h2>Concrete Examples</h2>
+<h3>Example 1: Repository implementation agent</h3>
+<p>A weak prompt for a coding agent often says:</p>
+<blockquote>
+<p>Inspect the repo, make a plan, implement, review your work, run tests, and summarize.</p>
+</blockquote>
+<p>A stronger contract says:</p>
+<ul>
+<li>implement the requested behavior;</li>
+<li>preserve unrelated behavior and repository conventions;</li>
+<li>stay within requested scope;</li>
+<li>do not perform external writes or destructive actions;</li>
+<li>validate with relevant tests or checks;</li>
+<li>report changed behavior, evidence, and remaining uncertainty.</li>
+</ul>
+<p>The model can still inspect the repo, plan, implement, and validate. The difference is that the completion contract implies those activities instead of scripting them manually.</p>
+<h3>Example 2: Research agent with retrieval</h3>
+<p>A weak prompt says:</p>
+<blockquote>
+<p>Research this topic thoroughly.</p>
+</blockquote>
+<p>A stronger contract says:</p>
+<ul>
+<li>answer three specified questions;</li>
+<li>support material claims with retrieved sources;</li>
+<li>distinguish evidence from inference;</li>
+<li>describe disagreements between reliable sources;</li>
+<li>identify missing evidence;</li>
+<li>narrow conclusions when support is incomplete.</li>
+</ul>
+<p>The second form provides a stop condition and a reporting standard. It also prevents a common failure mode: the system returns a confident synthesis with unclear provenance.</p>
+<h2>Trade-offs and Failure Modes</h2>
+<p>This approach does not solve every agent problem.</p>
+<ul>
+<li>A contract that is too compact can omit critical business rules or authority boundaries.</li>
+<li>A contract without runtime enforcement still relies too heavily on model compliance.</li>
+<li>Poor tool design can degrade behavior even when prompt design is strong.</li>
+<li>Some workflows fit deterministic graphs better than adaptive loops.</li>
+<li>Completion contracts can be hard to define for open-ended creative or exploratory tasks.</li>
+<li>Overly abstract contracts can hide sequence dependencies that should be explicit in code.</li>
+</ul>
+<p>The transition also carries risk. Teams that are used to long prompts may remove structure too aggressively and discover that some of that structure was compensating for gaps elsewhere in the system. Simplify prompts only when evals show that the change improves results.</p>
+<h2>Practical Takeaways</h2>
+<ol>
+<li>Write prompts around completion conditions, not activity sequences.</li>
+<li>Separate invariants, policies, and preferences so the model is not asked to optimize conflicting instructions.</li>
+<li>Treat tool exposure and tool descriptions as part of the prompt contract.</li>
+<li>Push deterministic work into code and keep probabilistic judgment with the model.</li>
+<li>Evaluate prompt changes the way you evaluate code changes: against representative regressions, one variable at a time.</li>
+</ol>
+<h2>Positioning Note</h2>
+<p>This note is not academic research. It does not propose a formal theory of agent cognition or a new benchmark.</p>
+<p>It is also not a blog-style opinion piece. Its claims are operational and architectural. They are meant to help practitioners design systems that behave better under real tool, permission, and validation constraints.</p>
+<p>It is not vendor documentation either. Although the argument is grounded in current <a href="https://platform.openai.com/docs">OpenAI API documentation</a>, the point is broader than any single endpoint or product surface. The useful abstraction is the contract model itself: prompts define governed behavioral boundaries inside a larger runtime.</p>
+<h2>Status and Scope Disclaimer</h2>
+<p>This is exploratory but evidence-informed lab work, not authoritative guidance. It reflects a practical reading of current OpenAI documentation and the design implications suggested by the source material, not a universal law of agent engineering.</p>
+<p>The note is scoped to modern tool-using agents operating in software and research workflows. It does not attempt to cover all model classes, all safety regimes, or highly regulated deployment environments.</p>
+<h2>References</h2>
+<ol>
+<li><a href="https://platform.openai.com/docs/guides/prompt-engineering">OpenAI — Prompt engineering</a></li>
+<li><a href="https://platform.openai.com/docs/guides/tools">OpenAI — Using tools</a></li>
+<li><a href="https://platform.openai.com/docs/guides/tools-programmatic-tool-calling">OpenAI — Programmatic Tool Calling</a></li>
+<li><a href="https://platform.openai.com/docs/guides/evals">OpenAI — Working with evals</a></li>
+<li><a href="https://platform.openai.com/docs/guides/prompt-caching">OpenAI — Prompt caching</a></li>
+<li><a href="https://platform.openai.com/docs/guides/function-calling">OpenAI — Function calling</a></li>
+<li><a href="https://platform.openai.com/docs/guides/reasoning-best-practices">OpenAI — Reasoning best practices</a></li>
+<li><a href="https://platform.openai.com/docs/guides/agent-evals">OpenAI — Evaluate agent workflows</a></li>
+</ol>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        {
+          text: "I define the outcome, not the path — my job is to set the contract, not script the work.",
+          agent: "Contract Agent"
+        },
+        {
+          text: "I don't ask the model to enforce its own boundaries. Runtime gates are my domain.",
+          agent: "Authorization Agent"
+        },
+        {
+          text: "I don't confuse absence of evidence with evidence of absence. Gaps stay visible until they close.",
+          agent: "Evidence Agent"
+        }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
