@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*July 17, 2026* — [The Organizational Stages of AI Adoption](/notes/organizational-stages-of-ai-adoption/)
+
+### [The Organizational Stages of AI Adoption](/notes/organizational-stages-of-ai-adoption/)
+*July 17, 2026* — AI-native engineering is primarily an organizational transition, not a model transition. Examines Anthropic's five-stage framework through the lens of organizational delegation, from gated access to AI-native execution.
+
 *July 15, 2026* — [Prompts Are Contracts, Not Programs: What GPT-5.6 Changes About Agent Design](/notes/prompts-as-contracts-gpt-5-6-agent-design/)
 
 ### [Prompts Are Contracts, Not Programs: What GPT-5.6 Changes About Agent Design](/notes/prompts-as-contracts-gpt-5-6-agent-design/)
