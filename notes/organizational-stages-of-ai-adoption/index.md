@@ -52,7 +52,7 @@ Model capability is improving quickly. Organizational throughput is not improvin
 
 The main question is no longer whether an AI system can produce useful engineering work. The harder question is whether an organization can expose the right context, permissions, validation, and accountability structures to let that work happen safely.
 
-[Anthropic's Steps of AI Adoption](https://claude.ai/code/artifact/bfdfaef9-bc62-4dfe-ba9e-c58a26c9accf#no_universal_links) is useful here not as a tool taxonomy, but as a delegation model.
+[Anthropic's Steps of AI Adoption](https://claude.ai/code/artifact/bfdfaef9-bc62-4dfe-ba9e-c58a26c9accf#no_universal_links), introduced by Boris Cherny ([@bcherny](https://x.com/bcherny/status/2077929379661844559)) in July 2026, is useful here not as a tool taxonomy, but as a delegation model.
 
 ## Mechanism and Model
 
@@ -323,7 +323,7 @@ Its intended use is practical orientation: a way to reason about AI adoption as 
 
 ## References
 
-1. Anthropic — [Steps of AI Adoption](https://claude.ai/code/artifact/bfdfaef9-bc62-4dfe-ba9e-c58a26c9accf#no_universal_links). Boris Cherny, July 16, 2026.
+1. Cherny, Boris — [Steps of AI Adoption](https://claude.ai/code/artifact/bfdfaef9-bc62-4dfe-ba9e-c58a26c9accf#no_universal_links). Introduced as a Claude artifact and [announced on X](https://x.com/bcherny/status/2077929379661844559), July 16, 2026. Boris Cherny is the Head of Claude Code at Anthropic.
 2. Liu, Jiacheng; Zhao, Xiaohan; Shang, Xinyi; Shen, Zhiqiang — [Dive into Claude Code: The Design Space of Today's and Future AI Agent Systems](https://arxiv.org/abs/2604.14228). arXiv:2604.14228, 2026.
 3. Murphy-Hill, Emerson; Butler, Jenna; Savelieva, Alexandra — [Adoption and Impact of Command-Line AI Coding Agents: A Study of Microsoft's Early 2026 Rollout of Claude Code and GitHub Copilot CLI](https://arxiv.org/abs/2607.01418). arXiv:2607.01418, 2026.
 4. Beller, Moritz et al. — [Beyond the Commit: Developer Perspectives on Productivity with AI Coding Assistants](https://arxiv.org/abs/2602.03593). ICSE-SEIP 2026; arXiv:2602.03593.
