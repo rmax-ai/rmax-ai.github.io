@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*July 20, 2026* — [The Harness Gap: Measuring Model–Harness Fit in Coding Agents](/notes/harness-gap/)
+
+### [The Harness Gap: Measuring Model–Harness Fit in Coding Agents](/notes/harness-gap/)
+*July 20, 2026* — A technical note on why coding-agent evaluations should measure model–harness fit, not model capability in isolation.
+
 *July 17, 2026* — [The Organizational Stages of AI Adoption](/notes/organizational-stages-of-ai-adoption/)
 
 ### [The Organizational Stages of AI Adoption](/notes/organizational-stages-of-ai-adoption/)
