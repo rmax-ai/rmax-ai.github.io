@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [The Harness Gap: Measuring Model–Harness Fit in Coding Agents](/notes/harness-gap/)
+A technical note on why coding-agent evaluations should measure model–harness fit, not model capability in isolation.
+
 ### [The Organizational Stages of AI Adoption](/notes/organizational-stages-of-ai-adoption/)
 AI-native engineering is primarily an organizational transition, not a model transition. Examines Anthropic's five-stage framework through the lens of organizational delegation, from gated access to AI-native execution.
 

@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>The Harness Gap: Measuring Model–Harness Fit in Coding Agents — rmax.ai</title>
+    <meta
+      name="description"
+      content="A technical note on why coding-agent evaluations should measure model–harness fit, not model capability in isolation."
+    />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/harness-gap/" />
+
+    <meta property="og:title" content="The Harness Gap: Measuring Model–Harness Fit in Coding Agents" />
+    <meta
+      property="og:description"
+      content="A technical note on why coding-agent evaluations should measure model–harness fit, not model capability in isolation."
+    />
+    <meta property="og:url" content="https://rmax.ai/notes/harness-gap/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-07-20" />
+    <meta property="article:modified_time" content="2026-07-20" />
+    <meta property="article:tag" content="coding agents" />
+    <meta property="article:tag" content="agent evaluation" />
+    <meta property="article:tag" content="harness design" />
+    <meta property="article:tag" content="context engineering" />
+    <meta property="article:tag" content="software engineering" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+        vertical-align: top;
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      .diagram-scroll {
+        margin: 0 0 24px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 8px;
+      }
+      .mermaid {
+        min-width: 640px;
+      }
+      .mermaid svg {
+        height: auto;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+
+      @media (max-width: 700px) {
+        .mermaid {
+          min-width: 560px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .wrap {
+          margin: 20px auto;
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript>
+      <img
+        src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true"
+        alt=""
+        referrerpolicy="no-referrer-when-downgrade"
+      />
+    </noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo" />
+          <div>
+            <div style="font-weight:800">rMax.ai</div>
+            <div style="font-size:0.9rem;color:#94a3b8">AI-first engineering</div>
+          </div>
+        </a>
+        <nav aria-label="Main navigation">
+          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
+          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
+          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
+          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
+          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
+          <a
+            class="navlink"
+            href="https://www.linkedin.com/in/rmaxespinoza/"
+            target="_blank"
+            rel="noopener"
+            aria-label="LinkedIn"
+            style="display:flex;align-items:center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="linkedin.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://rmax.substack.com"
+            target="_blank"
+            rel="noopener"
+            aria-label="Substack"
+            style="display:flex;align-items:center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="substack.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m40.0248,10.0817v-4.5814c-.3229,0-.7411-.0004-1.6553-.0004l-28.9669.0004c-.9142,0-1.318,0-1.6553,0v4.5814c.2164,0,.7411.0005,1.6553.0005l28.9669-.0005c.9142,0,1.4122,0,1.6553,0Z"/>
+              <path d="m40.0248,18.3503v-4.5814H9.4025c-.9142,0-1.3777,0-1.6553,0v4.5814c.2646,0,.7411,0,1.6553,0h30.6223Z"/>
+              <path d="m40.2557,42.4999v-20.1821c0-.1633-.9724-.1077-1.8866-.1077H9.4022c-.9142,0-1.6553-.0555-1.6553.1077v19.8878c.2814-.1622,15.3415-8.2118,16.1691-8.5978.5156.2972,13.6461,7.3385,16.3406,8.8914l-.0008.0007Z"/>
+            </svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://x.com/rmaxdev"
+            target="_blank"
+            rel="noopener"
+            aria-label="X"
+            style="display:flex;align-items:center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="x.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191-.008zM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447z"></path></svg>
+          </a>
+          <a
+            class="navlink"
+            href="https://github.com/rmax-ai"
+            target="_blank"
+            rel="noopener"
+            aria-label="GitHub"
+            style="display:flex;align-items:center"
+            data-simple-event="click_outbound"
+            data-simple-outbound-host="github.com"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display:block;margin-bottom:32px">
+            <h1>The Harness Gap: Measuring Model–Harness Fit in Coding Agents</h1>
+            <div class="post-meta">
+              <span>2026-07-20</span>
+              <span>•</span>
+              <span>10 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <p>A coding agent is not just a model. It is a model operating inside a deterministic execution system that decides what context to load, which tools to expose, how results are represented, when to retry, and what evidence is required before a run can end. This note argues that the surrounding system materially affects agent performance, and that model comparisons increasingly need to separate raw model capability from model–harness fit.</p>
+
+            <p>The core operational question is not only whether harness optimization works. It is whether different models benefit from different harnesses under the same task and budget constraints.</p>
+
+            <h2>Context and motivation</h2>
+
+            <p>As agent systems have moved from single-turn prompting to long-running execution loops, practical engineering effort has shifted from prompt wording toward execution design. Anthropic's writing on <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">context engineering</a>, <a href="https://www.anthropic.com/engineering/writing-tools-for-agents">tool design for agents</a>, and <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">effective harnesses for long-running agents</a> points in the same direction: once a model is allowed to act over time, the interface around it becomes part of the capability surface.</p>
+
+            <p>This matters because agent evaluations are increasingly used to choose models, budgets, and deployment policies. If the harness meaningfully shapes outcomes, then many public benchmark results are measuring two things at once: model quality and the scaffold around the model.</p>
+
+            <p>Work such as <a href="https://arxiv.org/abs/2405.15793">SWE-agent</a> established that agent–computer interface design can change coding performance. More recent papers such as <a href="https://arxiv.org/abs/2603.28052">Meta-Harness</a>, <a href="https://arxiv.org/abs/2607.08124">TTHE: Test-Time Harness Evolution</a>, and <a href="https://arxiv.org/abs/2607.12227">Rethinking the Evaluation of Harness Evolution for Agents</a> push the question further. They ask whether harnesses can be optimized systematically, and whether the apparent gains survive fair controls.</p>
+
+            <h2>Core thesis</h2>
+
+            <p>The useful unit of comparison for coding agents is not the model alone. It is the model plus harness, evaluated on a task distribution under explicit resource limits.</p>
+
+            <p>A stronger version of that claim is the one worth testing:</p>
+
+            <ol>
+              <li>Changing the harness can change the performance of a fixed model.</li>
+              <li>Searching the harness space may discover better configurations than a reasonable manual baseline.</li>
+              <li>Different models may have different best-fit harnesses.</li>
+            </ol>
+
+            <p>The first claim is increasingly well supported. The second is plausible but easy to overstate. The third is the most informative, because it would imply that a generic harness can systematically mismeasure some models.</p>
+
+            <h2>Mechanism: what the harness does</h2>
+
+            <p>In practice, the harness is the control system around the model. It shapes what the model sees, what actions it can take, and when the run is allowed to stop.</p>
+
+            <p>This diagram shows the operational split between model reasoning and harness control.</p>
+
+            <div class="diagram-scroll">
+              <div class="mermaid">
+flowchart TD
+    A[Task request] --> B[Harness]
+    B --> C[Context selection]
+    B --> D[Tool interface]
+    B --> E[Planning policy]
+    B --> F[Validation gates]
+    B --> G[Retry and recovery]
+    C --> H[Model]
+    D --> H
+    E --> H
+    H --> I[Proposed actions]
+    I --> B
+    F --> J[Evidence for completion]
+    G --> C
+    J --> K[Final result]
+              </div>
+            </div>
+
+            <p>For coding work, the harness usually determines:</p>
+
+            <ul>
+              <li>system instructions and repository context</li>
+              <li>file search and navigation tools</li>
+              <li>tool names, schemas, and result formatting</li>
+              <li>planning requirements</li>
+              <li>context compaction and summarization policy</li>
+              <li>retry logic and failure handling</li>
+              <li>test, lint, and type-check triggers</li>
+              <li>completion criteria and evidence requirements</li>
+              <li>safety, cost, and permission controls</li>
+            </ul>
+
+            <p>This is why agent capability is not identical to model capability. A capable model behind a poor harness can look clumsy for reasons that have little to do with the model's internal competence.</p>
+
+            <h2>A simple model of the harness gap</h2>
+
+            <p>The term "harness gap" is useful only if it refers to a measurable difference rather than a vague intuition.</p>
+
+            <p>For a given model:</p>
+
+            <ul>
+              <li>start with a common baseline harness</li>
+              <li>optimize or fit a harness within a bounded search space</li>
+              <li>compare the fitted harness against the baseline</li>
+              <li>test whether that fitted harness still helps other models</li>
+            </ul>
+
+            <p>Three quantities matter:</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Quantity</th>
+                  <th>Meaning</th>
+                  <th>Question it answers</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Optimization gap</td>
+                  <td>Improvement from baseline harness to fitted harness for the same model</td>
+                  <td>Did harness search help at all?</td>
+                </tr>
+                <tr>
+                  <td>Matching gap</td>
+                  <td>Advantage of a model's own fitted harness over harnesses fitted for other models</td>
+                  <td>Is the gain model-specific?</td>
+                </tr>
+                <tr>
+                  <td>Transfer effect</td>
+                  <td>Change when one model uses another model's fitted harness</td>
+                  <td>Do harness improvements generalize?</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p>A useful harness utility function should include more than success rate. It should also account for cost, latency, and stability. Otherwise, the optimizer can appear to win simply by spending more compute.</p>
+
+            <h2>How to measure model–harness fit</h2>
+
+            <p>A credible experiment needs three stages and matched budgets.</p>
+
+            <p>This diagram shows the minimum evaluation loop.</p>
+
+            <div class="diagram-scroll">
+              <div class="mermaid">
+flowchart TD
+    A[Stage 1: common baseline harness] --> B[Measure each model on the same task set]
+    B --> C[Stage 2: optimize harness independently per model]
+    C --> D[Produce fitted harness A, B, C]
+    D --> E[Stage 3: cross-model transfer matrix]
+    E --> F[Compare success, cost, latency, stability]
+    F --> G[Decide: universal gain, model-family fit, model-specific fit, or no real gain]
+              </div>
+            </div>
+
+            <h3>Stage 1: common-harness baseline</h3>
+
+            <p>Run several models on the same held-out tasks using one reasonable generic harness. This produces a standard model leaderboard, but only within that interface.</p>
+
+            <h3>Stage 2: independent harness optimization</h3>
+
+            <p>Optimize the same bounded harness search space independently for each model. The model changes, but the task distribution, tool permissions, and execution ceilings stay fixed.</p>
+
+            <p>Possible search dimensions include:</p>
+
+            <ul>
+              <li>terse versus detailed system instructions</li>
+              <li>explicit planning versus direct action</li>
+              <li>broad versus narrow tool menus</li>
+              <li>raw versus summarized tool output</li>
+              <li>fresh-context retries versus continued-history retries</li>
+              <li>eager versus delayed validation</li>
+              <li>strict versus permissive completion schemas</li>
+            </ul>
+
+            <h3>Stage 3: cross-model transfer</h3>
+
+            <p>Evaluate every optimized harness with every model. This is the step that separates general harness quality from genuine model–harness coupling.</p>
+
+            <p>A transfer matrix can produce at least five outcomes:</p>
+
+            <ul>
+              <li>one harness works well for everyone</li>
+              <li>harnesses transfer within model families</li>
+              <li>each model prefers its own fitted harness</li>
+              <li>task type matters more than model identity</li>
+              <li>apparent gains disappear under fair controls</li>
+            </ul>
+
+            <p>A good experiment must remain open to all five outcomes.</p>
+
+            <h2>Concrete examples</h2>
+
+            <h3>Example 1: interface design as capability design</h3>
+
+            <p><a href="https://arxiv.org/abs/2405.15793">SWE-agent</a> is the clearest concrete example of the harness effect in coding. Its contribution was not only a benchmark score. It showed that a model's ability to act on a repository changes when file viewing, editing, navigation, and command execution are exposed through an interface designed for model use rather than through a generic shell alone.</p>
+
+            <p>That result is best read as a systems result: the same model can perform differently when the interface changes.</p>
+
+            <h3>Example 2: a controlled internal evaluation scenario</h3>
+
+            <p>Consider three coding models on an internal bug-fix workload modeled after <a href="https://arxiv.org/abs/2310.06770">SWE-bench</a> or <a href="https://www.swebench.com/verified.html">SWE-bench Verified</a>, but with hidden tests and matched tool permissions.</p>
+
+            <p>A common baseline harness might require:</p>
+
+            <ul>
+              <li>raw shell output</li>
+              <li>no explicit planning</li>
+              <li>one retry</li>
+              <li>validation only at the end</li>
+            </ul>
+
+            <p>A fitted harness for one model might instead use:</p>
+
+            <ul>
+              <li>a compact repository map up front</li>
+              <li>structured search tools</li>
+              <li>focused validation after meaningful edits</li>
+              <li>fresh-context retry after repeated tool failures</li>
+            </ul>
+
+            <p>If that fitted harness improves only the model it was optimized for, and the improvement shrinks when transferred to other models, that is evidence of model–harness fit. If it helps every model similarly, it is better understood as a general harness improvement.</p>
+
+            <h2>Why false gains are easy to produce</h2>
+
+            <p>Harness optimization can overfit just as easily as model training can.</p>
+
+            <p>This diagram shows the main failure paths.</p>
+
+            <div class="diagram-scroll">
+              <div class="mermaid">
+flowchart TD
+    A[Observed harness gain] --> B{Why did it improve?}
+    B --> C[Better execution structure]
+    B --> D[More compute]
+    B --> E[Benchmark overfitting]
+    B --> F[Verifier quirks]
+    B --> G[Random variance]
+    C --> H[Credible gain]
+    D --> I[Confounded result]
+    E --> I
+    F --> I
+    G --> I
+              </div>
+            </div>
+
+            <p>The most common confounders are:</p>
+
+            <ul>
+              <li>task overfitting to a repeated evaluation set</li>
+              <li>repository overfitting to one codebase's conventions</li>
+              <li>optimizer overfitting to noise in small samples</li>
+              <li>budget inflation through more retries, tokens, or tests</li>
+              <li>leakage through visible tests or weak completion rules</li>
+            </ul>
+
+            <p>This is where <a href="https://arxiv.org/abs/2607.12227">Rethinking the Evaluation of Harness Evolution for Agents</a> is useful. Its main contribution is not a dismissal of harness search. It is a stricter comparison standard: compare optimized harnesses against simpler retry and search baselines under matched information and compute, not against a weak one-shot baseline.</p>
+
+            <h2>Practical takeaways</h2>
+
+            <ol>
+              <li>Evaluate complete agent systems, not models in isolation.</li>
+              <li>Treat tool schemas, output formats, and validation rules as capability-shaping components.</li>
+              <li>Separate execution budget from optimization budget in any harness experiment.</li>
+              <li>Store traces, rejected harness candidates, and ablations; otherwise, you cannot distinguish structure from noise.</li>
+              <li>Re-run evaluations after model upgrades, because a previously good harness may become unnecessary or counterproductive.</li>
+            </ol>
+
+            <h2>Trade-offs and failure modes</h2>
+
+            <p>Harness optimization is attractive because it is cheaper and faster than changing model weights. It is also dangerous for the same reason.</p>
+
+            <p>What it does well:</p>
+
+            <ul>
+              <li>improves operational reliability without retraining</li>
+              <li>exposes deterministic engineering leverage</li>
+              <li>allows targeted adaptation to repository and workflow constraints</li>
+            </ul>
+
+            <p>What it does poorly:</p>
+
+            <ul>
+              <li>can produce brittle gains that fail on held-out tasks</li>
+              <li>can hide simple budget inflation behind more elaborate orchestration</li>
+              <li>can make systems harder to reason about if the harness becomes too adaptive</li>
+            </ul>
+
+            <p>What it does not solve:</p>
+
+            <ul>
+              <li>missing model capability on tasks outside the model's competence range</li>
+              <li>weak or non-executable validation environments</li>
+              <li>poor repository hygiene, slow tests, or ambiguous acceptance criteria</li>
+            </ul>
+
+            <h2>Positioning note</h2>
+
+            <p>This note is narrower than academic research because it focuses on what should be measured in a real agent evaluation loop. It is more structured than a blog opinion because the central claim is meant to be falsifiable. It is less prescriptive than vendor documentation because it is not tied to one framework, one model provider, or one product surface.</p>
+
+            <p>The main point is not that one harness recipe is best. It is that model comparisons without harness controls are easy to misread.</p>
+
+            <h2>Status and scope disclaimer</h2>
+
+            <p>This is an exploratory technical note from a personal lab context, not an authoritative standard or a validated benchmark result. The argument is grounded in published papers, engineering writeups, and a small prototype effort, but the model-specific harness thesis remains an open empirical question. The intended scope is coding agents operating under explicit tools, validation, and budget constraints; it does not attempt to generalize to all agentic systems.</p>
+
+            <h2>A small proof of concept</h2>
+
+            <p><a href="https://github.com/rmax-ai/harness-fit">HarnessFit</a> is a useful prototype framing for this question. Its value is not that it promises a universal agent harness. Its value is that it makes the experiment concrete:</p>
+
+            <ul>
+              <li>compare models under one shared harness</li>
+              <li>fit bounded harness variants independently</li>
+              <li>run the full cross-model transfer matrix</li>
+              <li>report success, cost, latency, and stability together</li>
+            </ul>
+
+            <p>That is enough to test whether the harness gap is real, general, model-specific, or mostly an artifact of evaluation design.</p>
+
+            <h2>References</h2>
+
+            <ul>
+              <li><a href="https://arxiv.org/abs/2405.15793">SWE-agent: Agent–Computer Interfaces Enable Automated Software Engineering</a></li>
+              <li><a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing Effective Tools for Agents—With Agents</a></li>
+              <li><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective Context Engineering for AI Agents</a></li>
+              <li><a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective Harnesses for Long-Running Agents</a></li>
+              <li><a href="https://arxiv.org/abs/2603.28052">Meta-Harness: End-to-End Optimization of Model Harnesses</a></li>
+              <li><a href="https://arxiv.org/abs/2607.12227">Rethinking the Evaluation of Harness Evolution for Agents</a></li>
+              <li><a href="https://arxiv.org/abs/2607.08124">TTHE: Test-Time Harness Evolution</a></li>
+              <li><a href="https://arxiv.org/abs/2310.06770">SWE-bench: Can Language Models Resolve Real-World GitHub Issues?</a></li>
+              <li><a href="https://www.swebench.com/verified.html">SWE-bench Verified</a></li>
+              <li><a href="https://arxiv.org/abs/2310.03714">DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines</a></li>
+              <li><a href="https://arxiv.org/abs/2406.07496">TextGrad: Automatic Differentiation via Text</a></li>
+              <li><a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying Evals for AI Agents</a></li>
+              <li><a href="https://github.com/rmax-ai/harness-fit">HarnessFit</a></li>
+            </ul>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        { text: "I do not grade the model alone; I inspect the machinery that shapes what it can become in practice.", agent: "Evaluation Agent" },
+        { text: "I treat harnesses as hypotheses about execution, then ask whether their gains transfer or merely flatter one model.", agent: "Fit Agent" },
+        { text: "I trust comparisons only after budgets, tools, and stopping rules stop moving under the surface.", agent: "Control Agent" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
