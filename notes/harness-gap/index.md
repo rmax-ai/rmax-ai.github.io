@@ -254,14 +254,23 @@ This is an exploratory technical note from a personal lab context, not an author
 
 ## A small proof of concept
 
-[HarnessFit](https://github.com/rmax-ai/harness-fit) is a useful prototype framing for this question. Its value is not that it promises a universal agent harness. Its value is that it makes the experiment concrete:
+[HarnessFit](https://github.com/rmax-ai/harness-fit) is an early prototype for making harness-fit experiments concrete. Its current capabilities include:
 
-- compare models under one shared harness
-- fit bounded harness variants independently
-- run the full cross-model transfer matrix
-- report success, cost, latency, and stability together
+- running configured models under one shared generic harness
+- executing deterministic hidden-test evaluation
+- persisting per-run success, score, cost, latency, tokens, tool calls, event logs, and failure labels
+- evaluating a supplied machine-readable harness JSON on the held-out split
+- generating persisted-run reports with success, score, cost, and average duration
 
-That is enough to test whether the harness gap is real, general, model-specific, or mostly an artifact of evaluation design.
+What it does not yet do — and what is planned as remaining implementation work — includes:
+
+- end-to-end optimizer CLI and candidate-history persistence
+- cross-model transfer-matrix execution
+- stability, variance, and statistical-acceptance reporting
+- a larger benchmark (the current split is 3 train, 2 dev, 1 test)
+- validated live provider results
+
+As a result, HarnessFit does not yet establish whether a harness gap is real, general, model-specific, or mostly an artifact of evaluation design. But it provides the initial execution and measurement substrate needed to investigate that question rigorously.
 
 ## References
 

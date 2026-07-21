@@ -577,16 +577,27 @@ flowchart TD
 
             <h2>A small proof of concept</h2>
 
-            <p><a href="https://github.com/rmax-ai/harness-fit">HarnessFit</a> is a useful prototype framing for this question. Its value is not that it promises a universal agent harness. Its value is that it makes the experiment concrete:</p>
+            <p><a href="https://github.com/rmax-ai/harness-fit">HarnessFit</a> is an early prototype for making harness-fit experiments concrete. Its current capabilities include:</p>
 
             <ul>
-              <li>compare models under one shared harness</li>
-              <li>fit bounded harness variants independently</li>
-              <li>run the full cross-model transfer matrix</li>
-              <li>report success, cost, latency, and stability together</li>
+              <li>running configured models under one shared generic harness</li>
+              <li>executing deterministic hidden-test evaluation</li>
+              <li>persisting per-run success, score, cost, latency, tokens, tool calls, event logs, and failure labels</li>
+              <li>evaluating a supplied machine-readable harness JSON on the held-out split</li>
+              <li>generating persisted-run reports with success, score, cost, and average duration</li>
             </ul>
 
-            <p>That is enough to test whether the harness gap is real, general, model-specific, or mostly an artifact of evaluation design.</p>
+            <p>What it does not yet do — and what is planned as remaining implementation work — includes:</p>
+
+            <ul>
+              <li>end-to-end optimizer CLI and candidate-history persistence</li>
+              <li>cross-model transfer-matrix execution</li>
+              <li>stability, variance, and statistical-acceptance reporting</li>
+              <li>a larger benchmark (the current split is 3 train, 2 dev, 1 test)</li>
+              <li>validated live provider results</li>
+            </ul>
+
+            <p>As a result, HarnessFit does not yet establish whether a harness gap is real, general, model-specific, or mostly an artifact of evaluation design. But it provides the initial execution and measurement substrate needed to investigate that question rigorously.</p>
 
             <h2>References</h2>
 
