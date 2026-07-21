@@ -34,6 +34,9 @@ Next, render the content as a static HTML page.
 You must:
 
 * Use the site’s existing `index.html` page as the structural template.
+* If the page contains Mermaid diagrams, the `mermaid.initialize()` call MUST include:
+  `themeCSS: '.label foreignObject { overflow: visible; }'`
+  (this prevents node label text from being clipped)
 * Inject metadata into:
 
   * `<title>`
