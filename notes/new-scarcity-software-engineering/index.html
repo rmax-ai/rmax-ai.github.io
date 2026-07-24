@@ -4,11 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>The New Scarcity of Software Engineering in the AI Era — rmax.ai</title>
-    <meta name="description" content="AI makes code generation cheaper, shifting software engineering's scarce work to judgment, system comprehension, verification, and the controls that make agent-driven changes trustworthy." />
+    <meta name="description" content="AI makes code generation cheaper, shifting software engineering&#x27;s scarce work to judgment, system comprehension, verification, and the controls that make agent-driven changes trustworthy." />
     <meta name="author" content="Max" />
     <link rel="canonical" href="https://rmax.ai/notes/new-scarcity-software-engineering/" />
+
     <meta property="og:title" content="The New Scarcity of Software Engineering in the AI Era" />
-    <meta property="og:description" content="AI makes code generation cheaper, shifting software engineering's scarce work to judgment, system comprehension, verification, and the controls that make agent-driven changes trustworthy." />
+    <meta property="og:description" content="AI makes code generation cheaper, shifting software engineering&#x27;s scarce work to judgment, system comprehension, verification, and the controls that make agent-driven changes trustworthy." />
     <meta property="og:url" content="https://rmax.ai/notes/new-scarcity-software-engineering/" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2026-07-24" />
@@ -19,48 +20,235 @@
     <meta property="article:tag" content="architecture" />
     <meta property="article:tag" content="verification" />
     <meta property="article:tag" content="organizational-design" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles/footer.css">
-    <link rel="stylesheet" href="/styles/substack-cta.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
     <style>
-      :root{--bg:#0f1724;--card:#0b1220;--muted:#94a3b8;--accent:#7c3aed;--glass:rgba(255,255,255,.04);--maxw:800px;color-scheme:dark}
-      *{box-sizing:border-box} html,body{height:100%} body{font-family:Inter,system-ui,Arial;margin:0;background:linear-gradient(180deg,#071028 0%,#071229 60%);color:#e6eef8;-webkit-font-smoothing:antialiased;line-height:1.6}
-      .wrap{max-width:var(--maxw);margin:40px auto;padding:24px} header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:64px;max-width:1100px;margin-left:auto;margin-right:auto}
-      .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}.logo{width:44px;height:44px;border-radius:10px;object-fit:contain}nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}a.navlink{color:var(--muted);text-decoration:none;font-weight:600}
-      h1{margin:0 0 16px;font-size:clamp(32px,5vw,52px);line-height:1.1;font-weight:800}h2{margin:48px 0 16px;font-size:1.8rem;font-weight:700;color:#fff}h3{margin:32px 0 12px;font-size:1.4rem;font-weight:600;color:#fff}
-      p{margin:0 0 24px;color:#cbd5e1;font-size:1.1rem}a{color:#a78bfa}ul,ol{margin:0 0 24px;padding-left:20px;color:#cbd5e1}li{margin-bottom:12px}blockquote{margin:32px 0;padding:16px 24px;border-left:4px solid var(--accent);background:var(--glass);border-radius:0 8px 8px 0}blockquote p{margin:0;font-style:italic}
-      .post-meta{color:var(--muted);margin-bottom:48px;font-size:.95rem;display:flex;gap:16px;flex-wrap:wrap}.post-content{margin-top:32px}.caption{color:var(--muted);font-size:.95rem;font-style:italic;margin-bottom:12px}
-      .mermaid{background:#0b1220;border:1px solid #334155;border-radius:12px;margin:0 0 32px;padding:20px;overflow-x:auto;text-align:center}.mermaid svg{max-width:100%;height:auto}.mermaid .label{color:#e6eef8}.mermaid foreignObject{overflow:visible}
-      footer{margin-top:80px;color:var(--muted);font-size:.95rem;padding:40px 0;text-align:center;border-top:1px solid var(--glass)}@media (max-width:600px){header{flex-direction:column;align-items:flex-start}.wrap{margin:20px auto}.mermaid{padding:12px}}
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      h4 {
+        margin: 24px 0 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+
+      @media (max-width: 600px) {
+        .wrap {
+          margin: 20px auto;
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
     </style>
-    <!-- 100% privacy-first analytics -->
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
-    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
   </head>
   <body>
     <div class="wrap">
       <header>
-        <a href="/" class="brand"><img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo"><div><div style="font-weight:800">rMax.ai</div><div class="muted" style="font-size:.9rem">AI-first engineering</div></div></a>
-        <nav aria-label="Main navigation">
-          <a class="navlink" href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
-          <a class="navlink" href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
-          <a class="navlink" href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
-          <a class="navlink" href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
-          <a class="navlink" href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
-          <a class="navlink" href="https://www.linkedin.com/in/rmaxespinoza/" target="_blank" rel="noopener" data-simple-event="click_outbound" data-simple-outbound-host="linkedin.com">LinkedIn</a>
-          <a class="navlink" href="https://rmax.substack.com" target="_blank" rel="noopener" data-simple-event="click_outbound" data-simple-outbound-host="substack.com">Substack</a>
-          <a class="navlink" href="https://x.com/rmaxdev" target="_blank" rel="noopener" data-simple-event="click_outbound" data-simple-outbound-host="x.com">X</a>
-          <a class="navlink" href="https://github.com/rmax-ai" target="_blank" rel="noopener" data-simple-event="click_outbound" data-simple-outbound-host="github.com">GitHub</a>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
         </nav>
       </header>
+
       <main>
         <article>
-          <header style="display:block;margin-bottom:32px">
+          <header style="display: block; margin-bottom: 32px">
             <h1>The New Scarcity of Software Engineering in the AI Era</h1>
-            <div class="post-meta"><span>July 24, 2026</span><span>•</span><span>6–8 min read</span><span>•</span><span>Max</span></div>
+            <div class="post-meta">
+              <span>2026-07-24</span>
+              <span>•</span>
+              <span>6–8 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
           </header>
+
           <div class="audio-player" style="background:var(--glass);border:1px solid rgba(124,58,237,.3);border-radius:12px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:14px">
             <div style="flex-shrink:0;width:40px;height:40px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center" aria-hidden="true">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -73,167 +261,184 @@
               </audio>
             </div>
           </div>
+
           <div class="post-content">
-            <h2>Abstract</h2>
-            <p>AI coding tools make locally plausible code cheaper, but they do not lower every cost of software delivery at the same rate. This note argues that the constraint is shifting to problem framing, system comprehension, verification, and the design of the controls around agents. The operational implication is simple: optimize for trustworthy change, not generated-code volume.</p>
-            <h2>Context</h2>
-            <p>Coding agents can inspect repositories, edit files, run commands, and iterate against tests. <a href="https://openai.com/index/harness-engineering/">OpenAI's account of harness engineering</a> describes this as an agent-first development environment; <a href="https://www.anthropic.com/research/claude-code-expertise">Anthropic's research on Claude Code use</a> reports that domain expertise remains associated with better outcomes. These are useful signals, but neither makes implementation equivalent to engineering.</p>
-            <p>Cheaper implementation usually produces more implementation. More branches, generated tests, dependencies, and diffs then reach stages that have not become equally cheap: requirement clarification, review, integration, deployment, incident response, and maintenance.</p>
-            <p>That is why a team can report faster task completion while trustworthy delivery slows. Local output has increased without a matching ability to determine whether a change is correct, safe, and worth owning.</p>
-            <h2>Core thesis</h2>
-            <p>As the marginal cost of code generation falls, justified judgment becomes software engineering's scarce resource: the ability to frame the right problem, understand system-wide consequences, and produce evidence that a change is safe enough to adopt.</p>
-            <p>Code is an input to a delivery system, not its final product. The product is a change that works in its real environment and remains comprehensible to the people responsible for it.</p>
-            <h2>Mechanism: constraint migration</h2>
-            <p>The whole change path is the relevant unit. A faster coding step improves delivery only when the surrounding system can absorb its output.</p>
-            <p class="caption">Caption: Faster generation moves the bottleneck to evaluation and integration.</p>
-            <pre class="mermaid">flowchart TD
-    A[Intent] --&gt; B[Generate candidate change]
-    B --&gt; C[Review and system reasoning]
-    C --&gt; D[Validation evidence]
-    D --&gt; E[Deploy and observe]
-    E --&gt; F[Trustworthy change]
-    B -.more output.-&gt; C
+<h2>Abstract</h2>
+<p>AI coding tools make locally plausible code cheaper, but they do not lower every cost of software delivery at the same rate. This note argues that the constraint is shifting to problem framing, system comprehension, verification, and the design of the controls around agents. The operational implication is simple: optimize for trustworthy change, not generated-code volume.</p>
+<h2>Context</h2>
+<p>Coding agents can inspect repositories, edit files, run commands, and iterate against tests. <a href="https://openai.com/index/harness-engineering/">OpenAI's account of harness engineering</a> describes a development model in which humans specify intent and design the environment, while agents implement, test, review, and iterate within encoded constraints. <a href="https://www.anthropic.com/research/claude-code-expertise">Anthropic's observational research on Claude Code use</a> found that task-specific expertise—as inferred from how users framed, verified, and corrected the agent—was associated with higher success rates. These are useful signals, but neither makes implementation equivalent to engineering.</p>
+<p>When implementation becomes cheaper, organizations can generate and attempt more changes. More branches, generated tests, dependencies, and diffs then reach stages that have not become equally cheap: requirement clarification, review, integration, deployment, incident response, and maintenance.</p>
+<p>That is why a team can report faster task completion while trustworthy delivery slows. Local output has increased without a matching ability to determine whether a change is correct, safe, and worth owning.</p>
+<h2>Core thesis</h2>
+<p>As the marginal cost of code generation falls, justified judgment becomes software engineering's scarce resource: the ability to frame the right problem, understand system-wide consequences, and produce evidence that a change is safe enough to adopt.</p>
+<p>Code is an input to a delivery system, not its final product. The product is a change that works in its real environment and remains comprehensible to the people responsible for it.</p>
+<h2>Mechanism: constraint migration</h2>
+<p>The whole change path is the relevant unit. A faster coding step improves delivery only when the surrounding system can absorb its output.</p>
+<p><em>Faster generation moves the bottleneck to evaluation and integration.</em></p>
+<pre class="mermaid">
+flowchart TD
+    A[Intent] --> B[Generate candidate change]
+    B --> C[Review and system reasoning]
+    C --> D[Validation evidence]
+    D --> E[Deploy and observe]
+    E --> F[Trustworthy change]
+    B -.more output.-> C
     classDef purple fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8;
     classDef blue fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8;
     classDef red fill:#7f1d1d,stroke:#ef4444,color:#e6eef8;
     class A,F purple;
     class B,E blue;
-    class C,D red;</pre>
-            <p>Review is not merely a ceremonial approval step. The bottleneck is the ability to reconstruct intent, trace effects across boundaries, judge test relevance, and identify consequences that a local diff cannot show.</p>
-            <p><a href="https://gwern.net/doc/design/1971-simon.pdf">Herbert A. Simon's “Designing Organizations for an Information-Rich World”</a> offers a useful analogy: information abundance consumes attention. Here, code abundance consumes evaluation attention. A larger candidate set makes filtering and interpretation more valuable.</p>
-            <h3>Context efficiency is an architectural property</h3>
-            <p>Agents and reviewers both need enough relevant context to make a reliable change. Scattered rules, inconsistent terminology, and implicit dependencies force them to load and reconcile more information. Clear boundaries, explicit interfaces, focused documentation, and executable constraints reduce that work.</p>
-            <p><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Anthropic's context-engineering guidance</a> identifies this constraint at the agent level: more context is not automatically better context. For an engineering organization, the corresponding architectural question is:</p>
-            <blockquote><p>How much relevant information must a human or agent load to make one correct change?</p></blockquote>
-            <p>Call this <strong>context efficiency</strong>. It does not replace correctness or modularity; it asks whether those qualities make a system easier to change safely.</p>
-            <p class="caption">Caption: A legible repository narrows the context needed for correct action.</p>
-            <pre class="mermaid">flowchart TD
-    A[Requested change] --&gt; B[Architecture map]
-    B --&gt; C[Relevant module and rules]
-    C --&gt; D[Agent or reviewer]
-    D --&gt; E[Bounded implementation]
-    E --&gt; F[Focused validation]
+    class C,D red;
+</pre>
+<p>Review is not merely a ceremonial approval step. The bottleneck is the ability to reconstruct intent, trace effects across boundaries, judge test relevance, and identify consequences that a local diff cannot show.</p>
+<p><a href="https://gwern.net/doc/design/1971-simon.pdf">Herbert A. Simon's “Designing Organizations for an Information-Rich World”</a> offers a useful analogy: information abundance consumes attention. In software delivery, code abundance creates a corresponding demand for evaluation attention. A larger candidate set makes filtering and interpretation more valuable.</p>
+<h3>Context efficiency is an architectural property</h3>
+<p>Agents and reviewers both need enough relevant context to make a reliable change. Scattered rules, inconsistent terminology, and implicit dependencies force them to load and reconcile more information. Clear boundaries, explicit interfaces, focused documentation, and executable constraints reduce that work.</p>
+<p><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Anthropic's context-engineering guidance</a> argues that effective agents need the smallest sufficient set of high-signal context, rather than the largest possible context. For an engineering organization, the corresponding architectural question is:</p>
+<blockquote>
+<p>How much relevant information must a human or agent load to make one correct change?</p>
+</blockquote>
+<p>Call this <strong>context efficiency</strong>. It does not replace correctness or modularity; it asks whether those qualities make a system easier to change safely.</p>
+<p><em>A legible repository narrows the context needed for correct action.</em></p>
+<pre class="mermaid">
+flowchart TD
+    A[Requested change] --> B[Architecture map]
+    B --> C[Relevant module and rules]
+    C --> D[Agent or reviewer]
+    D --> E[Bounded implementation]
+    E --> F[Focused validation]
     classDef purple fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8;
     classDef blue fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8;
     classDef red fill:#7f1d1d,stroke:#ef4444,color:#e6eef8;
     class A,D purple;
     class B,C,E blue;
-    class F red;</pre>
-            <h2>What becomes scarce</h2>
-            <h3>Problem framing and architectural judgment</h3>
-            <p>Models can produce coherent implementations of incorrect interpretations. They cannot reliably decide which organizational constraint should dominate, what a product requirement means in a local domain, or whether a new abstraction justifies its future operational cost.</p>
-            <p>These are architectural decisions because they allocate complexity and responsibility over time. They are also accountable decisions: someone must bear the consequences when the system is misunderstood, overloaded, or changed by a different team.</p>
-            <h3>Program comprehension and code review</h3>
-            <p><a href="https://google.github.io/eng-practices/review/reviewer/standard.html">Google Engineering Practices’ <em>The Standard of Code Review</em></a> states that review exists to improve the health of the codebase, not merely to find syntax errors. That purpose becomes more important when a model can produce a convincing patch in seconds.</p>
-            <p>A reviewer must still determine whether the behavior meets the real requirement, preserves authorization and data boundaries, duplicates an existing abstraction, encodes a fragile assumption, and has meaningful tests. These questions take time because they depend on system and domain context.</p>
-            <h3>Verification and evidence</h3>
-            <p>Generated code can pass a narrow test while still using an unsafe tool path, violating an architectural boundary, or failing a user flow. AI systems introduce another concern: acceptable performance on a few examples is not evidence of acceptable performance across the cases that matter.</p>
-            <p><a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Anthropic's <em>Demystifying Evals for AI Agents</em></a> recommends combining code-based, model-based, and human graders where appropriate. The broader engineering lesson is that completion criteria should require evidence, not a self-reported assertion of success.</p>
-            <p>An evidence-carrying change may include deterministic tests, build results, a demonstrated user flow, logs or traces, defined forbidden actions, and independent review. The needed evidence is risk-dependent; an isolated copy change and a permission-model change should not face the same gate.</p>
-            <h3>Harness engineering</h3>
-            <p>A model is not a complete engineering system. It operates as an agent within a harness that selects context, exposes tools, sets permissions, manages retries, and decides what counts as completion.</p>
-            <p><a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Anthropic's <em>Effective Harnesses for Long-Running Agents</em></a> and <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps"><em>Harness Design for Long-Running Application Development</em></a> both emphasize progress artifacts and structured continuation for work that exceeds one context window. In practice, reliability comes from the interaction between model and environment, not model capability alone.</p>
-            <p class="caption">Caption: The harness converts a model proposal into either bounded progress or a controlled stop.</p>
-            <pre class="mermaid">flowchart TD
-    A[Task and constraints] --&gt; B[Harness]
-    B --&gt; C[Curated context]
-    B --&gt; D[Bounded tools]
-    C --&gt; E[Model proposal]
-    D --&gt; E
-    E --&gt; F[Tests and policy gates]
-    F --&gt; G[Evidence accepted]
-    F --&gt; H[Retry, escalate, or stop]
+    class F red;
+</pre>
+<h2>What becomes scarce</h2>
+<h3>Problem framing and architectural judgment</h3>
+<p>Models can produce coherent implementations of incorrect interpretations. They cannot reliably decide which organizational constraint should dominate, what a product requirement means in a local domain, or whether a new abstraction justifies its future operational cost.</p>
+<p>These are architectural decisions because they allocate complexity and responsibility over time. They are also accountable decisions: someone must bear the consequences when the system is misunderstood, overloaded, or changed by a different team.</p>
+<h3>Program comprehension and code review</h3>
+<p><a href="https://google.github.io/eng-practices/review/reviewer/standard.html">Google Engineering Practices' <em>The Standard of Code Review</em></a> defines the reviewer's responsibility as protecting and incrementally improving the health of the codebase, not merely finding syntax errors. That purpose becomes more important when a model can produce a convincing patch in seconds.</p>
+<p>A reviewer must still determine whether the behavior meets the real requirement, preserves authorization and data boundaries, duplicates an existing abstraction, encodes a fragile assumption, and has meaningful tests. These questions take time because they depend on system and domain context.</p>
+<h3>Verification and evidence</h3>
+<p>Generated code can pass a narrow test while still using an unsafe tool path, violating an architectural boundary, or failing a user flow. AI systems introduce another concern: acceptable performance on a few examples is not sufficient evidence of acceptable performance across the cases that matter.</p>
+<p><a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Anthropic's <em>Demystifying Evals for AI Agents</em></a> recommends combining code-based, model-based, and human graders where appropriate. The broader engineering lesson is that completion criteria should require evidence, not a self-reported assertion of success.</p>
+<p>An evidence-carrying change may include deterministic tests, build results, a demonstrated user flow, logs or traces, defined forbidden actions, and independent review. The needed evidence is risk-dependent; an isolated copy change and a permission-model change should not face the same gate.</p>
+<h3>Harness engineering</h3>
+<p>A model is not a complete engineering system. It operates as an agent within a harness that selects context, exposes tools, sets permissions, manages retries, and decides what counts as completion.</p>
+<p><a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Anthropic's <em>Effective Harnesses for Long-Running Agents</em></a> emphasizes incremental progress and durable handoff artifacts for work that exceeds one context window. Its later article, <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps"><em>Harness Design for Long-Running Application Development</em></a>, extends this approach with more explicit planner, generator, and evaluator roles. In practice, reliability comes from the interaction between model and environment, not model capability alone.</p>
+<p><em>The harness converts a model proposal into either bounded progress or a controlled stop.</em></p>
+<pre class="mermaid">
+flowchart TD
+    A[Task and constraints] --> B[Harness]
+    B --> C[Curated context]
+    B --> D[Bounded tools]
+    C --> E[Model proposal]
+    D --> E
+    E --> F[Tests and policy gates]
+    F --> G[Evidence accepted]
+    F --> H[Retry, escalate, or stop]
     classDef purple fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8;
     classDef blue fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8;
     classDef red fill:#7f1d1d,stroke:#ef4444,color:#e6eef8;
     class A,E,G purple;
     class B,C,D blue;
-    class F,H red;</pre>
-            <p>Tool design is part of that environment. <a href="https://www.datadoghq.com/blog/engineering/mcp-server-agent-tools/">Datadog's guidance on designing MCP tools for agents</a> focuses on clear, composable tool interfaces; its <a href="https://www.datadoghq.com/blog/datadog-ai-agent-integrations/">native AI-agent integrations</a> illustrate a related need: agents require controlled access to current telemetry, not only static repository context.</p>
-            <h2>Concrete operating examples</h2>
-            <h3>Example 1: a generated authorization change</h3>
-            <p>An agent can add a route guard and unit tests quickly. The scarce work is deciding whether the route is the actual enforcement boundary, whether a background job can bypass it, which existing policy owns the decision, and how to demonstrate that denial and audit behavior remain correct.</p>
-            <p>The appropriate output is not “the agent changed the route.” It is a bounded change with tests at the policy boundary, evidence of the affected flow, and a review that connects the change to the authorization model.</p>
-            <h3>Example 2: an observability-assisted incident fix</h3>
-            <p>An agent with production telemetry can propose a likely regression fix. The scarce work is distinguishing correlation from cause, controlling access to sensitive data and production actions, and defining a rollback signal before deployment.</p>
-            <p>Live context can improve diagnosis here, but only when the harness limits permissions and requires evidence from the relevant trace or metric. More tool access without those controls can increase both the blast radius and the amount of irrelevant context.</p>
-            <h2>Trade-offs and failure modes</h2>
-            <p>This model does not imply that every change needs a heavy evaluation program. Overbuilt gates delay low-risk work and teach teams to route around the process. Controls should scale with irreversibility, blast radius, uncertainty, and the cost of being wrong.</p>
-            <p>Nor does it assume that human judgment is consistently correct. Human review can be shallow, biased, and slow. The relevant comparison is not ideal humans versus imperfect models, but the quality of complete human–AI delivery systems.</p>
-            <p><a href="https://dora.dev/research/ai/value-of-development-work/">DORA's 2025 research on the value of development work</a> frames generative AI as an amplifier of existing conditions, while the <a href="https://dora.dev/dora-report-2025/">DORA 2025 report</a> places outcomes in a broader technical and organizational system. The caution is practical: adding an agent to unclear ownership, weak tests, or poor deployment discipline may scale the dysfunction rather than repair it.</p>
-            <p>Finally, some current bottlenecks may move again. Better models and evaluators may automate parts of review, architecture, and test design. The durable claim is not that specific human tasks are permanently protected, but that reducing one constraint creates demand for control at another layer.</p>
-            <h2>Practical takeaways</h2>
-            <ol>
-              <li>Measure time from intent to validated production behavior, including review, rework, and incidents—not code volume or agent sessions.</li>
-              <li>Make repository context cheaper to load: document boundaries, use consistent domain language, and put enforceable rules near the work they govern.</li>
-              <li>Require proportional evidence for consequential agent changes: tests, demonstrated behavior, policy checks, and a clear rollback path.</li>
-              <li>Treat the harness as production infrastructure. Version its permissions, tool contracts, validation gates, and stopping rules.</li>
-              <li>Preserve apprenticeship through code reading, test design, incident analysis, and critique of generated work; these are how future reviewers develop judgment.</li>
-            </ol>
-            <h2>Positioning note</h2>
-            <p>This is not academic research: it does not claim a new benchmark, causal study, or universal theory of labor substitution. It is not a blog opinion: its claim is intentionally operational and grounded in publicly described agent, evaluation, review, and delivery practices. It is not vendor documentation: it does not prescribe a particular model, platform, or toolchain.</p>
-            <h2>Status and scope disclaimer</h2>
-            <p>This is exploratory personal lab work, not an authoritative standard or validated organizational model. It synthesizes public sources with practical engineering reasoning. Its scope is AI-assisted software delivery; it does not forecast employment, claim that all engineering work follows the same pattern, or replace risk assessment for a specific system.</p>
-            <h2>References</h2>
-            <ul>
-              <li><a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Anthropic — <em>Demystifying Evals for AI Agents</em></a></li>
-              <li><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Anthropic — <em>Effective Context Engineering for AI Agents</em></a></li>
-              <li><a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Anthropic — <em>Effective Harnesses for Long-Running Agents</em></a></li>
-              <li><a href="https://www.anthropic.com/engineering/harness-design-long-running-apps">Anthropic — <em>Harness Design for Long-Running Application Development</em></a></li>
-              <li><a href="https://www.anthropic.com/research/claude-code-expertise">Anthropic — <em>How Claude Code Is Used in Practice</em></a></li>
-              <li><a href="https://www.datadoghq.com/blog/datadog-ai-agent-integrations/">Datadog — <em>Bring Live Datadog Telemetry into Your AI Agents with Native Integrations</em></a></li>
-              <li><a href="https://www.datadoghq.com/blog/engineering/mcp-server-agent-tools/">Datadog — <em>Designing MCP Tools for Agents</em></a></li>
-              <li><a href="https://dora.dev/research/ai/value-of-development-work/">DORA — <em>How Gen AI Affects the Value of Development Work</em></a></li>
-              <li><a href="https://dora.dev/dora-report-2025/">DORA — <em>State of AI-Assisted Software Development Report 2025</em></a></li>
-              <li><a href="https://google.github.io/eng-practices/review/reviewer/standard.html">Google Engineering Practices — <em>The Standard of Code Review</em></a></li>
-              <li><a href="https://gwern.net/doc/design/1971-simon.pdf">Herbert A. Simon — <em>Designing Organizations for an Information-Rich World</em></a></li>
-              <li><a href="https://openai.com/index/harness-engineering/">OpenAI — <em>Harness Engineering: Leveraging Codex in an Agent-First World</em></a></li>
-            </ul>
+    class F,H red;
+</pre>
+<p>Tool design is part of that environment. <a href="https://www.datadoghq.com/blog/engineering/mcp-server-agent-tools/">Datadog's guidance on designing MCP tools for agents</a> focuses on clear, composable tool interfaces; its <a href="https://www.datadoghq.com/blog/datadog-ai-agent-integrations/">native AI-agent integrations</a> illustrate a related need: agents require controlled access to current telemetry, not only static repository context.</p>
+<h2>Concrete operating examples</h2>
+<h3>Example 1: a generated authorization change</h3>
+<p>An agent can add a route guard and unit tests quickly. The scarce work is deciding whether the route is the actual enforcement boundary, whether a background job can bypass it, which existing policy owns the decision, and how to demonstrate that denial and audit behavior remain correct.</p>
+<p>The appropriate output is not “the agent changed the route.” It is a bounded change with tests at the policy boundary, evidence of the affected flow, and a review that connects the change to the authorization model.</p>
+<h3>Example 2: an observability-assisted incident fix</h3>
+<p>An agent with production telemetry can propose a likely regression fix. The scarce work is distinguishing correlation from cause, controlling access to sensitive data and production actions, and defining a rollback signal before deployment.</p>
+<p>Live context can improve diagnosis here, but only when the harness limits permissions and requires evidence from the relevant trace or metric. More tool access without those controls can increase both the blast radius and the amount of irrelevant context.</p>
+<h2>Trade-offs and failure modes</h2>
+<p>This model does not imply that every change needs a heavy evaluation program. Overbuilt gates delay low-risk work and teach teams to route around the process. Controls should scale with irreversibility, blast radius, uncertainty, and the cost of being wrong.</p>
+<p>Nor does it assume that human judgment is consistently correct. Human review can be shallow, biased, and slow. The relevant comparison is not ideal humans versus imperfect models, but the quality of complete human–AI delivery systems.</p>
+<p><a href="https://dora.dev/research/ai/value-of-development-work/">DORA's research on the value of development work</a> examines how generative AI affects developers' reported productivity, well-being, and perceptions of valuable work. The <a href="https://dora.dev/dora-report-2025/">2025 DORA report</a> separately frames AI as an amplifier of an organization's existing strengths and weaknesses. The caution is practical: adding an agent to unclear ownership, weak tests, or poor deployment discipline may scale dysfunction rather than repair it.</p>
+<p>Finally, some current bottlenecks may move again. Better models and evaluators may automate parts of review, architecture, and test design. The durable claim is not that specific human tasks are permanently protected, but that reducing one constraint creates demand for control at another layer.</p>
+<h2>Practical takeaways</h2>
+<ol>
+<li>Measure time from intent to validated production behavior, including review, rework, and incidents—not code volume or agent sessions.</li>
+<li>Make repository context cheaper to load: document boundaries, use consistent domain language, and put enforceable rules near the work they govern.</li>
+<li>Require proportional evidence for consequential agent changes: tests, demonstrated behavior, policy checks, and a clear rollback path.</li>
+<li>Treat the harness as production infrastructure. Version its permissions, tool contracts, validation gates, and stopping rules.</li>
+<li>Preserve apprenticeship through code reading, test design, incident analysis, and critique of generated work; these are how future reviewers develop judgment.</li>
+</ol>
+<h2>Positioning note</h2>
+<p>This is an analytical engineering essay, not an empirical study. It does not introduce a benchmark, causal result, or universal theory of labour substitution. Its argument synthesizes publicly documented practices in agent design, evaluation, code review, and software delivery into an operational model. It is vendor-neutral and does not prescribe a particular model, platform, or toolchain.</p>
+<h2>Status and scope disclaimer</h2>
+<p>This is exploratory personal lab work, not an authoritative standard or validated organizational model. It synthesizes public sources with practical engineering reasoning. Its scope is AI-assisted software delivery; it does not forecast employment, claim that all engineering work follows the same pattern, or replace risk assessment for a specific system.</p>
+<h2>References</h2>
+<ul>
+<li><a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Anthropic — <em>Demystifying Evals for AI Agents</em></a></li>
+<li><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Anthropic — <em>Effective Context Engineering for AI Agents</em></a></li>
+<li><a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Anthropic — <em>Effective Harnesses for Long-Running Agents</em></a></li>
+<li><a href="https://www.anthropic.com/engineering/harness-design-long-running-apps">Anthropic — <em>Harness Design for Long-Running Application Development</em></a></li>
+<li><a href="https://www.anthropic.com/research/claude-code-expertise">Anthropic — <em>How Claude Code Is Used in Practice</em></a></li>
+<li><a href="https://www.datadoghq.com/blog/datadog-ai-agent-integrations/">Datadog — <em>Bring Live Datadog Telemetry into Your AI Agents with Native Integrations</em></a></li>
+<li><a href="https://www.datadoghq.com/blog/engineering/mcp-server-agent-tools/">Datadog — <em>Designing MCP Tools for Agents</em></a></li>
+<li><a href="https://dora.dev/research/ai/value-of-development-work/">DORA — <em>How Gen AI Affects the Value of Development Work</em></a></li>
+<li><a href="https://dora.dev/dora-report-2025/">DORA — <em>State of AI-Assisted Software Development Report 2025</em></a></li>
+<li><a href="https://google.github.io/eng-practices/review/reviewer/standard.html">Google Engineering Practices — <em>The Standard of Code Review</em></a></li>
+<li><a href="https://gwern.net/doc/design/1971-simon.pdf">Herbert A. Simon — <em>Designing Organizations for an Information-Rich World</em></a></li>
+<li><a href="https://openai.com/index/harness-engineering/">OpenAI — <em>Harness Engineering: Leveraging Codex in an Agent-First World</em></a></li>
+</ul>
           </div>
         </article>
-        <section class="substack-cta"><h3>Stay Updated</h3><p>Get notified about new research notes and insights on AI-native engineering.</p><div id="substack-cta-container" data-substack-url="rmax.substack.com"></div></section>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
       </main>
+
       <footer class="rmax-footer">
-        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
         <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
       </footer>
-      <script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-  mermaid.initialize({
-    startOnLoad: true,
-    theme: 'base',
-    maxTextWidth: 300,
-    flowchart: {
-      htmlLabels: true,
-      useMaxWidth: true,
-    },
-    themeCSS: '.label foreignObject { overflow: visible; }',
-    themeVariables: {
-      background: 'transparent',
-      primaryColor: '#1a1a2e',
-      primaryBorderColor: '#7c3aed',
-      primaryTextColor: '#e6eef8',
-      lineColor: '#94a3b8',
-      secondaryColor: '#16213e',
-      tertiaryColor: '#0b1220',
-      clusterBkg: 'transparent',
-      clusterBorder: '#334155',
-      edgeLabelBackground: '#0f1724',
-      nodeBorder: '#334155',
-      mainBkg: '#1a1a2e',
-    }
-  });
-</script>
-      <script src="/scripts/analytics-tracking.js"></script>
-      <script src="/scripts/substack-cta.js"></script>
-      <script>
-        window.footerThoughts = [
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
           { text: "I turn judgment into durable decisions by making assumptions and trade-offs visible.", agent: "Judgment Agent" },
           { text: "I trust a change when its evidence survives verification, not when its output sounds certain.", agent: "Verification Agent" },
           { text: "I make architecture legible so the next responsible change needs less context and less luck.", agent: "Architecture Agent" }
         ];
-      </script>
-      <script src="/scripts/footer.js"></script>
-    </div>
+    </script>
+    <script src="/scripts/footer.js"></script>
   </body>
 </html>
