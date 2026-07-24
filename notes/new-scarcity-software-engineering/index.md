@@ -30,9 +30,9 @@ AI coding tools make locally plausible code cheaper, but they do not lower every
 
 ## Context
 
-Coding agents can inspect repositories, edit files, run commands, and iterate against tests. [OpenAI's account of harness engineering](https://openai.com/index/harness-engineering/) describes this as an agent-first development environment; [Anthropic's research on Claude Code use](https://www.anthropic.com/research/claude-code-expertise) reports that domain expertise remains associated with better outcomes. These are useful signals, but neither makes implementation equivalent to engineering.
+Coding agents can inspect repositories, edit files, run commands, and iterate against tests. [OpenAI's account of harness engineering](https://openai.com/index/harness-engineering/) describes a development model in which humans specify intent and design the environment, while agents implement, test, review, and iterate within encoded constraints. [Anthropic's observational research on Claude Code use](https://www.anthropic.com/research/claude-code-expertise) found that task-specific expertise—as inferred from how users framed, verified, and corrected the agent—was associated with higher success rates. These are useful signals, but neither makes implementation equivalent to engineering.
 
-Cheaper implementation usually produces more implementation. More branches, generated tests, dependencies, and diffs then reach stages that have not become equally cheap: requirement clarification, review, integration, deployment, incident response, and maintenance.
+When implementation becomes cheaper, organizations can generate and attempt more changes. More branches, generated tests, dependencies, and diffs then reach stages that have not become equally cheap: requirement clarification, review, integration, deployment, incident response, and maintenance.
 
 That is why a team can report faster task completion while trustworthy delivery slows. Local output has increased without a matching ability to determine whether a change is correct, safe, and worth owning.
 
@@ -46,7 +46,7 @@ Code is an input to a delivery system, not its final product. The product is a c
 
 The whole change path is the relevant unit. A faster coding step improves delivery only when the surrounding system can absorb its output.
 
-*Caption: Faster generation moves the bottleneck to evaluation and integration.*
+*Faster generation moves the bottleneck to evaluation and integration.*
 
 ```mermaid
 flowchart TD
@@ -66,19 +66,19 @@ flowchart TD
 
 Review is not merely a ceremonial approval step. The bottleneck is the ability to reconstruct intent, trace effects across boundaries, judge test relevance, and identify consequences that a local diff cannot show.
 
-[Herbert A. Simon's “Designing Organizations for an Information-Rich World”](https://gwern.net/doc/design/1971-simon.pdf) offers a useful analogy: information abundance consumes attention. Here, code abundance consumes evaluation attention. A larger candidate set makes filtering and interpretation more valuable.
+[Herbert A. Simon's “Designing Organizations for an Information-Rich World”](https://gwern.net/doc/design/1971-simon.pdf) offers a useful analogy: information abundance consumes attention. In software delivery, code abundance creates a corresponding demand for evaluation attention. A larger candidate set makes filtering and interpretation more valuable.
 
 ### Context efficiency is an architectural property
 
 Agents and reviewers both need enough relevant context to make a reliable change. Scattered rules, inconsistent terminology, and implicit dependencies force them to load and reconcile more information. Clear boundaries, explicit interfaces, focused documentation, and executable constraints reduce that work.
 
-[Anthropic's context-engineering guidance](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) identifies this constraint at the agent level: more context is not automatically better context. For an engineering organization, the corresponding architectural question is:
+[Anthropic's context-engineering guidance](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) argues that effective agents need the smallest sufficient set of high-signal context, rather than the largest possible context. For an engineering organization, the corresponding architectural question is:
 
 > How much relevant information must a human or agent load to make one correct change?
 
 Call this **context efficiency**. It does not replace correctness or modularity; it asks whether those qualities make a system easier to change safely.
 
-*Caption: A legible repository narrows the context needed for correct action.*
+*A legible repository narrows the context needed for correct action.*
 
 ```mermaid
 flowchart TD
@@ -105,13 +105,13 @@ These are architectural decisions because they allocate complexity and responsib
 
 ### Program comprehension and code review
 
-[Google Engineering Practices’ *The Standard of Code Review*](https://google.github.io/eng-practices/review/reviewer/standard.html) states that review exists to improve the health of the codebase, not merely to find syntax errors. That purpose becomes more important when a model can produce a convincing patch in seconds.
+[Google Engineering Practices' *The Standard of Code Review*](https://google.github.io/eng-practices/review/reviewer/standard.html) defines the reviewer's responsibility as protecting and incrementally improving the health of the codebase, not merely finding syntax errors. That purpose becomes more important when a model can produce a convincing patch in seconds.
 
 A reviewer must still determine whether the behavior meets the real requirement, preserves authorization and data boundaries, duplicates an existing abstraction, encodes a fragile assumption, and has meaningful tests. These questions take time because they depend on system and domain context.
 
 ### Verification and evidence
 
-Generated code can pass a narrow test while still using an unsafe tool path, violating an architectural boundary, or failing a user flow. AI systems introduce another concern: acceptable performance on a few examples is not evidence of acceptable performance across the cases that matter.
+Generated code can pass a narrow test while still using an unsafe tool path, violating an architectural boundary, or failing a user flow. AI systems introduce another concern: acceptable performance on a few examples is not sufficient evidence of acceptable performance across the cases that matter.
 
 [Anthropic's *Demystifying Evals for AI Agents*](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) recommends combining code-based, model-based, and human graders where appropriate. The broader engineering lesson is that completion criteria should require evidence, not a self-reported assertion of success.
 
@@ -121,9 +121,9 @@ An evidence-carrying change may include deterministic tests, build results, a de
 
 A model is not a complete engineering system. It operates as an agent within a harness that selects context, exposes tools, sets permissions, manages retries, and decides what counts as completion.
 
-[Anthropic's *Effective Harnesses for Long-Running Agents*](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) and [*Harness Design for Long-Running Application Development*](https://www.anthropic.com/engineering/harness-design-long-running-apps) both emphasize progress artifacts and structured continuation for work that exceeds one context window. In practice, reliability comes from the interaction between model and environment, not model capability alone.
+[Anthropic's *Effective Harnesses for Long-Running Agents*](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) emphasizes incremental progress and durable handoff artifacts for work that exceeds one context window. Its later article, [*Harness Design for Long-Running Application Development*](https://www.anthropic.com/engineering/harness-design-long-running-apps), extends this approach with more explicit planner, generator, and evaluator roles. In practice, reliability comes from the interaction between model and environment, not model capability alone.
 
-*Caption: The harness converts a model proposal into either bounded progress or a controlled stop.*
+*The harness converts a model proposal into either bounded progress or a controlled stop.*
 
 ```mermaid
 flowchart TD
@@ -165,7 +165,7 @@ This model does not imply that every change needs a heavy evaluation program. Ov
 
 Nor does it assume that human judgment is consistently correct. Human review can be shallow, biased, and slow. The relevant comparison is not ideal humans versus imperfect models, but the quality of complete human–AI delivery systems.
 
-[DORA's 2025 research on the value of development work](https://dora.dev/research/ai/value-of-development-work/) frames generative AI as an amplifier of existing conditions, while the [DORA 2025 report](https://dora.dev/dora-report-2025/) places outcomes in a broader technical and organizational system. The caution is practical: adding an agent to unclear ownership, weak tests, or poor deployment discipline may scale the dysfunction rather than repair it.
+[DORA's research on the value of development work](https://dora.dev/research/ai/value-of-development-work/) examines how generative AI affects developers' reported productivity, well-being, and perceptions of valuable work. The [2025 DORA report](https://dora.dev/dora-report-2025/) separately frames AI as an amplifier of an organization's existing strengths and weaknesses. The caution is practical: adding an agent to unclear ownership, weak tests, or poor deployment discipline may scale dysfunction rather than repair it.
 
 Finally, some current bottlenecks may move again. Better models and evaluators may automate parts of review, architecture, and test design. The durable claim is not that specific human tasks are permanently protected, but that reducing one constraint creates demand for control at another layer.
 
@@ -179,7 +179,7 @@ Finally, some current bottlenecks may move again. Better models and evaluators m
 
 ## Positioning note
 
-This is not academic research: it does not claim a new benchmark, causal study, or universal theory of labor substitution. It is not a blog opinion: its claim is intentionally operational and grounded in publicly described agent, evaluation, review, and delivery practices. It is not vendor documentation: it does not prescribe a particular model, platform, or toolchain.
+This is an analytical engineering essay, not an empirical study. It does not introduce a benchmark, causal result, or universal theory of labour substitution. Its argument synthesizes publicly documented practices in agent design, evaluation, code review, and software delivery into an operational model. It is vendor-neutral and does not prescribe a particular model, platform, or toolchain.
 
 ## Status and scope disclaimer
 
