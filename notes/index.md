@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*July 24, 2026* — [The New Scarcity of Software Engineering in the AI Era](/notes/new-scarcity-software-engineering/)
+
+### [The New Scarcity of Software Engineering in the AI Era](/notes/new-scarcity-software-engineering/)
+*July 24, 2026* — As code generation becomes abundant, engineering value shifts toward judgment, verification, architecture, context, and organizational design.
+
 *July 20, 2026* — [The Harness Gap: Measuring Model–Harness Fit in Coding Agents](/notes/harness-gap/)
 
 ### [The Harness Gap: Measuring Model–Harness Fit in Coding Agents](/notes/harness-gap/)

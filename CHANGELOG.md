@@ -11,6 +11,8 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-07-24: Published technical note: [new-scarcity-software-engineering](notes/new-scarcity-software-engineering/index.md). Argues that AI-driven code abundance shifts scarce engineering work toward judgment, verification, architecture, and organizational design.
+  - *Warnings*: Publish with caution — failure-mode review identified potential over-application of evidence gates and production telemetry access. Link audit initially found missing homepage and Notes index cards; both were added before this step.
 - 2026-07-20: Published technical note: [harness-gap](notes/harness-gap/index.md). Argues that coding-agent evaluations should measure model–harness fit rather than model capability in isolation.
   - *Warnings*: Publish with caution — the note argues for model–harness as the evaluation unit without much counterweight on when model-only comparisons remain acceptable; several claims depend on readers already having mature eval infrastructure, controlled budgets, and strong validation environments; the prototype and cited papers may be read as stronger evidence for model-specific harness fit than the note's own disclaimer supports; readers could treat the staged evaluation loop as an operational prescription rather than a measurement framework. Link audit verdict: safe to release after index updates, no broken links, canonical path consistent, discoverable from home and notes indexes.
 - 2026-07-17: Published technical note: [organizational-stages-of-ai-adoption](notes/organizational-stages-of-ai-adoption/index.md). Examines AI adoption through Anthropic's five-stage framework, arguing the transition is organizational rather than model-driven.

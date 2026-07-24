@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [The New Scarcity of Software Engineering in the AI Era](/notes/new-scarcity-software-engineering/)
+As code generation becomes abundant, engineering value shifts toward judgment, verification, architecture, context, and organizational design.
+
 ### [The Harness Gap: Measuring Model–Harness Fit in Coding Agents](/notes/harness-gap/)
 A technical note on why coding-agent evaluations should measure model–harness fit, not model capability in isolation.
 
