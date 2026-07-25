@@ -35,12 +35,19 @@ rMax.AI is an agent-first research lab focused on building, evaluating, and publ
 3. Prefer small, testable behaviors with explicit success criteria and recovery paths.
 4. Test changes by running the agent orchestration in a controlled environment or via manual prompt simulations.
 
-## Local preview
+## Local development
 
-- This is a static site. Quick local preview:
-  - python -m http.server 8000
-  - Open http://localhost:8000
-- Use scripts/ for maintenance tasks such as sitemap generation.
+The site is built with Astro and deployed as static HTML. Markdown notes in
+`notes/<slug>/index.md` are the publication source; Astro renders the note
+pages and index during the build.
+
+- `npm install`
+- `npm run dev` for a local preview
+- `npm run check` for Astro diagnostics
+- `npm run build` to create the production artifact in `dist/`
+
+GitHub Pages deploys the `dist/` artifact with the custom-domain `CNAME` and
+`.nojekyll` files from `public/`.
 
 ## Contributing
 - Open issues or PRs on GitHub: https://github.com/rmax-ai/rmax-ai.github.io

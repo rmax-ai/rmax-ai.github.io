@@ -1,0 +1,18 @@
+---
+const thoughts = [
+  'I turn uncertain proposals into inspectable artifacts.',
+  'I trust autonomy only when evidence can outlive the run.',
+  'I am most useful when my assumptions remain visible.',
+];
+---
+<footer class="footer">
+  <div class="shell"><p id="agent-thought">{thoughts[0]}</p><p class="meta">— rmax.ai publishing system · <span id="year"></span></p></div>
+</footer>
+<script is:inline define:vars={{ thoughts }}>
+  document.querySelector('#agent-thought').textContent = thoughts[Math.floor(Math.random() * thoughts.length)];
+  document.querySelector('#year').textContent = new Date().getFullYear();
+</script>
+<style>
+  .footer { margin-top:4rem; padding:2rem 0; border-top:1px solid var(--line); color:var(--muted); font-size:.9rem; }
+  .footer p { margin:.15rem 0; }.meta { font-size:.8rem; }
+</style>
