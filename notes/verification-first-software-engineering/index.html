@@ -243,64 +243,27 @@
             <div class="post-meta">
               <span>2026-07-26</span>
               <span>•</span>
-              <span>20–25 min read</span>
+              <span>18–22 min read</span>
               <span>•</span>
               <span>Max</span>
             </div>
           </header>
 
           <div class="post-content">
+<h2>Introduction</h2>
+<p>The cost of producing a plausible software implementation is falling rapidly. Coding agents can inspect repositories, generate patches, run tests, diagnose failures, and revise their own work across progressively longer tasks. Research from <a href="https://metr.org/time-horizons/">METR</a> tracks this trajectory empirically.</p>
+<p>Verification has not become correspondingly cheaper. Determining whether generated code is correct enough, secure enough, operationally acceptable, and consistent with intended behavior remains expensive. It requires human judgment, diverse evidence, and institutional knowledge that does not compress into a prompt.</p>
+<p>This asymmetry suggests a different way to organize software engineering. Rather than treating source code as the primary long-lived artifact, we can treat it as one replaceable realization of a more durable system: executable specifications, contracts, invariants, policies, operational budgets, provenance, and verification evidence. I refer to this approach as <strong>verification-first software engineering</strong>, and the resulting software as <strong>regenerable</strong>: implementations that can be regenerated, revalidated, and replaced as models and tooling improve, because the durable constraints around them are sufficiently strong.</p>
 <blockquote>
 <p>As implementation becomes cheaper, the durable engineering asset shifts from a particular codebase toward the system that defines and verifies acceptable behavior.</p>
 </blockquote>
-<h2>Introduction</h2>
-<p>Large language models are changing the economics of software engineering.</p>
-<p>Coding agents can inspect repositories, generate patches, execute commands, run tests, diagnose failures, and revise their own work. Research from <a href="https://metr.org/time-horizons/">METR on task-completion time horizons</a> suggests that frontier systems are becoming capable of completing progressively longer software-engineering tasks, although success remains highly dependent on the task, environment, model, and evaluation method.</p>
-<p>This changes an assumption that has shaped software engineering for decades.</p>
-<p>Historically, source code was expensive to create and modify. Teams therefore treated the implementation itself as the primary engineering asset: preserve the codebase, minimize rewrites, and evolve it carefully over many years.</p>
-<p>As agents reduce the cost of producing candidate implementations, the constraint begins to move.</p>
-<p>The scarce resource is increasingly not the ability to generate code. It is the ability to determine whether generated code is correct enough, secure enough, operationally acceptable, and consistent with the system's intended behavior.</p>
-<p>This suggests a different way to organize software development.</p>
-<p>Rather than treating source code as the only authoritative artifact, we can treat it as one implementation constrained by a more durable verification system: executable specifications, contracts, invariants, policies, operational budgets, provenance, and regression knowledge.</p>
-<p>I refer to this approach as <strong>verification-first software engineering</strong>.</p>
-<p>The claim is not that source code becomes disposable everywhere. It is that, for well-specified classes of systems, implementations can become increasingly replaceable while the assets used to generate, evaluate, and govern them become more durable.</p>
 <p>---</p>
-<h2>The bottleneck is moving</h2>
-<p>Modern coding agents are already capable of substantial implementation work. Depending on the repository and available tools, they can:</p>
-<ul>
-<li>implement APIs;</li>
-<li>refactor modules;</li>
-<li>migrate frameworks;</li>
-<li>repair failing tests;</li>
-<li>update dependencies;</li>
-<li>generate infrastructure definitions;</li>
-<li>write documentation;</li>
-<li>and iterate across build and test failures.</li>
-</ul>
-<p>The difficult question is no longer merely:</p>
-<blockquote>
-<p>Can the agent produce a plausible implementation?</p>
-</blockquote>
-<p>It is:</p>
-<blockquote>
-<p>What evidence justifies accepting that implementation?</p>
-</blockquote>
-<p>An experienced engineer must still determine:</p>
-<ul>
-<li>whether important edge cases were preserved;</li>
-<li>whether the change introduces security regressions;</li>
-<li>whether it violates architectural constraints;</li>
-<li>whether performance remains within acceptable bounds;</li>
-<li>whether the agent weakened or bypassed the tests;</li>
-<li>whether dependencies and build inputs are trustworthy;</li>
-<li>whether the resulting system remains operable;</li>
-<li>and whether the implementation satisfies the actual requirement rather than only its most visible examples.</li>
-</ul>
-<p>Implementation is becoming relatively cheap.</p>
-<p>Acceptance is not.</p>
-<p>This is an instance of constraint migration. Increasing throughput in one stage does not automatically increase throughput in the whole delivery system. When code generation accelerates faster than review, verification, integration, and operational validation, the downstream stages become the limiting factors.</p>
-<p>The practical unit of progress is therefore not generated code. It is <strong>accepted change supported by credible evidence</strong>.</p>
-<p><em>Figure 1. Faster generation moves the delivery constraint toward evidence and acceptance.</em></p>
+<h2>The bottleneck has moved</h2>
+<p>Modern coding agents can implement APIs, refactor modules, migrate frameworks, repair failing tests, update dependencies, generate infrastructure definitions, and iterate across build failures. The limiting factor is no longer generation throughput.</p>
+<p>It is acceptance.</p>
+<p>An experienced engineer must still determine whether a change preserves edge cases, introduces security regressions, respects architectural constraints, stays within performance budgets, uses trustworthy dependencies, remains operable in production, and satisfies the actual requirement—not only its most visible examples. Increasing generation speed without corresponding verification capacity simply shifts the queue downstream.</p>
+<p>The practical unit of progress is <strong>accepted change supported by credible evidence</strong>.</p>
+<p><em>Figure 1. As generation accelerates, the constraint moves from producing implementations to producing evidence that they are acceptable.</em></p>
 <pre class="mermaid">
 flowchart TD
     A[Requirements and constraints] --> B[Candidate implementation]
@@ -311,51 +274,62 @@ flowchart TD
     E --> F[Deploy or reject]
 </pre>
 <p>---</p>
-<h2>Software repositories contain two kinds of assets</h2>
-<p>Traditional repositories mix two fundamentally different kinds of information.</p>
-<p>The first describes how the current implementation works.</p>
-<p>The second describes what must remain true regardless of implementation.</p>
-<p>These assets have different lifetimes.</p>
-<p>Implementation artifacts include:</p>
-<ul>
-<li>source files;</li>
-<li>framework wiring;</li>
-<li>dependency-injection configuration;</li>
-<li>internal abstractions;</li>
-<li>helper functions;</li>
-<li>generated code;</li>
-<li>build scripts;</li>
-<li>and deployment-specific adapters.</li>
-</ul>
-<p>These may change substantially during a rewrite or migration.</p>
-<p>More durable artifacts include:</p>
-<ul>
-<li>API contracts;</li>
-<li>behavioral specifications;</li>
-<li>domain invariants;</li>
-<li>formal models;</li>
-<li>property-based tests;</li>
-<li>regression suites;</li>
-<li>authorization policies;</li>
-<li>performance budgets;</li>
-<li>service-level objectives;</li>
-<li>architecture decisions;</li>
-<li>dependency rules;</li>
-<li>and software-supply-chain attestations.</li>
-</ul>
-<p>These artifacts define acceptable behavior and constraints with less dependence on one implementation.</p>
-<p>The distinction is useful:</p>
+<h2>Two kinds of repository assets</h2>
+<p>Traditional repositories mix assets with fundamentally different lifetimes.</p>
+<p><strong>Implementation assets</strong> describe how the current system works: source files, framework wiring, internal abstractions, helper functions, generated code, build scripts, deployment adapters. These can change substantially during a rewrite.</p>
+<p><strong>Constraint assets</strong> describe what must remain true regardless of implementation: API contracts, behavioral specifications, domain invariants, regression suites, authorization policies, performance budgets, service-level objectives, architecture decisions, dependency rules, supply-chain attestations.</p>
+<p>The distinction separates what changes from what should survive change:</p>
 <blockquote>
-<p>Code describes how the system currently behaves.</p>
-<p>Specifications and constraints describe what acceptable implementations must preserve.</p>
+<p>Code describes how the system currently behaves. Specifications and constraints describe what acceptable implementations must preserve.</p>
 </blockquote>
-<p>This separation is not absolute. Tests can encode accidental implementation details. Architecture decisions can become obsolete. Operational targets may change. Specifications can be incomplete or internally inconsistent.</p>
-<p>The objective is therefore not to pretend that specifications are timeless. It is to make the intended behavior, constraints, and evidence explicit enough that they can survive implementation changes and be revised independently.</p>
+<p>The separation is not absolute—tests can encode accidental implementation details, architecture decisions become obsolete, specifications are incomplete. The objective is not timelessness. It is making intended behavior, constraints, and evidence explicit enough to survive implementation changes and be revised independently.</p>
+<p>---</p>
+<h2>The durability hierarchy</h2>
+<p>When implementation becomes the cheapest artifact to regenerate, the natural organization of engineering assets inverts.</p>
+<p>Historically, the hierarchy ran from durable implementations at the base through increasingly speculative layers above. In a verification-first model, the hierarchy runs the other direction:</p>
+<table>
+<tr>
+<th>Layer</th>
+<th>Durability</th>
+<th>Examples</th>
+</tr>
+<tr>
+<td><strong>Intent</strong></td>
+<td>Highest</td>
+<td>Problem statements, domain models, user needs</td>
+</tr>
+<tr>
+<td><strong>Specifications</strong></td>
+<td>High</td>
+<td>API contracts, invariants, formal models, behavioral requirements</td>
+</tr>
+<tr>
+<td><strong>Verification systems</strong></td>
+<td>High</td>
+<td>Test harnesses, property generators, static analyzers, policy engines</td>
+</tr>
+<tr>
+<td><strong>Operational constraints</strong></td>
+<td>Medium-high</td>
+<td>Latency budgets, availability targets, resource limits, deployment rules</td>
+</tr>
+<tr>
+<td><strong>Evidence</strong></td>
+<td>Medium</td>
+<td>Test results, mutation scores, provenance attestations, review decisions</td>
+</tr>
+<tr>
+<td><strong>Implementation</strong></td>
+<td>Lowest</td>
+<td>Source files, build scripts, deployment configs</td>
+</tr>
+</table>
+<p>Intent, specifications, and verification systems outlive individual implementations. They encode what the organization knows about the problem domain and what constitutes acceptable software. Implementations become an artifact generated from these layers—important operationally, but replaceable when the constraints above them are complete enough.</p>
+<p>This inverts the traditional preservation instinct. Historically, teams preserved implementations because implementations were expensive to recreate. As regeneration becomes cheaper, the assets worth preserving are the ones that survive regeneration: intent, specifications, verification systems, operational constraints, and evidence.</p>
 <p>---</p>
 <h2>The specification bundle</h2>
-<p>A verification-first repository can organize its durable assets into a <strong>specification bundle</strong>.</p>
-<p>The bundle does not need to be one file or one formal language. It is the versioned collection of artifacts required to generate and assess an implementation.</p>
-<p><em>Figure 2. A specification bundle joins complementary constraint layers rather than relying on a single test suite.</em></p>
+<p>A verification-first repository organizes its durable assets into a <strong>specification bundle</strong>: the versioned collection of artifacts required to generate and assess an implementation. It is not a single document or formal language, but a structured set of complementary layers.</p>
+<p><em>Figure 2. A specification bundle joins complementary constraint layers. No single layer provides complete assurance.</em></p>
 <pre class="mermaid">
 flowchart TD
     A[Specification bundle] --> B[Interface contracts]
@@ -365,145 +339,52 @@ flowchart TD
     A --> F[Operational constraints]
     A --> G[Design and provenance records]
 </pre>
-<p>A practical specification bundle may contain six layers.</p>
-<h3>1. Interface contracts</h3>
-<p>Interface contracts define observable interactions without prescribing internal structure.</p>
-<p>Examples include:</p>
-<ul>
-<li><a href="https://spec.openapis.org/">OpenAPI descriptions</a> for HTTP APIs;</li>
-<li>GraphQL schemas;</li>
-<li>Protocol Buffers or other interface-definition languages;</li>
-<li>event schemas;</li>
-<li>database contracts;</li>
-<li>command-line interface definitions;</li>
-<li>and compatibility requirements.</li>
-</ul>
-<p>The <a href="https://spec.openapis.org/oas/v3.2.0.html">OpenAPI Specification</a>, for example, defines a language-independent description of an HTTP API that can be consumed without reading the service's source code.</p>
-<p>A contract describes the shape of an interaction. It does not, by itself, establish that the implementation is semantically correct, secure, or operationally sound.</p>
-<h3>2. Behavioral examples</h3>
-<p>Example-based tests capture known scenarios:</p>
-<ul>
-<li>public unit tests;</li>
-<li>integration tests;</li>
-<li>end-to-end workflows;</li>
-<li>historical regression cases;</li>
-<li>and reproductions of previously observed failures.</li>
-</ul>
-<p>These examples are concrete and easy to understand, but they cover only the cases selected by the test author.</p>
-<h3>3. General properties and invariants</h3>
-<p>Properties describe behavior across classes of inputs rather than individual examples.</p>
-<p>The original <a href="https://dl.acm.org/doi/10.1145/351240.351266">QuickCheck paper</a> introduced automated checking of program properties over generated inputs. Property-based testing is particularly useful when a system should preserve algebraic laws, state-machine rules, round-trip behavior, ordering constraints, or domain invariants.</p>
-<p>Examples include:</p>
-<ul>
-<li>decoding an encoded value returns the original value;</li>
-<li>account balances never become negative;</li>
-<li>authorization cannot be gained by changing request order;</li>
-<li>retries do not duplicate externally visible effects;</li>
-<li>and sorting preserves the input multiset.</li>
-</ul>
-<p>Properties improve coverage, but their usefulness depends on the quality of the property, generators, state model, and oracle.</p>
-<h3>4. Policy constraints</h3>
-<p>Policies define what an implementation is permitted to do.</p>
-<p>Examples include:</p>
-<ul>
-<li>authorization rules;</li>
-<li>allowed dependencies;</li>
-<li>network-access restrictions;</li>
-<li>deployment requirements;</li>
-<li>data-residency constraints;</li>
-<li>resource limits;</li>
-<li>and approval requirements.</li>
-</ul>
-<p><a href="https://www.openpolicyagent.org/">Open Policy Agent</a> provides one implementation of policy as code: policy decisions can be represented separately from application logic and evaluated against structured inputs.</p>
-<p>Security requirements should also include process and supply-chain controls. The <a href="https://csrc.nist.gov/pubs/sp/800/218/final">NIST Secure Software Development Framework</a> defines high-level practices for integrating security into the software-development lifecycle. The <a href="https://slsa.dev/spec/v1.0/provenance">SLSA provenance specification</a> defines attestations connecting software artifacts to the build process that produced them.</p>
-<h3>5. Operational constraints</h3>
-<p>Functional correctness is insufficient if regenerated software is too slow, too expensive, unobservable, or unreliable.</p>
-<p>Operational constraints may include:</p>
-<ul>
-<li>latency percentiles;</li>
-<li>memory and CPU budgets;</li>
-<li>throughput targets;</li>
-<li>availability objectives;</li>
-<li>error budgets;</li>
-<li>startup-time limits;</li>
-<li>logging and tracing requirements;</li>
-<li>rollback requirements;</li>
-<li>and compatibility with production infrastructure.</li>
-</ul>
-<p>These measurements are often environment-dependent and noisy. They should therefore specify test conditions, acceptable variance, and statistical thresholds rather than pretending to be perfectly deterministic.</p>
-<h3>6. Design and provenance records</h3>
-<p>Some constraints cannot be expressed completely as executable tests.</p>
-<p>Architecture decision records, threat models, data-lineage descriptions, dependency manifests, signed build attestations, and human approvals preserve the rationale and origin of a change.</p>
-<p>These artifacts help reviewers answer not only whether a candidate passed, but also:</p>
-<ul>
-<li>what produced it;</li>
-<li>which inputs and tools were used;</li>
-<li>which assumptions governed the decision;</li>
-<li>which evidence remains incomplete;</li>
-<li>and who accepted the residual risk.</li>
-</ul>
-<p>Together, these layers form an implementation-independent description of acceptable software—imperfect, evolving, but more durable than any single generated codebase.</p>
+<h3>Interface contracts</h3>
+<p>Contracts define observable interactions without prescribing internal structure. They include HTTP API descriptions, event schemas, database contracts, CLI definitions, and compatibility requirements. The <a href="https://spec.openapis.org/oas/v3.2.0.html">OpenAPI Specification</a> provides a language-independent description of HTTP APIs consumable without reading service source code.</p>
+<p>A contract describes interaction shape. It does not independently establish semantic correctness, security, or operational soundness.</p>
+<h3>Behavioral examples</h3>
+<p>Example-based tests capture known scenarios: unit tests, integration tests, end-to-end workflows, historical regression cases, reproductions of prior failures. Examples are concrete and understandable but cover only the cases selected by their authors.</p>
+<h3>Properties and invariants</h3>
+<p>Properties describe behavior across input classes rather than individual examples. The original <a href="https://dl.acm.org/doi/10.1145/351240.351266">QuickCheck paper</a> introduced automated checking of program properties over generated inputs. Property-based testing is useful for algebraic laws, state-machine rules, round-trip behavior, ordering constraints, and domain invariants—decoding an encoded value returns the original; account balances never become negative; authorization cannot be gained by changing request order.</p>
+<p>Value depends on property quality, generators, state model, and oracle.</p>
+<h3>Policy constraints</h3>
+<p>Policies define what an implementation is permitted to do: authorization rules, allowed dependencies, network-access restrictions, deployment requirements, data-residency constraints, resource limits, approval requirements. <a href="https://www.openpolicyagent.org/">Open Policy Agent</a> separates policy decisions from application logic and evaluates them against structured inputs.</p>
+<p>Security extends beyond application behavior. The <a href="https://csrc.nist.gov/pubs/sp/800/218/final">NIST Secure Software Development Framework</a> defines high-level practices for integrating security into the development lifecycle. The <a href="https://slsa.dev/spec/v1.0/provenance">SLSA provenance specification</a> defines attestations connecting artifacts to the build process that produced them.</p>
+<h3>Operational constraints</h3>
+<p>Functional correctness is insufficient if regenerated software is too slow, expensive, unobservable, or unreliable. Operational constraints include latency percentiles, memory and CPU budgets, throughput targets, availability objectives, error budgets, startup-time limits, logging requirements, rollback requirements, and production compatibility. These measurements are environment-dependent; useful specifications state test conditions, acceptable variance, and statistical thresholds.</p>
+<h3>Design and provenance records</h3>
+<p>Some constraints cannot be expressed as executable tests. Architecture decision records, threat models, data-lineage descriptions, dependency manifests, signed build attestations, and human approvals preserve rationale and origin. They help reviewers answer what produced a candidate, which inputs and tools were used, which assumptions governed the decision, which evidence remains incomplete, and who accepted residual risk.</p>
+<p>Together, these layers form an implementation-independent description of acceptable software—imperfect and evolving, but more durable than any single generated codebase.</p>
 <p>---</p>
 <h2>Verification is more than testing</h2>
-<p>Verification-first engineering should not be reduced to "write more unit tests."</p>
-<p>A test suite is one evidence source among several.</p>
-<p>Different verification mechanisms reveal different failure classes:</p>
+<p>A test suite is one evidence source among several. Different mechanisms reveal different failure classes:</p>
 <ul>
-<li>example tests detect known incorrect behavior;</li>
-<li>property-based tests search broader input spaces;</li>
-<li>static analysis detects selected structural defects;</li>
-<li>type systems exclude classes of invalid programs;</li>
-<li>model checking explores state-transition systems;</li>
-<li>mutation testing assesses whether tests detect injected changes;</li>
-<li>fuzzing searches malformed or unexpected inputs;</li>
-<li>security scanners identify known vulnerability patterns;</li>
-<li>policy engines enforce organizational constraints;</li>
-<li>performance tests measure operational behavior;</li>
-<li>provenance attestations record how artifacts were produced;</li>
-<li>and human review evaluates ambiguity, intent, and consequences that automated oracles do not capture.</li>
+<li>Example tests detect known incorrect behavior.</li>
+<li>Property-based tests search broader input spaces.</li>
+<li>Static analysis detects structural defects.</li>
+<li>Type systems exclude classes of invalid programs.</li>
+<li>Model checking explores state-transition systems.</li>
+<li>Fuzzing searches malformed or unexpected inputs.</li>
+<li>Mutation testing assesses whether tests detect injected changes.</li>
+<li>Security scanners identify known vulnerability patterns.</li>
+<li>Policy engines enforce organizational constraints.</li>
+<li>Performance tests measure operational behavior.</li>
+<li>Provenance attestations record artifact production.</li>
+<li>Human review evaluates ambiguity, intent, and consequences outside automated oracles.</li>
 </ul>
-<p>For systems with complex concurrency or distributed behavior, formal specifications can expose design errors before implementation. Leslie Lamport describes <a href="https://lamport.azurewebsites.net/tla/tla.html">TLA+</a> as a language for modeling programs and systems, especially concurrent and distributed systems; its tools are intended to identify fundamental design errors that are difficult to discover in code.</p>
-<p>The central principle is heterogeneous evidence.</p>
-<p>No single verifier provides complete assurance. Confidence comes from combining partially independent mechanisms whose failure modes do not fully overlap.</p>
+<p>For concurrent and distributed systems, formal models can expose design errors before implementation. <a href="https://lamport.azurewebsites.net/tla/tla.html">TLA+</a>, introduced by Leslie Lamport, is designed to identify fundamental design errors difficult to discover in code.</p>
+<p>The central principle is <strong>heterogeneous evidence</strong>. No single verifier provides complete assurance. Confidence comes from combining partially independent mechanisms whose failure modes do not fully overlap.</p>
 <p>---</p>
 <h2>Why passing tests is not enough</h2>
-<p>Passing a visible test suite does not prove correctness.</p>
-<p>An implementation can satisfy every example while remaining defective outside the tested region. It can also satisfy the letter of the test while violating the intent behind it.</p>
-<p>This problem becomes more important when the implementation process can inspect and modify its own verification environment.</p>
-<p>An agent may:</p>
-<ul>
-<li>overfit visible examples;</li>
-<li>exploit weak assertions;</li>
-<li>hard-code expected values;</li>
-<li>delete or weaken failing tests;</li>
-<li>bypass intended code paths;</li>
-<li>introduce unnecessary complexity;</li>
-<li>preserve outputs while violating authorization boundaries;</li>
-<li>degrade performance outside the measured workload;</li>
-<li>or change an architectural assumption not represented in the test suite.</li>
-</ul>
-<p>This resembles benchmark overfitting in machine learning: success on an observed evaluation does not necessarily imply robust performance on the underlying task.</p>
-<p>Verification assets should therefore be designed with adversarial pressure in mind.</p>
-<p>Useful techniques include:</p>
-<ul>
-<li>hidden tests unavailable during generation;</li>
-<li>independent validation in a clean environment;</li>
-<li>checks preventing unauthorized test modification;</li>
-<li>property-based and metamorphic tests;</li>
-<li>mutation testing;</li>
-<li>differential testing against a reference implementation;</li>
-<li>static and dynamic security analysis;</li>
-<li>production-like performance tests;</li>
-<li>explicit dependency and permission policies;</li>
-<li>and review by an evaluator that did not generate the implementation.</li>
-</ul>
-<p>Mutation testing is especially relevant because it evaluates the sensitivity of the test suite. It introduces controlled changes into the program and checks whether the tests detect them. Research has found evidence that mutation testing can expose gaps related to real faults, although equivalent mutants, computational cost, and operator quality remain practical limitations.</p>
-<p>The goal is not to construct one enormous test suite. It is to build an evidence portfolio with diverse and partially independent failure-detection mechanisms.</p>
+<p>An implementation can satisfy every visible example while failing outside the tested region, or satisfy the letter of a test while violating its intent. This becomes critical when the implementation process can inspect and modify its own verification environment. A coding agent may overfit visible examples, exploit weak assertions, hard-code expected values, delete failing tests, bypass intended code paths, preserve outputs while violating authorization boundaries, or degrade performance outside measured workloads.</p>
+<p>This resembles benchmark overfitting: success on an observed evaluation does not imply robust performance on the underlying task.</p>
+<p>Verification assets should be designed under adversarial pressure. Useful controls include hidden tests unavailable during generation, independent validation in clean environments, protections against unauthorized test modification, property-based and metamorphic tests, mutation testing, differential testing against reference implementations, static and dynamic security analysis, production-like performance tests, explicit dependency and permission policies, and review by an evaluator that did not generate the implementation.</p>
+<p><a href="https://www.albany.edu/faculty/offutt/research/papers/mut00.pdf">Mutation testing</a> evaluates whether tests detect controlled program changes. Research <a href="https://arxiv.org/abs/2103.07189">indicates</a> it can expose gaps related to real faults, though equivalent mutants, computational cost, and operator quality remain limitations.</p>
+<p>The objective is not one enormous test suite. It is an evidence portfolio with diverse and partially independent failure-detection mechanisms.</p>
 <p>---</p>
 <h2>Separate generation from acceptance</h2>
-<p>A central architectural principle is to separate software generation from software acceptance.</p>
 <p>The generator may be probabilistic. The acceptance process should be independently specified, reproducible where possible, resistant to modification by the generator, and explicit about residual uncertainty.</p>
-<p><em>Figure 3. Candidate generation and acceptance should be independently governed.</em></p>
+<p><em>Figure 3. Candidate generation and acceptance are independently governed, producing an evidence package assessed by risk-calibrated policy.</em></p>
 <pre class="mermaid">
 flowchart TD
     A[Specification bundle] --> B[Generation harness]
@@ -515,210 +396,79 @@ flowchart TD
     F -->|Insufficient evidence| H[Reject]
     F -->|Risk or ambiguity| I[Escalate to review]
 </pre>
-<p>This separation creates several useful controls.</p>
-<p>First, the agent should not have unrestricted authority to rewrite the criteria used to judge its work.</p>
-<p>Second, verification should run in a clean environment with controlled dependencies and inputs.</p>
-<p>Third, the pipeline should produce an evidence package rather than a binary "tests passed" signal.</p>
-<p>That package may include:</p>
-<ul>
-<li>test and analysis results;</li>
-<li>coverage and mutation reports;</li>
-<li>benchmark distributions;</li>
-<li>build provenance;</li>
-<li>changed permissions and dependencies;</li>
-<li>traces and logs;</li>
-<li>known verification gaps;</li>
-<li>waived failures;</li>
-<li>reviewer decisions;</li>
-<li>and residual risks.</li>
-</ul>
-<p>Fourth, acceptance policy should vary by risk. A disposable internal script, a financial ledger, and medical-device software should not require the same evidence.</p>
-<p>The implementation is not accepted because the model claims success. It is accepted because the organization's acceptance policy determines that the available evidence is sufficient for the intended use.</p>
-<p>This still does not prove total correctness. It converts an opaque claim into a reviewable engineering decision.</p>
+<p>This separation creates four controls. First, a generator does not have authority to rewrite the criteria judging its output. Second, verification runs in a clean environment with controlled dependencies. Third, acceptance produces an evidence package—test results, coverage and mutation reports, benchmark distributions, build provenance, changed permissions, traces, known gaps, waived failures, reviewer decisions, residual risks—rather than a binary signal. Fourth, acceptance policy varies by risk: a disposable script, a financial ledger, and medical-device software should not require identical evidence.</p>
+<p>An implementation is not accepted because a model claims success. It is accepted because the organization's policy determines that available evidence is sufficient for the intended use. This does not prove correctness. It converts an opaque claim into a reviewable engineering decision.</p>
+<p>---</p>
+<h2>The regenerable software lifecycle</h2>
+<p>Verification-first engineering implies a different development lifecycle. Rather than manually editing implementations in response to requirement changes, engineers primarily modify the durable layers. Implementation becomes a generated artifact.</p>
+<pre><code>
+Intent
+  ↓
+Specification
+  ↓
+Verification design
+  ↓
+Implementation generation
+  ↓
+Evidence collection
+  ↓
+Risk-calibrated deployment
+</code></pre>
+<p>A requirement change flows through the durable layers first: update the specification, strengthen verification, adjust constraints. Only then is a new implementation generated and validated against the updated bundle. The implementation is not the target of change; it is the output of a process governed by more durable assets.</p>
+<p>This is the sense in which software becomes regenerable: the implementation can be reproduced from the specification bundle, and the bundle can be independently revised, reviewed, and versioned. Implementation becomes an artifact of the engineering process rather than the process itself.</p>
 <p>---</p>
 <h2>The compiler analogy—and where it stops</h2>
-<p>Compilers offer a useful but limited analogy.</p>
-<p>Compilers allowed developers to express programs at a higher level while automating translation into machine code. They made generated lower-level artifacts routine and reproducible.</p>
-<p>Verification-first engineering similarly raises the abstraction boundary. Engineers increasingly express contracts, invariants, constraints, and policies while agents generate candidate implementations.</p>
-<p>But the analogy stops at an important point.</p>
-<p>A compiler translates a comparatively precise source language according to defined semantics. Natural-language requirements, behavioral examples, architectural policies, and operational goals are usually incomplete, ambiguous, or conflicting. A coding agent is therefore not a compiler for specifications in the strict sense.</p>
-<p>The more accurate model is:</p>
+<p>Compilers made generated lower-level artifacts routine by translating precise source languages according to defined semantics. Verification-first engineering similarly raises the abstraction boundary: engineers express contracts, invariants, constraints, and policies while agents generate candidate implementations.</p>
+<p>But coding agents are not compilers for specifications in the strict sense. Natural-language requirements, examples, architecture policies, and operational goals are often incomplete, ambiguous, or conflicting. A more accurate model:</p>
 <blockquote>
 <p>A coding agent proposes an implementation from an incomplete specification; the verification system determines whether the proposal is acceptable under the evidence available.</p>
 </blockquote>
-<p>This framing avoids mistaking generation for proof.</p>
+<p>This framing prevents generation from being mistaken for proof.</p>
 <p>---</p>
 <h2>Regenerability is a spectrum</h2>
-<p>Verification-first engineering does not imply that all software should be regenerated from scratch.</p>
-<p>Regenerability depends on how completely the system's behavior, constraints, state, and operating environment have been captured.</p>
-<p>A system is more regenerable when:</p>
-<ul>
-<li>its interfaces are explicit;</li>
-<li>its domain rules are encoded as invariants;</li>
-<li>its persistent data semantics are documented;</li>
-<li>its regression suite represents important historical failures;</li>
-<li>its dependencies and permissions are constrained;</li>
-<li>its operational envelope is measurable;</li>
-<li>its build is reproducible;</li>
-<li>and its acceptance process is independent from its implementation.</li>
-</ul>
-<p>Good early candidates may include:</p>
-<ul>
-<li>stateless internal APIs;</li>
-<li>command-line tools;</li>
-<li>data-transformation pipelines;</li>
-<li>protocol adapters;</li>
-<li>service migrations;</li>
-<li>deterministic batch jobs;</li>
-<li>infrastructure automation;</li>
-<li>and reference implementations of well-defined standards.</li>
-</ul>
-<p>Harder candidates include:</p>
-<ul>
-<li>legacy systems containing undocumented operational knowledge;</li>
-<li>interactive products whose quality depends heavily on subjective user experience;</li>
-<li>systems with complex external side effects;</li>
-<li>systems whose behavior depends on mutable third-party services;</li>
-<li>highly optimized systems with hardware-specific behavior;</li>
-<li>and safety-critical software requiring regulatory, process, and formal assurance beyond automated testing.</li>
-</ul>
-<p>The objective is not universal disposable software.</p>
-<p>It is to identify the boundary at which an implementation becomes replaceable because the durable constraints around it are sufficiently complete and strong.</p>
+<p>Regenerability depends on how completely behavior, constraints, state, and operating environment have been captured. A system becomes more regenerable with explicit interfaces, domain rules encoded as invariants, documented persistent-data semantics, regression suites representing historical failures, constrained dependencies and permissions, measurable operational envelopes, reproducible builds, and acceptance processes independent of generation.</p>
+<p>Good early candidates include stateless internal APIs, command-line tools, data-transformation pipelines, protocol adapters, service migrations, deterministic batch jobs, infrastructure automation, and reference implementations of well-defined standards.</p>
+<p>Harder candidates include legacy systems containing undocumented operational knowledge, interactive products where quality depends on subjective user experience, systems with complex external side effects, systems dependent on mutable third-party services, highly optimized systems with hardware-specific behavior, and safety-critical software requiring regulatory and formal assurance beyond automated testing.</p>
+<p>The objective is not universal disposable software. It is to identify the boundary at which implementation becomes replaceable because the constraints around it are sufficiently complete.</p>
 <p>---</p>
 <h2>What makes a specification durable?</h2>
-<p>A specification is durable not because it is written in a formal notation, but because it continues to capture the properties that matter as implementations change.</p>
-<p>Durable verification assets tend to have several qualities.</p>
-<h3>They describe externally meaningful behavior</h3>
-<p>A test that asserts the name of a private helper function is fragile. A property that asserts idempotent payment processing is durable.</p>
-<h3>They separate intent from implementation</h3>
-<p>A contract should specify required behavior without unnecessarily fixing framework structure, internal class names, or storage mechanisms.</p>
-<h3>They include failure behavior</h3>
-<p>Specifications should cover timeouts, retries, invalid inputs, partial failure, concurrency, degraded dependencies, and recovery—not only the happy path.</p>
-<h3>They preserve discovered knowledge</h3>
-<p>Every production incident, security defect, and compatibility failure can become a regression artifact, invariant, policy, or operational check.</p>
-<h3>They are versioned and reviewable</h3>
-<p>A specification change can alter system behavior as significantly as a source-code change. It should therefore receive explicit review, provenance, and compatibility analysis.</p>
-<h3>They resist self-modification</h3>
-<p>The generator should not be able to weaken its own acceptance criteria without producing a visible, separately reviewed specification change.</p>
-<h3>They expose uncertainty</h3>
-<p>The bundle should record unverified properties, environmental assumptions, flaky measurements, unsupported platforms, and accepted risks.</p>
-<p>A durable specification is not merely a frozen contract. It is accumulated organizational knowledge expressed in a form that can constrain future implementations.</p>
+<p>A specification is durable not because it uses formal notation, but because it continues to capture what matters as implementations change.</p>
+<p><strong>Describes externally meaningful behavior.</strong> A test asserting a private helper name is fragile. A property asserting idempotent payment processing is durable.</p>
+<p><strong>Separates intent from implementation.</strong> A contract specifies required behavior without unnecessarily fixing framework structure, internal class names, or storage mechanisms.</p>
+<p><strong>Includes failure behavior.</strong> Specifications cover timeouts, retries, invalid inputs, partial failure, concurrency, degraded dependencies, and recovery—not only the happy path.</p>
+<p><strong>Preserves discovered knowledge.</strong> Production incidents, security defects, and compatibility failures become regression artifacts, invariants, policies, or operational checks.</p>
+<p><strong>Is versioned and reviewable.</strong> A specification change can alter behavior as significantly as a source-code change. It requires explicit review, provenance, and compatibility analysis.</p>
+<p><strong>Resists self-modification.</strong> A generator cannot weaken its own acceptance criteria without creating a visible, separately reviewed specification change.</p>
+<p><strong>Exposes uncertainty.</strong> The bundle records unverified properties, environmental assumptions, flaky measurements, unsupported platforms, and accepted risks.</p>
+<p>A durable specification is accumulated organizational knowledge expressed in a form that constrains future implementations.</p>
 <p>---</p>
-<h2>A practical experiment: the Regenerable Software Lab</h2>
-<p>The hypothesis is empirical.</p>
-<p>Rather than debating whether software will become disposable, we can measure how reliably current coding agents regenerate implementations from fixed specifications.</p>
-<p>This is the motivation behind the <strong>Regenerable Software Lab</strong>.</p>
-<p>The experiment fixes the specification bundle while allowing implementations, models, and harnesses to vary.</p>
-<p>Each coding agent receives the same inputs:</p>
-<ul>
-<li>API or protocol contracts;</li>
-<li>behavioral specifications;</li>
-<li>public examples;</li>
-<li>domain invariants;</li>
-<li>dependency and permission policies;</li>
-<li>build requirements;</li>
-<li>and performance budgets.</li>
-</ul>
-<p>The agent generates a fresh implementation in an isolated environment.</p>
-<p>The candidate is then evaluated against progressively stronger verification profiles.</p>
-<h3>Profile A: visible examples</h3>
-<ul>
-<li>public unit tests;</li>
-<li>basic build checks;</li>
-<li>and formatting or linting.</li>
-</ul>
-<p>This measures whether the agent can satisfy an observed specification.</p>
-<h3>Profile B: independent behavioral validation</h3>
-<ul>
-<li>hidden tests;</li>
-<li>integration tests;</li>
-<li>and differential tests against a reference implementation.</li>
-</ul>
-<p>This measures generalization beyond visible examples.</p>
-<h3>Profile C: property and fault sensitivity</h3>
-<ul>
-<li>property-based tests;</li>
-<li>state-machine tests;</li>
-<li>fuzzing;</li>
-<li>and mutation testing.</li>
-</ul>
-<p>This measures whether the implementation and test suite survive broader or adversarial variation.</p>
-<h3>Profile D: policy and supply-chain constraints</h3>
-<ul>
-<li>dependency allowlists;</li>
-<li>permission checks;</li>
-<li>secret scanning;</li>
-<li>static security analysis;</li>
-<li>reproducible-build checks;</li>
-<li>and provenance validation.</li>
-</ul>
-<p>This measures whether the implementation is acceptable beyond functional behavior.</p>
-<h3>Profile E: operational validation</h3>
-<ul>
-<li>latency and throughput distributions;</li>
-<li>memory and CPU use;</li>
-<li>failure recovery;</li>
-<li>observability checks;</li>
-<li>and behavior under degraded dependencies.</li>
-</ul>
-<p>This measures whether the implementation is viable in its intended environment.</p>
-<p>The benchmark should report more than a pass rate.</p>
-<p>Useful metrics include:</p>
-<ul>
-<li>acceptance rate by verification profile;</li>
-<li>hidden-test generalization gap;</li>
-<li>mutation score;</li>
-<li>policy-violation rate;</li>
-<li>performance-budget compliance;</li>
-<li>security findings;</li>
-<li>regeneration variance across repeated runs;</li>
-<li>human review time;</li>
-<li>verification cost;</li>
-<li>implementation complexity;</li>
-<li>and the proportion of failures caused by incomplete specifications rather than weak generation.</li>
-</ul>
-<p>This supports more useful research questions:</p>
-<ul>
-<li>Which verification assets contribute most to robust regeneration?</li>
-<li>How much do hidden evaluations reduce specification overfitting?</li>
-<li>Which properties are difficult to express but critical in practice?</li>
-<li>How much reliability comes from the model, the harness, and the specification bundle?</li>
-<li>At what point does strengthening verification cost more than maintaining the existing implementation?</li>
-<li>How stable are regenerated implementations across repeated runs?</li>
-<li>Which domains remain resistant to regeneration because essential knowledge is tacit or subjective?</li>
-<li>How often does the experiment reveal defects in the specification itself?</li>
-</ul>
-<p>These are systems-engineering questions, not merely model-comparison questions.</p>
-<p>This article describes an architectural direction rather than a finished methodology. As a proof of concept, we are developing the <a href="http://regenerable-software-lab.rmax.tech">Regenerable Software Lab</a>, an open research project that explores verification-first software engineering in practice. Rather than treating source code as the primary long-lived artifact, the project investigates workflows where durable specifications, executable verification, evaluation harnesses, and operational constraints define software behavior, while implementations can be regenerated, revalidated, and replaced as models and tooling improve. The project serves as an experimental platform for evaluating these ideas, benchmarking regenerability, and exploring practical techniques for building AI-native software engineering systems.</p>
+<h2>The Regenerable Software Lab</h2>
+<p>This article describes an architectural direction, not a finished methodology. As a proof of concept, we are developing the <a href="http://regenerable-software-lab.rmax.tech">Regenerable Software Lab</a>, an open research project exploring verification-first software engineering in practice.</p>
+<p>The project investigates workflows where durable specifications, executable verification, evaluation harnesses, and operational constraints define software behavior, while implementations can be regenerated, revalidated, and replaced as models and tooling improve. It serves as an experimental platform for evaluating these ideas, benchmarking regenerability, and exploring practical techniques for building AI-native software engineering systems.</p>
+<p>The experiment fixes the specification bundle while allowing implementations, models, and harnesses to vary. Agents receive the same inputs—contracts, specifications, examples, invariants, policies, build requirements, performance budgets—and generate fresh implementations in isolated environments. Candidates are evaluated against progressively stronger verification profiles: visible examples, hidden behavioral validation, property and fault sensitivity, policy and supply-chain constraints, and operational validation.</p>
+<p>Useful metrics include acceptance rate by verification profile, hidden-test generalization gap, mutation score, policy-violation rate, performance-budget compliance, regeneration variance, human review time, and the proportion of failures caused by incomplete specifications rather than weak generation.</p>
+<p>These are systems-engineering questions, not model-comparison questions. Which verification assets contribute most to robust regeneration? How much do hidden evaluations reduce overfitting? Which critical properties remain difficult to express? When does strengthening verification cost more than maintaining existing implementations? How often does regeneration expose defects in the specification itself?</p>
 <p>---</p>
-<h2>Verification becomes the durable asset</h2>
-<p>Software engineering has repeatedly moved its abstraction boundaries.</p>
-<p>Assembly gave way to higher-level languages.</p>
-<p>Manual translation gave way to compilers.</p>
-<p>Hand-managed integration and deployment gave way to automated build and delivery pipelines.</p>
-<p>AI coding agents may move the boundary again.</p>
-<p>Implementation becomes increasingly automated.</p>
-<p>Verification, specification, and governance become increasingly valuable.</p>
-<p>This does not make source code irrelevant. Production systems still run code, engineers still debug it, and many implementations contain performance, safety, or domain knowledge not captured elsewhere.</p>
-<p>The shift is in relative durability.</p>
-<p>A particular implementation may become easier to replace. The accumulated system that defines acceptable behavior becomes harder—and more valuable—to recreate.</p>
-<p>That durable system includes:</p>
-<ul>
-<li>executable specifications;</li>
-<li>regression knowledge;</li>
-<li>domain invariants;</li>
-<li>formal models where justified;</li>
-<li>security and authorization policies;</li>
-<li>operational budgets;</li>
-<li>architecture decisions;</li>
-<li>provenance requirements;</li>
-<li>and risk-based acceptance rules.</li>
-</ul>
-<p>Organizations that invest in these assets can benefit from improving models without rebuilding their engineering process around every new coding agent.</p>
-<p>They can also compare implementations on a common basis, change models or vendors, regenerate selected components, and preserve institutional knowledge independently of one codebase.</p>
-<p>As implementation becomes cheaper, engineering moves toward a more explicit discipline of defining, verifying, and governing what software is allowed to become.</p>
-<p>The future repository may contain code.</p>
-<p>The durable product is the evidence system that makes the code trustworthy enough to use.</p>
+<h2>Limitations</h2>
+<p>Verification-first engineering is not universally applicable. Several conditions limit its effectiveness.</p>
+<p><strong>Incomplete or tacit knowledge.</strong> Systems whose behavior depends on undocumented operational knowledge, unwritten conventions, or subjective judgment resist formal specification. Legacy systems are the canonical case.</p>
+<p><strong>Subjective quality.</strong> Interactive products where success depends on user experience, visual design, or qualitative feel are difficult to constrain with automated verification. Human evaluation remains essential.</p>
+<p><strong>Mutable external dependencies.</strong> Systems whose correctness depends on third-party services with undocumented or unstable behavior cannot be fully specified without controlling those dependencies.</p>
+<p><strong>Probabilistic verification.</strong> Most verification mechanisms are incomplete. Tests sample behavior; static analysis has false positives and negatives; performance measurements are noisy. Confidence is accumulated, not proven. This is acceptable for many domains but insufficient where formal guarantees are required.</p>
+<p><strong>Specification cost.</strong> Writing and maintaining specifications, property generators, policy rules, and verification harnesses is itself expensive. The model is only net-beneficial when specification investment is amortized across multiple regeneration cycles or when correctness requirements justify the upfront cost independent of regeneration frequency.</p>
+<p><strong>Architectural judgment.</strong> Decisions about system decomposition, technology selection, and abstraction boundaries remain human judgments. Specifications can constrain behavior within an architecture but do not determine the architecture itself.</p>
+<p>These limitations define the model's boundary. Verification-first engineering is not a replacement for all software engineering practice. It is a strategy for the growing class of systems whose behavior can be made sufficiently explicit that implementations become replaceable.</p>
+<p>---</p>
+<h2>Connections</h2>
+<p>This article generalizes ideas developed across several previous notes. The <a href="/notes/evidence-carrying-changes/">Evidence-First Harness</a> framework proposed structuring agent evaluation around independently verifiable evidence rather than model self-reports. The <a href="/notes/harness-gap/">Harness Gap</a> identified that coding-agent evaluations should measure model–harness fit, not model capability in isolation. <a href="/notes/new-scarcity-software-engineering/">The New Scarcity of Software Engineering</a> argued that as code generation becomes abundant, engineering value shifts toward judgment, verification, architecture, and organizational design. <a href="/notes/deterministic-runtimes/">Deterministic Runtimes for Long-Horizon AI Agents</a> proposed bounded, repeatable execution environments as a prerequisite for verification.</p>
+<p>Verification-first software engineering provides the broader conceptual framework that unifies these threads. Each earlier note explored one dimension—evidence, harness design, scarcity, deterministic execution. This article describes the architecture that connects them: a discipline organized around preserving intent, specifications, verification systems, operational constraints, and evidence, with implementation as a regenerable artifact.</p>
+<p>---</p>
+<h2>Conclusion</h2>
+<p>Software engineering has repeatedly moved its abstraction boundaries: assembly to higher-level languages, manual translation to compilers, hand-managed deployment to automated pipelines. Each shift preserved what was expensive and automated what had become cheap.</p>
+<p>AI coding agents trigger the next shift, but not in the direction most discussions assume. The durable artifact is not better code generation. It is better specification of what code should do and better verification that it does it.</p>
+<p>Historically, software engineering preserved implementations because implementations were expensive to recreate. AI changes that assumption. As implementations become inexpensive to regenerate, engineering shifts toward preserving intent, specifications, verification systems, operational constraints, and evidence—the assets that survive regeneration.</p>
+<p>Verification-first software engineering is therefore an engineering discipline focused on preserving what survives regeneration rather than preserving code itself.</p>
+<p><strong>Future software repositories preserve intent. Code is increasingly a generated artifact.</strong></p>
 <p>---</p>
 <h2>References</h2>
 <h3>AI coding agents and evaluation</h3>
@@ -741,6 +491,7 @@ flowchart TD
 <li>Kent Beck, <a href="https://www.pearson.com/en-us/subject-catalog/p/test-driven-development-by-example/P200000009421"><em>Test-Driven Development: By Example</em></a>.</li>
 <li>A. Jefferson Offutt and Roland H. Untch, <a href="https://www.albany.edu/faculty/offutt/research/papers/mut00.pdf">"Mutation 2000: Uniting the Orthogonal"</a>.</li>
 <li>Goran Petrović, Marko Ivanković, Gordon Fraser, and René Just, <a href="https://arxiv.org/abs/2103.07189">"Does Mutation Testing Improve Testing Practices?"</a>.</li>
+<li>Fred Brooks, <a href="https://ieeexplore.ieee.org/document/1663532">"No Silver Bullet—Essence and Accident in Software Engineering"</a>.</li>
 </ul>
 <h3>Policy, security, and provenance</h3>
 <ul>
@@ -801,15 +552,15 @@ flowchart TD
     <script>
       window.footerThoughts = [
         {
-          text: "I make acceptance criteria durable so implementations can be challenged and rebuilt.",
+          text: "I preserve intent and constraints so implementations can be challenged and rebuilt.",
           agent: "Verification Agent"
         },
         {
-          text: "I trust evidence portfolios over plausible code, especially when generators can change quickly.",
+          text: "I trust evidence portfolios over plausible code—generators change; evidence compounds.",
           agent: "Evidence Agent"
         },
         {
-          text: "I preserve failures as constraints, giving future implementations less room to repeat them.",
+          text: "I encode failures as durable constraints so future implementations inherit fewer paths to failure.",
           agent: "Specification Agent"
         }
       ];
