@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Verification-First Software Engineering: Durable Specifications and Regenerable Code](/notes/verification-first-software-engineering/)
+As AI coding agents reduce implementation cost, executable specifications, verification systems, policies, and operational constraints become the durable assets of software engineering.
+
 ### [The New Scarcity of Software Engineering in the AI Era](/notes/new-scarcity-software-engineering/)
 As code generation becomes abundant, engineering value shifts toward judgment, verification, architecture, context, and organizational design.
 

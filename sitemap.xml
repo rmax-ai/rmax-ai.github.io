@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-07-24T19:48:50Z</lastmod>
+    <lastmod>2026-07-26T21:24:42Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-07-24T19:48:47Z</lastmod>
+    <lastmod>2026-07-26T21:24:39Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -182,7 +182,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/new-scarcity-software-engineering/</loc>
-    <lastmod>2026-07-24T19:47:39Z</lastmod>
+    <lastmod>2026-07-24T22:41:53Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/open-source-after-coding-agents/</loc>
@@ -235,6 +235,10 @@
   <url>
     <loc>https://rmax.ai/notes/typing-code-is-solved/</loc>
     <lastmod>2026-05-23T18:04:44Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/verification-first-software-engineering/</loc>
+    <lastmod>2026-07-26T21:23:47Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/why-agentic-systems-fail-demo-to-production/</loc>

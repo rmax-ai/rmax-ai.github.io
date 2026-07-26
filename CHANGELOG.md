@@ -11,6 +11,8 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-07-26: Published technical note: [verification-first-software-engineering](notes/verification-first-software-engineering/index.md). Argues that as coding agents lower implementation cost, durable software-engineering assets shift toward explicit specifications, independent verification, provenance, and risk-based acceptance.
+  - *Warnings*: Publish with caution — historical and economic framing can be over-generalized; independent verification, clean environments, hidden tests, and trustworthy provenance require organizational capacity; readers may mistake the evidence portfolio for a universal checklist; named tools, standards, and research may change. Link audit verdict: release with follow-ups — required homepage and Notes cards were added before this entry, and no broken links were found.
 - 2026-07-24: Published technical note: [new-scarcity-software-engineering](notes/new-scarcity-software-engineering/index.md). Argues that AI-driven code abundance shifts scarce engineering work toward judgment, verification, architecture, and organizational design.
   - *Warnings*: Publish with caution — failure-mode review identified potential over-application of evidence gates and production telemetry access. Link audit initially found missing homepage and Notes index cards; both were added before this step.
 - 2026-07-20: Published technical note: [harness-gap](notes/harness-gap/index.md). Argues that coding-agent evaluations should measure model–harness fit rather than model capability in isolation.
