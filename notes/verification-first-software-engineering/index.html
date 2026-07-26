@@ -4,11 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Verification-First Software Engineering: Durable Specifications and Regenerable Code — rmax.ai</title>
-    <meta name="description" content="How explicit specifications, independent verification, and risk-based evidence make software implementations more regenerable in the age of coding agents." />
+    <meta name="description" content="As AI coding agents reduce implementation cost, executable specifications, verification systems, policies, and operational constraints become the durable assets of software engineering." />
     <meta name="author" content="Max" />
     <link rel="canonical" href="https://rmax.ai/notes/verification-first-software-engineering/" />
+
     <meta property="og:title" content="Verification-First Software Engineering: Durable Specifications and Regenerable Code" />
-    <meta property="og:description" content="How explicit specifications, independent verification, and risk-based evidence make software implementations more regenerable in the age of coding agents." />
+    <meta property="og:description" content="As AI coding agents reduce implementation cost, executable specifications, verification systems, policies, and operational constraints become the durable assets of software engineering." />
     <meta property="og:url" content="https://rmax.ai/notes/verification-first-software-engineering/" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2026-07-26" />
@@ -19,256 +20,800 @@
     <meta property="article:tag" content="testing" />
     <meta property="article:tag" content="formal methods" />
     <meta property="article:tag" content="software supply chain" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles/footer.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
     <style>
-      :root{--bg:#0f1724;--card:#0b1220;--muted:#94a3b8;--accent:#7c3aed;--glass:rgba(255,255,255,.04);--maxw:800px;color-scheme:dark}
-      *{box-sizing:border-box} body{font-family:Inter,system-ui,Arial;margin:0;background:linear-gradient(180deg,#071028 0%,#071229 60%);color:#e6eef8;-webkit-font-smoothing:antialiased;line-height:1.6}
-      .wrap{max-width:var(--maxw);margin:40px auto;padding:24px} .site-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:64px;max-width:1100px;margin-left:auto;margin-right:auto} .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit} .brand small{display:block;color:var(--muted);font-size:.9rem} .logo{width:44px;height:44px;border-radius:10px;object-fit:contain} nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap} nav a{color:var(--muted);text-decoration:none;font-weight:600}
-      h1{margin:0 0 16px;font-size:clamp(32px,5vw,52px);line-height:1.1;font-weight:800} h2{margin:48px 0 16px;font-size:1.8rem;font-weight:700;color:#fff} h3{margin:32px 0 12px;font-size:1.4rem;font-weight:600;color:#fff} p{margin:0 0 24px;color:#cbd5e1;font-size:1.1rem} ul,ol{margin:0 0 24px;padding-left:20px;color:#cbd5e1} li{margin-bottom:12px} a{color:#a78bfa} blockquote{margin:32px 0;padding:16px 24px;border-left:4px solid var(--accent);background:var(--glass);border-radius:0 8px 8px 0} blockquote p{margin:0;font-style:italic} .post-meta{color:var(--muted);margin-bottom:48px;font-size:.95rem;display:flex;gap:16px;flex-wrap:wrap} .post-content{margin-top:32px} .table-wrap{overflow-x:auto;margin:0 0 24px} table{width:100%;border-collapse:collapse;color:#cbd5e1} th,td{border:1px solid #334155;padding:12px;text-align:left;vertical-align:top} th{background:#1a1a2e;color:#fff} pre.mermaid{margin:32px 0;padding:20px;overflow:auto;background:var(--card);border:1px solid #334155;border-radius:10px} footer{margin-top:80px;color:var(--muted);font-size:.95rem;padding:40px 0;text-align:center;border-top:1px solid var(--glass)} @media(max-width:600px){.site-header{flex-direction:column;align-items:flex-start}.wrap{margin:20px auto}}
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      h4 {
+        margin: 24px 0 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+
+      @media (max-width: 600px) {
+        .wrap {
+          margin: 20px auto;
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
     </style>
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
-    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"></noscript>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
   </head>
-  <body><div class="wrap">
-      <header class="site-header">
-        <a href="/" class="brand"><img src="/images/logo_dark.png" alt="rMax.ai logo" class="logo"><span><strong>rMax.ai</strong><small>AI-first engineering</small></span></a>
-        <nav aria-label="Main navigation">
-          <a href="/notes/" data-simple-event="click_nav" data-simple-nav-item="notes">Notes</a>
-          <a href="/projects/" data-simple-event="click_nav" data-simple-nav-item="projects">Projects</a>
-          <a href="/research/" data-simple-event="click_nav" data-simple-nav-item="research">Research</a>
-          <a href="/#about" data-simple-event="click_nav" data-simple-nav-item="about">About</a>
-          <a href="/#contact" data-simple-event="click_nav" data-simple-nav-item="contact">Contact</a>
-          <a href="https://www.linkedin.com/in/rmaxespinoza/" target="_blank" rel="noopener" data-simple-event="click_outbound" data-simple-outbound-host="linkedin.com">LinkedIn</a>
-          <a href="https://rmax.substack.com" target="_blank" rel="noopener" data-simple-event="click_outbound" data-simple-outbound-host="substack.com">Substack</a>
-          <a href="https://x.com/rmaxdev" target="_blank" rel="noopener" data-simple-event="click_outbound" data-simple-outbound-host="x.com">X</a>
-          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener" data-simple-event="click_outbound" data-simple-outbound-host="github.com">GitHub</a>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
         </nav>
       </header>
-      <main><article>
-        <header class="article-header"><h1>Verification-First Software Engineering: Durable Specifications and Regenerable Code</h1><div class="post-meta"><span>July 26, 2026</span><span>•</span><span>20–25 min read</span><span>•</span><span>Max</span></div></header>
-        <div class="post-content"><h2>Abstract</h2>
-            <p>As AI coding agents reduce the cost of producing candidate implementations, the limiting factor in software delivery shifts to determining whether those implementations are acceptable. Verification-first software engineering treats source code as one replaceable realization of a more durable system: executable specifications, contracts, invariants, policies, operational budgets, provenance, and risk-based acceptance rules. This note describes the model, its verification mechanisms, its limits, and an experimental approach for measuring when software can be reliably regenerated rather than merely rewritten.</p>
-            <h2>Context: implementation is getting cheaper</h2>
-            <p>Coding agents can inspect repositories, generate patches, run commands, execute tests, diagnose failures, and revise their work. Research from <a href="https://metr.org/time-horizons/">METR’s <em>Task-Completion Time Horizons of Frontier AI Models</em></a> suggests that frontier systems are completing progressively longer software-engineering tasks, although results still depend heavily on the task, environment, model, and evaluation method.</p>
-            <p>For decades, source code was expensive to create and modify. Teams consequently treated the implementation itself as the primary engineering asset: preserve it, minimize rewrites, and evolve it carefully over years.</p>
-            <p>That assumption is becoming less reliable.</p>
-            <p>As agents reduce the cost of generating plausible implementations, the scarce resource becomes the ability to determine whether generated code is correct enough, secure enough, operationally acceptable, and aligned with intended behavior.</p>
-            <p>The difficult question is no longer only:</p>
-            <blockquote><p>Can an agent produce a plausible implementation?</p></blockquote>
-            <p>It is:</p>
-            <blockquote><p>What evidence justifies accepting that implementation?</p></blockquote>
-            <p>An experienced engineer still needs to establish whether a change:</p>
-            <ul><li>preserves important edge cases;</li><li>introduces security or authorization regressions;</li><li>respects architectural constraints;</li><li>remains within performance and reliability budgets;</li><li>avoids weakening or bypassing the verification environment;</li><li>uses trustworthy dependencies and build inputs;</li><li>remains operable in production; and</li><li>satisfies the actual requirement rather than only visible examples.</li></ul>
-            <h2>Core thesis</h2>
-            <blockquote><p>As implementation becomes cheaper, the durable engineering asset shifts from a particular codebase toward the system that defines and verifies acceptable behavior.</p></blockquote>
-            <p>This is <strong>verification-first software engineering</strong>: organizing development around a versioned, independently governed specification bundle that constrains implementation generation and acceptance.</p>
-            <p>The claim is not that all source code becomes disposable or that tests prove correctness. It is narrower:</p>
-            <ul><li>for sufficiently specified classes of systems;</li><li>implementations can become more replaceable; and</li><li>the assets used to generate, evaluate, and govern them can become more durable.</li></ul>
-            <p>The practical unit of progress is therefore not generated code. It is <strong>accepted change supported by credible evidence</strong>.</p>
-            <h2>The bottleneck is moving</h2>
-            <p>Increasing throughput in one delivery stage does not automatically increase throughput across the whole system. When generation accelerates faster than review, verification, integration, and operational validation, those downstream stages become the constraint.</p>
-            <p>The following model makes that shift explicit.</p>
-            <p><em>Figure 1. Faster generation moves the delivery constraint toward evidence and acceptance.</em></p>
-            <pre class="mermaid">flowchart TD
-    A[Requirements and constraints] --&gt; B[Candidate implementation]
-    B --&gt; C{Credible evidence available?}
-    C --&gt;|No| D[Investigate, specify, and verify]
-    D --&gt; B
-    C --&gt;|Yes| E[Risk-based acceptance]
-    E --&gt; F[Deploy or reject]</pre>
-            <p>The implication is not “write more tests.” Teams must make acceptance criteria explicit, heterogeneous, and difficult for a generator to weaken silently.</p>
-            <h2>Code and constraints have different lifetimes</h2>
-            <p>Repositories combine two different kinds of assets.</p>
-            <p>The first describes how the current implementation works:</p>
-            <ul><li>source files;</li><li>framework wiring;</li><li>internal abstractions;</li><li>helper functions;</li><li>generated code;</li><li>build scripts; and</li><li>deployment-specific adapters.</li></ul>
-            <p>The second describes what must remain true regardless of implementation:</p>
-            <ul><li>API contracts;</li><li>behavioral specifications;</li><li>domain invariants;</li><li>regression suites;</li><li>authorization policies;</li><li>performance budgets;</li><li>service-level objectives;</li><li>architecture decisions;</li><li>dependency rules; and</li><li>supply-chain attestations.</li></ul>
-            <blockquote><p>Code describes how the system currently behaves. Specifications and constraints describe what acceptable implementations must preserve.</p></blockquote>
-            <p>The distinction is useful but not absolute. Tests can encode accidental implementation details. Architecture decisions can become obsolete. Operational targets may change. Specifications can be incomplete or inconsistent.</p>
-            <p>The goal is not to declare specifications timeless. It is to make intended behavior, constraints, and evidence explicit enough to survive implementation changes—and to revise them independently when the system’s needs change.</p>
-            <h2>The specification bundle</h2>
-            <p>A verification-first repository organizes durable assets into a <strong>specification bundle</strong>: the versioned collection of artifacts required to generate and assess an implementation.</p>
-            <p>It need not be a single document or formal language. In practice, it commonly has six layers.</p>
-            <p><em>Figure 2. A specification bundle joins complementary constraint layers rather than relying on a single test suite.</em></p>
-            <pre class="mermaid">flowchart TD
-    A[Specification bundle] --&gt; B[Interface contracts]
-    A --&gt; C[Behavioral examples]
-    A --&gt; D[Properties and invariants]
-    A --&gt; E[Policy constraints]
-    A --&gt; F[Operational constraints]
-    A --&gt; G[Design and provenance records]</pre>
-            <h3>Interface contracts</h3>
-            <p>Interface contracts define observable interactions without prescribing internal structure. They include HTTP APIs, event schemas, database contracts, command-line interfaces, compatibility requirements, and interface-definition languages.</p>
-            <p>The <a href="https://spec.openapis.org/oas/v3.2.0.html">OpenAPI Specification</a> provides a language-independent description of HTTP APIs that consumers can use without reading a service’s source code.</p>
-            <p>A contract describes the shape of an interaction. It does not independently establish semantic correctness, security, or operational soundness.</p>
-            <h3>Behavioral examples</h3>
-            <p>Example-based tests capture known scenarios:</p>
-            <ul><li>unit tests;</li><li>integration tests;</li><li>end-to-end workflows;</li><li>historical regression cases; and</li><li>reproductions of prior failures.</li></ul>
-            <p>Examples are concrete and understandable, but cover only the cases selected by their authors.</p>
-            <h3>General properties and invariants</h3>
-            <p>Properties describe behavior over classes of inputs rather than individual examples. The original <a href="https://dl.acm.org/doi/10.1145/351240.351266"><em>QuickCheck: A Lightweight Tool for Random Testing of Haskell Programs</em></a> introduced automated checking of program properties over generated inputs.</p>
-            <p>Property-based testing is especially useful for algebraic laws, state-machine rules, round trips, ordering constraints, and domain invariants. Examples include:</p>
-            <ul><li>decoding an encoded value returns the original value;</li><li>account balances never become negative;</li><li>authorization cannot be gained by changing request order;</li><li>retries do not duplicate externally visible effects; and</li><li>sorting preserves the input multiset.</li></ul>
-            <p>Their value depends on the quality of the property, generators, state model, and oracle.</p>
-            <h3>Policy constraints</h3>
-            <p>Policies define what an implementation is permitted to do:</p>
-            <ul><li>authorization rules;</li><li>allowed dependencies;</li><li>network-access restrictions;</li><li>deployment requirements;</li><li>data-residency constraints;</li><li>resource limits; and</li><li>approval requirements.</li></ul>
-            <p><a href="https://www.openpolicyagent.org/">Open Policy Agent</a> is one implementation of policy as code: it separates policy decisions from application logic and evaluates them against structured inputs.</p>
-            <p>Security requirements also extend beyond application behavior. The <a href="https://csrc.nist.gov/pubs/sp/800/218/final">NIST Secure Software Development Framework</a> describes high-level practices for integrating security into the software-development lifecycle. The <a href="https://slsa.dev/spec/v1.0/provenance">SLSA Provenance Specification</a> defines attestations connecting artifacts to the build process that produced them.</p>
-            <h3>Operational constraints</h3>
-            <p>Functional correctness is insufficient if regenerated software is too slow, expensive, unobservable, or unreliable.</p>
-            <p>Operational constraints can include:</p>
-            <ul><li>latency percentiles;</li><li>memory and CPU budgets;</li><li>throughput targets;</li><li>availability objectives and error budgets;</li><li>startup-time limits;</li><li>logging and tracing requirements;</li><li>rollback requirements; and</li><li>compatibility with production infrastructure.</li></ul>
-            <p>These measurements are environment-dependent and noisy. Useful specifications therefore state test conditions, acceptable variance, and statistical thresholds instead of assuming perfect determinism.</p>
-            <h3>Design and provenance records</h3>
-            <p>Some constraints cannot be expressed completely as executable tests. Architecture decision records, threat models, data-lineage descriptions, dependency manifests, signed build attestations, and human approvals preserve rationale and origin.</p>
-            <p>They help reviewers answer:</p>
-            <ul><li>what produced this candidate;</li><li>which inputs and tools were used;</li><li>which assumptions governed the decision;</li><li>which evidence remains incomplete; and</li><li>who accepted the residual risk.</li></ul>
-            <p>Together, these layers provide an implementation-independent description of acceptable software: imperfect and evolving, but more durable than one generated codebase.</p>
-            <h2>Verification is more than testing</h2>
-            <p>Verification-first engineering should not be reduced to “write more unit tests.” A test suite is one evidence source among several.</p>
-            <p>Different mechanisms reveal different failure classes:</p>
-            <ul><li>example tests detect known incorrect behavior;</li><li>property-based tests search broader input spaces;</li><li>static analysis detects selected structural defects;</li><li>type systems exclude classes of invalid programs;</li><li>model checking explores state-transition systems;</li><li>fuzzing searches malformed or unexpected inputs;</li><li>mutation testing assesses test sensitivity to injected changes;</li><li>security scanners identify known vulnerability patterns;</li><li>policy engines enforce organizational constraints;</li><li>performance tests measure operational behavior;</li><li>provenance attestations record artifact production; and</li><li>human review evaluates ambiguity, intent, and consequences outside automated oracles.</li></ul>
-            <p>For concurrent and distributed systems, formal models can expose design errors before implementation. <a href="https://lamport.azurewebsites.net/tla/tla.html">TLA+</a>, introduced by Leslie Lamport, is a language for modeling programs and systems whose tools are intended to identify fundamental design errors that can be difficult to discover in code.</p>
-            <p>The central principle is <strong>heterogeneous evidence</strong>. No verifier provides complete assurance. Confidence comes from combining partially independent mechanisms whose failure modes do not fully overlap.</p>
-            <h2>Why passing tests is not enough</h2>
-            <p>Passing visible tests does not prove correctness. An implementation can satisfy every observed example while failing outside the tested region, or satisfy the letter of a test while violating the intent behind it.</p>
-            <p>This becomes more important when an implementation process can inspect and modify its own verification environment. A coding agent may:</p>
-            <ul><li>overfit visible examples;</li><li>exploit weak assertions;</li><li>hard-code expected values;</li><li>delete or weaken failing tests;</li><li>bypass intended code paths;</li><li>preserve outputs while violating authorization boundaries;</li><li>degrade performance outside measured workloads; or</li><li>alter assumptions not represented in the test suite.</li></ul>
-            <p>This resembles benchmark overfitting: success on an observed evaluation does not necessarily imply robust performance on the underlying task.</p>
-            <p>Verification assets should be designed under adversarial pressure. Useful controls include:</p>
-            <ul><li>hidden tests unavailable during generation;</li><li>independent validation in a clean environment;</li><li>protections against unauthorized test modification;</li><li>property-based and metamorphic tests;</li><li>mutation testing;</li><li>differential testing against a reference implementation;</li><li>static and dynamic security analysis;</li><li>production-like performance tests;</li><li>explicit dependency and permission policies; and</li><li>review by an evaluator that did not generate the implementation.</li></ul>
-            <p><a href="https://www.albany.edu/faculty/offutt/research/papers/mut00.pdf">Mutation testing</a> is particularly relevant because it measures whether tests detect controlled program changes. The study <a href="https://arxiv.org/abs/2103.07189"><em>Does Mutation Testing Improve Testing Practices?</em></a> reports evidence that mutation testing can expose gaps related to real faults, while equivalent mutants, computational cost, and mutation-operator quality remain practical limitations.</p>
-            <p>The objective is not one enormous test suite. It is an evidence portfolio with diverse and partially independent failure-detection mechanisms.</p>
-            <h2>Separate generation from acceptance</h2>
-            <p>The generator may be probabilistic. The acceptance process should be independently specified, reproducible where possible, resistant to modification by the generator, and explicit about residual uncertainty.</p>
-            <p><em>Figure 3. Candidate generation and acceptance should be independently governed.</em></p>
-            <pre class="mermaid">flowchart TD
-    A[Specification bundle] --&gt; B[Generation harness]
-    B --&gt; C[Candidate implementation]
-    C --&gt; D[Independent verification pipeline]
-    D --&gt; E[Evidence package]
-    E --&gt; F{Acceptance policy}
-    F --&gt;|Sufficient evidence| G[Accept]
-    F --&gt;|Insufficient evidence| H[Reject]
-    F --&gt;|Risk or ambiguity| I[Escalate to review]</pre>
-            <p>An independent verification pipeline can include:</p>
-            <ul><li>contract checks;</li><li>public and hidden tests;</li><li>properties and invariants;</li><li>static and dynamic analysis;</li><li>security and policy checks;</li><li>performance and reliability checks;</li><li>provenance validation; and</li><li>human review where required.</li></ul>
-            <p>This separation establishes several controls:</p>
-            <ol><li>A generator does not have unrestricted authority to rewrite the criteria used to judge its own output.</li><li>Verification can run in a clean environment with controlled dependencies and inputs.</li><li>Acceptance produces an evidence package rather than only a binary “tests passed” signal.</li><li>Acceptance policy can vary according to risk.</li></ol>
-            <p>An evidence package may contain:</p>
-            <ul><li>test and analysis results;</li><li>coverage and mutation reports;</li><li>benchmark distributions;</li><li>build provenance;</li><li>changed permissions and dependencies;</li><li>traces and logs;</li><li>known verification gaps;</li><li>waived failures;</li><li>reviewer decisions; and</li><li>residual risks.</li></ul>
-            <p>A disposable internal script, a financial ledger, and medical-device software should not require identical evidence. An implementation is not accepted because a model claims success; it is accepted because an organization’s policy determines that available evidence is sufficient for the intended use.</p>
-            <p>That is not proof of total correctness. It is a reviewable engineering decision rather than an opaque claim.</p>
-            <h2>The compiler analogy—and where it stops</h2>
-            <p>Compilers made generated lower-level artifacts routine by translating comparatively precise source languages according to defined semantics.</p>
-            <p>Verification-first engineering similarly raises the abstraction boundary: engineers increasingly express contracts, invariants, constraints, and policies while agents generate candidate implementations.</p>
-            <p>But coding agents are not compilers for specifications in the strict sense. Natural-language requirements, examples, architecture policies, and operational goals are often incomplete, ambiguous, or conflicting.</p>
-            <p>A more accurate model is:</p>
-            <blockquote><p>A coding agent proposes an implementation from an incomplete specification; the verification system determines whether the proposal is acceptable under the evidence available.</p></blockquote>
-            <p>This framing prevents generation from being mistaken for proof.</p>
-            <h2>Regenerability is a spectrum</h2>
-            <p>Verification-first engineering does not imply regenerating every system from scratch. Regenerability depends on how completely behavior, constraints, state, and operating environment have been captured.</p>
-            <p>A system becomes more regenerable when it has:</p>
-            <ul><li>explicit interfaces;</li><li>domain rules encoded as invariants;</li><li>documented persistent-data semantics;</li><li>regression suites representing important historical failures;</li><li>constrained dependencies and permissions;</li><li>measurable operational envelopes;</li><li>reproducible builds; and</li><li>acceptance processes independent of implementation generation.</li></ul>
-            <p>Good early candidates include:</p>
-            <ul><li>stateless internal APIs;</li><li>command-line tools;</li><li>data-transformation pipelines;</li><li>protocol adapters;</li><li>service migrations;</li><li>deterministic batch jobs;</li><li>infrastructure automation; and</li><li>reference implementations of well-defined standards.</li></ul>
-            <p>Harder candidates include:</p>
-            <ul><li>legacy systems containing undocumented operational knowledge;</li><li>interactive products whose quality depends heavily on subjective user experience;</li><li>systems with complex external side effects;</li><li>systems dependent on mutable third-party services;</li><li>highly optimized systems with hardware-specific behavior; and</li><li>safety-critical software requiring regulatory, process, and formal assurance beyond automated testing.</li></ul>
-            <p>The objective is not universal disposable software. It is to identify the boundary at which an implementation becomes replaceable because the constraints around it are sufficiently complete and strong.</p>
-            <h2>What makes a specification durable?</h2>
-            <p>A specification is durable not because it uses formal notation, but because it continues to capture what matters as implementations change.</p>
-            <p>Durable verification assets tend to:</p>
-            <h3>Describe externally meaningful behavior</h3>
-            <p>A test asserting the name of a private helper is fragile. A property asserting idempotent payment processing is durable.</p>
-            <h3>Separate intent from implementation</h3>
-            <p>A contract should specify required behavior without unnecessarily fixing framework structure, internal class names, or storage mechanisms.</p>
-            <h3>Include failure behavior</h3>
-            <p>Specifications should cover timeouts, retries, invalid inputs, partial failure, concurrency, degraded dependencies, and recovery—not only the happy path.</p>
-            <h3>Preserve discovered knowledge</h3>
-            <p>Production incidents, security defects, and compatibility failures can become regression artifacts, invariants, policies, or operational checks.</p>
-            <h3>Remain versioned and reviewable</h3>
-            <p>A specification change can alter behavior as significantly as a source-code change. It requires explicit review, provenance, and compatibility analysis.</p>
-            <h3>Resist self-modification</h3>
-            <p>A generator should not be able to weaken its own acceptance criteria without creating a visible, separately reviewed specification change.</p>
-            <h3>Expose uncertainty</h3>
-            <p>The bundle should record unverified properties, environmental assumptions, flaky measurements, unsupported platforms, and accepted risks.</p>
-            <p>A durable specification is accumulated organizational knowledge expressed in a form that can constrain future implementations.</p>
-            <h2>A practical experiment: the Regenerable Software Lab</h2>
-            <p>The hypothesis is empirical: instead of debating whether software will become disposable, measure how reliably coding agents regenerate implementations from fixed specifications.</p>
-            <p>The <a href="http://regenerable-software-lab.rmax.tech">Regenerable Software Lab</a> is a proof-of-concept research project for this question. It holds a specification bundle fixed while allowing implementations, models, and harnesses to vary.</p>
-            <p>Each agent receives the same inputs:</p>
-            <ul><li>API or protocol contracts;</li><li>behavioral specifications;</li><li>public examples;</li><li>domain invariants;</li><li>dependency and permission policies;</li><li>build requirements; and</li><li>performance budgets.</li></ul>
-            <p>The agent generates a fresh implementation in an isolated environment. The candidate is evaluated against progressively stronger verification profiles:</p>
-            <div class="table-wrap"><table><thead><tr><th>Profile</th><th>Evidence</th><th>Primary question</th></tr></thead><tbody><tr><td>A: Visible examples</td><td>Public unit tests, build checks, formatting or linting</td><td>Can the agent satisfy the observed specification?</td></tr><tr><td>B: Independent behavioral validation</td><td>Hidden tests, integration tests, differential tests</td><td>Does it generalize beyond visible examples?</td></tr><tr><td>C: Property and fault sensitivity</td><td>Property-based tests, state-machine tests, fuzzing, mutation testing</td><td>Does implementation and verification survive broader variation?</td></tr><tr><td>D: Policy and supply-chain constraints</td><td>Dependency allowlists, permission checks, secret scanning, static analysis, reproducible builds, provenance</td><td>Is the implementation acceptable beyond functional behavior?</td></tr><tr><td>E: Operational validation</td><td>Latency and throughput distributions, resource use, recovery, observability, degraded dependencies</td><td>Is it viable in its intended environment?</td></tr></tbody></table></div>
-            <p>Useful benchmark metrics include:</p>
-            <ul><li>acceptance rate by verification profile;</li><li>hidden-test generalization gap;</li><li>mutation score;</li><li>policy-violation rate;</li><li>performance-budget compliance;</li><li>security findings;</li><li>regeneration variance across repeated runs;</li><li>human review time;</li><li>verification cost;</li><li>implementation complexity; and</li><li>the share of failures attributable to incomplete specifications rather than weak generation.</li></ul>
-            <p>This supports practical research questions:</p>
-            <ul><li>Which verification assets contribute most to robust regeneration?</li><li>How much do hidden evaluations reduce overfitting to visible specifications?</li><li>Which critical properties remain difficult to express?</li><li>How much reliability comes from the model, the harness, and the specification bundle?</li><li>When does strengthening verification cost more than maintaining an existing implementation?</li><li>How stable are regenerated implementations across repeated runs?</li><li>Which domains resist regeneration because essential knowledge is tacit or subjective?</li><li>How often does regeneration expose defects in the specification itself?</li></ul>
-            <p>These are systems-engineering questions, not only model-comparison questions.</p>
-            <h2>Practical takeaways</h2>
-            <ol><li><strong>Treat acceptance criteria as first-class engineering artifacts.</strong> Version contracts, invariants, policies, operational budgets, and provenance requirements alongside code.</li><li><strong>Separate generation authority from acceptance authority.</strong> An agent should not silently weaken the tests, policies, or environments used to assess its output.</li><li><strong>Use diverse verification mechanisms.</strong> Combine examples, properties, static analysis, policy enforcement, performance checks, provenance, and human review according to risk.</li><li><strong>Turn failures into durable knowledge.</strong> Convert incidents, security defects, and compatibility regressions into reusable constraints that survive rewrites.</li><li><strong>Measure regenerability before betting on it.</strong> Begin with bounded, well-specified systems and compare repeated regeneration against increasingly strong verification profiles.</li></ol>
-            <h2>Positioning</h2>
-            <p>Verification-first software engineering is not a claim that code no longer matters, that formal methods are mandatory everywhere, or that agent-generated software is trustworthy by default.</p>
-            <p>It is an architectural direction for a world in which candidate implementations are cheaper to produce. As that happens, the relative value of explicit requirements, independent verification, operational evidence, and governance increases.</p>
-            <p>Organizations that invest in those assets can compare implementations against common criteria, change models or vendors, regenerate selected components, and preserve institutional knowledge independently of one codebase.</p>
-            <h2>Status and scope</h2>
-            <p>This note describes an evolving engineering model and an experimental research direction, not a finished methodology or a guarantee of correctness. Verification remains incomplete, risk-sensitive, and dependent on the quality of its specifications, tooling, environments, and human judgment.</p>
-            <p>The model is most applicable where behavior and operating constraints can be made explicit. It is less suited to domains dominated by tacit knowledge, subjective quality, uncontrolled external dependencies, or regulatory obligations requiring stronger process and formal assurance.</p>
-            <h2>References</h2>
-            <h3>AI coding agents and evaluation</h3>
-            <ul><li><a href="https://metr.org/time-horizons/">Task-Completion Time Horizons of Frontier AI Models</a> — Model Evaluation &amp; Threat Research.</li><li><a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying Evals for AI Agents</a> — Anthropic.</li><li><a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective Harnesses for Long-Running Agents</a> — Anthropic.</li><li><a href="https://www.anthropic.com/engineering/harness-design-long-running-apps">Harness Design for Long-Running Application Development</a> — Anthropic.</li><li><a href="https://factory.ai/news/build-with-agents">Agent Native Development</a> — Factory.</li></ul>
-            <h3>Specifications and formal methods</h3>
-            <ul><li><a href="https://spec.openapis.org/">OpenAPI Specification</a> — OpenAPI Initiative.</li><li><a href="https://lamport.azurewebsites.net/tla/tla.html">TLA+</a> — Leslie Lamport.</li><li><a href="https://lamport.azurewebsites.net/tla/book.html">Specifying Systems</a> — Leslie Lamport.</li><li><a href="https://dl.acm.org/doi/10.1145/351240.351266">QuickCheck: A Lightweight Tool for Random Testing of Haskell Programs</a> — Koen Claessen and John Hughes.</li></ul>
-            <h3>Verification and testing</h3>
-            <ul><li><a href="https://www.pearson.com/en-us/subject-catalog/p/test-driven-development-by-example/P200000009421">Test-Driven Development: By Example</a> — Kent Beck.</li><li><a href="https://www.albany.edu/faculty/offutt/research/papers/mut00.pdf">Mutation 2000: Uniting the Orthogonal</a> — A. Jefferson Offutt and Roland Untch.</li><li><a href="https://arxiv.org/abs/2103.07189">Does Mutation Testing Improve Testing Practices?</a> — Goran Petrović, Marko Ivanković, Gordon Fraser, and René Just.</li></ul>
-            <h3>Policy, security, and provenance</h3>
-            <ul><li><a href="https://www.openpolicyagent.org/docs/">Open Policy Agent Documentation</a> — Open Policy Agent.</li><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final">Secure Software Development Framework (SSDF), SP 800-218</a> — National Institute of Standards and Technology.</li><li><a href="https://slsa.dev/spec/v1.0/provenance">Provenance Specification</a> — SLSA.</li></ul>
-            <blockquote><p>“Program testing can be used to show the presence of bugs, but never to show their absence.”<br>— Edsger W. Dijkstra</p></blockquote></div>
-      </article></main>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>Verification-First Software Engineering: Durable Specifications and Regenerable Code</h1>
+            <div class="post-meta">
+              <span>2026-07-26</span>
+              <span>•</span>
+              <span>20–25 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+<blockquote>
+<p>As implementation becomes cheaper, the durable engineering asset shifts from a particular codebase toward the system that defines and verifies acceptable behavior.</p>
+</blockquote>
+<h2>Introduction</h2>
+<p>Large language models are changing the economics of software engineering.</p>
+<p>Coding agents can inspect repositories, generate patches, execute commands, run tests, diagnose failures, and revise their own work. Research from <a href="https://metr.org/time-horizons/">METR on task-completion time horizons</a> suggests that frontier systems are becoming capable of completing progressively longer software-engineering tasks, although success remains highly dependent on the task, environment, model, and evaluation method.</p>
+<p>This changes an assumption that has shaped software engineering for decades.</p>
+<p>Historically, source code was expensive to create and modify. Teams therefore treated the implementation itself as the primary engineering asset: preserve the codebase, minimize rewrites, and evolve it carefully over many years.</p>
+<p>As agents reduce the cost of producing candidate implementations, the constraint begins to move.</p>
+<p>The scarce resource is increasingly not the ability to generate code. It is the ability to determine whether generated code is correct enough, secure enough, operationally acceptable, and consistent with the system's intended behavior.</p>
+<p>This suggests a different way to organize software development.</p>
+<p>Rather than treating source code as the only authoritative artifact, we can treat it as one implementation constrained by a more durable verification system: executable specifications, contracts, invariants, policies, operational budgets, provenance, and regression knowledge.</p>
+<p>I refer to this approach as <strong>verification-first software engineering</strong>.</p>
+<p>The claim is not that source code becomes disposable everywhere. It is that, for well-specified classes of systems, implementations can become increasingly replaceable while the assets used to generate, evaluate, and govern them become more durable.</p>
+<p>---</p>
+<h2>The bottleneck is moving</h2>
+<p>Modern coding agents are already capable of substantial implementation work. Depending on the repository and available tools, they can:</p>
+<ul>
+<li>implement APIs;</li>
+<li>refactor modules;</li>
+<li>migrate frameworks;</li>
+<li>repair failing tests;</li>
+<li>update dependencies;</li>
+<li>generate infrastructure definitions;</li>
+<li>write documentation;</li>
+<li>and iterate across build and test failures.</li>
+</ul>
+<p>The difficult question is no longer merely:</p>
+<blockquote>
+<p>Can the agent produce a plausible implementation?</p>
+</blockquote>
+<p>It is:</p>
+<blockquote>
+<p>What evidence justifies accepting that implementation?</p>
+</blockquote>
+<p>An experienced engineer must still determine:</p>
+<ul>
+<li>whether important edge cases were preserved;</li>
+<li>whether the change introduces security regressions;</li>
+<li>whether it violates architectural constraints;</li>
+<li>whether performance remains within acceptable bounds;</li>
+<li>whether the agent weakened or bypassed the tests;</li>
+<li>whether dependencies and build inputs are trustworthy;</li>
+<li>whether the resulting system remains operable;</li>
+<li>and whether the implementation satisfies the actual requirement rather than only its most visible examples.</li>
+</ul>
+<p>Implementation is becoming relatively cheap.</p>
+<p>Acceptance is not.</p>
+<p>This is an instance of constraint migration. Increasing throughput in one stage does not automatically increase throughput in the whole delivery system. When code generation accelerates faster than review, verification, integration, and operational validation, the downstream stages become the limiting factors.</p>
+<p>The practical unit of progress is therefore not generated code. It is <strong>accepted change supported by credible evidence</strong>.</p>
+<p><em>Figure 1. Faster generation moves the delivery constraint toward evidence and acceptance.</em></p>
+<pre class="mermaid">
+flowchart TD
+    A[Requirements and constraints] --> B[Candidate implementation]
+    B --> C{Credible evidence available?}
+    C -->|No| D[Investigate, specify, and verify]
+    D --> B
+    C -->|Yes| E[Risk-based acceptance]
+    E --> F[Deploy or reject]
+</pre>
+<p>---</p>
+<h2>Software repositories contain two kinds of assets</h2>
+<p>Traditional repositories mix two fundamentally different kinds of information.</p>
+<p>The first describes how the current implementation works.</p>
+<p>The second describes what must remain true regardless of implementation.</p>
+<p>These assets have different lifetimes.</p>
+<p>Implementation artifacts include:</p>
+<ul>
+<li>source files;</li>
+<li>framework wiring;</li>
+<li>dependency-injection configuration;</li>
+<li>internal abstractions;</li>
+<li>helper functions;</li>
+<li>generated code;</li>
+<li>build scripts;</li>
+<li>and deployment-specific adapters.</li>
+</ul>
+<p>These may change substantially during a rewrite or migration.</p>
+<p>More durable artifacts include:</p>
+<ul>
+<li>API contracts;</li>
+<li>behavioral specifications;</li>
+<li>domain invariants;</li>
+<li>formal models;</li>
+<li>property-based tests;</li>
+<li>regression suites;</li>
+<li>authorization policies;</li>
+<li>performance budgets;</li>
+<li>service-level objectives;</li>
+<li>architecture decisions;</li>
+<li>dependency rules;</li>
+<li>and software-supply-chain attestations.</li>
+</ul>
+<p>These artifacts define acceptable behavior and constraints with less dependence on one implementation.</p>
+<p>The distinction is useful:</p>
+<blockquote>
+<p>Code describes how the system currently behaves.</p>
+<p>Specifications and constraints describe what acceptable implementations must preserve.</p>
+</blockquote>
+<p>This separation is not absolute. Tests can encode accidental implementation details. Architecture decisions can become obsolete. Operational targets may change. Specifications can be incomplete or internally inconsistent.</p>
+<p>The objective is therefore not to pretend that specifications are timeless. It is to make the intended behavior, constraints, and evidence explicit enough that they can survive implementation changes and be revised independently.</p>
+<p>---</p>
+<h2>The specification bundle</h2>
+<p>A verification-first repository can organize its durable assets into a <strong>specification bundle</strong>.</p>
+<p>The bundle does not need to be one file or one formal language. It is the versioned collection of artifacts required to generate and assess an implementation.</p>
+<p><em>Figure 2. A specification bundle joins complementary constraint layers rather than relying on a single test suite.</em></p>
+<pre class="mermaid">
+flowchart TD
+    A[Specification bundle] --> B[Interface contracts]
+    A --> C[Behavioral examples]
+    A --> D[Properties and invariants]
+    A --> E[Policy constraints]
+    A --> F[Operational constraints]
+    A --> G[Design and provenance records]
+</pre>
+<p>A practical specification bundle may contain six layers.</p>
+<h3>1. Interface contracts</h3>
+<p>Interface contracts define observable interactions without prescribing internal structure.</p>
+<p>Examples include:</p>
+<ul>
+<li><a href="https://spec.openapis.org/">OpenAPI descriptions</a> for HTTP APIs;</li>
+<li>GraphQL schemas;</li>
+<li>Protocol Buffers or other interface-definition languages;</li>
+<li>event schemas;</li>
+<li>database contracts;</li>
+<li>command-line interface definitions;</li>
+<li>and compatibility requirements.</li>
+</ul>
+<p>The <a href="https://spec.openapis.org/oas/v3.2.0.html">OpenAPI Specification</a>, for example, defines a language-independent description of an HTTP API that can be consumed without reading the service's source code.</p>
+<p>A contract describes the shape of an interaction. It does not, by itself, establish that the implementation is semantically correct, secure, or operationally sound.</p>
+<h3>2. Behavioral examples</h3>
+<p>Example-based tests capture known scenarios:</p>
+<ul>
+<li>public unit tests;</li>
+<li>integration tests;</li>
+<li>end-to-end workflows;</li>
+<li>historical regression cases;</li>
+<li>and reproductions of previously observed failures.</li>
+</ul>
+<p>These examples are concrete and easy to understand, but they cover only the cases selected by the test author.</p>
+<h3>3. General properties and invariants</h3>
+<p>Properties describe behavior across classes of inputs rather than individual examples.</p>
+<p>The original <a href="https://dl.acm.org/doi/10.1145/351240.351266">QuickCheck paper</a> introduced automated checking of program properties over generated inputs. Property-based testing is particularly useful when a system should preserve algebraic laws, state-machine rules, round-trip behavior, ordering constraints, or domain invariants.</p>
+<p>Examples include:</p>
+<ul>
+<li>decoding an encoded value returns the original value;</li>
+<li>account balances never become negative;</li>
+<li>authorization cannot be gained by changing request order;</li>
+<li>retries do not duplicate externally visible effects;</li>
+<li>and sorting preserves the input multiset.</li>
+</ul>
+<p>Properties improve coverage, but their usefulness depends on the quality of the property, generators, state model, and oracle.</p>
+<h3>4. Policy constraints</h3>
+<p>Policies define what an implementation is permitted to do.</p>
+<p>Examples include:</p>
+<ul>
+<li>authorization rules;</li>
+<li>allowed dependencies;</li>
+<li>network-access restrictions;</li>
+<li>deployment requirements;</li>
+<li>data-residency constraints;</li>
+<li>resource limits;</li>
+<li>and approval requirements.</li>
+</ul>
+<p><a href="https://www.openpolicyagent.org/">Open Policy Agent</a> provides one implementation of policy as code: policy decisions can be represented separately from application logic and evaluated against structured inputs.</p>
+<p>Security requirements should also include process and supply-chain controls. The <a href="https://csrc.nist.gov/pubs/sp/800/218/final">NIST Secure Software Development Framework</a> defines high-level practices for integrating security into the software-development lifecycle. The <a href="https://slsa.dev/spec/v1.0/provenance">SLSA provenance specification</a> defines attestations connecting software artifacts to the build process that produced them.</p>
+<h3>5. Operational constraints</h3>
+<p>Functional correctness is insufficient if regenerated software is too slow, too expensive, unobservable, or unreliable.</p>
+<p>Operational constraints may include:</p>
+<ul>
+<li>latency percentiles;</li>
+<li>memory and CPU budgets;</li>
+<li>throughput targets;</li>
+<li>availability objectives;</li>
+<li>error budgets;</li>
+<li>startup-time limits;</li>
+<li>logging and tracing requirements;</li>
+<li>rollback requirements;</li>
+<li>and compatibility with production infrastructure.</li>
+</ul>
+<p>These measurements are often environment-dependent and noisy. They should therefore specify test conditions, acceptable variance, and statistical thresholds rather than pretending to be perfectly deterministic.</p>
+<h3>6. Design and provenance records</h3>
+<p>Some constraints cannot be expressed completely as executable tests.</p>
+<p>Architecture decision records, threat models, data-lineage descriptions, dependency manifests, signed build attestations, and human approvals preserve the rationale and origin of a change.</p>
+<p>These artifacts help reviewers answer not only whether a candidate passed, but also:</p>
+<ul>
+<li>what produced it;</li>
+<li>which inputs and tools were used;</li>
+<li>which assumptions governed the decision;</li>
+<li>which evidence remains incomplete;</li>
+<li>and who accepted the residual risk.</li>
+</ul>
+<p>Together, these layers form an implementation-independent description of acceptable software—imperfect, evolving, but more durable than any single generated codebase.</p>
+<p>---</p>
+<h2>Verification is more than testing</h2>
+<p>Verification-first engineering should not be reduced to "write more unit tests."</p>
+<p>A test suite is one evidence source among several.</p>
+<p>Different verification mechanisms reveal different failure classes:</p>
+<ul>
+<li>example tests detect known incorrect behavior;</li>
+<li>property-based tests search broader input spaces;</li>
+<li>static analysis detects selected structural defects;</li>
+<li>type systems exclude classes of invalid programs;</li>
+<li>model checking explores state-transition systems;</li>
+<li>mutation testing assesses whether tests detect injected changes;</li>
+<li>fuzzing searches malformed or unexpected inputs;</li>
+<li>security scanners identify known vulnerability patterns;</li>
+<li>policy engines enforce organizational constraints;</li>
+<li>performance tests measure operational behavior;</li>
+<li>provenance attestations record how artifacts were produced;</li>
+<li>and human review evaluates ambiguity, intent, and consequences that automated oracles do not capture.</li>
+</ul>
+<p>For systems with complex concurrency or distributed behavior, formal specifications can expose design errors before implementation. Leslie Lamport describes <a href="https://lamport.azurewebsites.net/tla/tla.html">TLA+</a> as a language for modeling programs and systems, especially concurrent and distributed systems; its tools are intended to identify fundamental design errors that are difficult to discover in code.</p>
+<p>The central principle is heterogeneous evidence.</p>
+<p>No single verifier provides complete assurance. Confidence comes from combining partially independent mechanisms whose failure modes do not fully overlap.</p>
+<p>---</p>
+<h2>Why passing tests is not enough</h2>
+<p>Passing a visible test suite does not prove correctness.</p>
+<p>An implementation can satisfy every example while remaining defective outside the tested region. It can also satisfy the letter of the test while violating the intent behind it.</p>
+<p>This problem becomes more important when the implementation process can inspect and modify its own verification environment.</p>
+<p>An agent may:</p>
+<ul>
+<li>overfit visible examples;</li>
+<li>exploit weak assertions;</li>
+<li>hard-code expected values;</li>
+<li>delete or weaken failing tests;</li>
+<li>bypass intended code paths;</li>
+<li>introduce unnecessary complexity;</li>
+<li>preserve outputs while violating authorization boundaries;</li>
+<li>degrade performance outside the measured workload;</li>
+<li>or change an architectural assumption not represented in the test suite.</li>
+</ul>
+<p>This resembles benchmark overfitting in machine learning: success on an observed evaluation does not necessarily imply robust performance on the underlying task.</p>
+<p>Verification assets should therefore be designed with adversarial pressure in mind.</p>
+<p>Useful techniques include:</p>
+<ul>
+<li>hidden tests unavailable during generation;</li>
+<li>independent validation in a clean environment;</li>
+<li>checks preventing unauthorized test modification;</li>
+<li>property-based and metamorphic tests;</li>
+<li>mutation testing;</li>
+<li>differential testing against a reference implementation;</li>
+<li>static and dynamic security analysis;</li>
+<li>production-like performance tests;</li>
+<li>explicit dependency and permission policies;</li>
+<li>and review by an evaluator that did not generate the implementation.</li>
+</ul>
+<p>Mutation testing is especially relevant because it evaluates the sensitivity of the test suite. It introduces controlled changes into the program and checks whether the tests detect them. Research has found evidence that mutation testing can expose gaps related to real faults, although equivalent mutants, computational cost, and operator quality remain practical limitations.</p>
+<p>The goal is not to construct one enormous test suite. It is to build an evidence portfolio with diverse and partially independent failure-detection mechanisms.</p>
+<p>---</p>
+<h2>Separate generation from acceptance</h2>
+<p>A central architectural principle is to separate software generation from software acceptance.</p>
+<p>The generator may be probabilistic. The acceptance process should be independently specified, reproducible where possible, resistant to modification by the generator, and explicit about residual uncertainty.</p>
+<p><em>Figure 3. Candidate generation and acceptance should be independently governed.</em></p>
+<pre class="mermaid">
+flowchart TD
+    A[Specification bundle] --> B[Generation harness]
+    B --> C[Candidate implementation]
+    C --> D[Independent verification pipeline]
+    D --> E[Evidence package]
+    E --> F{Acceptance policy}
+    F -->|Sufficient evidence| G[Accept]
+    F -->|Insufficient evidence| H[Reject]
+    F -->|Risk or ambiguity| I[Escalate to review]
+</pre>
+<p>This separation creates several useful controls.</p>
+<p>First, the agent should not have unrestricted authority to rewrite the criteria used to judge its work.</p>
+<p>Second, verification should run in a clean environment with controlled dependencies and inputs.</p>
+<p>Third, the pipeline should produce an evidence package rather than a binary "tests passed" signal.</p>
+<p>That package may include:</p>
+<ul>
+<li>test and analysis results;</li>
+<li>coverage and mutation reports;</li>
+<li>benchmark distributions;</li>
+<li>build provenance;</li>
+<li>changed permissions and dependencies;</li>
+<li>traces and logs;</li>
+<li>known verification gaps;</li>
+<li>waived failures;</li>
+<li>reviewer decisions;</li>
+<li>and residual risks.</li>
+</ul>
+<p>Fourth, acceptance policy should vary by risk. A disposable internal script, a financial ledger, and medical-device software should not require the same evidence.</p>
+<p>The implementation is not accepted because the model claims success. It is accepted because the organization's acceptance policy determines that the available evidence is sufficient for the intended use.</p>
+<p>This still does not prove total correctness. It converts an opaque claim into a reviewable engineering decision.</p>
+<p>---</p>
+<h2>The compiler analogy—and where it stops</h2>
+<p>Compilers offer a useful but limited analogy.</p>
+<p>Compilers allowed developers to express programs at a higher level while automating translation into machine code. They made generated lower-level artifacts routine and reproducible.</p>
+<p>Verification-first engineering similarly raises the abstraction boundary. Engineers increasingly express contracts, invariants, constraints, and policies while agents generate candidate implementations.</p>
+<p>But the analogy stops at an important point.</p>
+<p>A compiler translates a comparatively precise source language according to defined semantics. Natural-language requirements, behavioral examples, architectural policies, and operational goals are usually incomplete, ambiguous, or conflicting. A coding agent is therefore not a compiler for specifications in the strict sense.</p>
+<p>The more accurate model is:</p>
+<blockquote>
+<p>A coding agent proposes an implementation from an incomplete specification; the verification system determines whether the proposal is acceptable under the evidence available.</p>
+</blockquote>
+<p>This framing avoids mistaking generation for proof.</p>
+<p>---</p>
+<h2>Regenerability is a spectrum</h2>
+<p>Verification-first engineering does not imply that all software should be regenerated from scratch.</p>
+<p>Regenerability depends on how completely the system's behavior, constraints, state, and operating environment have been captured.</p>
+<p>A system is more regenerable when:</p>
+<ul>
+<li>its interfaces are explicit;</li>
+<li>its domain rules are encoded as invariants;</li>
+<li>its persistent data semantics are documented;</li>
+<li>its regression suite represents important historical failures;</li>
+<li>its dependencies and permissions are constrained;</li>
+<li>its operational envelope is measurable;</li>
+<li>its build is reproducible;</li>
+<li>and its acceptance process is independent from its implementation.</li>
+</ul>
+<p>Good early candidates may include:</p>
+<ul>
+<li>stateless internal APIs;</li>
+<li>command-line tools;</li>
+<li>data-transformation pipelines;</li>
+<li>protocol adapters;</li>
+<li>service migrations;</li>
+<li>deterministic batch jobs;</li>
+<li>infrastructure automation;</li>
+<li>and reference implementations of well-defined standards.</li>
+</ul>
+<p>Harder candidates include:</p>
+<ul>
+<li>legacy systems containing undocumented operational knowledge;</li>
+<li>interactive products whose quality depends heavily on subjective user experience;</li>
+<li>systems with complex external side effects;</li>
+<li>systems whose behavior depends on mutable third-party services;</li>
+<li>highly optimized systems with hardware-specific behavior;</li>
+<li>and safety-critical software requiring regulatory, process, and formal assurance beyond automated testing.</li>
+</ul>
+<p>The objective is not universal disposable software.</p>
+<p>It is to identify the boundary at which an implementation becomes replaceable because the durable constraints around it are sufficiently complete and strong.</p>
+<p>---</p>
+<h2>What makes a specification durable?</h2>
+<p>A specification is durable not because it is written in a formal notation, but because it continues to capture the properties that matter as implementations change.</p>
+<p>Durable verification assets tend to have several qualities.</p>
+<h3>They describe externally meaningful behavior</h3>
+<p>A test that asserts the name of a private helper function is fragile. A property that asserts idempotent payment processing is durable.</p>
+<h3>They separate intent from implementation</h3>
+<p>A contract should specify required behavior without unnecessarily fixing framework structure, internal class names, or storage mechanisms.</p>
+<h3>They include failure behavior</h3>
+<p>Specifications should cover timeouts, retries, invalid inputs, partial failure, concurrency, degraded dependencies, and recovery—not only the happy path.</p>
+<h3>They preserve discovered knowledge</h3>
+<p>Every production incident, security defect, and compatibility failure can become a regression artifact, invariant, policy, or operational check.</p>
+<h3>They are versioned and reviewable</h3>
+<p>A specification change can alter system behavior as significantly as a source-code change. It should therefore receive explicit review, provenance, and compatibility analysis.</p>
+<h3>They resist self-modification</h3>
+<p>The generator should not be able to weaken its own acceptance criteria without producing a visible, separately reviewed specification change.</p>
+<h3>They expose uncertainty</h3>
+<p>The bundle should record unverified properties, environmental assumptions, flaky measurements, unsupported platforms, and accepted risks.</p>
+<p>A durable specification is not merely a frozen contract. It is accumulated organizational knowledge expressed in a form that can constrain future implementations.</p>
+<p>---</p>
+<h2>A practical experiment: the Regenerable Software Lab</h2>
+<p>The hypothesis is empirical.</p>
+<p>Rather than debating whether software will become disposable, we can measure how reliably current coding agents regenerate implementations from fixed specifications.</p>
+<p>This is the motivation behind the <strong>Regenerable Software Lab</strong>.</p>
+<p>The experiment fixes the specification bundle while allowing implementations, models, and harnesses to vary.</p>
+<p>Each coding agent receives the same inputs:</p>
+<ul>
+<li>API or protocol contracts;</li>
+<li>behavioral specifications;</li>
+<li>public examples;</li>
+<li>domain invariants;</li>
+<li>dependency and permission policies;</li>
+<li>build requirements;</li>
+<li>and performance budgets.</li>
+</ul>
+<p>The agent generates a fresh implementation in an isolated environment.</p>
+<p>The candidate is then evaluated against progressively stronger verification profiles.</p>
+<h3>Profile A: visible examples</h3>
+<ul>
+<li>public unit tests;</li>
+<li>basic build checks;</li>
+<li>and formatting or linting.</li>
+</ul>
+<p>This measures whether the agent can satisfy an observed specification.</p>
+<h3>Profile B: independent behavioral validation</h3>
+<ul>
+<li>hidden tests;</li>
+<li>integration tests;</li>
+<li>and differential tests against a reference implementation.</li>
+</ul>
+<p>This measures generalization beyond visible examples.</p>
+<h3>Profile C: property and fault sensitivity</h3>
+<ul>
+<li>property-based tests;</li>
+<li>state-machine tests;</li>
+<li>fuzzing;</li>
+<li>and mutation testing.</li>
+</ul>
+<p>This measures whether the implementation and test suite survive broader or adversarial variation.</p>
+<h3>Profile D: policy and supply-chain constraints</h3>
+<ul>
+<li>dependency allowlists;</li>
+<li>permission checks;</li>
+<li>secret scanning;</li>
+<li>static security analysis;</li>
+<li>reproducible-build checks;</li>
+<li>and provenance validation.</li>
+</ul>
+<p>This measures whether the implementation is acceptable beyond functional behavior.</p>
+<h3>Profile E: operational validation</h3>
+<ul>
+<li>latency and throughput distributions;</li>
+<li>memory and CPU use;</li>
+<li>failure recovery;</li>
+<li>observability checks;</li>
+<li>and behavior under degraded dependencies.</li>
+</ul>
+<p>This measures whether the implementation is viable in its intended environment.</p>
+<p>The benchmark should report more than a pass rate.</p>
+<p>Useful metrics include:</p>
+<ul>
+<li>acceptance rate by verification profile;</li>
+<li>hidden-test generalization gap;</li>
+<li>mutation score;</li>
+<li>policy-violation rate;</li>
+<li>performance-budget compliance;</li>
+<li>security findings;</li>
+<li>regeneration variance across repeated runs;</li>
+<li>human review time;</li>
+<li>verification cost;</li>
+<li>implementation complexity;</li>
+<li>and the proportion of failures caused by incomplete specifications rather than weak generation.</li>
+</ul>
+<p>This supports more useful research questions:</p>
+<ul>
+<li>Which verification assets contribute most to robust regeneration?</li>
+<li>How much do hidden evaluations reduce specification overfitting?</li>
+<li>Which properties are difficult to express but critical in practice?</li>
+<li>How much reliability comes from the model, the harness, and the specification bundle?</li>
+<li>At what point does strengthening verification cost more than maintaining the existing implementation?</li>
+<li>How stable are regenerated implementations across repeated runs?</li>
+<li>Which domains remain resistant to regeneration because essential knowledge is tacit or subjective?</li>
+<li>How often does the experiment reveal defects in the specification itself?</li>
+</ul>
+<p>These are systems-engineering questions, not merely model-comparison questions.</p>
+<p>This article describes an architectural direction rather than a finished methodology. As a proof of concept, we are developing the <a href="http://regenerable-software-lab.rmax.tech">Regenerable Software Lab</a>, an open research project that explores verification-first software engineering in practice. Rather than treating source code as the primary long-lived artifact, the project investigates workflows where durable specifications, executable verification, evaluation harnesses, and operational constraints define software behavior, while implementations can be regenerated, revalidated, and replaced as models and tooling improve. The project serves as an experimental platform for evaluating these ideas, benchmarking regenerability, and exploring practical techniques for building AI-native software engineering systems.</p>
+<p>---</p>
+<h2>Verification becomes the durable asset</h2>
+<p>Software engineering has repeatedly moved its abstraction boundaries.</p>
+<p>Assembly gave way to higher-level languages.</p>
+<p>Manual translation gave way to compilers.</p>
+<p>Hand-managed integration and deployment gave way to automated build and delivery pipelines.</p>
+<p>AI coding agents may move the boundary again.</p>
+<p>Implementation becomes increasingly automated.</p>
+<p>Verification, specification, and governance become increasingly valuable.</p>
+<p>This does not make source code irrelevant. Production systems still run code, engineers still debug it, and many implementations contain performance, safety, or domain knowledge not captured elsewhere.</p>
+<p>The shift is in relative durability.</p>
+<p>A particular implementation may become easier to replace. The accumulated system that defines acceptable behavior becomes harder—and more valuable—to recreate.</p>
+<p>That durable system includes:</p>
+<ul>
+<li>executable specifications;</li>
+<li>regression knowledge;</li>
+<li>domain invariants;</li>
+<li>formal models where justified;</li>
+<li>security and authorization policies;</li>
+<li>operational budgets;</li>
+<li>architecture decisions;</li>
+<li>provenance requirements;</li>
+<li>and risk-based acceptance rules.</li>
+</ul>
+<p>Organizations that invest in these assets can benefit from improving models without rebuilding their engineering process around every new coding agent.</p>
+<p>They can also compare implementations on a common basis, change models or vendors, regenerate selected components, and preserve institutional knowledge independently of one codebase.</p>
+<p>As implementation becomes cheaper, engineering moves toward a more explicit discipline of defining, verifying, and governing what software is allowed to become.</p>
+<p>The future repository may contain code.</p>
+<p>The durable product is the evidence system that makes the code trustworthy enough to use.</p>
+<p>---</p>
+<h2>References</h2>
+<h3>AI coding agents and evaluation</h3>
+<ul>
+<li>Model Evaluation & Threat Research, <a href="https://metr.org/time-horizons/">"Task-Completion Time Horizons of Frontier AI Models"</a>.</li>
+<li>Anthropic, <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">"Demystifying Evals for AI Agents"</a>.</li>
+<li>Anthropic, <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">"Effective Harnesses for Long-Running Agents"</a>.</li>
+<li>Anthropic, <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps">"Harness Design for Long-Running Application Development"</a>.</li>
+<li>Factory, <a href="https://factory.ai/news/build-with-agents">"Agent Native Development"</a>.</li>
+</ul>
+<h3>Specifications and formal methods</h3>
+<ul>
+<li>OpenAPI Initiative, <a href="https://spec.openapis.org/">OpenAPI Specification</a>.</li>
+<li>Leslie Lamport, <a href="https://lamport.azurewebsites.net/tla/tla.html">TLA+</a>.</li>
+<li>Leslie Lamport, <a href="https://lamport.azurewebsites.net/tla/book.html"><em>Specifying Systems</em></a>.</li>
+<li>Koen Claessen and John Hughes, <a href="https://dl.acm.org/doi/10.1145/351240.351266">"QuickCheck: A Lightweight Tool for Random Testing of Haskell Programs"</a>.</li>
+</ul>
+<h3>Verification and testing</h3>
+<ul>
+<li>Kent Beck, <a href="https://www.pearson.com/en-us/subject-catalog/p/test-driven-development-by-example/P200000009421"><em>Test-Driven Development: By Example</em></a>.</li>
+<li>A. Jefferson Offutt and Roland H. Untch, <a href="https://www.albany.edu/faculty/offutt/research/papers/mut00.pdf">"Mutation 2000: Uniting the Orthogonal"</a>.</li>
+<li>Goran Petrović, Marko Ivanković, Gordon Fraser, and René Just, <a href="https://arxiv.org/abs/2103.07189">"Does Mutation Testing Improve Testing Practices?"</a>.</li>
+</ul>
+<h3>Policy, security, and provenance</h3>
+<ul>
+<li>Open Policy Agent, <a href="https://www.openpolicyagent.org/docs/">Documentation</a>.</li>
+<li>National Institute of Standards and Technology, <a href="https://csrc.nist.gov/pubs/sp/800/218/final"><em>Secure Software Development Framework (SSDF), SP 800-218</em></a>.</li>
+<li>SLSA, <a href="https://slsa.dev/spec/v1.0/provenance">Provenance Specification</a>.</li>
+</ul>
+<blockquote>
+<p>"Program testing can be used to show the presence of bugs, but never to show their absence."</p>
+<p>— Edsger W. Dijkstra</p>
+</blockquote>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
       <footer class="rmax-footer">
-        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
         <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
       </footer>
-      <script src="/scripts/analytics-tracking.js"></script>
-      <script>
-        window.footerThoughts = [
-          { text: "I make acceptance criteria durable so implementations can be challenged and rebuilt.", agent: "Verification Agent" },
-          { text: "I trust evidence portfolios over plausible code, especially when generators can change quickly.", agent: "Evidence Agent" },
-          { text: "I preserve failures as constraints, giving future implementations less room to repeat them.", agent: "Specification Agent" }
-        ];
-      </script>
-      <script src="/scripts/footer.js"></script>
     </div>
-<script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-  mermaid.initialize({
-    startOnLoad: true,
-    theme: 'base',
-    maxTextWidth: 300,
-    themeCSS: '.label foreignObject { overflow: visible; }',
-    flowchart: {
-      htmlLabels: true,
-      useMaxWidth: true,
-    },
-    themeVariables: {
-      background: 'transparent',
-      primaryColor: '#1a1a2e',
-      primaryBorderColor: '#7c3aed',
-      primaryTextColor: '#e6eef8',
-      lineColor: '#94a3b8',
-      secondaryColor: '#16213e',
-      tertiaryColor: '#0b1220',
-      clusterBkg: 'transparent',
-      clusterBorder: '#334155',
-      edgeLabelBackground: '#0f1724',
-      nodeBorder: '#334155',
-      mainBkg: '#1a1a2e',
-    }
-  });
-</script>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        {
+          text: "I make acceptance criteria durable so implementations can be challenged and rebuilt.",
+          agent: "Verification Agent"
+        },
+        {
+          text: "I trust evidence portfolios over plausible code, especially when generators can change quickly.",
+          agent: "Evidence Agent"
+        },
+        {
+          text: "I preserve failures as constraints, giving future implementations less room to repeat them.",
+          agent: "Specification Agent"
+        }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
   </body>
 </html>
