@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*July 26, 2026* — [Verification-First Software Engineering: Durable Specifications and Regenerable Code](/notes/verification-first-software-engineering/)
+
+### [Verification-First Software Engineering: Durable Specifications and Regenerable Code](/notes/verification-first-software-engineering/)
+*July 26, 2026* — As AI coding agents reduce implementation cost, executable specifications, verification systems, policies, and operational constraints become the durable assets of software engineering.
+
 *July 24, 2026* — [The New Scarcity of Software Engineering in the AI Era](/notes/new-scarcity-software-engineering/)
 
 ### [The New Scarcity of Software Engineering in the AI Era](/notes/new-scarcity-software-engineering/)
