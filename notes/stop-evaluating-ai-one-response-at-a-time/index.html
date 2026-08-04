@@ -243,7 +243,7 @@
             <div class="post-meta">
               <span>2026-08-04</span>
               <span>•</span>
-              <span>16–18 min read</span>
+              <span>17–19 min read</span>
               <span>•</span>
               <span>Max</span>
             </div>
@@ -256,10 +256,7 @@
 </blockquote>
 <p>---</p>
 <h2>Introduction</h2>
-<p>Most evaluations of large language models inherit assumptions from search engines and question-answering systems.</p>
-<p>A user asks a question.</p>
-<p>The model produces an answer.</p>
-<p>Humans inspect the answer and determine whether it is correct.</p>
+<p>Most evaluations of large language models assume that intelligence is expressed in a single response: a user asks a question, the model produces an answer, and humans judge whether that answer is correct.</p>
 <pre><code>
 Prompt
     ↓
@@ -267,21 +264,18 @@ Prompt
     ↓
  Answer
 </code></pre>
-<p>This framework has produced valuable benchmarks such as MMLU, SWE-bench, HumanEval, and GPQA. They measure important capabilities and have helped track rapid improvements in modern models.</p>
-<p>However, they increasingly fail to capture how frontier reasoning models are actually used by experts.</p>
-<p>Professional mathematicians rarely expect their first proof sketch to be correct. Software engineers rarely expect the first implementation to survive production review unchanged. Scientists routinely generate hypotheses they later discard.</p>
-<p>The value lies not in the first attempt but in how efficiently ideas converge toward verified knowledge.</p>
-<p>Modern AI systems participate in exactly this process.</p>
-<p>Rather than replacing human reasoning, they accelerate exploration.</p>
-<p>The appropriate unit of evaluation is therefore shifting — from isolated responses to entire workflows.</p>
+<p>This framework has produced valuable benchmarks — MMLU, SWE-bench, HumanEval, GPQA — that measure important capabilities and have reliably tracked rapid improvements in modern models. These benchmarks are not obsolete. They capture local capabilities effectively.</p>
+<p>But they do not adequately predict performance in the settings where frontier models create the most value.</p>
+<p>Professional mathematicians rarely expect their first proof sketch to be correct. Software engineers rarely expect the first implementation to survive production review unchanged. Scientists routinely generate hypotheses they later discard. In each case, intelligence is not localized in any single artifact — it is distributed across an iterative process of generation, critique, and refinement.</p>
+<p>The thesis of this essay is that <strong>evaluating AI through isolated responses increasingly misses the point</strong>. For expert use cases, the correct unit of evaluation is the workflow — the entire human–AI interaction chain — and how efficiently it converges toward verified knowledge.</p>
+<p>Modern AI systems increasingly participate in this process. Rather than replacing human reasoning, they accelerate exploration. The appropriate unit of evaluation is therefore shifting from isolated responses to entire workflows.</p>
 <p>---</p>
 <h2>The Wrong Mental Model</h2>
 <p>The dominant mental model treats an LLM as a function.</p>
 <p>$$f: X \rightarrow Y$$</p>
 <p>Given an input, the system produces a single output.</p>
-<p>This abstraction works well for arithmetic problems, factual retrieval, translation, or simple classification tasks.</p>
-<p>It breaks down for complex intellectual work.</p>
-<p>Real expert workflows look far more like iterative search.</p>
+<p>This abstraction works well for arithmetic, factual retrieval, translation, or simple classification. It breaks down for complex intellectual work.</p>
+<p>Real expert workflows look far more like iterative search — a framing Herbert Simon articulated decades before large language models existed. In <em>The Sciences of the Artificial</em>, Simon argued that design and problem-solving are fundamentally search through large problem spaces, where the quality of the solution depends on the efficiency of the search process rather than the correctness of any single intermediate step (<a href="https://mitpress.mit.edu/9780262691918/the-sciences-of-the-artificial/">Simon, 1969</a>). Newell and Simon's later work on human problem solving demonstrated that experts navigate problem spaces through heuristic search — generating candidates, testing them against constraints, and reformulating when they fail (<a href="https://archive.org/details/humanproblemsolv00newe">Newell & Simon, 1972</a>). The parallel to modern AI-assisted workflows is not accidental.</p>
 <pre><code>
 Problem
    ↓
@@ -319,43 +313,28 @@ flowchart LR
     class Q,M,A old
     class H,G,V,Rf,K new
 </pre>
-<p>Every stage influences the next.</p>
-<p>Individual responses may contain mistakes.</p>
-<p>Intermediate hypotheses may be abandoned.</p>
-<p>Entire reasoning paths may be discarded.</p>
-<p>Yet the overall process can still converge toward a better solution.</p>
+<p>Every stage influences the next. Individual responses may contain mistakes. Intermediate hypotheses may be abandoned. Entire reasoning paths may be discarded. Yet the overall process can still converge toward a better solution.</p>
 <p>Sean Goedecke argues that experienced practitioners obtain substantially more value from LLMs than beginners because they understand how to guide this iterative process rather than treating the first response as authoritative (<a href="https://www.seangoedecke.com/llms-reward-expertise/">LLMs Reward Expertise</a>).</p>
-<p>Terence Tao describes a remarkably similar workflow in mathematics. Rather than asking ChatGPT to prove a theorem, he uses it to explore alternative representations, generate examples, test intuitions, and expose possible directions before independently verifying every significant mathematical claim (<a href="https://terrytao.wordpress.com/">AI and mathematics writings</a>).</p>
+<p>Terence Tao describes a remarkably similar workflow in mathematics. Rather than asking ChatGPT to prove a theorem, he uses it to explore alternative representations, generate examples, test intuitions, and expose possible directions — before independently verifying every significant mathematical claim (<a href="https://terrytao.wordpress.com/">AI and mathematics writings</a>).</p>
 <p>The interaction itself becomes part of the reasoning process.</p>
 <p>---</p>
 <h2>LLMs Are Stochastic Search Partners</h2>
 <p>Language models are often described as functions.</p>
-<p>A more accurate abstraction is a probability distribution.</p>
+<p>A more accurate description is that the model defines a conditional probability distribution over continuations, and decoding samples from that distribution.</p>
 <p>$$\mu: X \rightarrow \Pr(Y)$$</p>
-<p>Instead of producing one deterministic answer, the model generates a distribution over plausible continuations.</p>
-<p>Every response represents one sample from an enormous search space.</p>
+<p>Rather than producing one deterministic answer, the model generates a distribution over plausible continuations. Every response represents one sample from an enormous search space.</p>
 <p>This distinction matters because search behaves differently from deterministic computation.</p>
 <p>When using a compiler, a wrong intermediate state is simply an error.</p>
 <p>When performing search, a seemingly poor intermediate step can reveal an entirely new region of the solution space.</p>
-<p>This is familiar throughout computer science.</p>
-<p>Beam search intentionally explores multiple partially successful candidates.</p>
-<p>Monte Carlo Tree Search expands many imperfect branches before converging on a high-quality strategy.</p>
-<p>The important observation is not whether individual responses are correct.</p>
-<p>Many are incomplete or inaccurate.</p>
-<p>The important observation is that the interaction helps structure subsequent human reasoning.</p>
-<p>The conversation functions as exploratory search.</p>
-<p>Mathematical rigor still comes from formal proof, independent verification, and expert judgment.</p>
-<p>The AI primarily accelerates exploration.</p>
+<p>This is familiar throughout computer science: beam search intentionally explores multiple partially successful candidates; Monte Carlo Tree Search expands many imperfect branches before converging on a high-quality strategy.</p>
+<p>The important observation is not whether individual responses are correct. Many are incomplete or inaccurate. The important observation is that the interaction helps structure subsequent human reasoning.</p>
+<p>The conversation functions as exploratory search. Mathematical rigor still comes from formal proof, independent verification, and expert judgment. The AI primarily accelerates exploration.</p>
 <p>This distinction explains why evaluating isolated responses misses most of the value.</p>
 <p>---</p>
 <h2>Local Mistakes Can Improve Global Outcomes</h2>
 <p>One of the most counterintuitive properties of search systems is that incorrect intermediate states may still improve final outcomes.</p>
-<p>Imagine climbing a mountain in dense fog.</p>
-<p>A few steps downhill may actually be necessary to reach a higher summit.</p>
-<p>Optimization algorithms encounter this phenomenon constantly.</p>
-<p>Machine learning optimization escapes local minima.</p>
-<p>Monte Carlo Tree Search intentionally explores uncertain branches.</p>
-<p>Scientific discovery advances through conjectures that are ultimately rejected.</p>
+<p>Imagine climbing a mountain in dense fog. A few steps downhill may actually be necessary to reach a higher summit.</p>
+<p>Optimization algorithms encounter this phenomenon constantly. Machine learning optimization escapes local minima. Monte Carlo Tree Search intentionally explores uncertain branches. Scientific discovery advances through conjectures that are ultimately rejected.</p>
 <p>Karl Popper argued that science progresses through conjectures and refutations rather than direct accumulation of truths. Incorrect hypotheses are valuable because they eliminate possibilities and improve future theories. Likewise, Imre Lakatos viewed mathematical progress as a process of continuously refining conjectures through counterexamples rather than producing perfect proofs on the first attempt (<a href="https://www.cambridge.org/core/books/proofs-and-refutations/">Proofs and Refutations</a>).</p>
 <pre class="mermaid">
 flowchart TD
@@ -379,9 +358,8 @@ flowchart TD
     class N2 bad
 </pre>
 <p>The same phenomenon appears during AI-assisted work.</p>
-<p>A partially incorrect explanation can reveal hidden assumptions.</p>
-<p>A flawed implementation can expose missing requirements.</p>
-<p>An incorrect analogy can inspire a better abstraction.</p>
+<p>A partially incorrect explanation can reveal hidden assumptions. A flawed implementation can expose missing requirements. An incorrect analogy can inspire a better abstraction.</p>
+<p>Consider a concrete example: debugging a latency spike in a distributed system. An engineer asks an LLM to suggest possible causes. The model proposes investigating a recent database migration — a plausible hypothesis that turns out to be wrong. But the investigation reveals that the relevant database metrics aren't being exported to the observability stack. Fixing that gap exposes the actual cause: a network partition between two service tiers that had been invisible to monitoring. The initial incorrect suggestion, by prompting the investigation, improved the system's observability and led to the correct diagnosis. Evaluating only the model's first response as "wrong" misses the entire value of the interaction.</p>
 <p>Evaluating every intermediate response independently misses this dynamic entirely.</p>
 <p>The relevant question becomes:</p>
 <blockquote>
@@ -389,13 +367,9 @@ flowchart TD
 </blockquote>
 <p>---</p>
 <h2>Programming as Theory Building</h2>
-<p>Peter Naur's classic 1985 essay <em>Programming as Theory Building</em> argued that software is fundamentally not source code.</p>
-<p>The real artifact is the understanding held by developers.</p>
-<p>Code merely records part of that understanding.</p>
-<p>When the theory disappears, maintaining the software becomes dramatically more difficult regardless of whether the source code still exists (<a href="https://pages.cs.wisc.edu/~remzi/Naur.pdf">Programming as Theory Building</a>).</p>
-<p>AI-assisted work suggests an analogous shift.</p>
-<p>The valuable artifact is increasingly not the conversation transcript.</p>
-<p>It is the evolving shared theory between human and machine.</p>
+<p>If workflows become the unit of intelligence, what persists across iterations is not the conversation transcript but the evolving understanding that the interaction produces.</p>
+<p>Peter Naur's classic 1985 essay <em>Programming as Theory Building</em> argued that software is fundamentally not source code. The real artifact is the understanding held by developers. Code merely records part of that understanding. When the theory disappears, maintaining the software becomes dramatically more difficult regardless of whether the source code still exists (<a href="https://pages.cs.wisc.edu/~remzi/Naur.pdf">Programming as Theory Building</a>).</p>
+<p>AI-assisted work suggests an analogous shift. The valuable artifact is increasingly not the conversation transcript. It is the evolving shared theory between human and machine.</p>
 <p>Successful sessions gradually construct:</p>
 <ul>
 <li>architectural understanding;</li>
@@ -404,13 +378,20 @@ flowchart TD
 <li>causal explanations;</li>
 <li>verified abstractions.</li>
 </ul>
-<p>The transcript itself is disposable.</p>
-<p>The shared theory is not.</p>
+<p>The transcript is largely disposable. The shared theory is not.</p>
 <p>This perspective also explains why preserving provenance, verification, and design rationale becomes increasingly important as AI-generated artifacts proliferate.</p>
 <p>---</p>
 <h2>Verification Becomes the Bottleneck</h2>
 <p>As generation becomes inexpensive, verification becomes the dominant engineering cost.</p>
-<p>This shift appears repeatedly across modern AI research.</p>
+<p>This shift is not confined to any single discipline. It appears wherever AI systems participate in knowledge work:</p>
+<ul>
+<li><strong>Mathematics</strong>: AI exploration increasingly pairs with formal proof assistants such as Lean, where the model proposes and the proof checker verifies.</li>
+<li><strong>Software engineering</strong>: tests, CI pipelines, evaluations, and code review form a verification stack that grows in importance as implementation accelerates.</li>
+<li><strong>Coding agents</strong>: systems like Claude Code and Codex invest substantial engineering in evaluation harnesses, sandboxed execution, and deterministic checks that run before model judgments.</li>
+<li><strong>Scientific workflows</strong>: reproducibility requirements and independent validation become more critical — not less — when AI accelerates hypothesis generation.</li>
+<li><strong>Frontier AI research</strong>: OpenAI's reasoning work emphasizes extended inference and verification (<a href="https://openai.com/research/learning-to-reason-with-llms">Learning to Reason with LLMs</a>), while Anthropic has described the evaluation infrastructure behind Claude Code as a first-class engineering system in its own right (<a href="https://www.anthropic.com/features/making-of-claude-code">The Making of Claude Code</a>).</li>
+</ul>
+<p>Across all of these, the pattern is the same: generation becomes abundant; verification becomes the bottleneck.</p>
 <pre class="mermaid">
 flowchart TD
     G["Generation<br/><i>abundant, cheap</i>"] --> V["Verification<br/><i>scarce, expensive</i>"]
@@ -424,79 +405,49 @@ flowchart TD
     class V scarce
     class D,C stable
 </pre>
-<p>Generation produces candidate artifacts.</p>
-<p>Verification determines correctness.</p>
-<p>Digestion integrates validated knowledge into human understanding.</p>
-<p>Canonicalization records stable results in durable forms such as documentation, tests, specifications, proofs, or production systems.</p>
-<p>This trend is visible across disciplines.</p>
-<p>Mathematics increasingly combines AI exploration with formal proof assistants such as Lean.</p>
-<p>Software engineering relies on tests, CI pipelines, evaluations, and code review.</p>
-<p>Scientific workflows require reproducibility and independent validation.</p>
-<p>OpenAI's reasoning research similarly emphasizes verification (<a href="https://openai.com/research/learning-to-reason-with-llms">Learning to Reason with LLMs</a>), while Anthropic has described extensive evaluation pipelines behind Claude Code that extend well beyond code generation (<a href="https://www.anthropic.com/features/making-of-claude-code">The Making of Claude Code</a>).</p>
-<p>As implementation becomes cheaper, organizations increasingly invest in mechanisms that determine whether generated work is trustworthy.</p>
-<p>Verification — not generation — becomes the scarce resource.</p>
+<p>Generation produces candidate artifacts. Verification determines correctness. Digestion integrates validated knowledge into human understanding. Canonicalization records stable results in durable forms — documentation, tests, specifications, proofs, production systems.</p>
+<p>As implementation becomes cheaper, organizations increasingly invest in mechanisms that determine whether generated work is trustworthy. Verification — not generation — becomes the scarce resource.</p>
 <p>---</p>
 <h2>Artificial Versus Natural Friction</h2>
 <p>Terence Tao distinguishes between productive intellectual effort and unnecessary mechanical effort.</p>
-<p>Some friction improves understanding.</p>
-<p>Other friction merely wastes attention.</p>
-<p>AI is particularly effective at removing artificial friction.</p>
-<p>Examples include:</p>
-<ul>
-<li>API lookup;</li>
-<li>documentation search;</li>
-<li>boilerplate generation;</li>
-<li>repetitive transformations;</li>
-<li>syntax conversion;</li>
-<li>formatting.</li>
-</ul>
-<p>These tasks consume attention without deepening understanding.</p>
-<p>Natural friction is different.</p>
-<p>Activities such as architectural reasoning, mathematical proof construction, scientific interpretation, and system design are intellectually valuable precisely because they require sustained thought.</p>
-<p>Educational research by Robert Bjork describes similar ideas through "desirable difficulties," where certain forms of effort improve long-term learning rather than hindering it (<a href="https://bjorklab.psych.ucla.edu/research/">Desirable Difficulties in Learning</a>).</p>
-<p>Richard Sennett likewise argues that craftsmanship develops through deliberate engagement with meaningful complexity rather than avoidance of difficult work (<a href="https://yalebooks.yale.edu/book/9780300151190/the-craftsman/">The Craftsman</a>).</p>
-<p>The objective is therefore not to eliminate thinking.</p>
-<p>It is to eliminate distractions that prevent thinking.</p>
+<p>Some friction improves understanding. Other friction merely wastes attention.</p>
+<p>AI is particularly effective at removing artificial friction. Examples include API lookup, documentation search, boilerplate generation, repetitive transformations, syntax conversion, and formatting. These tasks consume cognitive bandwidth while contributing little to understanding.</p>
+<p>Natural friction is different. Architectural reasoning, mathematical proof construction, scientific interpretation, and system design are intellectually valuable precisely because they require sustained thought.</p>
+<p>Educational research by Robert Bjork describes similar ideas through "desirable difficulties" — certain forms of effort improve long-term learning rather than hindering it (<a href="https://bjorklab.psych.ucla.edu/research/">Desirable Difficulties in Learning</a>). Richard Sennett likewise argues that craftsmanship develops through deliberate engagement with meaningful complexity rather than avoidance of difficult work (<a href="https://yalebooks.yale.edu/book/9780300151190/the-craftsman/">The Craftsman</a>).</p>
+<p>The objective is therefore not to eliminate thinking. It is to eliminate distractions that prevent thinking.</p>
 <p>---</p>
 <h2>Organizational Implications</h2>
 <p>These ideas extend beyond individual productivity.</p>
-<p>Organizations increasingly deploy coding agents, research assistants, workflow automation, and autonomous systems.</p>
-<p>Most current evaluations still optimize response accuracy.</p>
-<p>Future organizations will instead optimize workflow convergence.</p>
-<p>Questions become:</p>
-<ul>
-<li>How quickly does work converge toward verified outcomes?</li>
-<li>How much human steering is required?</li>
-<li>How efficiently are mistakes detected?</li>
-<li>How recoverable are hallucinations?</li>
-<li>How effectively is knowledge preserved?</li>
-</ul>
-<p>This perspective connects naturally with emerging engineering practices.</p>
-<p>Verification-first software engineering emphasizes executable specifications over generated implementations.</p>
-<p>Evaluation harnesses measure entire workflows rather than isolated outputs.</p>
-<p>Agent telemetry systems record causal execution traces.</p>
-<p>Provenance graphs preserve evidence connecting decisions, tools, and outcomes.</p>
-<p>Human checkpoints provide strategic steering instead of low-level implementation.</p>
-<p>Recent systems such as Uber's Agentic Detection and Response (<a href="https://github.com/uber/ADR">ADR</a>), Google's research on scaling agent systems (<a href="https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/">Towards a Science of Scaling Agent Systems</a>), Anthropic's Claude Code engineering work, and provenance-focused architectures such as Zep's Graffiti (<a href="https://www.youtube.com/watch?v=1mN8gM7bRkQ">Citation Needed: Provenance for LLM-Built Knowledge Graphs</a>) all move toward richer representations of workflows rather than isolated model outputs.</p>
+<p>Organizations increasingly deploy coding agents, research assistants, workflow automation, and autonomous systems. Most current evaluations still optimize response accuracy. Future organizations will instead optimize workflow convergence.</p>
+<p>Questions become: How quickly does work converge toward verified outcomes? How much human steering is required? How efficiently are mistakes detected? How recoverable are hallucinations? How effectively is knowledge preserved?</p>
+<p>What connects the emerging engineering practices is a shared architectural shift. Systems are increasingly designed to treat workflows, execution traces, verification results, provenance graphs, and causal relationships as first-class engineering artifacts — not as auxiliary metadata generated alongside model outputs, but as the primary substrate for security decisions, evaluation, and organizational learning.</p>
+<p>Verification-first software engineering emphasizes executable specifications over generated implementations. Evaluation harnesses measure entire workflows rather than isolated outputs. Agent telemetry systems record causal execution traces. Provenance graphs preserve evidence connecting decisions, tools, and outcomes. Human checkpoints provide strategic steering instead of low-level implementation.</p>
+<p>Recent systems — Uber's Agentic Detection and Response (<a href="https://github.com/uber/ADR">ADR</a>), Google's research on scaling agent systems (<a href="https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/">Towards a Science of Scaling Agent Systems</a>), Anthropic's Claude Code engineering work, and provenance-focused architectures such as Zep's Graffiti (<a href="https://www.youtube.com/watch?v=1mN8gM7bRkQ">Citation Needed: Provenance for LLM-Built Knowledge Graphs</a>) — all move toward richer representations of workflows rather than isolated model outputs.</p>
 <p>The workflow increasingly becomes the security boundary, evaluation boundary, and organizational memory.</p>
 <p>---</p>
 <h2>Toward Workflow-Level Evaluation</h2>
 <p>If workflows become the primary unit of intelligence, evaluation should evolve accordingly.</p>
-<p>Future benchmarks should measure properties such as:</p>
+<p>Future benchmarks should measure properties organized across three dimensions:</p>
+<p><strong>Efficiency</strong></p>
 <ul>
-<li>convergence speed;</li>
-<li>verification effort;</li>
-<li>steering interventions;</li>
-<li>correction distance;</li>
-<li>hallucination recovery;</li>
-<li>provenance completeness;</li>
-<li>human understanding;</li>
-<li>final artifact quality;</li>
-<li>reproducibility;</li>
-<li>long-term maintainability.</li>
+<li>Convergence speed — how many iterations to reach a verified result?</li>
+<li>Human effort — how much steering, correction, and reformulation is required?</li>
+<li>Steering interventions — how many explicit redirects does the expert need to provide?</li>
 </ul>
-<p>Notice that none of these metrics require every intermediate response to be correct.</p>
-<p>Instead, they measure whether humans and AI reliably converge toward verified knowledge.</p>
+<p><strong>Reliability</strong></p>
+<ul>
+<li>Hallucination recovery — when the model produces incorrect information, how quickly does the workflow self-correct?</li>
+<li>Correction distance — how far does each iteration move the workflow toward the correct solution?</li>
+<li>Final artifact quality — does the converged result meet production standards?</li>
+</ul>
+<p><strong>Knowledge Quality</strong></p>
+<ul>
+<li>Provenance completeness — can every claim be traced to its source in the workflow?</li>
+<li>Reproducibility — would a different expert following the same workflow reach a comparable result?</li>
+<li>Maintainability — can the resulting artifact be updated without reconstructing the entire workflow?</li>
+<li>Human understanding — does the expert's own mental model improve through the interaction?</li>
+</ul>
+<p>Notice that none of these metrics require every intermediate response to be correct. Instead, they measure whether humans and AI reliably converge toward verified knowledge.</p>
 <p>This suggests a broader research agenda.</p>
 <p>Rather than asking:</p>
 <blockquote>
@@ -506,16 +457,14 @@ flowchart TD
 <blockquote>
 <p><em>How efficiently did the human–AI system reach a trustworthy result?</em></p>
 </blockquote>
-<p>The intelligence belongs to the collaborative process.</p>
+<p>The intelligence emerges from the collaborative process.</p>
 <p>---</p>
 <h2>Conclusion</h2>
-<p>Frontier AI systems should not be judged solely by whether every intermediate response is correct.</p>
-<p>They should be judged by whether humans and AI reliably converge toward verified understanding.</p>
+<p>Frontier AI systems should not be judged solely by whether every intermediate response is correct. They should be judged by whether humans and AI reliably converge toward verified understanding.</p>
 <p>As generation approaches negligible cost, the scarce resources shift toward verification, digestion, provenance, and human judgment.</p>
-<p>This represents more than a change in evaluation methodology.</p>
-<p>It reflects a broader shift in how we think about intelligence itself.</p>
-<p>The future of AI evaluation is therefore unlikely to be response-level accuracy.</p>
-<p>It will increasingly be workflow-level convergence.</p>
+<p>This represents more than a change in evaluation methodology. It reflects a broader shift in how we think about intelligence itself.</p>
+<p>As AI becomes embedded in expert workflows, the unit of intelligence shifts from isolated responses to collaborative processes. The central question is no longer whether the model produced the correct next token, but whether the human–AI system reliably converged on trustworthy knowledge.</p>
+<p>The future of AI evaluation will not be built on response-level accuracy. It will be built on workflow-level convergence — and the systems that measure it are already under construction.</p>
 <p>---</p>
 <h2>References</h2>
 <ul>
@@ -526,10 +475,12 @@ flowchart TD
 <li>Google Research. <em>Towards a Science of Scaling Agent Systems: When and Why Agent Systems Work.</em> https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/</li>
 <li>Lakatos, I. <em>Proofs and Refutations.</em> Cambridge University Press. https://www.cambridge.org/core/books/proofs-and-refutations/</li>
 <li>Naur, P. <em>Programming as Theory Building.</em> 1985. https://pages.cs.wisc.edu/~remzi/Naur.pdf</li>
+<li>Newell, A. & Simon, H. A. <em>Human Problem Solving.</em> 1972. https://archive.org/details/humanproblemsolv00newe</li>
 <li>OpenAI. <em>Learning to Reason with LLMs.</em> https://openai.com/research/learning-to-reason-with-llms</li>
 <li>OpenAI. <em>Ten Proofs.</em> https://cdn.openai.com/pdf/ten-proofs-oai.pdf</li>
 <li>Popper, K. <em>Conjectures and Refutations.</em> Routledge.</li>
 <li>Sennett, R. <em>The Craftsman.</em> Yale University Press. https://yalebooks.yale.edu/book/9780300151190/the-craftsman/</li>
+<li>Simon, H. A. <em>The Sciences of the Artificial.</em> 1969. MIT Press. https://mitpress.mit.edu/9780262691918/the-sciences-of-the-artificial/</li>
 <li>Tao, T. <em>AI and Mathematics writings.</em> https://terrytao.wordpress.com/</li>
 <li>Tao, T. <em>On using ChatGPT to investigate the Jacobian Conjecture.</em> https://terrytao.wordpress.com/</li>
 <li>Uber Engineering. <em>Agentic Detection and Response (ADR).</em> https://github.com/uber/ADR</li>
