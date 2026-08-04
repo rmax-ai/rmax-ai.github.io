@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Stop Evaluating AI One Response at a Time — rmax.ai</title>
+    <meta name="description" content="Why workflow-level convergence, not response-level accuracy, is the right abstraction for evaluating expert–AI collaboration." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/stop-evaluating-ai-one-response-at-a-time/" />
+
+    <meta property="og:title" content="Stop Evaluating AI One Response at a Time" />
+    <meta property="og:description" content="Why workflow-level convergence, not response-level accuracy, is the right abstraction for evaluating expert–AI collaboration." />
+    <meta property="og:url" content="https://rmax.ai/notes/stop-evaluating-ai-one-response-at-a-time/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-08-04" />
+    <meta property="article:tag" content="ai-evaluation" />
+    <meta property="article:tag" content="workflows" />
+    <meta property="article:tag" content="llms" />
+    <meta property="article:tag" content="verification" />
+    <meta property="article:tag" content="expertise" />
+    <meta property="article:tag" content="stochastic-search" />
+    <meta property="article:tag" content="agentic-systems" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      h4 {
+        margin: 24px 0 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+
+      @media (max-width: 600px) {
+        .wrap {
+          margin: 20px auto;
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>Stop Evaluating AI One Response at a Time</h1>
+            <div class="post-meta">
+              <span>2026-08-04</span>
+              <span>•</span>
+              <span>16–18 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+<h2>Why Workflow-Level Convergence Explains the Real Value of Expert–AI Collaboration</h2>
+<blockquote>
+<p>As AI systems become increasingly capable, evaluating them one response at a time is becoming the wrong abstraction. In mathematics, software engineering, scientific research, and engineering design, the true unit of intelligence is not an individual answer but an iterative workflow that converges toward verified understanding.</p>
+</blockquote>
+<p>---</p>
+<h2>Introduction</h2>
+<p>Most evaluations of large language models inherit assumptions from search engines and question-answering systems.</p>
+<p>A user asks a question.</p>
+<p>The model produces an answer.</p>
+<p>Humans inspect the answer and determine whether it is correct.</p>
+<pre><code>
+Prompt
+    ↓
+   LLM
+    ↓
+ Answer
+</code></pre>
+<p>This framework has produced valuable benchmarks such as MMLU, SWE-bench, HumanEval, and GPQA. They measure important capabilities and have helped track rapid improvements in modern models.</p>
+<p>However, they increasingly fail to capture how frontier reasoning models are actually used by experts.</p>
+<p>Professional mathematicians rarely expect their first proof sketch to be correct. Software engineers rarely expect the first implementation to survive production review unchanged. Scientists routinely generate hypotheses they later discard.</p>
+<p>The value lies not in the first attempt but in how efficiently ideas converge toward verified knowledge.</p>
+<p>Modern AI systems participate in exactly this process.</p>
+<p>Rather than replacing human reasoning, they accelerate exploration.</p>
+<p>The appropriate unit of evaluation is therefore shifting — from isolated responses to entire workflows.</p>
+<p>---</p>
+<h2>The Wrong Mental Model</h2>
+<p>The dominant mental model treats an LLM as a function.</p>
+<p>$$f: X \rightarrow Y$$</p>
+<p>Given an input, the system produces a single output.</p>
+<p>This abstraction works well for arithmetic problems, factual retrieval, translation, or simple classification tasks.</p>
+<p>It breaks down for complex intellectual work.</p>
+<p>Real expert workflows look far more like iterative search.</p>
+<pre><code>
+Problem
+   ↓
+Hypothesis
+   ↓
+LLM
+   ↓
+Verification
+   ↓
+Correction
+   ↓
+New prompt
+   ↓
+Experiments
+   ↓
+Reflection
+   ↓
+Verified result
+</code></pre>
+<pre class="mermaid">
+flowchart LR
+    subgraph Old["Response-Level"]
+        direction LR
+        Q["Prompt"] --> M["LLM"] --> A["Answer"]
+    end
+    subgraph New["Workflow-Level"]
+        H["Hypothesis"] --> G["Generate"] --> V["Verify"]
+        V -->|"reject"| Rf["Refine"]
+        Rf --> G
+        V -->|"accept"| K["Verified Knowledge"]
+    end
+
+    classDef old fill:#1f2937,stroke:#6b7280,color:#e6eef8
+    classDef new fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+    class Q,M,A old
+    class H,G,V,Rf,K new
+</pre>
+<p>Every stage influences the next.</p>
+<p>Individual responses may contain mistakes.</p>
+<p>Intermediate hypotheses may be abandoned.</p>
+<p>Entire reasoning paths may be discarded.</p>
+<p>Yet the overall process can still converge toward a better solution.</p>
+<p>Sean Goedecke argues that experienced practitioners obtain substantially more value from LLMs than beginners because they understand how to guide this iterative process rather than treating the first response as authoritative (<a href="https://www.seangoedecke.com/llms-reward-expertise/">LLMs Reward Expertise</a>).</p>
+<p>Terence Tao describes a remarkably similar workflow in mathematics. Rather than asking ChatGPT to prove a theorem, he uses it to explore alternative representations, generate examples, test intuitions, and expose possible directions before independently verifying every significant mathematical claim (<a href="https://terrytao.wordpress.com/">AI and mathematics writings</a>).</p>
+<p>The interaction itself becomes part of the reasoning process.</p>
+<p>---</p>
+<h2>LLMs Are Stochastic Search Partners</h2>
+<p>Language models are often described as functions.</p>
+<p>A more accurate abstraction is a probability distribution.</p>
+<p>$$\mu: X \rightarrow \Pr(Y)$$</p>
+<p>Instead of producing one deterministic answer, the model generates a distribution over plausible continuations.</p>
+<p>Every response represents one sample from an enormous search space.</p>
+<p>This distinction matters because search behaves differently from deterministic computation.</p>
+<p>When using a compiler, a wrong intermediate state is simply an error.</p>
+<p>When performing search, a seemingly poor intermediate step can reveal an entirely new region of the solution space.</p>
+<p>This is familiar throughout computer science.</p>
+<p>Beam search intentionally explores multiple partially successful candidates.</p>
+<p>Monte Carlo Tree Search expands many imperfect branches before converging on a high-quality strategy.</p>
+<p>The important observation is not whether individual responses are correct.</p>
+<p>Many are incomplete or inaccurate.</p>
+<p>The important observation is that the interaction helps structure subsequent human reasoning.</p>
+<p>The conversation functions as exploratory search.</p>
+<p>Mathematical rigor still comes from formal proof, independent verification, and expert judgment.</p>
+<p>The AI primarily accelerates exploration.</p>
+<p>This distinction explains why evaluating isolated responses misses most of the value.</p>
+<p>---</p>
+<h2>Local Mistakes Can Improve Global Outcomes</h2>
+<p>One of the most counterintuitive properties of search systems is that incorrect intermediate states may still improve final outcomes.</p>
+<p>Imagine climbing a mountain in dense fog.</p>
+<p>A few steps downhill may actually be necessary to reach a higher summit.</p>
+<p>Optimization algorithms encounter this phenomenon constantly.</p>
+<p>Machine learning optimization escapes local minima.</p>
+<p>Monte Carlo Tree Search intentionally explores uncertain branches.</p>
+<p>Scientific discovery advances through conjectures that are ultimately rejected.</p>
+<p>Karl Popper argued that science progresses through conjectures and refutations rather than direct accumulation of truths. Incorrect hypotheses are valuable because they eliminate possibilities and improve future theories. Likewise, Imre Lakatos viewed mathematical progress as a process of continuously refining conjectures through counterexamples rather than producing perfect proofs on the first attempt (<a href="https://www.cambridge.org/core/books/proofs-and-refutations/">Proofs and Refutations</a>).</p>
+<pre class="mermaid">
+flowchart TD
+    P["Problem"] --> S1["Sample 1<br/>incomplete"]
+    S1 --> E1["Expert detects gap"]
+    E1 --> S2["Sample 2<br/>closer"]
+    S2 --> E2["Expert refines constraints"]
+    E2 --> S3["Sample 3<br/>promising"]
+    S3 --> E3["Expert verifies"]
+    E3 --> R["Trustworthy Result"]
+
+    P --> N1["Sample 1<br/>plausible"]
+    N1 --> N2["Novice accepts as-is"]
+    N2 --> F["Untrustworthy Result"]
+
+    classDef good fill:#14532d,stroke:#22c55e,color:#e6eef8
+    classDef bad fill:#7f1d1d,stroke:#ef4444,color:#e6eef8
+    classDef neutral fill:#1f2937,stroke:#6b7280,color:#e6eef8
+    class P,S1,S2,S3,R,N1,F neutral
+    class E1,E2,E3 good
+    class N2 bad
+</pre>
+<p>The same phenomenon appears during AI-assisted work.</p>
+<p>A partially incorrect explanation can reveal hidden assumptions.</p>
+<p>A flawed implementation can expose missing requirements.</p>
+<p>An incorrect analogy can inspire a better abstraction.</p>
+<p>Evaluating every intermediate response independently misses this dynamic entirely.</p>
+<p>The relevant question becomes:</p>
+<blockquote>
+<p>Did the workflow converge more efficiently because of this interaction?</p>
+</blockquote>
+<p>---</p>
+<h2>Programming as Theory Building</h2>
+<p>Peter Naur's classic 1985 essay <em>Programming as Theory Building</em> argued that software is fundamentally not source code.</p>
+<p>The real artifact is the understanding held by developers.</p>
+<p>Code merely records part of that understanding.</p>
+<p>When the theory disappears, maintaining the software becomes dramatically more difficult regardless of whether the source code still exists (<a href="https://pages.cs.wisc.edu/~remzi/Naur.pdf">Programming as Theory Building</a>).</p>
+<p>AI-assisted work suggests an analogous shift.</p>
+<p>The valuable artifact is increasingly not the conversation transcript.</p>
+<p>It is the evolving shared theory between human and machine.</p>
+<p>Successful sessions gradually construct:</p>
+<ul>
+<li>architectural understanding;</li>
+<li>design constraints;</li>
+<li>evaluation criteria;</li>
+<li>causal explanations;</li>
+<li>verified abstractions.</li>
+</ul>
+<p>The transcript itself is disposable.</p>
+<p>The shared theory is not.</p>
+<p>This perspective also explains why preserving provenance, verification, and design rationale becomes increasingly important as AI-generated artifacts proliferate.</p>
+<p>---</p>
+<h2>Verification Becomes the Bottleneck</h2>
+<p>As generation becomes inexpensive, verification becomes the dominant engineering cost.</p>
+<p>This shift appears repeatedly across modern AI research.</p>
+<pre class="mermaid">
+flowchart TD
+    G["Generation<br/><i>abundant, cheap</i>"] --> V["Verification<br/><i>scarce, expensive</i>"]
+    V --> D["Digestion<br/><i>integrates into understanding</i>"]
+    D --> C["Canonicalization<br/><i>docs · tests · specs · proofs</i>"]
+
+    classDef cheap fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+    classDef scarce fill:#7f1d1d,stroke:#ef4444,color:#e6eef8
+    classDef stable fill:#14532d,stroke:#22c55e,color:#e6eef8
+    class G cheap
+    class V scarce
+    class D,C stable
+</pre>
+<p>Generation produces candidate artifacts.</p>
+<p>Verification determines correctness.</p>
+<p>Digestion integrates validated knowledge into human understanding.</p>
+<p>Canonicalization records stable results in durable forms such as documentation, tests, specifications, proofs, or production systems.</p>
+<p>This trend is visible across disciplines.</p>
+<p>Mathematics increasingly combines AI exploration with formal proof assistants such as Lean.</p>
+<p>Software engineering relies on tests, CI pipelines, evaluations, and code review.</p>
+<p>Scientific workflows require reproducibility and independent validation.</p>
+<p>OpenAI's reasoning research similarly emphasizes verification (<a href="https://openai.com/research/learning-to-reason-with-llms">Learning to Reason with LLMs</a>), while Anthropic has described extensive evaluation pipelines behind Claude Code that extend well beyond code generation (<a href="https://www.anthropic.com/features/making-of-claude-code">The Making of Claude Code</a>).</p>
+<p>As implementation becomes cheaper, organizations increasingly invest in mechanisms that determine whether generated work is trustworthy.</p>
+<p>Verification — not generation — becomes the scarce resource.</p>
+<p>---</p>
+<h2>Artificial Versus Natural Friction</h2>
+<p>Terence Tao distinguishes between productive intellectual effort and unnecessary mechanical effort.</p>
+<p>Some friction improves understanding.</p>
+<p>Other friction merely wastes attention.</p>
+<p>AI is particularly effective at removing artificial friction.</p>
+<p>Examples include:</p>
+<ul>
+<li>API lookup;</li>
+<li>documentation search;</li>
+<li>boilerplate generation;</li>
+<li>repetitive transformations;</li>
+<li>syntax conversion;</li>
+<li>formatting.</li>
+</ul>
+<p>These tasks consume attention without deepening understanding.</p>
+<p>Natural friction is different.</p>
+<p>Activities such as architectural reasoning, mathematical proof construction, scientific interpretation, and system design are intellectually valuable precisely because they require sustained thought.</p>
+<p>Educational research by Robert Bjork describes similar ideas through "desirable difficulties," where certain forms of effort improve long-term learning rather than hindering it (<a href="https://bjorklab.psych.ucla.edu/research/">Desirable Difficulties in Learning</a>).</p>
+<p>Richard Sennett likewise argues that craftsmanship develops through deliberate engagement with meaningful complexity rather than avoidance of difficult work (<a href="https://yalebooks.yale.edu/book/9780300151190/the-craftsman/">The Craftsman</a>).</p>
+<p>The objective is therefore not to eliminate thinking.</p>
+<p>It is to eliminate distractions that prevent thinking.</p>
+<p>---</p>
+<h2>Organizational Implications</h2>
+<p>These ideas extend beyond individual productivity.</p>
+<p>Organizations increasingly deploy coding agents, research assistants, workflow automation, and autonomous systems.</p>
+<p>Most current evaluations still optimize response accuracy.</p>
+<p>Future organizations will instead optimize workflow convergence.</p>
+<p>Questions become:</p>
+<ul>
+<li>How quickly does work converge toward verified outcomes?</li>
+<li>How much human steering is required?</li>
+<li>How efficiently are mistakes detected?</li>
+<li>How recoverable are hallucinations?</li>
+<li>How effectively is knowledge preserved?</li>
+</ul>
+<p>This perspective connects naturally with emerging engineering practices.</p>
+<p>Verification-first software engineering emphasizes executable specifications over generated implementations.</p>
+<p>Evaluation harnesses measure entire workflows rather than isolated outputs.</p>
+<p>Agent telemetry systems record causal execution traces.</p>
+<p>Provenance graphs preserve evidence connecting decisions, tools, and outcomes.</p>
+<p>Human checkpoints provide strategic steering instead of low-level implementation.</p>
+<p>Recent systems such as Uber's Agentic Detection and Response (<a href="https://github.com/uber/ADR">ADR</a>), Google's research on scaling agent systems (<a href="https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/">Towards a Science of Scaling Agent Systems</a>), Anthropic's Claude Code engineering work, and provenance-focused architectures such as Zep's Graffiti (<a href="https://www.youtube.com/watch?v=1mN8gM7bRkQ">Citation Needed: Provenance for LLM-Built Knowledge Graphs</a>) all move toward richer representations of workflows rather than isolated model outputs.</p>
+<p>The workflow increasingly becomes the security boundary, evaluation boundary, and organizational memory.</p>
+<p>---</p>
+<h2>Toward Workflow-Level Evaluation</h2>
+<p>If workflows become the primary unit of intelligence, evaluation should evolve accordingly.</p>
+<p>Future benchmarks should measure properties such as:</p>
+<ul>
+<li>convergence speed;</li>
+<li>verification effort;</li>
+<li>steering interventions;</li>
+<li>correction distance;</li>
+<li>hallucination recovery;</li>
+<li>provenance completeness;</li>
+<li>human understanding;</li>
+<li>final artifact quality;</li>
+<li>reproducibility;</li>
+<li>long-term maintainability.</li>
+</ul>
+<p>Notice that none of these metrics require every intermediate response to be correct.</p>
+<p>Instead, they measure whether humans and AI reliably converge toward verified knowledge.</p>
+<p>This suggests a broader research agenda.</p>
+<p>Rather than asking:</p>
+<blockquote>
+<p><em>How accurate was the model's first answer?</em></p>
+</blockquote>
+<p>We should increasingly ask:</p>
+<blockquote>
+<p><em>How efficiently did the human–AI system reach a trustworthy result?</em></p>
+</blockquote>
+<p>The intelligence belongs to the collaborative process.</p>
+<p>---</p>
+<h2>Conclusion</h2>
+<p>Frontier AI systems should not be judged solely by whether every intermediate response is correct.</p>
+<p>They should be judged by whether humans and AI reliably converge toward verified understanding.</p>
+<p>As generation approaches negligible cost, the scarce resources shift toward verification, digestion, provenance, and human judgment.</p>
+<p>This represents more than a change in evaluation methodology.</p>
+<p>It reflects a broader shift in how we think about intelligence itself.</p>
+<p>The future of AI evaluation is therefore unlikely to be response-level accuracy.</p>
+<p>It will increasingly be workflow-level convergence.</p>
+<p>---</p>
+<h2>References</h2>
+<ul>
+<li>Anthropic. <em>The Making of Claude Code.</em> https://www.anthropic.com/features/making-of-claude-code</li>
+<li>Bjork, R. A. <em>Desirable Difficulties in Learning.</em> https://bjorklab.psych.ucla.edu/research/</li>
+<li>Chalef, D. <em>Citation Needed: Provenance for LLM-Built Knowledge Graphs.</em> https://www.youtube.com/watch?v=1mN8gM7bRkQ</li>
+<li>Goedecke, S. <em>LLMs Reward Expertise.</em> https://www.seangoedecke.com/llms-reward-expertise/</li>
+<li>Google Research. <em>Towards a Science of Scaling Agent Systems: When and Why Agent Systems Work.</em> https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/</li>
+<li>Lakatos, I. <em>Proofs and Refutations.</em> Cambridge University Press. https://www.cambridge.org/core/books/proofs-and-refutations/</li>
+<li>Naur, P. <em>Programming as Theory Building.</em> 1985. https://pages.cs.wisc.edu/~remzi/Naur.pdf</li>
+<li>OpenAI. <em>Learning to Reason with LLMs.</em> https://openai.com/research/learning-to-reason-with-llms</li>
+<li>OpenAI. <em>Ten Proofs.</em> https://cdn.openai.com/pdf/ten-proofs-oai.pdf</li>
+<li>Popper, K. <em>Conjectures and Refutations.</em> Routledge.</li>
+<li>Sennett, R. <em>The Craftsman.</em> Yale University Press. https://yalebooks.yale.edu/book/9780300151190/the-craftsman/</li>
+<li>Tao, T. <em>AI and Mathematics writings.</em> https://terrytao.wordpress.com/</li>
+<li>Tao, T. <em>On using ChatGPT to investigate the Jacobian Conjecture.</em> https://terrytao.wordpress.com/</li>
+<li>Uber Engineering. <em>Agentic Detection and Response (ADR).</em> https://github.com/uber/ADR</li>
+</ul>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        themeCSS: '.label foreignObject { overflow: visible; }',
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        {
+          text: "I measure convergence, not first answers — the path matters more than any single step.",
+          agent: "Convergence Agent"
+        },
+        {
+          text: "I watch for expert steering, because the value is not in the generation but in the redirection.",
+          agent: "Steering Observer"
+        },
+        {
+          text: "When generation becomes cheap, I reallocate my budget to verification — that's where the signal lives.",
+          agent: "Verification Agent"
+        }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>

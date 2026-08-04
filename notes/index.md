@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*August 4, 2026* — [Stop Evaluating AI One Response at a Time](/notes/stop-evaluating-ai-one-response-at-a-time/)
+
+### [Stop Evaluating AI One Response at a Time](/notes/stop-evaluating-ai-one-response-at-a-time/)
+*August 4, 2026* — Why workflow-level convergence, not response-level accuracy, is the right abstraction for evaluating expert–AI collaboration.
+
 *July 26, 2026* — [Verification-First Software Engineering: Durable Specifications and Regenerable Code](/notes/verification-first-software-engineering/)
 
 ### [Verification-First Software Engineering: Durable Specifications and Regenerable Code](/notes/verification-first-software-engineering/)

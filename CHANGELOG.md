@@ -179,3 +179,6 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 ### Fixed
 
 - N/A
+
+## 2026-08-04
+- **Published:** [Stop Evaluating AI One Response at a Time](/notes/stop-evaluating-ai-one-response-at-a-time/) — workflow-level convergence as the right abstraction for evaluating expert–AI collaboration.

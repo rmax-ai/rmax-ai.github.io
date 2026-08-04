@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-07-26T21:24:42Z</lastmod>
+    <lastmod>2026-08-04T21:19:24Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-07-26T21:24:39Z</lastmod>
+    <lastmod>2026-08-04T21:19:24Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -182,7 +182,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/new-scarcity-software-engineering/</loc>
-    <lastmod>2026-07-24T22:41:53Z</lastmod>
+    <lastmod>2026-07-26T21:43:23Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/open-source-after-coding-agents/</loc>
@@ -221,6 +221,10 @@
     <lastmod>2026-07-21T21:35:01Z</lastmod>
   </url>
   <url>
+    <loc>https://rmax.ai/notes/stop-evaluating-ai-one-response-at-a-time/</loc>
+    <lastmod>2026-08-04T21:18:18Z</lastmod>
+  </url>
+  <url>
     <loc>https://rmax.ai/notes/tests-not-silver-bullet-resilience-first-observability/</loc>
     <lastmod>2026-07-21T21:35:01Z</lastmod>
   </url>
@@ -238,7 +242,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/verification-first-software-engineering/</loc>
-    <lastmod>2026-07-26T21:23:47Z</lastmod>
+    <lastmod>2026-08-04T21:12:59Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/why-agentic-systems-fail-demo-to-production/</loc>
