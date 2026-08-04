@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Stop Evaluating AI One Response at a Time](/notes/stop-evaluating-ai-one-response-at-a-time/)
+Why workflow-level convergence, not response-level accuracy, is the right abstraction for evaluating expert–AI collaboration.
+
 ### [Verification-First Software Engineering: Durable Specifications and Regenerable Code](/notes/verification-first-software-engineering/)
 As AI coding agents reduce implementation cost, executable specifications, verification systems, policies, and operational constraints become the durable assets of software engineering.
 
