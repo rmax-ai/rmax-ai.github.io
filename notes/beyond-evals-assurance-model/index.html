@@ -767,23 +767,34 @@ Assurance Claim
 <p>The broader engineering discipline is <strong>agent assurance</strong>.</p>
 <p>As agents acquire more authority over real systems, the critical question will increasingly be not whether they are intelligent enough to complete a task, but whether we have enough evidence — and enough control over their environment — to trust them to act.</p>
 <p>---</p>
+<h2>Practical Takeaways</h2>
+<ol>
+<li><strong>Separate measurement from control.</strong> Measure what needs statistical understanding (task success rates, trajectory quality, cost). Enforce what must never happen (authorization violations, credential leaks, transaction limit breaches). Do not call both "guardrails."</li>
+</ol>
+<ol>
+<li><strong>Match oracles to claims.</strong> Use arithmetic for financial limits, authorization engines for access control, AST parsers for code properties, and LLM judges only when human-like judgment is genuinely required. The strongest oracle is the one most appropriate to the claim, not the one with the highest abstraction ceiling.</li>
+</ol>
+<ol>
+<li><strong>Design for disagreement between evidence sources.</strong> An execution that passes outcome checks while failing trajectory checks is not a false positive — it is a signal that your evidence mechanisms are working. Treat gaps between verification, validation, and evaluation as engineering information, not noise.</li>
+</ol>
+<ol>
+<li><strong>Production traces should become future eval cases.</strong> Every meaningful production failure should improve your evaluation distribution. Close the loop: deployment → traces → failure discovery → curated regression cases → offline evals.</li>
+</ol>
+<ol>
+<li><strong>Assurance should be proportional to capability, consequence, uncertainty, and reversibility.</strong> A read-only summarization agent does not need the same architecture as an autonomous financial agent. The model is a design space, not a checklist.</li>
+</ol>
+<h2>Status & Scope</h2>
+<p>This article proposes a conceptual model, not a product specification. The seven-part lifecycle (specification, controls, runtime verification, offline evaluation, operational validation, monitoring, recovery) is presented as a thinking framework — the appropriate subset and rigor depend on the system's authority, consequences, and operating context.</p>
+<p>The companion <a href="https://rmax.ai/beyond-evals-lab/">Beyond Evals Lab</a> demonstrates executable instances of the distinctions discussed here but is deliberately minimal. It is a teaching tool, not a production assurance platform.</p>
+<p>The references draw from safety engineering (Runtime Assurance, GSN), formal methods (runtime verification), and security engineering (defense in depth) — disciplines that have grappled with evidence, control, and uncertainty for decades. Agent engineering is inheriting their problems; their terminology and architectural patterns are directly applicable.</p>
+<p>---</p>
 <h2>References</h2>
 <ol>
 <li>Clark, M., Koutsoukos, X., Kumar, R., Lee, I., Pappas, G., Pike, L., Porter, J., & Sokolsky, O. (2013). <a href="https://leepike.github.io/pubs/RTA-CPS.pdf">A Study on Run Time Assurance for Complex Cyber Physical Systems</a>. Air Force Research Lab, ADA585474.</li>
-</ol>
-<ol>
 <li>Kelly, T., & Weaver, R. (2004). <a href="https://scsc.uk/documents/acwg/tpk/The_goal_structuring_notation-a_safety_argument_no.pdf">The Goal Structuring Notation — A Safety Argument Notation</a>. Proceedings of the Workshop on Assurance Cases, DSN 2004.</li>
-</ol>
-<ol>
 <li>Goal Structuring Notation Working Group. (2021). <a href="https://doi.org/10.65391/r1386">Goal Structuring Notation Community Standard (Version 3)</a>. Safety-Critical Systems Club.</li>
-</ol>
-<ol>
 <li>Leucker, M., & Schallhart, C. (2009). <a href="https://isp.uni-luebeck.de/sites/default/files/publications/jlap08_1.pdf">A Brief Account of Runtime Verification</a>. Journal of Logic and Algebraic Programming, 78(5), 293–303.</li>
-</ol>
-<ol>
 <li>NIST. <a href="https://csrc.nist.gov/glossary/term/defense_in_depth">Defense in Depth</a>. Computer Security Resource Center Glossary.</li>
-</ol>
-<ol>
 <li>Ross, R., McEvilley, M., & Carrier Oren, J. (2016). <a href="https://nvlpubs.nist.gov/nistpubs/specialpublications/nist.sp.800-160v1r1.pdf">Systems Security Engineering: Considerations for a Multidisciplinary Approach in the Engineering of Trustworthy Secure Systems</a>. NIST SP 800-160 Vol. 1.</li>
 </ol>
           </div>
@@ -812,7 +823,8 @@ Assurance Claim
         startOnLoad: true,
         theme: 'base',
         maxTextWidth: 300,
-        flowchart: {
+        themeCSS: '.label foreignObject { overflow: visible; }',
+    flowchart: {
           htmlLabels: true,
           useMaxWidth: true,
         },
