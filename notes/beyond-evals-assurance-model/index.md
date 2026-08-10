@@ -1,12 +1,15 @@
 ---
 title: "Beyond Evals: A Practical Assurance Model for Agentic Systems"
+slug: "beyond-evals-assurance-model"
 description: "Agent evals answer how a system behaves across tested situations. Production agent systems force harder questions — about evidence, controls, verification, validation, and recovery. This article lays out a practical assurance model that separates what must be measured from what must be enforced."
 date: 2026-08-10
-status: published
+updated: 2026-08-10
 author: Max
 site: rmax.ai
 section: notes
 type: essay
+status: published
+canonical_url: "https://rmax.ai/notes/beyond-evals-assurance-model/"
 license: CC BY 4.0
 reading_time: "14–16 min read"
 tags:
@@ -681,6 +684,28 @@ They provide different forms of evidence and intervention at different points in
 The broader engineering discipline is **agent assurance**.
 
 As agents acquire more authority over real systems, the critical question will increasingly be not whether they are intelligent enough to complete a task, but whether we have enough evidence — and enough control over their environment — to trust them to act.
+
+---
+
+## Practical Takeaways
+
+1. **Separate measurement from control.** Measure what needs statistical understanding (task success rates, trajectory quality, cost). Enforce what must never happen (authorization violations, credential leaks, transaction limit breaches). Do not call both "guardrails."
+
+2. **Match oracles to claims.** Use arithmetic for financial limits, authorization engines for access control, AST parsers for code properties, and LLM judges only when human-like judgment is genuinely required. The strongest oracle is the one most appropriate to the claim, not the one with the highest abstraction ceiling.
+
+3. **Design for disagreement between evidence sources.** An execution that passes outcome checks while failing trajectory checks is not a false positive — it is a signal that your evidence mechanisms are working. Treat gaps between verification, validation, and evaluation as engineering information, not noise.
+
+4. **Production traces should become future eval cases.** Every meaningful production failure should improve your evaluation distribution. Close the loop: deployment → traces → failure discovery → curated regression cases → offline evals.
+
+5. **Assurance should be proportional to capability, consequence, uncertainty, and reversibility.** A read-only summarization agent does not need the same architecture as an autonomous financial agent. The model is a design space, not a checklist.
+
+## Status & Scope
+
+This article proposes a conceptual model, not a product specification. The seven-part lifecycle (specification, controls, runtime verification, offline evaluation, operational validation, monitoring, recovery) is presented as a thinking framework — the appropriate subset and rigor depend on the system's authority, consequences, and operating context.
+
+The companion [Beyond Evals Lab](https://rmax.ai/beyond-evals-lab/) demonstrates executable instances of the distinctions discussed here but is deliberately minimal. It is a teaching tool, not a production assurance platform.
+
+The references draw from safety engineering (Runtime Assurance, GSN), formal methods (runtime verification), and security engineering (defense in depth) — disciplines that have grappled with evidence, control, and uncertainty for decades. Agent engineering is inheriting their problems; their terminology and architectural patterns are directly applicable.
 
 ---
 
