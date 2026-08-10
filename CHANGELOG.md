@@ -11,6 +11,7 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 ### Added
 
+- 2026-08-10: Published technical note: [beyond-evals-assurance-model](notes/beyond-evals-assurance-model/index.md). Lays out a practical assurance model for agentic systems: tests, evals, verification, validation, controls, monitoring, and recovery as distinct evidence mechanisms, with a claim-argument-evidence structure drawn from safety engineering.
 - 2026-07-26: Published technical note: [verification-first-software-engineering](notes/verification-first-software-engineering/index.md). Argues that as coding agents lower implementation cost, durable software-engineering assets shift toward explicit specifications, independent verification, provenance, and risk-based acceptance.
   - *Warnings*: Publish with caution — historical and economic framing can be over-generalized; independent verification, clean environments, hidden tests, and trustworthy provenance require organizational capacity; readers may mistake the evidence portfolio for a universal checklist; named tools, standards, and research may change. Link audit verdict: release with follow-ups — required homepage and Notes cards were added before this entry, and no broken links were found.
 - 2026-07-24: Published technical note: [new-scarcity-software-engineering](notes/new-scarcity-software-engineering/index.md). Argues that AI-driven code abundance shifts scarce engineering work toward judgment, verification, architecture, and organizational design.

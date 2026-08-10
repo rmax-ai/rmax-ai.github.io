@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*August 10, 2026* — [Beyond Evals: A Practical Assurance Model for Agentic Systems](/notes/beyond-evals-assurance-model/)
+
+### [Beyond Evals: A Practical Assurance Model for Agentic Systems](/notes/beyond-evals-assurance-model/)
+*August 10, 2026* — Agent evals answer how a system behaves across tested situations. Production agent systems force harder questions — about evidence, controls, verification, validation, and recovery.
+
 *August 4, 2026* — [Stop Evaluating AI One Response at a Time](/notes/stop-evaluating-ai-one-response-at-a-time/)
 
 ### [Stop Evaluating AI One Response at a Time](/notes/stop-evaluating-ai-one-response-at-a-time/)
