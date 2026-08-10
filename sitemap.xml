@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-08-04T21:19:24Z</lastmod>
+    <lastmod>2026-08-04T21:50:01Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-08-04T21:19:24Z</lastmod>
+    <lastmod>2026-08-04T21:50:01Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -63,6 +63,10 @@
   <url>
     <loc>https://rmax.ai/notes/automatic-harness-synthesis/</loc>
     <lastmod>2026-07-05T07:34:18Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/beyond-evals-assurance-model/</loc>
+    <lastmod>2026-08-10T10:27:06Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/build-systems-not-prompts/</loc>
@@ -222,7 +226,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/stop-evaluating-ai-one-response-at-a-time/</loc>
-    <lastmod>2026-08-04T21:18:18Z</lastmod>
+    <lastmod>2026-08-04T22:19:16Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/tests-not-silver-bullet-resilience-first-observability/</loc>

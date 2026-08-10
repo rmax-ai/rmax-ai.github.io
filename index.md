@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Beyond Evals: A Practical Assurance Model for Agentic Systems](/notes/beyond-evals-assurance-model/)
+Agent evals answer how a system behaves across tested situations. Production agent systems force harder questions — about evidence, controls, verification, validation, and recovery.
+
 ### [Stop Evaluating AI One Response at a Time](/notes/stop-evaluating-ai-one-response-at-a-time/)
 Why workflow-level convergence, not response-level accuracy, is the right abstraction for evaluating expert–AI collaboration.
 
