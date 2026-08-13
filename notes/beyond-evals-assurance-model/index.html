@@ -13,6 +13,7 @@
     <meta property="og:url" content="https://rmax.ai/notes/beyond-evals-assurance-model/" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2026-08-10" />
+    <meta property="article:modified_time" content="2026-08-13" />
     <meta property="article:tag" content="agent-assurance" />
     <meta property="article:tag" content="verification" />
     <meta property="article:tag" content="evaluation" />
@@ -254,7 +255,7 @@
             <div class="post-meta">
               <span>2026-08-10</span>
               <span>•</span>
-              <span>14–16 min read read</span>
+              <span>14–16 min read</span>
               <span>•</span>
               <span>Max</span>
             </div>
@@ -739,6 +740,7 @@ Assurance Claim
 <h2>Companion project: Beyond Evals Lab</h2>
 <p>I built <a href="https://rmax.ai/beyond-evals-lab/">Beyond Evals Lab</a> as a small executable companion to these ideas.</p>
 <p>The project deliberately avoids building a sophisticated agent. Instead, it uses a controlled agentic workflow to isolate the distinctions discussed in this article.</p>
+<p>Since August 2026 it also hosts a real framework agent — <a href="https://github.com/vercel/eve">Eve</a> — whose tool calls still pass through the lab's control plane: controls, verification, and trace. That gives the lab two lenses over the same agent: Eve's scenario evals score behavior, while the lab's assurance report checks governance. The point is not the agent; it is the runtime around it.</p>
 <p>The experiments demonstrate that:</p>
 <ul>
 <li>deterministic tests and evals are not opposites;</li>
@@ -785,7 +787,7 @@ Assurance Claim
 </ol>
 <h2>Status & Scope</h2>
 <p>This article proposes a conceptual model, not a product specification. The seven-part lifecycle (specification, controls, runtime verification, offline evaluation, operational validation, monitoring, recovery) is presented as a thinking framework — the appropriate subset and rigor depend on the system's authority, consequences, and operating context.</p>
-<p>The companion <a href="https://rmax.ai/beyond-evals-lab/">Beyond Evals Lab</a> demonstrates executable instances of the distinctions discussed here but is deliberately minimal. It is a teaching tool, not a production assurance platform.</p>
+<p>The companion <a href="https://rmax.ai/beyond-evals-lab/">Beyond Evals Lab</a> demonstrates executable instances of the distinctions discussed here but is deliberately minimal. It is a teaching tool, not a production assurance platform. The repository is <a href="https://github.com/rmax-ai/beyond-evals-lab">rmax-ai/beyond-evals-lab</a> — including the Eve agent-under-test wiring and its live-model results.</p>
 <p>The references draw from safety engineering (Runtime Assurance, GSN), formal methods (runtime verification), and security engineering (defense in depth) — disciplines that have grappled with evidence, control, and uncertainty for decades. Agent engineering is inheriting their problems; their terminology and architectural patterns are directly applicable.</p>
 <p>---</p>
 <h2>References</h2>
