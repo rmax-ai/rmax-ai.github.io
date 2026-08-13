@@ -3,7 +3,7 @@ title: "Beyond Evals: A Practical Assurance Model for Agentic Systems"
 slug: "beyond-evals-assurance-model"
 description: "Agent evals answer how a system behaves across tested situations. Production agent systems force harder questions — about evidence, controls, verification, validation, and recovery. This article lays out a practical assurance model that separates what must be measured from what must be enforced."
 date: 2026-08-10
-updated: 2026-08-10
+updated: 2026-08-13
 author: Max
 site: rmax.ai
 section: notes
@@ -645,6 +645,8 @@ I built [Beyond Evals Lab](https://rmax.ai/beyond-evals-lab/) as a small executa
 
 The project deliberately avoids building a sophisticated agent. Instead, it uses a controlled agentic workflow to isolate the distinctions discussed in this article.
 
+Since August 2026 it also hosts a real framework agent — [Eve](https://github.com/vercel/eve) — whose tool calls still pass through the lab's control plane: controls, verification, and trace. That gives the lab two lenses over the same agent: Eve's scenario evals score behavior, while the lab's assurance report checks governance. The point is not the agent; it is the runtime around it.
+
 The experiments demonstrate that:
 
 - deterministic tests and evals are not opposites;
@@ -703,7 +705,7 @@ As agents acquire more authority over real systems, the critical question will i
 
 This article proposes a conceptual model, not a product specification. The seven-part lifecycle (specification, controls, runtime verification, offline evaluation, operational validation, monitoring, recovery) is presented as a thinking framework — the appropriate subset and rigor depend on the system's authority, consequences, and operating context.
 
-The companion [Beyond Evals Lab](https://rmax.ai/beyond-evals-lab/) demonstrates executable instances of the distinctions discussed here but is deliberately minimal. It is a teaching tool, not a production assurance platform.
+The companion [Beyond Evals Lab](https://rmax.ai/beyond-evals-lab/) demonstrates executable instances of the distinctions discussed here but is deliberately minimal. It is a teaching tool, not a production assurance platform. The repository is [rmax-ai/beyond-evals-lab](https://github.com/rmax-ai/beyond-evals-lab) — including the Eve agent-under-test wiring and its live-model results.
 
 The references draw from safety engineering (Runtime Assurance, GSN), formal methods (runtime verification), and security engineering (defense in depth) — disciplines that have grappled with evidence, control, and uncertainty for decades. Agent engineering is inheriting their problems; their terminology and architectural patterns are directly applicable.
 
