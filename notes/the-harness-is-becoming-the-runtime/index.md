@@ -51,12 +51,12 @@ DeepSeek pushes the abstraction boundary lower.
 
 Its architecture is closer to:
 
-```mermaid
+<div class="mermaid">
 flowchart TD
     A["Runtime kernel<br/>(Cordis)"] --> B["Capabilities<br/>(plugins)"]
     B --> C["Harness configuration"]
     C --> D["Agent behavior"]
-```
+</div>
 
 The kernel, called [Cordis](https://github.com/cordiverse/cordis), manages plugin mounting and unmounting, dependencies, services, and events. Agent capabilities are layered above it as plugins.
 
@@ -193,7 +193,7 @@ Another important design is Code Mode.
 
 Traditional agent execution is conversational, with each transition mediated by another model inference:
 
-```mermaid
+<div class="mermaid">
 flowchart TD
     subgraph CONV["Reasoning through interaction"]
         direction LR
@@ -201,11 +201,11 @@ flowchart TD
         C2 --> C3["LLM"]
         C3 --> C4["tool call"]
     end
-```
+</div>
 
 [Code Mode](https://deepseek.com/harness/en/) allows the model instead to generate a TypeScript program that orchestrates tools through an SDK:
 
-```mermaid
+<div class="mermaid">
 flowchart TD
     subgraph CODE["Reasoning compiled into execution"]
         direction LR
@@ -216,7 +216,7 @@ flowchart TD
         P2 --> P6["aggregation"]
         P6 --> P7["result"]
     end
-```
+</div>
 
 Part of the control flow moves from repeated probabilistic inference into deterministic program execution.
 
@@ -271,7 +271,7 @@ As agents gain access to real-world actions—querying internal systems, modifyi
 
 The harness can become the place where operational control is enforced:
 
-```mermaid
+<div class="mermaid">
 flowchart TD
     M["Model"] --> H["Harness"]
     subgraph P["Enforced outside the model"]
@@ -282,7 +282,7 @@ flowchart TD
         P4["verification + audit trail + recovery"]
     end
     H --> P
-```
+</div>
 
 At that point, the harness is no longer merely an execution layer.
 
@@ -401,14 +401,14 @@ DeepSeek also describes Harness as a [developer preview](https://github.com/deep
 
 A broader trajectory is becoming visible across agent engineering:
 
-```mermaid
+<div class="mermaid">
 flowchart TD
     T1["Prompt engineering"] --> T2["Tool use"]
     T2 --> T3["Agent loops"]
     T3 --> T4["Orchestration frameworks"]
     T4 --> T5["Harness runtimes"]
     T5 --> T6["Composable execution systems"]
-```
+</div>
 
 DeepSeek Harness makes that progression unusually explicit.
 

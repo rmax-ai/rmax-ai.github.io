@@ -130,11 +130,27 @@
         color: #dbeafe;
         font-size: 0.95rem;
       }
-      pre.mermaid {
-        background: transparent;
-        border: none;
-        padding: 16px 0;
-        overflow: visible;
+      .mermaid {
+        margin: 32px 0;
+        display: flex;
+        justify-content: center;
+        overflow: auto;
+      }
+      .mermaid svg {
+        max-width: 100%;
+        height: auto;
+      }
+      .mermaid .label,
+      .mermaid .nodeLabel,
+      .mermaid .edgeLabel {
+        line-height: 1.3;
+      }
+      .mermaid .label p,
+      .mermaid .nodeLabel p,
+      .mermaid .edgeLabel p {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.3;
       }
       code {
         color: #e2e8f0;
@@ -271,12 +287,12 @@ while task is not finished:
 <p>Most agent frameworks extend this loop with graphs, routers, memory, planning, or tool abstractions. But the loop itself often remains application logic.</p>
 <p>DeepSeek pushes the abstraction boundary lower.</p>
 <p>Its architecture is closer to:</p>
-<pre class="mermaid">
+<div class="mermaid">
 flowchart TD
     A["Runtime kernel<br/>(Cordis)"] --> B["Capabilities<br/>(plugins)"]
     B --> C["Harness configuration"]
     C --> D["Agent behavior"]
-</pre>
+</div>
 <p>The kernel, called <a href="https://github.com/cordiverse/cordis">Cordis</a>, manages plugin mounting and unmounting, dependencies, services, and events. Agent capabilities are layered above it as plugins.</p>
 <p>The important shift is that the system is no longer defined by one fixed execution loop. It is defined by a runtime capable of assembling and reconfiguring the loop itself.</p>
 <p>The harness is no longer merely glue around a model.</p>
@@ -380,7 +396,7 @@ Extended orchestration harness
 <h2>Code Mode: orchestration becomes executable</h2>
 <p>Another important design is Code Mode.</p>
 <p>Traditional agent execution is conversational, with each transition mediated by another model inference:</p>
-<pre class="mermaid">
+<div class="mermaid">
 flowchart TD
     subgraph CONV["Reasoning through interaction"]
         direction LR
@@ -388,9 +404,9 @@ flowchart TD
         C2 --> C3["LLM"]
         C3 --> C4["tool call"]
     end
-</pre>
+</div>
 <p><a href="https://deepseek.com/harness/en/">Code Mode</a> allows the model instead to generate a TypeScript program that orchestrates tools through an SDK:</p>
-<pre class="mermaid">
+<div class="mermaid">
 flowchart TD
     subgraph CODE["Reasoning compiled into execution"]
         direction LR
@@ -401,7 +417,7 @@ flowchart TD
         P2 --> P6["aggregation"]
         P6 --> P7["result"]
     end
-</pre>
+</div>
 <p>Part of the control flow moves from repeated probabilistic inference into deterministic program execution.</p>
 <p>This creates a useful architectural distinction:</p>
 <blockquote>
@@ -444,7 +460,7 @@ state reconstruction
 <h2>The harness as an assurance boundary</h2>
 <p>As agents gain access to real-world actions—querying internal systems, modifying records, executing code, calling APIs, sending messages, or spending money—the boundary around the model becomes increasingly important.</p>
 <p>The harness can become the place where operational control is enforced:</p>
-<pre class="mermaid">
+<div class="mermaid">
 flowchart TD
     M["Model"] --> H["Harness"]
     subgraph P["Enforced outside the model"]
@@ -455,7 +471,7 @@ flowchart TD
         P4["verification + audit trail + recovery"]
     end
     H --> P
-</pre>
+</div>
 <p>At that point, the harness is no longer merely an execution layer.</p>
 <p>It becomes part of the system's assurance boundary.</p>
 <p>This reframes agent safety as partly an infrastructure problem. Model alignment still matters, but many concrete guarantees—what tools can be called, what data can be accessed, what actions require approval, what evidence must exist before execution, and how failures are contained—must be enforced outside the model.</p>
@@ -550,14 +566,14 @@ reconfigure harness
 <p>DeepSeek also describes Harness as a <a href="https://github.com/deepseek-ai/deepseek-harness">developer preview</a>, with breaking changes expected. The architecture is therefore more interesting at this stage as a direction than as a settled standard.</p>
 <h2>The deeper shift</h2>
 <p>A broader trajectory is becoming visible across agent engineering:</p>
-<pre class="mermaid">
+<div class="mermaid">
 flowchart TD
     T1["Prompt engineering"] --> T2["Tool use"]
     T2 --> T3["Agent loops"]
     T3 --> T4["Orchestration frameworks"]
     T4 --> T5["Harness runtimes"]
     T5 --> T6["Composable execution systems"]
-</pre>
+</div>
 <p>DeepSeek Harness makes that progression unusually explicit.</p>
 <p>The important shift is not simply toward better agents.</p>
 <p>It is toward systems in which the infrastructure surrounding the model becomes a primary locus of capability, control, experimentation, and evaluation.</p>
@@ -620,7 +636,7 @@ flowchart TD
     <script type="module">
       import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
       mermaid.initialize({
-        startOnLoad: true,
+        startOnLoad: false,
         theme: 'base',
         maxTextWidth: 300,
         themeCSS: '.label foreignObject { overflow: visible; }',
@@ -643,6 +659,7 @@ flowchart TD
           mainBkg: '#1a1a2e',
         }
       });
+      await mermaid.run({ querySelector: '.mermaid' });
     </script>
     <script>
       window.footerThoughts = [
