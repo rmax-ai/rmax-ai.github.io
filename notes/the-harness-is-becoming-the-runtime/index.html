@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>The Harness Is Becoming the Runtime — rmax.ai</title>
+    <meta name="description" content="DeepSeek Harness points to a new abstraction boundary: the harness as a programmable runtime, where models, tools, loops, and policies become swappable plugins and agent engineering converges with systems engineering." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/the-harness-is-becoming-the-runtime/" />
+
+    <meta property="og:title" content="The Harness Is Becoming the Runtime" />
+    <meta property="og:description" content="DeepSeek Harness points to a new abstraction boundary: the harness as a programmable runtime, where models, tools, loops, and policies become swappable plugins and agent engineering converges with systems engineering." />
+    <meta property="og:url" content="https://rmax.ai/notes/the-harness-is-becoming-the-runtime/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-08-15" />
+    <meta property="article:tag" content="agents" />
+    <meta property="article:tag" content="harness" />
+    <meta property="article:tag" content="runtime" />
+    <meta property="article:tag" content="deepseek" />
+    <meta property="article:tag" content="evaluation" />
+    <meta property="article:tag" content="assurance" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      h4 {
+        margin: 24px 0 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+
+      @media (max-width: 600px) {
+        .wrap {
+          margin: 20px auto;
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>The Harness Is Becoming the Runtime</h1>
+            <div class="post-meta">
+              <span>2026-08-15</span>
+              <span>•</span>
+              <span>9–11 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+<p>For the last few years, most discussion around AI agents has focused on models, prompts, tools, and, increasingly, workflows. <a href="https://github.com/deepseek-ai/deepseek-harness">DeepSeek Harness</a> points toward a different abstraction boundary: the harness itself as a programmable runtime.</p>
+<p>DeepSeek describes an agent simply as:</p>
+<blockquote>
+<p>Agent = Model + Harness</p>
+</blockquote>
+<p>The important part is what sits inside the second term.</p>
+<p>In DeepSeek Harness, models, tools, skills, sessions, sandboxes, storage, execution loops, scheduling, and even the UI are plugins. They can be <a href="https://deepseek.com/harness/en/">selected, replaced, and recomposed through configuration</a> rather than hard-coded into a single agent implementation.</p>
+<p>This points toward a broader shift in agent architecture: from LLM-centric systems toward runtime-centric systems, where the model is no longer the system boundary but one component inside a larger operational substrate.</p>
+<p>At first, this can sound like an implementation detail.</p>
+<p>It is a significant architectural shift.</p>
+<h2>From agent frameworks to harness runtimes</h2>
+<p>A conventional agent implementation often looks roughly like this:</p>
+<pre><code class="language-text">
+while task is not finished:
+    construct context
+    call model
+    execute tool
+    add result to context
+</code></pre>
+<p>Most agent frameworks extend this loop with graphs, routers, memory, planning, or tool abstractions. But the loop itself often remains application logic.</p>
+<p>DeepSeek pushes the abstraction boundary lower.</p>
+<p>Its architecture is closer to:</p>
+<pre class="mermaid">
+flowchart TD
+    A["Runtime kernel<br/>(Cordis)"] --> B["Capabilities<br/>(plugins)"]
+    B --> C["Harness configuration"]
+    C --> D["Agent behavior"]
+</pre>
+<p>The kernel, called <a href="https://github.com/cordiverse/cordis">Cordis</a>, manages plugin mounting and unmounting, dependencies, services, and events. Agent capabilities are layered above it as plugins.</p>
+<p>The important shift is that the system is no longer defined by one fixed execution loop. It is defined by a runtime capable of assembling and reconfiguring the loop itself.</p>
+<p>The harness is no longer merely glue around a model.</p>
+<p>It becomes an explicit software system.</p>
+<h2>Everything is a plugin</h2>
+<p>DeepSeek takes this principle unusually far.</p>
+<p>The following can all be treated as replaceable capabilities:</p>
+<ul>
+<li>model</li>
+<li>tools</li>
+<li>skills</li>
+<li>sessions</li>
+<li>sandbox</li>
+<li>storage</li>
+<li>agent loop</li>
+<li>scheduler</li>
+<li>UI</li>
+</ul>
+<p>This creates an important distinction.</p>
+<p>Most agent frameworks let us change what an agent does.</p>
+<p>A composable harness runtime also lets us change how agency itself is implemented.</p>
+<p>Two agents could share the same model and task while differing only in:</p>
+<ul>
+<li>context construction</li>
+<li>tool selection</li>
+<li>memory policy</li>
+<li>sandbox configuration</li>
+<li>planning loop</li>
+<li>subagent strategy</li>
+<li>scheduling policy</li>
+</ul>
+<p>Those differences can materially change behavior.</p>
+<p>The harness therefore becomes a first-class experimental variable.</p>
+<h2>Agent capability is not model capability</h2>
+<p>This distinction becomes increasingly important as agent systems grow more capable.</p>
+<p>Benchmarks often collapse observed system behavior into model performance. Once a model operates inside a non-trivial harness, that attribution becomes difficult to defend.</p>
+<p>Suppose the same model is evaluated under two configurations:</p>
+<p><strong>Harness A</strong></p>
+<ul>
+<li>shell</li>
+<li>file editor</li>
+<li>simple loop</li>
+</ul>
+<p><strong>Harness B</strong></p>
+<ul>
+<li>search</li>
+<li>planning</li>
+<li>skills</li>
+<li>memory</li>
+<li>subagents</li>
+<li>workflow orchestration</li>
+</ul>
+<p>If Harness B performs substantially better, attributing the entire improvement to the model would be misleading.</p>
+<p>Observed performance is better thought of as a function of several interacting variables:</p>
+<pre><code class="language-text">
+Agent performance
+    =
+model capability
+× harness capability
+× model–harness compatibility
+× environment
+</code></pre>
+<p>The multiplication is conceptual rather than literal, but the point matters: performance emerges from the system, not from one isolated component.</p>
+<p>Once a model operates through tools, memory, orchestration, and execution policies, a benchmark is no longer measuring only a model.</p>
+<p>It is measuring a configured agent system.</p>
+<h2>Minimal mode as a reference harness</h2>
+<p>DeepSeek Harness exposes several runtime modes.</p>
+<p>Standard mode provides a fuller coding environment with capabilities such as file editing, shell access, search, skills, planning, workflows, and subagents. <a href="https://deepseek.com/harness/en/">Minimal mode</a> exposes only a persistent Bash environment and a file editor.</p>
+<p>That distinction is methodologically useful because minimal mode can act as something close to a reference harness.</p>
+<p>Instead of asking:</p>
+<blockquote>
+<p>How good is this agent?</p>
+</blockquote>
+<p>we can ask:</p>
+<blockquote>
+<p>How does behavior change when the harness changes?</p>
+</blockquote>
+<p>For example:</p>
+<pre><code class="language-text">
+Model fixed
+Task distribution fixed
+
+Minimal harness
+        ↓
+Standard harness
+        ↓
+Extended orchestration harness
+</code></pre>
+<p>Then measure:</p>
+<ul>
+<li>task success</li>
+<li>token usage</li>
+<li>latency</li>
+<li>tool calls</li>
+<li>trajectory length</li>
+<li>failure modes</li>
+<li>recovery behavior</li>
+</ul>
+<p>This gives us a cleaner way to isolate the contribution of the surrounding system.</p>
+<p>DeepSeek has already used constrained harness configurations in <a href="https://github.com/deepseek-ai/deepseek-harness/blob/master/BENCHMARK.md">benchmarking contexts</a> to reduce tool-related confounding factors.</p>
+<h2>Code Mode: orchestration becomes executable</h2>
+<p>Another important design is Code Mode.</p>
+<p>Traditional agent execution is conversational, with each transition mediated by another model inference:</p>
+<pre class="mermaid">
+flowchart TD
+    subgraph CONV["Reasoning through interaction"]
+        direction LR
+        C1["LLM"] --> C2["tool call"]
+        C2 --> C3["LLM"]
+        C3 --> C4["tool call"]
+    end
+</pre>
+<p><a href="https://deepseek.com/harness/en/">Code Mode</a> allows the model instead to generate a TypeScript program that orchestrates tools through an SDK:</p>
+<pre class="mermaid">
+flowchart TD
+    subgraph CODE["Reasoning compiled into execution"]
+        direction LR
+        P1["LLM"] --> P2["generated program"]
+        P2 --> P3["tool A"]
+        P2 --> P4["tool B"]
+        P2 --> P5["loop + conditionals"]
+        P2 --> P6["aggregation"]
+        P6 --> P7["result"]
+    end
+</pre>
+<p>Part of the control flow moves from repeated probabilistic inference into deterministic program execution.</p>
+<p>This creates a useful architectural distinction:</p>
+<blockquote>
+<p>reasoning through interaction</p>
+</blockquote>
+<p>></p>
+<blockquote>
+<p>vs.</p>
+</blockquote>
+<p>></p>
+<blockquote>
+<p>reasoning compiled into execution</p>
+</blockquote>
+<p>This is more than a latency or token optimization.</p>
+<p>It changes where control flow lives.</p>
+<p>Some decisions remain probabilistic at program-generation time, while subsequent orchestration can execute deterministically. That may improve efficiency, inspectability, reproducibility, and verification for certain classes of tasks.</p>
+<h2>Execution as an event stream</h2>
+<p>DeepSeek's session model records execution as an <a href="https://deepseek.com/harness/en/">append-only event stream</a>. System prompts, tool calls, tool outputs, reasoning events, and subagent activity can be represented as part of a history that can be resumed, forked, or replayed.</p>
+<p>Structurally, this resembles event sourcing:</p>
+<pre><code class="language-text">
+execution
+    ↓
+append-only event log
+    ↓
+state reconstruction
+</code></pre>
+<p>This matters because execution history stops being secondary metadata and becomes part of the system's operational state.</p>
+<p>Such a model enables:</p>
+<ul>
+<li>trajectory analysis</li>
+<li>failure reconstruction</li>
+<li>counterfactual replay</li>
+<li>evaluation dataset generation</li>
+<li>runtime debugging</li>
+<li>behavioral auditing</li>
+</ul>
+<p>It also makes the distinction between outcome and process explicit.</p>
+<p>A correct result does not imply a correct trajectory.</p>
+<p>An agent may succeed after violating policy, leaking information, taking unnecessary actions, or recovering from an earlier failure. If only the final answer is evaluated, those differences disappear.</p>
+<h2>The harness as an assurance boundary</h2>
+<p>As agents gain access to real-world actions—querying internal systems, modifying records, executing code, calling APIs, sending messages, or spending money—the boundary around the model becomes increasingly important.</p>
+<p>The harness can become the place where operational control is enforced:</p>
+<pre class="mermaid">
+flowchart TD
+    M["Model"] --> H["Harness"]
+    subgraph P["Enforced outside the model"]
+        direction TB
+        P1["authentication + authorization"]
+        P2["tool policies + sandboxing"]
+        P3["context policy + execution limits"]
+        P4["verification + audit trail + recovery"]
+    end
+    H --> P
+</pre>
+<p>At that point, the harness is no longer merely an execution layer.</p>
+<p>It becomes part of the system's assurance boundary.</p>
+<p>This reframes agent safety as partly an infrastructure problem. Model alignment still matters, but many concrete guarantees—what tools can be called, what data can be accessed, what actions require approval, what evidence must exist before execution, and how failures are contained—must be enforced outside the model.</p>
+<h2>Cordis: spatiotemporal composability</h2>
+<p>DeepSeek Harness is built on Cordis, which DeepSeek describes as a framework for <a href="https://github.com/cordiverse/paper">spatiotemporal composability</a>.</p>
+<p>The idea introduces two dimensions of composition.</p>
+<p>Spatial composition concerns how capabilities depend on one another:</p>
+<pre><code class="language-text">
+planner
+ ├── model
+ ├── tools
+ └── storage
+</code></pre>
+<p>Temporal composition concerns how the runtime changes over time:</p>
+<pre><code class="language-text">
+state A
+ ↓ mount capability
+state B
+ ↓ execute
+state C
+ ↓ unmount capability
+state D
+</code></pre>
+<p>This is an important departure from treating an agent as a static dependency graph.</p>
+<p>The runtime itself can evolve during execution.</p>
+<p>That opens the door to systems whose available capabilities, policies, and execution structures depend on task state, environment, user permissions, or previous actions.</p>
+<h2>Creator Mode and reflexive runtimes</h2>
+<p><a href="https://deepseek.com/harness/en/">Creator Mode</a> introduces runtime inspection and plugin experimentation.</p>
+<p>Conceptually:</p>
+<pre><code class="language-text">
+agent
+ ↓
+inspect runtime
+ ↓
+identify missing capability
+ ↓
+load plugin
+ ↓
+test behavior
+ ↓
+reconfigure harness
+</code></pre>
+<p>This introduces a deeper boundary:</p>
+<blockquote>
+<p>self-modifying behavior</p>
+</blockquote>
+<p>></p>
+<blockquote>
+<p>vs.</p>
+</blockquote>
+<p>></p>
+<blockquote>
+<p>self-modifying infrastructure</p>
+</blockquote>
+<p>An agent that changes its plan is one thing.</p>
+<p>An agent that changes the runtime through which it acts is qualitatively different.</p>
+<p>Once the infrastructure becomes modifiable by the system it hosts, the system becomes reflexive. That immediately raises harder assurance questions:</p>
+<ul>
+<li>Which parts of the runtime must remain immutable?</li>
+<li>Who is allowed to introduce new capabilities?</li>
+<li>How are plugins validated before activation?</li>
+<li>Can permission boundaries change at runtime?</li>
+<li>Can previous configurations be reconstructed exactly?</li>
+<li>What evidence is required before a modified runtime is trusted?</li>
+</ul>
+<p>Composable runtimes make these questions architectural rather than theoretical.</p>
+<h2>What this architecture does not solve</h2>
+<p>High composability also introduces costs.</p>
+<p>A plugin-oriented runtime can create:</p>
+<ul>
+<li>dependency explosion</li>
+<li>configuration drift</li>
+<li>plugin incompatibility</li>
+<li>hidden cross-component interactions</li>
+<li>larger security surfaces</li>
+<li>weaker reproducibility</li>
+</ul>
+<p>The more dynamically configurable the system becomes, the harder it is to reason about globally.</p>
+<p>A serious harness runtime therefore needs something analogous to a system-level lockfile:</p>
+<ul>
+<li>model version</li>
+<li>prompt version</li>
+<li>plugin graph</li>
+<li>tool schemas</li>
+<li>sandbox configuration</li>
+<li>context policy</li>
+<li>runtime version</li>
+<li>execution constraints</li>
+<li>environment</li>
+</ul>
+<p>Without those inputs, "replay" may mean approximate reconstruction rather than reproducible execution.</p>
+<p>DeepSeek also describes Harness as a <a href="https://github.com/deepseek-ai/deepseek-harness">developer preview</a>, with breaking changes expected. The architecture is therefore more interesting at this stage as a direction than as a settled standard.</p>
+<h2>The deeper shift</h2>
+<p>A broader trajectory is becoming visible across agent engineering:</p>
+<pre class="mermaid">
+flowchart TD
+    T1["Prompt engineering"] --> T2["Tool use"]
+    T2 --> T3["Agent loops"]
+    T3 --> T4["Orchestration frameworks"]
+    T4 --> T5["Harness runtimes"]
+    T5 --> T6["Composable execution systems"]
+</pre>
+<p>DeepSeek Harness makes that progression unusually explicit.</p>
+<p>The important shift is not simply toward better agents.</p>
+<p>It is toward systems in which the infrastructure surrounding the model becomes a primary locus of capability, control, experimentation, and evaluation.</p>
+<p>The model remains important.</p>
+<p>But it is increasingly one component inside a larger execution system that determines what context it receives, what actions it can take, how those actions are sequenced, what state persists, what policies apply, and what evidence is recorded.</p>
+<p>The harness is therefore no longer just supporting infrastructure.</p>
+<p>It is becoming the runtime substrate of agency itself.</p>
+<p>And once that happens, agent engineering starts to look much more like systems engineering.</p>
+<h2>Practical Takeaways</h2>
+<ol>
+<li>Treat the harness as an explicit software system, not glue. Context construction, tool selection, memory policy, and scheduling change behavior as much as model choice does.</li>
+<li>When benchmarking a model, hold the harness constant — a minimal reference configuration isolates model capability from system effects.</li>
+<li>Where task structure is stable, consider compiling orchestration into deterministic code; control flow that lives in a program is cheaper to inspect, replay, and verify than control flow spread across inference steps.</li>
+<li>Record execution as an append-only event stream. Trajectory analysis, failure reconstruction, and eval dataset generation all require process data, not just final answers.</li>
+<li>Enforce operational controls — authentication, tool policy, sandboxing, execution limits, verification, audit — in the harness, outside the model. Concrete guarantees need an enforcement point that is not the model itself.</li>
+<li>If the runtime can change at runtime, treat the full configuration as the unit of reproducibility: model version, plugin graph, tool schemas, policies, and environment, pinned together.</li>
+</ol>
+<h2>Positioning note</h2>
+<p>This article extends the harness-engineering thread of this site: where earlier notes argued that harness design dominates agent reliability, this one examines an open-source release that makes the harness explicitly programmable. It is analysis of a third-party project as shipped, not a specification, a product roadmap, or an adoption recommendation.</p>
+<h2>Status & scope disclaimer</h2>
+<p>This note analyzes DeepSeek Harness as released in August 2026 — an MIT-licensed agent harness shipped as a developer preview, which DeepSeek states is still being tested and whose core plugins and APIs will continue to evolve. Descriptions here reflect the current architecture; they are not vendor documentation and should not be treated as stable API commitments. The interpretive claims — the harness as reference configuration, as assurance boundary, as reflexive infrastructure — are this article's own analysis, not DeepSeek's stated positions. This is personal lab analysis of a fast-moving open-source project; verify current behavior against the repository before building on it.</p>
+<h3>Related</h3>
+<ul>
+<li><a href="../enterprise-ai-needs-harness-engineering/">Enterprise AI Needs Harness Engineering, Not Better Chatbots</a> (Extends)</li>
+<li><a href="../harness-gap/">The Harness Gap: Measuring Model–Harness Fit in Coding Agents</a> (Complements)</li>
+<li><a href="../harness-new-model-agent-systems-2026/">Harness Engineering Is the Primary Lever for Agent Reliability in 2025–2026</a> (Context)</li>
+<li><a href="../beyond-evals-assurance-model/">Beyond Evals: A Practical Assurance Model for Agentic Systems</a> (Extends)</li>
+<li><a href="../deterministic-runtimes/">Deterministic Runtimes for Long-Horizon AI Agents</a> (Complements)</li>
+<li><a href="../loop-engineering/">Loop Engineering: The Control System Around the Agent</a> (Related)</li>
+</ul>
+<h2>References</h2>
+<ol>
+<li>DeepSeek — <a href="https://deepseek.com/harness/en/">DeepSeek Harness: Everything Is a Plugin</a> — developer preview announcement: plugin architecture, Cordis kernel, and the four runtime modes.</li>
+<li>DeepSeek — <a href="https://github.com/deepseek-ai/deepseek-harness">deepseek-ai/deepseek-harness</a> — source repository: README, developer documentation, and benchmark setup.</li>
+<li>DeepSeek — <a href="https://github.com/deepseek-ai/deepseek-harness/blob/master/BENCHMARK.md">BENCHMARK.md</a> — instructions for running benchmarks through the minimal harness variant.</li>
+<li>Cordiverse — <a href="https://github.com/cordiverse/cordis">Cordis: A Meta-Framework of Spatiotemporal Composability</a> — the plugin kernel underneath DeepSeek Harness.</li>
+<li>Cordiverse — <a href="https://github.com/cordiverse/paper">A Programming Paradigm for Spatiotemporal Composability</a> — the paper describing Cordis's design.</li>
+<li>DeepSeek — <a href="https://deepseek-harness.github.io/deepseek-harness/en/">DeepSeek Harness documentation</a> — reference documentation for plugins, tools, and the Code Mode SDK.</li>
+</ol>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        themeCSS: '.label foreignObject { overflow: visible; }',
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        {
+          text: "I am not glue around a model. I am the runtime that decides what the model may touch.",
+          agent: "Harness Runtime Agent"
+        },
+        {
+          text: "I keep the event log append-only, because a trajectory I cannot replay is a behavior I cannot audit.",
+          agent: "Event Stream Agent"
+        },
+        {
+          text: "I pin the plugin graph before I run, so today's result can be reproduced tomorrow.",
+          agent: "Composition Agent"
+        }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>

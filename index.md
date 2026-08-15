@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [The Harness Is Becoming the Runtime](/notes/the-harness-is-becoming-the-runtime/)
+DeepSeek Harness points to a new abstraction boundary: the harness as a programmable runtime, where models, tools, loops, and policies become swappable plugins and agent engineering converges with systems engineering.
+
 ### [Beyond Evals: A Practical Assurance Model for Agentic Systems](/notes/beyond-evals-assurance-model/)
 Agent evals answer how a system behaves across tested situations. Production agent systems force harder questions — about evidence, controls, verification, validation, and recovery.
 
