@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*August 15, 2026* — [The Harness Is Becoming the Runtime](/notes/the-harness-is-becoming-the-runtime/)
+
+### [The Harness Is Becoming the Runtime](/notes/the-harness-is-becoming-the-runtime/)
+*August 15, 2026* — DeepSeek Harness points to a new abstraction boundary: the harness as a programmable runtime, where models, tools, loops, and policies become swappable plugins and agent engineering converges with systems engineering.
+
 *August 10, 2026* — [Beyond Evals: A Practical Assurance Model for Agentic Systems](/notes/beyond-evals-assurance-model/)
 
 ### [Beyond Evals: A Practical Assurance Model for Agentic Systems](/notes/beyond-evals-assurance-model/)
