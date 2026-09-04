@@ -34,6 +34,14 @@
       hr{border:0;border-top:1px solid var(--glass);margin:48px 0}
 
       .muted{color:var(--muted);font-size:0.95rem}
+      .research-intro{max-width:760px}
+      .research-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:24px 0}
+      .research-card{padding:20px;background:var(--glass);border:1px solid var(--glass);border-radius:12px}
+      .research-card h3{font-size:1.05rem;margin:0 0 8px}
+      .research-card p{font-size:0.92rem;line-height:1.55;margin:0;color:var(--muted)}
+      .research-card a{color:inherit;text-decoration:none}
+      .research-card a:hover{color:var(--accent)}
+      .research-label{display:inline-block;color:#c4b5fd;font-size:0.72rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:8px}
 
       footer{margin-top:80px;color:var(--muted);font-size:0.95rem;padding:40px 0;text-align:center;border-top:1px solid var(--glass)}
 
@@ -86,8 +94,117 @@
       <main>
         <section>
           <h1 style="display:flex;align-items:center;gap:16px"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg> Research</h1>
-          <p>I conduct independent, applied research at the intersection of <strong>AI systems, software engineering, and agent governance</strong>. My work focuses on understanding how modern AI-enabled tools actually behave in production—not in demos, benchmarks, or abstractions.</p>
+          <p class="research-intro">I conduct independent, applied research at the intersection of <strong>AI systems, software engineering, and agent governance</strong>. My work focuses on understanding how modern AI-enabled tools actually behave in production—not in demos, benchmarks, or abstractions.</p>
           <p>The emphasis is practical: studying real systems, extracting reusable patterns, and publishing findings as open technical notes and artifacts.</p>
+
+          <h2 id="research-directions">Research directions</h2>
+          <p class="research-intro">The program studies how to make agentic systems more governable, verifiable, inspectable, and useful in real workflows.</p>
+          <div class="research-grid" aria-labelledby="research-directions">
+            <article class="research-card">
+              <h3>Governed agent control planes</h3>
+              <p>Move authority out of model outputs and into deterministic policy, typed state, checkpoints, evidence, recovery, and explicit stopping rules.</p>
+            </article>
+            <article class="research-card">
+              <h3>Computation authorization and provenance</h3>
+              <p>Study how identity, delegated capability, information flow, and execution history constrain whole agent trajectories—not just individual tool calls.</p>
+            </article>
+            <article class="research-card">
+              <h3>Evidence-first software delivery</h3>
+              <p>Measure whether durable specifications, hidden verification, operational checks, and evidence bundles improve generated software reliability.</p>
+            </article>
+            <article class="research-card">
+              <h3>Research and knowledge compilers</h3>
+              <p>Treat sources as untrusted input, claims as canonical units, and graphs, search indexes, and reports as rebuildable projections.</p>
+            </article>
+            <article class="research-card">
+              <h3>FDE and organizational readiness</h3>
+              <p>Understand which repository, workflow, and team conditions make autonomous delegation safe, useful, and sustainable.</p>
+            </article>
+            <article class="research-card">
+              <h3>Protocols, runtimes, and model fit</h3>
+              <p>Explore MCP interoperability, durable execution, harness adaptation, prompt-stack promotion, and the quality–cost–latency frontier.</p>
+            </article>
+          </div>
+
+          <h2 id="research-programs">Active research programs</h2>
+          <p class="research-intro">These public repositories are research instruments: experiments, benchmarks, and reference systems. Findings are published as evidence becomes available.</p>
+          <div class="research-grid" aria-labelledby="research-programs">
+            <article class="research-card">
+              <span class="research-label">Benchmark</span>
+              <h3><a href="https://github.com/rmax-ai/harness-fit" target="_blank" rel="noopener" data-simple-event="click_research_project" data-simple-research-project-id="harness-fit">HarnessFit</a></h3>
+              <p>Model-specific agent harness profiles and their effect on task success, transfer, and cost.</p>
+            </article>
+            <article class="research-card">
+              <span class="research-label">Benchmark</span>
+              <h3><a href="https://github.com/rmax-ai/regenerable-software-lab" target="_blank" rel="noopener" data-simple-event="click_research_project" data-simple-research-project-id="regenerable-software-lab">Regenerable Software Lab</a></h3>
+              <p>Implementation-independent verification for AI-generated software and durable failure assets.</p>
+            </article>
+            <article class="research-card">
+              <span class="research-label">Assurance</span>
+              <h3><a href="https://github.com/rmax-ai/evidence-first-harness" target="_blank" rel="noopener" data-simple-event="click_research_project" data-simple-research-project-id="evidence-first-harness">Evidence-First Harness</a></h3>
+              <p>Claim–evidence–decision bundles for governing changes made by coding agents.</p>
+            </article>
+            <article class="research-card">
+              <span class="research-label">Adaptive systems</span>
+              <h3><a href="https://github.com/rmax-ai/enterprise-autoharness-lab" target="_blank" rel="noopener" data-simple-event="click_research_project" data-simple-research-project-id="enterprise-autoharness-lab">Enterprise AutoHarness Lab</a></h3>
+              <p>Synthesizing deterministic controls from agent failures without ceding policy to the model.</p>
+            </article>
+            <article class="research-card">
+              <span class="research-label">Security</span>
+              <h3><a href="https://github.com/rmax-ai/trajectory-authorization-lab" target="_blank" rel="noopener" data-simple-event="click_research_project" data-simple-research-project-id="trajectory-authorization-lab">Trajectory Authorization Lab</a></h3>
+              <p>From per-call permissions to authorization of an entire computation trajectory.</p>
+            </article>
+            <article class="research-card">
+              <span class="research-label">Security</span>
+              <h3><a href="https://github.com/rmax-ai/causal-agent-telemetry-graph" target="_blank" rel="noopener" data-simple-event="click_research_project" data-simple-research-project-id="causal-agent-telemetry-graph">Causal Agent Telemetry Graph</a></h3>
+              <p>Causal and provenance graphs for reproducible agent-security analysis.</p>
+            </article>
+            <article class="research-card">
+              <span class="research-label">Knowledge systems</span>
+              <h3><a href="https://github.com/rmax-ai/kiln" target="_blank" rel="noopener" data-simple-event="click_research_project" data-simple-research-project-id="kiln">Kiln</a></h3>
+              <p>Filesystem-first, evidence-backed knowledge compilation.</p>
+            </article>
+            <article class="research-card">
+              <span class="research-label">Knowledge systems</span>
+              <h3><a href="https://github.com/rmax-ai/debate-lab" target="_blank" rel="noopener" data-simple-event="click_research_project" data-simple-research-project-id="debate-lab">DebateLab</a></h3>
+              <p>Traceable deliberation through structured claims, evidence, challenge, and revision.</p>
+            </article>
+            <article class="research-card">
+              <span class="research-label">FDE research</span>
+              <h3><a href="https://github.com/rmax-ai/adaptive-fde-case-simulator" target="_blank" rel="noopener" data-simple-event="click_research_project" data-simple-research-project-id="adaptive-fde-case-simulator">Adaptive FDE Case Simulator</a></h3>
+              <p>Evidence-linked training and evaluation for forward-deployed engineering.</p>
+            </article>
+            <article class="research-card">
+              <span class="research-label">Org systems</span>
+              <h3><a href="https://github.com/rmax-ai/agentic-engineering-org-lab" target="_blank" rel="noopener" data-simple-event="click_research_project" data-simple-research-project-id="agentic-engineering-org-lab">Agentic Engineering Org Lab</a></h3>
+              <p>A control plane for repository readiness, delegated execution, verification, and bounded autofix.</p>
+            </article>
+            <article class="research-card">
+              <span class="research-label">Runtime research</span>
+              <h3><a href="https://github.com/rmax-ai/durable-agent-runtime-lab" target="_blank" rel="noopener" data-simple-event="click_research_project" data-simple-research-project-id="durable-agent-runtime-lab">Durable Agent Runtime Lab</a></h3>
+              <p>Typed, deterministic, restart-safe agent workflows.</p>
+            </article>
+            <article class="research-card">
+              <span class="research-label">Runtime research</span>
+              <h3><a href="https://github.com/rmax-ai/recursive-execution-harness-lab" target="_blank" rel="noopener" data-simple-event="click_research_project" data-simple-research-project-id="recursive-execution-harness-lab">Recursive Execution Harness Lab</a></h3>
+              <p>Reference-indexed execution for long-running, multi-document research.</p>
+            </article>
+            <article class="research-card">
+              <span class="research-label">Evaluation</span>
+              <h3><a href="https://github.com/rmax-ai/promptbench" target="_blank" rel="noopener" data-simple-event="click_research_project" data-simple-research-project-id="promptbench">PromptBench</a></h3>
+              <p>Reproducible prompt-style evaluation with deterministic grading, cost, latency, and variance.</p>
+            </article>
+            <article class="research-card">
+              <span class="research-label">Evaluation</span>
+              <h3><a href="https://github.com/rmax-ai/promptstackbench" target="_blank" rel="noopener" data-simple-event="click_research_project" data-simple-research-project-id="promptstackbench">PromptStackBench</a></h3>
+              <p>When a persona should become a skill, agent, or harness.</p>
+            </article>
+            <article class="research-card">
+              <span class="research-label">Identity</span>
+              <h3><a href="https://github.com/rmax-ai/agent-identity-lab" target="_blank" rel="noopener" data-simple-event="click_research_project" data-simple-research-project-id="agent-identity-lab">Agent Identity Lab</a></h3>
+              <p>First-class identity, delegated authority, and authorization for agents.</p>
+            </article>
+          </div>
 
           <hr />
 
