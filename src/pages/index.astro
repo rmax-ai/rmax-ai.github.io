@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NoteCard from '../components/NoteCard.astro';
+const notes = (await getCollection('notes', ({ data }) => data.status === 'published')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
+---
+<BaseLayout title="rmax.ai — AI-first engineering">
+  <section class="hero shell"><p class="eyebrow">Research lab for agent-native systems</p><h1>Engineering the systems around capable agents.</h1><p>rmax.ai publishes practical research on agent orchestration, evidence, governance, and the harnesses that make autonomy reliable.</p><div class="actions"><a class="button" href="/start-here/">Start here</a><a class="button button--subtle" href="/notes/">Browse notes</a></div></section>
+  <section class="shell section"><div class="grid"><article class="card"><p class="eyebrow">Systems</p><h2>Harnesses, not prompts</h2><p>Build deterministic control around stochastic proposals: context, tools, policies, verification, and recovery.</p></article><article class="card"><p class="eyebrow">Governance</p><h2>Authority is explicit</h2><p>Useful autonomy is scoped, observable, and matched to evidence—not granted by default.</p></article><article class="card"><p class="eyebrow">Practice</p><h2>Research becomes artifacts</h2><p>Turn field learning into reusable patterns, experiments, and production-ready operating models.</p></article></div></section>
+  <section class="shell section"><div class="section-head"><div><p class="eyebrow">Latest writing</p><h2>Notes from the lab</h2></div><a href="/notes/">All notes →</a></div><div class="grid">{notes.map((note) => <NoteCard {note} />)}</div></section>
+</BaseLayout>
+<style>
+  .hero { padding:7rem 0 4rem; max-width:900px; }.hero h1 { margin:.5rem 0 1rem; font-size:clamp(2.7rem,7vw,5.75rem); line-height:.98; letter-spacing:-.065em; }.hero > p:not(.eyebrow) { max-width:700px; color:var(--muted); font-size:1.18rem; }.actions { display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1.75rem; }.section-head { display:flex; justify-content:space-between; align-items:end; gap:1rem; margin-bottom:1rem; }.section-head h2 { margin:.2rem 0; }.section-head > a { color:#c6b8ff; font-weight:800; }
+</style>

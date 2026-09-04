@@ -1,0 +1,11 @@
+---
+interface Props { note: { data: { title: string; description: string; date: Date; reading_time?: string; slug: string } } }
+const { note } = Astro.props;
+const date = note.data.date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+---
+<a class="note-card card" href={`/notes/${note.data.slug}/`}>
+  <p class="date">{date}{note.data.reading_time && ` · ${note.data.reading_time}`}</p><h2>{note.data.title}</h2><p>{note.data.description}</p><span>Read note →</span>
+</a>
+<style>
+  .note-card { display:block; text-decoration:none; transition:transform .18s,border-color .18s; }.note-card:hover { transform:translateY(-3px); border-color:rgba(185,167,255,.6); }.date { color:var(--accent-2); font-size:.8rem; font-weight:700; }.note-card h2 { margin:.25rem 0 .5rem; font-size:1.25rem; line-height:1.3; }.note-card p:not(.date) { color:var(--muted); margin:.5rem 0 1rem; }.note-card span { font-size:.9rem; font-weight:800; color:#c6b8ff; }
+</style>

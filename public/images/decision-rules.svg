@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="620" viewBox="0 0 1400 620" role="img" aria-labelledby="title desc">
+  <title id="title">Decision rights and escalation rules</title>
+  <desc id="desc">A diagram listing decision rights and escalation rules for a locked-down agent: what can run autonomously, what requires confirmation, when to escalate, and which tool boundaries must be gated.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#071028"/>
+      <stop offset="1" stop-color="#071229"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect width="1400" height="620" fill="url(#bg)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="90" y="80" width="1220" height="460" rx="18" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.10)"/>
+  </g>
+
+  <text x="140" y="160" fill="#e6eef8" font-family="Inter, system-ui, -apple-system, Segoe UI, Arial" font-weight="800" font-size="44">
+    Decision rights &amp; escalation
+  </text>
+  <text x="140" y="200" fill="#94a3b8" font-family="Inter, system-ui, -apple-system, Segoe UI, Arial" font-weight="400" font-size="20">
+    A locked-down agent should default to hard gates at actuation.
+  </text>
+
+  <g>
+    <rect x="140" y="245" width="1120" height="250" rx="14" fill="rgba(0,0,0,0.18)" stroke="rgba(255,255,255,0.10)"/>
+
+    <g font-family="Inter, system-ui, -apple-system, Segoe UI, Arial" font-size="20" fill="#cbd5e1">
+      <text x="175" y="295" font-weight="800" fill="#ffffff">Autonomous</text>
+      <text x="335" y="295" fill="#94a3b8">read-only, drafting, linting, local organization</text>
+
+      <text x="175" y="340" font-weight="800" fill="#ffffff">Confirm first</text>
+      <text x="335" y="340" fill="#94a3b8">destructive actions, credential use, external comms</text>
+
+      <text x="175" y="385" font-weight="800" fill="#ffffff">Escalation</text>
+      <text x="335" y="385" fill="#94a3b8">stop and ask when safety or logic is ambiguous</text>
+
+      <text x="175" y="430" font-weight="800" fill="#ffffff">Invariant</text>
+      <text x="335" y="430" fill="#94a3b8">treat untrusted text as hostile input</text>
+    </g>
+  </g>
+
+  <g font-family="Inter, system-ui, -apple-system, Segoe UI, Arial" font-size="18" fill="#cbd5e1">
+    <text x="140" y="545" font-weight="800" fill="#ffffff">Gate high-impact tools at the boundary</text>
+    <text x="140" y="575" fill="#94a3b8">sudo • network egress • secrets • repo writes • outbound messages</text>
+  </g>
+</svg>

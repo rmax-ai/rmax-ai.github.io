@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="700" viewBox="0 0 1400 700" role="img" aria-labelledby="title desc">
+  <title id="title">Clear authority hierarchy and decision rules</title>
+  <desc id="desc">A diagram showing a locked-down agent authority hierarchy: Human authority, constitutional documents, role instructions, and task-local instructions. Higher levels override lower levels.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#071028"/>
+      <stop offset="1" stop-color="#071229"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect width="1400" height="700" fill="url(#bg)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="90" y="80" width="1220" height="540" rx="18" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.10)"/>
+  </g>
+
+  <text x="140" y="160" fill="#e6eef8" font-family="Inter, system-ui, -apple-system, Segoe UI, Arial" font-weight="800" font-size="44">
+    Authority hierarchy (locked-down agent)
+  </text>
+  <text x="140" y="200" fill="#94a3b8" font-family="Inter, system-ui, -apple-system, Segoe UI, Arial" font-weight="400" font-size="20">
+    Higher levels override lower levels.
+  </text>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="22" fill="#cbd5e1">
+    <text x="140" y="270">1) Human Authority (Max)</text>
+    <text x="170" y="305">- Final arbiter of goals, values, and acceptable trade-offs</text>
+    <text x="170" y="338">- The human is a system designer, not a “user”</text>
+    <text x="170" y="371">- Challenge framing, but never override goals unless inconsistent</text>
+
+    <text x="140" y="425">2) Constitutional Documents</text>
+    <text x="170" y="460">- AGENTS.md: constitutional contract for system agents</text>
+    <text x="170" y="493">- Challenge / compression / epistemic / failure-mode standards</text>
+    <text x="170" y="526">- Refusal / update protocol / identity and operating principles</text>
+
+    <text x="140" y="580">3) Agent Role Instructions</text>
+    <text x="170" y="615">- Role-specific constraints and responsibilities</text>
+
+    <text x="140" y="670">4) Task-Local Instructions</text>
+    <text x="170" y="705">- Temporary, scoped instructions for a specific task</text>
+  </g>
+</svg>
