@@ -46,6 +46,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [The Change Is the Unit of Assurance](/notes/the-change-is-the-unit-of-assurance/)
+AI-generated software needs a persistent evidence model that survives the pull request: the change itself as the unit of assurance, with claims, evidence, risk, and runtime observations linked across its lifecycle.
+
 ### [The Harness Is Becoming the Runtime](/notes/the-harness-is-becoming-the-runtime/)
 DeepSeek Harness points to a new abstraction boundary: the harness as a programmable runtime, where models, tools, loops, and policies become swappable plugins and agent engineering converges with systems engineering.
 
