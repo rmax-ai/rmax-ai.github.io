@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-08-15T19:34:35Z</lastmod>
+    <lastmod>2026-09-05T17:36:34Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-08-15T19:34:33Z</lastmod>
+    <lastmod>2026-09-05T17:36:34Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -233,8 +233,12 @@
     <lastmod>2026-07-21T21:35:01Z</lastmod>
   </url>
   <url>
+    <loc>https://rmax.ai/notes/the-change-is-the-unit-of-assurance/</loc>
+    <lastmod>2026-09-05T17:35:24Z</lastmod>
+  </url>
+  <url>
     <loc>https://rmax.ai/notes/the-harness-is-becoming-the-runtime/</loc>
-    <lastmod>2026-08-15T19:33:42Z</lastmod>
+    <lastmod>2026-09-05T17:15:02Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/the-software-replacement-age/</loc>
@@ -262,11 +266,11 @@
   </url>
   <url>
     <loc>https://rmax.ai/projects/</loc>
-    <lastmod>2026-07-01T07:15:02Z</lastmod>
+    <lastmod>2026-09-05T17:15:02Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/research/</loc>
-    <lastmod>2026-05-30T07:02:37Z</lastmod>
+    <lastmod>2026-09-05T17:15:02Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/start-here/</loc>

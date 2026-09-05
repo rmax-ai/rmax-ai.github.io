@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*September 5, 2026* — [The Change Is the Unit of Assurance](/notes/the-change-is-the-unit-of-assurance/)
+
+### [The Change Is the Unit of Assurance](/notes/the-change-is-the-unit-of-assurance/)
+*September 5, 2026* — AI-generated software needs a persistent evidence model that survives the pull request: the change itself as the unit of assurance, with claims, evidence, risk, and runtime observations linked across its lifecycle.
+
 *August 15, 2026* — [The Harness Is Becoming the Runtime](/notes/the-harness-is-becoming-the-runtime/)
 
 ### [The Harness Is Becoming the Runtime](/notes/the-harness-is-becoming-the-runtime/)
