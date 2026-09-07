@@ -10,12 +10,12 @@ status: published
 date: 2026-02-08
 updated: 2026-02-08
 tags:
-	- testing
-	- reliability
-	- observability
-	- resilience
-	- operations
-	- ai-assisted-development
+  - testing
+  - reliability
+  - observability
+  - resilience
+  - operations
+  - ai-assisted-development
 reading_time: 5–7 min
 canonical_url: https://rmax.ai/notes/tests-not-silver-bullet-resilience-first-observability/
 license: CC BY 4.0

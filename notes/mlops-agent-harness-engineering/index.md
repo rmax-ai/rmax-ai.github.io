@@ -10,12 +10,12 @@ status: "published"
 date: 2026-03-22
 updated: 2026-03-22
 tags:
-	- agents
-	- mlops
-	- harness
-	- systems-engineering
-	- verification
-	- observability
+  - agents
+  - mlops
+  - harness
+  - systems-engineering
+  - verification
+  - observability
 reading_time: "8–10 min"
 canonical_url: "https://rmax.ai/notes/mlops-agent-harness-engineering/"
 license: "CC BY 4.0"

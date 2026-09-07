@@ -1,2 +1,7 @@
 # Temporary files (screenshots for PR comments, etc.)
 temp/
+
+# Astro build and generated type metadata
+dist/
+.astro/
+node_modules/

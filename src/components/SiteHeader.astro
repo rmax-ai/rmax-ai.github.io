@@ -1,0 +1,24 @@
+---
+const links = [
+  ['Notes', '/notes/'], ['Projects', '/projects/'], ['Research', '/research/'], ['Apps', '/apps/'],
+];
+---
+<header class="site-header">
+  <div class="shell row">
+    <a class="brand" href="/" aria-label="rmax.ai home"><img src="/images/logo_dark.png" alt="" /><span>rmax.ai</span></a>
+    <nav aria-label="Primary navigation">
+      {links.map(([label, href]) => <a href={href}>{label}</a>)}
+      <a href="https://github.com/rmax-ai" rel="noreferrer" target="_blank">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+<style>
+  .site-header { position:sticky; top:0; z-index:10; backdrop-filter:blur(16px); background:rgba(7,18,41,.8); border-bottom:1px solid var(--line); }
+  .row { min-height:4.25rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+  .brand { display:flex; align-items:center; gap:.55rem; font-weight:850; text-decoration:none; letter-spacing:-.03em; }
+  .brand img { width:1.8rem; height:1.8rem; object-fit:contain; }
+  nav { display:flex; flex-wrap:wrap; justify-content:end; gap:.9rem; }
+  nav a { color:var(--muted); font-size:.9rem; font-weight:700; text-decoration:none; }
+  nav a:hover { color:var(--text); }
+  @media (max-width:600px) { .row { padding:.75rem 0; align-items:flex-start; } nav { gap:.55rem .8rem; } }
+</style>

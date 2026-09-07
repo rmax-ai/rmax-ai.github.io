@@ -1,0 +1,7 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+interface Props { title: string; eyebrow: string; description: string; items: { title: string; body: string; href?: string }[]; }
+const { title, eyebrow, description, items } = Astro.props;
+---
+<BaseLayout title={`${title} — rmax.ai`} description={description}><section class="shell intro"><p class="eyebrow">{eyebrow}</p><h1>{title}</h1><p>{description}</p></section><section class="shell grid section">{items.map((item) => <article class="card"><h2>{item.title}</h2><p>{item.body}</p>{item.href && <a href={item.href}>Explore →</a>}</article>)}</section></BaseLayout>
+<style>.intro { padding:5rem 0 1rem; max-width:800px; }.intro h1 { margin:.3rem 0; font-size:clamp(3rem,7vw,5rem); letter-spacing:-.06em; }.intro p:not(.eyebrow),.card p { color:var(--muted); }.card h2{line-height:1.25;}.card a{color:#c6b8ff;font-weight:800;}</style>

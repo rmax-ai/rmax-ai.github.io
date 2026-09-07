@@ -1,5 +1,5 @@
 ---
-title: Temporary Accounts for AI Agents: How Cloudflare Removes Friction Without Removing Control
+title: "Temporary Accounts for AI Agents: How Cloudflare Removes Friction Without Removing Control"
 slug: cloudflare-temporary-accounts-ai-agents
 description: A technical note on Cloudflare temporary accounts for AI agents, arguing that bounded, expiring capability is a practical onboarding pattern for agent-native platforms.
 author: Max

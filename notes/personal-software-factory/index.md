@@ -10,11 +10,11 @@ status: "published"
 date: 2026-01-20
 updated: 2026-01-20
 tags:
-	- "agents"
-	- "software-architecture"
-	- "developer-productivity"
-	- "tooling"
-	- "operations"
+  - "agents"
+  - "software-architecture"
+  - "developer-productivity"
+  - "tooling"
+  - "operations"
 reading_time: "4 min"
 canonical_url: "https://rmax.ai/notes/personal-software-factory/"
 license: "CC BY 4.0"

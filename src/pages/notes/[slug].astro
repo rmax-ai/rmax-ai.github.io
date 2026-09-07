@@ -1,0 +1,15 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+export async function getStaticPaths() {
+  const notes = await getCollection('notes', ({ data }) => data.status === 'published');
+  return notes.map((note) => ({ params: { slug: note.data.slug }, props: { note } }));
+}
+const { note } = Astro.props;
+const { Content } = await render(note);
+const date = note.data.date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+---
+<BaseLayout title={`${note.data.title} — rmax.ai`} description={note.data.description}>
+  <article class="shell article"><header><p class="eyebrow">{note.data.type}</p><h1>{note.data.title}</h1><p class="dek">{note.data.description}</p><p class="meta">{date} · {note.data.reading_time ?? 'Research note'} · {note.data.author}</p>{note.data.tags.length > 0 && <ul class="tags">{note.data.tags.map((tag) => <li>{tag}</li>)}</ul>}</header><div class="prose"><Content /></div></article>
+</BaseLayout>
+<style>.article{padding:5rem 0 2rem;}.article header{max-width:840px;margin-bottom:3rem;}.article h1{margin:.35rem 0 1rem;font-size:clamp(2.5rem,6vw,4.8rem);line-height:1.02;letter-spacing:-.06em;}.dek{font-size:1.2rem;color:var(--muted);max-width:720px;}.meta{color:var(--muted);font-size:.9rem;}.tags{list-style:none;display:flex;gap:.5rem;flex-wrap:wrap;padding:0;}.tags li{padding:.2rem .55rem;border:1px solid var(--line);border-radius:99px;font-size:.78rem;color:var(--muted);}</style>

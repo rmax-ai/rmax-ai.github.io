@@ -1,0 +1,11 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NoteCard from '../../components/NoteCard.astro';
+const notes = (await getCollection('notes', ({ data }) => data.status === 'published')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<BaseLayout title="Notes — rmax.ai" description="Research notes on agent-native software engineering, evidence, and governance.">
+  <section class="shell intro"><p class="eyebrow">Writing</p><h1>Notes</h1><p>Research and practical models for building trustworthy agent-native systems.</p></section>
+  <section class="shell cards">{notes.map((note) => <NoteCard {note} />)}</section>
+</BaseLayout>
+<style>.intro { padding:5rem 0 2rem; }.intro h1 { margin:.3rem 0; font-size:clamp(3rem,7vw,5rem); letter-spacing:-.06em; }.intro p:not(.eyebrow) { color:var(--muted); }.cards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; } @media(max-width:760px){.cards{grid-template-columns:1fr;}}</style>
