@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>From Watch Later to a Knowledge Pipeline — rmax.ai</title>
+    <meta name="description" content="How a git-backed YouTube watch-later pipeline turns videos into structured, searchable knowledge artifacts with provenance, failure visibility, and a static explorer." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/watch-later-as-a-knowledge-pipeline/" />
+
+    <meta property="og:title" content="From Watch Later to a Knowledge Pipeline" />
+    <meta property="og:description" content="How a git-backed YouTube watch-later pipeline turns videos into structured, searchable knowledge artifacts with provenance, failure visibility, and a static explorer." />
+    <meta property="og:url" content="https://rmax.ai/notes/watch-later-as-a-knowledge-pipeline/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-09" />
+    <meta property="article:modified_time" content="2026-09-09" />
+    <meta property="article:tag" content="knowledge-management" />
+    <meta property="article:tag" content="pipelines" />
+    <meta property="article:tag" content="agents" />
+    <meta property="article:tag" content="static-sites" />
+    <meta property="article:tag" content="llm" />
+    <meta property="article:tag" content="provenance" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      h4 {
+        margin: 24px 0 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+
+      @media (max-width: 600px) {
+        .wrap {
+          margin: 20px auto;
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav aria-label="Main navigation">
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" class="navlink" target="_blank" rel="noopener">GitHub</a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>From Watch Later to a Knowledge Pipeline</h1>
+            <div class="post-meta">
+              <span>2026-09-09</span>
+              <span>•</span>
+              <span>10–12 min</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <p>A watch-later playlist is usually a knowledge graveyard. Videos enter with an intention, then lose against the next meeting, the next release, or the next recommendation. Even when we watch them, the useful part remains trapped in a linear medium: a claim we cannot find again, an idea we cannot connect to the project it should change, a quote without a durable home.</p>
+            <p>We decided to treat digestion as a data-pipeline problem rather than a personal productivity problem. The result is a private, git-backed corpus and a public static explorer, <a href="https://rmax.ai/yt-insights-web/">YT Insights Explorer</a>. At the current snapshot, 83 index items contain 73 analyzed videos, 5 skipped items, and 5 failed items. Those videos yielded 1,326 concepts, 390 core insights, 500 claims, 283 article ideas, 270 project ideas, 316 deep dives, and 296 open questions, for $12.62 of model spend.</p>
+            <p>The result is not a general account of YouTube, AI research, or engineering discourse. It is one viewer's curated diet. That limitation is a feature if it is visible: a corpus should expose its sampling bias rather than pretend to be a survey.</p>
+
+            <h2>The queue is the interface; git is the store</h2>
+            <p>The pipeline lives in a private repository in the <a href="https://github.com/rmax-ai">rmax-ai organization</a>. Its queue is a YouTube digest playlist. Its durable state is git: <code>queue/</code>, <code>artifacts/</code>, <code>processed/</code>, and <code>index.json</code> are committed data, not implementation exhaust. Cost per video is recorded in the index as first-class metadata, alongside status and source identity. This makes a mundane but important question answerable: what did this corpus cost to make?</p>
+            <p>The one-command path is <code>uv run yt-insights process</code>. It moves one item through ingest, summarize, and analyze. Each completed stage creates its own commit. The boundary is operationally useful. A malformed extraction does not obscure a successful ingest; an interrupted run can resume from committed state; and the history tells us which representation existed at each stage.</p>
+
+            <pre class="mermaid">flowchart TD
+    P[YouTube digest playlist&lt;br/&gt;queue] --&gt; I[Ingest]
+    I --&gt;|commit: ingest| Q[queue/video.json]
+    I --&gt;|only after commit,&lt;br/&gt;dry_run=false| D[Delete playlist item]
+    Q --&gt; S[Summarize with Gemini]
+    S --&gt;|commit: summarize| M[summary.md&lt;br/&gt;OKF + digest]
+    M --&gt; A[Analyze with DeepSeek]
+    A --&gt;|commit: analyze| X[insights.md + insights.json&lt;br/&gt;processed + index.json]
+    A --&gt; E[Digested archive playlist]</pre>
+
+            <p>Ingest resolves the oldest playlist item, writes a queue record, and commits it before it can delete the playlist item. Deletion is behind a <code>dry_run</code> gate. The ordering is deliberate: the playlist is a convenient external queue, not the system of record. If an API operation fails after ingest, the source item remains recoverable from git. If deletion happens first, the failure mode is data loss.</p>
+            <p>Summarization creates <code>summary.md</code>, an OKF-frontmattered digest with an overview, topic map, and key points. The artifacts show Gemini-family models at this stage, including <code>gemini-3.5-flash-lite</code>. Analysis reads the digest and creates a human-readable <code>insights.md</code> plus <code>insights.json</code> through DeepSeek-family models, including <code>deepseek-v4-flash</code>. The model split is practical, not doctrinal: one stage turns a talk into a constrained digest; the other extracts a structured research surface from that digest.</p>
+            <p>Every Markdown artifact carries Open Knowledge Format metadata, including a URN, visibility, and review status. Each video is therefore a versioned unit that can be reviewed, diffed, or re-rendered rather than an opaque chat session. Older artifacts may include <code>transcript.md</code>; current processing does not depend on a transcript artifact.</p>
+            <p>The JSON schema has held exactly ten top-level sections across all 73 analyzed artifacts, with no observed schema drift:</p>
+
+            <pre class="mermaid">mindmap
+  root((insights.json))
+    core_insights
+    deep_dives
+    article_ideas
+    project_ideas
+    architectural_implications
+    tradeoffs_and_failure_modes
+    open_questions
+    key_claims
+    connections
+    tags</pre>
+
+            <p>That shape matters because it prevents a digest from becoming prose that only a model can reread. Core insights retain a type, why it matters, generalization, evidence quotes, evidence strength, and novelty. Project ideas retain a hypothesis, proof of concept, measurement, provenance, and a project-fit bucket: <code>beyond-evals</code>, <code>gatehouse</code>, <code>movement-lab</code>, or <code>new</code>. Claims retain their type and whether verification is needed.</p>
+            <p>Failure is also data. Five skipped and five failed records remain in the 83-item index. We do not delete the inconvenient cases to make completion look clean. A queue that hides failure cannot tell us whether it is draining reliably, and a corpus that only displays completed work launders operational uncertainty.</p>
+            <p>Cost is similarly concrete. The corpus totals $12.62. Across the 70 videos with cost observations, the minimum was $0.038, the median $0.143, and the maximum $0.919. At that level, compute is not the limiting resource. Choosing what is worth ingesting, checking what should be believed, and acting on the resulting backlog are more expensive than the calls.</p>
+
+            <h2>A static interface over structured artifacts</h2>
+            <p>The <a href="https://github.com/rmax-ai/yt-insights-web">public explorer repository</a> is a pure-Python static-site generator over the corpus. It emits 1,407 HTML pages, precomputed JSON, and vanilla JavaScript. The generated site is about 20 MB, under a 25 MB budget. It has no backend, framework, runtime fetch dependency, accounts, or analytics. Core pages, navigation, filters, and search work from <code>file://</code>, not just a server.</p>
+            <p>This is an intentionally static-first design. The corpus is small enough to precompute; the read path should be simple enough to audit; and a personal research tool should not require infrastructure merely to open it. The builder renders to a sibling temporary directory, verifies the tree, then atomically replaces the output. Two builds from the same corpus are byte-identical, verified through SHA-256 manifests. Sort order, absent build clocks, and the rejection of host paths make reproducibility a product property rather than a testing aspiration.</p>
+            <p>Each page has a narrow question:</p>
+            <ul>
+              <li><strong>Home</strong> answers what is in the corpus now: counts, cost, recent videos, and growth.</li>
+              <li><strong>Trends</strong> answers what has recently appeared more or less often, and states the heuristic behind that answer.</li>
+              <li><strong>Concepts</strong> answers where terms occur and which explicit connections the source recorded. Its inline SVG graph deterministically shows the 60 highest-degree nodes in a concentric-ring layout; the full 1,326-concept inventory and 358 aggregate edges remain available as accessible lists.</li>
+              <li><strong>Ideas</strong> turns extracted work into an inventory, grouping project ideas by the real buckets they fit: beyond-evals, gatehouse, movement-lab, and new.</li>
+              <li><strong>Claims</strong> exposes the verification queue rather than implying epistemic closure.</li>
+              <li><strong>Video pages</strong> preserve the ten sections and link every extracted item back to a source video.</li>
+            </ul>
+            <p>The trends page does not manufacture significance. It compares each concept's rate among videos in the most recent three calendar months with its rate in the immediately preceding three months. A concept with no prior window is labelled recent activity, not rising.</p>
+
+            <pre class="mermaid">flowchart TD
+    V[Videos by publication month] --&gt; R[Final 3-month window]
+    V --&gt; P[Previous 3-month window]
+    R --&gt; RR[recent_count / videos_in_recent_window]
+    P --&gt; PR[prior_count / videos_in_prior_window]
+    RR --&gt; S[trend score = recent rate - prior rate]
+    PR --&gt; S
+    S --&gt; G{at least 2 recent videos&lt;br/&gt;and positive score?}
+    G --&gt;|yes| U[Rising]
+    G --&gt;|no| N[Not rising or recent activity]</pre>
+
+            <p>Provenance is the hard constraint, not a visual detail. The source data has no evidence timestamps and no external URLs in artifact bodies. Current links are therefore video-level: an insight, claim, or quote leads to its local video page and the original YouTube watch URL, not to a precise moment or an external paper. The normalized schema reserves nullable <code>timestamp_seconds</code> and <code>source_url</code> slots, but the UI does not invent controls for data it does not have. Capturing that provenance belongs upstream in extraction.</p>
+            <p>Public mode also requires an explicit acknowledgement because the records are private and unreviewed by default. Weekly regeneration is scripted, but publication was a deliberate human decision. Automation refreshes the projection; it does not certify the contents.</p>
+            <p>The implementation itself was a useful small experiment in delegated work. Codex produced a 630-line plan from verified data contracts. Gemini produced the design guidelines: a dark, dense interface, CSS bars and inline SVG rather than chart libraries, and glyphs as well as color for insight types. Factory Droid implemented the eight-task TDD plan with 54 tests and a real-corpus build. Hermes independently reran the gates and smoke-tested <code>file://</code> and HTTP rather than accepting the implementer's report. The chain worked because the contract was verified before delegation and verification was independent after it.</p>
+
+            <h2>What the corpus says, and what it cannot say</h2>
+            <p>The corpus spans source videos from 2021 through 2026, but it is young in an important sense. Sixty-seven of 73 sources were published in 2026, and 48 of 73 were published in August and September 2026. Any apparent trend is a short-window heuristic over a curated feed, not a population estimate.</p>
+            <p>The top tags by video count are agents (12), artificial intelligence (10), ai agents (8), agent-architecture (6), human-in-the-loop (6), then AGI, ai, and evaluation (5 each). Tags use trim-and-casefold equality only. We do not stem or fuzzily merge them, because silently merging concepts is worse than exposing vocabulary fragmentation.</p>
+            <p>Within the recent-rate heuristic, <strong>agents</strong> rises by +0.204 with 11 recent videos. AI, evaluation, and Prompt injection rise by +0.074; multi-agent-systems, agent-orchestration, agentic-ai, alignment, MCP, and memory rise by +0.056. Meanwhile ai-native-sdlc declines by -0.286, with 3 videos overall and none recent; ai agents declines by -0.212; artificial intelligence declines by -0.156. The defensible story is modest: attention in this feed rotates on roughly a two-to-three-month half-life, while “agents” consolidates as the generic AI framing recedes.</p>
+            <p>The insight-type distribution identifies a second bias. Of 390 core insights, 89 are architecture, 72 mechanism, 71 mental model, 52 practice, 42 empirical result, 27 failure mode, 26 prediction, and only 11 tradeoff. That is a platform-engineering watchlist, and perhaps a discourse problem: people describe what they built more readily than what they surrendered. The claim queue has 500 entries, of which 440 require verification: 175 factual, 109 causal, 89 opinion, 83 comparative, and 44 prediction. The idea backlog is larger than a reasonable individual can execute: 283 article ideas, 270 project ideas, 316 deep dives, and 296 open questions. The purpose is not to celebrate volume. It is to create an explicit selection problem.</p>
+
+            <h2>Five insights worth carrying forward</h2>
+            <p>The corpus is useful when it connects a source claim to an engineering decision without pretending that the extraction settled the claim.</p>
+            <p>First, <a href="https://www.youtube.com/watch?v=y2W4FNAuPEA"><em>Deep dive on LLM Inference at Scale</em></a> contributes a <strong>mental model</strong>: decode is a memory-streaming problem, not principally a compute problem. Each generated token reads weights and KV state from HBM; the extracted example puts Mistral-7B-scale KV cache at 131 KB per token. For long contexts and concurrent agent sessions, bytes moved per token, cache policy, and context size can matter more than headline FLOPs.</p>
+            <p>Second, <a href="https://www.youtube.com/watch?v=n9xKblqyQ28"><em>Why The Harness Matters More Than The Model</em></a> contains an <strong>empirical result</strong> with operational consequences: adding a meta-harness to Claude Code was attributed to an 18% accuracy gain on Terminal Bench 2. Its companion <strong>architecture</strong> models memory as an explicit L0–L3 state stack: weights, active context, ephemeral REPL or subagent state, and disk-backed persistent memory. If the harness produces a double-digit result change, it is not glue around the model. It is part of the product surface.</p>
+            <p>Third, <a href="https://www.youtube.com/watch?v=1DB_QDiviH4"><em>GPT-6 Astra Saturates ARC-AGI-3...</em></a> frames benchmark saturation as an <strong>empirical result</strong> with an expiry date. A static suite becomes a lagging indicator when models saturate it. Adding more static items preserves the category, not the guardrail. The design response is dynamic benchmark generation, with the usual caution that a generated test pipeline itself needs validation.</p>
+            <p>Fourth, <a href="https://www.youtube.com/watch?v=REascnFlq_8"><em>Agents' next frontier: agent-to-agent and network effects</em></a> offers a <strong>mental model</strong> that cuts through prompt folklore: agent execution is a search and context-placement problem. The skill is getting the right information into the context window at the moment before a tool call or response. Its <strong>mechanism</strong> for cross-silo work is also concrete: return computed signals, such as relationship strength, rather than raw messages.</p>
+            <p>Finally, <a href="https://www.youtube.com/watch?v=LdIyXiq2DTY"><em>Why companies are becoming a series of loops</em></a> supplies an <strong>architecture</strong> for agent-enabled work: cascading loops rather than a static org chart. The paired <strong>mechanism</strong> puts human judgment at an outer boundary, changing objectives when an automated loop reaches a plateau, rather than making a human a checker inside every iteration. Older systems work sharpens the point. <a href="https://www.youtube.com/watch?v=0-CSs1UEbFQ"><em>Complex Systems Thinking</em></a> and <a href="https://www.youtube.com/watch?v=o-Yp8A7BPE8"><em>System Dynamics</em></a> describe behavior as a property of interactions, information paths, decision rules, and feedback loops. The corpus lets those 2021–2022 talks land as 2026 agent-architecture notes, which is precisely what a searchable historical layer should do.</p>
+
+            <h2>Lessons from building it</h2>
+            <p><strong>Decide provenance before extraction.</strong> We captured text sufficient for a video-level link but not timestamps or external sources. No UI can reconstruct moment-level evidence from an artifact that never recorded it. Reserving fields is responsible; calling that a solution would not be. Link models are schema decisions, and schema decisions are cheapest before the corpus accumulates.</p>
+            <p><strong>Establish ground truth before delegation, then verify independently.</strong> The planner found that <code>index.json</code> is an object containing <code>items</code>, not a bare list; the artifacts established the absence of timestamps and external URLs. Those facts constrained the implementation. The later independent verification was equally necessary. An implementer's self-report is an output, not evidence.</p>
+            <p><strong>Static-first is a good default for bounded knowledge.</strong> A 20 MB site derived from a $12.62 corpus reverses the common assumption that the interface is cheap and data is expensive. The static tree has no service to keep alive, opens locally, deploys broadly, and is reproducible byte for byte. Its tradeoff is deliberate duplication and a larger search page, both acceptable at this scale.</p>
+            <p><strong>Render uncertainty honestly.</strong> The claims page shows 440 verification-needed claims and refuses to display a “verified” state because the source schema has none. A “not needed” status is not verification. This is a small UI rule with a large effect: it stops an LLM-derived corpus from laundering extraction confidence into factual status.</p>
+            <p><strong>Make the corpus criticize its own diet.</strong> The 89 architecture, 72 mechanism, and 71 mental-model insights against 11 tradeoffs show what this watchlist and its sources reward. That is not an argument to discard the corpus. It is an argument to use its sparsity, its failures, and its weak categories to choose the next queue items.</p>
+            <p>The pipeline has made watching tractable, not automatic. At a $0.143 median cost, compute is cheap enough that attention becomes the scarce resource again. That is the right outcome. We wanted a system that turns a playlist into reviewable artifacts, makes the backlog and uncertainty visible, and leaves the human with a better question than “what should we watch next?”</p>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        themeCSS: '.label foreignObject { overflow: visible; }',
+    flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        {
+          text: "I turn a watch queue into inspectable artifacts, but I leave the human to decide what deserves belief.",
+          agent: "Pipeline Agent"
+        },
+        {
+          text: "I keep failure, cost, and provenance visible so a searchable corpus does not become polished memory.",
+          agent: "Corpus Auditor"
+        },
+        {
+          text: "I can rebuild a static projection from committed data; I cannot certify what the records mean.",
+          agent: "Projection Agent"
+        }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
