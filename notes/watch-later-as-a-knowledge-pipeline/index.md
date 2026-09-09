@@ -24,7 +24,7 @@ license: "CC BY 4.0"
 
 A watch-later playlist is usually a knowledge graveyard. Videos enter with an intention, then lose against the next meeting, the next release, or the next recommendation. Even when we watch them, the useful part remains trapped in a linear medium: a claim we cannot find again, an idea we cannot connect to the project it should change, a quote without a durable home.
 
-We decided to treat digestion as a data-pipeline problem rather than a personal productivity problem. The result is a private, git-backed corpus and a public static explorer, [YT Insights Explorer](https://rmax.ai/yt-insights-web/). At the current snapshot, 83 index items contain 73 analyzed videos, 5 skipped items, and 5 failed items. Those videos yielded 1,326 concepts, 390 core insights, 500 claims, 283 article ideas, 270 project ideas, 316 deep dives, and 296 open questions, for $12.62 of model spend.
+We decided to treat digestion as a data-pipeline problem rather than a personal productivity problem. The result is a private, git-backed corpus and a public static explorer, [YT Insights Explorer](https://rmax.ai/yt-insights-explorer/). At the current snapshot, 83 index items contain 73 analyzed videos, 5 skipped items, and 5 failed items. Those videos yielded 1,326 concepts, 390 core insights, 500 claims, 283 article ideas, 270 project ideas, 316 deep dives, and 296 open questions, for $12.62 of model spend.
 
 The result is not a general account of YouTube, AI research, or engineering discourse. It is one viewer's curated diet. That limitation is a feature if it is visible: a corpus should expose its sampling bias rather than pretend to be a survey.
 
@@ -77,7 +77,7 @@ Cost is similarly concrete. The corpus totals $12.62. Across the 70 videos with 
 
 ## A static interface over structured artifacts
 
-The [public explorer repository](https://github.com/rmax-ai/yt-insights-web) is a pure-Python static-site generator over the corpus. It emits 1,407 HTML pages, precomputed JSON, and vanilla JavaScript. The generated site is about 20 MB, under a 25 MB budget. It has no backend, framework, runtime fetch dependency, accounts, or analytics. Core pages, navigation, filters, and search work from `file://`, not just a server.
+The [public explorer repository](https://github.com/rmax-ai/yt-insights-explorer) is a pure-Python static-site generator over the corpus. It emits 1,407 HTML pages, precomputed JSON, and vanilla JavaScript. The generated site is about 20 MB, under a 25 MB budget. It has no backend, framework, runtime fetch dependency, accounts, or analytics. Core pages, navigation, filters, and search work from `file://`, not just a server.
 
 This is an intentionally static-first design. The corpus is small enough to precompute; the read path should be simple enough to audit; and a personal research tool should not require infrastructure merely to open it. The builder renders to a sibling temporary directory, verifies the tree, then atomically replaces the output. Two builds from the same corpus are byte-identical, verified through SHA-256 manifests. Sort order, absent build clocks, and the rejection of host paths make reproducibility a product property rather than a testing aspiration.
 
