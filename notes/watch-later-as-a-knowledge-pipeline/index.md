@@ -24,7 +24,7 @@ license: "CC BY 4.0"
 
 A watch-later playlist is usually a knowledge graveyard. Videos enter with an intention, then lose against the next meeting, the next release, or the next recommendation. Even when we watch them, the useful part remains trapped in a linear medium: a claim we cannot find again, an idea we cannot connect to the project it should change, a quote without a durable home.
 
-We decided to treat digestion as a data-pipeline problem rather than a personal productivity problem. The result is a private, git-backed corpus and a public static explorer, [YT Insights Explorer](https://rmax.ai/yt-insights-explorer/). At the current snapshot, 83 index items contain 73 analyzed videos, 5 skipped items, and 5 failed items. Those videos yielded 1,326 concepts, 390 core insights, 500 claims, 283 article ideas, 270 project ideas, 316 deep dives, and 296 open questions, for $12.62 of model spend.
+We decided to treat digestion as a data-pipeline problem rather than a personal productivity problem. The result is a private, git-backed corpus and a public static explorer, [YT Insights Explorer](https://yt-insights-explorer.rmax.ai/). At the current snapshot, 83 index items contain 73 analyzed videos, 5 skipped items, and 5 failed items. Those videos yielded 1,326 concepts, 390 core insights, 500 claims, 283 article ideas, 270 project ideas, 316 deep dives, and 296 open questions, for $12.62 of model spend.
 
 The result is not a general account of YouTube, AI research, or engineering discourse. It is one viewer's curated diet. That limitation is a feature if it is visible: a corpus should expose its sampling bias rather than pretend to be a survey.
 
