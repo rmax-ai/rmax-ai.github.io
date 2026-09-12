@@ -13,6 +13,7 @@
     <meta property="og:url" content="https://rmax.ai/notes/everyone-build-ai-expert-role/" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2026-09-12" />
+    <meta property="article:modified_time" content="2026-09-12" />
     <meta property="article:tag" content="ai" />
     <meta property="article:tag" content="expertise" />
     <meta property="article:tag" content="software development" />
@@ -236,7 +237,7 @@
             <div class="post-meta">
               <span>2026-09-12</span>
               <span>•</span>
-              <span>19 min read</span>
+              <span>14–16 min read</span>
               <span>•</span>
               <span>Max</span>
             </div>
@@ -251,6 +252,16 @@
             <p>The AI expert's role therefore progresses through three stages:</p>
             <blockquote><p><strong>Builder → Builder of Builders → Designer of Boundaries</strong></p></blockquote>
             <p>When implementation is scarce, experts implement. When implementation becomes cheap, experts build systems that help others implement. When implementation becomes ubiquitous, experts protect the invariants that keep ubiquitous building from becoming ubiquitous failure.</p>
+
+            <pre class="mermaid">flowchart TD
+    A["Builder&lt;br/&gt;implementation is scarce"] --&gt; B["Builder of Builders&lt;br/&gt;implementation is cheap"]
+    B --&gt; C["Designer of Boundaries&lt;br/&gt;implementation is ubiquitous"]
+    classDef s1 fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+    classDef s2 fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+    classDef s3 fill:#14532d,stroke:#22c55e,color:#e6eef8
+    class A s1
+    class B s2
+    class C s3</pre>
             <p>This suggests a deeper economic shift:</p>
             <blockquote><p><strong>AI creates an abundance of production and a scarcity of assurance.</strong></p></blockquote>
             <p>The constraint is not the number of artifacts an organization can generate. It is the amount of change it can verify, integrate, operate, and govern without exceeding its tolerance for failure.</p>
@@ -306,15 +317,12 @@ selection</code></pre>
             <p>As AI increases implementation throughput, the bottleneck moves into the systems that validate, integrate, and operate all that output.</p>
             <p>Google's DORA research is relevant here. Its 2025 report found AI adoption associated with increased throughput and product performance while delivery stability remained a challenge. DORA's interpretation is that AI acts as an amplifier: organizations with strong testing, fast feedback, version control, architecture, and internal platforms gain more; weak delivery systems have their weaknesses exposed more quickly. <a href="https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report">Google Cloud / DORA, <em>State of AI-assisted software development</em></a></p>
             <p>This produces a structural asymmetry:</p>
-            <pre><code>generation capacity
-        grows rapidly
-             ↓
-review capacity
-test capacity
-security capacity
-operational capacity
-governance capacity
-        grow much more slowly</code></pre>
+            <pre class="mermaid">flowchart TD
+    G["Generation capacity&lt;br/&gt;(grows rapidly)"] --&gt; R["Review capacity&lt;br/&gt;Test capacity&lt;br/&gt;Security capacity&lt;br/&gt;Operational capacity&lt;br/&gt;Governance capacity&lt;br/&gt;(grow much more slowly)"]
+    classDef gen fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+    classDef slow fill:#1f2937,stroke:#6b7280,color:#e6eef8
+    class G gen
+    class R slow</pre>
             <p>Even if a company can suddenly produce five times as many changes, it has not automatically created five times as much verification capacity. This is why “AI productivity” can become misleading at scale.</p>
             <p>The useful question is not:</p>
             <blockquote><p>How much more code can we generate?</p></blockquote>
@@ -329,22 +337,17 @@ governance capacity
             <p>Anthropic's containment work goes further. As agents receive more capability and access, their potential blast radius increases even if model reliability improves. Anthropic therefore treats isolation, tool permissions, network controls, and environment boundaries as core engineering mechanisms. It distinguishes between trying to supervise every action and limiting what the agent is structurally capable of affecting. <a href="https://www.anthropic.com/engineering/how-we-contain-claude">Anthropic, <em>How we contain Claude across products</em></a></p>
             <p>An enterprise AI function cannot scale by manually reviewing every generated artifact. It has to encode the quality boundary into the system.</p>
             <p>The scalable architecture is:</p>
-            <pre><code>AI experts
-    ↓
-design the operating environment
-    ↓
-identity and permissions
-approved tools
-data boundaries
-eval suites
-policy checks
-security scanning
-observability
-cost controls
-human escalation
-rollback / containment
-    ↓
-many humans and agents build independently within those controls</code></pre>
+            <pre class="mermaid">flowchart TD
+    E["AI experts"] --&gt; D["design the operating environment"]
+    D --&gt; C["identity and permissions&lt;br/&gt;approved tools&lt;br/&gt;data boundaries&lt;br/&gt;eval suites&lt;br/&gt;policy checks&lt;br/&gt;security scanning&lt;br/&gt;observability&lt;br/&gt;cost controls&lt;br/&gt;human escalation&lt;br/&gt;rollback / containment"]
+    C --&gt; B["many humans and agents&lt;br/&gt;build independently&lt;br/&gt;within those controls"]
+    classDef experts fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+    classDef env fill:#1a1a2e,stroke:#7c3aed,color:#e6eef8
+    classDef builders fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+    class E experts
+    class D env
+    class C env
+    class B builders</pre>
             <p>The expert moves from being the person who performs every high-skill action to the person who defines the invariants within which those actions can safely happen.</p>
             <p>NIST's Generative AI Risk Management Profile takes this lifecycle view explicitly: trustworthiness should be incorporated across design, development, deployment, use, and evaluation rather than bolted on as a final compliance review. <a href="https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence">NIST, <em>AI RMF: Generative AI Profile</em></a></p>
             <p>OWASP's Top 10 for Agentic Applications similarly treats autonomy, identity, tools, permissions, and downstream actions as architectural security concerns. <a href="https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/">OWASP, <em>Top 10 for Agentic Applications 2026</em></a></p>
@@ -370,17 +373,16 @@ security / legal / compliance review it
         ↓
 approve or reject</code></pre>
             <p>That model stops scaling when thousands of employees and agents can continuously create workflows. The scalable version moves governance upstream:</p>
-            <pre><code>security
-legal
-compliance
-platform
-domain experts
-      ↓
-encode policies and constraints
-      ↓
-self-service execution
-      ↓
-telemetry + evals + exceptions</code></pre>
+            <pre class="mermaid">flowchart TD
+    A["security · legal · compliance&lt;br/&gt;platform · domain experts"] --&gt; B["encode policies and constraints"]
+    B --&gt; C["self-service execution"]
+    C --&gt; D["telemetry + evals + exceptions"]
+    classDef design fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+    classDef run fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+    class A design
+    class B design
+    class C run
+    class D run</pre>
             <p>OpenAI's interviews with European enterprise leaders found this pattern: organizations moved faster when security, legal, compliance, and IT participated early as design partners rather than appearing only at the final approval stage. <a href="https://openai.com/business/guides-and-resources/how-enterprises-are-scaling-ai/">OpenAI, <em>How enterprises are scaling AI</em></a></p>
             <p>This is the difference between governance as review and governance as architecture. Governance embedded in the operating environment scales better than review alone.</p>
 
@@ -542,6 +544,34 @@ central AI experts review everything</code></pre>
 
     <script src="/scripts/analytics-tracking.js"></script>
     <script src="/scripts/substack-cta.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        themeCSS: '.label foreignObject { overflow: visible; }',
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+          wrappingWidth: 340,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
     <script>
       window.footerThoughts = [
         { text: "I watch expertise move from writing every artifact to designing the systems that make safe building repeatable.", agent: "Boundary Agent" },
