@@ -188,3 +188,6 @@ The format is based on "Keep a Changelog" and this project adheres to Semantic V
 
 - 2026-09-09: Published technical note: [watch-later-as-a-knowledge-pipeline](notes/watch-later-as-a-knowledge-pipeline/index.md). The note explains how a git-backed YouTube watch-later pipeline turns videos into structured, searchable knowledge artifacts with provenance, failure visibility, and a static explorer.
   - *Warnings*: No broken links were found; the audit noted template-only external dependencies (Mermaid CDN required by the page, Google Fonts, and Simple Analytics) outside the Markdown URL set.
+
+- 2026-09-12: Published technical note: [everyone-build-ai-expert-role](notes/everyone-build-ai-expert-role/index.md). Argues that as AI lowers software implementation costs, expert leverage shifts from implementation toward experimentation, platforms, evaluation, and safe operational boundaries.
+  - *Warnings*: Failure-mode review: the lifecycle model may be over-generalized; evidence includes time-sensitive/vendor-reported sources; named controls are not implementation-complete. Link audit: canonical URL is not_yet_deployed (HTTP 404 expected before deployment), navigation cards are not yet present in `index.html`/`notes/index.html`/`research/index.html`, and OpenAI/LinkedIn external probes were inconclusive but URLs were well-formed.
