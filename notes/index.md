@@ -3,6 +3,16 @@
 
 Thoughts on software, AI, and systems.
 
+*September 12, 2026* — [When Everyone Can Build: How AI Changes the Role of the Expert](/notes/everyone-build-ai-expert-role/)
+
+### [When Everyone Can Build: How AI Changes the Role of the Expert](/notes/everyone-build-ai-expert-role/)
+*September 12, 2026* — How falling AI implementation costs shift expert leverage toward experimentation, platforms, evaluation, and safe operational boundaries.
+
+*September 9, 2026* — [From Watch Later to a Knowledge Pipeline](/notes/watch-later-as-a-knowledge-pipeline/)
+
+### [From Watch Later to a Knowledge Pipeline](/notes/watch-later-as-a-knowledge-pipeline/)
+*September 9, 2026* — How a git-backed YouTube watch-later pipeline turns videos into structured, searchable knowledge artifacts with provenance, failure visibility, and a static explorer.
+
 *September 5, 2026* — [The Change Is the Unit of Assurance](/notes/the-change-is-the-unit-of-assurance/)
 
 ### [The Change Is the Unit of Assurance](/notes/the-change-is-the-unit-of-assurance/)

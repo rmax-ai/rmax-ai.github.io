@@ -16,7 +16,7 @@ tags:
   - platform engineering
   - governance
   - agentic systems
-reading_time: "19 min"
+reading_time: "14–16 min"
 canonical_url: https://rmax.ai/notes/everyone-build-ai-expert-role/
 license: "CC BY 4.0"
 ---
@@ -36,6 +36,18 @@ The AI expert's role therefore progresses through three stages:
 > **Builder → Builder of Builders → Designer of Boundaries**
 
 When implementation is scarce, experts implement. When implementation becomes cheap, experts build systems that help others implement. When implementation becomes ubiquitous, experts protect the invariants that keep ubiquitous building from becoming ubiquitous failure.
+
+```mermaid
+flowchart TD
+    A["Builder<br/>implementation is scarce"] --> B["Builder of Builders<br/>implementation is cheap"]
+    B --> C["Designer of Boundaries<br/>implementation is ubiquitous"]
+    classDef s1 fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+    classDef s2 fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+    classDef s3 fill:#14532d,stroke:#22c55e,color:#e6eef8
+    class A s1
+    class B s2
+    class C s3
+```
 
 This suggests a deeper economic shift:
 
@@ -120,16 +132,13 @@ Google's DORA research is relevant here. Its 2025 report found AI adoption assoc
 
 This produces a structural asymmetry:
 
-```text
-generation capacity
-        grows rapidly
-             ↓
-review capacity
-test capacity
-security capacity
-operational capacity
-governance capacity
-        grow much more slowly
+```mermaid
+flowchart TD
+    G["Generation capacity<br/>(grows rapidly)"] --> R["Review capacity<br/>Test capacity<br/>Security capacity<br/>Operational capacity<br/>Governance capacity<br/>(grow much more slowly)"]
+    classDef gen fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+    classDef slow fill:#1f2937,stroke:#6b7280,color:#e6eef8
+    class G gen
+    class R slow
 ```
 
 Even if a company can suddenly produce five times as many changes, it has not automatically created five times as much verification capacity. This is why “AI productivity” can become misleading at scale.
@@ -158,23 +167,18 @@ An enterprise AI function cannot scale by manually reviewing every generated art
 
 The scalable architecture is:
 
-```text
-AI experts
-    ↓
-design the operating environment
-    ↓
-identity and permissions
-approved tools
-data boundaries
-eval suites
-policy checks
-security scanning
-observability
-cost controls
-human escalation
-rollback / containment
-    ↓
-many humans and agents build independently within those controls
+```mermaid
+flowchart TD
+    E["AI experts"] --> D["design the operating environment"]
+    D --> C["identity and permissions<br/>approved tools<br/>data boundaries<br/>eval suites<br/>policy checks<br/>security scanning<br/>observability<br/>cost controls<br/>human escalation<br/>rollback / containment"]
+    C --> B["many humans and agents<br/>build independently<br/>within those controls"]
+    classDef experts fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+    classDef env fill:#1a1a2e,stroke:#7c3aed,color:#e6eef8
+    classDef builders fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+    class E experts
+    class D env
+    class C env
+    class B builders
 ```
 
 The expert moves from being the person who performs every high-skill action to the person who defines the invariants within which those actions can safely happen.
@@ -207,18 +211,17 @@ approve or reject
 
 That model stops scaling when thousands of employees and agents can continuously create workflows. The scalable version moves governance upstream:
 
-```text
-security
-legal
-compliance
-platform
-domain experts
-      ↓
-encode policies and constraints
-      ↓
-self-service execution
-      ↓
-telemetry + evals + exceptions
+```mermaid
+flowchart TD
+    A["security · legal · compliance<br/>platform · domain experts"] --> B["encode policies and constraints"]
+    B --> C["self-service execution"]
+    C --> D["telemetry + evals + exceptions"]
+    classDef design fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+    classDef run fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+    class A design
+    class B design
+    class C run
+    class D run
 ```
 
 OpenAI's interviews with European enterprise leaders found this pattern: organizations moved faster when security, legal, compliance, and IT participated early as design partners rather than appearing only at the final approval stage. [OpenAI, *How enterprises are scaling AI*](https://openai.com/business/guides-and-resources/how-enterprises-are-scaling-ai/)

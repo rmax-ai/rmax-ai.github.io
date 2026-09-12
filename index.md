@@ -46,6 +46,12 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [When Everyone Can Build: How AI Changes the Role of the Expert](/notes/everyone-build-ai-expert-role/)
+How falling AI implementation costs shift expert leverage toward experimentation, platforms, evaluation, and safe operational boundaries.
+
+### [From Watch Later to a Knowledge Pipeline](/notes/watch-later-as-a-knowledge-pipeline/)
+How a git-backed YouTube watch-later pipeline turns videos into structured, searchable knowledge artifacts with provenance, failure visibility, and a static explorer.
+
 ### [The Change Is the Unit of Assurance](/notes/the-change-is-the-unit-of-assurance/)
 AI-generated software needs a persistent evidence model that survives the pull request: the change itself as the unit of assurance, with claims, evidence, risk, and runtime observations linked across its lifecycle.
 
