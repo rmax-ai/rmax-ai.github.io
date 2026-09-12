@@ -25,6 +25,9 @@ Analyzing how contemporary AI tools structure authority and constraints in syste
 ## Projects
 [View all →](/projects/)
 
+### [YT Insights Explorer](https://yt-insights-explorer.rmax.ai/)
+Deterministic, backend-free static explorer over a personal YouTube knowledge corpus — searchable concepts, claims, trends, and ideas with provenance back to each source video.
+
 ### [ADK Loop Lab](https://github.com/rmax-ai/adk-loop-lab)
 Reference implementation for loop engineering with durable state, bounded execution, verification, and deterministic stopping.
 
