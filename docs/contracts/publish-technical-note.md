@@ -182,6 +182,14 @@ Violation ⇒ STOP.
 
 * Subagent: link auditor
 
+**Pre-deployment canonical rule:** A live HTTP 404 for the canonical URL of a
+new note is expected when the note has not yet been deployed. It MUST NOT be
+classified as a broken link or block release if the local
+`notes/<slug>/index.html` route exists and the frontmatter, HTML canonical URL,
+directory slug, and local route agree. The auditor should report this as a
+`not_yet_deployed` warning. A 404 for a note known to be deployed, or a mismatch
+between the local route and canonical metadata, remains a blocking link error.
+
 **Gate logic**
 
 * `Block release` ⇒ STOP
