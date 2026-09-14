@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>How to Run an FDE Intake Like a Technical Leader — rmax.ai</title>
+    <meta name="description" content="A stage-by-stage operating model for FDE intake — turning ambiguous business requests into decisions the organization can defend, grounded in decision research." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/fde-intake-like-a-technical-leader/" />
+
+    <meta property="og:title" content="How to Run an FDE Intake Like a Technical Leader" />
+    <meta property="og:description" content="A stage-by-stage operating model for FDE intake — turning ambiguous business requests into decisions the organization can defend, grounded in decision research." />
+    <meta property="og:url" content="https://rmax.ai/notes/fde-intake-like-a-technical-leader/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-14" />
+    <meta property="article:modified_time" content="2026-09-14" />
+    <meta property="article:tag" content="fde" />
+    <meta property="article:tag" content="intake" />
+    <meta property="article:tag" content="decision-quality" />
+    <meta property="article:tag" content="discovery" />
+    <meta property="article:tag" content="portfolio-management" />
+    <meta property="article:tag" content="engineering-leadership" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      h4 {
+        margin: 24px 0 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+
+      @media (max-width: 600px) {
+        .wrap {
+          margin: 20px auto;
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav aria-label="Main navigation">
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" class="navlink" target="_blank" rel="noopener">GitHub</a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>How to Run an FDE Intake Like a Technical Leader</h1>
+            <div class="post-meta">
+              <span>2026-09-14</span>
+              <span>•</span>
+              <span>14–16 min</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="audio-player" style="background:var(--glass);border:1px solid rgba(124,58,237,.3);border-radius:12px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:14px">
+            <div style="flex-shrink:0;width:40px;height:40px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:.85rem;color:var(--muted);margin-bottom:4px">Listen to the podcast version</div>
+              <audio controls style="width:100%;height:32px" preload="metadata">
+                <source src="podcast.ogg" type="audio/ogg">
+                <source src="podcast.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+          </div>
+
+          <div class="post-content">
+            <p><strong>Intake is not request management. It is the discipline of turning ambiguous business requests into decisions an organization can defend — and on a forward deployed engineering team, it is where most of the leverage lives.</strong></p>
+
+            <p>On the surface, intake sounds like administration: someone brings a problem, you ask a few questions, write some notes, maybe build something. That is not the job. The job is converting ambiguity into a defensible decision — a decision the organization can explain, fund, and revisit.</p>
+
+            <p>The distinction matters most for a Forward Deployed Engineering (FDE) team. Such a team sits between business problems and technical capability, and receives requests with the solution already embedded: we need an agent, an AI assistant, RAG, automation. The requested mechanism is rarely the problem. Intake is where the two get separated.</p>
+
+            <p>This note describes the process stage by stage, with its mechanisms grounded in decision research where the literature is strong. For the role itself, see <a href="/notes/forward-deployed-engineer-enterprise-ai/">The Forward Deployed Engineer in Enterprise AI</a>; for what happens after intake — governance, evaluation, and scaling — see the <a href="/notes/fde-playbook-governed-agentic-adoption/">FDE Playbook for Governed Agentic Adoption</a>. For a practitioner overview of the role, see the <a href="https://newsletter.pragmaticengineer.com/p/forward-deployed-engineers">Pragmatic Engineer's survey of forward deployed engineers</a>.</p>
+
+            <h2>Context: building got cheaper; deciding got more expensive</h2>
+
+            <p>AI has collapsed the cost of producing first-draft software across a widening class of tasks. As argued in <a href="/notes/new-scarcity-software-engineering/">The New Scarcity of Software Engineering</a>, the scarce work is shifting toward judgment: deciding what deserves to be built, in what order, and against what evidence. Intake is the first — and cheapest — place to apply that judgment.</p>
+
+            <p>The failure data points in the same direction. <a href="https://www.rand.org/pubs/research_reports/RRA2680-1.html">RAND's review of AI project failures</a> found that more than 80 percent of the AI projects it examined failed, roughly twice the rate of comparable non-AI IT projects, and identified a misidentified business problem as a leading root cause: teams start from a technology and search for a use. <a href="https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027">Gartner forecasts</a> that over 40 percent of agentic AI projects will be canceled by the end of 2027, citing escalating costs, unclear business value, and inadequate risk controls — and describes most such projects as hype-driven proofs of concept. A <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4573321">BCG and Harvard field experiment</a> adds the sharpest detail: AI boosted speed and quality inside its capability frontier, but on a task just outside it, consultants using AI were 19 percentage points <em>less</em> likely to be correct. Task-level capability fit is not something to discover after building.</p>
+
+            <p>None of this argues against building. It argues for deciding better before building.</p>
+
+            <h2>The intake funnel: the operating model</h2>
+
+            <p>Intake is a funnel that progressively compresses ambiguity:</p>
+
+            <p>Request → Clarify → Quantify → Prioritize → Discover → Build → Measure → Learn.</p>
+
+            <p>Each stage reduces uncertainty; none is a formality. Intake proper covers the first four stages and ends in a decision with one of four outcomes: proceed to deeper discovery, gather specific missing evidence first, redirect the problem elsewhere, or decline. This is the gate pattern from staged product development practice — a gate is a decision event with explicit go/kill outcomes and portfolio-level consequences, not a status meeting (<a href="https://www.stage-gate.com/stage-gate-the-quintessential-decision-factory/">Stage-Gate International</a>).</p>
+
+            <pre class="mermaid">flowchart LR
+                R[Request] --&gt; C[Clarify]
+                C --&gt; Q[Quantify]
+                Q --&gt; P[Prioritize]
+                P --&gt;|gate| D[Discovery]
+                D --&gt; B[Build]
+                B --&gt; M[Measure]
+                M --&gt; L[Learn]
+                L -.-&gt;|calibration| R</pre>
+
+            <p>The rest of this note walks the intake stages: what each one produces and how to run it.</p>
+
+            <h2>The request is not the problem</h2>
+
+            <p>A stakeholder says: “We need an AI agent to qualify requests before they reach our team.” The instinctive engineering response is to ask about models, tools, data sources, and integrations. Those questions are premature, because they accept an untested premise.</p>
+
+            <p>The better first question: <em>What is happening today that makes you believe you need an agent?</em> That question changes the conversation. Maybe incoming requests are poorly specified; different teams submit different information; some requests consume four meetings before anyone realizes the opportunity is too small; escalations happen because stakeholders do not understand why their request has not been prioritized.</p>
+
+            <p>Now the problem reads differently. It is not “we don’t have an intake agent.” It might be “we lack a consistent way to turn loosely defined requests into comparable business cases.” That definition does not assume a solution, and it points at what the organization actually needs to improve.</p>
+
+            <p>Treat the requested mechanism as a hypothesis with information value — often about what the stakeholder has seen or is worried about — and test it during discovery rather than before it.</p>
+
+            <h2>Start with the most recent real example</h2>
+
+            <p>People describe processes abstractly, and abstract descriptions converge on the idealized version. Instead of asking “How does this process work?”, ask: <em>Can we walk through the most recent real example?</em> Then reconstruct what actually happened: what triggered it, who became involved, which systems were used, where information came from, where decisions were made, where handoffs and waits occurred, where judgment was required, and how it ended.</p>
+
+            <p>A concrete case is evidence. “Six people across three meetings over two weeks, before deciding not to pursue the request” is far more useful than “our intake is inefficient.” Concrete first, abstract second: observe specific cases, then infer the pattern. One example opens the investigation; it does not close it — collect a few before generalizing, and resist the temptation to generalize from the loudest or most recent complaint.</p>
+
+            <h2>Translate operational pain into business impact</h2>
+
+            <p>Stakeholders usually arrive with operational pain: too much time searching, too many manual steps, slow processes, badly written requests. Those statements may be true, but none of them yet explains why the company should allocate engineering capacity here. What is missing is a causal chain.</p>
+
+            <p>For example:</p>
+
+            <ul>
+              <li>Fragmented requests lead to multiple discovery meetings.</li>
+              <li>Those meetings consume scarce FDE capacity.</li>
+              <li>Capacity spent on low-value opportunities reduces the team’s ability to investigate higher-value work.</li>
+              <li>The business consequence is not simply wasted time; it is worse portfolio allocation.</li>
+            </ul>
+
+            <p>That last step is the executive-level translation. A second example: account managers reconcile information across three systems for two hours a week; that slows case resolution; slower resolution affects merchant responsiveness; responsiveness may affect customer experience or revenue. The pattern is always operational friction → immediate consequence → downstream business effect → strategic implication.</p>
+
+            <p>This chain is a cost-of-delay argument in physical terms. Reinertsen’s work on product development flow makes the underlying economics explicit: queues and delay are the dominant hidden costs of knowledge work, and most organizations cannot quantify them (<a href="https://archive.org/details/principlesofprod0000rein">Principles of Product Development Flow</a>). If you cannot build the chain, you probably do not yet understand the opportunity.</p>
+
+            <h2>Establish scale, not precision</h2>
+
+            <p>A serious business problem has magnitude. You rarely need perfect numbers — you need enough to distinguish a local irritation from an economically meaningful problem. Ask: How often does this happen? How many cases are involved? How many people touch each case? How much time is spent, end to end? Is volume increasing? Does the same pattern exist in other teams?</p>
+
+            <p>“About twelve requests a month, each involving three or four people and several combined hours” is not an ROI calculation, but it is an order of magnitude, and an order of magnitude is usually enough for a first-stage decision.</p>
+
+            <p>Prefer an honest range over fake precision: “ten to fifteen requests per month” is more trustworthy than “12.3 requests” when no system produces that decimal. Reference-class forecasting research shows why ranges beat point estimates in practice: basing projections on the actual performance of comparable cases bypasses both optimism bias and strategic misrepresentation (<a href="https://ora.ox.ac.uk/objects/uuid:82761425-46df-4200-9ef1-b611d73433af">Flyvbjerg, <em>Curbing Optimism Bias and Strategic Misrepresentation</em></a>). The base rates are sobering: in <a href="https://www.penguinrandomhouse.com/books/672118/how-big-things-get-done-by-bent-flyvbjerg-and-dan-gardner/">Flyvbjerg and Gardner’s survey of large projects</a>, roughly 92 percent come in over budget or over schedule, or both. Estimate the way the evidence suggests, not the way enthusiasm prefers.</p>
+
+            <h2>Strategic relevance: intake as portfolio management</h2>
+
+            <p>Not every painful problem deserves investment. This is where intake becomes portfolio management. Ask: Why does this matter now? Which organizational priority does it support? What competing work would it displace? Is this problem specific to one team, or does it reveal a reusable pattern? If we improved only one part of the workflow, which change would create the most value?</p>
+
+            <p>A stakeholder may have a genuine problem. But an opportunity that consumes three months of engineering capacity for five people should not be treated as equal to one that affects three hundred people and supports an explicit strategic priority. Leadership begins when problems stop being evaluated in isolation — when each one is compared against alternatives, finite capacity, and organizational direction. That comparison requires saying “not now,” “not here,” or “show me more evidence” to worthwhile requests. Doing it deliberately is the job.</p>
+
+            <h2>Define success before designing</h2>
+
+            <p>Before anyone discusses architecture, ask: <em>If we revisit this after an intervention, what would make you say it worked?</em> The answers should be outcome-shaped — for example: decision time drops from two weeks to two days; meetings before a go-or-no-go decision fall by half; requests arrive with the information needed for prioritization; escalations decrease; effort per request falls by thirty percent.</p>
+
+            <p>Notice what those metrics do not mention: AI, agents, or any implementation. That is the point. The outcome should be independent of the implementation. An agent is successful only if it improves the business outcome; the existence of an agent is not itself success. Defining success early also converts a vague request into something that can later be evaluated — which is the same commitment that discovery, and later measurement, will need.</p>
+
+            <h2>Separate facts, hypotheses, and unknowns</h2>
+
+            <p>Maintain three buckets in every intake conversation: facts, hypotheses, and unknowns. A fact: “twelve requests arrived last month.” A hypothesis: “poor request quality is the primary cause of long decision times.” An unknown: “we do not know whether delays mostly come from incomplete requests or from internal decision-making.”</p>
+
+            <p>These categories must not be mixed, because weak decisions happen when assumptions quietly become facts. Someone says, “I think most of the delay comes from missing information.” Three weeks later, a document says, “the main bottleneck is missing information.” Nobody notices the transformation — a phenomenon organizational-learning research names precisely: defensive reasoning makes conclusions remarkably impervious to contrary evidence unless the reasoning chain is surfaced deliberately (<a href="https://hbr.org/1991/05/teaching-smart-people-how-to-learn">Argyris, <em>Teaching Smart People How to Learn</em></a>).</p>
+
+            <p>Good intake makes uncertainty visible instead. Facts can support a decision; hypotheses need tests; unknowns define discovery work. Explicit categories are not hesitation — they are the evidence trail. Before a significant commitment, run a premortem — assume the initiative failed and generate the reasons why — a technique shown to surface risks that ordinary planning reviews miss (<a href="https://hbr.org/2007/09/performing-a-project-premortem">Klein, <em>Performing a Project Premortem</em></a>).</p>
+
+            <h2>Park solutions without dismissing them</h2>
+
+            <p>Senior stakeholders often return to a proposed solution. When someone says “we should build an agent,” the reflex “no, that’s premature” creates resistance and signals that the idea was not heard.</p>
+
+            <p>Instead: “That sounds like one plausible intervention. I’ll capture it. Before deciding on the mechanism, I want to understand the outcome and what information actually determines whether a request is valuable.” That response does three things: it acknowledges the stakeholder, it preserves the idea, and it keeps discovery in the correct sequence. You are not opposing the solution; you are sequencing the decision. The solution may be excellent — but it should win on evidence, and this approach makes stakeholders partners in the inquiry rather than opponents in a technology debate.</p>
+
+            <h2>Synthesize before the meeting ends</h2>
+
+            <p>The final minutes matter more than they look. Do not end with “Great, thanks — I’ll write this up.” Construct the shared model of the problem while everyone who knows the work is still in the room:</p>
+
+            <p>“Let me play back what I’ve understood. The core problem is that loosely defined requests cannot be compared consistently, and that consumes significant discovery capacity. The primary business consequence appears to be inefficient allocation of engineering attention. We have an initial estimate of volume, but need stronger evidence on effort per request. A meaningful improvement would reduce the time and work required to reach a prioritization decision. The main unknown is which information actually predicts whether an opportunity is worth pursuing. Next step: validate that against a small sample of previous requests. Is that an accurate characterization?”</p>
+
+            <p>This is not summarization. It is stakeholder alignment — a chance to correct the mental model before it hardens into the written record. That makes it one of the highest-leverage behaviors in the entire process.</p>
+
+            <h2>The one-page opportunity assessment</h2>
+
+            <p>After the meeting, do not produce twenty pages of notes. Compress what you learned into a one-page opportunity assessment answering: What is the problem? Who is affected? What is the business impact? What is the scale? Why does it matter strategically? What does success look like? What evidence exists? What remains unknown? What constraints apply? What solutions were suggested? And what is the recommendation?</p>
+
+            <p>The recommendation should land in one of the four categories defined earlier — proceed to discovery, gather specific missing evidence, redirect, or decline. Decisive routing is the point. Intake is a gate, not an automatic conveyor belt into engineering — and a well-run no (with reasons, evidence gaps, and a next step for the stakeholder) is a legitimate, often correct, and revisitable outcome: record what evidence would change it.</p>
+
+            <h2>Make the decision inspectable</h2>
+
+            <p>As the number of opportunities grows, intuition stops being enough. A lightweight scorecard — business impact, scale, strategic alignment, AI leverage (where a model materially changes what is feasible), feasibility, reusability, risk, evidence confidence — keeps decisions comparable. The scorecard’s purpose is not mathematical truth; it is exposing the reasoning. For example, why did opportunity A proceed while B did not? Because A had high impact, strong alignment, reusable potential, and sufficient evidence, while B had enthusiastic sponsors but weak evidence and limited scale.</p>
+
+            <p>This is decision science applied at small scale: decisions have quality independent of their outcomes, and a good decision process names its frame, alternatives, information, values, and reasoning explicitly (<a href="https://www.wiley.com/en-us/Decision+Quality%3A+Value+Creation+from+Better+Business+Decisions-p-9781119176657">Spetzler, Winter & Meyer, <em>Decision Quality</em></a>). Reviewing the <em>process</em> — not just the content — is what surfaces bias; Kahneman, Lovallo, and Sibony’s checklist for decision reviews (<a href="https://hbr.org/2011/06/the-big-idea-before-you-make-that-big-decision"><em>Before You Make That Big Decision</em></a>) exists for exactly this, and reducing unwanted variability in judgment is its own discipline (Kahneman, Sibony & Sunstein, <em><a href="https://www.hachettebookgroup.com/titles/daniel-kahneman/noise/9780316451406/">Noise</a></em>). A visible framework does not eliminate disagreement, but it moves the discussion from volume and personalities to assumptions and tradeoffs — which is what makes the decision survivable when stakeholders disagree.</p>
+
+            <h2>Discovery is its own phase</h2>
+
+            <p>Passing intake does not mean starting to build. It means earning a short discovery phase. Write down: what questions must be answered, what evidence is required, which users to interview, which systems to inspect, which hypotheses to test, whether a prototype is warranted, what evaluation would show the idea works, what decision the phase ends with, and what the timebox is.</p>
+
+            <p>Compare the two formulations: “Determine whether AI-assisted qualification can reduce intake effort by at least thirty percent while preserving prioritization quality” versus “Build an intake agent.” One is a question; the other already assumes the answer. The UK Government Digital Service draws the same line for its own teams — discovery exists to produce a decision to proceed, and building during discovery is explicitly out of scope (<a href="https://www.gov.uk/service-manual/agile-delivery/how-the-discovery-phase-works">GDS Service Manual</a>). Product organizations reached the same conclusion from the other direction: discovery is where the risk of building the wrong thing is retired before engineering capacity is committed to delivery (<a href="https://www.svpg.com/product-discovery/">Cagan, <em>Product Discovery</em></a>).</p>
+
+            <h2>The leadership shift</h2>
+
+            <p>A senior engineer creates value by solving difficult problems. A technical leader creates value by ensuring the organization is solving the right difficult problems. That requires a different skill set: resisting the intellectual reward of immediately designing the system, tolerating ambiguity longer, asking questions that can feel less technically sophisticated, and understanding incentives, constraints, and organizational priorities well enough to turn them into a decision others can understand and defend.</p>
+
+            <p>That is stakeholder management in its real technical form — not politeness, but creating a reliable decision process across people with different information, incentives, and mental models. The transition it produces is worth naming: people stop seeing you only as someone who can build sophisticated systems and start trusting you with deciding which systems should exist at all. As Peter Drucker put it: <em>“There is nothing so useless as doing efficiently that which should not be done at all.”</em></p>
+
+            <h2>Trade-offs and failure modes</h2>
+
+            <p><strong>Defensible is not correct.</strong> The process produces decisions you can stand behind, not decisions that are always right. Good decision quality is distinct from good outcomes — a disciplined process can still approve a bad bet, but it makes the error visible early and cheap to reverse (Spetzler et al.).</p>
+
+            <p><strong>A gate with no authority is theater.</strong> If nobody can genuinely decline, redirect, or sequence requests, intake degrades into documentation for decisions made elsewhere. Gate authority is delegated by leadership; it cannot be self-conferred. If it does not exist, the honest move is to rename the process, not perform it.</p>
+
+            <p><strong>Proportionality is the calibration.</strong> Small, reversible requests should not queue behind the full process — the cost of process can exceed the cost of simply trying (Reinertsen). A practical rule: requests that are cheap to reverse and small relative to team capacity can be answered directly; the full sequence earns its cost on commitments measured in weeks of engineering time or external visibility. And keep intake itself fast — an intake queue that delays decisions invites workarounds. A process that cannot be applied proportionally tends to be routed around.</p>
+
+            <p><strong>Evidence bars can be weaponized.</strong> The same standard of evidence must apply to every opportunity, including favored ones; decision hygiene means noticing when scrutiny is selective, and making overrides explicit rather than silent (<em>Noise</em>).</p>
+
+            <p><strong>Quantifiable work has an unfair advantage.</strong> The funnel privileges opportunities that articulate cleanly in its vocabulary. Exploratory bets, capability building, and optionality are legitimate investments that cannot always produce a causal chain on demand. Name that bias and reserve a deliberate fraction of capacity against it — otherwise intake becomes a machine for declining the work it cannot measure.</p>
+
+            <p><strong>Ambiguity is expensive whether or not you measure it.</strong> Requirements-quality research consistently identifies ambiguity as one of the most studied and most consequential causes of rework (<a href="https://doi.org/10.1007/s00766-021-00367-z">Montgomery et al., systematic mapping study</a>), and classic work puts late defect repair at up to 100 times the cost of early resolution (<a href="https://www.cs.umd.edu/~basili/publications/journals/J81.pdf">Boehm & Basili</a>). Intake is the cheapest place this bill can be paid; skipping it does not save the cost, it defers it.</p>
+
+            <p><strong>Scorecards invite false rigor.</strong> Numbers can be ordered without being understood. Treat scores as prompts for judgment, not substitutes for it.</p>
+
+            <h2>Practical takeaways</h2>
+
+            <ol>
+              <li>1. Before discussing mechanism, ask the reframing question — <em>what is happening today that makes you believe you need this?</em> Treat the requested solution as a hypothesis, not a specification.</li>
+              <li>2. Walk one real recent case end-to-end before generalizing. Concrete first, abstract second.</li>
+              <li>3. Build the causal chain from operational friction to strategic implication. If you cannot, you do not yet understand the opportunity.</li>
+              <li>4. Keep three buckets — facts, hypotheses, unknowns — in every artifact, and stress-test significant plans with a premortem before commitment.</li>
+              <li>5. End every intake with a one-page assessment and one of the four recommendations, with success defined in outcome terms before design starts.</li>
+            </ol>
+
+            <h2>Positioning note</h2>
+
+            <p>This is not academic research: the cited work supports specific mechanisms, but it does not validate this process as a whole. It is not blog opinion: the stages are a concrete operating model with named artifacts and explicit decision outcomes. And it is not vendor documentation: there is no product attached — the artifacts are a one-page assessment and a scorecard you can build in any tool.</p>
+
+            <h2>Status and scope disclaimer</h2>
+
+            <p>This note describes exploratory personal lab practice, adapted from operating experience with enterprise AI workflows. It is not authoritative guidance. The evidence bars, effort estimates, and scorecard dimensions are calibrated to one operating context and require adaptation elsewhere; treat the stage names as scaffolding, not standard. Research citations support the mechanisms; they do not transfer the burden of judgment.</p>
+
+            <h2>References</h2>
+
+            <ol>
+              <li>1. Orosz, G. (2025). <a href="https://newsletter.pragmaticengineer.com/p/forward-deployed-engineers">What are Forward Deployed Engineers, and why are they so in demand?</a>. The Pragmatic Engineer.</li>
+              <li>2. Ryseff, J., De Bruhl, B., & Newberry, S. (2024). <a href="https://www.rand.org/pubs/research_reports/RRA2680-1.html">The Root Causes of Failure for Artificial Intelligence Projects and How They Can Succeed</a>. RAND Corporation, RR-A2680-1.</li>
+              <li>3. Gartner. (2025, June 25). <a href="https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027">Gartner Predicts Over 40% of Agentic AI Projects Will Be Canceled by End of 2027</a>. Press release (analyst forecast).</li>
+              <li>4. Dell’Acqua, F., McFowland III, E., Mollick, E., Lifshitz-Assaf, H., Kellogg, K., Rajendran, S., Krayer, L., Candelon, F., & Lakhani, K. (2023). <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4573321">Navigating the Jagged Technological Frontier: Field Experimental Evidence of the Effects of AI on Knowledge Worker Productivity and Quality</a>. Harvard Business School Working Paper 24-013.</li>
+              <li>5. Stage-Gate International. <a href="https://www.stage-gate.com/stage-gate-the-quintessential-decision-factory/">Stage-Gate: The Quintessential Decision Factory</a>.</li>
+              <li>6. Reinertsen, D. G. (2009). <a href="https://archive.org/details/principlesofprod0000rein">The Principles of Product Development Flow: Second Generation Lean Product Development</a>. Celeritas Publishing.</li>
+              <li>7. Flyvbjerg, B. (2008). <a href="https://ora.ox.ac.uk/objects/uuid:82761425-46df-4200-9ef1-b611d73433af">Curbing Optimism Bias and Strategic Misrepresentation in Planning: Reference Class Forecasting in Practice</a>. European Planning Studies, Routledge.</li>
+              <li>8. Flyvbjerg, B., & Gardner, D. (2023). <a href="https://www.penguinrandomhouse.com/books/672118/how-big-things-get-done-by-bent-flyvbjerg-and-dan-gardner/">How Big Things Get Done</a>. Crown.</li>
+              <li>9. Argyris, C. (1991). <a href="https://hbr.org/1991/05/teaching-smart-people-how-to-learn">Teaching Smart People How to Learn</a>. Harvard Business Review.</li>
+              <li>10. Klein, G. (2007). <a href="https://hbr.org/2007/09/performing-a-project-premortem">Performing a Project Premortem</a>. Harvard Business Review.</li>
+              <li>11. Spetzler, C., Winter, H., & Meyer, J. (2016). <a href="https://www.wiley.com/en-us/Decision+Quality%3A+Value+Creation+from+Better+Business+Decisions-p-9781119176657">Decision Quality: Value Creation from Better Business Decisions</a>. Wiley.</li>
+              <li>12. Kahneman, D., Lovallo, D., & Sibony, O. (2011). <a href="https://hbr.org/2011/06/the-big-idea-before-you-make-that-big-decision">Before You Make That Big Decision…</a>. Harvard Business Review.</li>
+              <li>13. Kahneman, D., Sibony, O., & Sunstein, C. R. (2021). <a href="https://www.hachettebookgroup.com/titles/daniel-kahneman/noise/9780316451406/">Noise: A Flaw in Human Judgment</a>. Little, Brown Spark.</li>
+              <li>14. UK Government Digital Service. <a href="https://www.gov.uk/service-manual/agile-delivery/how-the-discovery-phase-works">How the discovery phase works</a>. GOV.UK Service Manual.</li>
+              <li>15. Cagan, M. <a href="https://www.svpg.com/product-discovery/">Product Discovery</a>. Silicon Valley Product Group.</li>
+              <li>16. Boehm, B., & Basili, V. R. (2001). <a href="https://www.cs.umd.edu/~basili/publications/journals/J81.pdf">Software Defect Reduction Top 10 List</a>. IEEE Computer, 34(1), 135–137.</li>
+              <li>17. Montgomery, L., Fucci, D., Bouraffa, A., Scholz, L., & Maalej, W. (2022). <a href="https://doi.org/10.1007/s00766-021-00367-z">Empirical research on requirements quality: a systematic mapping study</a>. Requirements Engineering, Springer.</li>
+            </ol>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        themeCSS: '.label foreignObject { overflow: visible; }',
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        {
+          text: "I convert ambiguity into a decision someone can defend; I cannot make the defense true.",
+          agent: "Intake Agent"
+        },
+        {
+          text: "I keep facts, hypotheses, and unknowns in separate buckets so assumptions do not graduate in silence.",
+          agent: "Decision Auditor"
+        },
+        {
+          text: "I stop at the gate — whether to build the thing was never mine to decide alone.",
+          agent: "Gate Agent"
+        }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>

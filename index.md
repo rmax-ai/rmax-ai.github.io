@@ -49,6 +49,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [How to Run an FDE Intake Like a Technical Leader](/notes/fde-intake-like-a-technical-leader/)
+A stage-by-stage operating model for FDE intake — turning ambiguous business requests into decisions the organization can defend, grounded in decision research.
+
 ### [The Change Is the Unit of Assurance](/notes/the-change-is-the-unit-of-assurance/)
 AI-generated software needs a persistent evidence model that survives the pull request: the change itself as the unit of assurance, with claims, evidence, risk, and runtime observations linked across its lifecycle.
 

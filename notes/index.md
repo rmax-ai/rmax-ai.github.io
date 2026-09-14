@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*September 14, 2026* — [How to Run an FDE Intake Like a Technical Leader](/notes/fde-intake-like-a-technical-leader/)
+
+### [How to Run an FDE Intake Like a Technical Leader](/notes/fde-intake-like-a-technical-leader/)
+*September 14, 2026* — A stage-by-stage operating model for FDE intake — turning ambiguous business requests into decisions the organization can defend, grounded in decision research.
+
 *September 5, 2026* — [The Change Is the Unit of Assurance](/notes/the-change-is-the-unit-of-assurance/)
 
 ### [The Change Is the Unit of Assurance](/notes/the-change-is-the-unit-of-assurance/)
