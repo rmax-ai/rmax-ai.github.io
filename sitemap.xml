@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-09-09T21:00:35Z</lastmod>
+    <lastmod>2026-09-14T09:16:01Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-09-09T21:00:35Z</lastmod>
+    <lastmod>2026-09-14T09:15:59Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -123,6 +123,10 @@
   <url>
     <loc>https://rmax.ai/notes/failure-oriented-orchestration/</loc>
     <lastmod>2026-05-23T18:04:44Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/fde-intake-like-a-technical-leader/</loc>
+    <lastmod>2026-09-14T09:15:57Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/fde-playbook-governed-agentic-adoption/</loc>
@@ -258,7 +262,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/watch-later-as-a-knowledge-pipeline/</loc>
-    <lastmod>2026-09-09T20:49:08Z</lastmod>
+    <lastmod>2026-09-10T22:08:31Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/why-agentic-systems-fail-demo-to-production/</loc>
@@ -270,7 +274,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/projects/</loc>
-    <lastmod>2026-09-05T17:15:02Z</lastmod>
+    <lastmod>2026-09-14T09:07:35Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/research/</loc>
