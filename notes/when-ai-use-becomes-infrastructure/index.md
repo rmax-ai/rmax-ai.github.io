@@ -41,11 +41,11 @@ The resulting activity was substantial:
 - 1,314 files in the knowledge base
 - 494 coding-agent sessions consuming approximately 633 million tokens
 
-The interesting observation is not the volume.
+The observation is not the volume itself.
 
-It is what the volume gradually produced.
+It is what the volume produced over time.
 
-The system stopped behaving primarily like an AI assistant and started behaving like personal computational infrastructure.
+The system shifted from primarily answering individual requests to operating as personal computational infrastructure.
 
 This 128-day trace offers a small, observational case study of what that transition looks like.
 
@@ -57,7 +57,7 @@ In this dataset, human messages represented only 4.1% of message traffic. Assist
 
 That corresponds to roughly one human message for every 24 subsequent system messages.
 
-The interaction had therefore changed from:
+The interaction therefore shifted from:
 
 ```mermaid
 flowchart TD
@@ -83,9 +83,9 @@ OpenAI's [Agents SDK](https://github.com/openai/openai-agents-python) exposes es
 
 The model remains important, but the model is no longer the system.
 
-That distinction has been a recurring theme in rMax.ai's work on agent harness engineering. The argument in [From MLOps to Agent Harness Engineering](/notes/mlops-agent-harness-engineering/) is that the LLM increasingly becomes a probabilistic runtime component surrounded by context management, tools, state, verification and operational control.
+That distinction recurs in rMax.ai's work on agent harness engineering. The argument in [From MLOps to Agent Harness Engineering](/notes/mlops-agent-harness-engineering/) is that the LLM increasingly becomes a probabilistic runtime component surrounded by context management, tools, state, verification and operational control.
 
-The personal-agent dataset provides a concrete instance of that architecture emerging organically through use.
+The personal-agent dataset shows that architecture emerging through use.
 
 ## The workload became genuinely multi-step
 
@@ -102,13 +102,13 @@ Across 628 classified interactive sessions:
 
 These are not merely long conversations. They are computational trajectories.
 
-A request might trigger filesystem searches, shell commands, retrieval of previous sessions, web research, code generation, validation, patches, database queries and artifact creation before returning control to the human.
+A request might trigger filesystem searches, shell commands, retrieval of previous sessions, web research, code generation, validation, patches, database queries and artifact creation before control returns to the human.
 
 This is precisely why evaluating agents one response at a time becomes increasingly misleading. A previous rMax.ai note, [Stop Evaluating AI One Response at a Time](/notes/stop-evaluating-ai-one-response-at-a-time/), argues that the relevant unit for many human–AI systems is the trajectory and its eventual convergence toward a useful outcome.
 
 The personal-agent traces make that argument tangible.
 
-The useful unit of analysis is no longer: Was the answer correct? It becomes: Did the system successfully transform an intention into a useful result?
+The useful unit of analysis is no longer whether the answer was correct; it is whether the system transformed an intention into a useful result.
 
 ## Repeated use turned outputs into infrastructure
 
@@ -126,9 +126,9 @@ The most consequential numbers may not be the token counts at all. During the ob
 - media-processing pipelines;
 - nightly reviews of the agent's own activity.
 
-These artifacts are important because they change what the next interaction can do.
+These artifacts change what the next interaction can do.
 
-A useful term for this is agentic capital. Agentic capital is the stock of reusable knowledge, tools, procedures, interfaces, evaluations and automation accumulated through previous human–agent work.
+Call this stock agentic capital: reusable knowledge, tools, procedures, interfaces, evaluations and automation accumulated through previous human–agent work.
 
 Traditional software capital works similarly. A library written today reduces the effort required to build tomorrow's application. A CI pipeline makes every subsequent code change cheaper to validate. Documentation lowers the cost of future comprehension.
 
@@ -149,7 +149,7 @@ This creates the possibility of compounding productivity.
 
 The 100th session is not necessarily operating with the same effective capabilities as the first. It may inherit dozens of tools, hundreds of skills, accumulated knowledge, historical decisions and automated workflows created during previous sessions.
 
-This distinction is poorly represented by most AI benchmarks, where each episode begins from a largely standardized environment. Real agent systems increasingly do not.
+Most AI benchmarks represent this poorly: each episode begins in a largely standardized environment, whereas real agent systems increasingly carry forward accumulated state.
 
 ## Memory is becoming infrastructure
 
@@ -161,11 +161,11 @@ The personal system followed a similar evolutionary path. Its knowledge base gre
 
 This reflects a broader architectural distinction explored in [Beyond RAG Memory](/notes/knowledge-as-source-code/): retrieval systems and durable knowledge are different things. Long-lived agent state benefits from canonical, inspectable representations rather than relying exclusively on whatever happens to fit inside the current model context.
 
-There is also an important accounting distinction in the usage data. Approximately 97.5% of recorded input tokens were cache reads.
+The usage data also reveals an accounting distinction. Approximately 97.5% of recorded input tokens were cache reads.
 
 That does not mean caching and memory are the same mechanism. They are not. Persistent knowledge determines what information can survive across work. Prompt caching reduces the computational cost of repeatedly processing identical or reusable context.
 
-Together, however, these mechanisms point toward an important property of long-running agent systems: the amount of accumulated state does not necessarily translate linearly into marginal inference cost.
+Together, these mechanisms suggest that, in long-running agent systems, accumulated state does not necessarily translate linearly into marginal inference cost.
 
 This becomes increasingly important as agents operate over months rather than conversations.
 
@@ -198,7 +198,7 @@ flowchart TD
     class HD,NI,PO,HR sch
 ```
 
-The claim should not be exaggerated. An autonomous run cannot automatically be equated with an hour of human labour, and execution count is not equivalent to economic value.
+An autonomous run cannot by itself be treated as an hour of human labour, and execution count cannot be treated as economic value.
 
 But a real architectural transition has occurred. The AI system is no longer constrained to the operator's active attention window.
 
@@ -238,7 +238,7 @@ The personal-agent dataset suggests the same phenomenon at individual scale.
 
 ## Cheap models become more useful when the system becomes stronger
 
-Another interesting development occurred in model routing. Interactive workloads initially relied heavily on more expensive models. By September, much of that activity had shifted toward faster and cheaper models, while session volume continued increasing.
+Model routing also changed. Interactive workloads initially relied heavily on more expensive models. By September, much of that activity had shifted toward faster and cheaper models, while session volume continued increasing.
 
 This suggests a hypothesis worth testing: a stronger harness may reduce how often every task requires the strongest available model. A task supported by good retrieval, clear tools, explicit procedures and deterministic verification may be solvable by a cheaper model than the same task attempted through an unstructured prompt.
 
