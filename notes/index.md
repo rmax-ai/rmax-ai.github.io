@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*September 15, 2026* — [When AI Use Becomes Infrastructure: 128 Days Inside a Personal Agent System](/notes/when-ai-use-becomes-infrastructure/)
+
+### [When AI Use Becomes Infrastructure: 128 Days Inside a Personal Agent System](/notes/when-ai-use-becomes-infrastructure/)
+*September 15, 2026* — A 128-day operational trace of one personal agent system: what 6.6 billion tokens, 70,941 tool calls, 2,645 autonomous runs, and 244 skills reveal about the transition from using AI assistants to operating personal AI infrastructure.
+
 *September 14, 2026* — [How to Run an FDE Intake Like a Technical Leader](/notes/fde-intake-like-a-technical-leader/)
 
 ### [How to Run an FDE Intake Like a Technical Leader](/notes/fde-intake-like-a-technical-leader/)

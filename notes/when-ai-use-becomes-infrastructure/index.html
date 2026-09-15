@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>When AI Use Becomes Infrastructure: 128 Days Inside a Personal Agent System — rmax.ai</title>
+    <meta name="description" content="A 128-day operational trace of one personal agent system: what 6.6 billion tokens, 70,941 tool calls, 2,645 autonomous runs, and 244 skills reveal about the transition from using AI assistants to operating personal AI infrastructure." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/when-ai-use-becomes-infrastructure/" />
+
+    <meta property="og:title" content="When AI Use Becomes Infrastructure: 128 Days Inside a Personal Agent System" />
+    <meta property="og:description" content="A 128-day operational trace of one personal agent system: what 6.6 billion tokens, 70,941 tool calls, 2,645 autonomous runs, and 244 skills reveal about the transition from using AI assistants to operating personal AI infrastructure." />
+    <meta property="og:url" content="https://rmax.ai/notes/when-ai-use-becomes-infrastructure/" />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="When AI Use Becomes Infrastructure: 128 Days Inside a Personal Agent System" />
+    <meta name="twitter:description" content="A 128-day operational trace of one personal agent system: what 6.6 billion tokens, 70,941 tool calls, 2,645 autonomous runs, and 244 skills reveal about the transition from using AI assistants to operating personal AI infrastructure." />
+    <meta name="twitter:url" content="https://rmax.ai/notes/when-ai-use-becomes-infrastructure/" />
+    <meta property="article:published_time" content="2026-09-15" />
+    <meta property="article:modified_time" content="2026-09-15" />
+    <meta property="article:tag" content="agentic-systems" />
+    <meta property="article:tag" content="personal-infrastructure" />
+    <meta property="article:tag" content="ai-productivity" />
+    <meta property="article:tag" content="observability" />
+    <meta property="article:tag" content="autonomous-workflows" />
+    <meta property="article:tag" content="llm-economics" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css">
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      h4 {
+        margin: 24px 0 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+
+      @media (max-width: 600px) {
+        .wrap {
+          margin: 20px auto;
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav aria-label="Main navigation">
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" class="navlink" target="_blank" rel="noopener">GitHub</a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>When AI Use Becomes Infrastructure: 128 Days Inside a Personal Agent System</h1>
+            <div class="post-meta">
+              <span>2026-09-15</span>
+              <span>•</span>
+              <span>12–14 min</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <p><strong>What 6.6 billion tokens, 70,000 tool calls, 2,645 autonomous runs, and 244 skills reveal about the transition from using AI assistants to operating personal AI infrastructure.</strong></p>
+
+            <p>For most people, using AI still means opening a chat interface, asking a question, and receiving an answer.</p>
+
+            <p>That interaction has a simple architecture:</p>
+
+            <p>Human → model → response</p>
+
+            <p>But sustained use of capable agents can evolve into something structurally different.</p>
+
+            <p>Over 128 consecutive days, one software engineer operated a personal AI environment built around interactive agents, coding agents, scheduled jobs, persistent knowledge, custom skills, local databases, command-line tools, telemetry, and autonomous workflows.</p>
+
+            <p>The resulting activity was substantial:</p>
+
+            <ul>
+              <li>3,385 agent sessions</li>
+              <li>approximately 6.6 billion tokens</li>
+              <li>70,941 tool calls</li>
+              <li>2,645 autonomous runs</li>
+              <li>76 scheduled jobs</li>
+              <li>244 reusable skills</li>
+              <li>10 local signal stores</li>
+              <li>1,314 files in the knowledge base</li>
+              <li>494 coding-agent sessions consuming approximately 633 million tokens</li>
+            </ul>
+
+            <p>The interesting observation is not the volume.</p>
+
+            <p>It is what the volume gradually produced.</p>
+
+            <p>The system stopped behaving primarily like an AI assistant and started behaving like personal computational infrastructure.</p>
+
+            <p>This 128-day trace offers a small, observational case study of what that transition looks like.</p>
+
+            <h2>The prompt stopped being the unit of work</h2>
+
+            <p>A conventional chatbot interaction makes the human message the dominant unit of activity.</p>
+
+            <p>In this dataset, human messages represented only 4.1% of message traffic. Assistant messages accounted for approximately 42%, while tool results accounted for another 54%.</p>
+
+            <p>That corresponds to roughly one human message for every 24 subsequent system messages.</p>
+
+            <p>The interaction had therefore changed from:</p>
+
+            <pre class="mermaid">flowchart TD
+    CU["Human"] --&gt; CP["Prompt"] --&gt; CM["Model"] --&gt; CA["Answer"]
+    classDef conv fill:#1f2937,stroke:#6b7280,color:#e6eef8
+    class CU,CP,CM,CA conv
+</pre>
+
+            <p>into something closer to:</p>
+
+            <pre class="mermaid">flowchart TD
+    AI["Human intent"] --&gt; AH["Agent harness"] --&gt; PA["Planning and retrieval"] --&gt; TB["Tools / code / web / files"] --&gt; VF["Verification"] --&gt; AS["Artifacts and actions"] --&gt; PS["Persistent state"]
+    classDef agt fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+    class AI,AH,PA,TB,VF,AS,PS agt
+</pre>
+
+            <p>This distinction matters.</p>
+
+            <p>Anthropic's <a href="https://www.anthropic.com/research/building-effective-agents">Building Effective Agents</a> similarly treats an agent as more than an LLM call. The useful building block is an augmented model equipped with capabilities such as retrieval, tools and memory, operating repeatedly against feedback from its environment.</p>
+
+            <p>OpenAI's <a href="https://github.com/openai/openai-agents-python">Agents SDK</a> exposes essentially the same architectural shift through agents, tools, persistent sessions, handoffs, guardrails and tracing.</p>
+
+            <p>The model remains important, but the model is no longer the system.</p>
+
+            <p>That distinction has been a recurring theme in rMax.ai's work on agent harness engineering. The argument in <a href="/notes/mlops-agent-harness-engineering/">From MLOps to Agent Harness Engineering</a> is that the LLM increasingly becomes a probabilistic runtime component surrounded by context management, tools, state, verification and operational control.</p>
+
+            <p>The personal-agent dataset provides a concrete instance of that architecture emerging organically through use.</p>
+
+            <h2>The workload became genuinely multi-step</h2>
+
+            <p>Calling something an "agent" says little about how much agency is actually being exercised. The execution traces are more informative.</p>
+
+            <p>Across 628 classified interactive sessions:</p>
+
+            <ul>
+              <li>approximately 85% involved more than one step;</li>
+              <li>41% exceeded 20 tool calls;</li>
+              <li>18% exceeded 100 tool calls;</li>
+              <li>the largest run reached 329 tool calls;</li>
+              <li>the median session contained 72 messages and 38 tool calls;</li>
+              <li>only about 7% of activity resembled pure question answering.</li>
+            </ul>
+
+            <p>These are not merely long conversations. They are computational trajectories.</p>
+
+            <p>A request might trigger filesystem searches, shell commands, retrieval of previous sessions, web research, code generation, validation, patches, database queries and artifact creation before returning control to the human.</p>
+
+            <p>This is precisely why evaluating agents one response at a time becomes increasingly misleading. A previous rMax.ai note, <a href="/notes/stop-evaluating-ai-one-response-at-a-time/">Stop Evaluating AI One Response at a Time</a>, argues that the relevant unit for many human–AI systems is the trajectory and its eventual convergence toward a useful outcome.</p>
+
+            <p>The personal-agent traces make that argument tangible.</p>
+
+            <p>The useful unit of analysis is no longer: Was the answer correct? It becomes: Did the system successfully transform an intention into a useful result?</p>
+
+            <h2>Repeated use turned outputs into infrastructure</h2>
+
+            <p>The most consequential numbers may not be the token counts at all. During the observation period, the system accumulated:</p>
+
+            <ul>
+              <li>244 skills;</li>
+              <li>76 scheduled jobs;</li>
+              <li>10 SQLite signal stores;</li>
+              <li>9 dedicated query CLIs;</li>
+              <li>74 Git repositories;</li>
+              <li>a 1,314-file knowledge base;</li>
+              <li>usage and cost telemetry;</li>
+              <li>spend watchdogs;</li>
+              <li>an email-to-agent queue;</li>
+              <li>media-processing pipelines;</li>
+              <li>nightly reviews of the agent's own activity.</li>
+            </ul>
+
+            <p>These artifacts are important because they change what the next interaction can do.</p>
+
+            <p>A useful term for this is agentic capital. Agentic capital is the stock of reusable knowledge, tools, procedures, interfaces, evaluations and automation accumulated through previous human–agent work.</p>
+
+            <p>Traditional software capital works similarly. A library written today reduces the effort required to build tomorrow's application. A CI pipeline makes every subsequent code change cheaper to validate. Documentation lowers the cost of future comprehension.</p>
+
+            <p>Agent systems can accumulate comparable assets:</p>
+
+            <pre class="mermaid">flowchart TD
+    SE["Session"] --&gt; UA["Useful artifact"]
+    UA --&gt; ST["Skill / tool / memory / workflow"]
+    ST --&gt; AV["Available to future sessions"]
+    AV --&gt; GC["Greater future capability"]
+    GC -.-&gt;|"compounds"| SE
+    classDef loop fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+    class SE,UA,ST,AV,GC loop
+</pre>
+
+            <p>This creates the possibility of compounding productivity.</p>
+
+            <p>The 100th session is not necessarily operating with the same effective capabilities as the first. It may inherit dozens of tools, hundreds of skills, accumulated knowledge, historical decisions and automated workflows created during previous sessions.</p>
+
+            <p>This distinction is poorly represented by most AI benchmarks, where each episode begins from a largely standardized environment. Real agent systems increasingly do not.</p>
+
+            <h2>Memory is becoming infrastructure</h2>
+
+            <p>Long-running agents have a basic problem: context windows are temporary, while work is persistent.</p>
+
+            <p>Anthropic's experiments with long-running coding agents reached the same conclusion (<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a>). Agents operating across multiple context windows performed better when important state was externalized into durable artifacts such as progress files, feature lists, Git history and reproducible initialization procedures.</p>
+
+            <p>The personal system followed a similar evolutionary path. Its knowledge base grew to more than 1,300 files. Local stores accumulated signals. Skills encoded recurring procedures. Session retrieval allowed previous work to influence current execution.</p>
+
+            <p>This reflects a broader architectural distinction explored in <a href="/notes/knowledge-as-source-code/">Beyond RAG Memory</a>: retrieval systems and durable knowledge are different things. Long-lived agent state benefits from canonical, inspectable representations rather than relying exclusively on whatever happens to fit inside the current model context.</p>
+
+            <p>There is also an important accounting distinction in the usage data. Approximately 97.5% of recorded input tokens were cache reads.</p>
+
+            <p>That does not mean caching and memory are the same mechanism. They are not. Persistent knowledge determines what information can survive across work. Prompt caching reduces the computational cost of repeatedly processing identical or reusable context.</p>
+
+            <p>Together, however, these mechanisms point toward an important property of long-running agent systems: the amount of accumulated state does not necessarily translate linearly into marginal inference cost.</p>
+
+            <p>This becomes increasingly important as agents operate over months rather than conversations.</p>
+
+            <h2>The system crossed from interactive to autonomous</h2>
+
+            <p>Another threshold appeared when work stopped requiring a human to initiate every execution.</p>
+
+            <p>The system recorded approximately 2,645 autonomous runs during the 128-day period. Seventy-six cron jobs existed by the end of the observation window, of which 46 invoked LLMs and 30 were conventional scripts.</p>
+
+            <p>Roughly 20 scheduled jobs could complete before 09:00 local time on a normal day.</p>
+
+            <p>This changes the temporal model of AI-assisted productivity. Interactive AI operates primarily while its user is present. Scheduled agent infrastructure allows computation to occur independently:</p>
+
+            <pre class="mermaid">flowchart TD
+    subgraph INT["Interactive mode — runs while the user is present"]
+        direction TD
+        HW["Human working"] --&gt; AW["AI working"]
+    end
+    subgraph SCH["Scheduled mode — runs without user attention"]
+        direction TD
+        HD["Human defines system"] --&gt; NI["Night — agents / scripts / jobs"]
+        NI --&gt; PO["Prepared information: artifacts, alerts, research, queues"]
+        PO --&gt; HR["Human returns"]
+    end
+    AW ~~~ HD
+    classDef int fill:#1f2937,stroke:#6b7280,color:#e6eef8
+    classDef sch fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+    class HW,AW int
+    class HD,NI,PO,HR sch
+</pre>
+
+            <p>The claim should not be exaggerated. An autonomous run cannot automatically be equated with an hour of human labour, and execution count is not equivalent to economic value.</p>
+
+            <p>But a real architectural transition has occurred. The AI system is no longer constrained to the operator's active attention window.</p>
+
+            <h2>Skills move intelligence into the environment</h2>
+
+            <p>The accumulation of 244 skills suggests another important shift.</p>
+
+            <p>Early LLM use tends to place most instructions directly into prompts. As recurring patterns become understood, some of those instructions can be externalized into reusable procedures.</p>
+
+            <p>A skill may encode:</p>
+
+            <ul>
+              <li>how to research a particular type of question;</li>
+              <li>how to prepare a document;</li>
+              <li>how to query a particular system;</li>
+              <li>what standards an artifact must satisfy;</li>
+              <li>which tools should be invoked;</li>
+              <li>how results should be checked.</li>
+            </ul>
+
+            <p>That makes skills part of the system's effective capability.</p>
+
+            <p>This is consistent with the distinction developed in <a href="/notes/personas-skills-agents-harnesses/">Personas, Skills, Agents, and Harnesses in AI System Design</a>: reliable systems increasingly distribute behavior across several layers rather than expecting one large prompt to contain everything the agent needs to know.</p>
+
+            <p>Capability therefore becomes something closer to:</p>
+
+            <pre><code>System capability =
+    Model × Context × Tools × Skills × Memory × Verification × Runtime
+</code></pre>
+
+            <p>The exact mathematical form is not important. The architectural implication is.</p>
+
+            <p>Changing the model while keeping the environment fixed does not measure the same thing as changing the entire system.</p>
+
+            <p>This is the central argument behind <a href="/notes/harness-gap/">The Harness Gap</a>: agent performance should increasingly be understood as model–harness performance, because context selection, tool design, retries, validation and execution policies materially influence what a fixed model can accomplish.</p>
+
+            <p>The personal-agent dataset suggests the same phenomenon at individual scale.</p>
+
+            <h2>Cheap models become more useful when the system becomes stronger</h2>
+
+            <p>Another interesting development occurred in model routing. Interactive workloads initially relied heavily on more expensive models. By September, much of that activity had shifted toward faster and cheaper models, while session volume continued increasing.</p>
+
+            <p>This suggests a hypothesis worth testing: a stronger harness may reduce how often every task requires the strongest available model. A task supported by good retrieval, clear tools, explicit procedures and deterministic verification may be solvable by a cheaper model than the same task attempted through an unstructured prompt.</p>
+
+            <p>This does not imply that model capability stops mattering. It suggests that intelligence can be distributed between model and environment.</p>
+
+            <p>That is potentially important economically.</p>
+
+            <p>The recorded wallet drain was approximately $128.60 across 124 days—roughly one dollar per day of observed marginal wallet expenditure—but this figure should not be confused with the total economic cost of the system. Subscription costs, partially tracked services, Gemini/Veo usage, some direct API callers, and other tooling were not completely represented. The internal ledgers also produced a higher tracked figure of roughly $197, so the cost data should currently be treated as a bound rather than an audited total.</p>
+
+            <p>The more defensible conclusion is therefore not that billions of tokens "cost one dollar per day." It is that routing, caching, subscriptions and differentiated model usage can make very high computational throughput surprisingly inexpensive at the margin.</p>
+
+            <h2>Six billion tokens do not prove productivity</h2>
+
+            <p>This is the most important limitation of the dataset. The numbers demonstrate activity and architecture. They do not yet demonstrate productivity.</p>
+
+            <p>Six billion tokens might represent extraordinary leverage. They could also represent extraordinary waste. Seventy thousand tool calls might indicate sophisticated autonomous execution. They might also reveal unnecessary retries and inefficient loops. Two hundred and forty-four skills might represent a powerful procedural library. They could equally become an unmaintainable collection of obsolete instructions.</p>
+
+            <p>Automation makes both productive systems and dysfunctional systems scale faster.</p>
+
+            <p>This is related to the argument in <a href="/notes/new-scarcity-software-engineering/">The New Scarcity of Software Engineering in the AI Era</a>: when generation becomes cheap, the scarce resource moves toward judgment, verification and determining which outputs are worth keeping.</p>
+
+            <p>The same principle applies to personal agent systems. Token throughput is not the objective. Useful outcomes are.</p>
+
+            <h2>Beyond token counts: measuring agentic leverage</h2>
+
+            <p>A better measurement framework would follow work from intention through outcome:</p>
+
+            <pre class="mermaid">flowchart TD
+    IT["Intent"] --&gt; HV["Human intervention"]
+    HV --&gt; AX["Agent execution"]
+    AX --&gt; CO["Candidate outcome"]
+    CO --&gt; VR["Verification"]
+    VR --&gt; AO["Accepted artifact"]
+    AO --&gt; RU["Reuse"]
+    classDef chain fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+    class IT,HV,AX,CO,VR,AO,RU chain
+</pre>
+
+            <p>That suggests a different set of metrics:</p>
+
+            <ul>
+              <li><strong>Autonomous completion rate</strong> — What fraction of tasks reach an acceptable outcome without additional human intervention?</li>
+              <li><strong>Human intervention time</strong> — How many minutes of human attention are required per successful task?</li>
+              <li><strong>Accepted-output rate</strong> — What proportion of produced artifacts survive human review?</li>
+              <li><strong>Rework rate</strong> — How often must agent output be substantially repaired?</li>
+              <li><strong>Cost per accepted outcome</strong> — How much inference and infrastructure expenditure produces one useful result?</li>
+              <li><strong>Artifact reuse rate</strong> — How often does today's work reduce the effort required tomorrow?</li>
+              <li><strong>Skill marginal value</strong> — Does adding a skill measurably improve later success, cost, latency or intervention requirements?</li>
+              <li><strong>Recovery rate</strong> — When an autonomous workflow fails, how often can the system diagnose and recover without manual reconstruction?</li>
+              <li><strong>Off-attention useful work</strong> — How much useful work is completed while the operator is not actively interacting with the system?</li>
+            </ul>
+
+            <p>These metrics would transform the current dataset from telemetry about extreme AI usage into a longitudinal experiment in human–agent leverage.</p>
+
+            <p>Anthropic's current guidance on agent evaluation (<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>) makes a similar point from the systems side: because agents act over many turns, call tools and modify state, evaluating them requires examining trajectories and outcomes rather than only individual generations.</p>
+
+            <h2>From second brain to personal operating system</h2>
+
+            <p>The trajectory also provides empirical support for an idea previously explored on rMax.ai. The January 2026 note <a href="/notes/personal-operating-systems-micro-apps/">Personal Operating Systems and Micro-Apps</a> proposed that AI-assisted knowledge workers could move beyond the traditional "second brain"—a passive system for storing information—toward an active execution environment containing explicit state, decision rules, automation, feedback loops and governance.</p>
+
+            <p>Four months later, the architecture described there had begun to appear in operational telemetry.</p>
+
+            <p>The personal system now contained persistent state, scheduled execution, reusable procedures, specialized software, observability and automated feedback.</p>
+
+            <p>What began as interacting with models had become something closer to operating a small software-defined organization.</p>
+
+            <p>That organization has:</p>
+
+            <ul>
+              <li>memory;</li>
+              <li>procedures;</li>
+              <li>workers;</li>
+              <li>scheduled processes;</li>
+              <li>specialized tools;</li>
+              <li>internal databases;</li>
+              <li>budgets;</li>
+              <li>telemetry;</li>
+              <li>quality controls;</li>
+              <li>institutional knowledge.</li>
+            </ul>
+
+            <p>The analogy should not be taken literally. Agents are not employees, and tool executions are not human labour hours.</p>
+
+            <p>But as a systems abstraction, it is increasingly useful.</p>
+
+            <p>The human is moving upward in the control hierarchy:</p>
+
+            <pre class="mermaid">flowchart TD
+    T1["Typing"] --&gt; T2["Prompting"]
+    T2 --&gt; T3["Delegating"]
+    T3 --&gt; T4["Designing workflows"]
+    T4 --&gt; T5["Designing the environment"]
+    T5 --&gt; T6["Governing the system"]
+    classDef chain fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+    class T1,T2,T3,T4,T5,T6 chain
+</pre>
+
+            <p>rMax.ai describes a similar transition as <a href="/notes/agent-first-software-engineering/">agent-first engineering</a>: humans increasingly provide intent, constraints and verification while agents execute bounded work inside engineered environments.</p>
+
+            <h2>The emerging research question</h2>
+
+            <p>This is a single-person observational dataset. It cannot establish causal claims about AI productivity. The activity categories are heuristic. Some model usage is absent from the ledgers. Cost accounting is incomplete. The operator is technically sophisticated and therefore not representative of the average knowledge worker.</p>
+
+            <p>Those limitations matter.</p>
+
+            <p>But the dataset exposes a research question that deserves considerably more attention:</p>
+
+            <p>What happens when an individual uses agents intensively enough that previous AI work becomes infrastructure for future AI work?</p>
+
+            <p>That question goes beyond prompt engineering. It concerns accumulation, path dependence and systems design.</p>
+
+            <p>If every completed task can leave behind better knowledge, another tool, a refined skill, stronger verification or a reusable workflow, then AI productivity may have a compounding component that ordinary per-task benchmarks fail to capture.</p>
+
+            <p>The most interesting quantity may therefore not be tokens per day. It may be the rate at which previous agent work increases the capability of future agent work.</p>
+
+            <p>That is agentic capital.</p>
+
+            <p>And if that hypothesis holds, the long-term difference between casual AI use and AI-native work may not come primarily from who has access to the smartest model. It may come from who has built the strongest system around it.</p>
+
+            <h2>Practical takeaways</h2>
+
+            <ul>
+              <li><strong>Judge trajectories, not responses.</strong> Track autonomous completion, accepted outputs, rework and cost per accepted outcome; per-response accuracy hides whether the system produced durable results.</li>
+              <li><strong>Externalize state deliberately.</strong> Skills, stores, procedures and retrieval are what let later sessions inherit capability instead of rebuilding it.</li>
+              <li><strong>Let scheduled work use non-attention time.</strong> In this system, roughly 20 scheduled jobs could complete before 09:00 local time on a normal day, so the operator reviewed prepared output rather than generating it.</li>
+              <li><strong>Treat model choice as a routing decision.</strong> The observed shift to cheaper interactive models coincided with rising session volume; a stronger harness may reduce how often the frontier model is required.</li>
+              <li><strong>Account for caching and accumulated state.</strong> In this dataset, 97.5% of recorded input tokens were cache reads, and retained context kept marginal inference cost from scaling linearly with accumulated state.</li>
+            </ul>
+
+            <h2>Positioning note</h2>
+
+            <p>This is an operational trace, not a productivity study. It is not academic research: there is no control group and no causal claim is made about AI productivity. It is not vendor documentation: no product is being sold, and the numbers describe one personal system. And it is not a benchmark report: the proposed metrics are a measurement agenda, not measured results. The narrower claim is that intensive personal use of agents can produce compounding infrastructure, and that the relevant unit of analysis shifts from the response to the trajectory.</p>
+
+            <h2>Status and scope disclaimer</h2>
+
+            <p>This is exploratory personal lab work: one operator, one system, 128 days. The activity categories are heuristic, parts of the cost record are incomplete, and several usage sources are not represented in the ledgers; cost figures should be read as bounds, not audited totals. The operator is technically sophisticated and not representative of the average knowledge worker. The architecture and the metric list are offered as a template for what to measure and build, not as validated guidance.</p>
+
+            <h2>References and related work</h2>
+
+            <p><strong>External</strong></p>
+
+            <ol>
+              <li>Anthropic — <a href="https://www.anthropic.com/research/building-effective-agents">Building Effective Agents</a> — the augmented-LLM view of agents: retrieval, tools and memory, operating iteratively against environment feedback.</li>
+              <li>Anthropic — <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a> — externalizing state across context windows: progress files, feature lists, Git history and reproducible initialization.</li>
+              <li>Anthropic — <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a> — evaluating agents over trajectories and outcomes rather than individual generations.</li>
+              <li>OpenAI — <a href="https://github.com/openai/openai-agents-python">Agents SDK</a> — agents, tools, persistent sessions, handoffs, guardrails and tracing as primitives.</li>
+              <li>OpenAI — <a href="https://openai.github.io/openai-agents-python/tools/">Agents SDK: tools</a> and <a href="https://openai.github.io/openai-agents-python/tracing/">tracing</a> — tool definition and tracing documentation.</li>
+            </ol>
+
+            <p><strong>rMax.ai</strong></p>
+
+            <ol>
+              <li><a href="/notes/personal-operating-systems-micro-apps/">Personal Operating Systems and Micro-Apps</a> — the January 2026 argument for personal systems of explicit state, decision rules, automation and governance.</li>
+              <li><a href="/notes/mlops-agent-harness-engineering/">From MLOps to Agent Harness Engineering: Why the Model Is the Small Box and the System Is the Product</a> — the model as a probabilistic runtime component inside a larger engineered system.</li>
+              <li><a href="/notes/harness-gap/">The Harness Gap: Measuring Model–Harness Fit in Coding Agents</a> — agent performance as model–harness performance.</li>
+              <li><a href="/notes/knowledge-as-source-code/">Beyond RAG Memory: Treat Knowledge as Source Code and Retrieval as Compilation</a> — durable knowledge and retrieval as separate concerns.</li>
+              <li><a href="/notes/stop-evaluating-ai-one-response-at-a-time/">Stop Evaluating AI One Response at a Time</a> — the trajectory, not the response, as the unit of evaluation.</li>
+              <li><a href="/notes/personas-skills-agents-harnesses/">Personas, Skills, Agents, and Harnesses in AI System Design</a> — distributing behavior across design layers.</li>
+              <li><a href="/notes/new-scarcity-software-engineering/">The New Scarcity of Software Engineering in the AI Era</a> — judgment and verification as the scarce resources.</li>
+              <li><a href="/notes/deterministic-runtimes/">Deterministic Runtimes for Long-Horizon AI Agents</a> — compiling stochastic proposals into deterministic, verifiable execution.</li>
+            </ol>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        themeCSS: '.label foreignObject { overflow: visible; }',
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+          wrappingWidth: 340,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        {
+          text: "Every session leaves something behind — a skill, a store, a decision. The next one starts further ahead.",
+          agent: "Artifact Keeper"
+        },
+        {
+          text: "I ran while you slept; you reviewed over coffee. That division of attention is the architecture.",
+          agent: "Night Shift Agent"
+        },
+        {
+          text: "Six billion tokens prove activity, not value. The ledger that matters is what survives review.",
+          agent: "Evidence Auditor"
+        }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>

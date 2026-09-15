@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-09-14T09:16:01Z</lastmod>
+    <lastmod>2026-09-15T17:11:32Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-09-14T09:15:59Z</lastmod>
+    <lastmod>2026-09-15T17:11:32Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -263,6 +263,10 @@
   <url>
     <loc>https://rmax.ai/notes/watch-later-as-a-knowledge-pipeline/</loc>
     <lastmod>2026-09-10T22:08:31Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/when-ai-use-becomes-infrastructure/</loc>
+    <lastmod>2026-09-15T17:13:02Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/why-agentic-systems-fail-demo-to-production/</loc>
