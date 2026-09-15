@@ -49,6 +49,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [When AI Use Becomes Infrastructure: 128 Days Inside a Personal Agent System](/notes/when-ai-use-becomes-infrastructure/)
+A 128-day operational trace of one personal agent system: what 6.6 billion tokens, 70,941 tool calls, 2,645 autonomous runs, and 244 skills reveal about the transition from using AI assistants to operating personal AI infrastructure.
+
 ### [How to Run an FDE Intake Like a Technical Leader](/notes/fde-intake-like-a-technical-leader/)
 A stage-by-stage operating model for FDE intake — turning ambiguous business requests into decisions the organization can defend, grounded in decision research.
 
