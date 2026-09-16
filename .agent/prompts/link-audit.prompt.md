@@ -50,6 +50,12 @@ You are auditing:
 
   * `/notes/<slug>/`
 * Detect accidental deep-linking or duplicate paths
+* For a newly created local note that is not yet deployed, a live HTTP 404 at
+  its canonical URL is expected. If the local route exists and the directory
+  slug, frontmatter slug, and HTML canonical URL agree, report
+  `not_yet_deployed` as a warning rather than a broken link or release block.
+  A 404 for a known deployed page, or any local route/metadata mismatch, is a
+  real link error.
 
 ### 4. Cross-Note References
 
@@ -131,4 +137,3 @@ I will provide:
 ## Quality Bar
 
 A maintainer should be able to act on this report without opening the site in a browser.
-

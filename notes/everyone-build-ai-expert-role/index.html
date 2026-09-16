@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>When Everyone Can Build: How AI Changes the Role of the Expert — rmax.ai</title>
+    <meta name="description" content="How falling AI implementation costs shift expert leverage toward experimentation, platforms, evaluation, and safe operational boundaries." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/everyone-build-ai-expert-role/" />
+
+    <meta property="og:title" content="When Everyone Can Build: How AI Changes the Role of the Expert" />
+    <meta property="og:description" content="How falling AI implementation costs shift expert leverage toward experimentation, platforms, evaluation, and safe operational boundaries." />
+    <meta property="og:url" content="https://rmax.ai/notes/everyone-build-ai-expert-role/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-12" />
+    <meta property="article:modified_time" content="2026-09-12" />
+    <meta property="article:tag" content="ai" />
+    <meta property="article:tag" content="expertise" />
+    <meta property="article:tag" content="software development" />
+    <meta property="article:tag" content="platform engineering" />
+    <meta property="article:tag" content="governance" />
+    <meta property="article:tag" content="agentic systems" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css">
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      h4 {
+        margin: 24px 0 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+
+      @media (max-width: 600px) {
+        .wrap {
+          margin: 20px auto;
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.117 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>When Everyone Can Build: How AI Changes the Role of the Expert</h1>
+            <div class="post-meta">
+              <span>2026-09-12</span>
+              <span>•</span>
+              <span>14–16 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <h2>Abstract</h2>
+            <p>AI is lowering the cost of software implementation and making working software and workflows accessible to more people outside traditional engineering roles. This note argues that expertise is not disappearing; its highest-leverage location is moving from implementation, to the systems that multiply implementation, and finally to the boundaries that make widespread building safe. In startup exploration, the AI expert should increase the rate at which hypotheses become experiments. In consequential production, the expert should increase the amount of verified change an organization can safely absorb. The operational implication is a shift from centralized review of every artifact toward self-service platforms, explicit permissions, systematic evaluations, observability, and bounded autonomy.</p>
+
+            <h2>Core thesis</h2>
+            <p>AI commoditizes execution faster than it commoditizes judgment.</p>
+            <p>The AI expert's role therefore progresses through three stages:</p>
+            <blockquote><p><strong>Builder → Builder of Builders → Designer of Boundaries</strong></p></blockquote>
+            <p>When implementation is scarce, experts implement. When implementation becomes cheap, experts build systems that help others implement. When implementation becomes ubiquitous, experts protect the invariants that keep ubiquitous building from becoming ubiquitous failure.</p>
+
+            <pre class="mermaid">flowchart TD
+    A["Builder&lt;br/&gt;implementation is scarce"] --&gt; B["Builder of Builders&lt;br/&gt;implementation is cheap"]
+    B --&gt; C["Designer of Boundaries&lt;br/&gt;implementation is ubiquitous"]
+    classDef s1 fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+    classDef s2 fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+    classDef s3 fill:#14532d,stroke:#22c55e,color:#e6eef8
+    class A s1
+    class B s2
+    class C s3</pre>
+            <p>This suggests a deeper economic shift:</p>
+            <blockquote><p><strong>AI creates an abundance of production and a scarcity of assurance.</strong></p></blockquote>
+            <p>The constraint is not the number of artifacts an organization can generate. It is the amount of change it can verify, integrate, operate, and govern without exceeding its tolerance for failure.</p>
+
+            <h2>Context &amp; motivation</h2>
+            <p>Coding agents are narrowing the gap between software professionals and domain experts on implementation tasks. Designers, product managers, analysts, legal teams, and marketers are becoming capable of building working software and workflows. The cited company accounts describe a division of labor between broad participation and centralized assurance.</p>
+            <p>The important distinction is not simply startup versus enterprise. It is exploration versus consequential production. In a startup searching for product-market fit, the dominant constraint is learning speed. In a large or regulated organization, the dominant constraint increasingly becomes assurance: reliability, security, compliance, operational stability, and reputation.</p>
+            <p>The evidence cited here is not limited to anecdotes. Anthropic analyzed roughly 400,000 Claude Code sessions and found that people still make most of the planning decisions while Claude makes most of the execution decisions. On coding tasks, major occupational groups achieved success rates close to those of software engineers. Expertise still mattered: users with stronger domain knowledge were able to get more work from Claude per instruction and recover more effectively from failures. <a href="https://www.anthropic.com/research/claude-code-expertise">Anthropic, <em>Agentic coding and persistent returns to expertise</em></a></p>
+            <p>Figma reports a related erosion of role boundaries. In its 2026 survey, the share of designers participating in development rose from 21% to 41%, while developers participating in design rose from 44% to 60%. Its conclusion is that when the ability to build becomes broadly available, the scarce capability becomes deciding what deserves to be built and what good looks like. <a href="https://www.figma.com/blog/2026-ai-report/">Figma, <em>2026 AI Report</em></a></p>
+            <p>Microsoft's 2026 Work Trend Index describes a similar shift from a broader knowledge-work perspective. Among surveyed AI users, 50% said quality control of AI output is becoming more important and 46% named critical thinking. Eighty-six percent said they treat AI output as a starting point rather than a final answer. Microsoft characterizes the human role as moving toward intent-setting, judgment, quality standards, and workflow design. <a href="https://www.microsoft.com/en-us/worklab/work-trend-index/agents-human-agency-and-the-opportunity-for-every-organization">Microsoft, <em>2026 Work Trend Index</em></a></p>
+            <p>OpenAI's enterprise data indicates that agentic coding is also spreading beyond engineering, with rapid growth in Codex use across functions such as legal, recruiting, sales, and marketing. <a href="https://openai.com/signals/enterprise-data/">OpenAI, <em>Enterprise Signals</em></a></p>
+            <p>The implication is not that expertise disappears. Implementation becomes less exclusive, while judgment and assurance remain comparatively scarce.</p>
+
+            <h2>Mechanism / model</h2>
+            <h3>1. Move from implementation to experimentation</h3>
+            <p>For an early-stage startup, AI changes the economics of product development. The traditional loop was relatively expensive:</p>
+            <pre><code>idea
+→ specification
+→ implementation
+→ deployment
+→ user feedback
+→ iteration</code></pre>
+            <p>AI allows teams to instantiate several versions of an idea in parallel:</p>
+            <pre><code>hypothesis
+    ↓
+many implementations
+    ↓
+instrumented experiments
+    ↓
+user evidence
+    ↓
+selection</code></pre>
+            <p>When implementation costs fall, a startup can search a much larger product space before committing. The highest-leverage work is no longer simply writing a feature faster. It is creating an app factory for experimentation:</p>
+            <ul>
+              <li>reusable project scaffolds;</li>
+              <li>agentic coding workflows;</li>
+              <li>disposable environments;</li>
+              <li>synthetic data;</li>
+              <li>analytics and instrumentation by default;</li>
+              <li>fast feature flags and deployment;</li>
+              <li>automated feedback capture;</li>
+              <li>cheap generation of alternative UX and workflow variants.</li>
+            </ul>
+            <p>Figma explicitly argues that AI makes it cheaper to explore several product directions before converging on one, shifting the advantage toward teams that search the option space well. <a href="https://www.figma.com/blog/what-matters-when-anyone-can-build/">Figma, <em>What matters when anyone can build</em></a></p>
+            <p>The acceptable quality bar can therefore be lower for truly disposable experiments. But the critical variable is not company size; it is consequence.</p>
+            <pre><code>required assurance
+≈ blast radius
+× irreversibility
+× regulatory / reputational exposure</code></pre>
+            <p>A two-person medical startup may need stricter controls than an internal prototype at a 50,000-person company. Disposable systems can accept a lower quality bar only when they are genuinely disposable and isolated. Consequential systems require controls proportionate to their consequences.</p>
+
+            <h3>2. The bottleneck migrates downstream</h3>
+            <p>As AI increases implementation throughput, the bottleneck moves into the systems that validate, integrate, and operate all that output.</p>
+            <p>Google's DORA research is relevant here. Its 2025 report found AI adoption associated with increased throughput and product performance while delivery stability remained a challenge. DORA's interpretation is that AI acts as an amplifier: organizations with strong testing, fast feedback, version control, architecture, and internal platforms gain more; weak delivery systems have their weaknesses exposed more quickly. <a href="https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report">Google Cloud / DORA, <em>State of AI-assisted software development</em></a></p>
+            <p>This produces a structural asymmetry:</p>
+            <pre class="mermaid">flowchart TD
+    G["Generation capacity&lt;br/&gt;(grows rapidly)"] --&gt; R["Review capacity&lt;br/&gt;Test capacity&lt;br/&gt;Security capacity&lt;br/&gt;Operational capacity&lt;br/&gt;Governance capacity&lt;br/&gt;(grow much more slowly)"]
+    classDef gen fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+    classDef slow fill:#1f2937,stroke:#6b7280,color:#e6eef8
+    class G gen
+    class R slow</pre>
+            <p>Even if a company can suddenly produce five times as many changes, it has not automatically created five times as much verification capacity. This is why “AI productivity” can become misleading at scale.</p>
+            <p>The useful question is not:</p>
+            <blockquote><p>How much more code can we generate?</p></blockquote>
+            <p>It is:</p>
+            <blockquote><p>How much more <strong>verified change</strong> can the organization safely absorb?</p></blockquote>
+            <p>Google SRE has long treated change as a major source of instability; its error-budget guidance states that changes account for roughly 70% of outages in its model. Error budgets exist precisely to balance innovation velocity against reliability. <a href="https://sre.google/workbook/error-budget-policy/">Google SRE, <em>Error Budget Policy</em></a></p>
+            <p>AI turns that old SRE problem into a larger organizational one.</p>
+
+            <h3>3. Encode the quality boundary into the system</h3>
+            <p>AI-generated software can look correct long before it has been proven safe or robust. Agents are optimized to produce something that appears to satisfy a task. Functional success is not equivalent to secure implementation, maintainability, policy compliance, or operational safety.</p>
+            <p>Anthropic's engineering guidance reflects this transition. Its work on agent evaluations argues that informal testing and dogfooding can work early, but once agents reach production, teams need systematic evals because failures otherwise appear reactively in user traffic. <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Anthropic, <em>Demystifying evals for AI agents</em></a></p>
+            <p>Anthropic's containment work goes further. As agents receive more capability and access, their potential blast radius increases even if model reliability improves. Anthropic therefore treats isolation, tool permissions, network controls, and environment boundaries as core engineering mechanisms. It distinguishes between trying to supervise every action and limiting what the agent is structurally capable of affecting. <a href="https://www.anthropic.com/engineering/how-we-contain-claude">Anthropic, <em>How we contain Claude across products</em></a></p>
+            <p>An enterprise AI function cannot scale by manually reviewing every generated artifact. It has to encode the quality boundary into the system.</p>
+            <p>The scalable architecture is:</p>
+            <pre class="mermaid">flowchart TD
+    E["AI experts"] --&gt; D["design the operating environment"]
+    D --&gt; C["identity and permissions&lt;br/&gt;approved tools&lt;br/&gt;data boundaries&lt;br/&gt;eval suites&lt;br/&gt;policy checks&lt;br/&gt;security scanning&lt;br/&gt;observability&lt;br/&gt;cost controls&lt;br/&gt;human escalation&lt;br/&gt;rollback / containment"]
+    C --&gt; B["many humans and agents&lt;br/&gt;build independently&lt;br/&gt;within those controls"]
+    classDef experts fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+    classDef env fill:#1a1a2e,stroke:#7c3aed,color:#e6eef8
+    classDef builders fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+    class E experts
+    class D env
+    class C env
+    class B builders</pre>
+            <p>The expert moves from being the person who performs every high-skill action to the person who defines the invariants within which those actions can safely happen.</p>
+            <p>NIST's Generative AI Risk Management Profile takes this lifecycle view explicitly: trustworthiness should be incorporated across design, development, deployment, use, and evaluation rather than bolted on as a final compliance review. <a href="https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence">NIST, <em>AI RMF: Generative AI Profile</em></a></p>
+            <p>OWASP's Top 10 for Agentic Applications similarly treats autonomy, identity, tools, permissions, and downstream actions as architectural security concerns. <a href="https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/">OWASP, <em>Top 10 for Agentic Applications 2026</em></a></p>
+            <p>The dominant scarcity changes with organizational stage:</p>
+            <table>
+              <thead>
+                <tr><th>Stage</th><th>Dominant scarcity</th><th>Highest-leverage AI expertise</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Exploration</td><td>learning</td><td>build experiments</td></tr>
+                <tr><td>Early PMF</td><td>repeatability</td><td>build reusable workflows</td></tr>
+                <tr><td>Scaling</td><td>coordination</td><td>build platforms and paved roads</td></tr>
+                <tr><td>Enterprise</td><td>assurance</td><td>encode controls and evaluation</td></tr>
+                <tr><td>Critical systems</td><td>tolerable failure</td><td>bound autonomy and prove invariants</td></tr>
+              </tbody>
+            </table>
+
+            <h3>4. Move governance upstream</h3>
+            <p>Traditional governance often works as a gate:</p>
+            <pre><code>team builds something
+        ↓
+security / legal / compliance review it
+        ↓
+approve or reject</code></pre>
+            <p>That model stops scaling when thousands of employees and agents can continuously create workflows. The scalable version moves governance upstream:</p>
+            <pre class="mermaid">flowchart TD
+    A["security · legal · compliance&lt;br/&gt;platform · domain experts"] --&gt; B["encode policies and constraints"]
+    B --&gt; C["self-service execution"]
+    C --&gt; D["telemetry + evals + exceptions"]
+    classDef design fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+    classDef run fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+    class A design
+    class B design
+    class C run
+    class D run</pre>
+            <p>OpenAI's interviews with European enterprise leaders found this pattern: organizations moved faster when security, legal, compliance, and IT participated early as design partners rather than appearing only at the final approval stage. <a href="https://openai.com/business/guides-and-resources/how-enterprises-are-scaling-ai/">OpenAI, <em>How enterprises are scaling AI</em></a></p>
+            <p>This is the difference between governance as review and governance as architecture. Governance embedded in the operating environment scales better than review alone.</p>
+
+            <h2>Concrete examples</h2>
+            <p>The organizational pattern appears in reported accounts of companies taking different approaches to AI adoption and operating risk. These examples illustrate the division of labor between distributed building and centralized platforms, standards, and controls; they are not presented as proof that one model works everywhere.</p>
+
+            <h3>How to read the evidence</h3>
+            <p>The company examples and industry reports in this note document reported practices, measurements, and interpretations. They are useful evidence that the organizational pattern is emerging, but they do not by themselves establish a universal causal law or prove that one operating model will work in every organization. The relevant variables remain consequence, authority, workflow design, delivery maturity, and the organization's ability to produce continuous evidence.</p>
+
+            <h3>Shopify: AI moves into the operating model</h3>
+            <p>Shopify's shift is one of the most explicit in the cited accounts. CEO Tobi Lütke made “reflexive AI usage” a baseline expectation and told teams that before requesting additional headcount or resources, they should demonstrate why the work could not be accomplished using AI. AI usage was also incorporated into performance expectations. <a href="https://techcrunch.com/2025/04/07/shopify-ceo-tells-teams-to-consider-using-ai-before-growing-headcount/">TechCrunch summary of Lütke's public memo</a></p>
+            <p>The policy matters structurally. In the account described, AI is no longer framed as a specialist capability owned by an AI team; it becomes a default operating assumption for every team. That pushes the organization toward decentralized building.</p>
+
+            <h3>Microsoft: decentralize creation, centralize the operating system</h3>
+            <p>Inside Microsoft Digital, employees outside conventional software roles are using an internal “Frontier Forge” harness to build agents and automate work. Instead of requiring every useful workflow to enter an engineering backlog, the company is trying to make agent construction available directly to knowledge workers. <a href="https://www.microsoft.com/insidetrack/blog/the-frontier-firm-how-knowledge-workers-are-forging-their-own-ai-tools-at-microsoft/">Microsoft Inside Track, <em>The Frontier Firm: how knowledge workers are forging their own AI tools</em></a></p>
+            <p>At the same time, Microsoft Digital describes a company-wide operating model for agent governance, implementation, adoption, support, and measurement. Its internal guidance focuses on helping employees participate in agent creation safely rather than concentrating creation in a small specialist team. <a href="https://www.microsoft.com/insidetrack/blog/becoming-a-frontier-firm-a-guide-for-deploying-ai-agents-based-on-our-experience-at-microsoft/">Microsoft Inside Track, <em>Becoming a Frontier Firm</em></a></p>
+            <p>This is the two-layer architecture:</p>
+            <pre><code>distributed builders
+        +
+central platform / governance</code></pre>
+            <p>A later Microsoft account of its software-development transformation reports that ad-hoc AI adoption initially increased individual developer productivity without equivalent improvement in team productivity. The response was to redesign the surrounding software-development process rather than simply push harder on tool usage. <a href="https://www.microsoft.com/insidetrack/blog/engineering-the-frontier-firm-sharing-our-ai-native-approach-to-software-development/">Microsoft Inside Track, <em>Engineering the Frontier Firm</em></a></p>
+            <p>This illustrates the bottleneck moving from execution to system design.</p>
+
+            <h3>Spotify: when coding stops being the constraint</h3>
+            <p>Spotify describes a related phenomenon from an engineering-platform perspective. More than 99% of Spotify engineers reportedly use AI coding tools weekly, accompanied by a large increase in pull-request frequency. Spotify's framing is explicit: coding is no longer the constraint. In its account, long-running investment in internal developer platforms and engineering standards allows teams and agents to operate at higher speed without making every engineer reconstruct the delivery environment themselves. <a href="https://engineering.atspotify.com/2026/6/code-with-claude-coding-is-no-longer-the-constraint">Spotify Engineering, <em>Coding Is No Longer the Constraint</em></a></p>
+            <p>Internal developer platforms were originally built to abstract cloud and operational complexity from human developers. In this model, they become the execution environment for human-plus-agent development.</p>
+
+            <h3>BBVA: democratized creation inside a governed bank</h3>
+            <p>BBVA is a useful example because the stakes are much higher than in a startup prototype. The bank expanded generative AI access across roughly 100,000 employees while organizing adoption around security, legal, compliance, and technology from the beginning. It created an organization-wide network of AI champions and advanced “wizards” while letting teams across legal, risk, engineering, finance, marketing, and customer service develop specialized GPTs. <a href="https://openai.com/index/bbva/">OpenAI / BBVA case study</a></p>
+            <p>An earlier account reported more than 20,000 custom GPTs created inside the bank, with thousands seeing regular use. Instead of preventing distributed experimentation, BBVA supplied a trusted environment, governance, and training intended to turn shadow AI into controlled AI. <a href="https://openai.com/index/bbva-2025/">OpenAI, <em>How BBVA is scaling AI from pilot to practice</em></a></p>
+            <p>This is a direct implementation of the thesis:</p>
+            <blockquote><p><strong>Let the edge innovate; make the center responsible for the envelope in which innovation happens.</strong></p></blockquote>
+
+            <h3>Endava and Atos: from tool rollout to workflow redesign</h3>
+            <p>Endava describes its AI transition not as a tooling project but as a redesign of software delivery, leadership behavior, and workflows. It is embedding agents into daily work and changing how teams collaborate around them. <a href="https://openai.com/index/endava-frontiers/">OpenAI, <em>How Endava is redesigning software delivery around AI agents</em></a></p>
+            <p>Atos provides an even more explicit large-scale control-plane example. Microsoft reports that Atos is building and governing an ecosystem of roughly 19,000 agents through a unified operating model spanning productivity, security, compliance, and agent governance. <a href="https://blogs.microsoft.com/blog/2026/07/28/looking-back-on-microsofts-fy26-from-ai-experimentation-to-frontier-transformation/">Microsoft, <em>From AI experimentation to Frontier Transformation</em></a></p>
+            <p>Taken together, these accounts point toward an organizational pattern that looks less like a traditional AI Center of Excellence and more like platform engineering for intelligence.</p>
+
+            <h3>Platform engineering as the historical precedent</h3>
+            <p>A related transition happened with cloud infrastructure. Cloud infrastructure initially gave development teams much more autonomy. That autonomy eventually created enough complexity that organizations needed internal developer platforms, paved roads, and golden paths.</p>
+            <p>The goal of platform engineering was not to take deployment away from developers again. It was to make autonomous deployment safe, repeatable, and cheap.</p>
+            <p>The CNCF describes platform engineering as providing standardized self-service infrastructure and workflows for development, testing, deployment, rollback, and operations. <a href="https://www.cncf.io/blog/2025/11/19/what-is-platform-engineering/">CNCF, <em>What is platform engineering?</em></a></p>
+            <p>Its 2026 platform-maturity guidance captures the organizational transition particularly well. At lower maturity, the platform team manually fulfills requests. At higher maturity, the platform team owns the interface and guardrails while product teams self-service capabilities independently. <a href="https://www.cncf.io/blog/2026/09/01/platform-engineering-maturity-from-toolchain-to-self-service/">CNCF, <em>Platform engineering maturity: From toolchain to self-service</em></a></p>
+            <p>That is almost exactly what is now happening to AI expertise:</p>
+            <pre><code>AI team builds AI applications</code></pre>
+            <p>toward:</p>
+            <pre><code>AI platform team builds the environment
+in which the organization builds AI applications</code></pre>
+            <p>And eventually:</p>
+            <pre><code>AI assurance / platform team defines
+the invariants within which humans and agents
+can safely act autonomously</code></pre>
+
+            <h2>Trade-offs &amp; failure modes</h2>
+            <h3>Manual review becomes the new bottleneck</h3>
+            <p>A common enterprise response is:</p>
+            <pre><code>everyone uses AI
+      ↓
+central AI experts review everything</code></pre>
+            <p>That merely creates a new bottleneck. Requiring humans to inspect every generated artifact does not scale with generation capacity. The practical response is to move repeatable checks into platforms, policies, evals, and automated controls while reserving human attention for consequential decisions and exceptions.</p>
+
+            <h3>Plausible output can outrun verification</h3>
+            <p>Generated software can appear functional without being secure, maintainable, compliant, observable, or safe to operate. Informal testing may be sufficient for early exploration, but production systems need systematic evaluations and a way to detect failures before they become user-visible incidents. Functional success should not be treated as evidence of operational readiness.</p>
+
+            <h3>Lower implementation cost does not lower consequence</h3>
+            <p>AI makes it cheaper to build, but it does not make an irreversible action reversible or reduce the blast radius of a permissioned system. The quality bar can be lower for disposable experiments only when the systems are genuinely disposable and isolated. Regulatory, reputational, safety, and reliability exposure still require controls proportionate to consequence.</p>
+
+            <h3>Governance can become either a gate or a bypass</h3>
+            <p>Late review by security, legal, compliance, or platform teams creates queues and encourages shadow systems. Removing those controls entirely creates operational risk. Upstream policy design, self-service interfaces, telemetry, evals, exception handling, and explicit escalation are the middle path described by the source material.</p>
+
+            <h3>Centralization can recreate ticket-driven platform failure</h3>
+            <p>A boundary-setting role can be misread as requiring experts to stand between users and production. That reproduces the old ticket-driven central-platform failure mode. The better objective is:</p>
+            <blockquote><p><strong>Make the safe path the easiest path.</strong></p></blockquote>
+            <p>The AI expert's leverage increasingly comes from deciding:</p>
+            <ul>
+              <li>what context an agent may see;</li>
+              <li>which tools it may call;</li>
+              <li>which actions require approval;</li>
+              <li>what evidence constitutes success;</li>
+              <li>what gets logged;</li>
+              <li>what gets evaluated before deployment;</li>
+              <li>which failures automatically stop execution;</li>
+              <li>how rollbacks occur;</li>
+              <li>which responsibilities remain human;</li>
+              <li>how successful workflows become reusable organizational capabilities.</li>
+            </ul>
+
+            <h2>Practical takeaways</h2>
+            <ol>
+              <li><strong>Classify work by consequence, not by company size.</strong> Estimate blast radius, irreversibility, and regulatory or reputational exposure before choosing the quality bar and approval path.</li>
+              <li><strong>Optimize for verified change.</strong> Track whether the organization can safely test, review, secure, deploy, observe, and roll back the changes it generates—not only how much code or how many workflows it can produce.</li>
+              <li><strong>Build a self-service app and agent factory.</strong> Provide reusable scaffolds, disposable environments, instrumentation, deployment paths, feature flags, and feedback capture so teams can explore without rebuilding the delivery system each time.</li>
+              <li><strong>Encode boundaries before scaling autonomy.</strong> Make identity, permissions, approved tools, data boundaries, evaluation suites, policy checks, observability, cost controls, escalation, and rollback part of the operating environment.</li>
+              <li><strong>Make successful local workflows reusable.</strong> Treat platform improvements, evaluations, controls, and operational lessons as organizational capabilities so lessons from one deployment can inform the next.</li>
+            </ol>
+
+            <h2>Positioning note</h2>
+            <p>This is an applied technical note and a structured synthesis of industry reports, engineering guidance, and company accounts. It is not an academic paper: it does not present original data, a controlled experiment, or a causal evaluation of the claims. Its thesis is tied to cited evidence and concrete operating mechanisms rather than anecdotes alone. It is not vendor documentation: the linked vendor and company material is used as source evidence, not as an instruction to adopt a particular product or operating model.</p>
+            <p>The note's durable claim is narrower than “AI will replace expertise.” It is that falling implementation costs move scarce expertise toward experimentation systems, platforms, evaluation, and boundaries. The appropriate implementation of that claim depends on the authority and consequences of the systems involved.</p>
+
+            <h2>Status &amp; scope disclaimer</h2>
+            <p><strong>Status:</strong> Exploratory and applied research synthesis; not a validated empirical study.</p>
+            <p>This is personal lab work from rmax lab and is intended for discussion, design exploration, and operational reflection. It is non-authoritative and should not be treated as legal, compliance, security, safety, hiring, or organizational advice. The cited reports and company accounts are time-bound source material; their measurements, descriptions, and interpretations may change.</p>
+            <p>The scope is the changing role of AI expertise in software building, experimentation, platform engineering, governance, assurance, and agentic operations. It does not attempt to provide a complete labor-market forecast, compare vendors, define a universal governance framework, or establish that the cited organizational patterns generalize to every startup, enterprise, or regulated system.</p>
+
+            <h2>Conclusion</h2>
+            <p>AI turns everyone into a potential builder. That does not make engineers, AI specialists, or platform experts irrelevant. It changes where their expertise compounds.</p>
+            <p>In a startup searching for product-market fit, the AI expert should maximize the rate at which hypotheses become experiments. As the organization scales, the expert increasingly builds the factory: reusable tools, agent harnesses, knowledge systems, and deployment paths.</p>
+            <p>Once AI-assisted creation becomes ubiquitous and consequential, the expert's highest-leverage responsibility moves again: designing the boundaries, evaluations, platforms, and control systems that allow thousands of humans and agents to build without requiring thousands of manual reviewers.</p>
+            <p>The trajectory is therefore not:</p>
+            <blockquote><p><strong>experts → no experts</strong></p></blockquote>
+            <p>It is:</p>
+            <blockquote><p><strong>Builder → Builder of Builders → Designer of Boundaries</strong></p></blockquote>
+            <p>AI makes production abundant. The scarce resource becomes confidence that what was produced deserves to run.</p>
+
+            <section aria-labelledby="references-title">
+              <h2 id="references-title">References</h2>
+              <ol>
+                <li><a href="https://www.anthropic.com/research/claude-code-expertise">Anthropic — Agentic coding and persistent returns to expertise</a></li>
+                <li><a href="https://www.figma.com/blog/2026-ai-report/">Figma — 2026 AI Report</a></li>
+                <li><a href="https://www.microsoft.com/en-us/worklab/work-trend-index/agents-human-agency-and-the-opportunity-for-every-organization">Microsoft — 2026 Work Trend Index</a></li>
+                <li><a href="https://openai.com/signals/enterprise-data/">OpenAI — Enterprise Signals</a></li>
+                <li><a href="https://www.figma.com/blog/what-matters-when-anyone-can-build/">Figma — What matters when anyone can build</a></li>
+                <li><a href="https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report">Google Cloud — 2025 DORA Report</a></li>
+                <li><a href="https://sre.google/workbook/error-budget-policy/">Google SRE — Error Budget Policy</a></li>
+                <li><a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Anthropic — Demystifying evals for AI agents</a></li>
+                <li><a href="https://www.anthropic.com/engineering/how-we-contain-claude">Anthropic — How we contain Claude across products</a></li>
+                <li><a href="https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence">NIST — Generative AI Profile</a></li>
+                <li><a href="https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/">OWASP — Top 10 for Agentic Applications 2026</a></li>
+                <li><a href="https://techcrunch.com/2025/04/07/shopify-ceo-tells-teams-to-consider-using-ai-before-growing-headcount/">TechCrunch — Shopify CEO AI/headcount memo</a></li>
+                <li><a href="https://www.microsoft.com/insidetrack/blog/the-frontier-firm-how-knowledge-workers-are-forging-their-own-ai-tools-at-microsoft/">Microsoft Inside Track — Frontier Forge</a></li>
+                <li><a href="https://www.microsoft.com/insidetrack/blog/becoming-a-frontier-firm-a-guide-for-deploying-ai-agents-based-on-our-experience-at-microsoft/">Microsoft Inside Track — Becoming a Frontier Firm</a></li>
+                <li><a href="https://www.microsoft.com/insidetrack/blog/engineering-the-frontier-firm-sharing-our-ai-native-approach-to-software-development/">Microsoft Inside Track — AI-native software development</a></li>
+                <li><a href="https://engineering.atspotify.com/2026/6/code-with-claude-coding-is-no-longer-the-constraint">Spotify Engineering — Coding Is No Longer the Constraint</a></li>
+                <li><a href="https://openai.com/index/bbva/">OpenAI — BBVA puts AI at the core of banking</a></li>
+                <li><a href="https://openai.com/index/bbva-2025/">OpenAI — BBVA scaling AI from pilot to practice</a></li>
+                <li><a href="https://openai.com/index/endava-frontiers/">OpenAI — Endava redesigning software delivery around agents</a></li>
+                <li><a href="https://blogs.microsoft.com/blog/2026/07/28/looking-back-on-microsofts-fy26-from-ai-experimentation-to-frontier-transformation/">Microsoft — FY26 Frontier Transformation</a></li>
+                <li><a href="https://www.cncf.io/blog/2025/11/19/what-is-platform-engineering/">CNCF — What is platform engineering?</a></li>
+                <li><a href="https://www.cncf.io/blog/2026/09/01/platform-engineering-maturity-from-toolchain-to-self-service/">CNCF — Platform engineering maturity</a></li>
+                <li><a href="https://openai.com/business/guides-and-resources/how-enterprises-are-scaling-ai/">OpenAI — How enterprises are scaling AI</a></li>
+              </ol>
+            </section>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        themeCSS: '.label foreignObject { overflow: visible; }',
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+          wrappingWidth: 340,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        { text: "I watch expertise move from writing every artifact to designing the systems that make safe building repeatable.", agent: "Boundary Agent" },
+        { text: "I measure verified change, because abundant production without assurance is only faster uncertainty.", agent: "Assurance Agent" },
+        { text: "I make the safe path the easiest path for every human and agent that builds.", agent: "Platform Agent" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
