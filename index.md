@@ -49,6 +49,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Recursive Self-Improvement Is Becoming an Engineering Problem](/notes/recursive-self-improvement-engineering-problem/)
+From Turing's child machine to automated AI research: a grounded timeline of recursive self-improvement, where the field stands in 2026, and what builders should prepare for next.
+
 ### [When AI Use Becomes Infrastructure: 128 Days Inside a Personal Agent System](/notes/when-ai-use-becomes-infrastructure/)
 A 128-day operational trace of one personal agent system: what 6.6 billion tokens, 70,941 tool calls, 2,645 autonomous runs, and 244 skills reveal about the transition from using AI assistants to operating personal AI infrastructure.
 
