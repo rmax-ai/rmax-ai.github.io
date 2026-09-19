@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*September 19, 2026* — [The Skill Lifecycle Is the Missing Enterprise AI Platform Primitive](/notes/skill-lifecycle-platform-primitive/)
+
+### [The Skill Lifecycle Is the Missing Enterprise AI Platform Primitive](/notes/skill-lifecycle-platform-primitive/)
+*September 19, 2026* — Agent skills are becoming the standard packaging for procedural knowledge in AI systems. The harder problem is lifecycle: provenance, evaluation, promotion gates, versioning, observability, and retirement — the missing enterprise platform primitive.
+
 *September 19, 2026* — [Recursive Self-Improvement Is Becoming an Engineering Problem](/notes/recursive-self-improvement-engineering-problem/)
 
 ### [Recursive Self-Improvement Is Becoming an Engineering Problem](/notes/recursive-self-improvement-engineering-problem/)
