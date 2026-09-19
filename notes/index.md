@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*September 19, 2026* — [BM25 Did Not Come Back. The Query Changed.](/notes/bm25-machine-queries-and-agent-workspaces/)
+
+### [BM25 Did Not Come Back. The Query Changed.](/notes/bm25-machine-queries-and-agent-workspaces/)
+*September 19, 2026* — Why machine-generated queries and navigable workspaces may change the balance between lexical and dense retrieval — and the experiment being built to test it.
+
 *September 19, 2026* — [The Skill Lifecycle Is the Missing Enterprise AI Platform Primitive](/notes/skill-lifecycle-platform-primitive/)
 
 ### [The Skill Lifecycle Is the Missing Enterprise AI Platform Primitive](/notes/skill-lifecycle-platform-primitive/)
