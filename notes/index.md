@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*September 19, 2026* — [Recursive Self-Improvement Is Becoming an Engineering Problem](/notes/recursive-self-improvement-engineering-problem/)
+
+### [Recursive Self-Improvement Is Becoming an Engineering Problem](/notes/recursive-self-improvement-engineering-problem/)
+*September 19, 2026* — From Turing's child machine to automated AI research: a grounded timeline of recursive self-improvement, where the field stands in 2026, and what builders should prepare for next.
+
 *September 15, 2026* — [When AI Use Becomes Infrastructure: 128 Days Inside a Personal Agent System](/notes/when-ai-use-becomes-infrastructure/)
 
 ### [When AI Use Becomes Infrastructure: 128 Days Inside a Personal Agent System](/notes/when-ai-use-becomes-infrastructure/)

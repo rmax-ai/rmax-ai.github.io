@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Recursive Self-Improvement Is Becoming an Engineering Problem — rmax.ai</title>
+    <meta name="description" content="From Turing&#x27;s child machine to automated AI research: a grounded timeline of recursive self-improvement, where the field stands in 2026, and what builders should prepare for next." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/recursive-self-improvement-engineering-problem/" />
+
+    <meta property="og:title" content="Recursive Self-Improvement Is Becoming an Engineering Problem" />
+    <meta property="og:description" content="From Turing&#x27;s child machine to automated AI research: a grounded timeline of recursive self-improvement, where the field stands in 2026, and what builders should prepare for next." />
+    <meta property="og:url" content="https://rmax.ai/notes/recursive-self-improvement-engineering-problem/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-19" />
+    <meta property="article:tag" content="recursive-self-improvement" />
+    <meta property="article:tag" content="ai-research-automation" />
+    <meta property="article:tag" content="evaluation" />
+    <meta property="article:tag" content="agentic-systems" />
+    <meta property="article:tag" content="ai-safety" />
+    <meta property="article:tag" content="research-engineering" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      h4 {
+        margin: 24px 0 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+
+      @media (max-width: 600px) {
+        .wrap {
+          margin: 20px auto;
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>Recursive Self-Improvement Is Becoming an Engineering Problem</h1>
+            <div class="post-meta">
+              <span>2026-09-19</span>
+              <span>•</span>
+              <span>14–16 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+<p><strong>From Turing's learning machines to automated AI research — a grounded timeline of recursive self-improvement, where the field stands in 2026, and what builders should prepare for next.</strong></p>
+<p>For most of AI history, recursive self-improvement (RSI) belonged to the speculative edge of the field. The canonical picture was simple: build a machine smart enough to improve the process that made it; the improved machine then becomes better at improving itself; repeat. If each cycle increases the system's ability to perform the next cycle, progress can compound.</p>
+<p>That idea is no longer purely theoretical. But the route toward RSI looks less like a single model suddenly rewriting its own source code and more like a stack of increasingly closed feedback loops: models generate candidate improvements, automated evaluators score them, agents run experiments, successful changes are retained, and the resulting system becomes better at producing the next generation of changes.</p>
+<p>In 2026, we do <strong>not</strong> have public evidence of unrestricted, runaway recursive self-improvement. We do have something more concrete and arguably more important: increasingly capable systems that automate meaningful pieces of AI research and that can improve algorithms, agent code, training objectives, research workflows, and evaluators. Frontier labs are now explicitly measuring AI R&D automation as a capability category.</p>
+<p>The important question is therefore shifting from <em>"Will RSI ever happen?"</em> to <em>"How much of the improvement loop can be automated, how quickly can that fraction grow, and what becomes the bottleneck once it does?"</em></p>
+<p>This is the story of how we got here.</p>
+<h2>What recursive self-improvement actually means</h2>
+<p>The phrase is often used too loosely.</p>
+<p>A system is not recursively self-improving merely because it learns, fine-tunes on new data, reflects on a failed answer, or uses more inference-time compute. The stronger notion requires a feedback loop in which an AI system contributes to improving some component of the process that determines its <strong>future ability to improve AI systems</strong>.</p>
+<p>A useful abstraction is:</p>
+<pre class="mermaid">
+flowchart TD
+  S["System"] --> P["Propose improvements"]
+  P --> B["Build / train / modify"]
+  B --> E["Evaluate"]
+  E --> SEL["Select"]
+  SEL --> D["Deploy improved system"]
+  D -->|"now better at proposing improvements"| P
+</pre>
+<p>The recursion is in the last step. Improvement increases the capability of the mechanism performing future improvement.</p>
+<p>This can happen at several layers:</p>
+<pre class="mermaid">
+flowchart TD
+  B1["Behavior: reasoning strategies, memory, prompts, skills"]
+  A1["Agent architecture: tools, context management, planning, orchestration"]
+  AL["Algorithms: loss functions, search, optimizers, training procedures"]
+  R1["Research process: hypothesis generation, experimentation, analysis, evaluation"]
+  F1["Foundation models: AI substantially designs and trains its successor"]
+  B1 --> A1 --> AL --> R1 --> F1
+  classDef closed fill:#14532d,stroke:#22c55e,color:#e6eef8
+  classDef open fill:#7f1d1d,stroke:#ef4444,color:#e6eef8
+  class B1,A1,AL,R1 closed
+  class F1 open
+</pre>
+<p>Most systems today operate in the first four layers. Full RSI would close the fifth loop as well.</p>
+<h2>1950–2003: the idea before the machinery</h2>
+<p>Alan Turing already anticipated an important part of the idea in 1950. Rather than hand-program an adult intelligence, he proposed constructing a "child machine" and subjecting it to an education process, iteratively experimenting with machines that learn. Turing was describing learning rather than recursive self-improvement in the modern sense, but the conceptual move mattered: intelligence could be produced by an <strong>improvement process</strong>, not only encoded directly. <a href="https://doi.org/10.1093/mind/LIX.236.433">Turing, 1950</a></p>
+<p>The classic RSI argument came from statistician I. J. Good. In <em>Speculations Concerning the First Ultraintelligent Machine</em>, written in the 1960s, Good observed that designing intelligent machines is itself an intellectual activity. If a machine became better than humans at that activity, it could potentially design still better machines, producing what he called an "intelligence explosion." <a href="https://doi.org/10.1016/S0065-2458%2808%2960418-0">Good, 1965</a></p>
+<p>For decades this remained an argument without an implementation path.</p>
+<p>In 2003, Jürgen Schmidhuber proposed the <strong>Gödel machine</strong>, a self-referential system that could rewrite parts of its own code after proving that the modification would improve its objective. The proposal was mathematically elegant, but the requirement to prove useful self-modifications made it difficult to apply to messy real-world systems. <a href="https://arxiv.org/abs/cs/0309048">Schmidhuber, 2003</a></p>
+<p>The key insight survived: a self-improving system needs not only a generator of modifications but also a sufficiently trustworthy mechanism for deciding which modifications are actually better.</p>
+<p>That evaluator will become one of the central characters in the modern RSI story.</p>
+<h2>2016–2018: self-play shows that improvement loops can outrun human knowledge</h2>
+<p>AlphaGo and especially AlphaZero changed the intuition around machine-generated improvement.</p>
+<p>AlphaZero began from the rules of chess, shogi, and Go and improved by playing against itself. No human expert needed to enumerate the strategies it should discover. Search, self-play, optimization, and a clear objective formed a closed learning loop capable of reaching superhuman performance. <a href="https://doi.org/10.1126/science.aar6404">Silver et al., 2018</a></p>
+<p>This was not RSI: AlphaZero did not redesign AlphaZero. Its learning algorithm and environment were fixed by humans.</p>
+<p>But it established a crucial pattern:</p>
+<blockquote>
+<p>When the environment provides a reliable objective and the system can generate unlimited experience, machine-driven search can discover strategies humans did not explicitly provide.</p>
+</blockquote>
+<p>That pattern—<strong>generate, evaluate, retain, repeat</strong>—is the backbone of many current self-improvement systems.</p>
+<h2>2022–2024: models start generating their own improvement signal</h2>
+<p>Large language models made the loop more general because the same model could generate solutions, critique them, write code, reason about failures, and sometimes act as an evaluator.</p>
+<p>In 2022, <strong>STaR (Self-Taught Reasoner)</strong> showed that a language model could bootstrap its reasoning by generating rationales, retaining rationales that led to correct answers, fine-tuning on them, and repeating the process. <a href="https://arxiv.org/abs/2203.14465">Zelikman et al., 2022</a></p>
+<p>In 2023, <strong>Reflexion</strong> showed another route: the model did not need to update its weights. An agent could inspect feedback from failed attempts, write linguistic reflections into memory, and use those reflections to perform better on later trials. <a href="https://papers.nips.cc/paper_files/paper/2023/hash/1b44b878bb782e6954cd888628510e90-Abstract-Conference.html">Shinn et al., 2023</a></p>
+<p>In 2024, <strong>Self-Rewarding Language Models</strong> pushed the idea further by letting a language model provide reward signals for its own generations during iterative training. The authors explicitly framed the work as a route toward models that improve both their ability to answer and their ability to judge answers. <a href="https://arxiv.org/abs/2401.10020">Yuan et al., 2024</a></p>
+<p>The same year, Sakana AI's <strong>LLM²</strong> work used language models to propose and implement new preference-optimization objectives. The search process discovered DiscoPOP, a new loss function that outperformed DPO and other existing methods on held-out evaluations. Here the model was no longer merely solving a task: it was participating in the discovery of an algorithm used to train language models. <a href="https://sakana.ai/llm-squared/">Lu et al., 2024</a></p>
+<p>That is a qualitatively different loop.</p>
+<p>AI had started to operate on parts of the machinery used to improve AI.</p>
+<h2>2024–2025: from self-improving answers to self-improving research systems</h2>
+<p>The next step was to automate larger parts of the research process itself.</p>
+<p>Sakana AI's <strong>AI Scientist</strong> connected idea generation, coding, experiment execution, result analysis, paper writing, and automated review into an end-to-end research pipeline. Its first version still depended on human-provided experimental templates. <a href="https://sakana.ai/ai-scientist/">Lu et al., 2024</a></p>
+<p>In 2025, <strong>AI Scientist-v2</strong> removed much of that scaffolding and used agentic tree search to explore research directions. One fully AI-generated paper obtained scores above the acceptance threshold in a cooperating ICLR workshop experiment. The result had important caveats—it was a workshop, humans selected which generated papers to submit, and workshop acceptance is not equivalent to a major scientific breakthrough—but the milestone demonstrated that an agentic system could traverse much more of the research lifecycle than earlier systems. <a href="https://sakana.ai/ai-scientist-first-publication/">Sakana AI, 2025</a></p>
+<p>Meanwhile, Google DeepMind introduced <strong>AlphaEvolve</strong>, which combines LLM-generated programs, automated evaluators, and evolutionary search. AlphaEvolve found improvements in mathematics and computing infrastructure—one discovered kernel reduced the runtime of a component used to train Gemini—and was used on algorithms involved in Google's own AI training stack. <a href="https://deepmind.google/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/">Google DeepMind, 2025</a></p>
+<p>This is one of the clearest practical bridges toward RSI: use AI to search for code and algorithms, evaluate those changes automatically, and feed successful discoveries into systems used to build AI.</p>
+<h2>2025: the agent itself becomes the object of evolution</h2>
+<p>The <strong>Darwin Gödel Machine (DGM)</strong> made the recursion more explicit.</p>
+<p>Instead of optimizing only the solution to an external problem, DGM maintains an archive of coding agents and uses a foundation model to modify their code. New variants are evaluated on software-engineering benchmarks, and successful descendants become stepping stones for later generations.</p>
+<p>In the published experiments, DGM improved from 20.0% to 50.0% on SWE-bench and from 14.2% to 30.7% on Polyglot. The improvements included changes to code-editing tools, context management, and peer-review mechanisms. <a href="https://arxiv.org/abs/2505.22954">Zhang et al., 2025</a></p>
+<p>This is still bounded. The foundation model underneath DGM was not autonomously retrained by DGM, and the objective was provided externally.</p>
+<p>But the object being improved was now an <strong>AI agent whose job was itself to solve engineering tasks</strong>.</p>
+<p>That is much closer to operational self-improvement than the older image of a static model receiving one more round of fine-tuning.</p>
+<h2>2026: recursive self-improvement becomes an explicit research program</h2>
+<p>The year 2026 marks an important change in language and institutional behavior.</p>
+<p>In January 2026, Sakana AI and MIT researchers introduced <strong>Digital Red Queen</strong>, in which LLM-generated programs continually evolve against changing adversaries inside the Turing-complete game Core War. Instead of optimizing against a static benchmark, each new generation changes the environment for the next one. This matters because real-world improvement is adversarial: defenses create new attacks; models create new evaluators; optimizers create new failure modes. <a href="https://pub.sakana.ai/drq/">Kumar et al., 2026</a></p>
+<p>In March 2026, the AI Scientist work was published in <em>Nature</em>, giving end-to-end automated AI research considerably stronger scientific validation while also documenting its limitations. <a href="https://www.nature.com/articles/s41586-026-10265-5">Lu et al., 2026</a></p>
+<p>In June 2026, Sakana formally launched an <strong>RSI Lab</strong>, explicitly organizing LLM², AI Scientist, DGM, ShinkaEvolve, ALE-Agent, and Digital Red Queen as steps toward recursive self-improvement. Its stated target is a loop in which agent-native models power AI scientists and those AI scientists, in turn, improve the models and systems that power them. <a href="https://sakana.ai/rsi-lab/">Sakana AI, 2026</a></p>
+<p>More importantly, RSI is no longer only a Sakana research theme.</p>
+<p>OpenAI's <a href="https://cdn.openai.com/pdf/18a02b5d-6b67-4cec-ab64-68cdfbddebcd/preparedness-framework-v2.pdf">Preparedness Framework</a> names self-improvement as a tracked capability and sets its critical threshold around fully automated AI R&D: a superhuman research-scientist agent, or generational model improvements arriving in roughly one-fifth of the previous cycle time, sustained for months. <a href="https://cdn.openai.com/pdf/18a02b5d-6b67-4cec-ab64-68cdfbddebcd/preparedness-framework-v2.pdf">OpenAI, 2025</a></p>
+<p>On September 6, 2026, OpenAI reported that it had reached what it calls an <strong>automated research intern</strong>: a system able, under human direction, to perform well-defined AI-research tasks that can take a skilled researcher several days. OpenAI says it is working toward a supervised automated AI researcher by March 2028. <a href="https://openai.com/index/research-acceleration-view-inside-openai/">OpenAI, 2026</a></p>
+<p>The same report gives a more useful signal than benchmark headlines. By mid-August 2026, OpenAI reported roughly <strong>3.1 agent-workdays of research effort per human workday</strong> across its research organization, up from below one-to-one before June. Researchers were running more experiments and delegating increasingly complex work, although longer tasks still required substantial human intervention. <a href="https://openai.com/index/research-acceleration-view-inside-openai/">OpenAI, 2026</a></p>
+<p>Anthropic and Google DeepMind have likewise incorporated AI R&D capabilities into their frontier-risk frameworks: Anthropic's <a href="https://www.anthropic.com/responsible-scaling-policy">Responsible Scaling Policy</a> now carries a threshold for automated R&D in key domains, and Google DeepMind's <a href="https://deepmind.google/frontier-safety/">Frontier Safety Framework</a> defines Machine Learning R&D as a critical capability level. <a href="https://www.anthropic.com/responsible-scaling-policy">Anthropic, 2026</a> <a href="https://deepmind.google/frontier-safety/">Google DeepMind, 2026</a></p>
+<p>That does not mean full RSI has arrived.</p>
+<p>It means the industry now considers <strong>automation of AI research itself</strong> a capability important enough to measure, secure, govern, and plan around.</p>
+<h2>Where we actually are</h2>
+<p>The most useful way to think about the current frontier is not binary—RSI or no RSI—but as a ladder of increasingly closed loops.</p>
+<table>
+<tr>
+<th>Stage</th>
+<th>Improvement target</th>
+<th>Status</th>
+</tr>
+<tr>
+<td>0</td>
+<td>Answers and task performance</td>
+<td>Mature</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Memory, prompts, strategies, skills</td>
+<td>Common in agent systems</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Training data and reward signals</td>
+<td>Demonstrated</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Tools, agent architecture, code</td>
+<td>Demonstrated</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Algorithms and research workflows</td>
+<td>Demonstrated</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Large portions of AI R&D</td>
+<td>Emerging</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Successor foundation models produced with minimal human research input</td>
+<td>Not publicly demonstrated</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Sustained autonomous recursive model improvement</td>
+<td>Not publicly demonstrated</td>
+</tr>
+</table>
+<p>The critical transition is between stages 5 and 6.</p>
+<p>Once AI systems can reliably choose research directions, implement them, run large-scale experiments, interpret results, design evaluations, and integrate successful changes into successor models, the human role in the capability-improvement loop becomes much smaller.</p>
+<p>At that point, the relevant quantity is no longer simply model intelligence.</p>
+<p>It is the <strong>cycle time of AI research</strong>.</p>
+<h2>Why the next bottleneck may not be intelligence</h2>
+<p>A common RSI story assumes that better models automatically produce faster improvement.</p>
+<p>Real engineering systems are more constrained.</p>
+<p>AI research includes hypothesis generation, implementation, debugging, experiment scheduling, compute availability, evaluation, security review, interpretation, integration, and deployment. Accelerating one component exposes the next bottleneck.</p>
+<p>OpenAI's own 2026 data is instructive: coding agents are increasing experiment throughput, but the company explicitly notes that compute and less-automatable research decisions may become more important bottlenecks as coding becomes cheaper. <a href="https://openai.com/index/research-acceleration-view-inside-openai/">OpenAI, 2026</a></p>
+<p>There are at least five brakes on recursive improvement.</p>
+<h3>1. Evaluation</h3>
+<p>A system can only optimize what it can measure. Weak evaluators create Goodharting, benchmark overfitting, reward hacking, or improvements that fail outside the lab.</p>
+<h3>2. Search cost</h3>
+<p>Even if a model can generate thousands of plausible improvements, training and evaluating each candidate can be expensive.</p>
+<h3>3. Experimental latency</h3>
+<p>Large training runs, hardware changes, biological experiments, and real-world deployment still operate on physical timescales.</p>
+<h3>4. Security and control</h3>
+<p>The more authority research agents receive, the more dangerous compromised credentials, reward hacking, data poisoning, or malicious self-modifications become.</p>
+<p>This is not hypothetical. In its September 2026 report, OpenAI described how agent activity had compromised parts of its research infrastructure earlier that summer, contributing to temporary pauses in training and to stronger isolation and monitoring controls. <a href="https://openai.com/index/research-acceleration-view-inside-openai/">OpenAI, 2026</a></p>
+<h3>5. Research taste</h3>
+<p>Generating an experiment is different from knowing which research program is worth months of compute. High-level allocation and research direction remain among the least automated parts of current AI R&D.</p>
+<p>RSI therefore does not require every bottleneck to disappear simultaneously.</p>
+<p>It requires enough of them to become machine-speed that the <strong>overall improvement loop begins to compound faster than human institutions can comfortably track</strong>.</p>
+<h2>What is likely to come next</h2>
+<p>No one can responsibly give a precise RSI date. The more useful approach is to watch for observable milestones.</p>
+<h3>Milestone 1: persistent automated research engineers</h3>
+<p>Today's agents can complete multi-hour or multi-day bounded tasks with varying supervision. The next milestone is systems that can own research workstreams for weeks: maintain state, recover from failed experiments, revise hypotheses, allocate compute, and produce reproducible evidence.</p>
+<p>METR's task-horizon work is relevant here because it tracks the length of expert-level tasks—measured in human completion time—that frontier agents can complete, and how that threshold moves over time. The precise numbers will shift; the important variable is whether it keeps extending into genuine research-project timescales. <a href="https://metr.org/time-horizons/">METR, 2026</a></p>
+<h3>Milestone 2: self-improving harnesses become normal</h3>
+<p>Before models rewrite their own weights, agents will increasingly rewrite the <strong>systems around the model</strong>:</p>
+<ul>
+<li>skills;</li>
+<li>prompts;</li>
+<li>context-selection policies;</li>
+<li>memory mechanisms;</li>
+<li>tool interfaces;</li>
+<li>subagent topologies;</li>
+<li>test suites;</li>
+<li>evaluators;</li>
+<li>search strategies.</li>
+</ul>
+<p>This form of RSI is cheaper, faster, easier to verify, and already accessible to ordinary engineering teams.</p>
+<h3>Milestone 3: AI-designed evaluators compete with AI-designed solutions</h3>
+<p>The generator cannot safely improve faster than the verifier.</p>
+<p>Expect increasing attention to adversarial evaluation, formal verification where possible, multi-model judging, executable specifications, hidden test sets, provenance, and evaluator ensembles.</p>
+<p>The frontier will not only be "better agents."</p>
+<p>It will be <strong>better improvement loops</strong>.</p>
+<h3>Milestone 4: research portfolios, not single agents</h3>
+<p>Research is naturally parallel. Once inference becomes cheap enough, one AI scientist does not need to pursue a single hypothesis. Thousands of research branches can be explored, culled, recombined, and revisited.</p>
+<p>Evolutionary systems such as AlphaEvolve, DGM, and ShinkaEvolve point in this direction.</p>
+<p>The unit of intelligence may increasingly become the <strong>population plus its selection mechanism</strong>, not one model invocation.</p>
+<h3>Milestone 5: AI materially shortens model-generation cycles</h3>
+<p>This is the threshold to watch most closely.</p>
+<p>If one model generation helps produce the next substantially faster, and the next generation accelerates the process again, the loop becomes genuinely recursive at the foundation-model level.</p>
+<p>OpenAI's own preparedness framework treats a sustained large acceleration in generational model development as a critical self-improvement indicator. <a href="https://cdn.openai.com/pdf/18a02b5d-6b67-4cec-ab64-68cdfbddebcd/preparedness-framework-v2.pdf">OpenAI, 2025</a></p>
+<p>We are not publicly at that point.</p>
+<p>But the surrounding machinery is being assembled.</p>
+<h2>How to get ready</h2>
+<p>The wrong preparation for RSI is to wait for a mythical self-modifying superintelligence.</p>
+<p>The useful preparation is to learn how to build and control <strong>closed improvement loops now</strong>.</p>
+<h3>1. Learn to engineer the loop, not merely the agent</h3>
+<p>A capable agent is only one component.</p>
+<p>A serious self-improving system needs:</p>
+<pre class="mermaid">
+flowchart TD
+  T1["Task distribution"] --> C1["Candidate generator"]
+  C1 --> SX["Sandboxed execution"]
+  SX --> V1["Verifiers / evaluators"]
+  V1 --> ES["Evidence store"]
+  ES --> SP["Selection policy"]
+  SP --> VD["Versioned deployment"]
+  VD --> FB["Production feedback"]
+  FB -->|"closed loop"| T1
+</pre>
+<p>This is increasingly a systems-engineering discipline.</p>
+<h3>2. Invest disproportionately in evals and verification</h3>
+<p>As generation becomes cheaper, trustworthy discrimination becomes more valuable.</p>
+<p>The scarce capability shifts from <em>producing another candidate</em> to <em>knowing whether the candidate is actually better</em>.</p>
+<p>Build deterministic checks where possible. Use statistical evals where necessary. Separate optimization metrics from final acceptance metrics. Keep hidden holdouts. Test trajectories, not only final answers.</p>
+<h3>3. Make knowledge and experiments machine-readable</h3>
+<p>Automated research requires durable state.</p>
+<p>Research decisions, hypotheses, experiment configurations, datasets, failures, evaluations, and provenance should be versioned and accessible to agents. A folder full of unstructured chat transcripts will not support serious recursive improvement.</p>
+<h3>4. Separate proposal from authority</h3>
+<p>Agents should be able to propose changes more freely than they can deploy them.</p>
+<p>Use sandboxes, scoped credentials, immutable logs, reproducible builds, staged rollout, capability boundaries, and independent approval gates.</p>
+<p>A system capable of modifying itself should not automatically be trusted to decide that the modification is safe.</p>
+<h3>5. Measure improvement velocity</h3>
+<p>Track more than benchmark scores.</p>
+<p>Measure:</p>
+<ul>
+<li>autonomous task horizon;</li>
+<li>experiment throughput;</li>
+<li>human interventions per successful task;</li>
+<li>cost per validated improvement;</li>
+<li>regression rate;</li>
+<li>evaluator disagreement;</li>
+<li>time from hypothesis to verified result;</li>
+<li>percentage of the R&D loop automated;</li>
+<li>whether each generation measurably improves the next generation's research productivity.</li>
+</ul>
+<p>Those metrics will reveal RSI-like dynamics earlier than dramatic demos.</p>
+<h3>6. Develop the skills that become more valuable as models improve</h3>
+<p>For engineers and applied researchers, the durable areas are likely to be:</p>
+<ul>
+<li>evaluation and assurance;</li>
+<li>agent harness/runtime design;</li>
+<li>automated experimentation;</li>
+<li>search and evolutionary methods;</li>
+<li>sandboxing and capability security;</li>
+<li>distributed systems and compute orchestration;</li>
+<li>provenance and reproducibility;</li>
+<li>formal methods where the domain permits them;</li>
+<li>research taste: choosing objectives worth optimizing.</li>
+</ul>
+<p>The stronger the models become, the less valuable it is to compete with them at raw artifact production.</p>
+<p>The leverage moves toward <strong>designing the environment in which machine-generated artifacts are proposed, tested, selected, and trusted</strong>.</p>
+<h2>The deeper transition</h2>
+<p>The first era of modern AI was about training models.</p>
+<p>The second has been about turning models into agents.</p>
+<p>The emerging third era may be about turning agents into <strong>research and improvement systems</strong>.</p>
+<pre class="mermaid">
+flowchart TD
+  E1["First era: training models"] --> E2["Second era: turning models into agents"]
+  E2 --> E3["Third era: turning agents into research and improvement systems"]
+</pre>
+<p>That shift changes the central engineering question.</p>
+<p>Instead of asking:</p>
+<blockquote>
+<p>How capable is this model?</p>
+</blockquote>
+<p>we increasingly need to ask:</p>
+<blockquote>
+<p>What improvement loop can this model participate in, how closed is that loop, how reliable is its evaluator, and how quickly does the loop compound?</p>
+</blockquote>
+<p>Recursive self-improvement may eventually produce a dramatic intelligence discontinuity. It may also arrive more gradually: thousands of mundane research tasks automated, experiment cycles compressed, agent architectures evolved, evaluators improved, and model-development loops progressively closed until humans notice that AI research has become a mostly machine-operated process.</p>
+<p>The second path currently has more empirical support.</p>
+<p>And it is already underway.</p>
+<p>The practical response is neither panic nor complacency. It is to build the engineering discipline for systems that improve: evidence before deployment, verifiers before autonomy, observability before scale, and explicit human control over the parts of the loop whose failure would matter most.</p>
+<p>If RSI becomes one of the defining technologies of the next decade, the people best prepared for it will not be those who predicted the exact date.</p>
+<p>They will be the ones who learned how to <strong>measure, constrain, and engineer recursive improvement before the recursion became fast</strong>.</p>
+<blockquote>
+<p>"The first ultraintelligent machine is the last invention that man need ever make." — I. J. Good</p>
+</blockquote>
+<h2>Practical takeaways</h2>
+<ul>
+<li><strong>Engineer the loop, not only the agent.</strong> A candidate generator, a sandbox, trustworthy evaluators, an evidence store, a selection policy, and versioned deployment are the components that make improvement recursive — each is an engineering artifact with failure modes.</li>
+<li><strong>Invest in verification before generation.</strong> As candidate generation gets cheap, trustworthy discrimination becomes the scarce capability: deterministic checks where possible, statistical evals where necessary, hidden holdouts, and trajectory-level evaluation.</li>
+<li><strong>Separate proposal authority from deployment authority.</strong> Let agents propose changes freely and deploy them reluctantly; sandbox self-modification and require independent approval for anything that touches models, infrastructure, or policy.</li>
+<li><strong>Make experiments and knowledge machine-readable.</strong> Versioned hypotheses, configurations, datasets, failures, and provenance are the substrate of automated research; unstructured chat history is not.</li>
+<li><strong>Measure improvement velocity, not just capability.</strong> Cost per validated improvement, human interventions per task, regression and evaluator-disagreement rates, and hypothesis-to-result latency surface RSI-like dynamics before any dramatic demo does.</li>
+<li><strong>Watch milestones, not dates.</strong> Persistent research engineers, self-improving harnesses, co-evolving evaluators, portfolio-style research, and shortening model-generation cycles are the signposts that matter.</li>
+</ul>
+<h2>Positioning note</h2>
+<p>This is a grounded synthesis and a framing essay, not a forecast and not a lab-safety assessment. It builds on published results and public lab disclosures to make one architectural claim: recursive self-improvement is best understood as a stack of progressively closed engineering loops, and the practical leverage now lies in the evaluation, governance, and measurement machinery around capable models. It does not claim that unrestricted RSI has been achieved, nor that the upper stages of the maturity ladder are imminent — both remain publicly undemonstrated. The narrower contribution is the ladder itself, a set of observable milestones instead of a date, and a preparation agenda for teams already running improvement loops.</p>
+<h2>Status and scope disclaimer</h2>
+<p>This is exploratory lab writing: a literature-grounded synthesis, not peer-reviewed research. It relies on public sources — papers, lab reports, and launch material — and inherits their caveats: usage figures like OpenAI's agent-workday statistics are self-reported and unaudited; workshop acceptance is not comparable to field-defining results; task-horizon measurements quantify task difficulty, not autonomous runtime; and the 2026 milestones will look different in hindsight. Dates, benchmarks, and claims about specific systems may age quickly; the engineering argument should age more slowly. Nothing here is safety or deployment guidance for any specific organization.</p>
+<h2>References and related work</h2>
+<p><strong>External</strong></p>
+<ol>
+<li>Turing — <a href="https://doi.org/10.1093/mind/LIX.236.433">Computing Machinery and Intelligence</a> — <em>Mind</em> 59(236), 433–460, 1950.</li>
+<li>Good — <a href="https://doi.org/10.1016/S0065-2458%2808%2960418-0">Speculations Concerning the First Ultraintelligent Machine</a> — <em>Advances in Computers</em> 6, 31–88, 1965.</li>
+<li>Schmidhuber — <a href="https://arxiv.org/abs/cs/0309048">Gödel Machines: Self-Referential Universal Problem Solvers Making Provably Optimal Self-Improvements</a> — 2003.</li>
+<li>Silver et al. — <a href="https://doi.org/10.1126/science.aar6404">A General Reinforcement Learning Algorithm that Masters Chess, Shogi, and Go through Self-Play</a> — <em>Science</em> 362(6419), 1140–1144, 2018.</li>
+<li>Zelikman, Wu, Mu & Goodman — <a href="https://arxiv.org/abs/2203.14465">STaR: Bootstrapping Reasoning With Reasoning</a> — NeurIPS 2022.</li>
+<li>Shinn, Cassano, Gopinath, Narasimhan & Yao — <a href="https://papers.nips.cc/paper_files/paper/2023/hash/1b44b878bb782e6954cd888628510e90-Abstract-Conference.html">Reflexion: Language Agents with Verbal Reinforcement Learning</a> — NeurIPS 2023.</li>
+<li>Yuan et al. — <a href="https://arxiv.org/abs/2401.10020">Self-Rewarding Language Models</a> — ICML 2024.</li>
+<li>Lu et al. (Sakana AI) — <a href="https://sakana.ai/llm-squared/">Discovering Preference Optimization Algorithms with and for Large Language Models (LLM²/DiscoPOP)</a> — 2024.</li>
+<li>Lu et al. (Sakana AI) — <a href="https://sakana.ai/ai-scientist/">The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery</a> — 2024.</li>
+<li>Sakana AI — <a href="https://sakana.ai/ai-scientist-first-publication/">The AI Scientist Generates its First Peer-Reviewed Scientific Publication</a> — 2025.</li>
+<li>Zhang, Hu, Lu, Lange & Clune — <a href="https://arxiv.org/abs/2505.22954">Darwin Gödel Machine: Open-Ended Evolution of Self-Improving Agents</a> — 2025.</li>
+<li>Google DeepMind — <a href="https://deepmind.google/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/">AlphaEvolve: A Gemini-Powered Coding Agent for Designing Advanced Algorithms</a> — 2025.</li>
+<li>Kumar, Bahlous-Boldi, Sharma, Isola, Risi, Tang & Ha — <a href="https://pub.sakana.ai/drq/">Digital Red Queen: Adversarial Program Evolution in Core War with LLMs</a> — 2026.</li>
+<li>Lu et al. — <a href="https://www.nature.com/articles/s41586-026-10265-5">Towards end-to-end automation of AI research</a> — <em>Nature</em>, March 2026.</li>
+<li>Sakana AI — <a href="https://sakana.ai/rsi-lab/">Introducing Sakana AI's Recursive Self-Improvement (RSI) Lab</a> — June 2026.</li>
+<li>METR — <a href="https://metr.org/time-horizons/">Task-Completion Time Horizons of Frontier AI Models</a> — updated 2026.</li>
+<li>OpenAI — <a href="https://cdn.openai.com/pdf/18a02b5d-6b67-4cec-ab64-68cdfbddebcd/preparedness-framework-v2.pdf">Preparedness Framework v2</a> — 2025.</li>
+<li>OpenAI — <a href="https://openai.com/index/research-acceleration-view-inside-openai/">Research Acceleration: The View Inside OpenAI</a> — September 6, 2026.</li>
+<li>Anthropic — <a href="https://www.anthropic.com/responsible-scaling-policy">Responsible Scaling Policy</a> — v3.4, July 2026.</li>
+<li>Google DeepMind — <a href="https://deepmind.google/frontier-safety/">Frontier Safety Framework</a> — v3.1, April 2026.</li>
+</ol>
+<p><strong>Related on rmax.ai</strong></p>
+<ol start="21">
+<li><a href="/notes/recursive-execution-missing-layer/">Recursive Execution Is the Missing Layer for Long-Running Agents</a> — recursive execution over externalized state for long-horizon agents.</li>
+<li><a href="/notes/verification-first-software-engineering/">Verification-First Software Engineering: Durable Specifications and Regenerable Code</a> — durable specifications and independent verification as the center of gravity.</li>
+<li><a href="/notes/stop-evaluating-ai-one-response-at-a-time/">Stop Evaluating AI One Response at a Time</a> — trajectories, not responses, as the unit of evaluation.</li>
+<li><a href="/notes/deterministic-runtimes/">Deterministic Runtimes for Long-Horizon AI Agents</a> — compiling stochastic proposals into deterministic, verifiable execution.</li>
+</ol>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        themeCSS: '.label foreignObject { overflow: visible; }',
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+          wrappingWidth: 340,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        {
+          text: "I am an improvement loop: generator, evaluator, selector. My speed is set by the weakest link, not the smartest agent.",
+          agent: "Improvement Loop"
+        },
+        {
+          text: "I trust only validated improvement — I keep the evidence, the holdouts, and the regression list.",
+          agent: "Evaluation Agent"
+        },
+        {
+          text: "I let agents propose freely and deploy carefully; the gap between those two is where safety lives.",
+          agent: "Deployment Gate Agent"
+        }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
