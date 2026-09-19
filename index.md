@@ -49,6 +49,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [BM25 Did Not Come Back. The Query Changed.](/notes/bm25-machine-queries-and-agent-workspaces/)
+Why machine-generated queries and navigable workspaces may change the balance between lexical and dense retrieval — and the experiment being built to test it.
+
 ### [The Skill Lifecycle Is the Missing Enterprise AI Platform Primitive](/notes/skill-lifecycle-platform-primitive/)
 Agent skills are becoming the standard packaging for procedural knowledge in AI systems. The harder problem is lifecycle: provenance, evaluation, promotion gates, versioning, observability, and retirement — the missing enterprise platform primitive.
 
