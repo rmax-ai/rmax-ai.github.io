@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>The Skill Lifecycle Is the Missing Enterprise AI Platform Primitive — rmax.ai</title>
+    <meta name="description" content="Agent skills are becoming the standard packaging for procedural knowledge in AI systems. The harder problem is lifecycle: provenance, evaluation, promotion gates, versioning, observability, and retirement — the missing enterprise platform primitive." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/skill-lifecycle-platform-primitive/" />
+
+    <meta property="og:title" content="The Skill Lifecycle Is the Missing Enterprise AI Platform Primitive" />
+    <meta property="og:description" content="Agent skills are becoming the standard packaging for procedural knowledge in AI systems. The harder problem is lifecycle: provenance, evaluation, promotion gates, versioning, observability, and retirement — the missing enterprise platform primitive." />
+    <meta property="og:url" content="https://rmax.ai/notes/skill-lifecycle-platform-primitive/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-19" />
+    <meta property="article:tag" content="agent-skills" />
+    <meta property="article:tag" content="skill-lifecycle" />
+    <meta property="article:tag" content="evaluation" />
+    <meta property="article:tag" content="governance" />
+    <meta property="article:tag" content="platform-engineering" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      h4 {
+        margin: 24px 0 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p {
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content {
+        margin-top: 32px;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+
+      @media (max-width: 600px) {
+        .wrap {
+          margin: 20px auto;
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>The Skill Lifecycle Is the Missing Enterprise AI Platform Primitive</h1>
+            <div class="post-meta">
+              <span>2026-09-19</span>
+              <span>•</span>
+              <span>12–14 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+<p>If a skill can influence how an agent interacts with customer data, infrastructure, financial systems, internal workflows, or production APIs, changing that skill is potentially a behavioral deployment.</p>
+<p>Editing <em>"Before refunding the customer, request manager approval."</em> into <em>"Refund automatically when the amount is below €500."</em> is not merely documentation maintenance.</p>
+<p>It changes agent behavior.</p>
+<p>That suggests that production skills should eventually be treated as versioned behavioral artifacts.</p>
+<p>Agent skills are rapidly becoming a standard way to package procedural knowledge for AI agents.</p>
+<p>The emerging format is surprisingly simple: a directory containing a SKILL.md file, optionally accompanied by scripts, references, and assets. Instead of putting every instruction into an enormous system prompt, an agent can discover available skills and load the relevant procedural knowledge only when it needs it.</p>
+<p>This solves an important problem.</p>
+<p>It does not solve the harder one.</p>
+<p>If skills become a serious mechanism for encoding how organizations perform work, enterprises will eventually need much more than a file format and a loading mechanism. They will need infrastructure for determining where skills came from, whether they work, what they are allowed to do, which version should be deployed, whether a new version is better than the previous one, and when a skill should be retired.</p>
+<p>In other words, the important abstraction may not ultimately be the skill. It may be the skill lifecycle.</p>
+<h2>From prompts to procedural infrastructure</h2>
+<p>Large language models contain enormous amounts of general knowledge, but enterprise work frequently depends on knowledge that is local, procedural, and organization-specific.</p>
+<p>Knowing SQL is different from knowing how a particular company expects a production database migration to be performed.</p>
+<p>Knowing what an incident is differs from knowing:</p>
+<ul>
+<li>which evidence must be collected</li>
+<li>how severity is determined</li>
+<li>which systems must be queried</li>
+<li>when approval is required</li>
+<li>who should be notified</li>
+<li>what must never be changed automatically</li>
+<li>and how completion is verified</li>
+</ul>
+<p>This distinction helps separate several components that are often collapsed together:</p>
+<pre><code>
+Model       →  general reasoning capability
+Knowledge   →  facts and organizational context
+Skill       →  procedure for performing a class of tasks
+Tool        →  capability for taking an action
+Policy      →  constraints on which actions are permitted
+</code></pre>
+<p>Agent Skills provide an increasingly concrete representation for the procedural layer.</p>
+<p>The open <a href="https://agentskills.io/specification">Agent Skills specification</a> defines a skill as a directory containing at least a SKILL.md file with YAML metadata and Markdown instructions. Skills can additionally package executable scripts, reference documents, templates, schemas, and other resources.</p>
+<p>Anthropic describes the mechanism using <a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">progressive disclosure</a>. At startup, an agent sees only compact metadata describing available skills. When a task appears relevant, it loads the corresponding SKILL.md. Additional references or scripts can then be accessed only when necessary.</p>
+<p>Conceptually:</p>
+<pre><code>
+Discovery    →  name + description
+Activation   →  SKILL.md
+Execution    →  scripts / references / assets
+</code></pre>
+<p>This is an elegant answer to the context problem.</p>
+<p>Hundreds of procedures do not need to occupy the model's context simultaneously.</p>
+<p>But once skills become operational artifacts rather than personal prompt snippets, another problem appears.</p>
+<p>Who manages their lifecycle?</p>
+<h2>The missing lifecycle</h2>
+<p>A mature enterprise skill system might look something like this:</p>
+<pre class="mermaid">
+flowchart TD
+    SRC["Knowledge · Demonstrations · Trajectories"] --> ACQ[ACQUIRE]
+    ACQ --> AUT[AUTHOR] --> VAL[VALIDATE] --> EVA[EVALUATE] --> APP[APPROVE] --> PKG[PACKAGE] --> DEP[DEPLOY] --> DSC[DISCOVER] --> ACT[ACTIVATE] --> EXE[EXECUTE] --> OBS[OBSERVE] --> IMP[IMPROVE]
+    IMP --> PRM[PROMOTE]
+    IMP --> RET[RETIRE]
+    PRM --> NEW["New version"]
+    NEW -.-> ACQ
+    classDef src fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+    classDef stage fill:#1f2937,stroke:#6b7280,color:#e6eef8
+    classDef gate fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+    classDef pos fill:#14532d,stroke:#22c55e,color:#e6eef8
+    classDef neg fill:#7f1d1d,stroke:#ef4444,color:#e6eef8
+    class SRC src
+    class ACQ,AUT,VAL,EVA,APP,PKG,DEP,DSC,ACT,EXE,OBS,IMP stage
+    class PRM gate
+    class RET neg
+    class NEW pos
+</pre>
+<p>Different organizations will implement these stages differently. Some may collapse several together.</p>
+<p>The important idea is that skill authoring is only one stage in a larger system.</p>
+<p>And evidence from recent skill research suggests several of these stages already matter independently.</p>
+<h2>Discovery is part of correctness</h2>
+<p>A skill cannot improve an agent if the agent never activates it.</p>
+<p>Progressive disclosure therefore creates a routing problem.</p>
+<p>The system must determine: does this task require one of the available skills, and if so, which one?</p>
+<p>The Agent Skills specification makes the description field particularly important because agents use metadata to determine when a skill should be loaded.</p>
+<p>This means skill performance is not merely <code>quality(skill)</code>.</p>
+<p>A better conceptual model is:</p>
+<pre><code>
+P(success) = f(discovery, routing, skill quality, execution, tools, environment)
+</code></pre>
+<p>A perfectly written procedure with poor discovery metadata may never execute.</p>
+<p>Conversely, indiscriminately loading many procedures can introduce competing instructions and unnecessary context.</p>
+<p><a href="https://arxiv.org/abs/2602.12670">SkillsBench</a> provides evidence that this distinction matters. Across 86 tasks, 11 domains, seven agent-model configurations, and more than 7,300 trajectories, curated skills increased average pass rate by 16.2 percentage points.</p>
+<p>But the effect was highly heterogeneous.</p>
+<p>Software engineering improved only 4.5 percentage points, while healthcare improved by 51.9 points. Sixteen of the 84 comparable tasks actually experienced negative performance deltas.</p>
+<p>More information was not automatically better either. The researchers found that focused skills containing two to three modules performed better than comprehensive documentation.</p>
+<p>Procedural context therefore has an optimization problem:</p>
+<pre><code>
+too little         →  agent lacks procedure
+focused procedure  →  useful guidance
+too much           →  attention competition / irrelevant context
+</code></pre>
+<p>The implication is important.</p>
+<p>Skill selection itself needs evaluation.</p>
+<h2>Skills need CI/CD</h2>
+<p>Once skills affect runtime behavior, familiar software-engineering ideas become relevant.</p>
+<table>
+<tr>
+<th>Software engineering</th>
+<th>Skill infrastructure</th>
+</tr>
+<tr>
+<td>Unit test</td>
+<td>Procedural test case</td>
+</tr>
+<tr>
+<td>Integration test</td>
+<td>Agent + skill + tool execution</td>
+</tr>
+<tr>
+<td>CI</td>
+<td>Automated skill evaluation</td>
+</tr>
+<tr>
+<td>Package registry</td>
+<td>Skill registry</td>
+</tr>
+<tr>
+<td>Dependency</td>
+<td>Required tools/resources</td>
+</tr>
+<tr>
+<td>Permission manifest</td>
+<td>Required capabilities</td>
+</tr>
+<tr>
+<td>Release</td>
+<td>Skill deployment</td>
+</tr>
+<tr>
+<td>Canary deployment</td>
+<td>Limited skill rollout</td>
+</tr>
+<tr>
+<td>Telemetry</td>
+<td>Execution trajectories</td>
+</tr>
+<tr>
+<td>Regression test</td>
+<td>Previously solved tasks</td>
+</tr>
+<tr>
+<td>Rollback</td>
+<td>Previous skill version</td>
+</tr>
+</table>
+<p>This is more than analogy.</p>
+<p>Recent work is already moving in this direction.</p>
+<h2>A skill is starting to look like software</h2>
+<p>Consider what might eventually be required of a production enterprise skill:</p>
+<pre><code>
+incident-response/
+├── SKILL.md
+├── scripts/
+├── references/
+├── tests/
+├── evals/
+├── permissions/
+└── metadata/
+</code></pre>
+<p>The current Agent Skills specification does not require all of these components. That distinction matters.</p>
+<p>The format currently standardizes the core packaging and discovery mechanism. The larger structure above is a proposal for what production lifecycle infrastructure may need to surround that format.</p>
+<p>The analogy is software.</p>
+<p>A source file is useful. But serious software engineering did not stop at source files. We accumulated: source control, dependency management, package registries, tests, CI/CD, code review, security scanning, deployment systems, observability, rollbacks.</p>
+<p>Skills appear likely to follow a similar trajectory.</p>
+<p><a href="https://arxiv.org/abs/2604.16911">Skilldex</a>, for example, treats skills as packages distributed through hierarchical scopes and introduces compiler-style conformance checks for skill structure and metadata.</p>
+<p>More importantly, <a href="https://arxiv.org/abs/2608.20614">Agentic Continuous Evaluation of Skills (ACES)</a> argues that structural validation alone cannot answer the operational question that matters: does installing this skill actually make the agent better at its work?</p>
+<p>ACES evaluates skills through paired executions with and without the target skill while holding the task, model, harness, workspace, and scoring policy fixed.</p>
+<p>The resulting quantity is essentially a treatment effect:</p>
+<pre><code>
+Skill Lift =  performance(with skill)
+            − performance(without skill)
+</code></pre>
+<p>Across 947 paired cases reported by ACES, the researchers measured positive composite Skill Lift in 72.8% of cases and a mean composite lift of 0.2134.</p>
+<p>The broader implication is more important than the exact number.</p>
+<p>A skill can be syntactically valid, beautifully documented, security-scanned, and still fail to improve the agent.</p>
+<p>Production skill infrastructure therefore needs both:</p>
+<pre><code>
+STATIC VALIDATION       Does this artifact conform?
+        +
+BEHAVIORAL EVALUATION   Does this artifact actually help?
+</code></pre>
+<h2>Promotion should require evidence</h2>
+<p>Suppose an organization currently runs:</p>
+<pre><code>
+incident-response v17
+</code></pre>
+<p>Someone — or eventually another agent — creates:</p>
+<pre><code>
+incident-response v18
+</code></pre>
+<p>What makes v18 better?</p>
+<p>The answer should not be:</p>
+<pre><code>
+The instructions look better.
+</code></pre>
+<p>Instead, treat the new skill as a candidate behavioral deployment.</p>
+<pre class="mermaid">
+flowchart TD
+    C["Candidate skill"] --> B["Benchmark tasks"] --> P["Paired executions"] --> V["Deterministic verifiers"] --> T["Trajectory analysis"] --> R["Regression suite"] --> D["Promotion decision"]
+    classDef step fill:#1f2937,stroke:#6b7280,color:#e6eef8
+    classDef gate fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+    class C,B,P,V,T,R step
+    class D gate
+</pre>
+<p>Possible measurements include task success, tool accuracy, policy violations, steps to completion, invalid actions, latency, token consumption, cost, routing accuracy, and regressions.</p>
+<p>A simple promotion policy might be:</p>
+<pre><code>
+PROMOTE iff
+  candidate_success &gt; parent_success
+  AND regression_rate &lt;= threshold
+  AND policy_violations &lt;= parent
+  AND cost &lt;= acceptable_budget
+</code></pre>
+<p>Real systems will require statistical treatment of noisy agent executions rather than single-run comparisons.</p>
+<p>But the principle remains: skills should earn promotion through evidence.</p>
+<h2>Self-generated skills expose the problem</h2>
+<p>The need for lifecycle infrastructure becomes even clearer when agents start creating their own skills.</p>
+<p>At first glance, this seems like a natural path toward self-improving systems.</p>
+<p>An agent encounters a difficult task, discovers a better strategy, writes that strategy into a reusable skill, and becomes better at future tasks.</p>
+<p>Something like:</p>
+<pre><code>
+experience  →  reflection  →  new skill  →  better agent
+</code></pre>
+<p>SkillsBench provides a useful warning.</p>
+<p>Curated skills improved average performance substantially, but self-generated skills provided no average benefit in the benchmark. The authors report that self-generated skills slightly underperformed the no-skill baseline overall.</p>
+<p>That does not establish that autonomous skill improvement is impossible.</p>
+<p>It establishes something more useful: generation is not improvement.</p>
+<p>Writing a new procedure and proving that the procedure improves behavior are different operations.</p>
+<p>A more defensible architecture is therefore:</p>
+<pre class="mermaid">
+flowchart TD
+    EX["Execution trajectories"] --> FA["Failure analysis"] --> CM["Candidate mutation"] --> EV["Evaluation"] --> RT["Regression testing"] --> SEL["Selection"]
+    SEL --> PRO["Promote"]
+    SEL --> REJ["Reject"]
+    classDef step fill:#1f2937,stroke:#6b7280,color:#e6eef8
+    classDef pos fill:#14532d,stroke:#22c55e,color:#e6eef8
+    classDef neg fill:#7f1d1d,stroke:#ef4444,color:#e6eef8
+    class EX,FA,CM,EV,RT,SEL step
+    class PRO pos
+    class REJ neg
+</pre>
+<p>This changes the meaning of self-improvement.</p>
+<p>The agent is allowed to propose changes.</p>
+<p>The evaluation system decides whether those changes survive.</p>
+<h2>Self-improvement is a selection problem</h2>
+<p>This distinction connects agent skills to a much broader research question around recursive improvement.</p>
+<p>Consider two systems.</p>
+<p>System A: unconstrained self-modification</p>
+<pre><code>
+Agent
+  ↓
+writes better instructions
+  ↓
+replaces old instructions
+  ↓
+continues
+</code></pre>
+<p>System B: verified evolution</p>
+<pre><code>
+Agent
+  ↓
+proposes mutation
+  ↓
+independent evaluation
+  ↓
+selection
+  ↓
+promotion
+</code></pre>
+<p>Only the second system has an explicit mechanism preventing every mutation from becoming part of the next generation.</p>
+<p>The interesting primitive is therefore not self-modification. It is selection under evidence.</p>
+<p>This creates a concrete research program around agent skills: can an agent accumulate procedural capability over time if candidate skills must outperform their parents on held-out tasks before promotion?</p>
+<p>That question is experimentally tractable.</p>
+<p>It also connects skill engineering to ideas from automated program improvement, reinforcement learning, evolutionary optimization, and continuous evaluation.</p>
+<h2>Skills should not become security boundaries</h2>
+<p>There is another reason to separate skill authoring from skill governance.</p>
+<p>A skill might contain: <em>"Never modify production without explicit approval."</em></p>
+<p>But that instruction exists inside the same probabilistic reasoning process responsible for accomplishing the task.</p>
+<p>It expresses desired behavior.</p>
+<p>It does not enforce authority.</p>
+<p>The 2026 survey <a href="https://arxiv.org/abs/2602.12430">Agent Skills for Large Language Models</a> reports that 26.1% of analyzed community-contributed skills contained vulnerabilities and identifies capability-based permission models and lifecycle governance as open problems.</p>
+<p><a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview">Anthropic</a> similarly warns that malicious skills can direct agents to execute code or invoke tools in ways inconsistent with their apparent purpose, recommending that skills be installed only from trusted sources.</p>
+<p>This suggests a fundamental architectural separation:</p>
+<pre><code>
+SKILL                              POLICY
+&quot;You must obtain approval           production.write =
+ before changing production.&quot;         DENY unless
+                                      approval_token exists
+</code></pre>
+<p>The skill describes how the agent should behave.</p>
+<p>The runtime determines what the agent is capable of doing.</p>
+<p>That means permissions, identity, approval gates, sandboxing, and capability boundaries should remain external to the natural-language procedure whenever they represent hard security requirements.</p>
+<p>Skills can explain policy.</p>
+<p>They should not be the mechanism enforcing it.</p>
+<h2>The enterprise skill platform</h2>
+<p>Put these pieces together and a larger architecture appears.</p>
+<pre class="mermaid">
+flowchart TD
+    REG["Skill Registry"] --> RTR["Discovery / Router"] --> HRN["Agent Harness"] --> RUN["Skill Runtime"] --> TL["Tool / MCP"] --> PG["Policy Gate"] --> API["Enterprise APIs"] --> TEL["Telemetry"] --> EVA["Evaluation"] --> OPT["Skill Optimizer"] --> CAND["Candidate Skill"] --> PROM["Promotion Gate"]
+    USR["User"] --> HRN
+    PROM -.-> REG
+    classDef plane fill:#1f2937,stroke:#6b7280,color:#e6eef8
+    classDef gate fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+    classDef loop fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+    class REG,RTR,HRN,RUN,TL,API,TEL,EVA,OPT,CAND plane
+    class PG,PROM gate
+    class USR loop
+</pre>
+<p>Notice what has happened.</p>
+<p>SKILL.md remains important, but it has become one component inside a larger control loop.</p>
+<p>The enterprise platform now has responsibility for: discovery, distribution, provenance, evaluation, permissions, versioning, deployment, observability, regression detection, optimization, and retirement.</p>
+<p>This is why the skill lifecycle, rather than the skill file itself, may become the more important enterprise abstraction.</p>
+<h2>From execution traces to organizational learning</h2>
+<p>Once this lifecycle exists, another possibility emerges.</p>
+<p>Every agent execution produces evidence.</p>
+<p>Some executions succeed.</p>
+<p>Some fail.</p>
+<p>Some discover more efficient procedures.</p>
+<p>Some reveal missing organizational knowledge.</p>
+<p>Some expose procedures that no longer match reality.</p>
+<p>Those trajectories can feed the skill lifecycle:</p>
+<pre><code>
+work
+ ↓
+execution evidence
+ ↓
+failure / success patterns
+ ↓
+candidate procedural knowledge
+ ↓
+evaluation
+ ↓
+validated skill
+ ↓
+deployment
+ ↓
+future work
+</code></pre>
+<p>The loop becomes:</p>
+<pre><code>
+WORK → EVIDENCE → PROCEDURAL KNOWLEDGE → EVALUATION → REUSABLE SKILL → BETTER WORK
+  └───────────────────────────────↺───────────────────────────────┘
+</code></pre>
+<p>This is qualitatively different from giving employees access to a better chatbot.</p>
+<p>The organization is building a reusable procedural layer from its accumulated interactions with AI.</p>
+<p>A solved problem does not have to disappear into a conversation transcript.</p>
+<p>It can leave behind an evaluated artifact.</p>
+<p>Over time, those artifacts form something resembling organizational agent capital: reusable procedural assets that reduce the cost of future work.</p>
+<h2>The research question</h2>
+<p>There is still a large gap between this architecture and what has been empirically demonstrated.</p>
+<p>We know that curated skills can materially improve agent performance across some task distributions.</p>
+<p>We have early evidence that paired runtime evaluation can measure the contribution of individual skills in enterprise repositories.</p>
+<p>We have emerging package-management infrastructure.</p>
+<p>And we have evidence that naive self-generation does not automatically produce useful procedural knowledge.</p>
+<p>What we do not yet know is whether these pieces can form a reliable cumulative improvement loop.</p>
+<p>The interesting experiment is therefore not: can an LLM write a SKILL.md file?</p>
+<p>It obviously can.</p>
+<p>The more consequential question is: can an agent system accumulate reliable procedural capability over time by generating candidate skills, evaluating them against held-out tasks, rejecting regressions, and promoting only demonstrated improvements?</p>
+<p>That is the experiment worth running.</p>
+<h2>Companion experiment: Skill Lifecycle Lab</h2>
+<p>I am building a small experimental harness around this question.</p>
+<p>The system starts with a fixed model, deterministic simulated tools, a task distribution, and an imperfect human-authored skill.</p>
+<p>It then performs repeated generations:</p>
+<pre><code>
+current skill
+     ↓
+execute tasks
+     ↓
+collect failures
+     ↓
+propose mutation
+     ↓
+candidate skill
+     ↓
+validation tasks
+     ↓
+regression evaluation
+     ↓
+promote / reject
+</code></pre>
+<p>Three systems can then be compared:</p>
+<pre><code>
+No Skill
+Static Human Skill
+Naive Self-Evolution       generate → replace
+Verified Skill Evolution   generate → evaluate → select
+</code></pre>
+<p>The final comparison happens against an untouched held-out test set.</p>
+<p>The important artifact is not the generated skill.</p>
+<p>It is the lineage:</p>
+<pre><code>
+v1
+├── v2 rejected
+├── v3 promoted
+│    ├── v4 rejected
+│    └── v5 promoted
+│         └── v6 promoted
+</code></pre>
+<p>Alongside that lineage should be the evidence: generation, skill lift, held-out success, regression rate, tool calls, policy violations, tokens, cost.</p>
+<p>If performance compounds across generations, we have evidence for a primitive form of procedural accumulation.</p>
+<p>If it plateaus, oscillates, overfits, or collapses, that result may be even more informative.</p>
+<p>The point is not to demonstrate self-improvement.</p>
+<p>The point is to make self-improvement falsifiable.</p>
+<h2>The larger shift</h2>
+<p>Agent skills initially look like a convenient mechanism for keeping prompts modular.</p>
+<p>That interpretation may be too small.</p>
+<p>If agents increasingly perform operational work, skills become representations of how work should be done.</p>
+<p>Once that happens, organizations need to know:</p>
+<ul>
+<li>Who created this procedure?</li>
+<li>What evidence supports it?</li>
+<li>Which version is deployed?</li>
+<li>What capabilities does it require?</li>
+<li>Where is it allowed to run?</li>
+<li>Did the new version improve anything?</li>
+<li>What regressed?</li>
+<li>What happened during execution?</li>
+<li>Should this skill still exist?</li>
+</ul>
+<p>Those are lifecycle questions.</p>
+<p>The progression may therefore look something like:</p>
+<pre><code>
+Prompt engineering
+        ↓
+Skill authoring
+        ↓
+Skill repositories
+        ↓
+Skill evaluation
+        ↓
+Skill lifecycle management
+        ↓
+Verified skill evolution
+</code></pre>
+<p>The SKILL.md specification gives agents a portable unit of procedural knowledge.</p>
+<p>The next infrastructure problem is deciding which procedural knowledge deserves to survive.</p>
+<p>That is where skill engineering starts becoming a platform discipline.</p>
+<h2>Practical takeaways</h2>
+<ul>
+<li><strong>Treat a skill edit as a behavioral deployment.</strong> If the change can alter what an agent does with customer data, infrastructure, financial systems, or production APIs, it needs a version, an owner, and an evaluation gate — not a documentation review.</li>
+<li><strong>Gate promotion on held-out evidence.</strong> Compare paired executions with and without the candidate skill, hold the task, model, harness, and scoring policy fixed, and require a measurable win over the parent with no regressions.</li>
+<li><strong>Measure lift, not prose.</strong> Structural validation proves an artifact conforms; only paired runtime evaluation shows whether installing it actually makes the agent better.</li>
+<li><strong>Keep authority out of the procedure.</strong> Permissions, identity, approval gates, sandboxing, and capability boundaries belong in the runtime. A skill may explain policy; it must not enforce it.</li>
+<li><strong>Treat discovery as a first-class problem.</strong> A skill that never activates has zero lift, so description quality and routing accuracy deserve the same instrumentation as execution.</li>
+</ul>
+<h2>Positioning note</h2>
+<p>This is an architecture note, not a research result. It is not academic research: no new experiments are reported here, and the cited quantitative evidence comes from external work — SkillsBench, ACES, Skilldex, and a 2026 survey of agent skills. It is not vendor documentation: no registry or platform is being sold, and the proposed architecture is a synthesis rather than a product specification. It is not a benchmark report: the lifecycle stages, promotion policy, and companion harness are proposals to be evaluated, not demonstrated results. The narrower claim is that production skills should be treated as versioned behavioral artifacts, and that the missing enterprise primitive is the lifecycle that determines which procedural knowledge deserves to survive.</p>
+<h2>Status and scope disclaimer</h2>
+<p>This is exploratory personal lab work. The lifecycle model, promotion gates, and platform architecture are conceptual proposals, not validated guidance; terms such as "skill lift" and "behavioral deployment" are used in the sense defined in this note. The Skill Lifecycle Lab described here is an early research harness under active development, and its results — positive or negative — are not yet available. Quantitative figures are quoted from external research on that research's own terms and may age as the field moves.</p>
+<h2>References and related work</h2>
+<p><strong>External</strong></p>
+<ol>
+<li>Agent Skills — <a href="https://agentskills.io/specification">Specification</a> — the portable SKILL.md directory format: metadata, bundled resources, validation rules, and the progressive-disclosure mechanism.</li>
+<li>Anthropic — <a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">Equipping agents for the real world with Agent Skills</a> — skills as composable procedural packages; the three-level progressive-disclosure architecture.</li>
+<li>Li, X. et al. — <a href="https://arxiv.org/abs/2602.12670">SkillsBench: Benchmarking How Well Agent Skills Work Across Diverse Tasks</a> — arXiv:2602.12670, 2026. Evaluation across 86 tasks, 11 domains, seven agent-model configurations, and 7,308 trajectories; curated skills improved average pass rate by 16.2 percentage points, while self-generated skills provided no average benefit.</li>
+<li>Saha, S. and Hemanth, P. — <a href="https://arxiv.org/abs/2604.16911">Skilldex: A Package Manager and Registry for Agent Skill Packages with Hierarchical Scope-Based Distribution</a> — arXiv:2604.16911, 2026. Package management, hierarchical skill scopes, conformance analysis, registries, and skillsets.</li>
+<li>Kevin, C. et al. — <a href="https://arxiv.org/abs/2608.20614">Evaluating Skills, Not Just Agents: Agentic Continuous Evaluation of Skills</a> — arXiv:2608.20614, 2026. Paired runtime evaluation, normalized execution trajectories, and Skill Lift as a measure of a skill's behavioral contribution.</li>
+<li>Xu, R. and Yan, Y. — <a href="https://arxiv.org/abs/2602.12430">Agent Skills for Large Language Models: Architecture, Acquisition, Security, and the Path Forward</a> — arXiv:2602.12430, 2026. Survey covering skill architecture, acquisition, deployment, and security; proposes lifecycle governance and capability-based permissions.</li>
+<li>Anthropic — <a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview">Agent Skills — Claude Platform Documentation</a> — the filesystem-based skill runtime; warns that malicious skills can cause agents to execute code or invoke tools outside their stated purpose.</li>
+</ol>
+<p><strong>rMax.ai</strong></p>
+<ol start="8">
+<li><a href="/notes/docs-vs-skills-agent-context-delivery/">Agent-Optimized Docs vs Skills: What Actually Improves Coding Agent Performance</a> — when passive context outperforms skills, and why activation reliability is the failure point.</li>
+<li><a href="/notes/personas-skills-agents-harnesses/">Personas, Skills, Agents, and Harnesses in AI System Design</a> — distributing behavior across design layers, with skills as one layer among several.</li>
+<li><a href="/notes/stop-evaluating-ai-one-response-at-a-time/">Stop Evaluating AI One Response at a Time</a> — the trajectory, not the response, as the unit of evaluation.</li>
+<li><a href="/notes/verification-first-software-engineering/">Verification-First Software Engineering: Durable Specifications and Regenerable Code</a> — verification systems as the durable asset when implementation becomes cheap.</li>
+<li><a href="/notes/beyond-evals-assurance-model/">Beyond Evals: A Practical Assurance Model for Agentic Systems</a> — evidence, controls, verification, validation, and recovery for production agent systems.</li>
+</ol>
+          </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        themeCSS: '.label foreignObject { overflow: visible; }',
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+          wrappingWidth: 340,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        {
+          text: "I only promote a procedure when it beats its parent on tasks it has never seen.",
+          agent: "Promotion Gate"
+        },
+        {
+          text: "A skill nobody activates is a document, not a capability. I measure lift, not prose.",
+          agent: "Skill Router"
+        },
+        {
+          text: "I can describe policy. I will never be the thing that enforces it.",
+          agent: "Skill Runtime"
+        }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>

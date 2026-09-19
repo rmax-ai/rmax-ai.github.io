@@ -49,6 +49,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [The Skill Lifecycle Is the Missing Enterprise AI Platform Primitive](/notes/skill-lifecycle-platform-primitive/)
+Agent skills are becoming the standard packaging for procedural knowledge in AI systems. The harder problem is lifecycle: provenance, evaluation, promotion gates, versioning, observability, and retirement — the missing enterprise platform primitive.
+
 ### [Recursive Self-Improvement Is Becoming an Engineering Problem](/notes/recursive-self-improvement-engineering-problem/)
 From Turing's child machine to automated AI research: a grounded timeline of recursive self-improvement, where the field stands in 2026, and what builders should prepare for next.
 
