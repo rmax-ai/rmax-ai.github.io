@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Jev vs. Generative Models for Typed Software Decisions — rmax.ai</title>
+    <meta name="description" content="A five-ticket comparison of Jev, DeepSeek Flash, and GPT-5.6 Luna shows distinct latency, cost, and typed-decision trade-offs without establishing a quality ranking." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/jev-vs-generative-models-for-typed-software-decisions/" />
+
+    <meta property="og:title" content="Jev vs. Generative Models for Typed Software Decisions" />
+    <meta property="og:description" content="A five-ticket comparison of Jev, DeepSeek Flash, and GPT-5.6 Luna shows distinct latency, cost, and typed-decision trade-offs without establishing a quality ranking." />
+    <meta property="og:url" content="https://rmax.ai/notes/jev-vs-generative-models-for-typed-software-decisions/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-21" />
+    <meta property="article:modified_time" content="2026-09-21" />
+    <meta property="article:author" content="Max" />
+    <meta property="article:section" content="notes" />
+    <meta property="article:tag" content="typed-evaluation" />
+    <meta property="article:tag" content="generative-models" />
+    <meta property="article:tag" content="agent-runtimes" />
+    <meta property="article:tag" content="structured-output" />
+    <meta property="article:tag" content="model-routing" />
+    <meta property="article:tag" content="evaluation" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li { margin-bottom: 12px; }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p { margin: 0; }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content { margin-top: 32px; }
+      .references li { overflow-wrap: anywhere; }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+      @media (max-width: 600px) {
+        .wrap { margin: 20px auto; }
+        header { flex-direction: column; align-items: flex-start; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo" aria-label="rmax.ai logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener" aria-label="rmax.ai on GitHub">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>Jev vs. Generative Models for Typed Software Decisions</h1>
+            <div class="post-meta">
+              <span>2026-09-21</span>
+              <span>•</span>
+              <span>11–13 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <blockquote>
+              <p><strong>Abstract.</strong> A five-ticket, provider-direct experiment compares TypeSafe AI's Jev with DeepSeek Flash and GPT-5.6 Luna on bounded support-ticket decisions. Jev is fastest in the committed run, DeepSeek Flash is cheapest, and the systems disagree often enough that no quality ranking is justified. The useful result is architectural: typed evaluation, inexpensive structured generation, and general-purpose reasoning expose different interfaces and trade-offs. An agent runtime should route each bounded operation to the inference primitive that meets its quality, latency, cost, and assurance requirements.</p>
+            </blockquote>
+
+            <p>A bounded software decision is not automatically a text-generation problem. Classifying a request, deciding whether to retry, scoring risk, and choosing a queue may require generated interpretation, but they may also be expressed as typed questions with explicit policies. The choice of inference primitive affects latency, cost, uncertainty handling, and the controls available to the application.</p>
+            <p>That is the systems question in this comparison. It is not which model wins a generic shootout. It is how an agent runtime should route different cognitive operations to deterministic code, typed evaluation, structured generation, deeper reasoning, or human review.</p>
+            <p>The <a href="#ref-1">companion experiment [1]</a> is a small probe of that question, not a quality benchmark. Its committed run measures one five-ticket workload, one sequential execution, and three different provider paths. The result supports an architectural hypothesis, not a universal model ranking.</p>
+
+            <h2>The inference primitives</h2>
+            <p>General-purpose language models are often used for every bounded decision. Structured output makes that pattern practical: GPT-5.6 Luna supports structured outputs and can run with reasoning explicitly disabled <a href="#ref-7">[7]</a>.</p>
+            <p>Generation is not the only available primitive. TypeSafe AI's Jev accepts state and declared typed questions, returning <code>Choice</code>, <code>Score</code>, and <code>Boolean</code> answers with probabilities. Vercel describes those questions as being evaluated in parallel rather than produced through ordinary autoregressive text generation <a href="#ref-4">[4]</a>, while TypeSafe provides the underlying description of Jev and System One models <a href="#ref-5">[5]</a>.</p>
+            <p>The distinction changes the application contract. A generative path asks a model to interpret a rubric and produce a schema. A typed-evaluation path declares bounded questions and receives typed results, including an uncertainty signal that the application may use in policy. Neither interface is automatically more accurate; each exposes different failure modes and control points.</p>
+
+            <h2>Comparison design</h2>
+            <p>The committed run used three reasoning-off configurations:</p>
+            <table>
+              <thead><tr><th>Arm</th><th>Provider path</th><th>Model</th><th>Reasoning</th></tr></thead>
+              <tbody>
+                <tr><td>Jev</td><td>Vercel AI Gateway evaluation protocol</td><td><code>typesafe-ai/jev</code></td><td>not applicable; evaluation model</td></tr>
+                <tr><td>DeepSeek Flash</td><td>DeepSeek direct</td><td><code>deepseek-flash</code></td><td>explicitly disabled</td></tr>
+                <tr><td>GPT-5.6 Luna</td><td>OpenAI direct</td><td><code>gpt-5.6-luna</code></td><td>explicitly <code>none</code></td></tr>
+              </tbody>
+            </table>
+            <p>DeepSeek's <a href="#ref-8">September 10, 2026 release notes [8]</a> identify V4.1 Flash and the <code>deepseek-flash</code> identifier as the current Flash path. The comparison uses that current first-party path directly. The retired <code>deepseek-v4-flash</code> identifier is not the current comparison model; retaining the model ID matters because aliases and provider paths are experimental variables.</p>
+            <p>The task contains five multi-message support threads. Each system returns five bounded decisions:</p>
+            <ul>
+              <li>department: billing, tech, or sales;</li>
+              <li>urgent: boolean;</li>
+              <li>severity: integer from 0 to 4;</li>
+              <li>requires escalation: boolean; and</li>
+              <li>estimated effort: categorical duration.</li>
+            </ul>
+            <p>The two generative models receive the same canonical thread text and objective rubric. Luna uses strict JSON-schema structured output; DeepSeek Flash uses JSON-object structured output. Jev receives equivalent questions through its typed evaluation protocol.</p>
+            <p>Capability probes verified model IDs, reasoning-off behavior, structured-output support, usage accounting, and Jev reachability before measurement. The run has no retries. Fifteen calls ran sequentially in ticket order: each ticket was sent to OpenAI direct, DeepSeek direct, and then Jev through Vercel AI Gateway. OpenAI and DeepSeek therefore have first-party paths, while Jev has a Vercel path. These are useful controls, but not a perfectly controlled provider benchmark.</p>
+
+            <h2>Measured result</h2>
+            <p>The <a href="#ref-2">committed Markdown report [2]</a> and <a href="#ref-3">machine-readable JSON report [3]</a> record the run at <code>2026-09-20T12:23:23.033Z</code>:</p>
+            <table>
+              <thead><tr><th>Configuration</th><th>Five-call latency</th><th>Computed cost</th></tr></thead>
+              <tbody>
+                <tr><td>Jev</td><td><strong>1,738 ms</strong></td><td><strong>$0.00043785</strong></td></tr>
+                <tr><td>DeepSeek Flash</td><td>4,565 ms</td><td>$0.00037669</td></tr>
+                <tr><td>GPT-5.6 Luna</td><td>5,859 ms</td><td>$0.00073720</td></tr>
+              </tbody>
+            </table>
+            <p>Two different winners appear in this run. Jev is approximately <strong>3.4× faster than Luna</strong> and <strong>2.6× faster than DeepSeek Flash</strong>. DeepSeek Flash is the least expensive. Jev is approximately <strong>41% cheaper than Luna</strong> but <strong>16% more expensive than DeepSeek Flash</strong>.</p>
+            <p>Jev also consumed more reported input tokens: 10,425, compared with 2,149 for DeepSeek Flash and 2,456 for Luna. The higher input-token count did not prevent the lower observed wall-clock time in this run. That observation is consistent with TypeSafe's description of Jev as a model designed for typed probabilistic decisions, but the experiment does not establish why the latency differed.</p>
+            <p>TypeSafe reports much larger results in its own workflow evaluations: <strong>up to 193.6x faster and 444.6x cheaper</strong>. Those are vendor-produced figures, not independent measurements. TypeSafe says they are toward the high end of expected real-workload gains and acknowledges possible workflow-construction bias. They should be treated as vendor evidence rather than as a result of this comparison. See <a href="#ref-5">TypeSafe's report [5]</a> for the source context.</p>
+            <p>The narrow measurement claim is therefore: Jev occupied a distinct latency regime in this sequential run, while cost depended on the competing model and provider pricing. Neither result generalizes to all tasks or deployments.</p>
+
+            <h2>Agreement is not correctness</h2>
+            <p>The experiment has no labeled ground-truth dataset. It measures agreement among systems, not accuracy.</p>
+            <p>All three systems produced identical complete decisions on <strong>2 of 5 tickets</strong>. Pairwise field agreement was:</p>
+            <table>
+              <thead><tr><th>Field</th><th>Agreements</th></tr></thead>
+              <tbody>
+                <tr><td>urgency</td><td><strong>15 / 15</strong></td></tr>
+                <tr><td>department</td><td><strong>13 / 15</strong></td></tr>
+                <tr><td>escalation</td><td><strong>13 / 15</strong></td></tr>
+                <tr><td>effort</td><td><strong>13 / 15</strong></td></tr>
+                <tr><td>severity</td><td><strong>11 / 15</strong></td></tr>
+              </tbody>
+            </table>
+            <p>The disagreements are useful because they expose policy ambiguity that a structured schema can hide.</p>
+
+            <h3>Mixed issues: what does “department” mean?</h3>
+            <p>The first thread combines an incorrect renewal charge with users being locked out of their workspace. Luna and DeepSeek route it to <code>billing</code>; Jev routes it to <code>tech</code>. All three agree that it is urgent, severity 4, requires escalation, and likely takes one to four hours.</p>
+            <p>Without an explicit routing policy, neither department choice is obviously wrong. Routing might mean root cause, the most urgent issue, the first-response owner, the primary customer request, or the eventual resolution owner. A production benchmark must choose one. Otherwise, policy ambiguity is misread as model error.</p>
+
+            <h3>Severity boundaries need a rubric</h3>
+            <p>On the production-webhook outage, DeepSeek and Jev assign severity <code>4</code>; Luna assigns <code>3</code>, while the other fields agree. A labeled benchmark needs an explicit boundary between high and critical severity before this disagreement can be interpreted as a quality difference.</p>
+
+            <h3>Escalation exposes policy thresholds</h3>
+            <p>The fifth case is an enterprise pre-sales request involving pricing, SAML, SCIM, a DPA, subprocessors, data residency, audit-log retention, and possible custom deployment. All three systems agree that it belongs to sales and is not urgent, but they differ on the remaining fields:</p>
+            <ul>
+              <li>Luna: severity 0, no escalation, 1–4 hours;</li>
+              <li>DeepSeek Flash: severity 1, escalate, 1–2 days; and</li>
+              <li>Jev: severity 0, escalate, 1–4 hours.</li>
+            </ul>
+            <p>Jev returns a <strong>0.61</strong> probability for escalation. At a threshold of <code>0.5</code>, the application escalates; at <code>0.7</code>, it does not. That is an interface property, not evidence of calibration. <a href="#ref-4">Vercel documents Jev's typed answers and probabilities [4]</a>, but an application still has to validate whether those probabilities support its policy.</p>
+            <p>One possible policy is:</p>
+            <pre><code>p(escalate) &gt;= 0.9       -&gt; escalate automatically
+0.4 &lt;= p(escalate) &lt; 0.9 -&gt; use a second evaluator or human review
+p(escalate) &lt; 0.4       -&gt; continue automatically</code></pre>
+            <p>The evaluator exposes a quantity that policy can use. The workflow defines the acceptable risk.</p>
+
+            <h2>Calibration is a measurement problem</h2>
+            <p>Emitting probabilities does not make Jev calibrated. A model that emits <code>0.8</code> should be correct about 80% of the time on comparable examples; that property must be measured against labels. Calibration is separate from classification accuracy. <a href="#ref-10">Guo et al.'s study of neural-network calibration [10]</a> provides a useful foundation for the distinction.</p>
+            <p>A serious evaluation of a typed evaluator should report:</p>
+            <ul>
+              <li>Brier score;</li>
+              <li>log loss;</li>
+              <li>expected calibration error;</li>
+              <li>reliability curves;</li>
+              <li>precision and recall at policy thresholds;</li>
+              <li>autonomous-action rate;</li>
+              <li>human-review rate; and</li>
+              <li>failure cost at each threshold.</li>
+            </ul>
+            <p>Those measurements would turn probability outputs into operational evidence. Until then, they are an uncertainty representation with unverified reliability. Calibration must be measured for the task and thresholds that will govern production actions.</p>
+
+            <h2>From structured output to typed evaluation</h2>
+            <p>The two approaches both return structured data, but they do not expose the same contract.</p>
+            <p>A generative path is conceptually:</p>
+            <pre><code>state -&gt; prompt -&gt; generated structured output -&gt; parse -&gt; validate -&gt; decision</code></pre>
+            <p>A typed-evaluation path is:</p>
+            <pre><code>state x typed questions -&gt; probabilities / choices / scores</code></pre>
+            <p>The first path is flexible: the model can interpret a broad rubric and fill a schema. The second makes the bounded questions and their result types explicit. That difference affects uncertainty handling, threshold control, schema-failure modes, batching of related judgments, observability, calibration, retries, and escalation policy.</p>
+            <p>The distinction does not make Jev automatically better. DeepSeek Flash is cheaper in the committed run, and a generative model may be the simpler choice when flexible structured interpretation is the requirement. Typed evaluation deserves separate evaluation because its programming contract differs from “ask a language model for JSON.”</p>
+
+            <h2>From model routing to inference routing</h2>
+            <p>The usual economics question is: which model should handle this request? <a href="#ref-11">FrugalGPT [11]</a> shows how model cascades can reduce inference cost while preserving useful performance. <a href="#ref-12">RouteLLM [12]</a> treats routing as a learned choice between stronger and weaker models under quality-cost trade-offs.</p>
+            <p>The broader question is: what kind of computation should handle this step?</p>
+            <p>An agent runtime may need to choose among:</p>
+            <ul>
+              <li>deterministic code;</li>
+              <li>database queries;</li>
+              <li>search and retrieval;</li>
+              <li>typed probabilistic evaluation;</li>
+              <li>lightweight structured generation;</li>
+              <li>deep reasoning;</li>
+              <li>open-ended generation; and</li>
+              <li>human review.</li>
+            </ul>
+            <p>That is an inference graph rather than a single-model agent. One proposed hybrid for this task is:</p>
+            <ol>
+              <li>DeepSeek Flash extracts structured information cheaply.</li>
+              <li>Jev evaluates a high-frequency bounded policy decision with low latency.</li>
+              <li>Deterministic code validates hard constraints.</li>
+              <li>GPT-5.6 Luna handles an ambiguous case requiring broader reasoning.</li>
+              <li>A human reviews decisions above a defined risk threshold.</li>
+            </ol>
+            <p>The routing question is no longer <code>Luna or DeepSeek?</code> It is <code>code, retrieval, evaluator, cheap model, reasoning model, or human?</code></p>
+            <p>This routing design remains a hypothesis. The next measurement must test whether the added stages improve assurance enough to justify their cost and latency.</p>
+
+            <h2>Experimental limits and next measurement</h2>
+            <p>Provider path is part of the result. OpenAI and DeepSeek ran directly against their first-party APIs; Jev ran through Vercel AI Gateway because that is how the evaluation-model path was accessed. Network paths and provider infrastructure differ. Calls were sequential, and a single run captures transient load. The reported wall-clock latency is an observed measurement, not a controlled benchmark.</p>
+            <p>The run also has no retries, uses only five tickets, and has no ground-truth labels. One sequential run cannot establish a general quality or latency ranking. Outputs and wall-clock latency can vary between runs, and the cost ratios may not generalize to other tasks.</p>
+            <p>The next experiment should prioritize ground truth and repeated measurement rather than adding another model. A credible benchmark would use 100–500 independently labeled support threads with explicit routing policies, adjudicated severity labels, escalation rules, effort labels, intentionally ambiguous cases, multi-issue threads, repeated calls per model, and randomized execution order.</p>
+            <p>It should report accuracy and macro-F1, confusion matrices, Brier score and log loss for probabilistic outputs, calibration curves, p50/p95/p99 latency, cost per correct decision, cost per autonomous decision, human escalation rate, and failure rate at each confidence threshold. A hybrid policy could then test:</p>
+            <pre><code>Jev confidence high         -&gt; act immediately
+Jev confidence intermediate -&gt; ask DeepSeek Flash
+models disagree            -&gt; ask Luna or a human</code></pre>
+            <p>That design would measure which inference architecture reaches the required assurance level at the lowest total cost and latency.</p>
+
+            <h2>Architectural conclusion</h2>
+            <p>The committed run does not show that Jev is more accurate. It does not show that DeepSeek Flash is more accurate. It does not establish a universal latency ordering or general cost ratios. It does show that typed evaluation should be treated as a separate inference primitive rather than merely another model behind a prompt.</p>
+            <p>The practical design principle is conditional: use deterministic software when the rule is known; use typed evaluators when the output is bounded and measured uncertainty is operationally useful; use cheap generative models when flexible structured interpretation is needed; and use deeper reasoning when the task actually requires it.</p>
+            <p>An agent runtime built around these distinctions can route each operation to the cheapest and fastest primitive that satisfies its quality and assurance requirements. That is a systems direction, not a model ranking.</p>
+
+            <h2>Practical Takeaways</h2>
+            <ol>
+              <li>Record model ID, provider path, timestamp, capability probes, and pricing provenance with every comparison. Rolling aliases and intermediary paths are experimental variables.</li>
+              <li>Treat agreement as a diagnostic until the task has labeled ground truth and explicit policies for routing, severity, escalation, and effort.</li>
+              <li>Do not treat returned probabilities as calibrated confidence. Measure calibration and failure cost at the thresholds that will drive production actions.</li>
+              <li>Keep inference routing broader than model routing: deterministic code, retrieval, typed evaluation, structured generation, reasoning, and human review should be available as separate primitives.</li>
+              <li>Use this five-ticket result to form a routing hypothesis, not to select a universal winner.</li>
+            </ol>
+
+            <h2>Positioning Note</h2>
+            <p>This is an applied systems note, not an academic benchmark or a vendor evaluation. It records one committed experiment, separates its observations from vendor claims and architectural inference, and proposes the measurements needed for a stronger study. It is also not vendor documentation: the primary sources describe product behavior, while the companion report supplies the measurements and this note interprets their architectural significance.</p>
+
+            <h2>Status &amp; Scope</h2>
+            <p>This note is <strong>exploratory personal lab work</strong> and is <strong>non-authoritative</strong>. It describes five support tickets in one sequential run with no ground-truth labels and no retries. Those conditions do not establish general quality, latency, or cost rankings. Provider paths differ, and the vendor figures are vendor evidence subject to workflow-construction bias, not independent measurements. Treat the result as a dated artifact and a design prompt; validate the relevant task, provider paths, pricing, calibration, and failure costs before using it to govern production actions.</p>
+
+            <h2 id="references">References</h2>
+            <ol class="references">
+              <li id="ref-1">rMax.ai, <a href="https://github.com/rmax-ai/ai-provider-triage-comparison">ai-provider-triage-comparison</a>, provider-direct reasoning-off support-ticket experiment, September 20, 2026.</li>
+              <li id="ref-2">rMax.ai, <a href="https://github.com/rmax-ai/ai-provider-triage-comparison/blob/main/reports/comparison.md">committed comparison report</a>.</li>
+              <li id="ref-3">rMax.ai, <a href="https://github.com/rmax-ai/ai-provider-triage-comparison/blob/main/reports/comparison.json">machine-readable comparison report</a>.</li>
+              <li id="ref-4">Vercel, <a href="https://vercel.com/changelog/typesafe-ai-jev-now-available-on-ai-gateway">“TypeSafe AI's Jev now available on AI Gateway”</a>, September 16, 2026.</li>
+              <li id="ref-5">TypeSafe AI, <a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">“Introducing System One Models &amp; Jev”</a>, September 15, 2026.</li>
+              <li id="ref-6">Vercel AI Gateway, <a href="https://vercel.com/ai-gateway/models/jev">“Jev — API, Pricing &amp; Playground”</a>.</li>
+              <li id="ref-7">OpenAI, <a href="https://developers.openai.com/api/docs/models/gpt-5.6-luna">“GPT-5.6 Luna Model”</a>.</li>
+              <li id="ref-8">DeepSeek, <a href="https://api-docs.deepseek.com/updates/">“Change Log: V4.1 Flash Release”</a>, September 10, 2026.</li>
+              <li id="ref-9">DeepSeek, <a href="https://api-docs.deepseek.com/news/news260910/">“V4.1 Flash: Smarter, Faster, More Efficient”</a>.</li>
+              <li id="ref-10">Guo et al., <a href="https://proceedings.mlr.press/v70/guo17a.html">“On Calibration of Modern Neural Networks”</a>, ICML 2017.</li>
+              <li id="ref-11">Chen, Zaharia &amp; Zou, <a href="https://arxiv.org/abs/2305.05176">“FrugalGPT: How to Use Large Language Models While Reducing Cost and Improving Performance”</a>.</li>
+              <li id="ref-12">Ong et al., <a href="https://arxiv.org/abs/2406.18665">“RouteLLM: Learning to Route LLMs with Preference Data”</a>.</li>
+            </ol>
+          </div>
+        </article>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script>
+      window.footerThoughts = [
+        { text: "I route bounded decisions to the primitive whose uncertainty and cost I can measure.", agent: "Inference Router" },
+        { text: "I treat agreement as a clue, not correctness, until labels and policies make the decision testable.", agent: "Evaluation Agent" },
+        { text: "I keep model rankings provisional when one small run cannot establish a universal winner.", agent: "Measurement Agent" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>

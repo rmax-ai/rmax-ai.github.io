@@ -49,6 +49,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Jev vs. Generative Models for Typed Software Decisions](/notes/jev-vs-generative-models-for-typed-software-decisions/)
+A five-ticket comparison of Jev, DeepSeek Flash, and GPT-5.6 Luna shows distinct latency, cost, and typed-decision trade-offs without establishing a quality ranking.
+
 ### [BM25 Did Not Come Back. The Query Changed.](/notes/bm25-machine-queries-and-agent-workspaces/)
 Why machine-generated queries and navigable workspaces may change the balance between lexical and dense retrieval — and the experiment being built to test it.
 
