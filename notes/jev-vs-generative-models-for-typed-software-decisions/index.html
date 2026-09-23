@@ -13,7 +13,7 @@
     <meta property="og:url" content="https://rmax.ai/notes/jev-vs-generative-models-for-typed-software-decisions/" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2026-09-21" />
-    <meta property="article:modified_time" content="2026-09-21" />
+    <meta property="article:modified_time" content="2026-09-23" />
     <meta property="article:author" content="Max" />
     <meta property="article:section" content="notes" />
     <meta property="article:tag" content="typed-evaluation" />
@@ -124,6 +124,12 @@
         color: #dbeafe;
         font-size: 0.95rem;
       }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
       code {
         color: #e2e8f0;
         background: rgba(124, 58, 237, 0.15);
@@ -225,9 +231,9 @@
               <p><strong>Abstract.</strong> A five-ticket, provider-direct experiment compares TypeSafe AI's Jev with DeepSeek Flash and GPT-5.6 Luna on bounded support-ticket decisions. Jev is fastest in the committed run, DeepSeek Flash is cheapest, and the systems disagree often enough that no quality ranking is justified. The useful result is architectural: typed evaluation, inexpensive structured generation, and general-purpose reasoning expose different interfaces and trade-offs. An agent runtime should route each bounded operation to the inference primitive that meets its quality, latency, cost, and assurance requirements.</p>
             </blockquote>
 
-            <p>A bounded software decision is not automatically a text-generation problem. Classifying a request, deciding whether to retry, scoring risk, and choosing a queue may require generated interpretation, but they may also be expressed as typed questions with explicit policies. The choice of inference primitive affects latency, cost, uncertainty handling, and the controls available to the application.</p>
-            <p>That is the systems question in this comparison. It is not which model wins a generic shootout. It is how an agent runtime should route different cognitive operations to deterministic code, typed evaluation, structured generation, deeper reasoning, or human review.</p>
-            <p>The <a href="https://github.com/rmax-ai/ai-provider-triage-comparison">companion experiment</a> is a small probe of that question, not a quality benchmark. Its committed run measures one five-ticket workload, one sequential execution, and three different provider paths. The result supports an architectural hypothesis, not a universal model ranking.</p>
+            <p>Bounded software decisions are routing points in a larger system, not automatically text-generation requests. Classifying a request, deciding whether to retry, scoring risk, and choosing a queue may require generated interpretation, but they may also be expressed as typed questions with explicit policies. The choice of inference primitive affects latency, cost, uncertainty handling, and the controls available to the application.</p>
+            <p>The comparison asks a systems question: how should an agent runtime route different cognitive operations to deterministic code, typed evaluation, structured generation, deeper reasoning, or human review?</p>
+            <p>The <a href="https://github.com/rmax-ai/ai-provider-triage-comparison">companion experiment</a> is a small probe of that routing question, not a quality benchmark. Its committed run measures one five-ticket workload, one sequential execution, and three different provider paths. The result supports an architectural hypothesis, not a universal model ranking.</p>
 
             <h2>The inference primitives</h2>
             <p>General-purpose language models are often used for every bounded decision. Structured output makes that pattern practical: <a href="https://developers.openai.com/api/docs/models/gpt-5.6-luna">GPT-5.6 Luna supports structured outputs and can run with reasoning explicitly disabled</a>.</p>
@@ -236,6 +242,32 @@
 
             <h2>Comparison design</h2>
             <p>The committed run used three reasoning-off configurations:</p>
+            <pre class="mermaid">
+flowchart TD
+    T["5 multi-message support threads"] --> O["OpenAI direct / gpt-5.6-luna"]
+    T --> D["DeepSeek direct / deepseek-flash"]
+    T --> J["Jev via Vercel AI Gateway"]
+    O --> F1["department"]
+    O --> F2["urgent"]
+    O --> F3["severity"]
+    O --> F4["requires escalation"]
+    O --> F5["estimated effort"]
+    D --> F1
+    D --> F2
+    D --> F3
+    D --> F4
+    D --> F5
+    J --> F1
+    J --> F2
+    J --> F3
+    J --> F4
+    J --> F5
+    F1 --> C["comparison: latency / computed cost / agreement"]
+    F2 --> C
+    F3 --> C
+    F4 --> C
+    F5 --> C
+</pre>
             <table>
               <thead><tr><th>Arm</th><th>Provider path</th><th>Model</th><th>Reasoning</th></tr></thead>
               <tbody>
@@ -269,10 +301,10 @@
             <p>Two different winners appear in this run. Jev is approximately <strong>3.4× faster than Luna</strong> and <strong>2.6× faster than DeepSeek Flash</strong>. DeepSeek Flash is the least expensive. Jev is approximately <strong>41% cheaper than Luna</strong> but <strong>16% more expensive than DeepSeek Flash</strong>.</p>
             <p>Jev also consumed more reported input tokens: 10,425, compared with 2,149 for DeepSeek Flash and 2,456 for Luna. The higher input-token count did not prevent the lower observed wall-clock time in this run. That observation is consistent with TypeSafe's description of Jev as a model designed for typed probabilistic decisions, but the experiment does not establish why the latency differed.</p>
             <p>TypeSafe reports much larger results in its own workflow evaluations: <strong>up to 193.6x faster and 444.6x cheaper</strong>. Those are vendor-produced figures, not independent measurements. TypeSafe says they are toward the high end of expected real-workload gains and acknowledges possible workflow-construction bias. They should be treated as vendor evidence rather than as a result of this comparison. See <a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">TypeSafe's report</a> for the source context.</p>
-            <p>The narrow measurement claim is therefore: Jev occupied a distinct latency regime in this sequential run, while cost depended on the competing model and provider pricing. Neither result generalizes to all tasks or deployments.</p>
+            <p>These measurements establish interface trade-offs, not quality. The narrow measurement claim is therefore: Jev occupied a distinct latency regime in this sequential run, while cost depended on the competing model and provider pricing. Neither result generalizes to all tasks or deployments.</p>
 
             <h2>Agreement is not correctness</h2>
-            <p>The experiment has no labeled ground-truth dataset. It measures agreement among systems, not accuracy.</p>
+            <p>The timing and cost measurements establish trade-offs between interfaces; agreement asks a separate question. The experiment has no labeled ground-truth dataset, so it measures agreement among systems, not accuracy.</p>
             <p>All three systems produced identical complete decisions on <strong>2 of 5 tickets</strong>. Pairwise field agreement was:</p>
             <table>
               <thead><tr><th>Field</th><th>Agreements</th></tr></thead>
@@ -323,29 +355,32 @@ p(escalate) &lt; 0.4       -&gt; continue automatically</code></pre>
             <p>Those measurements would turn probability outputs into operational evidence. Until then, they are an uncertainty representation with unverified reliability. Calibration must be measured for the task and thresholds that will govern production actions.</p>
 
             <h2>From structured output to typed evaluation</h2>
-            <p>The two approaches both return structured data, but they do not expose the same contract.</p>
-            <p>A generative path is conceptually:</p>
-            <pre><code>state -&gt; prompt -&gt; generated structured output -&gt; parse -&gt; validate -&gt; decision</code></pre>
-            <p>A typed-evaluation path is:</p>
-            <pre><code>state x typed questions -&gt; probabilities / choices / scores</code></pre>
+            <p>Once uncertainty is treated as a measurement problem, the contract difference becomes architectural. The two approaches both return structured data, but they do not expose the same contract.</p>
+            <pre class="mermaid">
+flowchart TD
+    G1["state"] --> G2["prompt"] --> G3["generated structured output"] --> G4["parse"] --> G5["validate"] --> G6["decision"]
+    T1["state × typed questions"] --> T2["probabilities / choices / scores"] --> T3["decision"]
+</pre>
             <p>The first path is flexible: the model can interpret a broad rubric and fill a schema. The second makes the bounded questions and their result types explicit. That difference affects uncertainty handling, threshold control, schema-failure modes, batching of related judgments, observability, calibration, retries, and escalation policy.</p>
             <p>The distinction does not make Jev automatically better. DeepSeek Flash is cheaper in the committed run, and a generative model may be the simpler choice when flexible structured interpretation is the requirement. Typed evaluation deserves separate evaluation because its programming contract differs from “ask a language model for JSON.”</p>
 
             <h2>From model routing to inference routing</h2>
             <p>The usual economics question is: which model should handle this request? <a href="https://arxiv.org/abs/2305.05176">FrugalGPT</a> shows how model cascades can reduce inference cost while preserving useful performance. <a href="https://arxiv.org/abs/2406.18665">RouteLLM</a> treats routing as a learned choice between stronger and weaker models under quality-cost trade-offs.</p>
-            <p>The broader question is: what kind of computation should handle this step?</p>
-            <p>An agent runtime may need to choose among:</p>
-            <ul>
-              <li>deterministic code;</li>
-              <li>database queries;</li>
-              <li>search and retrieval;</li>
-              <li>typed probabilistic evaluation;</li>
-              <li>lightweight structured generation;</li>
-              <li>deep reasoning;</li>
-              <li>open-ended generation; and</li>
-              <li>human review.</li>
-            </ul>
-            <p>That is an inference graph rather than a single-model agent. One proposed hybrid for this task is:</p>
+            <p>The broader question is: what kind of computation should handle this step? An agent runtime may need an inference graph rather than a single-model agent:</p>
+            <pre class="mermaid">
+flowchart TD
+    B["bounded operation"] --> C["deterministic code"]
+    B --> Q["database queries"]
+    B --> S["search and retrieval"]
+    B --> T["typed probabilistic evaluation"]
+    B --> L["lightweight structured generation"]
+    B --> E["cheap structured extraction"]
+    B --> R["deep reasoning for genuine ambiguity"]
+    B --> G["open-ended generation"]
+    B --> H["human review above a defined risk threshold"]
+    E --> T --> V["deterministic validation"] --> R --> H
+</pre>
+            <p>One proposed hybrid for this task is:</p>
             <ol>
               <li>DeepSeek Flash extracts structured information cheaply.</li>
               <li>Jev evaluates a high-frequency bounded policy decision with low latency.</li>
@@ -353,7 +388,7 @@ p(escalate) &lt; 0.4       -&gt; continue automatically</code></pre>
               <li>GPT-5.6 Luna handles an ambiguous case requiring broader reasoning.</li>
               <li>A human reviews decisions above a defined risk threshold.</li>
             </ol>
-            <p>The routing question is no longer <code>Luna or DeepSeek?</code> It is <code>code, retrieval, evaluator, cheap model, reasoning model, or human?</code></p>
+            <p>The routing question is no longer <code>Luna or DeepSeek?</code> It is <code>code, retrieval, evaluator, cheap model, reasoning model, or human?</code> The experiment therefore treats model selection as one local decision inside a broader inference architecture.</p>
             <p>This routing design remains a hypothesis. The next measurement must test whether the added stages improve assurance enough to justify their cost and latency.</p>
 
             <h2>Experimental limits and next measurement</h2>
@@ -369,7 +404,7 @@ models disagree            -&gt; ask Luna or a human</code></pre>
             <h2>Architectural conclusion</h2>
             <p>The committed run does not show that Jev is more accurate. It does not show that DeepSeek Flash is more accurate. It does not establish a universal latency ordering or general cost ratios. It does show that typed evaluation should be treated as a separate inference primitive rather than merely another model behind a prompt.</p>
             <p>The practical design principle is conditional: use deterministic software when the rule is known; use typed evaluators when the output is bounded and measured uncertainty is operationally useful; use cheap generative models when flexible structured interpretation is needed; and use deeper reasoning when the task actually requires it.</p>
-            <p>An agent runtime built around these distinctions can route each operation to the cheapest and fastest primitive that satisfies its quality and assurance requirements. That is a systems direction, not a model ranking.</p>
+            <p>An agent runtime built around these distinctions can route each operation to the cheapest and fastest primitive that satisfies its quality and assurance requirements. The result is a systems direction: model ranking is only one local decision inside it.</p>
 
             <h2>Practical Takeaways</h2>
             <ol>
@@ -410,6 +445,35 @@ models disagree            -&gt; ask Luna or a human</code></pre>
         <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
       </footer>
     </div>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        themeCSS: '.label foreignObject { overflow: visible; }',
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+          wrappingWidth: 340,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
 
     <script>
       window.footerThoughts = [

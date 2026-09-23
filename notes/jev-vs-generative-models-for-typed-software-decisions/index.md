@@ -8,7 +8,7 @@ section: "notes"
 type: "essay"
 status: "published"
 date: "2026-09-21"
-updated: "2026-09-21"
+updated: "2026-09-23"
 tags: ["typed-evaluation", "generative-models", "agent-runtimes", "structured-output", "model-routing", "evaluation"]
 reading_time: "11–13 min"
 canonical_url: "https://rmax.ai/notes/jev-vs-generative-models-for-typed-software-decisions/"
@@ -19,11 +19,11 @@ license: "CC BY 4.0"
 
 > **Abstract.** A five-ticket, provider-direct experiment compares TypeSafe AI's Jev with DeepSeek Flash and GPT-5.6 Luna on bounded support-ticket decisions. Jev is fastest in the committed run, DeepSeek Flash is cheapest, and the systems disagree often enough that no quality ranking is justified. The useful result is architectural: typed evaluation, inexpensive structured generation, and general-purpose reasoning expose different interfaces and trade-offs. An agent runtime should route each bounded operation to the inference primitive that meets its quality, latency, cost, and assurance requirements.
 
-A bounded software decision is not automatically a text-generation problem. Classifying a request, deciding whether to retry, scoring risk, and choosing a queue may require generated interpretation, but they may also be expressed as typed questions with explicit policies. The choice of inference primitive affects latency, cost, uncertainty handling, and the controls available to the application.
+Bounded software decisions are routing points in a larger system, not automatically text-generation requests. Classifying a request, deciding whether to retry, scoring risk, and choosing a queue may require generated interpretation, but they may also be expressed as typed questions with explicit policies. The choice of inference primitive affects latency, cost, uncertainty handling, and the controls available to the application.
 
-That is the systems question in this comparison. It is not which model wins a generic shootout. It is how an agent runtime should route different cognitive operations to deterministic code, typed evaluation, structured generation, deeper reasoning, or human review.
+The comparison asks a systems question: how should an agent runtime route different cognitive operations to deterministic code, typed evaluation, structured generation, deeper reasoning, or human review?
 
-The [companion experiment](https://github.com/rmax-ai/ai-provider-triage-comparison) is a small probe of that question, not a quality benchmark. Its committed run measures one five-ticket workload, one sequential execution, and three different provider paths. The result supports an architectural hypothesis, not a universal model ranking.
+The [companion experiment](https://github.com/rmax-ai/ai-provider-triage-comparison) is a small probe of that routing question, not a quality benchmark. Its committed run measures one five-ticket workload, one sequential execution, and three different provider paths. The result supports an architectural hypothesis, not a universal model ranking.
 
 ## The inference primitives
 
@@ -36,6 +36,33 @@ The distinction changes the application contract. A generative path asks a model
 ## Comparison design
 
 The committed run used three reasoning-off configurations:
+
+```mermaid
+flowchart TD
+    T["5 multi-message support threads"] --> O["OpenAI direct / gpt-5.6-luna"]
+    T --> D["DeepSeek direct / deepseek-flash"]
+    T --> J["Jev via Vercel AI Gateway"]
+    O --> F1["department"]
+    O --> F2["urgent"]
+    O --> F3["severity"]
+    O --> F4["requires escalation"]
+    O --> F5["estimated effort"]
+    D --> F1
+    D --> F2
+    D --> F3
+    D --> F4
+    D --> F5
+    J --> F1
+    J --> F2
+    J --> F3
+    J --> F4
+    J --> F5
+    F1 --> C["comparison: latency / computed cost / agreement"]
+    F2 --> C
+    F3 --> C
+    F4 --> C
+    F5 --> C
+```
 
 | Arm | Provider path | Model | Reasoning |
 |---|---|---|---|
@@ -73,11 +100,11 @@ Jev also consumed more reported input tokens: 10,425, compared with 2,149 for De
 
 TypeSafe reports much larger results in its own workflow evaluations: **up to 193.6x faster and 444.6x cheaper**. Those are vendor-produced figures, not independent measurements. TypeSafe says they are toward the high end of expected real-workload gains and acknowledges possible workflow-construction bias. They should be treated as vendor evidence rather than as a result of this comparison. See [TypeSafe's report](https://typesafe.ai/blog/introducing-system-one-models-and-jev) for the source context.
 
-The narrow measurement claim is therefore: Jev occupied a distinct latency regime in this sequential run, while cost depended on the competing model and provider pricing. Neither result generalizes to all tasks or deployments.
+These measurements establish interface trade-offs, not quality. The narrow measurement claim is therefore: Jev occupied a distinct latency regime in this sequential run, while cost depended on the competing model and provider pricing. Neither result generalizes to all tasks or deployments.
 
 ## Agreement is not correctness
 
-The experiment has no labeled ground-truth dataset. It measures agreement among systems, not accuracy.
+The timing and cost measurements establish trade-offs between interfaces; agreement asks a separate question. The experiment has no labeled ground-truth dataset, so it measures agreement among systems, not accuracy.
 
 All three systems produced identical complete decisions on **2 of 5 tickets**. Pairwise field agreement was:
 
@@ -140,18 +167,12 @@ Those measurements would turn probability outputs into operational evidence. Unt
 
 ## From structured output to typed evaluation
 
-The two approaches both return structured data, but they do not expose the same contract.
+Once uncertainty is treated as a measurement problem, the contract difference becomes architectural. The two approaches both return structured data, but they do not expose the same contract.
 
-A generative path is conceptually:
-
-```text
-state -> prompt -> generated structured output -> parse -> validate -> decision
-```
-
-A typed-evaluation path is:
-
-```text
-state x typed questions -> probabilities / choices / scores
+```mermaid
+flowchart TD
+    G1["state"] --> G2["prompt"] --> G3["generated structured output"] --> G4["parse"] --> G5["validate"] --> G6["decision"]
+    T1["state × typed questions"] --> T2["probabilities / choices / scores"] --> T3["decision"]
 ```
 
 The first path is flexible: the model can interpret a broad rubric and fill a schema. The second makes the bounded questions and their result types explicit. That difference affects uncertainty handling, threshold control, schema-failure modes, batching of related judgments, observability, calibration, retries, and escalation policy.
@@ -162,20 +183,23 @@ The distinction does not make Jev automatically better. DeepSeek Flash is cheape
 
 The usual economics question is: which model should handle this request? [FrugalGPT](https://arxiv.org/abs/2305.05176) shows how model cascades can reduce inference cost while preserving useful performance. [RouteLLM](https://arxiv.org/abs/2406.18665) treats routing as a learned choice between stronger and weaker models under quality-cost trade-offs.
 
-The broader question is: what kind of computation should handle this step?
+The broader question is: what kind of computation should handle this step? An agent runtime may need an inference graph rather than a single-model agent:
 
-An agent runtime may need to choose among:
+```mermaid
+flowchart TD
+    B["bounded operation"] --> C["deterministic code"]
+    B --> Q["database queries"]
+    B --> S["search and retrieval"]
+    B --> T["typed probabilistic evaluation"]
+    B --> L["lightweight structured generation"]
+    B --> E["cheap structured extraction"]
+    B --> R["deep reasoning for genuine ambiguity"]
+    B --> G["open-ended generation"]
+    B --> H["human review above a defined risk threshold"]
+    E --> T --> V["deterministic validation"] --> R --> H
+```
 
-- deterministic code;
-- database queries;
-- search and retrieval;
-- typed probabilistic evaluation;
-- lightweight structured generation;
-- deep reasoning;
-- open-ended generation; and
-- human review.
-
-That is an inference graph rather than a single-model agent. One proposed hybrid for this task is:
+One proposed hybrid for this task is:
 
 1. DeepSeek Flash extracts structured information cheaply.
 2. Jev evaluates a high-frequency bounded policy decision with low latency.
@@ -183,7 +207,7 @@ That is an inference graph rather than a single-model agent. One proposed hybrid
 4. GPT-5.6 Luna handles an ambiguous case requiring broader reasoning.
 5. A human reviews decisions above a defined risk threshold.
 
-The routing question is no longer `Luna or DeepSeek?` It is `code, retrieval, evaluator, cheap model, reasoning model, or human?`
+The routing question is no longer `Luna or DeepSeek?` It is `code, retrieval, evaluator, cheap model, reasoning model, or human?` The experiment therefore treats model selection as one local decision inside a broader inference architecture.
 
 This routing design remains a hypothesis. The next measurement must test whether the added stages improve assurance enough to justify their cost and latency.
 
@@ -211,7 +235,7 @@ The committed run does not show that Jev is more accurate. It does not show that
 
 The practical design principle is conditional: use deterministic software when the rule is known; use typed evaluators when the output is bounded and measured uncertainty is operationally useful; use cheap generative models when flexible structured interpretation is needed; and use deeper reasoning when the task actually requires it.
 
-An agent runtime built around these distinctions can route each operation to the cheapest and fastest primitive that satisfies its quality and assurance requirements. That is a systems direction, not a model ranking.
+An agent runtime built around these distinctions can route each operation to the cheapest and fastest primitive that satisfies its quality and assurance requirements. The result is a systems direction: model ranking is only one local decision inside it.
 
 ## Practical Takeaways
 
