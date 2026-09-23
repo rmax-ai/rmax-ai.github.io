@@ -37,33 +37,6 @@ The distinction changes the application contract. A generative path asks a model
 
 The committed run used three reasoning-off configurations:
 
-```mermaid
-flowchart TD
-    T["5 multi-message support threads"] --> O["OpenAI direct / gpt-5.6-luna"]
-    T --> D["DeepSeek direct / deepseek-flash"]
-    T --> J["Jev via Vercel AI Gateway"]
-    O --> F1["department"]
-    O --> F2["urgent"]
-    O --> F3["severity"]
-    O --> F4["requires escalation"]
-    O --> F5["estimated effort"]
-    D --> F1
-    D --> F2
-    D --> F3
-    D --> F4
-    D --> F5
-    J --> F1
-    J --> F2
-    J --> F3
-    J --> F4
-    J --> F5
-    F1 --> C["comparison: latency / computed cost / agreement"]
-    F2 --> C
-    F3 --> C
-    F4 --> C
-    F5 --> C
-```
-
 | Arm | Provider path | Model | Reasoning |
 |---|---|---|---|
 | Jev | Vercel AI Gateway evaluation protocol | `typesafe-ai/jev` | not applicable; evaluation model |

@@ -242,32 +242,6 @@
 
             <h2>Comparison design</h2>
             <p>The committed run used three reasoning-off configurations:</p>
-            <pre class="mermaid">
-flowchart TD
-    T["5 multi-message support threads"] --> O["OpenAI direct / gpt-5.6-luna"]
-    T --> D["DeepSeek direct / deepseek-flash"]
-    T --> J["Jev via Vercel AI Gateway"]
-    O --> F1["department"]
-    O --> F2["urgent"]
-    O --> F3["severity"]
-    O --> F4["requires escalation"]
-    O --> F5["estimated effort"]
-    D --> F1
-    D --> F2
-    D --> F3
-    D --> F4
-    D --> F5
-    J --> F1
-    J --> F2
-    J --> F3
-    J --> F4
-    J --> F5
-    F1 --> C["comparison: latency / computed cost / agreement"]
-    F2 --> C
-    F3 --> C
-    F4 --> C
-    F5 --> C
-</pre>
             <table>
               <thead><tr><th>Arm</th><th>Provider path</th><th>Model</th><th>Reasoning</th></tr></thead>
               <tbody>
