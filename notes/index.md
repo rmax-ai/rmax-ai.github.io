@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*September 21, 2026* — [Jev vs. Generative Models for Typed Software Decisions](/notes/jev-vs-generative-models-for-typed-software-decisions/)
+
+### [Jev vs. Generative Models for Typed Software Decisions](/notes/jev-vs-generative-models-for-typed-software-decisions/)
+*September 21, 2026* — A five-ticket comparison of Jev, DeepSeek Flash, and GPT-5.6 Luna shows distinct latency, cost, and typed-decision trade-offs without establishing a quality ranking.
+
 *September 19, 2026* — [BM25 Did Not Come Back. The Query Changed.](/notes/bm25-machine-queries-and-agent-workspaces/)
 
 ### [BM25 Did Not Come Back. The Query Changed.](/notes/bm25-machine-queries-and-agent-workspaces/)
