@@ -227,11 +227,11 @@
 
             <p>A bounded software decision is not automatically a text-generation problem. Classifying a request, deciding whether to retry, scoring risk, and choosing a queue may require generated interpretation, but they may also be expressed as typed questions with explicit policies. The choice of inference primitive affects latency, cost, uncertainty handling, and the controls available to the application.</p>
             <p>That is the systems question in this comparison. It is not which model wins a generic shootout. It is how an agent runtime should route different cognitive operations to deterministic code, typed evaluation, structured generation, deeper reasoning, or human review.</p>
-            <p>The <a href="#ref-1">companion experiment [1]</a> is a small probe of that question, not a quality benchmark. Its committed run measures one five-ticket workload, one sequential execution, and three different provider paths. The result supports an architectural hypothesis, not a universal model ranking.</p>
+            <p>The <a href="https://github.com/rmax-ai/ai-provider-triage-comparison">companion experiment</a> is a small probe of that question, not a quality benchmark. Its committed run measures one five-ticket workload, one sequential execution, and three different provider paths. The result supports an architectural hypothesis, not a universal model ranking.</p>
 
             <h2>The inference primitives</h2>
-            <p>General-purpose language models are often used for every bounded decision. Structured output makes that pattern practical: GPT-5.6 Luna supports structured outputs and can run with reasoning explicitly disabled <a href="#ref-7">[7]</a>.</p>
-            <p>Generation is not the only available primitive. TypeSafe AI's Jev accepts state and declared typed questions, returning <code>Choice</code>, <code>Score</code>, and <code>Boolean</code> answers with probabilities. Vercel describes those questions as being evaluated in parallel rather than produced through ordinary autoregressive text generation <a href="#ref-4">[4]</a>, while TypeSafe provides the underlying description of Jev and System One models <a href="#ref-5">[5]</a>.</p>
+            <p>General-purpose language models are often used for every bounded decision. Structured output makes that pattern practical: <a href="https://developers.openai.com/api/docs/models/gpt-5.6-luna">GPT-5.6 Luna supports structured outputs and can run with reasoning explicitly disabled</a>.</p>
+            <p>Generation is not the only available primitive. TypeSafe AI's Jev accepts state and declared typed questions, returning <code>Choice</code>, <code>Score</code>, and <code>Boolean</code> answers with probabilities. <a href="https://vercel.com/changelog/typesafe-ai-jev-now-available-on-ai-gateway">Vercel describes those questions as being evaluated in parallel rather than produced through ordinary autoregressive text generation</a>, while TypeSafe provides the underlying <a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">description of Jev and System One models</a>.</p>
             <p>The distinction changes the application contract. A generative path asks a model to interpret a rubric and produce a schema. A typed-evaluation path declares bounded questions and receives typed results, including an uncertainty signal that the application may use in policy. Neither interface is automatically more accurate; each exposes different failure modes and control points.</p>
 
             <h2>Comparison design</h2>
@@ -244,7 +244,7 @@
                 <tr><td>GPT-5.6 Luna</td><td>OpenAI direct</td><td><code>gpt-5.6-luna</code></td><td>explicitly <code>none</code></td></tr>
               </tbody>
             </table>
-            <p>DeepSeek's <a href="#ref-8">September 10, 2026 release notes [8]</a> identify V4.1 Flash and the <code>deepseek-flash</code> identifier as the current Flash path. The comparison uses that current first-party path directly. The retired <code>deepseek-v4-flash</code> identifier is not the current comparison model; retaining the model ID matters because aliases and provider paths are experimental variables.</p>
+            <p>DeepSeek's <a href="https://api-docs.deepseek.com/updates/">September 10, 2026 release notes</a> identify V4.1 Flash and the <code>deepseek-flash</code> identifier as the current Flash path. The comparison uses that current first-party path directly. The retired <code>deepseek-v4-flash</code> identifier is not the current comparison model; retaining the model ID matters because aliases and provider paths are experimental variables.</p>
             <p>The task contains five multi-message support threads. Each system returns five bounded decisions:</p>
             <ul>
               <li>department: billing, tech, or sales;</li>
@@ -257,7 +257,7 @@
             <p>Capability probes verified model IDs, reasoning-off behavior, structured-output support, usage accounting, and Jev reachability before measurement. The run has no retries. Fifteen calls ran sequentially in ticket order: each ticket was sent to OpenAI direct, DeepSeek direct, and then Jev through Vercel AI Gateway. OpenAI and DeepSeek therefore have first-party paths, while Jev has a Vercel path. These are useful controls, but not a perfectly controlled provider benchmark.</p>
 
             <h2>Measured result</h2>
-            <p>The <a href="#ref-2">committed Markdown report [2]</a> and <a href="#ref-3">machine-readable JSON report [3]</a> record the run at <code>2026-09-20T12:23:23.033Z</code>:</p>
+            <p>The <a href="https://github.com/rmax-ai/ai-provider-triage-comparison/blob/main/reports/comparison.md">committed Markdown report</a> and <a href="https://github.com/rmax-ai/ai-provider-triage-comparison/blob/main/reports/comparison.json">machine-readable JSON report</a> record the run at <code>2026-09-20T12:23:23.033Z</code>:</p>
             <table>
               <thead><tr><th>Configuration</th><th>Five-call latency</th><th>Computed cost</th></tr></thead>
               <tbody>
@@ -268,7 +268,7 @@
             </table>
             <p>Two different winners appear in this run. Jev is approximately <strong>3.4× faster than Luna</strong> and <strong>2.6× faster than DeepSeek Flash</strong>. DeepSeek Flash is the least expensive. Jev is approximately <strong>41% cheaper than Luna</strong> but <strong>16% more expensive than DeepSeek Flash</strong>.</p>
             <p>Jev also consumed more reported input tokens: 10,425, compared with 2,149 for DeepSeek Flash and 2,456 for Luna. The higher input-token count did not prevent the lower observed wall-clock time in this run. That observation is consistent with TypeSafe's description of Jev as a model designed for typed probabilistic decisions, but the experiment does not establish why the latency differed.</p>
-            <p>TypeSafe reports much larger results in its own workflow evaluations: <strong>up to 193.6x faster and 444.6x cheaper</strong>. Those are vendor-produced figures, not independent measurements. TypeSafe says they are toward the high end of expected real-workload gains and acknowledges possible workflow-construction bias. They should be treated as vendor evidence rather than as a result of this comparison. See <a href="#ref-5">TypeSafe's report [5]</a> for the source context.</p>
+            <p>TypeSafe reports much larger results in its own workflow evaluations: <strong>up to 193.6x faster and 444.6x cheaper</strong>. Those are vendor-produced figures, not independent measurements. TypeSafe says they are toward the high end of expected real-workload gains and acknowledges possible workflow-construction bias. They should be treated as vendor evidence rather than as a result of this comparison. See <a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">TypeSafe's report</a> for the source context.</p>
             <p>The narrow measurement claim is therefore: Jev occupied a distinct latency regime in this sequential run, while cost depended on the competing model and provider pricing. Neither result generalizes to all tasks or deployments.</p>
 
             <h2>Agreement is not correctness</h2>
@@ -300,7 +300,7 @@
               <li>DeepSeek Flash: severity 1, escalate, 1–2 days; and</li>
               <li>Jev: severity 0, escalate, 1–4 hours.</li>
             </ul>
-            <p>Jev returns a <strong>0.61</strong> probability for escalation. At a threshold of <code>0.5</code>, the application escalates; at <code>0.7</code>, it does not. That is an interface property, not evidence of calibration. <a href="#ref-4">Vercel documents Jev's typed answers and probabilities [4]</a>, but an application still has to validate whether those probabilities support its policy.</p>
+            <p>Jev returns a <strong>0.61</strong> probability for escalation. At a threshold of <code>0.5</code>, the application escalates; at <code>0.7</code>, it does not. That is an interface property, not evidence of calibration. <a href="https://vercel.com/changelog/typesafe-ai-jev-now-available-on-ai-gateway">Vercel documents Jev's typed answers and probabilities</a>, but an application still has to validate whether those probabilities support its policy.</p>
             <p>One possible policy is:</p>
             <pre><code>p(escalate) &gt;= 0.9       -&gt; escalate automatically
 0.4 &lt;= p(escalate) &lt; 0.9 -&gt; use a second evaluator or human review
@@ -308,7 +308,7 @@ p(escalate) &lt; 0.4       -&gt; continue automatically</code></pre>
             <p>The evaluator exposes a quantity that policy can use. The workflow defines the acceptable risk.</p>
 
             <h2>Calibration is a measurement problem</h2>
-            <p>Emitting probabilities does not make Jev calibrated. A model that emits <code>0.8</code> should be correct about 80% of the time on comparable examples; that property must be measured against labels. Calibration is separate from classification accuracy. <a href="#ref-10">Guo et al.'s study of neural-network calibration [10]</a> provides a useful foundation for the distinction.</p>
+            <p>Emitting probabilities does not make Jev calibrated. A model that emits <code>0.8</code> should be correct about 80% of the time on comparable examples; that property must be measured against labels. Calibration is separate from classification accuracy. <a href="https://proceedings.mlr.press/v70/guo17a.html">Guo et al.'s study of neural-network calibration</a> provides a useful foundation for the distinction.</p>
             <p>A serious evaluation of a typed evaluator should report:</p>
             <ul>
               <li>Brier score;</li>
@@ -332,7 +332,7 @@ p(escalate) &lt; 0.4       -&gt; continue automatically</code></pre>
             <p>The distinction does not make Jev automatically better. DeepSeek Flash is cheaper in the committed run, and a generative model may be the simpler choice when flexible structured interpretation is the requirement. Typed evaluation deserves separate evaluation because its programming contract differs from “ask a language model for JSON.”</p>
 
             <h2>From model routing to inference routing</h2>
-            <p>The usual economics question is: which model should handle this request? <a href="#ref-11">FrugalGPT [11]</a> shows how model cascades can reduce inference cost while preserving useful performance. <a href="#ref-12">RouteLLM [12]</a> treats routing as a learned choice between stronger and weaker models under quality-cost trade-offs.</p>
+            <p>The usual economics question is: which model should handle this request? <a href="https://arxiv.org/abs/2305.05176">FrugalGPT</a> shows how model cascades can reduce inference cost while preserving useful performance. <a href="https://arxiv.org/abs/2406.18665">RouteLLM</a> treats routing as a learned choice between stronger and weaker models under quality-cost trade-offs.</p>
             <p>The broader question is: what kind of computation should handle this step?</p>
             <p>An agent runtime may need to choose among:</p>
             <ul>
