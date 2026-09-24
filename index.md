@@ -49,6 +49,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [One Week of rmax.ai: What We Learned Building an Autonomous Agent Control Plane](/notes/one-week-rmax-ai-autonomous-agent-control-plane/)
+An engineering field report on the first week of an autonomous agent control plane, where durable state, explicit ownership, and verified transitions proved more important than making agents act.
+
 ### [Jev vs. Generative Models for Typed Software Decisions](/notes/jev-vs-generative-models-for-typed-software-decisions/)
 A five-ticket comparison of Jev, DeepSeek Flash, and GPT-5.6 Luna shows distinct latency, cost, and typed-decision trade-offs without establishing a quality ranking.
 
