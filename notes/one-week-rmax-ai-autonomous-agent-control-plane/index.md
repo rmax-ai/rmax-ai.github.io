@@ -34,7 +34,7 @@ The compact result is: **reliable autonomy is durable state plus explicit owners
 
 **Prehistory (operator record):** Through 2024, Max used Continue for LLM-assisted coding. During 2025, Copilot became routine and agentic; OpenCode joined. At end-2025, Max moved to a Hetzner VPS for a persistent 24/7 agent.
 
-**System history (operator record):** Clawdbot was manually set up December 2025 without durable architecture. OpenCode drove Hetzner build-outs January 2026; in February, it moved to rmax-1 on OpenClaw with distinct identity and autonomous loops using Copilot. In May 2026, on May 11, it switched to rmax-10 on Hermes with dedicated email/account; Codex/Droid lanes arrived. Telegram was the interface. ChatGPT had already been part of Max's working process since its public research-preview era in late 2022. By mid-2026 it was an applied-AI research/architecture counterpart and orchestration surface. Around September 19, 2026—less than a week before this report, no precise install timestamp—rmax-10 gained a GitHub App identity and writable GitHub coordination surface under its machine identity.
+**System history (operator record):** Clawdbot was manually set up December 2025 without durable architecture. OpenCode drove the Hetzner build-outs from January 2026 and the first autonomous project loops in February, with GitHub Copilot as an early provider path; the system then moved to rmax-1 on OpenClaw with a distinct identity. In May 2026, it switched to rmax-10 on Hermes (the generational switch was May 11) with a dedicated email/account identity; Codex/Droid lanes arrived. Telegram was the interface. ChatGPT had already been part of Max's working process since its public research-preview era in late 2022. By mid-2026 it was an applied-AI research/architecture counterpart and orchestration surface. Around September 19, 2026—less than a week before this report, no precise install timestamp—rmax-10 gained a GitHub App identity and writable GitHub coordination surface under its machine identity.
 
 **Observed:** September 22, 2026: 2,991 sessions, 128 days; 525 Telegram and 117 subagent sessions. Continuation was human-orchestrated; the operator initiated, decided, and bridged. **Interpretation:** hardening moved toward self-orchestrating control.
 
@@ -76,7 +76,7 @@ The heavy-work gate was designed, built, wired, and activated; an audit verified
 
 ## What failed during the hardening week
 
-Once the operator stopped bridging continuations by hand, six incidents (6 total) exposed the gap between local action and durable continuation. Each has a concrete mechanism, a change, and an evidence boundary.
+Once the operator stopped bridging continuations by hand, six incidents exposed the gap between local action and durable continuation. Each has a concrete mechanism, a change, and an evidence boundary.
 
 ### Completion without a terminal handoff
 
@@ -92,7 +92,7 @@ Research needed before execution created a side-channel thread and the main work
 
 ### Built but never adopted
 
-The support tool passed build acceptance and self-test, but its consumer pipeline was never wired; a follow-through audit found the integration dead on arrival. A state artifact written during the build made the shipped tool fail closed, while the recorded false “intentionally not created” claim was wrong. Merged decision text also did not prove downstream integration. Adoption is now reconciled through machine-readable impact/adoption state and a reconciler cross-checking declared workstreams against actual work items; follow-through quarantines the bad artifact before rewiring fail-open. The reconciler remains in review, so its signals are not yet proven.
+The support tool passed build acceptance and self-test, but its consumer pipeline was never wired; a follow-through audit found the integration dead on arrival. A state artifact written during the build made the shipped tool fail closed, while the recorded “intentionally not created” claim was false. Merged decision text also did not prove downstream integration. Adoption is now reconciled through machine-readable impact/adoption state and a reconciler cross-checking declared workstreams against actual work items; follow-through quarantines the bad artifact before rewiring fail-open. The reconciler remains in review, so its signals are not yet proven.
 
 ### Signals consumed before dispatch
 
