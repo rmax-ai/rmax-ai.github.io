@@ -1,7 +1,7 @@
 ---
 title: "One Week of rmax.ai: What We Learned Building an Autonomous Agent Control Plane"
 slug: one-week-rmax-ai-autonomous-agent-control-plane
-description: "An engineering field report on the first week of an autonomous agent control plane, where durable state, explicit ownership, and verified transitions proved more important than making agents act."
+description: "An engineering field report on the first week of autonomy and control-plane hardening in a personal agent system that had already operated for roughly four months, where durable state, explicit ownership, and verified transitions proved more important than making agents act."
 author: Max
 site: rmax.ai
 section: notes
@@ -22,11 +22,21 @@ license: CC BY 4.0
 
 # One Week of rmax.ai: What We Learned Building an Autonomous Agent Control Plane
 
-This is an engineering field report from the first week of operating a personal autonomous agent control plane, from September 18 through September 24, 2026. It is not a launch announcement or a benchmark. The narrower question is: what failed when work had to continue across agents, repositories, review states, human decisions, failures, and restarts?
+This is an engineering field report on the autonomy and control-plane hardening week from September 17 through September 24, 2026. rmax-10 was not built last week: Hermes already had roughly four months of session history when hardening began. Before this week, the system primarily operated by a human through Telegram, while bounded heavier implementation could be handed to Codex or Droid. What changed in mid-September was removing the human from routine continuation decisions without removing human authority over consequential ones. It is not a launch announcement or a benchmark. The narrower question is: what failed when work had to continue across agents, repositories, review states, human decisions, failures, and restarts?
 
 The central observation is simple: **reliable autonomy is durable state plus explicit ownership plus verified transitions**. Making an agent act was not the difficult part. The difficult part was ensuring that the next correct action remained findable after a session ended, a delegate returned, an answer was consumed, or an integration appeared complete.
 
-This report uses three registers. **Observed** means verified against the durable project record. **Interpretation** means what we take an observation to mean for system design. **Open hypothesis** means a claim that still requires more evidence. One week in a personal lab is enough to expose control-plane failure modes. It is not enough to establish production reliability or general agent performance.
+This report uses three registers. **Observed** means verified against the durable project record. **Interpretation** means what we take an observation to mean for system design. **Open hypothesis** means a claim that still requires more evidence. The hardening week in a personal lab is enough to expose control-plane failure modes. It is not enough to establish production reliability or general agent performance.
+
+## Four months before the first week
+
+**System history (operator record):** This system did not begin last week. The operator's record places the initial manual setup of Clawdbot in December 2025, when it was operated directly by Max without the durable control-plane architecture that came later. In February 2026, the operator's record places its migration to rmax-1 on OpenClaw, gaining its own account identity: a distinct operational actor rather than a tool invoked under Max's identity. Later in 2026, the second migration moved it to rmax-10 on Hermes, with its own dedicated email/account identity. Telegram remained the primary operator interface for a substantial period: Max directed rmax-10 in conversation, rmax-10 could investigate and act, and bounded heavier implementation was delegated to Codex or Droid. This was the roughly four-month operating period. Around September 19, 2026—less than a week before this report, with no claim about a precise install timestamp—rmax-10 gained a GitHub App identity; that change marked the boundary into guarded autonomy, and GitHub became a durable coordination surface writable under its machine identity.
+
+**Observed:** Runtime evidence measured on September 22, 2026 recorded 2,991 sessions spanning 128 days, including 525 Telegram sessions and 117 subagent sessions. The earlier phase was already agentic and delegated, but continuation was substantially human-orchestrated: the operator initiated work, watched progress, decided what came next, and bridged many continuation points by hand. **Interpretation:** the framing is a human-orchestrated agent system becoming an increasingly self-orchestrating, guarded control plane.
+
+**Interpretation:** The recent hardening began when controlled rollout of the delegation queue started on the evening of September 17, 2026 at 18:52 UTC, after successful Codex and Droid sentinel runs. The week added durable queue state, terminal handoffs, explicit operator-decision semantics, system memory, reconciliation, guardrails, scheduled review and health loops, adoption checks, and causal-observability work.
+
+The first week described here is the first week of treating that working personal-agent setup as an explicit autonomous system: adding queues, durable handoffs, typed state, reconciliation, guardrails, observability, and review gates so work can continue correctly when the operator is not manually shepherding every step.
 
 ## The system we actually built
 
@@ -64,9 +74,9 @@ flowchart TD
 
 **Observed:** the architecture already had more than one actor and more than one state-bearing channel, even though the system was personal and small. **Interpretation:** autonomy increases the need to define which state is authoritative, which actor owns the next transition, and what evidence permits that transition. **Open hypothesis:** this separation will remain sufficient as the number of delegated work items and scheduled checks grows.
 
-## What failed in the first week
+## What failed during the hardening week
 
-The first failures were not dramatic reasoning failures. They were gaps between an action and the durable evidence another actor needed in order to continue. Each failure below led to a concrete change, but several changes remained conventions, proposals, or work in review.
+The first hardening-week failures were not dramatic reasoning failures. They were gaps between an action and the durable evidence another actor needed in order to continue. Each failure below led to a concrete change, but several changes remained conventions, proposals, or work in review.
 
 ### Completion without a terminal handoff
 
@@ -132,7 +142,7 @@ flowchart TD
 
 ## Eight lessons
 
-The six incidents above describe the first visible failures. The broader lessons include two failures of strategy: trying to improve a system that cannot yet be replayed, and mistaking activation for effect.
+The six incidents above describe the first visible hardening failures. The broader lessons include two failures of strategy: trying to improve a system that cannot yet be replayed, and mistaking activation for effect.
 
 ### 1. Completion needs a terminal handoff
 
@@ -160,7 +170,7 @@ Memory-light delegates make contracts valuable, but an explicit contract must na
 
 ### 7. Observability comes before self-improvement
 
-The honest next step after the first week was not more autonomy. It was replayability. **Observed:** failures could be described, but a consistent causal history was not yet available for deterministic replay. **Interpretation:** build a causal event ledger, continuation invariants, replay of historical failures, regression gates, and a reviewed failure corpus before proposing constrained optimization. **Open hypothesis:** an optimizer can improve the control plane safely only when its proposals are evaluated against that corpus and remain inside the human-gated authority boundary.
+The honest next step after the hardening week was not more autonomy. It was replayability. **Observed:** failures could be described, but a consistent causal history was not yet available for deterministic replay. **Interpretation:** build a causal event ledger, continuation invariants, replay of historical failures, regression gates, and a reviewed failure corpus before proposing constrained optimization. **Open hypothesis:** an optimizer can improve the control plane safely only when its proposals are evaluated against that corpus and remain inside the human-gated authority boundary.
 
 ### 8. Measure effects, not activation
 
@@ -170,7 +180,7 @@ The working distinction is now four-part: implementation evidence, activation ev
 
 **The gate is verified active and has shifted some work into delegated lanes; fleet-level heavy-session spend share is approximately flat after only about three days, so no aggregate efficiency claim yet.**
 
-The first-week failure modes map to concrete mechanisms rather than to a vague request for “more autonomy.” A handoff addresses waiting. Explicit operator state addresses premature closure. Post-enqueue acknowledgement addresses signal loss. Adoption reconciliation addresses dead-on-arrival integrations. Ownership plus wake conditions address silent stalls. Staged evidence addresses the difference between a live gate and a useful gate.
+The hardening-week failure modes map to concrete mechanisms rather than to a vague request for “more autonomy.” A handoff addresses waiting. Explicit operator state addresses premature closure. Post-enqueue acknowledgement addresses signal loss. Adoption reconciliation addresses dead-on-arrival integrations. Ownership plus wake conditions address silent stalls. Staged evidence addresses the difference between a live gate and a useful gate.
 
 ```mermaid
 flowchart TD
@@ -196,7 +206,7 @@ The same boundary applies to the control plane itself. A proposal to improve rou
 
 ## Week two
 
-The next work is to make the first week's lessons queryable rather than memorable. A causal event ledger should record the identities and transitions needed to reconstruct why an item moved, stopped, or was reopened. Continuation invariants should be checked as part of normal operation. Historical failures should be replayed deterministically, with regression gates that prevent a fix in one lane from reopening a known failure in another.
+The next work is to make the hardening week's lessons queryable rather than memorable. A causal event ledger should record the identities and transitions needed to reconstruct why an item moved, stopped, or was reopened. Continuation invariants should be checked as part of normal operation. Historical failures should be replayed deterministically, with regression gates that prevent a fix in one lane from reopening a known failure in another.
 
 The adoption reconciler needs review and real inputs. The dispatch fix needs to ship before its guarantee can be claimed. Review verdicts, gates, and stalled work need reconciliation rather than manual inspection. The heavy-session policy needs another measurement pass that separates implementation, activation, behavior, and outcome evidence.
 
@@ -216,11 +226,11 @@ This is deliberately less ambitious than adding another autonomous capability. T
 
 This report's proposed contribution is a compact control-plane framing for agent autonomy: durable state, explicit ownership, and verified transitions are the unit of reliability. The incidents are ordinary distributed-systems failures seen through an agent workflow, not evidence that one agent model is superior. The practical novelty is the insistence on keeping observed facts, interpretations, and open hypotheses separate while tracing each failure to a mechanism and a verification boundary.
 
-The report extends the operational thread in [When AI Use Becomes Infrastructure](/notes/when-ai-use-becomes-infrastructure/) by focusing on first-week control-plane transitions rather than a longer operational record. It also connects to [Failure-Oriented Orchestration](/notes/failure-oriented-orchestration/) and [Earned Agent Autonomy](/notes/earned-agent-autonomy/): autonomy is earned by surviving explicit failure checks, not by increasing the number of actions an agent can take. The contract boundary is further developed in [Agent Execution Contracts](/notes/agent-execution-contracts/) and [Authority-First Agent Architecture](/notes/authority-first-agent-architecture/).
+The report extends the operational thread in [When AI Use Becomes Infrastructure](/notes/when-ai-use-becomes-infrastructure/) by focusing on hardening-week control-plane transitions rather than a longer operational record. It also connects to [Failure-Oriented Orchestration](/notes/failure-oriented-orchestration/) and [Earned Agent Autonomy](/notes/earned-agent-autonomy/): autonomy is earned by surviving explicit failure checks, not by increasing the number of actions an agent can take. The contract boundary is further developed in [Agent Execution Contracts](/notes/agent-execution-contracts/) and [Authority-First Agent Architecture](/notes/authority-first-agent-architecture/).
 
 ## Status & Scope
 
-This is a conceptual model and engineering field report, not a product specification and not production guidance. It describes one week in a personal lab, from September 18 through September 24, 2026, while the architecture was changing quickly. Some fixes and reconcilers were still in review or had not shipped when this report was written. The public evidence is limited to one scoped statement: the gate is verified active and has shifted some work into delegated lanes; fleet-level heavy-session spend share is approximately flat after only about three days, so no aggregate efficiency claim yet.
+This is a conceptual model and engineering field report, not a product specification and not production guidance. It describes the hardening week in a personal lab, from September 17 through September 24, 2026, while the architecture was changing quickly. Some fixes and reconcilers were still in review or had not shipped when this report was written. The public evidence is limited to one scoped statement: the gate is verified active and has shifted some work into delegated lanes; fleet-level heavy-session spend share is approximately flat after only about three days, so no aggregate efficiency claim yet.
 
 The report includes no benchmark of agent quality, no general reliability estimate, and no claim that these mechanisms are sufficient for a production system. Treat the observations as dated engineering evidence and the interpretations as hypotheses to test. Any deployment should establish its own authority model, durable state, ownership rules, replayability, review gates, and outcome measures.
 

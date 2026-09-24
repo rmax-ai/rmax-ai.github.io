@@ -6,7 +6,7 @@ Thoughts on software, AI, and systems.
 *September 24, 2026* — [One Week of rmax.ai: What We Learned Building an Autonomous Agent Control Plane](/notes/one-week-rmax-ai-autonomous-agent-control-plane/)
 
 ### [One Week of rmax.ai: What We Learned Building an Autonomous Agent Control Plane](/notes/one-week-rmax-ai-autonomous-agent-control-plane/)
-*September 24, 2026* — An engineering field report on the first week of an autonomous agent control plane, where durable state, explicit ownership, and verified transitions proved more important than making agents act.
+*September 24, 2026* — An engineering field report on the first week of autonomy and control-plane hardening in a personal agent system that had already operated for roughly four months, where durable state, explicit ownership, and verified transitions proved more important than making agents act.
 
 *September 21, 2026* — [Jev vs. Generative Models for Typed Software Decisions](/notes/jev-vs-generative-models-for-typed-software-decisions/)
 
