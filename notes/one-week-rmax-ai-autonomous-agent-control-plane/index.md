@@ -168,7 +168,7 @@ An enforcement gate was designed, built, wired, and activated during the week. I
 
 The working distinction is now four-part: implementation evidence, activation evidence, behavioral evidence, and outcome evidence. **Observed:** the gate is active and behavior shifted in some cases, while the fleet-level outcome was not yet distinguishable from baseline. **Interpretation:** a deployed guard is not automatically a successful policy. **Open hypothesis:** the planned metric re-run will determine whether the policy changes the aggregate outcome. No aggregate efficiency claim is made.
 
-The required public framing is: **the gate is verified active and has shifted some work into delegated lanes; fleet-level heavy-session spend share is approximately flat after only about three days, so no aggregate efficiency claim yet.**
+**The gate is verified active and has shifted some work into delegated lanes; fleet-level heavy-session spend share is approximately flat after only about three days, so no aggregate efficiency claim yet.**
 
 The first-week failure modes map to concrete mechanisms rather than to a vague request for “more autonomy.” A handoff addresses waiting. Explicit operator state addresses premature closure. Post-enqueue acknowledgement addresses signal loss. Adoption reconciliation addresses dead-on-arrival integrations. Ownership plus wake conditions address silent stalls. Staged evidence addresses the difference between a live gate and a useful gate.
 
@@ -220,7 +220,7 @@ The report extends the operational thread in [When AI Use Becomes Infrastructure
 
 ## Status & Scope
 
-This is a conceptual model and engineering field report, not a product specification and not production guidance. It describes one week in a personal lab, from September 18 through September 24, 2026, while the architecture was changing quickly. Some fixes and reconcilers were still in review or had not shipped when this report was written. The public evidence is limited to the required framing: the gate is verified active and has shifted some work into delegated lanes; fleet-level heavy-session spend share is approximately flat after only about three days, so no aggregate efficiency claim yet.
+This is a conceptual model and engineering field report, not a product specification and not production guidance. It describes one week in a personal lab, from September 18 through September 24, 2026, while the architecture was changing quickly. Some fixes and reconcilers were still in review or had not shipped when this report was written. The public evidence is limited to one scoped statement: the gate is verified active and has shifted some work into delegated lanes; fleet-level heavy-session spend share is approximately flat after only about three days, so no aggregate efficiency claim yet.
 
 The report includes no benchmark of agent quality, no general reliability estimate, and no claim that these mechanisms are sufficient for a production system. Treat the observations as dated engineering evidence and the interpretations as hypotheses to test. Any deployment should establish its own authority model, durable state, ownership rules, replayability, review gates, and outcome measures.
 
