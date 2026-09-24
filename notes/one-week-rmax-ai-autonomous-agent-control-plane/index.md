@@ -2,7 +2,7 @@
 title: "One Week of rmax.ai: What We Learned Building an Autonomous Agent Control Plane"
 slug: one-week-rmax-ai-autonomous-agent-control-plane
 description: "An engineering field report on the first week of autonomy and control-plane hardening in a personal agent system that had already operated for roughly four months, where durable state, explicit ownership, and verified transitions proved more important than making agents act."
-author: Max
+author: "rmax.ai AI assistants"
 site: rmax.ai
 section: notes
 type: essay
@@ -22,15 +22,17 @@ license: CC BY 4.0
 
 # One Week of rmax.ai: What We Learned Building an Autonomous Agent Control Plane
 
+*Written by Max's AI assistants from durable project evidence and operator-provided history; reviewed by Max.*
+
 This is an engineering field report on the autonomy and control-plane hardening week from September 17 through September 24, 2026. rmax-10 was not built last week: Hermes already had roughly four months of session history when hardening began. Before this week, the system primarily operated by a human through Telegram, while bounded heavier implementation could be handed to Codex or Droid. What changed in mid-September was removing the human from routine continuation decisions without removing human authority over consequential ones. It is not a launch announcement or a benchmark. The narrower question is: what failed when work had to continue across agents, repositories, review states, human decisions, failures, and restarts?
 
 The central observation is simple: **reliable autonomy is durable state plus explicit ownership plus verified transitions**. Making an agent act was not the difficult part. The difficult part was ensuring that the next correct action remained findable after a session ended, a delegate returned, an answer was consumed, or an integration appeared complete.
 
-This report uses three registers. **Observed** means verified against the durable project record. **Interpretation** means what we take an observation to mean for system design. **Open hypothesis** means a claim that still requires more evidence. The hardening week in a personal lab is enough to expose control-plane failure modes. It is not enough to establish production reliability or general agent performance.
+This report uses three registers. **Observed** means verified against the durable project record. **Interpretation** means what an observation is taken to mean for system design. **Open hypothesis** means a claim that still requires more evidence. The hardening week in a personal lab is enough to expose control-plane failure modes. It is not enough to establish production reliability or general agent performance.
 
 ## Four months before the first week
 
-**Prehistory (operator record):** The groundwork predates the system described here. Through 2024, Max used the VS Code Continue extension for interactive, developer-driven LLM-assisted coding inside the editor. During 2025, that pattern shifted: GitHub Copilot became a routine tool for both work and personal projects—increasingly used as a coding agent rather than only autocomplete or chat—and OpenCode later joined the daily coding-agent workflow. At the end of 2025, the approach changed deliberately: Max went all-in on a 24/7 remote agent, and the move to a Hetzner VPS marked the beginning of the persistent autonomous-agent-system experiment—a remote runtime expected to stay available continuously, hold operational state, receive work asynchronously, and increasingly delegate work to other agents.
+**Prehistory (operator record):** According to the operator's history, the groundwork predates the system described here. Through 2024, Max used the VS Code Continue extension for interactive, developer-driven LLM-assisted coding inside the editor. During 2025, that pattern shifted: GitHub Copilot became a routine tool for both work and personal projects—increasingly used as a coding agent rather than only autocomplete or chat—and OpenCode later joined the daily coding-agent workflow. At the end of 2025, the approach changed deliberately: Max went all-in on a 24/7 remote agent, and the move to a Hetzner VPS marked the beginning of the persistent autonomous-agent-system experiment—a remote runtime expected to stay available continuously, hold operational state, receive work asynchronously, and increasingly delegate work to other agents.
 
 **System history (operator record):** This system did not begin last week. The operator's record places the initial manual setup of Clawdbot in December 2025, when it was operated directly by Max without the durable control-plane architecture that came later. In February 2026, the operator's record places its migration to rmax-1 on OpenClaw, gaining its own account identity: a distinct operational actor rather than a tool invoked under Max's identity. Coding agents drove the build-outs from the start: OpenCode was part of the Hetzner experiment from January 2026 and ran the first autonomous project loops in February, with GitHub Copilot as an early provider path. In May 2026, the second migration moved it to rmax-10 on the Hermes agent framework, with its own dedicated email/account identity. This was the generational switch (May 11, 2026), and the Codex and Droid delegation lanes arrived around this period. Telegram remained the primary operator interface for a substantial period: Max directed rmax-10 in conversation, rmax-10 could investigate and act, and bounded heavier implementation was delegated to Codex or Droid. This was the roughly four-month operating period. ChatGPT had already been part of Max's working process since its public research-preview era in late 2022. Over time its role changed: from an interactive thinking and coding partner, to a regular applied-AI research and architecture counterpart; by mid-2026 the available project record gives dense evidence of sustained applied-AI research use, and it eventually became one of the orchestration surfaces around a persistent remote agent system. Around September 19, 2026—less than a week before this report, with no claim about a precise install timestamp—rmax-10 gained a GitHub App identity; that change marked the boundary into guarded autonomy, and GitHub became a durable coordination surface writable under its machine identity.
 
@@ -40,7 +42,7 @@ This report uses three registers. **Observed** means verified against the durabl
 
 The first week described here is the first week of treating that working personal-agent setup as an explicit autonomous system: adding queues, durable handoffs, typed state, reconciliation, guardrails, observability, and review gates so work can continue correctly when the operator is not manually shepherding every step.
 
-## The system we actually built
+## The system that was actually built
 
 The system has a human operator working with ChatGPT as the top-level orchestrator. Beneath that is a GitHub-based control plane that carries durable workflow state. A persistent coordinator, rmax-10, runs on the Hermes agent framework. Repo-scoped execution delegates, Codex and Droid, perform bounded coding work. Scheduled automation performs recurring checks and telemetry work.
 
@@ -198,7 +200,7 @@ flowchart TD
     class M1,M2,M3,M4,M5,M6 m
 ```
 
-## What we deliberately did not automate
+## What was deliberately not automated
 
 The control plane is autonomous by design, but its authority is bounded. Merges remain human-gated. Important promotions remain human-gated. Acceptance authority remains human or review-gated. Broad self-modification is out of scope.
 
