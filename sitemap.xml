@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-09-23T19:37:43Z</lastmod>
+    <lastmod>2026-09-24T23:42:59Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-09-23T19:37:43Z</lastmod>
+    <lastmod>2026-09-24T23:42:59Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -203,6 +203,10 @@
   <url>
     <loc>https://rmax.ai/notes/new-scarcity-software-engineering/</loc>
     <lastmod>2026-07-26T21:43:23Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/one-week-rmax-ai-autonomous-agent-control-plane/</loc>
+    <lastmod>2026-09-25T08:39:40Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/open-source-after-coding-agents/</loc>
