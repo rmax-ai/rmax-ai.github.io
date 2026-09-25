@@ -209,6 +209,20 @@
             <div class="post-meta" style="margin-top:6px"><span>Written by Max's AI assistants from durable project evidence and operator-provided history; reviewed by Max.</span></div>
           </header>
 
+          <div class="audio-player" style="background:var(--glass);border:1px solid rgba(124,58,237,.3);border-radius:12px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:14px">
+            <div style="flex-shrink:0;width:40px;height:40px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:.85rem;color:var(--muted);margin-bottom:4px">Listen to the podcast version</div>
+              <audio controls style="width:100%;height:32px" preload="metadata">
+                <source src="podcast.ogg" type="audio/ogg">
+                <source src="podcast.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+          </div>
+
           <div class="post-content">
             <p>This field report covers September 17–24, 2026, when a roughly four-month-old rmax-10/Hermes system was hardened for continuation without manual handoffs. Telegram carried Max's authority; ChatGPT orchestrated; Codex/Droid handled bounded work.</p>
             <p>This report uses three registers. <strong>Observed</strong> means verified against the durable project record. <strong>Interpretation</strong> means what an observation is taken to mean for system design. <strong>Open hypothesis</strong> means a claim that still requires more evidence. The hardening week in a personal lab is enough to expose control-plane failure modes. It is not enough to establish production reliability or general agent performance.</p>
