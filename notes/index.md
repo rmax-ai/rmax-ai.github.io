@@ -3,9 +3,9 @@
 
 Thoughts on software, AI, and systems.
 
-*September 24, 2026* — [From Human-Orchestrated Agent to Autonomous Control Plane: Lessons from rmax.ai](/notes/one-week-rmax-ai-autonomous-agent-control-plane/)
+*September 24, 2026* — [From Human-Orchestrated Agent to Autonomous Control Plane: Lessons from rmax.ai](/notes/from-human-orchestrated-agent-to-autonomous-control-plane/)
 
-### [From Human-Orchestrated Agent to Autonomous Control Plane: Lessons from rmax.ai](/notes/one-week-rmax-ai-autonomous-agent-control-plane/)
+### [From Human-Orchestrated Agent to Autonomous Control Plane: Lessons from rmax.ai](/notes/from-human-orchestrated-agent-to-autonomous-control-plane/)
 *September 24, 2026* — An engineering field report on the first week of autonomy and control-plane hardening in a personal agent system that had already operated for roughly four months, where durable state, explicit ownership, and verified transitions proved more important than making agents act.
 
 *September 21, 2026* — [Jev vs. Generative Models for Typed Software Decisions](/notes/jev-vs-generative-models-for-typed-software-decisions/)

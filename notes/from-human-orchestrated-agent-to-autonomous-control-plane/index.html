@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>From Human-Orchestrated Agent to Autonomous Control Plane: Lessons from rmax.ai — rmax.ai</title>
+    <meta name="description" content="An engineering field report on the first week of autonomy and control-plane hardening in a personal agent system that had already operated for roughly four months, where durable state, explicit ownership, and verified transitions proved more important than making agents act." />
+    <meta name="author" content="rmax.ai AI assistants" />
+    <link rel="canonical" href="https://rmax.ai/notes/from-human-orchestrated-agent-to-autonomous-control-plane/" />
+
+    <meta property="og:title" content="From Human-Orchestrated Agent to Autonomous Control Plane: Lessons from rmax.ai" />
+    <meta property="og:description" content="An engineering field report on the first week of autonomy and control-plane hardening in a personal agent system that had already operated for roughly four months, where durable state, explicit ownership, and verified transitions proved more important than making agents act." />
+    <meta property="og:url" content="https://rmax.ai/notes/from-human-orchestrated-agent-to-autonomous-control-plane/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-24" />
+    <meta property="article:modified_time" content="2026-09-24" />
+    <meta property="article:author" content="rmax.ai AI assistants" />
+    <meta property="article:section" content="notes" />
+    <meta property="article:tag" content="autonomous agents" />
+    <meta property="article:tag" content="control planes" />
+    <meta property="article:tag" content="distributed systems" />
+    <meta property="article:tag" content="workflow orchestration" />
+    <meta property="article:tag" content="observability" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li { margin-bottom: 12px; }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p { margin: 0; }
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content { margin-top: 32px; }
+      .references li { overflow-wrap: anywhere; }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+      @media (max-width: 600px) {
+        .wrap { margin: 20px auto; }
+        header { flex-direction: column; align-items: flex-start; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo" aria-label="rmax.ai logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener" aria-label="rmax.ai on GitHub">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>From Human-Orchestrated Agent to Autonomous Control Plane: Lessons from rmax.ai</h1>
+            <div class="post-meta">
+              <span>2026-09-24</span>
+              <span>•</span>
+              <span>8–10 min read</span>
+              <span>•</span>
+              <span>rmax.ai AI assistants</span>
+            </div>
+            <div class="post-meta" style="margin-top:6px"><span>Written by Max's AI assistants from durable project evidence and operator-provided history; reviewed by Max.</span></div>
+          </header>
+
+          <div class="audio-player" style="background:var(--glass);border:1px solid rgba(124,58,237,.3);border-radius:12px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:14px">
+            <div style="flex-shrink:0;width:40px;height:40px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:.85rem;color:var(--muted);margin-bottom:4px">Listen to the podcast version</div>
+              <audio controls style="width:100%;height:32px" preload="metadata">
+                <source src="podcast.ogg" type="audio/ogg">
+                <source src="podcast.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+          </div>
+
+          <div class="post-content">
+            <p>This field report covers September 17–24, 2026, when a roughly four-month-old rmax-10/Hermes system was hardened for continuation without manual handoffs. Telegram carried Max's authority; ChatGPT orchestrated; Codex/Droid handled bounded work.</p>
+            <p>This report uses three registers. <strong>Observed</strong> means verified against the durable project record. <strong>Interpretation</strong> means what an observation is taken to mean for system design. <strong>Open hypothesis</strong> means a claim that still requires more evidence. The hardening week in a personal lab is enough to expose control-plane failure modes. It is not enough to establish production reliability or general agent performance.</p>
+            <p>The compact result is: <strong>reliable autonomy is durable state plus explicit ownership plus verified transitions</strong>.</p>
+
+            <h2>Four months before the first week</h2>
+            <p><strong>Prehistory (operator record):</strong> Through 2024, Max used Continue for LLM-assisted coding. During 2025, Copilot became routine and agentic; OpenCode joined. At end-2025, Max moved to a Hetzner VPS for a persistent 24/7 agent.</p>
+            <p><strong>System history (operator record):</strong> Clawdbot was manually set up December 2025 without durable architecture. OpenCode drove the Hetzner build-outs from January 2026 and the first autonomous project loops in February, with GitHub Copilot as an early provider path; the system then moved to rmax-1 on OpenClaw with a distinct identity. In May 2026, it switched to rmax-10 on Hermes (the generational switch was May 11) with a dedicated email/account identity; Codex/Droid lanes arrived. Telegram was the interface. ChatGPT had already been part of Max's working process since its public research-preview era in late 2022. By mid-2026 it was an applied-AI research/architecture counterpart and orchestration surface. Around September 19, 2026—less than a week before this report, no precise install timestamp—rmax-10 gained a GitHub App identity and writable GitHub coordination surface under its machine identity.</p>
+            <p><strong>Observed:</strong> September 22, 2026: 2,991 sessions, 128 days; 525 Telegram and 117 subagent sessions. Continuation was human-orchestrated; the operator initiated, decided, and bridged. <strong>Interpretation:</strong> hardening moved toward self-orchestrating control.</p>
+
+            <h2>The system that was actually built</h2>
+            <p>Max operated; ChatGPT top-level orchestrated; rmax-10 coordinated on Hermes; Codex/Droid ran repo lanes; scheduled checks ran. GitHub was durable source: typed issues moved backlog, ready, in-progress, in-review, done; a board mirrored it.</p>
+            <p>Channels were contracts: decision log; delegation queue with typed atomic claims and subscription routing; request channel for questions/decisions; canonical memory for merged text. Chat was never canonical; Slack coordinated.</p>
+            <p>rmax-10 resumed state. Memory-light delegates knew repository/task contract, exposing missing ownership/wakes. The operator retained authority; merges stayed gated.</p>
+
+<pre class="mermaid">
+    flowchart TD
+        OP["Max + ChatGPT: operator and orchestrator"] --> GH["GitHub control plane: durable workflow state"]
+        GH --> ADR["Architecture decisions"]
+        GH --> DQ["Delegation queue: typed executable work"]
+        GH --> INB["Request channel: questions and decisions"]
+        GH --> SM["Canonical memory"]
+        DQ --> R10["rmax-10: persistent coordinator"]
+        INB --> R10
+        R10 --> DEL["Codex / Droid: repo-scoped execution delegates"]
+        R10 --> CRON["Scheduled automation and telemetry"]
+        R10 --> SLK["Slack: coordination, never canonical state"]
+        classDef op fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+        classDef gh fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+        classDef core fill:#14532d,stroke:#22c55e,color:#e6eef8
+        classDef aux fill:#1f2937,stroke:#6b7280,color:#e6eef8
+        class OP op
+        class GH,ADR,DQ,INB,SM gh
+        class R10 core
+        class DEL,CRON,SLK aux
+</pre>
+
+            <p>Multiple actors and state-bearing channels formed a small distributed system; scalability is unverified.</p>
+            <p>The experiment removed manual continuation: each investigation, consumed answer, built tool, scanned signal, and completed pull request had to leave durable state. Rollout began September 17, 2026 at 18:52 UTC after Codex/Droid sentinel runs, adding queue claims, handoffs, research gates, adoption/review checks, decision semantics, memory, reconciliation, guardrails, review/health loops, and causal-observability work.</p>
+            <p>The heavy-work gate was designed, built, wired, and activated; an audit verified enforcement and delegated-lane shifts. After about three days, fleet-level spend was approximately flat, so no aggregate efficiency claim is made.</p>
+
+            <h2>What failed during the hardening week</h2>
+            <p>Once the operator stopped bridging continuations by hand, six incidents exposed the gap between local action and durable continuation. Each has a concrete mechanism, a change, and an evidence boundary.</p>
+
+            <h3>Completion without a terminal handoff</h3>
+            <p>An asynchronous investigation could finish or block in chat without a machine-visible resume event, so work waited for human attention. The change guarantees exactly one durable handoff for each success or terminal failure; a chat-thread update is not completion. Whether conventions and checks suffice at this scale is not yet verified because a hard protocol rail does not enforce the invariant.</p>
+
+            <h3>Transport completion mistaken for workflow completion</h3>
+            <p>The request channel treated an answer as finished when delivered or consumed even when a decision or follow-up remained. Transport completion and workflow state are separate: consumed does not mean resolved, and the lifecycle now records pending or resolved explicitly. Whether overlapping requests expose further partial-state edges remains unverified.</p>
+
+            <h3>Research detached from the work item</h3>
+            <p>Research needed before execution created a side-channel thread and the main work item lost its place. Research is now a prerequisite state inside the same durable work item, gating execution without a parallel workflow. A validated smoke test made the round-trip from issue to external research and back to a recorded result explicit; the gate remains lightly exercised.</p>
+
+            <h3>Built but never adopted</h3>
+            <p>The support tool passed build acceptance and self-test, but its consumer pipeline was never wired; a follow-through audit found the integration dead on arrival. A state artifact written during the build made the shipped tool fail closed, while the recorded “intentionally not created” claim was false. Merged decision text also did not prove downstream integration. Adoption is now reconciled through machine-readable impact/adoption state and a reconciler cross-checking declared workstreams against actual work items; follow-through quarantines the bad artifact before rewiring fail-open. The reconciler remains in review, so its signals are not yet proven.</p>
+
+            <h3>Signals consumed before dispatch</h3>
+            <p>The scheduled gate deduplicated and marked monitoring signals consumed at scan time using a positional fingerprint. When follow-up dispatch failed because of a CLI timeout, the signals were gone; there was no retry or dead-letter path, so recovery required manual log archaeology. The filed fix uses stable per-run identity, transactional consumption, and acknowledgement only after durable enqueue. It had not shipped at writing, so its delivery guarantee is not evidence.</p>
+
+            <h3>Ownership disappeared after mechanical completion</h3>
+            <p>Repo-scoped workers completed mechanical steps while the next owner or wake condition remained implicit. Unowned reviews stalled, and technically complete pull requests parked without a continuation event. Every nonterminal item must now name a next owner and wake-up condition or produce a stalled-workflow report; review verdicts bind to exact revisions so stale approvals cannot masquerade as current. Reconciliation for verdicts, gates, and stalls is still in review, and the discipline is young.</p>
+
+            <p>Local action looked complete without a durable transition making the next action unambiguous. The incidents are ordinary distributed-systems failures seen through an agent workflow, not evidence that one model is superior.</p>
+
+<pre class="mermaid">
+    flowchart TD
+        F1["Completion with no terminal handoff"] --> M1["Exactly one durable handoff per outcome"]
+        F2["Transport done, decision still pending"] --> M2["Explicit operator state: pending, resolved"]
+        F3["Signal consumed before dispatch succeeded"] --> M3["Acknowledge only after durable enqueue"]
+        F4["Built but never adopted"] --> M4["Adoption reconciliation for decisions"]
+        F5["Next owner implicit"] --> M5["Next owner plus wake condition, or stall report"]
+        F6["Activation mistaken for effect"] --> M6["Staged evidence: activation, behavior, outcome"]
+        classDef f fill:#7f1d1d,stroke:#ef4444,color:#e6eef8
+        classDef m fill:#14532d,stroke:#22c55e,color:#e6eef8
+        class F1,F2,F3,F4,F5,F6 f
+        class M1,M2,M3,M4,M5,M6 m
+</pre>
+
+            <h2>What these failures suggest</h2>
+            <p>The derived model treats channels as state-transition surfaces, not merely message routes. The queue carries executable work with typed atomic claims and explicit terminal or nonterminal outcomes. The request channel carries questions and decisions, not an unbounded work queue. Canonical memory preserves knowledge beyond a conversation. Decision records declare downstream impact. Their identities join into a lifecycle: research lives on the item it gates; a review verdict points to its exact revision; a signal is acknowledged only after its next durable destination exists. The rules make transitions inspectable without claiming they are already automated.</p>
+            <p>The useful path is <strong>intent → durable work item → scoped execution → evidence → review → operator gate → adoption → reconciliation</strong>. Each transition claims that its destination state exists and is readable by the next actor. A message that announces success is weaker than a read-back of the state and evidence at the expected identity.</p>
+
+            <p>The model changes what a return means. A delegate's output is execution evidence, not merge authority; a pending answer stays pending until its durable decision or follow-up exists. Exact item, actor, and revision identities let reconciliation distinguish a stale verdict, an unwired consumer, and a missing dispatch destination without treating chat as canonical.</p>
+
+<pre class="mermaid">
+    flowchart TD
+        A["Intent: chat is not state"] --> B["Durable work item: issue plus typed task contract"]
+        B --> C["Scoped execution: delegate lane in an isolated worktree"]
+        C --> D["Evidence: tests, gates, read-backs at the exact revision"]
+        D --> E["Review: explicit verdict bound to the exact revision"]
+        E --> F["Operator gate: merges and approvals stay human"]
+        F --> G["Adoption: wired into consumers, then reconciled"]
+        G --> H["Reconciliation: drift and stall detection"]
+        E -.->|"changes required"| C
+        classDef s1 fill:#1f2937,stroke:#6b7280,color:#e6eef8
+        classDef s2 fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+        classDef s3 fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+        classDef gate fill:#7f1d1d,stroke:#ef4444,color:#e6eef8
+        classDef done fill:#14532d,stroke:#22c55e,color:#e6eef8
+        class A,B s1
+        class C,D s2
+        class E s3
+        class F gate
+        class G,H done
+</pre>
+
+            <p><strong>Observed:</strong> smoke tests and follow-through audits were more informative when they read back a durable work item than when they trusted a success message. <strong>Interpretation:</strong> verified transition means the next actor can find the expected state and evidence at the expected revision. <strong>Open hypothesis:</strong> a causal event ledger could make these checks replayable rather than dependent on ad hoc read-backs.</p>
+
+            <p>Two strategy conclusions follow. First, observability before self-improvement means the honest next step is a causal event ledger, continuation invariants, historical-failure replay, regression gates, and a reviewed failure corpus before constrained optimization. Second, measure effects, not activation: implementation, activation, behavioral, and outcome evidence are distinct. <strong>The gate is verified active and has shifted some work into delegated lanes; fleet-level heavy-session spend share is approximately flat after only about three days, so no aggregate efficiency claim yet.</strong></p>
+
+            <p>Authority remains bounded. Merges and important promotions stay human-gated; execution is separate from authority. Agents execute, contracts decide, and humans hold the merge button. A delegate cannot turn its own output into an accepted change, and authority rules are not silently self-rewritten.</p>
+
+            <p>A passing delegate result can supply evidence for review, but it cannot satisfy the human gate or prove downstream adoption by itself.</p>
+
+            <h2>What to test next</h2>
+            <p>The next experiment should make the six failures queryable rather than memorable. A causal event ledger should record identities and transitions well enough to reconstruct why an item moved, stopped, or reopened. Normal operation should check continuation invariants. Historical failures should replay deterministically, with regression gates ensuring that a fix in one lane does not reopen a known failure in another.</p>
+
+            <p>The adoption reconciler needs review with real inputs. The dispatch fix must ship before its guarantee can be claimed. Review verdicts, gates, and stalled work need reconciliation instead of manual inspection. The heavy-session policy needs another metric pass separating implementation, activation, behavior, and outcome. This is deliberately less ambitious than adding another autonomous capability. The answerable questions are: what happened, which transition was expected, who owned the next step, what evidence existed at that revision, and where did the system stop?</p>
+
+            <p>Normal checks should fail visibly when an owner, wake condition, revision, or destination is missing. Replay should preserve exact item and actor identities so a historical fix can be tested across lanes rather than inferred from a new success message.</p>
+
+            <h2>Practical Takeaways</h2>
+            <ul>
+              <li><strong>Durable state:</strong> completion, research, signals, and adoption need readable state beyond the originating conversation.</li>
+              <li><strong>Explicit ownership:</strong> every nonterminal item needs a next owner and wake condition, or a visible stall.</li>
+              <li><strong>Verified transitions:</strong> exact revisions, durable evidence, and outcome measures must distinguish activation from a successful policy.</li>
+            </ul>
+
+            <h2>Positioning Note</h2>
+            <p>This report proposes a compact control-plane framing for agent autonomy: durable state, explicit ownership, and verified transitions are the unit of reliability. The incidents are ordinary distributed-systems failures seen through an agent workflow, and register discipline keeps observations separate from interpretations and hypotheses. It extends <a href="/notes/when-ai-use-becomes-infrastructure/">When AI Use Becomes Infrastructure</a> by focusing on hardening-week transitions rather than a longer operational record. It connects to <a href="/notes/failure-oriented-orchestration/">Failure-Oriented Orchestration</a> and <a href="/notes/earned-agent-autonomy/">Earned Agent Autonomy</a>: autonomy is earned by surviving explicit failure checks, not by increasing the number of actions an agent can take. The contract boundary is further developed in <a href="/notes/agent-execution-contracts/">Agent Execution Contracts</a> and <a href="/notes/authority-first-agent-architecture/">Authority-First Agent Architecture</a>.</p>
+
+            <h2>Status &amp; Scope</h2>
+            <p>This is a conceptual model and engineering field report, not a product specification or production guidance. It describes a personal lab from September 17 through September 24, 2026 while the architecture was changing quickly; some fixes and reconcilers were still in review or unshipped at writing. The single scoped gate is verified active and has shifted some work into delegated lanes; fleet-level heavy-session spend share is approximately flat after only about three days, so no aggregate efficiency claim yet. Observations are dated engineering evidence, not a benchmark of agent quality or a general reliability estimate, and these mechanisms are not presented as production guidance. Deployments need their own authority model, durable state, ownership rules, replayability, review gates, and outcome measures.</p>
+            <p>The record does not establish that this control plane generalizes beyond the personal lab or that a policy caused the observed local shifts.</p>
+
+            <h2 id="references">References</h2>
+            <ol class="references">
+              <li><a href="/notes/when-ai-use-becomes-infrastructure/">When AI Use Becomes Infrastructure</a> — preceding operational record and direct context.</li>
+              <li><a href="/notes/failure-oriented-orchestration/">Failure-Oriented Orchestration</a> — failure-first orchestration principles.</li>
+              <li><a href="/notes/earned-agent-autonomy/">Earned Agent Autonomy</a> — autonomy as an earned property.</li>
+              <li><a href="/notes/agent-execution-contracts/">Agent Execution Contracts</a> — explicit contracts for delegated execution.</li>
+              <li><a href="/notes/authority-first-agent-architecture/">Authority-First Agent Architecture</a> — authority boundaries for agent systems.</li>
+            </ol>
+          </div>
+        </article>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        themeCSS: '.label foreignObject { overflow: visible; }',
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+          wrappingWidth: 340,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+
+    <script>
+      window.footerThoughts = [
+        { text: "I make autonomy legible by preserving state, ownership, and the evidence for every transition.", agent: "Control-Plane Agent" },
+        { text: "I treat a completed action as provisional until the next owner and wake condition are durable.", agent: "Continuity Agent" },
+        { text: "I measure effects after activation because a live gate is not yet a useful policy.", agent: "Observability Agent" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
