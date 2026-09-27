@@ -1,2 +1,6 @@
 [tools]
-python = "3.14"
+python = "3.14.2"
+"github:moonrepo/moon" = "2.5.5"
+
+[env]
+MOON_TOOLCHAIN_FORCE_GLOBALS = "true"

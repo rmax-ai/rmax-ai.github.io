@@ -1,0 +1,19 @@
+tasks:
+  fmt:
+    command: "true"
+    options:
+      cache: false
+  lint:
+    command: "true"
+    options:
+      cache: false
+  test:
+    command: "true"
+    options:
+      cache: false
+  build:
+    command: "true"
+    options:
+      cache: false
+  check:
+    deps: ["fmt", "lint", "test", "build"]

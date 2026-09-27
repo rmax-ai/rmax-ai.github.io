@@ -59,3 +59,10 @@ rMax.AI is an agent-first research lab focused on building, evaluating, and publ
 
 ## License
 - No license specified in this repository. Add a LICENSE file or contact the project owner if you need reuse terms.
+
+## Tooling (mise + moon)
+- Install pinned tools: `mise install`.
+- Run a task: `MOON_TOOLCHAIN_FORCE_GLOBALS=true moon run <task>`.
+- `fmt`, `lint`, `test`, and `build` are explicit no-ops for now.
+- Run `MOON_TOOLCHAIN_FORCE_GLOBALS=true moon run check` to aggregate them.
+- Preview remains `python -m http.server 8000`.
