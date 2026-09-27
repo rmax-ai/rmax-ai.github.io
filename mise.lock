@@ -1,0 +1,12 @@
+[[tools."github:moonrepo/moon"]]
+version = "2.5.5"
+backend = "github:moonrepo/moon"
+"platforms.linux-arm64" = { checksum = "sha256:39d55e88774677181d1af3566c4ccd2994cd2d9d8199fcf30dc2d6defc05ac78", url = "https://github.com/moonrepo/moon/releases/download/v2.5.5/moon_cli-aarch64-unknown-linux-gnu.tar.xz", url_api = "https://api.github.com/repos/moonrepo/moon/releases/assets/564873659"}
+"platforms.linux-x64" = { checksum = "sha256:f397057a22c88ff9e4b28a4a2fbf01d99f4d9a4f35e5a42634255a9f509ccbd6", url = "https://github.com/moonrepo/moon/releases/download/v2.5.5/moon_cli-x86_64-unknown-linux-gnu.tar.xz", url_api = "https://api.github.com/repos/moonrepo/moon/releases/assets/564873712"}
+"platforms.macos-arm64" = { checksum = "sha256:c90963711b70609da398c1be8ee36b4cf2f6167c5ec53f486d8bd9baa56ea578", url = "https://github.com/moonrepo/moon/releases/download/v2.5.5/moon_cli-aarch64-apple-darwin.tar.xz", url_api = "https://api.github.com/repos/moonrepo/moon/releases/assets/564873668"}
+"platforms.macos-x64" = { checksum = "sha256:2eea47ad84724bfad1cc6d748fed857d03b026dbd258617154676342fa34de0f", url = "https://github.com/moonrepo/moon/releases/download/v2.5.5/moon_cli-x86_64-apple-darwin.tar.xz", url_api = "https://api.github.com/repos/moonrepo/moon/releases/assets/564873702"}
+"platforms.windows-x64" = { checksum = "sha256:36d4d88284f3444d3e5759f69b7f181eb807a3bcd20ce0bf475099132b41eb74", url = "https://github.com/moonrepo/moon/releases/download/v2.5.5/moon_cli-x86_64-pc-windows-msvc.zip", url_api = "https://api.github.com/repos/moonrepo/moon/releases/assets/564873704"}
+
+[[tools.python]]
+version = "3.14.2"
+backend = "core:python"

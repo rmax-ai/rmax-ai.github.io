@@ -1,0 +1,3 @@
+projects:
+  rmax-ai.github.io: "."
+defaultProject: "rmax-ai.github.io"
