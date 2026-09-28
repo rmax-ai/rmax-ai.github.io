@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>From Feature Ownership to System Ownership — rmax.ai</title>
+    <meta name="description" content="A practitioner analysis of what engineers own when coding agents make implementation capacity programmable, with evidence on verification, coordination, and the limits of organizational conclusions." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/from-feature-ownership-to-system-ownership/" />
+
+    <meta property="og:title" content="From Feature Ownership to System Ownership" />
+    <meta property="og:description" content="A practitioner analysis of what engineers own when coding agents make implementation capacity programmable, with evidence on verification, coordination, and the limits of organizational conclusions." />
+    <meta property="og:url" content="https://rmax.ai/notes/from-feature-ownership-to-system-ownership/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-28" />
+    <meta property="article:modified_time" content="2026-09-28" />
+    <meta property="article:author" content="Max" />
+    <meta property="article:section" content="notes" />
+    <meta property="article:tag" content="coding agents" />
+    <meta property="article:tag" content="system ownership" />
+    <meta property="article:tag" content="software engineering" />
+    <meta property="article:tag" content="verification" />
+    <meta property="article:tag" content="agent orchestration" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li { margin-bottom: 12px; }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content { margin-top: 32px; }
+      .references li { overflow-wrap: anywhere; }
+      @media (max-width: 600px) {
+        .wrap { margin: 20px auto; }
+        header { flex-direction: column; align-items: flex-start; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo" aria-label="rmax.ai logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener" aria-label="rmax.ai on GitHub">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>From Feature Ownership to System Ownership</h1>
+            <div class="post-meta">
+              <span>2026-09-28</span>
+              <span>•</span>
+              <span>12–14 min read</span>
+              <span>•</span>
+              <span>Max</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+            <blockquote><strong>Abstract.</strong> Coding agents are beginning to change senior software engineering less by eliminating implementation than by making implementation capacity programmable. In agent-intensive teams, an engineer's leverage increasingly comes from defining intent, architecture, constraints, verification, and operational feedback systems that let many implementation tasks execute safely in parallel. This note separates the better-evidenced claim about implementation productivity from the weaker claim about changing ownership. The transition is visible in frontier workflows and production accounts, but evidence that it has broadly produced smaller teams or flatter organizations remains preliminary.</blockquote>
+
+            <p>The question is not whether a model can write code faster in a bounded task. It is what an engineer owns when implementation is delegable. Feature ownership covers request, design, implementation, review, and shipping. System ownership adds the conditions under which many changes can be specified, generated, verified, integrated, deployed, observed, and improved without one engineer writing every line.</p>
+            <p>The thesis is deliberately narrow: coding agents are making implementation capacity programmable in some engineering regimes. That can move senior leverage toward intent, architecture, constraints, verification, and operational feedback. It extends the DevOps tradition of end-to-end ownership into a possible ownership of the software-producing system itself. The workflow claim is stronger than the organizational claim. The evidence supports a partial transition in documented frontier teams, not a general occupational or headcount conclusion.</p>
+            <p>The first diagram is a conceptual distinction, not a measured workflow and not a claim that one form of ownership replaces the other. Feature delivery remains inside the larger system:</p>
+
+<pre class="mermaid">
+    flowchart TD
+        subgraph before["Feature ownership"]
+            F1["Feature request"] --> F2["Design the change"] --> F3["Write the code"] --> F4["Review and merge"] --> F5["Ship the feature"]
+        end
+        subgraph after["System ownership - additional layer in agent-intensive teams"]
+            S1["Intent and constraints"] --> S2["Task decomposition"] --> S3["Agent implementation"] --> S4["Verification and integration"] --> S5["Deploy, observe, feed back"]
+            S5 --> S1
+        end
+        F5 ~~~ S1
+        classDef neutral fill:#1f2937,stroke:#6b7280,color:#e6eef8
+        classDef blue fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+        class F1,F2,F3,F4,F5 neutral
+        class S1,S2,S3,S4,S5 blue
+</pre>
+
+            <h2>Implementation leverage, immediately bounded</h2>
+            <p>The strongest broad evidence here concerns implementation output, not ownership. A set of three randomized field experiments involving <strong>4,867 developers</strong> reported a <strong>26.08% increase (SE: 10.3%) in completed tasks</strong>. The <a href="https://www.microsoft.com/en-us/research/publication/the-effects-of-generative-ai-on-high-skilled-work-evidence-from-three-field-experiments-with-software-developers/">Microsoft Research report</a> labels the result as a completed-task outcome across the study window. It does not measure speed, code quality, or a change in senior responsibility. The same randomized field-experiment report found that less experienced developers had higher adoption rates and greater productivity gains, a subgroup result rather than evidence about who owns the system.</p>
+            <p>The immediate counterweight is a different randomized design. In an <a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">early-2025 METR randomized controlled trial</a> of <strong>16 experienced open-source developers</strong> working on <strong>246 real issues</strong>, the measured task-time result was that “when developers use AI tools, they take <strong>19% longer</strong> than without.” Continuous-integration time also changed by <strong>+2% to +39%</strong> in that study. The tools were early-2025 tools used on mature, familiar repositories, so the result is a bound on that regime, not a timeless statement that agents are slower.</p>
+            <p>METR's <a href="https://metr.org/blog/2026-02-24/uplift-update/">2026 methodological update</a> says its data is “only <strong>very weak evidence</strong> for the size of this increase” in later improvement. It points to selection effects, including task choice and a pay-cut change from $150 to $50 per hour, while the study design is being changed. This limits later speed claims.</p>
+            <p>An industry survey provides different context. <a href="https://dora.dev/research/2025/dora-report/">DORA's 2025 report</a> draws on survey responses from nearly <strong>5,000 technology professionals</strong> and <strong>100+ hours</strong> of qualitative work. Its interpretation is that AI acts as an <strong>amplifier</strong>, magnifying organizational strengths and dysfunctions. This is survey and correlational evidence, not an experiment; completed-task counts still do not report review, repair, or verification burden.</p>
+
+            <h2>Where the bottleneck goes</h2>
+            <p>When implementation capacity rises in a bounded workflow, the scarce work can move rather than disappear. The <a href="https://github.blog/ai-and-ml/github-copilot/60-million-copilot-code-reviews-and-counting/">GitHub account of Copilot code review</a> reports <strong>60 million</strong> reviews, <strong>10×</strong> growth, more than <strong>one in five</strong> code reviews on GitHub, and automatic runs in <strong>12,000 organizations</strong>. Those are review events and adoption telemetry, not accepted-and-useful reviews. The same account's volume therefore makes verification capacity more important, not less.</p>
+            <p><a href="https://cursor.com/blog/building-bugbot">Cursor's Bugbot account</a> reports resolution rising from <strong>52% to over 70%</strong> across its workflow. This is a vendor case result, not a general review-quality measurement. Its useful implication is bounded: automated review can find and resolve more issues in a configured workflow, while humans still need to judge whether the issue, fix, and residual risk are acceptable.</p>
+            <p>The direct role evidence is a longitudinal survey by <a href="https://arxiv.org/abs/2605.23135">Vella and Blincoe</a>, not a productivity benchmark. The two-wave survey went from <strong>158 to 101 participants</strong>, with <strong>95 matched</strong> responses. <strong>82%</strong> reported spending less time writing code; respondents described a shift from creation to <strong>verification</strong> and <strong>supervisory engineering work</strong>. The same self-report study contains a paradox: <strong>84%</strong> perceived improvement, while worsened experience rose from <strong>14% to 27%</strong>. These are perceptions over a six-month window from one cohort, but they directly support a cautious claim that the work can change character.</p>
+            <p>The larger observational evidence is consistent with that pressure. An <a href="https://arxiv.org/abs/2601.15195">agent-PR study</a> analyzed <strong>33k agent-authored PRs</strong> from five agents: documentation, CI, and build tasks merged best, while performance and bug-fix tasks performed worst. Non-merges were associated with larger diffs, more files, and CI failures. A <strong>600-PR</strong> taxonomy included reviewer disengagement, duplicates, unwanted features, and misalignment. This measures neither delay nor production loss; it shows why generated changes need an evidence and repair path.</p>
+            <p>The following conceptual loop makes the allocation shift explicit. It combines the self-report role evidence with duties documented in production accounts; it is not a measured universal sequence:</p>
+
+<pre class="mermaid">
+    flowchart TD
+        B1["Implementation leverage rises in some regimes"] --> B2["Review and verification load grows"]
+        B2 --> B3["Integration and human attention become the constraint"]
+        B3 --> B4["Leverage moves to specification, architecture, and feedback design"]
+        classDef good fill:#14532d,stroke:#22c55e,color:#e6eef8
+        classDef blue fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+        classDef gate fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+        class B1 good
+        class B2,B3 blue
+        class B4 gate
+</pre>
+
+            <p>This is why <a href="/notes/verification-first-software-engineering/">verification-first software engineering</a>, <a href="/notes/the-change-is-the-unit-of-assurance/">the change as the unit of assurance</a>, and <a href="/notes/beyond-evals-assurance-model/">Beyond evals</a> matter here: durable leverage connects intent to tests, review, security gates, integration, deployment, telemetry, diagnosis, and recovery.</p>
+            <p>The production loop is a conditional model of system ownership. Human approval gates appear only where documented:</p>
+
+<pre class="mermaid">
+    flowchart TD
+        H["Engineer defines intent, architecture, constraints"] --> A["Implementation agents run tasks in parallel"]
+        A --> V["Tests, evals, review, security gates"]
+        V --> D["Integration and deployment"]
+        D --> P["Production telemetry"]
+        P --> F["Diagnosis and improvement"]
+        F --> H
+        H --> G["Human approval gates - where documented"]
+        G --> D
+        classDef neutral fill:#1f2937,stroke:#6b7280,color:#e6eef8
+        classDef gate fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+        classDef good fill:#14532d,stroke:#22c55e,color:#e6eef8
+        class H,A,D neutral
+        class V,G gate
+        class P,F good
+</pre>
+
+            <h2>The machines that actually exist</h2>
+            <p>The production accounts are useful as existence proofs, not as population estimates. In its <a href="https://openai.com/index/harness-engineering/">five-month harness account</a>, OpenAI reports <strong>0 lines of manually-written code</strong>, a team moving from <strong>3 to 7 engineers</strong>, about <strong>1,500 pull requests</strong>, about <strong>1 million lines of code</strong>, and <strong>3.5 PRs per engineer per day</strong>. The same account says runs can last <strong>upwards of 6 hours</strong> and describes the result as built in approximately <strong>1/10th the time</strong> it would have taken by hand. That last figure is the company's author estimate, not a measured speedup. The account also says the bottleneck became human QA capacity, while failed runs, human rescue, task mix, and quality outcomes are not disclosed.</p>
+            <p><a href="https://openai.com/index/open-source-codex-orchestration-symphony/">OpenAI's Symphony account</a> reports a <strong>500% increase</strong> in landed pull requests <strong>on some teams within the first three weeks</strong>, while describing an interactive ceiling of <strong>3–5 agent sessions</strong>. “Some teams” and “first three weeks” are part of the claim. The board acts as a control plane and tickets can represent larger work units, but human attention remains a constraint when those units produce changes that need review. METR's 2026 bound still applies: its evidence is only very weak evidence for the size of later improvement.</p>
+            <p>Anthropic's <a href="https://www.anthropic.com/engineering/building-c-compiler">compiler account</a> reports <strong>16 agents</strong>, nearly <strong>2,000 Claude Code sessions</strong>, and <strong>$20,000</strong> spent on a <strong>100,000-line compiler</strong> that can build Linux 6.9 on x86, ARM, and RISC-V. The work ran for two weeks and used <strong>2B input tokens</strong> and <strong>140M output tokens</strong>. Its concurrency story is as important as its result: agents overwrote one another until a deterministic oracle using GCC cross-checks supplied a coordination boundary. Anthropic's <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">harness account</a> frames long-running agents around human-engineer-inspired structure and documents four failure modes. These are company technical accounts; they can omit failed runs and rescue effort.</p>
+            <p>The <a href="https://bun.com/blog/bun-in-rust">Bun Rust rewrite account</a> reports <strong>535,496 lines of Zig</strong>, about <strong>50 dynamic workflows</strong> over <strong>11 days</strong>, <strong>64 Claudes running for 11 days</strong>, and <strong>6,778 commits</strong> from May 3 to the merge on May 14. The net diff was <strong>+1,009,272</strong> lines, and the account says <strong>0 tests were skipped or deleted</strong>. Its statement that the work would take a small team a <strong>full year</strong> is an attributed counterfactual, not a measured comparison. Human monitoring continued throughout, so the commit count is not a substitute for verification. METR's 2026 update remains the bound on treating any such case as a general speed result.</p>
+            <p>Other accounts show the same system shape with different limits. <a href="https://github.blog/ai-and-ml/github-copilot/how-to-orchestrate-agents-using-mission-control/">GitHub Mission Control</a> describes orchestrating a small fleet. Cursor's <a href="https://cursor.com/blog/amplitude">Amplitude account</a> reports <strong>3× weekly production commits</strong> and <strong>60–70% of low-risk PRs merged directly</strong>, with a cloud-versus-local ceiling. Its <a href="https://cursor.com/blog/faire">Faire account</a> reports <strong>2× PR throughput</strong> and attributes an <strong>18-month migration compression</strong> to the workflow; that is a company estimate, not a controlled measurement. <a href="https://cursor.com/blog/automations">Cursor Automations</a> documents security review on push, agentic codeowners, and incident response. Review, integration, and operational ownership remain part of every account.</p>
+            <p>These systems resemble a programmable runtime layer. <a href="/notes/the-harness-is-becoming-the-runtime/">The harness is becoming the runtime</a> describes that boundary; the operational question is who maintains the gates when many tasks are live.</p>
+
+            <h2>Concurrency and coordination economics</h2>
+            <p>Parallel implementation creates a bill in conflicts, overwrites, and integration work. <a href="https://arxiv.org/abs/2604.03551">AgenticFlict</a> collected <strong>142K+ Agentic PRs from 59K+ repositories</strong>, of which <strong>107K+</strong> were processed through deterministic merge simulation. <strong>29K+ PRs</strong> exhibited simulated merge conflicts, yielding a <strong>27.67% conflict rate</strong>, with <strong>336K+ fine-grained conflict regions</strong>. This is an observational simulation denominator, not a production-merge rate. Conflict incidence is a coordination cost in the simulation; it is not merge delay, production loss, or a net productivity estimate.</p>
+            <p>The <a href="https://arxiv.org/abs/2607.04697">concurrent-agent replay study</a> reports textual conflict rates of <strong>41.7% versus 19.8%</strong> for cross-agent versus intra-agent conflicts in its analyzed replay subset, with non-overlapping 95% confidence intervals. In the same study, only <strong>0.5% of co-active pairs were cross-agent</strong>. The base rate matters: a high conditional conflict rate does not mean cross-agent coordination dominates all work. These two studies use different populations and methods and should not be aggregated.</p>
+            <p>Anthropic's compiler account supplies a concrete mechanism for the abstract cost. Independent agents overwrote one another until a deterministic oracle could compare compiler behavior against GCC. That does not show every multi-agent build needs the same oracle, but it shows that parallel generation needs a truth source and integration boundary. The software-producing system owns those boundaries, including when to stop, retry, split, or hand work back to a human. METR's 2026 update still says its data is only very weak evidence for later improvement; simulated conflict rates cannot repair that limitation.</p>
+
+            <h2>Smaller teams, flatter orgs: context, not cause</h2>
+            <p>Organizational interpretation needs controls before it needs an AI story. Meta's <a href="https://about.fb.com/news/2023/03/mark-zuckerberg-meta-year-of-efficiency/">2023 Year of Efficiency account</a> described approximately <strong>10,000 roles cut</strong> and <strong>5,000 open requisitions closed</strong>, alongside a plan to remove multiple layers of management. That program predates the agent-intensive workflows discussed here. It is a reminder that the post-2022 efficiency cycle, macro conditions, and management redesign are competing explanations for organization-level movement.</p>
+            <p>Carta's <a href="https://carta.com/data/newsletter-ai-takes-startup-jobs/">marketplace data note</a> reports that a Series-A company in <strong>2024</strong> had a median of <strong>15 full-time employees</strong>, down from <strong>22</strong> in <strong>2022</strong>. The author says it would be inaccurate to pin the entirety of that difference on AI and closes with “No final conclusions yet.” That is the appropriate register for this note: a cohort comparison is context, not an identified effect.</p>
+            <p>SignalFire's <a href="https://www.signalfire.com/blog/signalfire-state-of-talent-report-2026">2026 State of Talent report</a> reports engineering-manager spans of about <strong>12</strong>, up from <strong>10</strong> at technology majors, a <strong>+14%</strong> change versus 2019; startup spans are about <strong>15</strong>, a <strong>+34%</strong> change. It also reports PMs at <strong>+22%</strong> and engineers at <strong>55% of all hiring</strong>, versus <strong>46% in 2019</strong>. This is proprietary recruiting-report data over its own periods and is correlational. It can describe a concurrent staffing pattern, not an AI effect.</p>
+            <p>The accounts and surveys support a hypothesis that implementation capacity and verification duties are being reorganized in some teams. They do not establish smaller teams, fewer managers, a flatter hierarchy, or a general change in seniority mix. A careful organizational analysis would need controls for the efficiency cycle, company stage, revenue, product mix, labor market conditions, and selection into agent-intensive work before attributing any organizational outcome to agents.</p>
+
+            <h2>The lineage: ownership is old; programmable implementation capacity is the new element to test</h2>
+            <p>This is not a clean succession. Specialist roles, full-stack work, DevOps, platform engineering, Staff-plus engineering, AI-assisted engineering, and agent orchestration overlap. The DevOps lineage is often summarized by Werner Vogels's “you build it, you run it” formulation in <a href="https://aws.amazon.com/blogs/aws/acm_queue_inter/">ACM Queue from 2006</a>. Platform engineering made shared environments explicit; Backstage's <a href="https://backstage.spotify.com/discover/backstage-101/">project history</a> dates its first internal version to <strong>2018</strong> and reports adoption by <strong>over 2,600 companies</strong>.</p>
+            <p>Those dates are antecedents, not proof of a new succession. The novelty worth testing is narrower: documented instances where agents, reusable harnesses, and verification gates make implementation capacity programmable. “You build it, you run it” can become defining the conditions under which a fleet builds, verifies, ships, observes, and repairs. That interpretation remains conditional on the gates working.</p>
+
+            <h2>What it means role by role</h2>
+            <p>For junior and mid-level engineers, agent-intensive workflows may raise the implementation floor while making the learning path less obvious. A generated change can be easy to request and difficult to understand. Durable skills include stating intent, inspecting assumptions, building tests, interpreting failures, and explaining why a change belongs in the system. This is an interpretation, not a measured career outcome.</p>
+            <p>For senior and Staff-plus engineers, the ownership shift is more concrete but still bounded. The Vella and Blincoe longitudinal survey is the direct self-report evidence for the creation-to-verification shift and supervisory engineering work. Production accounts document engineers defining task units, maintaining harnesses, setting verification gates, resolving integration failures, and closing telemetry loops. Those duties support an observed-in-account or inferred workflow claim. PR volume and agent counts alone would not support it.</p>
+            <p>For managers, the practical problem is calibration. A <a href="https://newsletter.pragmaticengineer.com/p/the-great-engineering-leader-career-break">Pragmatic Engineer account</a> offers secondary practitioner context for how leadership work may change, but it is a hypothesis generator, not causal evidence. Managers still need to distinguish more generated changes from more valuable changes, and more review events from more reliable review. The Vella and Blincoe paradox is the warning: perceived improvement and worsened experience can coexist when flow and cognitive load change.</p>
+            <p>The METR bound belongs here too: its 16-developer early-2025 randomized trial does not justify a universal speed assumption, and its 2026 update calls later improvement evidence only very weak. Career advice that assumes every team has crossed into system ownership would outrun the evidence.</p>
+
+            <h2>The operational question</h2>
+            <p>The useful question for an engineer is not “How many agents can I start?” It is: <strong>What system would let this class of feature be implemented, verified, shipped, observed and improved repeatedly without depending on me to write every line?</strong></p>
+            <p>Answering that question is itself system ownership. It requires a specification boundary, task decomposition that preserves intent, agents with bounded authority, verification that can reject plausible work, integration rules for parallel changes, deployment and telemetry, and a feedback path that turns failures into better constraints. It also requires knowing where the system is not ready: when the review queue is saturated, the oracle is weak, the task is under-specified, or the cost of coordination exceeds the implementation saving.</p>
+            <p>The conclusion is partial. Evidence is comparatively strong that bounded implementation leverage can coexist with a larger verification and integration burden, and that several frontier teams have built reusable systems around that burden. Evidence is weak and mostly correlational for organizational restructuring. The next engineering move is not to declare the feature obsolete. It is to make the production system around the feature explicit, measurable, and owned.</p>
+
+            <h2>Practical Takeaways</h2>
+            <ul>
+              <li>Keep implementation productivity claims separate from ownership claims. A completed-task count or PR count is not evidence of a role change.</li>
+              <li>Put review, verification, repair, and integration costs next to every generation-volume figure.</li>
+              <li>Treat vendor accounts as existence proofs. Record the task mix, human rescue, failed runs, gates, and outcome evidence they do not disclose.</li>
+              <li>If agents run in parallel, define the truth source, merge boundary, retry policy, and human stop condition before increasing concurrency.</li>
+              <li>Test system ownership through repeated feature delivery with observable feedback, not through agent count or organizational anecdotes.</li>
+            </ul>
+
+            <h2>Positioning Note</h2>
+            <p>This is practitioner analysis, not an academic meta-analysis, a vendor tutorial, or a claim that one operating model is standard. It connects the evidence to earlier rmax.ai notes on <a href="/notes/from-human-orchestrated-agent-to-autonomous-control-plane/">operating agent systems</a>, harnesses, verification, changes, and production assurance, while keeping measured studies, surveys, vendor cases, simulations, and interpretation in separate registers. The organizational section is deliberately contextual: it does not attribute team size or hierarchy to AI.</p>
+
+            <h2>Status &amp; Scope</h2>
+            <p>This note was prepared from public sources checked on 2026-09-28. It is an evidence-labeled analysis for senior engineers, Staff-plus ICs, and engineering leaders evaluating agent-intensive workflows. The workflow thesis is partially supported by randomized studies, surveys, observational studies, and documented company accounts; the ownership interpretation is narrower and the organizational conclusion remains preliminary. Vendor cases omit information about failed runs and rescue effort, survey findings are self-reported or correlational, and simulations and replays do not establish production outcomes. This is not authoritative organizational guidance or a benchmark of agent quality.</p>
+
+            <h2 id="references">References</h2>
+            <ul class="references">
+              <li><a href="https://www.microsoft.com/en-us/research/publication/the-effects-of-generative-ai-on-high-skilled-work-evidence-from-three-field-experiments-with-software-developers/">Microsoft Research: The effects of generative AI on high-skilled work</a></li>
+              <li><a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">METR: Early-2025 AI experienced open-source developer study</a></li>
+              <li><a href="https://metr.org/blog/2026-02-24/uplift-update/">METR: Uplift update</a></li>
+              <li><a href="https://dora.dev/research/2025/dora-report/">DORA 2025 report</a></li>
+              <li><a href="https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report">Google Cloud announcement of the 2025 DORA report</a></li>
+              <li><a href="https://openai.com/index/harness-engineering/">OpenAI: Harness engineering</a></li>
+              <li><a href="https://openai.com/index/open-source-codex-orchestration-symphony/">OpenAI: Open-source Codex orchestration with Symphony</a></li>
+              <li><a href="https://www.anthropic.com/engineering/building-c-compiler">Anthropic: Building a C compiler with parallel Claude Code agents</a></li>
+              <li><a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Anthropic: Effective harnesses for long-running agents</a></li>
+              <li><a href="https://bun.com/blog/bun-in-rust">Bun: Rewriting Bun in Rust</a></li>
+              <li><a href="https://arxiv.org/abs/2604.03551">AgenticFlict simulation study</a></li>
+              <li><a href="https://arxiv.org/abs/2607.04697">Concurrent-agent replay study</a></li>
+              <li><a href="https://arxiv.org/abs/2601.15195">Agent PR failures study</a></li>
+              <li><a href="https://arxiv.org/abs/2605.23135">Vella and Blincoe: Longitudinal survey</a></li>
+              <li><a href="https://github.blog/ai-and-ml/github-copilot/how-to-orchestrate-agents-using-mission-control/">GitHub Mission Control</a></li>
+              <li><a href="https://github.blog/ai-and-ml/github-copilot/60-million-copilot-code-reviews-and-counting/">GitHub: 60 million Copilot code reviews</a></li>
+              <li><a href="https://cursor.com/blog/automations">Cursor Automations</a></li>
+              <li><a href="https://cursor.com/blog/building-bugbot">Cursor: Building Bugbot</a></li>
+              <li><a href="https://cursor.com/blog/amplitude">Cursor: Amplitude</a></li>
+              <li><a href="https://cursor.com/blog/faire">Cursor: Faire</a></li>
+              <li><a href="https://www.signalfire.com/blog/signalfire-state-of-talent-report-2026">SignalFire State of Talent report</a></li>
+              <li><a href="https://carta.com/data/newsletter-ai-takes-startup-jobs/">Carta: AI takes startup jobs</a></li>
+              <li><a href="https://about.fb.com/news/2023/03/mark-zuckerberg-meta-year-of-efficiency/">Meta: Year of Efficiency</a></li>
+              <li><a href="https://aws.amazon.com/blogs/aws/acm_queue_inter/">ACM Queue lineage reference</a></li>
+              <li><a href="https://backstage.spotify.com/discover/backstage-101/">Backstage 101</a></li>
+              <li><a href="https://newsletter.pragmaticengineer.com/p/the-great-engineering-leader-career-break">Pragmatic Engineer: The great engineering leader career break</a></li>
+            </ul>
+          </div>
+        </article>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        themeCSS: '.label foreignObject { overflow: visible; }',
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+          wrappingWidth: 340,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+
+    <script>
+      window.footerThoughts = [
+        { text: "I own the system that turns intent into verified changes, not only the code an agent writes.", agent: "Ownership Agent" },
+        { text: "I keep review, coordination, and repair beside every claim of implementation leverage.", agent: "Verification Agent" },
+        { text: "I treat organizational conclusions as hypotheses until the controls and denominators are clear.", agent: "Evidence Agent" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
