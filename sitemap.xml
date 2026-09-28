@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-09-24T23:42:59Z</lastmod>
+    <lastmod>2026-09-28T01:56:22Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-09-24T23:42:59Z</lastmod>
+    <lastmod>2026-09-28T01:56:22Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -153,6 +153,10 @@
     <lastmod>2026-07-21T21:35:01Z</lastmod>
   </url>
   <url>
+    <loc>https://rmax.ai/notes/from-human-orchestrated-agent-to-autonomous-control-plane/</loc>
+    <lastmod>2026-09-25T08:39:40Z</lastmod>
+  </url>
+  <url>
     <loc>https://rmax.ai/notes/from-prompting-to-cultivation/</loc>
     <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
@@ -205,10 +209,6 @@
     <lastmod>2026-07-26T21:43:23Z</lastmod>
   </url>
   <url>
-    <loc>https://rmax.ai/notes/from-human-orchestrated-agent-to-autonomous-control-plane/</loc>
-    <lastmod>2026-09-25T08:39:40Z</lastmod>
-  </url>
-  <url>
     <loc>https://rmax.ai/notes/open-source-after-coding-agents/</loc>
     <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
@@ -255,6 +255,10 @@
   <url>
     <loc>https://rmax.ai/notes/stop-evaluating-ai-one-response-at-a-time/</loc>
     <lastmod>2026-08-04T22:19:16Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/system-one-decision-models-agent-infrastructure/</loc>
+    <lastmod>2026-09-28T01:48:57Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/tests-not-silver-bullet-resilience-first-observability/</loc>

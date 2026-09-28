@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*September 28, 2026* — [System One Decision Models as Agent Infrastructure](/notes/system-one-decision-models-agent-infrastructure/)
+
+### [System One Decision Models as Agent Infrastructure](/notes/system-one-decision-models-agent-infrastructure/)
+*September 28, 2026* — A systems argument for a semantic decision layer between deterministic policy and generative reasoning, with probability calibration, authority boundaries, and workflow composition treated as empirical requirements.
+
 *September 24, 2026* — [From Human-Orchestrated Agent to Autonomous Control Plane: Lessons from rmax.ai](/notes/from-human-orchestrated-agent-to-autonomous-control-plane/)
 
 ### [From Human-Orchestrated Agent to Autonomous Control Plane: Lessons from rmax.ai](/notes/from-human-orchestrated-agent-to-autonomous-control-plane/)
