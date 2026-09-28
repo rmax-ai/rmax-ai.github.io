@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Read the Whole Paper: Lessons from Benchmarking AI Research Pipelines — rmax.ai</title>
+    <meta name="description" content="A benchmark-driven field report on evidence loss in selective reading and model handoffs, and a measured full-text verification path." />
+    <meta name="author" content="rmax.ai AI assistants" />
+    <link rel="canonical" href="https://rmax.ai/notes/read-the-whole-paper-ai-research-pipelines/" />
+
+    <meta property="og:title" content="Read the Whole Paper: Lessons from Benchmarking AI Research Pipelines" />
+    <meta property="og:description" content="A benchmark-driven field report on evidence loss in selective reading and model handoffs, and a measured full-text verification path." />
+    <meta property="og:url" content="https://rmax.ai/notes/read-the-whole-paper-ai-research-pipelines/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-27" />
+    <meta property="article:modified_time" content="2026-09-27" />
+    <meta property="article:author" content="rmax.ai AI assistants" />
+    <meta property="article:section" content="notes" />
+    <meta property="article:tag" content="AI research pipelines" />
+    <meta property="article:tag" content="evidence preservation" />
+    <meta property="article:tag" content="LLM benchmarking" />
+    <meta property="article:tag" content="technical evaluation" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css">
+    <style>
+:root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li { margin-bottom: 12px; }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p { margin: 0; }
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content { margin-top: 32px; }
+      .references li { overflow-wrap: anywhere; }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+      @media (max-width: 600px) {
+        .wrap { margin: 20px auto; }
+        header { flex-direction: column; align-items: flex-start; }
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        vertical-align: top;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      @media (max-width: 600px) {
+        table { font-size: 0.85rem; }
+        th, td { padding: 8px 10px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+<header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo" aria-label="rmax.ai logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener" aria-label="rmax.ai on GitHub">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </nav>
+      </header>
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>Read the Whole Paper: Lessons from Benchmarking AI Research Pipelines</h1>
+            <div class="post-meta">
+              <span>2026-09-27</span>
+              <span>•</span>
+              <span>10–12 min read</span>
+              <span>•</span>
+              <span>rmax.ai AI assistants</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+<p>This field report tests whether two AI research-pipeline optimizations can reduce work without losing evidence: selective page reading and a cheap-model evidence packet handed to a synthesizer. In the measured runs, both lost load-bearing information, while full extracted text sent to one model followed by deterministic evidence checks had better measured outcomes at lower cost than the staged arm. The result supports a narrow rule: every compression boundary must demonstrate that it preserves the evidence its downstream decision needs.</p>
+<h2>The PDF wall</h2>
+<p>Paper discovery is easier to automate than evidence-grounded research memory. Feeds, metadata, and relevance scores identify candidates; a durable record still requires evidence to survive acquisition, extraction, synthesis, and citation. Each efficiency step can lower cost while removing detail needed to defend a conclusion.</p>
+<p>We tested three operational questions in the public <a href="https://github.com/rmax-ai/ai-papers-routing-benchmark">AI papers routing benchmark</a>: can a pipeline avoid reading every page, can a cheap model compress a paper before a stronger model sees it, and can a probabilistic evaluator decide what deserves deeper processing? The benchmark’s <a href="https://github.com/rmax-ai/ai-papers-routing-benchmark/blob/main/report/report.md">benchmark report</a> and <a href="https://github.com/rmax-ai/ai-papers-routing-benchmark/blob/main/artifacts/failures/selective-reading.md">selective-reading failure walkthrough</a> document the first experiment; its <a href="https://github.com/rmax-ai/ai-papers-routing-benchmark/tree/main/dq84-luna-vs-gemini">two-arm comparison</a> documents the second.</p>
+<p>The evidence supports a bounded conclusion, not a universal reading strategy: two tested efficiency strategies lost reference evidence, while a simpler path did better among the measured arms. We distinguish observed outcomes from interpretation and open questions because the samples, references, and evaluators limit what these measurements establish.</p>
+<h2>The architecture that looked sensible</h2>
+<p>The intuition was progressive narrowing: route papers by relevance, inspect likely-important pages, extract claims with a low-cost model, pass a compact packet to a synthesis model, then verify before storage. A probabilistic evaluator could route expensive attention. Each stage seemed to lower token use or reserve model effort for promising material.</p>
+<p>That design added interfaces. A page selector had to request unseen evidence; an extractor had to choose what fit a fixed packet; a synthesizer had to interpret its schema and preserve contents; a verifier had to distinguish supported claims from plausible prose. Each interface assumes what matters and what can be discarded.</p>
+<p>We treated the optimizations as hypotheses, asking what each boundary removed and whether savings compensated for lost reference evidence. The results changed our baseline architecture.</p>
+<pre class="mermaid">
+    flowchart TD
+        subgraph rejected["Rejected hypotheses"]
+            H1["Hypothesis 1 - skip the full PDF"] --> S1["Selective page reading - 34 of 203 pages"]
+            S1 --> M1["Missed load-bearing evidence - page recall 0.309"]
+            M1 --> X1["Rejected"]
+            H2["Hypothesis 2 - cheap extractor before the strong model"] --> S2["Gemini packet to Luna synthesis"]
+            S2 --> M2["Handoff loss - 7 of 24 matched claims lost"]
+            M2 --> X2["Rejected"]
+        end
+        subgraph kept["Measured path"]
+            K1["Full text to one model - Luna, reasoning off"] --> K2["Deterministic evidence verification"]
+            K2 --> K3["Only tested cell inside the post-hoc gates"]
+        end
+        X2 ~~~ K1
+        classDef neutral fill:#1f2937,stroke:#6b7280,color:#e6eef8
+        classDef bad fill:#7f1d1d,stroke:#ef4444,color:#e6eef8
+        classDef good fill:#14532d,stroke:#22c55e,color:#e6eef8
+        class H1,S1,H2,S2 neutral
+        class M1,X1,M2,X2 bad
+        class K1,K2,K3 good
+</pre>
+<h2>Hypothesis 1 — “we don’t need to read the whole PDF”</h2>
+<p>Selective reading seemed like the most direct way to reduce work: render pages, inspect a subset, and request more when evidence was missing. The tested reader used Gemini Flash-Lite to inspect visual page images rendered with PyMuPDF. In the eight-paper deep evaluation, it examined 34 of 203 pages (16.7%). The model was asked to request additional pages when needed but requested none on all eight papers. Its <code>stop_reason</code> was free-form prose rather than the requested stop token, so the loop ended because the model returned no page requests. This is a strategy and contract failure, not evidence that the bounded loop knew when it had enough.</p>
+<p><strong>Observed.</strong> Against the full-document operational reference, selective reading reached 0.309 mean load-bearing-page recall and 0.212 mean claim recall at the primary lexical threshold, content-word Jaccard ≥ 0.20. These are overlap measures, not semantic entailment scores, and the reference is a practical comparison target rather than independent truth. On one paper, the output missed all four reference claims, including 33/505 confirmed reward-hack cases and a 40.5% cumulative evasion result. On another, it missed three claims, including a reported 98% best-of-three evasion-attempt rate and an 88% success rate. On a third, it missed three of five claims, including the late-commit and unknown-in-flight limit on exactly-once guarantees.</p>
+<p><strong>Interpretation.</strong> The benchmark’s post-hoc, non-preregistered tolerances were at most 0.5/4 loss in faithfulness and evidence support, at least 0.90 evidence-page and claim recall, and at least 0.95 normalized schema and page-reference validity. No selective pipeline met them. Only the full-document reference → GPT-6 Luna cell met its own reference-quality and structural gates. For eight papers, that cell cost $0.112304 ($0.079122 extraction, $0.033183 generation), passed the canonical schema 8/8, and reached 0.776 citation quote containment. The full evaluation cost approximately $0.538550 estimated across 300 saved attempts in triage, page strategies, generation arms, blind judging, and post-checks—6.7% of the $8 cap. Costs are rate-card estimates from recorded usage, not invoices.</p>
+<p><strong>Open.</strong> The 24 papers were purposively selected: 12 high-value proxies, 8 adjacent papers, and 4 negative controls, balanced by construction rather than randomly sampled. The eight-paper deep subset was preselected as long and figure/table-heavy; six papers were 20+ pages. These are proxies, not a gold relevance set. We reject this tested strategy for this evidence task, not selective reading everywhere. A future contract needs explicit page requests, preserved stop-token semantics, and recall measured against a larger, independently adjudicated evidence set.</p>
+<h2>Hypothesis 2 — “let a cheap model extract the evidence”</h2>
+<p>The next hypothesis retained the full document at acquisition but compressed it before synthesis. Both arms used the same Luna system prompt and output schema. Arm A sent full extracted paper text to GPT-6 Luna in one call per paper. Arm B sent that text to Gemini Flash-Lite, then sent its evidence packet to Luna. The packet had exactly four fields: <code>candidate_claims</code>, <code>key_claims</code>, <code>limitations</code>, and <code>load_bearing_pages</code>, serialized with sorted keys, compact separators, and UTF-8. <code>requested_pages</code> and <code>stop_reason</code> were omitted. The two stages ran serially per paper.</p>
+<table>
+<thead>
+<tr>
+<th>Measure</th>
+<th>Full text → Luna (A)</th>
+<th>Gemini packet → Luna (B)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean load-bearing-page recall</td>
+<td>0.509</td>
+<td>0.273</td>
+</tr>
+<tr>
+<td>Cited-quote containment</td>
+<td>0.804</td>
+<td>0.654</td>
+</tr>
+<tr>
+<td>Unsupported or weak claims</td>
+<td>13.3% (6/45)</td>
+<td>43.2% (19/44)</td>
+</tr>
+<tr>
+<td>Estimated cost per paper</td>
+<td>$0.003639</td>
+<td>$0.010907</td>
+</tr>
+<tr>
+<td>Median latency per paper</td>
+<td>15.4 s</td>
+<td>39.8 s</td>
+</tr>
+<tr>
+<td>Blind-judge means (n=7)</td>
+<td>Faithfulness 4.00 / evidence support 4.00 / depth 4.00</td>
+<td>3.286 / 2.714 / 2.714</td>
+</tr>
+<tr>
+<td>Schema (native, normalized)</td>
+<td>8/8, 8/8</td>
+<td>8/8, 7/8</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Observed.</strong> The packet found material; synthesis failed to preserve some of it. Across 25 paper-specific reference-claim instances at the primary lexical threshold, the packet matched 24 and final B matched 17. Luna lost seven packet-matched claims and recovered zero packet misses. Page-level results were less uniform: packet evidence-reference recall was 0.231 and the final artifact reached 0.273. One packet-matched claim scored 0.414 Jaccard, then 0.035 in the final artifact. The measured loss is clearest in claims, not uniform across pages.</p>
+<pre class="mermaid">
+    flowchart TD
+        P["Full paper text"] --> G["Gemini packet stage - matched 24 of 25 reference claims"]
+        G --> B["Packet boundary - loss point - 7 matched claims lost"]
+        B --> L["Luna synthesis - final artifact matched 17 of 25"]
+        L --> O["Downstream insight"]
+        classDef neutral fill:#1f2937,stroke:#6b7280,color:#e6eef8
+        classDef loss fill:#7f1d1d,stroke:#ef4444,color:#e6eef8
+        class P,G,L,O neutral
+        class B loss
+</pre>
+<p><strong>Interpretation.</strong> An intermediate representation is a lossy interface, not a free abstraction: a handoff adds omission, serialization, schema, and synthesis choices. In this run, the extra boundary did not preserve enough evidence to justify its added cost and latency. The result does not rule out other packet formats or synthesis strategies.</p>
+<p><strong>Open.</strong> The apparent lexical claim-overlap advantage for B (0.652 versus 0.440) is confounded: the operational reference came from the same model family as B’s extraction stage, so it is not independent truth. Claim, page, and quote metrics are lexical, not semantic entailment. The blind judge was a single small judge (n=7 usable cells), ceiling-heavy for A (all normalized ratings were 4/4), with imperfect format compliance; no second judge produced usable scores. The subset was purposive n=8; costs are estimates and latency is serial wall time per paper.</p>
+<p>The run used <code>reasoning_effort=none</code>; a four-paper medium-effort sensitivity arm showed no measured quality gain. B’s post-hoc improvement rule—at least +0.5/4 judge gain or +10 percentage points recall, positive in at least six of eight pairs—was applied after the run. It is pragmatic for this small sample, not a universal rule. A still missed substantial reference evidence (page recall 0.509): it was best among those tested, not complete.</p>
+<h2>The simpler architecture</h2>
+<p>We changed the baseline to advisory relevance triage, exact-version full-document acquisition, deterministic extraction with stable evidence IDs, one GPT-6 Luna pass at reasoning off with strict structured output, deterministic evidence-reference validation, and an immutable record. This removes selective-page requests and model-to-model packet handoff from the measured path; synthesis must point to evidence assembled before generation.</p>
+<p><strong>Interpretation.</strong> The full-document Luna cell alone met the post-hoc quality and structural gates. In the two-arm evaluation it had stronger measured results than the staged arm across page recall, quote containment, unsupported-claim rate, judge means, schema validity, estimated cost, and median latency. That motivates this benchmark’s simpler default, not an optimal or universal design. Its 0.509 page recall still leaves evidence unrepresented.</p>
+<pre class="mermaid">
+    flowchart TD
+        S["Paper signals"] --> T["Cheap relevance triage - advisory"]
+        T --> A["Exact-version full-document acquisition"]
+        A --> E["Deterministic extraction + stable evidence IDs"]
+        E --> M["Luna - reasoning off - strict structured output"]
+        M --> V["Deterministic evidence-reference validation"]
+        V --> I["Immutable PaperInsight"]
+        classDef neutral fill:#1f2937,stroke:#6b7280,color:#e6eef8
+        classDef gate fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+        class S,T,A,E,M,I neutral
+        class V gate
+</pre>
+<p>The architecture constrains probabilistic interpretation: acquisition pins the source version; extraction creates addressable evidence blocks; the model proposes structured claims and selects IDs. Deterministic code checks each ID and resolves its source location and text before a durable record is written. Verification becomes a system boundary, not a style instruction to cite carefully.</p>
+<h2>Where JEV actually fit</h2>
+<p>The same evaluator can prioritize triage without serving as a truth gate. The table separates observed threshold results from the operational use indicated by this purposive n=24 sample.</p>
+<p>This is the operational case for the earlier <a href="https://rmax.ai/notes/jev-vs-generative-models-for-typed-software-decisions/">distinction between typed probabilistic decisions and generative judgment</a>. Route work to review with probabilistic scores; enforce evidence invariants with deterministic checks. These purposive proxy labels and small-sample thresholds guide attention, not deployment guarantees.</p>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Observed result</th>
+<th>Operational use indicated by this sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Triage at P(relevant) ≥ 0.70</td>
+<td>Proxy precision 0.857; recall 1.000 (12/12); roughly $0.000047 per call</td>
+<td>Prioritize escalation; keep 0.50–0.69 for review and do not auto-discard below it</td>
+</tr>
+<tr>
+<td>Truth check at P(supported) ≥ 0.75</td>
+<td>19 of 43 predicted-supported candidates failed exact quote containment</td>
+<td>Not a sufficient acceptance gate</td>
+</tr>
+<tr>
+<td>Truth check at P(supported) ≥ 0.95</td>
+<td>Proxy precision 0.80; recall 0.154</td>
+<td>Higher precision came with low recall; no balanced automatic threshold measured</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interpretation.</strong> Probabilistic scores can direct attention, but these small-sample thresholds do not support automatic discard or evidence acceptance. A typed probability does not establish that a claim has evidence.</p>
+<h2>Don’t let the LLM write the citation</h2>
+<p><strong>Recommendation.</strong> Separate evidence discovery from citation rendering. Before generation, extraction pins the source version and assigns stable IDs to addressable evidence blocks. The model returns a claim, limitation, and structure while selecting IDs. Deterministic code resolves each ID against the pinned source to page, section, quote, offsets, and source hash. Dangling IDs and model-authored coordinates are hard validation failures.</p>
+<p>Stable identifiers do not make an interpretation correct: the model can still miss or select the wrong evidence. They make provenance checkable and give later stages a failure signal for review or re-extraction, instead of letting a plausible page number or quotation authorize itself.</p>
+<p>The distinction connects to <a href="https://rmax.ai/notes/deep-research-evidence-workflow/">deep research as an evidence workflow</a> and <a href="https://rmax.ai/notes/the-change-is-the-unit-of-assurance/">assurance attached to verifiable changes and evidence</a>. A durable object needs enough linked evidence and validation state for a downstream operator to inspect what the system relied on.</p>
+<h2>What this says about agent architecture</h2>
+<p>This is a pipeline result, not a provider leaderboard. Every compression boundary chooses what survives. In evidence-grounded synthesis, an omitted limitation can cost more than the saved tokens; measure that cost against downstream decisions, not packet size or model confidence.</p>
+<p>Model and agent handoffs are information bottlenecks. A schema makes a boundary explicit but cannot ensure it carries every relevant fact or that the next model preserves each field. Extra stages should show task-relevant evidence gains, with latency, cost, and failure handling measured too. Simpler pipelines can cost less by removing serial calls and failure surfaces.</p>
+<p>Optimize for evidence preservation, not token minimization alone. That fits <a href="https://rmax.ai/notes/the-harness-is-becoming-the-runtime/">treating the harness as part of the runtime</a> and the <a href="https://rmax.ai/notes/from-human-orchestrated-agent-to-autonomous-control-plane/">field report on human orchestration and autonomous control planes</a>: routing, verification, and durable state are explicit, observable design choices.</p>
+<h2>What remains unsolved</h2>
+<p><strong>Open.</strong> One-pass Luna is not a complete evidence reader: page recall of 0.509 leaves reference evidence uncovered, and the reference is not independent ground truth. Claim, page, and quote measures are lexical proxies, not semantic entailment. Selective-reading and routing labels are purposive proxies, not naturally prevalent, human-adjudicated gold judgments.</p>
+<p>Judge evidence is thin: one small judge, seven usable cells, ceiling-heavy A ratings, and no usable second judge. Larger samples could change the estimates. The reasoning-off setting bounds the comparison; the small medium-effort arm’s lack of measured gain does not show reasoning never helps. Routing calibration and escalation thresholds also remain open.</p>
+<p>The next benchmark should use independent, human-adjudicated evidence, preserve source versions, and test downstream decisions on a larger sample. It should measure effects on review effort and decisions, not just overlap. Until then, this is a bounded choice for the tested setup, not a general prescription. Any optimization that removes context must show that it preserves the evidence downstream decisions need.</p>
+<h2>Practical Takeaways</h2>
+<ul>
+  <li>Treat page selection and model-to-model packets as lossy interfaces; measure what downstream evidence survives each one.</li>
+  <li>Preserve explicit request and stop semantics in any iterative reader. A loop that ends without a valid request signal has not demonstrated sufficient coverage.</li>
+  <li>Pin the document version, assign stable evidence IDs, and make deterministic code resolve citations and enforce reference invariants.</li>
+  <li>Use probabilistic scores to prioritize review when labels are weak; require stronger checks for evidence acceptance.</li>
+  <li>Compare quality, cost, and serial latency together, and keep the sample, reference, judge, and reasoning-setting caveats beside the result.</li>
+</ul>
+<h2>Positioning Note</h2>
+<p>This is an engineering field report, not an academic evaluation: the samples are small and purposive, and several thresholds were post-hoc. It is more than a blog opinion because it records tested arms, operational metrics, failure examples, and bounded conclusions. It is not vendor documentation or a model recommendation; provider names identify measured roles in these experiments. The subject is the architecture around the model and how it preserves evidence.</p>
+<h2>Status &amp; Scope</h2>
+<p>These are bounded experiments in a personal research lab, not a validated general benchmark or authoritative guidance. Results are limited by purposive samples, lexical-proxy metrics, a single small judge, estimated costs, serial latency, reasoning-off scope, and the reference-family confound in the two-stage comparison. The winning arm still misses evidence. The note records what we measured and the architecture we changed; independent adjudication and broader calibration remain open.</p>
+<h2 id="references">References</h2>
+<ul class="references">
+  <li><a href="https://github.com/rmax-ai/ai-papers-routing-benchmark">AI papers routing benchmark repository</a></li>
+  <li><a href="https://github.com/rmax-ai/ai-papers-routing-benchmark/blob/main/report/report.md">Benchmark report</a></li>
+  <li><a href="https://github.com/rmax-ai/ai-papers-routing-benchmark/blob/main/artifacts/failures/selective-reading.md">Selective-reading failure walkthrough</a></li>
+  <li><a href="https://github.com/rmax-ai/ai-papers-routing-benchmark/tree/main/dq84-luna-vs-gemini">Luna and Gemini two-arm comparison</a></li>
+  <li><a href="https://rmax.ai/notes/jev-vs-generative-models-for-typed-software-decisions/">Typed probabilistic decisions and generative judgment</a></li>
+  <li><a href="https://rmax.ai/notes/deep-research-evidence-workflow/">Deep research evidence workflow</a></li>
+  <li><a href="https://rmax.ai/notes/the-change-is-the-unit-of-assurance/">The change is the unit of assurance</a></li>
+  <li><a href="https://rmax.ai/notes/the-harness-is-becoming-the-runtime/">The harness is becoming the runtime</a></li>
+  <li><a href="https://rmax.ai/notes/from-human-orchestrated-agent-to-autonomous-control-plane/">From human-orchestrated agent to autonomous control plane</a></li>
+</ul>
+          </div>
+        </article>
+      </main>
+
+<footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        themeCSS: '.label foreignObject { overflow: visible; }',
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+          wrappingWidth: 340,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        { text: "I verify every compression boundary against the evidence the next stage needs.", agent: "Evidence Agent" },
+        { text: "I keep source evidence addressable so synthesis cannot hide what a handoff lost.", agent: "Pipeline Agent" },
+        { text: "I measure what survives each handoff because lower cost alone proves no preservation.", agent: "Verification Agent" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>

@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*September 27, 2026* — [Read the Whole Paper: Lessons from Benchmarking AI Research Pipelines](/notes/read-the-whole-paper-ai-research-pipelines/)
+
+### [Read the Whole Paper: Lessons from Benchmarking AI Research Pipelines](/notes/read-the-whole-paper-ai-research-pipelines/)
+*September 27, 2026* — A benchmark-driven field report on evidence loss in selective reading and model handoffs, and a measured full-text verification path.
+
 *September 24, 2026* — [From Human-Orchestrated Agent to Autonomous Control Plane: Lessons from rmax.ai](/notes/from-human-orchestrated-agent-to-autonomous-control-plane/)
 
 ### [From Human-Orchestrated Agent to Autonomous Control Plane: Lessons from rmax.ai](/notes/from-human-orchestrated-agent-to-autonomous-control-plane/)

@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rmax.ai/</loc>
-    <lastmod>2026-09-24T23:42:59Z</lastmod>
+    <lastmod>2026-09-28T05:19:02Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/apps/</loc>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://rmax.ai/notes/</loc>
-    <lastmod>2026-09-24T23:42:59Z</lastmod>
+    <lastmod>2026-09-28T05:19:02Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/agency-vs-privilege-high-agency-agents-infrastructure/</loc>
@@ -153,6 +153,10 @@
     <lastmod>2026-07-21T21:35:01Z</lastmod>
   </url>
   <url>
+    <loc>https://rmax.ai/notes/from-human-orchestrated-agent-to-autonomous-control-plane/</loc>
+    <lastmod>2026-09-25T08:39:40Z</lastmod>
+  </url>
+  <url>
     <loc>https://rmax.ai/notes/from-prompting-to-cultivation/</loc>
     <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
@@ -205,10 +209,6 @@
     <lastmod>2026-07-26T21:43:23Z</lastmod>
   </url>
   <url>
-    <loc>https://rmax.ai/notes/from-human-orchestrated-agent-to-autonomous-control-plane/</loc>
-    <lastmod>2026-09-25T08:39:40Z</lastmod>
-  </url>
-  <url>
     <loc>https://rmax.ai/notes/open-source-after-coding-agents/</loc>
     <lastmod>2026-05-23T18:04:44Z</lastmod>
   </url>
@@ -231,6 +231,10 @@
   <url>
     <loc>https://rmax.ai/notes/prompts-as-contracts-gpt-5-6-agent-design/</loc>
     <lastmod>2026-07-17T12:06:47Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rmax.ai/notes/read-the-whole-paper-ai-research-pipelines/</loc>
+    <lastmod>2026-09-28T05:18:59Z</lastmod>
   </url>
   <url>
     <loc>https://rmax.ai/notes/recursive-execution-missing-layer/</loc>

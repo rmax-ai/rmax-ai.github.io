@@ -49,6 +49,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Read the Whole Paper: Lessons from Benchmarking AI Research Pipelines](/notes/read-the-whole-paper-ai-research-pipelines/)
+A benchmark-driven field report on evidence loss in selective reading and model handoffs, and a measured full-text verification path.
+
 ### [From Human-Orchestrated Agent to Autonomous Control Plane: Lessons from rmax.ai](/notes/from-human-orchestrated-agent-to-autonomous-control-plane/)
 An engineering field report on the first week of autonomy and control-plane hardening in a personal agent system that had already operated for roughly four months, where durable state, explicit ownership, and verified transitions proved more important than making agents act.
 
