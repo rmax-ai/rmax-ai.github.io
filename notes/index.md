@@ -13,6 +13,11 @@ Thoughts on software, AI, and systems.
 ### [From Feature Ownership to System Ownership](/notes/from-feature-ownership-to-system-ownership/)
 *September 28, 2026* — A practitioner analysis of what engineers own when coding agents make implementation capacity programmable, with evidence on verification, coordination, and the limits of organizational conclusions.
 
+*September 27, 2026* — [Read the Whole Paper: Lessons from Benchmarking AI Research Pipelines](/notes/read-the-whole-paper-ai-research-pipelines/)
+
+### [Read the Whole Paper: Lessons from Benchmarking AI Research Pipelines](/notes/read-the-whole-paper-ai-research-pipelines/)
+*September 27, 2026* — A benchmark-driven field report on evidence loss in selective reading and model handoffs, and a measured full-text verification path.
+
 *September 24, 2026* — [From Human-Orchestrated Agent to Autonomous Control Plane: Lessons from rmax.ai](/notes/from-human-orchestrated-agent-to-autonomous-control-plane/)
 
 ### [From Human-Orchestrated Agent to Autonomous Control Plane: Lessons from rmax.ai](/notes/from-human-orchestrated-agent-to-autonomous-control-plane/)
