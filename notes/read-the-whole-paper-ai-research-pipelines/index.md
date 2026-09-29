@@ -7,8 +7,8 @@ site: rmax.ai
 section: notes
 type: essay
 status: published
-date: 2026-09-27
-updated: 2026-09-27
+date: 2026-09-29
+updated: 2026-09-29
 tags:
   - AI research pipelines
   - evidence preservation
