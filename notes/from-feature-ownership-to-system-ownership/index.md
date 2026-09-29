@@ -7,8 +7,8 @@ site: rmax.ai
 section: notes
 type: essay
 status: published
-date: 2026-09-28
-updated: 2026-09-28
+date: 2026-09-27
+updated: 2026-09-27
 tags:
   - coding agents
   - system ownership
@@ -173,7 +173,7 @@ This is practitioner analysis, not an academic meta-analysis, a vendor tutorial,
 
 ## Status & Scope
 
-This note was prepared from public sources checked on 2026-09-28. It is an evidence-labeled analysis for senior engineers, Staff-plus ICs, and engineering leaders evaluating agent-intensive workflows. The workflow thesis is partially supported by randomized studies, surveys, observational studies, and documented company accounts; the ownership interpretation is narrower and the organizational conclusion remains preliminary. Vendor cases omit information about failed runs and rescue effort, survey findings are self-reported or correlational, and simulations and replays do not establish production outcomes. This is not authoritative organizational guidance or a benchmark of agent quality.
+This note was prepared from public sources checked on 2026-09-27. It is an evidence-labeled analysis for senior engineers, Staff-plus ICs, and engineering leaders evaluating agent-intensive workflows. The workflow thesis is partially supported by randomized studies, surveys, observational studies, and documented company accounts; the ownership interpretation is narrower and the organizational conclusion remains preliminary. Vendor cases omit information about failed runs and rescue effort, survey findings are self-reported or correlational, and simulations and replays do not establish production outcomes. This is not authoritative organizational guidance or a benchmark of agent quality.
 
 ## References
 
