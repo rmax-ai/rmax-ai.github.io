@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*September 28, 2026* — [From Feature Ownership to System Ownership](/notes/from-feature-ownership-to-system-ownership/)
+
+### [From Feature Ownership to System Ownership](/notes/from-feature-ownership-to-system-ownership/)
+*September 28, 2026* — A practitioner analysis of what engineers own when coding agents make implementation capacity programmable, with evidence on verification, coordination, and the limits of organizational conclusions.
+
 *September 24, 2026* — [From Human-Orchestrated Agent to Autonomous Control Plane: Lessons from rmax.ai](/notes/from-human-orchestrated-agent-to-autonomous-control-plane/)
 
 ### [From Human-Orchestrated Agent to Autonomous Control Plane: Lessons from rmax.ai](/notes/from-human-orchestrated-agent-to-autonomous-control-plane/)
