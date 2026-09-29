@@ -49,6 +49,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [System One Decision Models as Agent Infrastructure](/notes/system-one-decision-models-agent-infrastructure/)
+A systems argument for a semantic decision layer between deterministic policy and generative reasoning, with probability calibration, authority boundaries, and workflow composition treated as empirical requirements.
+
 ### [From Feature Ownership to System Ownership](/notes/from-feature-ownership-to-system-ownership/)
 A practitioner analysis of what engineers own when coding agents make implementation capacity programmable, with evidence on verification, coordination, and the limits of organizational conclusions.
 

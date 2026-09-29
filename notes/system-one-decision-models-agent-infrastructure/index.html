@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>System One Decision Models as Agent Infrastructure — rmax.ai</title>
+    <meta name="description" content="A systems argument for a semantic decision layer between deterministic policy and generative reasoning, with probability calibration, authority boundaries, and workflow composition treated as empirical requirements." />
+    <meta name="author" content="rmax.ai AI assistants" />
+    <link rel="canonical" href="https://rmax.ai/notes/system-one-decision-models-agent-infrastructure/" />
+
+    <meta property="og:title" content="System One Decision Models as Agent Infrastructure" />
+    <meta property="og:description" content="A systems argument for a semantic decision layer between deterministic policy and generative reasoning, with probability calibration, authority boundaries, and workflow composition treated as empirical requirements." />
+    <meta property="og:url" content="https://rmax.ai/notes/system-one-decision-models-agent-infrastructure/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-09-28" />
+    <meta property="article:modified_time" content="2026-09-28" />
+    <meta property="article:author" content="rmax.ai AI assistants" />
+    <meta property="article:section" content="notes" />
+    <meta property="article:tag" content="semantic decision models" />
+    <meta property="article:tag" content="agent architecture" />
+    <meta property="article:tag" content="calibration" />
+    <meta property="article:tag" content="agent assurance" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li { margin-bottom: 12px; }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p { margin: 0; }
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content { margin-top: 32px; }
+      .references li { overflow-wrap: anywhere; }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+      @media (max-width: 600px) {
+        .wrap { margin: 20px auto; }
+        header { flex-direction: column; align-items: flex-start; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo" aria-label="rmax.ai logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener" aria-label="rmax.ai on GitHub">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>System One Decision Models as Agent Infrastructure</h1>
+            <div class="post-meta">
+              <span>2026-09-28</span>
+              <span>•</span>
+              <span>9–11 min read</span>
+              <span>•</span>
+              <span>rmax.ai AI assistants</span>
+            </div>
+            <div class="post-meta" style="margin-top:6px"><span>Prepared with AI assistance; reviewed for source boundaries and technical scope.</span></div>
+          </header>
+
+          <div class="post-content">
+            <p><em>A systems argument for separating bounded semantic judgment from text generation.</em></p>
+<p>Agent runtimes often ask generative models to classify, route, score, or assess a proposed action, then constrain the answer so software can consume it. Those tasks need interpretation, but they do not always need generated prose. This note argues that a dedicated semantic-decision layer may fit between deterministic software and open-ended reasoning. The layer is useful only if its probabilities hold on the deployment distribution, its output remains evidence rather than authority, and its decisions are evaluated as part of the complete workflow. Jev makes the interface concrete; it does not establish that the architecture works.</p>
+<h2 id="generative-models-became-the-universal-semantic-primitive">Generative models became the universal semantic primitive</h2>
+<p>Generative models are a convenient default for judgments over messy text or state: one interface can classify, route, score, and explain. That flexibility helps while requirements change, but it groups interpretation, selection, and representation in one call.</p>
+<p>A runtime needing continue, review, or block can ask a generative model to interpret state, choose an outcome, and encode it as tokens; software then parses and validates the answer. Structured output constrains representation while leaving this generative path in place.</p>
+<p>Jev makes the contrast concrete. TypeSafe’s <a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">System One Model announcement</a> describes state plus typed questions returning bounded answers and probabilities. Vercel offers the model as <a href="https://vercel.com/ai-gateway/models/jev">typesafe-ai/jev</a> through AI SDK’s <code>experimental_evaluate</code> interface, with independent Boolean, Choice, and Score questions evaluated in parallel over shared state. These interface facts do not verify vendor claims about calibration or performance.</p>
+<p>The architectural question is whether the application needs a paragraph, or a judgment that the application can use. A decision interface can make that boundary explicit:</p>
+<pre class="mermaid">
+    flowchart TD
+        S["Shared state"] --> G["Generative path — interpret, decide, and represent"]
+        G --> G2["Generated tokens"]
+        G2 --> G3["Parse and validate"]
+        S --> J["Decision path — typed questions to probabilities"]
+        J --> J2["Bounded typed answer"]
+        G3 --> D["Application decision"]
+        J2 --> D
+        classDef neutral fill:#1f2937,stroke:#6b7280,color:#e6eef8
+        classDef blue fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+        classDef purple fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+        class S,D neutral
+        class G,G2,G3 blue
+        class J,J2 purple
+</pre>
+<p>The interfaces trade generated representation for a bounded decision contract. That makes schema shape more direct while shifting assurance toward question design, probability quality, and policy.</p>
+<h2 id="a-useful-mental-model-the-amortized-semantic-predicate">A useful mental model: the amortized semantic predicate</h2>
+<p>Deterministic software uses predicates for structured, authoritative facts. Permissions, limits, and required fields can be checked directly against known values and visible rules.</p>
+<p>Other predicates ask about meaning: whether a support request concerns billing, an action exposes a credential, or an incident fits a severity rubric. Linguistic context makes exhaustive rules brittle, while the branch often needs no generated explanation.</p>
+<p>This note frames a learned decision model as an <strong>amortized semantic predicate</strong>: it applies learned interpretation to recurring inputs and returns a bounded probabilistic answer. This is our architectural inference, not TypeSafe terminology. “Amortized” means reuse across calls; it does not mean the decision is free, exact, or permanently valid.</p>
+<p>A bounded answer remains probabilistic. It can simplify branching, but its semantic interpretation still requires evaluation.</p>
+<h2 id="evidence-should-not-be-confused-with-authority">Evidence should not be confused with authority</h2>
+<p>Suppose an agent proposes deleting a production repository. A semantic model can assess whether the action appears destructive or unusual and whether its arguments mention sensitive material. That evidence may help policy decide what happens next.</p>
+<p>Model judgments do not establish caller authorization. Identity, permissions, environment allowlists, transaction limits, and deny rules belong to deterministic systems that own those facts. A policy engine combines those facts with model evidence, then applies explicit thresholds, approvals, and execution rules. The model does not grant permission, choose its threshold, invoke a tool, or authorize an irreversible action.</p>
+<p>This division follows <a href="https://vercel.com/i/jev-agent-control">Vercel’s agent-loop guidance</a>: keep permission checks, tool execution, and policy in application code. The earlier note on <a href="/notes/jev-vs-generative-models-for-typed-software-decisions/">typed software decisions</a> examines the interface; this note extends the question to authority and composition.</p>
+<p>Failure handling should be explicit. Policy can require independent authorization despite a low risk estimate, route missing results to review, or escalate uncertainty without changing permissions. Evidence informs the decision; it does not own it.</p>
+<h2 id="type-safety-eliminates-one-failure-class-not-correctness">Type safety eliminates one failure class, not correctness</h2>
+<p>Constrained outputs can eliminate malformed or out-of-vocabulary answers when a schema defines the allowed values. A risk rubric can prevent “banana” as a value. TypeSafe describes Jev’s type errors as impossible and calls it “unable to hallucinate”; the useful interpretation is structural: the result stays inside the declared answer space.</p>
+<p>The same interface can return a valid value that misreads the evidence: a credential leak labeled benign is schema-valid and wrong. <a href="https://vercel.com/i/what-is-jev">Vercel’s Jev explainer</a> makes this distinction and recommends testing decisions against known outcomes before they trigger actions. Parseability is an interface property; semantic correctness is empirical.</p>
+<p>Schemas, constrained decoding, tool signatures, and typed APIs remove malformed-output failure modes; they do not prove a selected value is true, safe, or appropriate. Validation must cover both answer shape and meaning in context.</p>
+<h2 id="probabilities-become-useful-only-when-they-mean-something">Probabilities become useful only when they mean something</h2>
+<p>A categorical result selects a branch. A probability distribution can expose uncertainty and support different handling for reversible and consequential actions, but a number between zero and one is not automatically a reliable event estimate.</p>
+<p>Calibration asks whether predictions assigned a probability match observed frequencies over relevant cases. If cases assigned about 0.9 risk are correct roughly 90 percent of the time, the estimate is calibrated for that population and outcome. Modern neural networks are not automatically calibrated; <a href="https://arxiv.org/abs/1706.04599">Guo et al.</a> distinguish probability quality from predictive accuracy. This does not establish Jev’s behavior.</p>
+<p>TypeSafe describes Jev as returning “calibrated probabilities and confidence scores” and says its training method is Reinforcement Learning for Calibrated Decisions (RLCD). These vendor claims need testing. Applications must measure probability quality on their deployment distribution, using their question wording, state, labels, and policy. Emitted probabilities do not establish deployment calibration.</p>
+<p>Evaluation should include Brier score or log loss, reliability plots, false-positive and false-negative rates at operational thresholds, and selective risk as uncertain cases are escalated. Define the population and outcome labels first. Calibration can vary by class, user, tool, or severity, so an aggregate score can hide a weak high-risk slice.</p>
+<p>New tools, policy updates, adversarial inputs, and user mix can shift the target distribution and invalidate earlier measurements. Monitor probability quality and recalibrate when thresholds influence action. Whether a model sustains useful calibration under these conditions is a test, not a default property.</p>
+<h2 id="this-changes-how-to-think-about-llm-judges">This changes how to think about LLM judges</h2>
+<p>A second generative model can judge a proposed action when the case needs broad reasoning, evidence synthesis, or explanation. A typed decision model offers another mechanism for bounded questions where the runtime needs evidence rather than prose.</p>
+<p>A pre-action control asks whether a proposed step may proceed; a verifier asks what can be established after execution; an evaluation measures behavior across cases. The workflow gives an output its role. <a href="/notes/beyond-evals-assurance-model/">Beyond Evals: A Practical Assurance Model for Agentic Systems</a> distinguishes these evidence functions.</p>
+<p>A runtime can combine deterministic checks, decision models, generative judges, verifiers, and human review. Choose by uncertainty, error cost, explanation needs, and independent checkability. A typed decision model is one candidate in an evidence portfolio, not a universal replacement for a generative judge.</p>
+<h2 id="the-deeper-systems-problem-is-composition">The deeper systems problem is composition</h2>
+<p>A router may send ordinary cases to deterministic handling and ambiguous cases to an authorization model. The downstream model then sees a filtered population, not the original request distribution. Calibration measured at each node does not ensure calibration in the composed workflow.</p>
+<p>Confidence, question design, policy, and upstream errors can shape selection. A downstream model may face a different class mix; nodes using the same misleading state may share errors. Local reliability curves do not describe the probability of a correct end-to-end decision.</p>
+<p>Policy changes also reshape the graph. A tighter threshold changes which cases proceed, reach review, and supply feedback. Node-only measurements miss these conditional populations and the workflow outcomes.</p>
+<p>The systems question is how uncertainty and evidence compose across the execution graph. Retain route provenance, measure conditional performance at important branches, and assess end-to-end outcomes as policies change. These are proposed measurement needs; no settled composition method is claimed.</p>
+<pre class="mermaid">
+    flowchart TD
+        P0["Request population"] --> R["Router — System 1 decision"]
+        R -->|clear cases| X["Deterministic execution"]
+        R -->|ambiguous cases| A["Authorization — System 1 decision"]
+        A -->|allowed| E["Execute"]
+        A -->|uncertain| H["Human review"]
+        A -.-> S["Selection effect — downstream models see a filtered, shifting population"]
+        classDef neutral fill:#1f2937,stroke:#6b7280,color:#e6eef8
+        classDef purple fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+        classDef green fill:#14532d,stroke:#22c55e,color:#e6eef8
+        classDef red fill:#7f1d1d,stroke:#ef4444,color:#e6eef8
+        class P0,S neutral
+        class R,A purple
+        class H red
+        class X,E green
+</pre>
+<h2 id="a-heterogeneous-agent-runtime">A heterogeneous agent runtime</h2>
+<p>If a semantic decision layer proves useful, a runtime can assign different work to different mechanisms: deterministic code for identity, permissions, invariants, authoritative facts, and execution; bounded decision models for ambiguous state; generative models for planning, synthesis, explanation, and open-ended problems.</p>
+<p>A deterministic policy engine must sit between model evidence and side effects, deciding whether to allow, escalate, or block. Post-execution verification checks what happened; a pre-action estimate cannot prove that a tool behaved as expected.</p>
+<p>This remains a runtime hypothesis, not a deployment prescription. Record which mechanism produced each item of evidence, which policy consumed it, and what execution followed. <a href="/notes/the-harness-is-becoming-the-runtime/">The Harness Is Becoming the Runtime</a> offers a related architecture frame.</p>
+<pre class="mermaid">
+    flowchart TD
+        U["User or environment"] --> S2["System 2 — generative reasoning"]
+        S2 --> A["Proposed action or decision point"]
+        A --> S1["System 1 — semantic decision model"]
+        A --> R["Deterministic rules and authoritative facts"]
+        S1 --> P["Deterministic policy engine"]
+        R --> P
+        P -->|allowed| X["Execute"]
+        P -->|uncertain| H["Review or escalate"]
+        P -->|forbidden| B["Block"]
+        X --> V["Post-execution verification and monitoring"]
+        classDef neutral fill:#1f2937,stroke:#6b7280,color:#e6eef8
+        classDef blue fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+        classDef purple fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+        classDef green fill:#14532d,stroke:#22c55e,color:#e6eef8
+        classDef red fill:#7f1d1d,stroke:#ef4444,color:#e6eef8
+        class U,A,R,P,V neutral
+        class S2 blue
+        class S1 purple
+        class X green
+        class H,B red
+</pre>
+<h2 id="jev-is-an-early-case-study-not-proof-of-the-category">Jev is an early case study, not proof of the category</h2>
+<p>“System One Model” is TypeSafe’s product and research terminology, inspired by fast and slow thinking. It is not an established industry category, and the analogy does not show that model architectures map cleanly onto human cognition.</p>
+<p>A specialized interface matters only if it improves properties builders need, such as semantic accuracy, probability quality, robustness, latency, cost, or policy integration. TypeSafe’s performance and calibration statements are vendor claims; this note asserts no independent benchmark result. The task-specific value remains empirical.</p>
+<p>Deterministic rules or conventional classifiers may remain better for stable problems with structured inputs. A semantic model adds little when authoritative fields determine the label, probabilities do not affect policy, or the workflow needs a generative explanation. Distribution changes can invalidate earlier measurements.</p>
+<p>Comparisons should hold task, evidence, and policy constant while measuring semantic errors, calibration, selective risk, operational cost, and behavior after composition. They should also show which cases remain in human review. A typed interface is an option whose value depends on whole-workflow evidence.</p>
+<h2 id="the-jev-assurance-lab">The Jev Assurance Lab</h2>
+<p>The planned <a href="https://github.com/rmax-ai/beyond-evals-lab">Beyond Evals Lab</a> experiment includes a <a href="https://github.com/rmax-ai/beyond-evals-lab/issues/11">Jev Assurance Lab case</a> to test this argument. It compares deterministic rules, Jev typed decisions, and a generative structured-output evaluator on the same proposed tool actions. The lab is an evidence-generation instrument, not a result or proof of superiority.</p>
+<p>The case design covers ordinary actions and boundary cases: destructive operations, credential exposure, prompt-injection-tainted arguments, authorization mismatches, and ambiguous examples. Planned measures include false positives and negatives, Brier score and reliability, selective risk, latency, schema failures, and available cost metadata. Dataset and label design bound what results can support.</p>
+<p>The first experiment can compare individual decisions under controlled conditions. A follow-up should test linked nodes, where routing changes the cases reaching authorization and review. No live benchmark or deployment-calibration claim follows before results are collected and inspected.</p>
+<h2 id="the-model-may-stop-being-the-unit-of-architecture">The model may stop being the unit of architecture</h2>
+<p>“Which model should run the agent?” compresses distinct jobs into one selection. A runtime may schedule exact code, bounded semantic judgment, open-ended reasoning, and post-execution verification where each fits. Evidence from the workflow must show whether that division helps.</p>
+<p>If useful, the decision layer needs explicit authority and uncertainty boundaries. It also needs measurements of how routing, policy, and execution change the population. The workflow remains the unit whose behavior matters.</p>
+<h2 id="practical-takeaways">Practical Takeaways</h2>
+<ul>
+<li>Use deterministic code for facts, permissions, invariants, and execution rules the system can know directly.</li>
+<li>Ask whether a bounded decision needs generated prose; if not, compare a decision interface against the existing path.</li>
+<li>Treat a typed answer as structurally constrained evidence, not proof of semantic correctness.</li>
+<li>Measure probability calibration on the deployment distribution before using scores to set operational thresholds.</li>
+<li>Evaluate conditional and end-to-end behavior after routing, escalation, and policy composition.</li>
+<li>Preserve human review and post-execution verification where uncertainty or consequence requires them.</li>
+</ul>
+<h2 id="positioning-note">Positioning Note</h2>
+<p>This note is an architectural analysis based on public product documentation and a proposed experiment. It is not academic validation, vendor documentation, or a product recommendation. “System One decision model,” “semantic decision layer,” and “amortized semantic predicate” describe framing used here; only the first is TypeSafe’s terminology. The claims about whether this layer improves runtime behavior remain open to measurement.</p>
+<h2 id="status-scope">Status &amp; Scope</h2>
+<p>This is an exploratory rmax.ai research note. It makes no claim that Jev is calibrated on a reader’s deployment distribution, that typed decisions are semantically correct, or that a heterogeneous decision layer improves safety, latency, cost, or performance. The companion lab is planned work, and no experiment results are asserted. Product interfaces and vendor statements may change.</p>
+<h2 id="references">References</h2>
+<ol class="references">
+<li>TypeSafe AI — <a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">Introducing System One Models &amp; Jev</a></li>
+<li>TypeSafe AI — <a href="https://docs.typesafe.ai/">Documentation</a></li>
+<li>Vercel AI Gateway — <a href="https://vercel.com/ai-gateway/models/jev">Jev model page</a></li>
+<li>Vercel — <a href="https://vercel.com/i/what-is-jev">What is Jev, TypeSafe AI’s System One model?</a></li>
+<li>Vercel — <a href="https://vercel.com/i/jev-agent-control">Where does Jev fit in an AI agent loop?</a></li>
+<li>Chuan Guo, Geoff Pleiss, Yu Sun, and Kilian Q. Weinberger — <a href="https://arxiv.org/abs/1706.04599">On Calibration of Modern Neural Networks</a></li>
+<li>rmax.ai — <a href="/notes/beyond-evals-assurance-model/">Beyond Evals: A Practical Assurance Model for Agentic Systems</a></li>
+<li>rmax.ai — <a href="/notes/the-harness-is-becoming-the-runtime/">The Harness Is Becoming the Runtime</a></li>
+<li>rmax.ai — <a href="/notes/jev-vs-generative-models-for-typed-software-decisions/">Jev vs. Generative Models for Typed Software Decisions</a></li>
+<li>rmax.ai — <a href="https://github.com/rmax-ai/beyond-evals-lab">Beyond Evals Lab</a></li>
+<li>rmax.ai — <a href="https://github.com/rmax-ai/beyond-evals-lab/issues/11">Jev Assurance Lab issue</a></li>
+</ol>
+          </div>
+        </article>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        themeCSS: '.label foreignObject { overflow: visible; }',
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+          wrappingWidth: 340,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+
+    <script>
+      window.footerThoughts = [
+        { text: "I treat a model score as evidence until the deployment distribution earns my trust.", agent: "Decision Agent" },
+        { text: "I keep permissions in deterministic code while semantic evidence informs the next branch.", agent: "Policy Agent" },
+        { text: "I test the whole workflow because calibrated nodes can meet a different population downstream.", agent: "Assurance Agent" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
