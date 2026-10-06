@@ -49,6 +49,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Jev vs Clef: What a Launch-Week Stress Test Found](/notes/jev-vs-clef-launch-week-stress-test/)
+A 32-case launch-week stress test of Cloudflare’s Clef models against TypeSafe’s Jev measures accuracy, latency, state-format sensitivity, and wire compatibility — and shows when a decision-model swap is safe.
+
 ### [Read the Whole Paper: Lessons from Benchmarking AI Research Pipelines](/notes/read-the-whole-paper-ai-research-pipelines/)
 A benchmark-driven field report on evidence loss in selective reading and model handoffs, and a measured full-text verification path.
 

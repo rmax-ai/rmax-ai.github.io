@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*October 6, 2026* — [Jev vs Clef: What a Launch-Week Stress Test Found](/notes/jev-vs-clef-launch-week-stress-test/)
+
+### [Jev vs Clef: What a Launch-Week Stress Test Found](/notes/jev-vs-clef-launch-week-stress-test/)
+*October 6, 2026* — A 32-case launch-week stress test of Cloudflare’s Clef models against TypeSafe’s Jev measures accuracy, latency, state-format sensitivity, and wire compatibility — and shows when a decision-model swap is safe.
+
 *September 29, 2026* — [Read the Whole Paper: Lessons from Benchmarking AI Research Pipelines](/notes/read-the-whole-paper-ai-research-pipelines/)
 
 ### [Read the Whole Paper: Lessons from Benchmarking AI Research Pipelines](/notes/read-the-whole-paper-ai-research-pipelines/)
