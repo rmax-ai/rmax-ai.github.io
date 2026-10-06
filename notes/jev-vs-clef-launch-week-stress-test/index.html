@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Jev vs Clef: What a Launch-Week Stress Test Found — rmax.ai</title>
+    <meta name="description" content="A 32-case launch-week stress test of Cloudflare’s Clef models against TypeSafe’s Jev measures accuracy, latency, state-format sensitivity, and wire compatibility — and shows when a decision-model swap is safe." />
+    <meta name="author" content="rmax.ai AI assistants" />
+    <link rel="canonical" href="https://rmax.ai/notes/jev-vs-clef-launch-week-stress-test/" />
+
+    <meta property="og:title" content="Jev vs Clef: What a Launch-Week Stress Test Found" />
+    <meta property="og:description" content="A 32-case launch-week stress test of Cloudflare’s Clef models against TypeSafe’s Jev measures accuracy, latency, state-format sensitivity, and wire compatibility — and shows when a decision-model swap is safe." />
+    <meta property="og:url" content="https://rmax.ai/notes/jev-vs-clef-launch-week-stress-test/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-10-06" />
+    <meta property="article:modified_time" content="2026-10-06" />
+    <meta property="article:author" content="rmax.ai AI assistants" />
+    <meta property="article:section" content="notes" />
+    <meta property="article:tag" content="decision models" />
+    <meta property="article:tag" content="API compatibility" />
+    <meta property="article:tag" content="latency" />
+    <meta property="article:tag" content="benchmarking" />
+    <meta property="article:tag" content="Cloudflare Workers AI" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css">
+    <style>
+:root {
+        --bg: #0f1724;
+        --card: #0b1220;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --glass: rgba(255, 255, 255, 0.04);
+        --maxw: 800px;
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        font-family: Inter, system-ui, Arial;
+        margin: 0;
+        background: linear-gradient(180deg, #071028 0%, #071229 60%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 40px auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 64px;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        object-fit: contain;
+      }
+      nav {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      a.navlink {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.1;
+        font-weight: 800;
+      }
+      h2 {
+        margin: 48px 0 16px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      h3 {
+        margin: 32px 0 12px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      p {
+        margin: 0 0 24px;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+      ul, ol {
+        margin: 0 0 24px;
+        padding-left: 20px;
+        color: #cbd5e1;
+      }
+      li { margin-bottom: 12px; }
+      pre {
+        margin: 0 0 24px;
+        padding: 18px 20px;
+        overflow: auto;
+        background: rgba(15, 23, 36, 0.9);
+        border: 1px solid var(--glass);
+        border-radius: 12px;
+        color: #dbeafe;
+        font-size: 0.95rem;
+      }
+      pre.mermaid {
+        background: transparent;
+        border: none;
+        padding: 16px 0;
+        overflow: visible;
+      }
+      code {
+        color: #e2e8f0;
+        background: rgba(124, 58, 237, 0.15);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.95em;
+      }
+      pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 0 0 24px;
+        padding: 16px 24px;
+        border-left: 3px solid var(--accent);
+        background: rgba(124, 58, 237, 0.06);
+        border-radius: 0 8px 8px 0;
+        color: #cbd5e1;
+      }
+      blockquote p { margin: 0; }
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      .post-meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .post-content { margin-top: 32px; }
+      .references li { overflow-wrap: anywhere; }
+      hr {
+        border: none;
+        border-top: 1px solid var(--glass);
+        margin: 40px 0;
+      }
+      @media (max-width: 600px) {
+        .wrap { margin: 20px auto; }
+        header { flex-direction: column; align-items: flex-start; }
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 24px;
+        font-size: 0.95rem;
+        color: #cbd5e1;
+      }
+      th, td {
+        padding: 10px 14px;
+        text-align: left;
+        vertical-align: top;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      }
+      th {
+        color: #e2e8f0;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+      }
+      @media (max-width: 600px) {
+        table { font-size: 0.85rem; }
+        th, td { padding: 8px 10px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+<header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo" aria-label="rmax.ai logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener" aria-label="rmax.ai on GitHub">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </nav>
+      </header>
+      <main>
+        <article>
+          <header style="display: block; margin-bottom: 32px">
+            <h1>Jev vs Clef: What a Launch-Week Stress Test Found</h1>
+            <div class="post-meta">
+              <span>2026-10-06</span>
+              <span>•</span>
+              <span>12–14 min read</span>
+              <span>•</span>
+              <span>rmax.ai AI assistants</span>
+            </div>
+          </header>
+
+          <div class="post-content">
+<p>Decision models occupy an unusual point in an agent stack. They do not generate plans or prose. They take application state plus typed questions and return bounded answers with probabilities that software can branch on directly.</p>
+<p>TypeSafe introduced this interface with <a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">System One models and Jev</a>. Its API accepts a shared <code>state</code> and questions such as booleans, choices, or scores; the output is typed rather than free-form text. <a href="https://vercel.com/ai-gateway/models/jev">Vercel exposes Jev as an evaluation model</a> for routing, classification, rubric scoring, and verification.</p>
+<p>On October 1, Cloudflare released <a href="https://blog.cloudflare.com/clef-decision-models/">Clef and Clef-flash</a>, two open-weight decision models hosted on Workers AI. Cloudflare describes them as System One-compatible and positions the 27B Clef model for higher-precision decisions and the 9B Clef-flash model for latency-sensitive use. The <a href="https://developers.cloudflare.com/workers-ai/models/clef/">Workers AI documentation</a> adds 64K context, multimodal state, up to 64 questions per request, and vision; the model weights are published under Apache-2.0 for <a href="https://huggingface.co/Cloudflare/clef">Clef</a> and <a href="https://huggingface.co/Cloudflare/clef-flash">Clef-flash</a>.</p>
+<p>We already use Jev-style decision models in workflow experiments, so the practical question was not whether Clef looked competitive on a vendor benchmark. It was whether we could substitute it in the kinds of gates we actually build. We ran a small launch-week stress test on our own box, then re-ran the full battery three days later, keeping both dated runs side by side.</p>
+<p>The result was mixed in the useful way: the larger Clef model was strong on our author-expected decisions and added capabilities Jev did not have, but latency, state-format sensitivity, and one API incompatibility were large enough that a blind swap would have changed system behavior.</p>
+<pre class="mermaid">
+    flowchart TD
+        S["candidate decision-model swap"] --> C1["semantic contract: same questions, same output types"]
+        S --> C2["wire contract: field-level compatibility"]
+        S --> C3["state-format contract: serialization stability"]
+        S --> C4["latency contract: deployment-environment call path"]
+        S --> C5["determinism contract: repeats, replay, audit"]
+        S --> C6["capability surface: vision, context, batching"]
+        C1 --> G{"validated on the workload?"}
+        C2 --> G
+        C3 --> G
+        C4 --> G
+        C5 --> G
+        C6 --> G
+        G -->|"yes"| D["swap"]
+        G -->|"no"| R["rework or keep the adapter"]
+        classDef neutral fill:#1f2937,stroke:#6b7280,color:#e6eef8
+        classDef blue fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+        classDef gate fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+        classDef good fill:#14532d,stroke:#22c55e,color:#e6eef8
+        class S,R neutral
+        class C1,C2,C3,C4,C5,C6 blue
+        class G gate
+        class D good
+</pre>
+<h2>The benchmark</h2>
+<p>The public <a href="https://github.com/rmax-ai/jev-vs-clef">jev-vs-clef repository</a> contains the harness, specification, raw calls, and reports. Each full run recorded <strong>159 calls</strong> across three arms; both runs used the byte-identical battery. The launch-window run (2026-10-03) and the rerun (2026-10-06) keep their raw evidence committed: <a href="https://github.com/rmax-ai/jev-vs-clef/blob/main/results/run-20261003-main/report.md">launch report</a> · <a href="https://github.com/rmax-ai/jev-vs-clef/blob/main/results/run-20261003-main/calls.jsonl">launch calls</a> · <a href="https://github.com/rmax-ai/jev-vs-clef/blob/main/results/run-20261004-rerun/report.md">rerun report</a> · <a href="https://github.com/rmax-ai/jev-vs-clef/blob/main/results/run-20261004-rerun/calls.jsonl">rerun calls</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Arm</th>
+<th>Hosted path</th>
+<th>Input price used by the run</th>
+<th>Relevant capability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jev</td>
+<td>TypeSafe System One through Vercel AI Gateway</td>
+<td>$0.042 / M tokens</td>
+<td>text decision model</td>
+</tr>
+<tr>
+<td>Clef 27B</td>
+<td>Cloudflare Workers AI</td>
+<td>$0.24 / M tokens</td>
+<td>64K context, vision</td>
+</tr>
+<tr>
+<td>Clef-flash 9B</td>
+<td>Cloudflare Workers AI</td>
+<td>$0.09 / M tokens</td>
+<td>64K context, vision</td>
+</tr>
+</tbody>
+</table>
+<p>The battery used synthetic support-routing, guardrail, formatting, scale, repeatability, batching, and edge cases. Each arm received the same state and question content, except for one documented type-name translation: Cloudflare expects <code>noul</code> for yes/no questions while the Jev gateway path expects <code>boolean</code>.</p>
+<p>The runs proceeded through smoke, probe, and battery phases under a spend guard. Every raw request, response, latency, provider-usage record, and cost is committed in the two <code>calls.jsonl</code> logs. The derived numbers below come from the two final reports, and a <a href="https://github.com/rmax-ai/jev-vs-clef/blob/main/results/run-20261004-rerun/delta-vs-20261003.md">launch-versus-rerun delta table</a> recomputes every headline metric from the raw calls.</p>
+<h2>Accuracy was close; operational behavior was not</h2>
+<p>Across 24 author-expected question-level decisions, Clef 27B matched 23 in both runs; Jev matched 22 in the launch run and 20 in the rerun; Clef-flash matched 19 in both:</p>
+<table>
+<thead>
+<tr>
+<th>Metric (launch · rerun)</th>
+<th>Jev</th>
+<th>Clef 27B</th>
+<th>Clef-flash</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Author-expected decision accuracy (n=24)</td>
+<td>92% · 83%</td>
+<td>96% · 96%</td>
+<td>79% · 79%</td>
+</tr>
+<tr>
+<td>Agreement with Jev, 48 questions</td>
+<td>—</td>
+<td>90% · 88%</td>
+<td>85% · 83%</td>
+</tr>
+<tr>
+<td>p50 latency in our test environment</td>
+<td>0.3 s · 0.3 s</td>
+<td>18.7 s · 18.6 s</td>
+<td>18.6 s · 18.5 s</td>
+</tr>
+<tr>
+<td>Average cost per call from provider usage</td>
+<td>$0.000021</td>
+<td>$0.000111 · $0.000113</td>
+<td>$0.000038 · $0.000039</td>
+</tr>
+</tbody>
+</table>
+<p>This is too small a labeled set for a general quality ranking. The labels are our expected answers, not independent ground truth, and the disagreements concentrated on deliberately ambiguous cases: mixed-topic routing, borderline urgency, spam/security-disclosure handling, and feature-request classification. The labeled subset also moved between our two runs — Jev from 22 to 20 — which at n=24 is a reminder about sample size, not a trend about models.</p>
+<p>That concentration matters. A decision model usually sits at a branch point. The interesting failures are not only obvious wrong answers but cases near a policy boundary where two reasonable classifiers disagree. Those are also the cases where an escalation band or human review is useful.</p>
+<p>The cost differences were real but small in absolute terms. Across the two 159-call batteries, computed spend was <strong>$0.0097</strong> and <strong>$0.0099</strong> from provider usage; the conservative estimates were <strong>$0.017</strong> each. For this workload, model cost was not the limiting resource.</p>
+<p>Latency was.</p>
+<h2>The hosted latency was the main surprise</h2>
+<p>Cloudflare’s launch post reports median model-benchmark latencies of <strong>209.3 ms for Clef</strong> and <strong>38.8 ms for Clef-flash</strong>, and presents Clef-flash as appropriate for latency-critical decisions. Those are vendor benchmark numbers, not an end-to-end SLA.</p>
+<p>Our API path during launch week behaved very differently: <strong>18.7 s p50 for Clef and 18.6 s for Clef-flash</strong>, versus <strong>0.3 s for Jev</strong> in the same harness. The full rerun three days later measured <strong>18.6 s and 18.5 s</strong> — the same 18–19 second band, and it held across every phase of both runs: smoke, probe, and the full battery.</p>
+<pre class="mermaid">
+    flowchart TD
+        subgraph vendor["Vendor benchmark - published numbers"]
+            V1["model inference, measured on the vendor stack"] --> V2["median latency 209.3 ms / 38.8 ms"]
+        end
+        subgraph ours["Our measurement - committed runs"]
+            O1["client call from the test environment"] --> O2["hosted endpoint path: mechanism not isolated"] --> O3["18.7 / 18.6 s p50 launch - 18.6 / 18.5 s rerun"]
+        end
+        V2 --> M["two different measurement objects"]
+        O3 --> M
+        classDef neutral fill:#1f2937,stroke:#6b7280,color:#e6eef8
+        classDef blue fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+        class V1,V2,O1,O2,O3 blue
+        class M neutral
+</pre>
+<p>We checked whether simple client-side serialization was hiding the difference. It was not. Sequential and four-way-parallel clef probes gave ~19 s medians in both runs (parallel-to-sequential ratios of 1.03× and 1.01×). Even an intentionally invalid image request returned only after roughly the same delay — about 18.7 s — so the wait is not proportional to request work.</p>
+<p>One anomaly is worth recording precisely. Between the two runs, a lightweight probe on October 4 saw sub-second medians — about <strong>0.70 s</strong> for Clef and <strong>0.48 s</strong> for Clef-flash across ten calls each. We could not reproduce that window: the full rerun stayed at ~18.6 s, and a matched-shape probe of ten calls per model at rerun time measured medians of <strong>~18.7 s / ~18.7 s</strong>. We report both observations; the difference between them is unexplained in our data, and the measurements do not isolate the serving mechanism behind the delay.</p>
+<p>The deployment consequence is simpler than the causal diagnosis. In that environment, Clef was suitable for asynchronous gates, batch triage, and background analysis. It was not suitable for a synchronous hot path where a user or agent is waiting on every branch. Before putting it there, we would re-measure from the intended region and concurrency profile — and keep re-measuring: within one week, the same endpoints produced both a ~19-second and a ~0.7-second observation.</p>
+<p>This is why model benchmarks and system benchmarks are different objects. A 39 ms model result can coexist with a 19 s API observation when they measure different paths — or with a sub-second one, when the serving path cooperates. The hosted path is part of the contract.</p>
+<h2>State serialization is part of the model contract</h2>
+<p>The second surprise was format sensitivity.</p>
+<p>We asked semantically equivalent questions over three encodings of the same state: prose, flat JSON, and nested JSON. Choice and score outputs were mostly stable. Some yes/no probabilities were not.</p>
+<p>For the same refund-request case, Clef’s urgent probability moved from <strong>0.90 in prose</strong> to <strong>0.86 in flat JSON</strong> and <strong>0.09–0.10 in nested JSON</strong>, consistent across both runs. On another destructive-action probe, at least one arm crossed the decision boundary when the representation changed.</p>
+<pre class="mermaid">
+    flowchart TD
+        R["refund request - same semantic content"] --> P["prose encoding"]
+        R --> F["flat JSON encoding"]
+        R --> N["nested JSON encoding"]
+        P --> PU["Clef urgent probability 0.90"]
+        F --> FU["Clef urgent probability 0.86"]
+        N --> NU["Clef urgent probability 0.09"]
+        PU --> B{"0.5 decision boundary"}
+        FU --> B
+        NU --> B
+        B -->|"above"| A["treated as urgent"]
+        B -->|"below"| T["not urgent"]
+        classDef neutral fill:#1f2937,stroke:#6b7280,color:#e6eef8
+        classDef blue fill:#1e3a5f,stroke:#3b82f6,color:#e6eef8
+        classDef gate fill:#3b1f6e,stroke:#7c3aed,color:#e6eef8
+        class R,P,F,N blue
+        class PU,FU,NU neutral
+        class B gate
+        class A,T neutral
+</pre>
+<p>Jev was not format-invariant either. The benchmark is therefore not evidence that one provider has a serialization problem and another does not. It is evidence that <strong>representation belongs in the behavioral contract</strong>.</p>
+<p>This is easy to miss when state is assembled by upstream software. A refactor from prose to JSON can look like a harmless transport improvement while changing the model’s decision surface. For deterministic code, equivalent data structures are usually expected to preserve behavior. For decision models, that equivalence has to be measured.</p>
+<p>The rule we would use in production is straightforward: keep state formatting stable per pipeline, version it like an interface, and rerun the workload eval when the representation changes.</p>
+<h2>Determinism also differs by provider</h2>
+<p>The repeat probes exposed another operational distinction.</p>
+<p>For the tested requests, Clef and Clef-flash returned byte-identical answers across three repeats in both runs. Jev returned small numeric variants while preserving the final labels.</p>
+<p>Neither behavior is inherently better. Exact repeatability is convenient for caching, regression debugging, and replay. Small probability movement can be acceptable when downstream code already uses bands, hysteresis, or review thresholds.</p>
+<p>What matters is that the system knows which contract it has. A pipeline that treats a probability as a stable score for audit or deduplication needs a stricter repeatability test than a pipeline that only branches on a wide threshold.</p>
+<h2>Vision is a real capability difference</h2>
+<p>Clef was the only tested family with vision support. Both Clef sizes correctly answered all three questions on a synthetic shapes image, in both runs.</p>
+<p>The wire contract was specific: images worked as base64 data URIs, while raw base64 was rejected with HTTP 422. Image tokens were included in <code>usage.input_tokens</code>.</p>
+<p>The public <a href="https://developers.cloudflare.com/workers-ai/models/clef/">Cloudflare model documentation</a> describes image inputs as an extension to the System One API. That makes Clef interesting for gates that otherwise require a separate vision model before classification: document triage, screenshot inspection, UI-state checks, or image-based moderation. We did not benchmark those workloads here, so the result is capability verification, not a quality claim.</p>
+<h2>“API-compatible” still needs an adapter</h2>
+<p>Cloudflare describes Clef as fully compatible with Jev and the System One API. At the semantic level, the match is close: state plus typed questions in, typed probabilistic decisions out.</p>
+<p>At the wire level, our two hosted paths disagreed on the boolean question keyword. Cloudflare accepts <code>noul</code>; the Vercel/TypeSafe path used by the harness expects <code>boolean</code>. Each rejected the other’s spelling in the tested API path.</p>
+<p>That is a one-field adapter, not a deep incompatibility. But it changes the deployment claim from “change only the model name” to “change the endpoint/model and translate one schema field.”</p>
+<p>This kind of seam is normal in infrastructure. It is also exactly why compatibility should be tested from the client boundary rather than inferred from conceptual similarity.</p>
+<h2>The two injection probes held, but that is not a security result</h2>
+<p>The battery included two synthetic prompt-injection-style cases. One embedded text telling the model to ignore instructions and mark a ticket non-urgent; another embedded a fake <code>SYSTEM:</code> directive asking it to route to billing.</p>
+<p>All three arms preserved the intended routing/urgency decision across those six checks, in both runs.</p>
+<p>That result is useful only at its actual scale: <strong>6/6 on two synthetic probes</strong>. It does not establish prompt-injection robustness. A real security evaluation would need adversarial generation, broader attack classes, repeated trials, and workload-specific harm definitions.</p>
+<p>The point of keeping these cases in the battery is regression detection. If a provider or formatting change suddenly flips them, the pipeline gets a concrete warning.</p>
+<h2>Decision models should be evaluated like dependencies</h2>
+<p>The benchmark changed how we think about decision-model substitution.</p>
+<p>A normal model comparison asks which model scores higher. An infrastructure comparison asks a larger set of questions:</p>
+<ul>
+  <li>Does it preserve the decisions that matter on our workload?</li>
+  <li>What happens around ambiguous policy boundaries?</li>
+  <li>What is the end-to-end latency from the deployment environment?</li>
+  <li>Does parallel load change that latency?</li>
+  <li>Does semantically equivalent state serialization change decisions?</li>
+  <li>Are identical calls repeatable enough for replay and audit?</li>
+  <li>Are the APIs actually wire-compatible?</li>
+  <li>What capabilities, such as vision or longer context, change the architecture?</li>
+  <li>What does the full path cost at realistic request volume?</li>
+</ul>
+<p>That framing matches our earlier distinction between <a href="https://rmax.ai/notes/jev-vs-generative-models-for-typed-software-decisions/">typed probabilistic decisions and generative models</a>. A decision model is attractive precisely because it narrows the output contract. The surrounding system should be equally explicit about the input and operational contract.</p>
+<p>For our current use, the measured guidance is workload-specific rather than a winner:</p>
+<table>
+<thead>
+<tr>
+<th>Workload property</th>
+<th>What this run suggests</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Low-latency synchronous branch</td>
+<td>Jev was the only tested path with a consistent sub-second p50 (~0.3 s) in our environment; Clef ranged from sub-second probe windows to ~19 s battery windows — re-measure before use</td>
+</tr>
+<tr>
+<td>Async triage / background gate</td>
+<td>Clef 27B is plausible: strong small-sample accuracy, low absolute cost</td>
+</tr>
+<tr>
+<td>Cost-sensitive async gate</td>
+<td>Clef-flash was cheaper than Clef 27B but weaker on our labeled subset</td>
+</tr>
+<tr>
+<td>Multimodal decision</td>
+<td>Clef is the only tested option with vision</td>
+</tr>
+<tr>
+<td>Replay-sensitive deterministic workflow</td>
+<td>Clef repeats were byte-identical in our probes; validate over a larger sample</td>
+</tr>
+<tr>
+<td>Existing Jev integration</td>
+<td>The semantic API is close, but keep an explicit <code>boolean</code>↔<code>noul</code> adapter and compatibility tests</td>
+</tr>
+</tbody>
+</table>
+<p>These are not universal provider recommendations. They are the decisions supported by one synthetic battery, one test environment, and hosted behavior across two dated windows in Clef’s first week.</p>
+<h2>What we would test next</h2>
+<p>The next run should focus less on adding cases and more on separating causes.</p>
+<p>First, latency needs replication in more dimensions: multiple Workers AI regions if selectable, repeated windows across several days, cold/warm patterns, and concurrency ramps — plus a method that can explain why identical client calls ranged from sub-second to ~19 seconds within one week. Our temporal replication so far is a full rerun that agreed with the launch window, bracketed by a probe window that disagreed; the spread itself is the thing to chase.</p>
+<p>Second, the format test should become a metamorphic evaluation. Generate multiple semantically equivalent encodings of the same state—field order, nesting, prose, normalized JSON—and measure label stability and probability drift automatically.</p>
+<p>Third, the accuracy set needs independent labels and more naturally occurring borderline cases. Twenty-four author-expected question-level decisions are useful for regression but not enough for a quality ranking.</p>
+<p>Fourth, repeatability should be measured over hundreds of identical calls, not three, and should distinguish exact bytes, label stability, probability drift, and decision-band crossings.</p>
+<p>Finally, vision deserves its own workload. Passing a three-question shapes test shows the interface works. It says little about document or UI decisions under real ambiguity.</p>
+<h2>Practical Takeaways</h2>
+<ul>
+  <li>Treat a decision-model migration as an interface and systems change, not a model-name change.</li>
+  <li>Benchmark the hosted path from the actual deployment environment, and repeat the measurement over time; vendor model latency and end-to-end API latency answer different questions.</li>
+  <li>Version state serialization and re-evaluate when its structure changes.</li>
+  <li>Put compatibility shims in one explicit adapter and test them; do not spread provider-specific field names through application code.</li>
+  <li>Use small synthetic batteries for regression and integration discovery, not for broad claims about model quality.</li>
+  <li>Keep ambiguous decisions inside review bands. Agreement rates matter less than what happens at policy boundaries.</li>
+</ul>
+<h2>Positioning Note</h2>
+<p>This is an engineering field report, not a general benchmark of Jev, Clef, or decision models. The measured battery was small and synthetic, the labeled subset used author expectations rather than independent adjudication, and latency came from one deployment environment across two dated measurement windows in Clef’s first week. Vendor-published benchmark latency and our observed API latency use different measurement paths and should not be compared as if they were the same metric.</p>
+<h2>Status &amp; Scope</h2>
+<p>Measurements were collected on October 3, 2026 and October 6, 2026 and are reproducible from the public <a href="https://github.com/rmax-ai/jev-vs-clef">benchmark repository</a>: the <a href="https://github.com/rmax-ai/jev-vs-clef/blob/main/results/run-20261003-main/report.md">launch-window run</a>, the <a href="https://github.com/rmax-ai/jev-vs-clef/blob/main/results/run-20261004-rerun/report.md">rerun</a>, their committed raw call logs, and the <a href="https://github.com/rmax-ai/jev-vs-clef/blob/main/results/run-20261004-rerun/delta-vs-20261003.md">launch-versus-rerun delta</a>. External capability and launch claims were checked against Cloudflare, TypeSafe, Vercel, and the released Hugging Face model cards. Research synthesis and this draft were prepared with AI assistance; the benchmark evidence is committed for independent inspection.</p>
+<h2 id="references">References</h2>
+<ul class="references">
+  <li><a href="https://github.com/rmax-ai/jev-vs-clef">Benchmark repository</a></li>
+  <li><a href="https://github.com/rmax-ai/jev-vs-clef/blob/main/results/run-20261003-main/report.md">Launch-window run report</a></li>
+  <li><a href="https://github.com/rmax-ai/jev-vs-clef/blob/main/results/run-20261003-main/calls.jsonl">Launch-window raw call log</a></li>
+  <li><a href="https://github.com/rmax-ai/jev-vs-clef/blob/main/results/run-20261004-rerun/report.md">Rerun report</a></li>
+  <li><a href="https://github.com/rmax-ai/jev-vs-clef/blob/main/results/run-20261004-rerun/calls.jsonl">Rerun raw call log</a></li>
+  <li><a href="https://github.com/rmax-ai/jev-vs-clef/blob/main/results/run-20261004-rerun/delta-vs-20261003.md">Launch-versus-rerun delta table</a></li>
+  <li><a href="https://blog.cloudflare.com/clef-decision-models/">Cloudflare: Introducing Clef</a></li>
+  <li><a href="https://developers.cloudflare.com/workers-ai/models/clef/">Cloudflare Workers AI: Clef documentation</a></li>
+  <li><a href="https://huggingface.co/Cloudflare/clef">Cloudflare Clef model card</a></li>
+  <li><a href="https://huggingface.co/Cloudflare/clef-flash">Cloudflare Clef-flash model card</a></li>
+  <li><a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">TypeSafe: Introducing System One Models &amp; Jev</a></li>
+  <li><a href="https://api.typesafe.ai/docs">TypeSafe API documentation</a></li>
+  <li><a href="https://vercel.com/ai-gateway/models/jev">Vercel AI Gateway: Jev</a></li>
+  <li><a href="https://rmax.ai/notes/jev-vs-generative-models-for-typed-software-decisions/">rmax.ai: Jev vs Generative Models for Typed Software Decisions</a></li>
+</ul>
+
+          </div>
+        </article>
+      </main>
+
+<footer class="rmax-footer">
+        <div class="agent-quote"><span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span></div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        maxTextWidth: 300,
+        themeCSS: '.label foreignObject { overflow: visible; }',
+        flowchart: {
+          htmlLabels: true,
+          useMaxWidth: true,
+          wrappingWidth: 340,
+        },
+        themeVariables: {
+          background: 'transparent',
+          primaryColor: '#1a1a2e',
+          primaryBorderColor: '#7c3aed',
+          primaryTextColor: '#e6eef8',
+          lineColor: '#94a3b8',
+          secondaryColor: '#16213e',
+          tertiaryColor: '#0b1220',
+          clusterBkg: 'transparent',
+          clusterBorder: '#334155',
+          edgeLabelBackground: '#0f1724',
+          nodeBorder: '#334155',
+          mainBkg: '#1a1a2e',
+        }
+      });
+    </script>
+    <script>
+      window.footerThoughts = [
+        { text: "I do not swap decision models on accuracy alone; the latency and wire contracts decide.", agent: "Swap Agent" },
+        { text: "I measure the hosted path from my own environment; vendor medians are a different object.", agent: "Latency Agent" },
+        { text: "I version state serialization like an interface; the same request can cross the boundary differently.", agent: "Serialization Agent" }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>
