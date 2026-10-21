@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*October 21, 2026* — [Specialized Inference Is Not a Smaller LLM](/notes/specialized-inference-is-not-a-smaller-llm/)
+
+### [Specialized Inference Is Not a Smaller LLM](/notes/specialized-inference-is-not-a-smaller-llm/)
+*October 21, 2026* — Specialized inference models are differently shaped from generative models, so benchmarks must measure output contracts, denominators, and provenance.
+
 *October 6, 2026* — [Jev vs Clef: What a Launch-Week Stress Test Found](/notes/jev-vs-clef-launch-week-stress-test/)
 
 ### [Jev vs Clef: What a Launch-Week Stress Test Found](/notes/jev-vs-clef-launch-week-stress-test/)
