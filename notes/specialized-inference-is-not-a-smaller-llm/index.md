@@ -77,15 +77,15 @@ The clearest separation appeared in interval estimation. Clairic’s 80% interva
 
 Decision results were mixed. Jev, Clef, and DeepSeek each answered 5 of 5 bounded-routing cases correctly. In text triage, Jev answered 3 of 5 correctly, while Clef and DeepSeek each answered 4 of 5 correctly. These are observations about authored probes, not estimates of future error rates.
 
-*Figure 2. Result shape by class. Each arm scored only the classes it could attempt, and every number carries its own denominator.*
+*Figure 2. Result shape by class. The bounded arms and the generative baseline attempted the decision classes; the typed arm and the baseline attempted the extraction classes. Every number carries its own denominator.*
 
 ```mermaid
 flowchart TD
-    subgraph DEC["Decision classes — bounded arms and the generative baseline"]
+    subgraph DEC["Decision classes"]
         R1["Routing — Jev 5/5, Clef 5/5, DeepSeek 5/5"]
         R2["Triage — Jev 3/5, Clef 4/5, DeepSeek 4/5"]
     end
-    subgraph EXT["Extraction classes — the typed arm and the generative baseline"]
+    subgraph EXT["Extraction classes"]
         R3["Typed fields — Clairic 8/8, DeepSeek 7/8"]
         R4["Absent fields — comparable null behavior, no ranking"]
         R5["Arithmetic — Clairic 4/4, DeepSeek 4/4"]

@@ -282,14 +282,14 @@ flowchart TD
 <p>List extraction differed. DeepSeek’s item F1 was 1.0 over 8 scored items, equivalent to 8 of 8 under the supplied evidence row. Clairic’s item F1 was 0.88 over 8 scored items, represented as 7 of 8 in the corrected evidence, with one excluded observation per arm. The difference is useful because it exposes a type-level boundary. A list representation can split or combine items in ways that matter downstream. It does not prove a general quality ordering.</p>
 <p>The clearest separation appeared in interval estimation. Clairic’s 80% interval score was 6.0 over 4 scored observations from five calls, with one observation excluded. DeepSeek’s was 69.5 on the same basis. Lower is better for that scoring rule. The result supports only a class-specific claim: a typed model that natively expresses an interval behaved differently from a generative model asked to serialize one on these five synthetic probes.</p>
 <p>Decision results were mixed. Jev, Clef, and DeepSeek each answered 5 of 5 bounded-routing cases correctly. In text triage, Jev answered 3 of 5 correctly, while Clef and DeepSeek each answered 4 of 5 correctly. These are observations about authored probes, not estimates of future error rates.</p>
-<p><em>Figure 2. Result shape by class. Each arm scored only the classes it could attempt, and every number carries its own denominator.</em></p>
+<p><em>Figure 2. Result shape by class. The bounded arms and the generative baseline attempted the decision classes; the typed arm and the baseline attempted the extraction classes. Every number carries its own denominator.</em></p>
 <pre class="mermaid">
 flowchart TD
-    subgraph DEC["Decision classes — bounded arms and the generative baseline"]
+    subgraph DEC["Decision classes"]
         R1["Routing — Jev 5/5, Clef 5/5, DeepSeek 5/5"]
         R2["Triage — Jev 3/5, Clef 4/5, DeepSeek 4/5"]
     end
-    subgraph EXT["Extraction classes — the typed arm and the generative baseline"]
+    subgraph EXT["Extraction classes"]
         R3["Typed fields — Clairic 8/8, DeepSeek 7/8"]
         R4["Absent fields — comparable null behavior, no ranking"]
         R5["Arithmetic — Clairic 4/4, DeepSeek 4/4"]
