@@ -122,7 +122,7 @@ Clef’s two class medians were 18.718 seconds and 18.682 seconds, with five cal
 
 Those are end-to-end wall-clock observations from one host. They include provider serving, gateway behavior, queuing, transport, and network effects. They are not isolated model times.
 
-The p90 values require even more care. Each class had five calls, so the reported p90 is the maximum rather than a distribution property. Jev’s routing median was 0.302 seconds and its reported p90 was 8.483 seconds, both from five calls. Before making a production claim, we would need repeated runs and a decomposition of queue, network, gateway, and model time.
+The p90 values require even more care. The harness computes percentiles by nearest rank over ascending sorted latencies, at index `ceil(0.9 × n) − 1`. At five calls that index is the last sample, so the reported p90 is the maximum observation rather than a distribution property; an interpolated percentile definition would return a different number from the same five values. Read median and maximum as the honest pair at this sample size. Jev’s routing median was 0.302 seconds and its reported p90 was 8.483 seconds, both from five calls. Before making a production claim, we would need repeated runs and a decomposition of queue, network, gateway, and model time.
 
 ## Cost follows request shape
 
@@ -173,7 +173,7 @@ This benchmark did not show that System One models are universally faster, cheap
 - Keep `not_applicable`, `not_comparable`, and `unknown` distinct. Never convert any of them to zero.
 - Keep the requested model alias apart from the provider build identifier. If the provider reports no build, record `unknown`.
 - Measure accuracy and calibration separately. A hard label carries no probability.
-- Report latency end to end, then instrument its parts before you attribute a cause. At five calls, the reported p90 is the maximum.
+- Report latency end to end, then instrument its parts before you attribute a cause. At five calls, nearest-rank p90 is the maximum observation, so quote median and maximum.
 - Measure schema tokens apart from document tokens. The contract can cost more than the evidence.
 
 ## Positioning Note
