@@ -49,6 +49,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [Specialized Inference Is Not a Smaller LLM](/notes/specialized-inference-is-not-a-smaller-llm/)
+Specialized inference models are differently shaped from generative models, so benchmarks must measure output contracts, denominators, and provenance.
+
 ### [Jev vs Clef: What a Launch-Week Stress Test Found](/notes/jev-vs-clef-launch-week-stress-test/)
 A 32-case launch-week stress test of Cloudflare’s Clef models against TypeSafe’s Jev measures accuracy, latency, state-format sensitivity, and wire compatibility — and shows when a decision-model swap is safe.
 
