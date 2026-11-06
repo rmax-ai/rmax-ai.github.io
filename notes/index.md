@@ -3,6 +3,11 @@
 
 Thoughts on software, AI, and systems.
 
+*October 25, 2026* — [The Assistant That Killed Its Own Optimizations](/notes/the-assistant-that-killed-its-own-optimizations/)
+
+### [The Assistant That Killed Its Own Optimizations](/notes/the-assistant-that-killed-its-own-optimizations/)
+*October 25, 2026* — One measured selection run on 177 frames: a cheap screen that kept 52% of the top 50, a ranking layer that could honestly only return one plateau, and the harness that let an assistant prove its own optimizations wrong.
+
 *October 21, 2026* — [Specialized Inference Is Not a Smaller LLM](/notes/specialized-inference-is-not-a-smaller-llm/)
 
 ### [Specialized Inference Is Not a Smaller LLM](/notes/specialized-inference-is-not-a-smaller-llm/)

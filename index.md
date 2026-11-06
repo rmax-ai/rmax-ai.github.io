@@ -49,6 +49,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [The Assistant That Killed Its Own Optimizations](/notes/the-assistant-that-killed-its-own-optimizations/)
+One measured selection run on 177 frames: a cheap screen that kept 52% of the top 50, a ranking layer that could honestly only return one plateau, and the harness that let an assistant prove its own optimizations wrong.
+
 ### [Specialized Inference Is Not a Smaller LLM](/notes/specialized-inference-is-not-a-smaller-llm/)
 Specialized inference models are differently shaped from generative models, so benchmarks must measure output contracts, denominators, and provenance.
 
