@@ -134,6 +134,9 @@ The next useful system is therefore not a more elaborate ranker. It is a small l
 
 The total measured program cost was $1.9684. For that amount, the system produced a delivered set, an auditable review surface, and three negative findings about itself: the screen destroyed recall, the ranker could not resolve the plateau within budget, and the top verdicts were unstable.
 
+![Review page of the selection pipeline: eight studio frames, each labelled with composite score, verdict, shot type, and distance from the nearest edited frame](selection-review-surface.jpg)
+*Figure 3 — The delivered review surface. Each tile carries the composite score, the verdict, the shot type, and the distance from the nearest already-edited frame. The view holds only frames at a composite score of 3.00 or higher that sit at least 0.20 from anything already edited.*
+
 Those negative results are the article’s main result. A less instrumented pipeline would have returned a shortlist and a ranked folder. Both might have looked convincing. This system was useful because it could show where its own confidence was unsupported.
 
 Selection begins as taste, but a selection pipeline is an evidence system. Its job is to preserve the population, make comparisons commensurable, expose uncertainty, and stop when further resolution costs more than the decision warrants. The assistant can run much of that process autonomously when the harness makes cost, reversibility, provenance, and authority explicit.
