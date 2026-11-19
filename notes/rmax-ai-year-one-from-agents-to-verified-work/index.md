@@ -1,10 +1,34 @@
+---
+title: "RMax AI, Year One: From Agents to Verified Work"
+slug: rmax-ai-year-one-from-agents-to-verified-work
+description: "A first-year field report from a personal agent lab: 1,078 delegated tasks, 77 published notes, and the gap between recorded success and verified work."
+author: Max
+site: rmax.ai
+section: notes
+type: essay
+status: published
+date: 2026-11-19
+updated: 2026-11-19
+tags:
+  - year one
+  - agent systems
+  - governance
+  - verification
+  - field report
+  - agent orchestration
+  - retrospective
+reading_time: "13-15 min"
+canonical_url: https://rmax.ai/notes/rmax-ai-year-one-from-agents-to-verified-work/
+license: "CC BY 4.0"
+---
+
 # RMax AI, Year One: From Agents to Verified Work
 
 RMax AI began in November 2025 with a narrow question: how much software work can an agent take on? A year and a thousand delegated tasks later, that question was no longer the interesting one. The interesting questions were about everything around the work. Who owns an interrupted task? Which revision passed review? Did a tool actually run, or was it merely installed? Can a useful result be recovered after the conversation that produced it disappears?
 
 **The central claim of this retrospective is that useful autonomy depends on recoverable state, explicit ownership, and evidence for every consequential transition.** A capable model performs the work. The surrounding system decides whether that work can be trusted, resumed, reviewed, and maintained. Most of what follows is an account of building that surrounding system, and of the places where it still does not hold.
 
-The evidence base is a November 18, 2026 operational audit of the lab's own repositories, sessions, scheduled jobs, task outcomes, and review findings, plus two public field reports written during the year. The audit is a historical observation of a system inspecting itself, not an independent reproduction. Numbers in this article carry their denominator and their cutoff; where the audit's own figures disagree with each other, this article reports the disagreement rather than resolving it silently. The [evidence appendix](evidence-notes.html) records every definition, correction, and unresolved measurement.
+The evidence base is a November 18, 2026 operational audit of the lab's own repositories, sessions, scheduled jobs, task outcomes, and review findings, plus two public field reports written during the year. The audit is a historical observation of a system inspecting itself, not an independent reproduction. Numbers in this article carry their denominator and their cutoff; where the audit's own figures disagree with each other, this article reports the disagreement rather than resolving it silently. The [evidence appendix](evidence-notes/) records every definition, correction, and unresolved measurement.
 
 ## A year of building the system around the model
 
@@ -138,11 +162,11 @@ This is an applied field report from a personal lab. It is not a controlled stud
 
 ## Status and scope
 
-Project implementations range from early prototypes to operational components; historical deployment does not certify present reliability. The operational aggregates are a November 18, 2026 snapshot of the lab's own audit, with corrections and limitations retained in the [evidence appendix](evidence-notes.html); they are not live counters. AI assistance contributed to the research synthesis, the operational audit, and the editorial revision.
+Project implementations range from early prototypes to operational components; historical deployment does not certify present reliability. The operational aggregates are a November 18, 2026 snapshot of the lab's own audit, with corrections and limitations retained in the [evidence appendix](evidence-notes/); they are not live counters. AI assistance contributed to the research synthesis, the operational audit, and the editorial revision.
 
 ## Sources
 
-1. [Evidence appendix: metric definitions, denominators, and corrections](evidence-notes.html).
+1. [Evidence appendix: metric definitions, denominators, and corrections](evidence-notes/).
 2. [RMax AI public notes](https://rmax.ai/notes/) and the [publication repository](https://github.com/rmax-ai/rmax-ai.github.io).
 3. [Agent-First Software Engineering](https://rmax.ai/notes/agent-first-software-engineering/).
 4. [From Human-Orchestrated Agent to Autonomous Control Plane](https://rmax.ai/notes/from-human-orchestrated-agent-to-autonomous-control-plane/).
