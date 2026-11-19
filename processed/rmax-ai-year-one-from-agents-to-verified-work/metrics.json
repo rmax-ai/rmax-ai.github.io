@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "evidence_cutoff": "2026-11-18",
+  "prepared_on": "2026-11-19",
+  "provenance": "Aggregate operational audit collected by rmax-10 on 2026-11-18; reconciled editorially on 2026-11-19. Historical snapshot, not a live counter or independent end-to-end delivery census.",
+  "tasks": {
+    "total": 1078,
+    "states": {
+      "SUCCEEDED": 809,
+      "FAILED": 210,
+      "CANCELLED": 58,
+      "RUNNING": 1
+    },
+    "composition_check": "states sum to total",
+    "meaning": "Queue-recorded task states; SUCCEEDED is not independent proof of deployment or useful outcome."
+  },
+  "attempts": {
+    "reported_total": 1375,
+    "reported_acceptance_failed": 518,
+    "reported_acceptance_failure_percent": 37.7,
+    "reported_category_sum": 1380,
+    "discrepancy": 5,
+    "complete_composition_chart_allowed": false,
+    "warning": "Result category counts and stated total disagree. Resolve against original collection query before publishing a complete attempt-state chart. The failure rate is audit-reported, not independently re-counted."
+  },
+  "publications": {
+    "dated_articles": 77,
+    "redirect_pages": 1,
+    "note_pages": 78,
+    "note_sitemap_urls_including_index": 79,
+    "total_sitemap_urls": 86,
+    "meaning": "78 note pages include one redirect; article count is 77."
+  },
+  "inbox": {
+    "reported_requests": 844,
+    "reported_consumed": 590,
+    "reported_answered": 241,
+    "reported_pending": 3,
+    "listed_status_total": 834,
+    "unreconciled_gap": 10,
+    "reported_open_issues": 291,
+    "warning": "Listed labels do not account for every request, and their overlap with open issue state is not given."
+  }
+}
