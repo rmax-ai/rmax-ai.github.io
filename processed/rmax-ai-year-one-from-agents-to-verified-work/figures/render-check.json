@@ -1,0 +1,8 @@
+{
+  "result": "PASS",
+  "completed_pages": 4,
+  "checked_tiles": 18,
+  "passed_tiles": 18,
+  "manifest": "render-evidence/manifest.json",
+  "errors": []
+}
