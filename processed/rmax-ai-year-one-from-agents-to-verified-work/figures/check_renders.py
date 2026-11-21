@@ -174,6 +174,16 @@ def static():
     dates = {u.findtext("{*}loc"):u.findtext("{*}lastmod") for u in ET.parse(ROOT/"sitemap.xml").getroot()}
     for url in (fields["canonical_url"], fields["canonical_url"]+"evidence-notes/"):
         require(dates.get(url) == "2026-11-19T23:25:57Z", f"sitemap date {url}")
+    # Every local Markdown link that names this slug must resolve on disk.
+    for doc in (ROOT/"CHANGELOG.md", NOTE/"index.md"):
+        for link in re.findall(r"\[[^\]]+\]\(([^)#]+)\)", doc.read_text()):
+            if link.startswith(("http://","https://","mailto:","#")) or SLUG not in link:
+                continue
+            target = (ROOT/link.lstrip("/")) if link.startswith("/") else (doc.parent/link).resolve()
+            if target.is_dir():
+                target /= "index.html"
+            if not target.exists():
+                raise ValueError(f"{doc.name}: missing local link {link}")
     print(f"PASS static: parity, {count} prose words, {estimate}, figures, frontmatter, sitemap, links, footers")
 
 
@@ -225,10 +235,11 @@ def asset_failures(events, origin):
         else:
             continue
         if method != "Network.requestWillBeSent":
-            if status == "net::ERR_ABORTED" or urlsplit(url).path == "/favicon.ico":
-                continue
-            failures.append({"url": url, "status": status,
-                             "scope": "local" if urlsplit(url).netloc == urlsplit(origin).netloc else "external"})
+            scope = "local" if urlsplit(url).netloc == urlsplit(origin).netloc else "external"
+            # Browser-cancelled requests (unmatched <picture> sources) and the absent favicon are
+            # recorded for auditability but do not fail the page.
+            fatal = not (status == "net::ERR_ABORTED" or urlsplit(url).path == "/favicon.ico")
+            failures.append({"url": url, "status": status, "scope": scope, "fatal": fatal})
     return failures
 
 
@@ -249,7 +260,7 @@ def manifest_ok(row):
             and row["y_offset"] + height <= row["scrollHeight"]
             and row["bound_check"] and width == row["viewport"]["width"] <= LIMIT
             and 0 < height == row["tile_height"] <= 3000 and not row["overflow"]
-            and not [f for f in row["asset_failures"] if f.get("scope") == "local"])
+            and not [f for f in row["asset_failures"] if f.get("scope") == "local" and f.get("fatal", True)])
 
 
 def self_test():
@@ -263,9 +274,12 @@ def self_test():
         origin = "http://127.0.0.1:5555"
         events = [{"method":"Network.responseReceived","params":{"response":{"url":origin+"/x","status":404}}},
                   {"method":"Network.requestWillBeSent","params":{"requestId":"2","request":{"url":"https://example.org/x"}}},
-                  {"method":"Network.loadingFailed","params":{"requestId":"2","errorText":"unavailable"}}]
-        require([(f["scope"],f["status"]) for f in asset_failures(events,origin)] ==
-                [("local",404),("external","unavailable")], "asset classification")
+                  {"method":"Network.loadingFailed","params":{"requestId":"2","errorText":"unavailable"}},
+                  {"method":"Network.requestWillBeSent","params":{"requestId":"3","request":{"url":origin+"/fig-mobile.svg"}}},
+                  {"method":"Network.loadingFailed","params":{"requestId":"3","errorText":"net::ERR_ABORTED"}}]
+        require([(f["scope"],f["status"],f["fatal"]) for f in asset_failures(events,origin)] ==
+                [("local",404,True),("external","unavailable",True),("local","net::ERR_ABORTED",False)],
+                "asset classification")
     def widths():
         require(not overflow(390,390) and overflow(390,391), "overflow classification")
     def manifest():

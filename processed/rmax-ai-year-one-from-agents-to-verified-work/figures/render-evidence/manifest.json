@@ -1,6 +1,6 @@
 [
   {
-    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "url": "http://127.0.0.1:38155/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
     "viewport": {
       "width": 1440,
       "height": 3000
@@ -16,17 +16,26 @@
       {
         "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://scripts.simpleanalyticscdn.com/latest.js",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://rmax.substack.com/embed",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "http://127.0.0.1:38155/favicon.ico",
+        "status": 404,
+        "scope": "local",
+        "fatal": false
       }
     ],
     "dimensions": [
@@ -36,7 +45,7 @@
     "bound_check": true
   },
   {
-    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "url": "http://127.0.0.1:38155/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
     "viewport": {
       "width": 1440,
       "height": 3000
@@ -52,17 +61,26 @@
       {
         "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://scripts.simpleanalyticscdn.com/latest.js",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://rmax.substack.com/embed",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "http://127.0.0.1:38155/favicon.ico",
+        "status": 404,
+        "scope": "local",
+        "fatal": false
       }
     ],
     "dimensions": [
@@ -72,7 +90,7 @@
     "bound_check": true
   },
   {
-    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "url": "http://127.0.0.1:38155/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
     "viewport": {
       "width": 1440,
       "height": 3000
@@ -88,17 +106,26 @@
       {
         "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://scripts.simpleanalyticscdn.com/latest.js",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://rmax.substack.com/embed",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "http://127.0.0.1:38155/favicon.ico",
+        "status": 404,
+        "scope": "local",
+        "fatal": false
       }
     ],
     "dimensions": [
@@ -108,7 +135,7 @@
     "bound_check": true
   },
   {
-    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "url": "http://127.0.0.1:38155/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
     "viewport": {
       "width": 1440,
       "height": 3000
@@ -124,17 +151,26 @@
       {
         "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://scripts.simpleanalyticscdn.com/latest.js",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://rmax.substack.com/embed",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "http://127.0.0.1:38155/favicon.ico",
+        "status": 404,
+        "scope": "local",
+        "fatal": false
       }
     ],
     "dimensions": [
@@ -144,7 +180,7 @@
     "bound_check": true
   },
   {
-    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "url": "http://127.0.0.1:38155/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
     "viewport": {
       "width": 1440,
       "height": 868
@@ -160,17 +196,26 @@
       {
         "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://scripts.simpleanalyticscdn.com/latest.js",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://rmax.substack.com/embed",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "http://127.0.0.1:38155/favicon.ico",
+        "status": 404,
+        "scope": "local",
+        "fatal": false
       }
     ],
     "dimensions": [
@@ -180,7 +225,7 @@
     "bound_check": true
   },
   {
-    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "url": "http://127.0.0.1:38155/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
     "viewport": {
       "width": 390,
       "height": 3000
@@ -196,17 +241,26 @@
       {
         "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://scripts.simpleanalyticscdn.com/latest.js",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://rmax.substack.com/embed",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "http://127.0.0.1:38155/favicon.ico",
+        "status": 404,
+        "scope": "local",
+        "fatal": false
       }
     ],
     "dimensions": [
@@ -216,7 +270,7 @@
     "bound_check": true
   },
   {
-    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "url": "http://127.0.0.1:38155/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
     "viewport": {
       "width": 390,
       "height": 3000
@@ -232,17 +286,26 @@
       {
         "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://scripts.simpleanalyticscdn.com/latest.js",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://rmax.substack.com/embed",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "http://127.0.0.1:38155/favicon.ico",
+        "status": 404,
+        "scope": "local",
+        "fatal": false
       }
     ],
     "dimensions": [
@@ -252,7 +315,7 @@
     "bound_check": true
   },
   {
-    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "url": "http://127.0.0.1:38155/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
     "viewport": {
       "width": 390,
       "height": 3000
@@ -268,17 +331,26 @@
       {
         "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://scripts.simpleanalyticscdn.com/latest.js",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://rmax.substack.com/embed",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "http://127.0.0.1:38155/favicon.ico",
+        "status": 404,
+        "scope": "local",
+        "fatal": false
       }
     ],
     "dimensions": [
@@ -288,7 +360,7 @@
     "bound_check": true
   },
   {
-    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "url": "http://127.0.0.1:38155/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
     "viewport": {
       "width": 390,
       "height": 3000
@@ -304,17 +376,26 @@
       {
         "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://scripts.simpleanalyticscdn.com/latest.js",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://rmax.substack.com/embed",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "http://127.0.0.1:38155/favicon.ico",
+        "status": 404,
+        "scope": "local",
+        "fatal": false
       }
     ],
     "dimensions": [
@@ -324,7 +405,7 @@
     "bound_check": true
   },
   {
-    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "url": "http://127.0.0.1:38155/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
     "viewport": {
       "width": 390,
       "height": 3000
@@ -340,17 +421,26 @@
       {
         "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://scripts.simpleanalyticscdn.com/latest.js",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://rmax.substack.com/embed",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "http://127.0.0.1:38155/favicon.ico",
+        "status": 404,
+        "scope": "local",
+        "fatal": false
       }
     ],
     "dimensions": [
@@ -360,7 +450,7 @@
     "bound_check": true
   },
   {
-    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "url": "http://127.0.0.1:38155/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
     "viewport": {
       "width": 390,
       "height": 3000
@@ -376,17 +466,26 @@
       {
         "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://scripts.simpleanalyticscdn.com/latest.js",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://rmax.substack.com/embed",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "http://127.0.0.1:38155/favicon.ico",
+        "status": 404,
+        "scope": "local",
+        "fatal": false
       }
     ],
     "dimensions": [
@@ -396,7 +495,7 @@
     "bound_check": true
   },
   {
-    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "url": "http://127.0.0.1:38155/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
     "viewport": {
       "width": 390,
       "height": 3000
@@ -412,17 +511,26 @@
       {
         "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://scripts.simpleanalyticscdn.com/latest.js",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://rmax.substack.com/embed",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "http://127.0.0.1:38155/favicon.ico",
+        "status": 404,
+        "scope": "local",
+        "fatal": false
       }
     ],
     "dimensions": [
@@ -432,7 +540,7 @@
     "bound_check": true
   },
   {
-    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "url": "http://127.0.0.1:38155/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
     "viewport": {
       "width": 390,
       "height": 1558
@@ -448,17 +556,26 @@
       {
         "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://scripts.simpleanalyticscdn.com/latest.js",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://rmax.substack.com/embed",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "http://127.0.0.1:38155/favicon.ico",
+        "status": 404,
+        "scope": "local",
+        "fatal": false
       }
     ],
     "dimensions": [
@@ -468,7 +585,7 @@
     "bound_check": true
   },
   {
-    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/evidence-notes/index.html",
+    "url": "http://127.0.0.1:38155/notes/rmax-ai-year-one-from-agents-to-verified-work/evidence-notes/index.html",
     "viewport": {
       "width": 1440,
       "height": 3000
@@ -484,17 +601,26 @@
       {
         "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
-      },
-      {
-        "url": "https://rmax.substack.com/embed",
-        "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://scripts.simpleanalyticscdn.com/latest.js",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "http://127.0.0.1:38155/favicon.ico",
+        "status": 404,
+        "scope": "local",
+        "fatal": false
       }
     ],
     "dimensions": [
@@ -504,7 +630,7 @@
     "bound_check": true
   },
   {
-    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/evidence-notes/index.html",
+    "url": "http://127.0.0.1:38155/notes/rmax-ai-year-one-from-agents-to-verified-work/evidence-notes/index.html",
     "viewport": {
       "width": 1440,
       "height": 1834
@@ -520,17 +646,26 @@
       {
         "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
-      },
-      {
-        "url": "https://rmax.substack.com/embed",
-        "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://scripts.simpleanalyticscdn.com/latest.js",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "http://127.0.0.1:38155/favicon.ico",
+        "status": 404,
+        "scope": "local",
+        "fatal": false
       }
     ],
     "dimensions": [
@@ -540,7 +675,7 @@
     "bound_check": true
   },
   {
-    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/evidence-notes/index.html",
+    "url": "http://127.0.0.1:38155/notes/rmax-ai-year-one-from-agents-to-verified-work/evidence-notes/index.html",
     "viewport": {
       "width": 390,
       "height": 3000
@@ -556,17 +691,26 @@
       {
         "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://scripts.simpleanalyticscdn.com/latest.js",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://rmax.substack.com/embed",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "http://127.0.0.1:38155/favicon.ico",
+        "status": 404,
+        "scope": "local",
+        "fatal": false
       }
     ],
     "dimensions": [
@@ -576,7 +720,7 @@
     "bound_check": true
   },
   {
-    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/evidence-notes/index.html",
+    "url": "http://127.0.0.1:38155/notes/rmax-ai-year-one-from-agents-to-verified-work/evidence-notes/index.html",
     "viewport": {
       "width": 390,
       "height": 3000
@@ -592,17 +736,26 @@
       {
         "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://scripts.simpleanalyticscdn.com/latest.js",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://rmax.substack.com/embed",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "http://127.0.0.1:38155/favicon.ico",
+        "status": 404,
+        "scope": "local",
+        "fatal": false
       }
     ],
     "dimensions": [
@@ -612,7 +765,7 @@
     "bound_check": true
   },
   {
-    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/evidence-notes/index.html",
+    "url": "http://127.0.0.1:38155/notes/rmax-ai-year-one-from-agents-to-verified-work/evidence-notes/index.html",
     "viewport": {
       "width": 390,
       "height": 2357
@@ -628,17 +781,26 @@
       {
         "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://scripts.simpleanalyticscdn.com/latest.js",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
       },
       {
         "url": "https://rmax.substack.com/embed",
         "status": "net::ERR_NAME_NOT_RESOLVED",
-        "scope": "external"
+        "scope": "external",
+        "fatal": true
+      },
+      {
+        "url": "http://127.0.0.1:38155/favicon.ico",
+        "status": 404,
+        "scope": "local",
+        "fatal": false
       }
     ],
     "dimensions": [
