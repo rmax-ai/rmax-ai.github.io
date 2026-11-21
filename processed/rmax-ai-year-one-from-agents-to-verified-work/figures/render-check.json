@@ -1,66 +1,8 @@
 {
-  "max_allowed_px": 8192,
-  "checks": [
-    {
-      "name": "figure:fig-1-timeline-mobile.svg",
-      "px": "380x836",
-      "ok": true,
-      "expected": "380x836"
-    },
-    {
-      "name": "figure:fig-1-timeline.svg",
-      "px": "760x687",
-      "ok": true,
-      "expected": "760x687"
-    },
-    {
-      "name": "figure:fig-2-control-loop-mobile.svg",
-      "px": "380x848",
-      "ok": true,
-      "expected": "380x848"
-    },
-    {
-      "name": "figure:fig-2-control-loop.svg",
-      "px": "760x664",
-      "ok": true,
-      "expected": "760x664"
-    },
-    {
-      "name": "figure:fig-3-outcomes-mobile.svg",
-      "px": "380x456",
-      "ok": true,
-      "expected": "380x456"
-    },
-    {
-      "name": "figure:fig-3-outcomes.svg",
-      "px": "760x410",
-      "ok": true,
-      "expected": "760x410"
-    },
-    {
-      "name": "page:note:desktop",
-      "px": "1440x2000",
-      "ok": true,
-      "expected": "1440x2000"
-    },
-    {
-      "name": "page:note:mobile",
-      "px": "390x2000",
-      "ok": true,
-      "expected": "390x2000"
-    },
-    {
-      "name": "page:appendix:desktop",
-      "px": "1440x2000",
-      "ok": true,
-      "expected": "1440x2000"
-    },
-    {
-      "name": "page:appendix:mobile",
-      "px": "390x2000",
-      "ok": true,
-      "expected": "390x2000"
-    }
-  ],
-  "failures": []
+  "result": "PASS",
+  "completed_pages": 4,
+  "checked_tiles": 18,
+  "passed_tiles": 18,
+  "manifest": "render-evidence/manifest.json",
+  "errors": []
 }

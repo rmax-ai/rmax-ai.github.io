@@ -215,6 +215,16 @@
         margin: 40px 0;
       }
 
+      .scorecard { table-layout: fixed; overflow-wrap: anywhere; }
+      .scorecard th, .scorecard td { padding: 8px; vertical-align: top; }
+      @media (max-width: 640px) {
+        .scorecard, .scorecard tbody, .scorecard tr, .scorecard td { display: block; }
+        .scorecard thead { position: absolute; clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; }
+        .scorecard tr { margin-bottom: 24px; }
+        .scorecard td::before { content: attr(data-label); display: block; font-weight: 700; }
+        table:not(.scorecard) { display: block; max-width: 100%; overflow-x: auto; }
+        table:not(.scorecard) th, table:not(.scorecard) td { padding: 8px 10px; font-size: 0.9rem; }
+      }
       @media (max-width: 600px) {
         .wrap {
           margin: 20px auto;
@@ -304,7 +314,7 @@
 <p><strong>Figure caption:</strong> Recorded queue task states at 2026-11-18. Success is the queue's recorded state; this census does not independently establish that every task produced a reviewed, deployed, useful result. The single running task was nonterminal at collection. Percentages are rounded to one decimal place.</p>
 <h2>Discrepancies requiring editorial resolution</h2>
 <ol>
-  <li><strong>Attempt totals conflict.</strong> The audit reports 1,375 attempts and 518 <code>ACCEPTANCE_FAILED</code> records, giving 37.7% using the stated denominator. Its listed categories—810 OK, 518 acceptance failures, 15 timeout, 12 fail, 12 cancelled, 4 quota, 4 killed and 5 unknown—sum to <strong>1,380</strong>. Do not present a complete attempt-outcome chart until the original query reconciles the extra five records. A mention of 37.7% must identify it as audit-reported and retain this qualification. Never silently change the denominator to force agreement.</li>
+  <li><strong>Attempt totals conflict.</strong> The audit reports 1,375 attempts and 518 <code>ACCEPTANCE_FAILED</code> records, giving 37.7% using the stated denominator. The category counts sum to <strong>1,380</strong>. No independent recount or rerun of the collection query established membership in either total. The discrepancy of five remains unresolved. Figure 3 therefore shows only task states.</li>
   <li><strong>Channel labels are incomplete.</strong> The listed 590 consumed, 241 answered and 3 pending sum to <strong>834</strong>, ten below the 844-request total. Do not turn those labels into a complete pie chart or assume that all 241 answered requests are within the 291-open subset without a joint census.</li>
   <li><strong>Commit measures differ.</strong> The audit's 50,113 default-branch commits minus 38,777 imported Hermes-history commits leaves 11,336. Its separate monthly search series totals 11,393. They are different counting methods; neither proves unique authorship across all repositories. Credit the upstream Hermes framework separately from RMax's integration and operational work.</li>
   <li><strong>Closure counts lack a cohort definition.</strong> Monthly “opened” and “closed” values count issues and PRs together. Without the original query semantics, closed items cannot be treated as members of that month's opened cohort. Do not calculate a completion rate from their ratio.</li>
@@ -312,7 +322,7 @@
 <h2>Historical and causal limits</h2>
 <p>November 2025 is the operator's inception framing. The audit found no durable artifact before December 23; that is an evidence gap, not proof that nothing happened. January 31 identifies the earliest inspected OpenClaw workspace; May 11 is the reported Hermes migration. These dates do not establish when every agent name or identity first existed.</p>
 <p>For April, the audit found zero indexed organization commits/issues and 30 inspected heartbeat-only sessions. This supports dormancy in the inspected records. It does not prove why activity stopped, what happened outside those records, or that a platform change caused recovery.</p>
-<p>Acceptance failures identify failed checks. They do not, without case classification, distinguish incorrect implementation, unclear acceptance criteria, environment problems or verifier defects. Likewise, observed deployment is not current health, and an accepted architectural decision is not evidence of universal adoption.</p>
+<p>The audit recorded failed checks but did not classify their causes. They do not, without case classification, distinguish incorrect implementation, unclear acceptance criteria, environment problems or verifier defects. Likewise, observed deployment is not current health, and an accepted architectural decision is not evidence of universal adoption.</p>
 <h2>Source reconciliation and public references</h2>
 <p>The source review found that some inventory labels were broader than their evidence: a bounded execution-engine slice was implemented despite a concept-only category, and the architecture corpus documents an ADR collision repair. Omit blanket maturity labels and an exact unreconciled ADR count. Do not expose private source URLs as reader-facing evidence.</p>
 <p>Public references checked during preparation:</p>
@@ -345,7 +355,7 @@
     <script>
       window.footerThoughts = [
         {
-          text: "I kept the five records I could not classify, because deleting them would have been a claim.",
+          text: "I kept both reported totals so a reader can see where the counts disagree.",
           agent: "Ledger Agent"
         },
         {

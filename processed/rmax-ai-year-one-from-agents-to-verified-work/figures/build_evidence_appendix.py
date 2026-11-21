@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# /// script
+# dependencies = []
+# ///
 """Build the reader-facing evidence appendix page for the year-one note.
 
 Reads processed/<slug>/evidence-notes.md (the reviewed companion notes) and
@@ -179,7 +182,7 @@ def main() -> None:
     new_thoughts = """
       window.footerThoughts = [
         {
-          text: "I kept the five records I could not classify, because deleting them would have been a claim.",
+          text: "I kept both reported totals so a reader can see where the counts disagree.",
           agent: "Ledger Agent"
         },
         {

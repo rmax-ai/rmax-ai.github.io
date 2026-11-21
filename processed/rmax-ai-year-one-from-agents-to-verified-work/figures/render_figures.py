@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# /// script
+# dependencies = []
+# ///
 """Render the three editorial figures for the RMax AI year-one article.
 
 Editable source for every published figure. Deterministic: same input, same bytes.
@@ -15,6 +18,7 @@ Usage:  python3 processed/<slug>/figures/render_figures.py
 
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 import xml.etree.ElementTree as ET
@@ -298,12 +302,9 @@ def figure2_wide() -> str:
     s = [svg_open(
         w, h,
         "Control loop: human authority, durable GitHub state, bounded agent execution, acceptance gate, independent review, and disposition",
-        "Seven stages arranged top to bottom. The operator sets scope and authority in GitHub. The "
-        "orchestrator selects work and dispatches one bounded attempt to a coding agent. An acceptance "
-        "gate and an independent review return verdicts to the same task. A solid return edge shows "
-        "failed verification returning the attempt to the execution lane; a dashed edge from "
-        "disposition back to task state shows adoption of the result into the next task, which the "
-        "system does not yet enforce consistently.",
+        "Seven documented responsibilities. The dashed red return runs from the acceptance gate to "
+        "execution for a retry. The dotted amber return from disposition to GitHub task state "
+        "represents a proposed follow-up.",
         "f2w",
     )]
     s.append(
@@ -346,14 +347,14 @@ def figure2_wide() -> str:
     mid = (band_h - 10) / 2
     edge = pad + band_w
 
-    # Enforced return edge: a failed check sends the attempt back to the lane.
+    # Retry route from gate to execution.
     s.append(
         f'<path d="M{edge} {y_gate + mid} H{gutter_red} V{y_exec + mid} H{edge + 4}" '
         f'fill="none" stroke="{RED}" stroke-width="1.6" stroke-dasharray="5 4"/>'
         f'<path d="M{edge + 9} {y_exec + mid - 3.5} L{edge + 4} {y_exec + mid} L{edge + 9} {y_exec + mid + 3.5}" '
         f'fill="none" stroke="{RED}" stroke-width="1.6"/>'
     )
-    # Unenforced edge: disposition does not reliably shape the next task.
+    # Proposed return from disposition to task state.
     s.append(
         f'<path d="M{edge} {y_disp + mid} H{gutter_amber} V{y_state + mid} H{edge + 4}" '
         f'fill="none" stroke="{AMBER}" stroke-width="1.6" stroke-dasharray="2 5"/>'
@@ -377,15 +378,15 @@ def figure2_wide() -> str:
     s.append(f'<circle cx="{pad + 6}" cy="{ly}" r="4.5" fill="{AMBER}"/>')
     s.append(
         f'<text x="{pad + 18}" y="{ly + 4}" font-size="10.5" fill="{TEXT}">'
-        f'Adoption of a verified result into the next task is not consistently enforced today.</text>'
+        f'Amber marks a proposed follow-up in the next task.</text>'
     )
     s.append(
         f'<text x="{pad + 6}" y="{ly + 22}" font-size="10" fill="{MUTED}">'
-        f'Verification exists and verdicts are recorded; the outcome does not reliably reach the next card\'s acceptance criteria.</text>'
+        f'The audit recorded verdicts. It did not track their adoption in later tasks.</text>'
     )
     s.append(
         f'<text x="{pad + 6}" y="{ly + 38}" font-size="10" fill="{DIM}">'
-        f'Responsibilities, not a guarantee that every historical task completed this path. Chat coordination and runtime internals omitted.</text>'
+        f'The stages describe responsibilities. The audit did not trace every historical task through them.</text>'
     )
     s.append("</svg>")
     return "".join(s)
@@ -401,8 +402,8 @@ def figure2_mobile() -> str:
     s = [svg_open(
         w, h,
         "Control loop: human authority, durable GitHub state, bounded agent execution, acceptance gate, independent review, and disposition",
-        "Seven stages stacked vertically. Failed checks return the attempt to the execution lane. "
-        "Adoption of a verified result into the next task is not consistently enforced.",
+        "Seven responsibilities stacked vertically. Red text describes a possible return to execution. "
+        "An amber box describes a proposed follow-up in GitHub task state.",
         "f2m",
     )]
     s.append(
@@ -427,13 +428,13 @@ def figure2_mobile() -> str:
         if i == 5:
             s.append(
                 f'<text x="{pad + 14}" y="{y + band_h - 18}" font-size="9" fill="{RED}">'
-                f'A failed check returns the attempt to stage 4.</text>'
+                f'A failed check can return work to stage 4.</text>'
             )
         y += band_h
 
     note = wrap(
-        "A verified result does not reliably change the next task's acceptance criteria or the skill that produced it. "
-        "Stage 7 reaches stage 2 only when a human or the orchestrator makes that link deliberately.",
+        "A review finding can inform the next task. "
+        "The operator or orchestrator would link the disposition at stage 7 to the task record at stage 2.",
         body_w, 10,
     )
     assert len(note) <= note_max, f"mobile note needs {len(note)} lines"
@@ -441,7 +442,7 @@ def figure2_mobile() -> str:
     s.append(
         f'<rect x="{pad}" y="{by}" width="{w - 2 * pad}" height="{box_h}" rx="7" fill="{AMBER}" '
         f'fill-opacity="0.08" stroke="{AMBER}" stroke-opacity="0.45"/>'
-        f'<text x="{pad + 12}" y="{by + 18}" font-size="10.5" font-weight="600" fill="{AMBER}">Not enforced today</text>'
+        f'<text x="{pad + 12}" y="{by + 18}" font-size="10.5" font-weight="600" fill="{AMBER}">Proposed follow-up</text>'
     )
     body, _ = text_lines(pad + 12, by + 33, note, 10, MUTED, lh=1.3)
     s.append(body)
@@ -459,21 +460,19 @@ TASK_SEGS = [
     ("Cancelled", TASKS["states"]["CANCELLED"], DIM),
     ("Running", TASKS["states"]["RUNNING"], BLUE),
 ]
-ATTEMPT_SEGS = [
-    ("Succeeded", 810, GREEN),
-    ("Acceptance failed", ATT["reported_acceptance_failed"], RED),
-    ("Other non-success", 47, DIM),
-]
-
-
 def pct(n: int, d: int) -> str:
     return f"{100 * n / d:.1f}%"
 
 
 def bar(
-    x: float, y: float, w: float, h: float, segs: list[tuple[str, int, str]], total: int, mobile: bool
+    x: float, y: float, w: float, h: float, segs: list[tuple[str, int, str]], total: int, mobile: bool,
+    *, unit: str, metrics: dict,
 ) -> tuple[str, list[tuple[str, int, str, float, float]]]:
     """Draw a bar normalised to its own total; return per-segment geometry."""
+    if unit == "attempt" and not metrics["attempts"]["complete_composition_chart_allowed"]:
+        raise ValueError("attempt partition refused: complete_composition_chart_allowed is false")
+    if unit not in {"task", "attempt"} or total <= 0 or sum(value for _, value, _ in segs) != total:
+        raise ValueError(f"{unit} states must sum to their positive denominator")
     out, geom, cx = [], [], x
     for label, value, colour in segs:
         sw = w * value / total
@@ -510,29 +509,26 @@ def legend(x: float, y: float, segs: list[tuple[str, int, str]], total: int, siz
 def figure3_wide() -> str:
     w, pad, head_h = 760, 34, 92
     bar_w, bar_h = w - 2 * pad, 44
-    h = head_h + 2 * bar_h + 206
+    h = 230
     s = [svg_open(
         w, h,
-        "Two outcome partitions with different denominators: 1,078 recorded tasks and 1,375 classified execution attempts",
-        "Panel A: of 1,078 recorded queue tasks, 809 succeeded, 210 failed, 58 were cancelled and 1 was "
-        "still running. Panel B: of 1,375 classified execution attempts, 810 succeeded, 518 failed "
-        "acceptance (37.7 percent) and 47 ended in another non-success result; a further 5 records "
-        "carry an unclassified result outside that total. The panels use different units and are not "
-        "comparable.",
+        "Recorded queue task states, without independent delivery verification",
+        "Of 1,078 tasks, 809 succeeded, 210 failed, 58 were cancelled and one was running. "
+        "Queue states do not establish deployment or use.",
         "f3w",
     )]
     s.append(
         f'<text x="{pad}" y="38" font-size="15" font-weight="600" fill="{TEXT}">What the queue recorded, and what it cannot prove</text>'
-        f'<text x="{pad}" y="58" font-size="11" fill="{MUTED}">Two partitions, two denominators. Each bar is drawn to 100% of its own total.</text>'
+        f'<text x="{pad}" y="58" font-size="11" fill="{MUTED}">Task states at the November 18 cutoff. Deployment and use were not verified.</text>'
     )
 
     y1 = head_h + 26
     s.append(
-        f'<text x="{pad}" y="{y1}" font-size="12" font-weight="600" fill="{TEXT}">A. Recorded task states</text>'
+        f'<text x="{pad}" y="{y1}" font-size="12" font-weight="600" fill="{TEXT}">Recorded task states</text>'
         f'<text x="{w - pad}" y="{y1}" font-size="11" fill="{MUTED}" text-anchor="end">n = {TASKS["total"]:,} tasks</text>'
     )
     yb1 = y1 + 14
-    body, geo = bar(pad, yb1, bar_w, bar_h, TASK_SEGS, TASKS["total"], False)
+    body, geo = bar(pad, yb1, bar_w, bar_h, TASK_SEGS, TASKS["total"], False, unit="task", metrics=METRICS)
     s.append(body)
     # The single running task is too narrow to label in place.
     run = geo[-1]
@@ -544,24 +540,6 @@ def figure3_wide() -> str:
     )
     s.append(legend(pad, yb1 + bar_h + 20, TASK_SEGS[:3], TASKS["total"], 10))
 
-    y2 = yb1 + bar_h + 62
-    s.append(
-        f'<line x1="{pad}" y1="{y2 - 26}" x2="{w - pad}" y2="{y2 - 26}" stroke="{BORDER}"/>'
-        f'<text x="{pad}" y="{y2}" font-size="12" font-weight="600" fill="{TEXT}">B. Classified execution attempts</text>'
-        f'<text x="{w - pad}" y="{y2}" font-size="11" fill="{MUTED}" text-anchor="end">n = {ATT["reported_total"]:,} attempts</text>'
-    )
-    yb2 = y2 + 14
-    body, _ = bar(pad, yb2, bar_w, bar_h, ATTEMPT_SEGS, ATT["reported_total"], False)
-    s.append(body)
-    s.append(legend(pad, yb2 + bar_h + 20, ATTEMPT_SEGS, ATT["reported_total"], 10))
-
-    fy = yb2 + bar_h + 50
-    s.append(
-        f'<text x="{pad}" y="{fy}" font-size="10" fill="{AMBER}">'
-        f'+{ATT["discrepancy"]} further records carry an unclassified result and sit outside the {ATT["reported_total"]:,} total.</text>'
-        f'<text x="{pad}" y="{fy + 17}" font-size="10" fill="{DIM}">'
-        f'Attempts exceed tasks because a task can be retried. Recorded success is a queue state, not proof of a shipped or useful result.</text>'
-    )
     s.append("</svg>")
     return "".join(s)
 
@@ -570,28 +548,27 @@ def figure3_mobile() -> str:
     w, pad = 380, 22
     bar_w, bar_h = w - 2 * pad, 34
     head_h = 84
-    h = head_h + 40 + bar_h + 84 + 40 + bar_h + 116
+    h = 244
     s = [svg_open(
         w, h,
-        "Two outcome partitions with different denominators: 1,078 recorded tasks and 1,375 classified execution attempts",
-        "Panel A: of 1,078 recorded queue tasks, 809 succeeded, 210 failed, 58 were cancelled and 1 was "
-        "running. Panel B: of 1,375 classified execution attempts, 810 succeeded, 518 failed acceptance "
-        "and 47 ended in another non-success result, plus 5 unclassified records outside the total.",
+        "Recorded queue task states, without independent delivery verification",
+        "Of 1,078 tasks, 809 succeeded, 210 failed, 58 were cancelled and one was running. "
+        "Queue states do not establish deployment or use.",
         "f3m",
     )]
     s.append(
         f'<text x="{pad}" y="34" font-size="13.5" font-weight="600" fill="{TEXT}">What the queue recorded</text>'
-        f'<text x="{pad}" y="52" font-size="10.5" fill="{MUTED}">Two partitions. Each bar is 100% of its own total.</text>'
+        f'<text x="{pad}" y="52" font-size="10.5" fill="{MUTED}">Queue states do not establish deployment or use.</text>'
     )
 
     y1 = head_h
     s.append(
-        f'<text x="{pad}" y="{y1}" font-size="11.5" font-weight="600" fill="{TEXT}">A. Recorded task states</text>'
+        f'<text x="{pad}" y="{y1}" font-size="11.5" font-weight="600" fill="{TEXT}">Recorded task states</text>'
         f'<text x="{w - pad}" y="{y1}" font-size="10.5" fill="{MUTED}" text-anchor="end">{TASKS["total"]:,} tasks</text>'
         f'<text x="{pad}" y="{y1 + 24}" font-size="9" fill="{BLUE}">1 running (0.1%) is too small to see.</text>'
     )
     yb1 = y1 + 34
-    body, _ = bar(pad, yb1, bar_w, bar_h, TASK_SEGS, TASKS["total"], True)
+    body, _ = bar(pad, yb1, bar_w, bar_h, TASK_SEGS, TASKS["total"], True, unit="task", metrics=METRICS)
     s.append(body)
     yy = yb1 + bar_h + 20
     for label, value, colour in TASK_SEGS:
@@ -602,38 +579,46 @@ def figure3_mobile() -> str:
         )
         yy += 15
 
-    y2 = yy + 18
-    s.append(
-        f'<line x1="{pad}" y1="{y2 - 24}" x2="{w - pad}" y2="{y2 - 24}" stroke="{BORDER}"/>'
-        f'<text x="{pad}" y="{y2}" font-size="11.5" font-weight="600" fill="{TEXT}">B. Classified attempts</text>'
-        f'<text x="{w - pad}" y="{y2}" font-size="10.5" fill="{MUTED}" text-anchor="end">{ATT["reported_total"]:,} attempts</text>'
-    )
-    yb2 = y2 + 14
-    body, _ = bar(pad, yb2, bar_w, bar_h, ATTEMPT_SEGS, ATT["reported_total"], True)
-    s.append(body)
-    yy = yb2 + bar_h + 20
-    for label, value, colour in ATTEMPT_SEGS:
-        s.append(f'<rect x="{pad}" y="{yy - 8}" width="9" height="9" rx="2" fill="{colour}" fill-opacity="0.82"/>')
-        s.append(
-            f'<text x="{pad + 15}" y="{yy}" font-size="10.5" fill="{MUTED}">{esc(label)} '
-            f'<tspan fill="{TEXT}" font-weight="600">{value}</tspan> ({pct(value, ATT["reported_total"])})</text>'
-        )
-        yy += 15
-
-    s.append(
-        f'<text x="{pad}" y="{yy + 16}" font-size="9.5" fill="{AMBER}">+{ATT["discrepancy"]} records carry an unclassified result, outside the total.</text>'
-        f'<text x="{pad}" y="{yy + 32}" font-size="9.5" fill="{DIM}">Success is a queue state, not proof of a shipped result.</text>'
-    )
     s.append("</svg>")
     return "".join(s)
 
 
 # ------------------------------------------------------------------ main ----
+def check_label_fit(root: ET.Element, name: str) -> None:
+    """Allow two SVG units of clearance on either side, in local coordinates."""
+    def visit(parent):
+        containers = []
+        for el in parent:
+            tag = el.tag.split("}")[-1]
+            x, y = float(el.get("x", 0)), float(el.get("y", 0))
+            if tag == "rect":
+                containers.append((x, y, float(el.get("width")), float(el.get("height"))))
+            elif tag == "circle":
+                r = float(el.get("r"))
+                containers.append((float(el.get("cx")) - r, float(el.get("cy")) - r, 2*r, 2*r))
+            elif tag == "text":
+                boxes = [(w, left) for left, top, w, h in containers
+                         if left <= x <= left+w and top < y <= top+h]
+                if boxes:
+                    w, left = min(boxes)
+                    label = "".join(el.itertext())
+                    em = sum(0.30 if c in " il.,:;!'|" else 0.85 if c in "MWmw@%"
+                             else 0.64 if c.isupper() else EM_REG for c in label)
+                    width = em * float(el.get("font-size")) + len(label)*float(el.get("letter-spacing", 0))
+                    anchor = el.get("text-anchor")
+                    start = x - width * {"middle": 0.5, "end": 1}.get(anchor, 0)
+                    assert left+2 <= start and start+width <= left+w-2, f"{name}: label exceeds box: {label}"
+            elif tag == "g":
+                visit(el)
+    visit(root)
+
+
 def check(svg: str, name: str) -> None:
     root = ET.fromstring(svg)  # well-formed XML
     ns = "{http://www.w3.org/2000/svg}"
     assert root.get("role") == "img", name
     assert root.find(f"{ns}title") is not None and root.find(f"{ns}desc") is not None, name
+    check_label_fit(root, name)
     for banned in ("chatgpt-inbox", "delegation-queue", "/home/", ".hermes"):
         assert banned not in svg, f"{name}: leaked private reference {banned}"
     assert 'href="http' not in svg, f"{name}: external reference"
@@ -643,12 +628,17 @@ def main() -> int:
     # --- consistency assertions on the published numbers --------------------
     states = TASKS["states"]
     assert sum(states.values()) == TASKS["total"] == 1078
-    assert 810 + ATT["reported_acceptance_failed"] + 15 + 12 + 12 + 4 + 4 == ATT["reported_total"] == 1375
-    assert 810 + ATT["reported_acceptance_failed"] + 47 == ATT["reported_total"]
-    assert 810 + ATT["reported_acceptance_failed"] + 47 + ATT["discrepancy"] == ATT["reported_category_sum"] == 1380
-    assert round(100 * ATT["reported_acceptance_failed"] / ATT["reported_total"], 1) == 37.7
-    assert ATT["reported_acceptance_failure_percent"] == 37.7
-    assert round(sum(100 * v / TASKS["total"] for v in states.values()), 1) == 100.0
+    args = argparse.ArgumentParser(description=__doc__)
+    args.add_argument("--probe-metrics", type=Path, help="Exercise the bar emitter with a scratch fixture")
+    args.add_argument("--unit", choices=("task", "attempt"), default="task")
+    options = args.parse_args()
+    if options.probe_metrics:
+        fixture = json.loads(options.probe_metrics.read_text())
+        values = fixture[options.unit + "s"]
+        segments = [(key, count, BLUE) for key, count in values["states"].items()]
+        bar(0, 0, 300, 32, segments, values["total"], True, unit=options.unit, metrics=fixture)
+        print(f"Rendered {options.unit} partition in memory")
+        return 0
 
     OUT.mkdir(parents=True, exist_ok=True)
     figures = {
@@ -665,10 +655,7 @@ def main() -> int:
         path.write_text(svg + "\n")
         print(f"wrote {path.relative_to(ROOT)}  {len(svg):,} bytes")
 
-    print(
-        f"OK  tasks={TASKS['total']} attempts={ATT['reported_total']} "
-        f"acceptance_failed={ATT['reported_acceptance_failed']} (37.7%) unclassified={ATT['discrepancy']}"
-    )
+    print(f"OK  tasks={TASKS['total']} (states sum to denominator)")
     return 0
 
 

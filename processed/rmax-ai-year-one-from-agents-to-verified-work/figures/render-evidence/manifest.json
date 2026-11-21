@@ -1,0 +1,650 @@
+[
+  {
+    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "viewport": {
+      "width": 1440,
+      "height": 3000
+    },
+    "tile_index": 0,
+    "y_offset": 0,
+    "tile_height": 3000,
+    "file": "render-evidence/note-1440-000.png",
+    "scrollHeight": 12068,
+    "scrollWidth": 1440,
+    "overflow": false,
+    "asset_failures": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://scripts.simpleanalyticscdn.com/latest.js",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      }
+    ],
+    "dimensions": [
+      1440,
+      3000
+    ],
+    "bound_check": true
+  },
+  {
+    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "viewport": {
+      "width": 1440,
+      "height": 3000
+    },
+    "tile_index": 1,
+    "y_offset": 2800,
+    "tile_height": 3000,
+    "file": "render-evidence/note-1440-001.png",
+    "scrollHeight": 12068,
+    "scrollWidth": 1440,
+    "overflow": false,
+    "asset_failures": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://scripts.simpleanalyticscdn.com/latest.js",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      }
+    ],
+    "dimensions": [
+      1440,
+      3000
+    ],
+    "bound_check": true
+  },
+  {
+    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "viewport": {
+      "width": 1440,
+      "height": 3000
+    },
+    "tile_index": 2,
+    "y_offset": 5600,
+    "tile_height": 3000,
+    "file": "render-evidence/note-1440-002.png",
+    "scrollHeight": 12068,
+    "scrollWidth": 1440,
+    "overflow": false,
+    "asset_failures": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://scripts.simpleanalyticscdn.com/latest.js",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      }
+    ],
+    "dimensions": [
+      1440,
+      3000
+    ],
+    "bound_check": true
+  },
+  {
+    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "viewport": {
+      "width": 1440,
+      "height": 3000
+    },
+    "tile_index": 3,
+    "y_offset": 8400,
+    "tile_height": 3000,
+    "file": "render-evidence/note-1440-003.png",
+    "scrollHeight": 12068,
+    "scrollWidth": 1440,
+    "overflow": false,
+    "asset_failures": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://scripts.simpleanalyticscdn.com/latest.js",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      }
+    ],
+    "dimensions": [
+      1440,
+      3000
+    ],
+    "bound_check": true
+  },
+  {
+    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "viewport": {
+      "width": 1440,
+      "height": 868
+    },
+    "tile_index": 4,
+    "y_offset": 11200,
+    "tile_height": 868,
+    "file": "render-evidence/note-1440-004.png",
+    "scrollHeight": 12068,
+    "scrollWidth": 1440,
+    "overflow": false,
+    "asset_failures": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://scripts.simpleanalyticscdn.com/latest.js",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      }
+    ],
+    "dimensions": [
+      1440,
+      868
+    ],
+    "bound_check": true
+  },
+  {
+    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "viewport": {
+      "width": 390,
+      "height": 3000
+    },
+    "tile_index": 0,
+    "y_offset": 0,
+    "tile_height": 3000,
+    "file": "render-evidence/note-390-000.png",
+    "scrollHeight": 21158,
+    "scrollWidth": 390,
+    "overflow": false,
+    "asset_failures": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://scripts.simpleanalyticscdn.com/latest.js",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      }
+    ],
+    "dimensions": [
+      390,
+      3000
+    ],
+    "bound_check": true
+  },
+  {
+    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "viewport": {
+      "width": 390,
+      "height": 3000
+    },
+    "tile_index": 1,
+    "y_offset": 2800,
+    "tile_height": 3000,
+    "file": "render-evidence/note-390-001.png",
+    "scrollHeight": 21158,
+    "scrollWidth": 390,
+    "overflow": false,
+    "asset_failures": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://scripts.simpleanalyticscdn.com/latest.js",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      }
+    ],
+    "dimensions": [
+      390,
+      3000
+    ],
+    "bound_check": true
+  },
+  {
+    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "viewport": {
+      "width": 390,
+      "height": 3000
+    },
+    "tile_index": 2,
+    "y_offset": 5600,
+    "tile_height": 3000,
+    "file": "render-evidence/note-390-002.png",
+    "scrollHeight": 21158,
+    "scrollWidth": 390,
+    "overflow": false,
+    "asset_failures": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://scripts.simpleanalyticscdn.com/latest.js",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      }
+    ],
+    "dimensions": [
+      390,
+      3000
+    ],
+    "bound_check": true
+  },
+  {
+    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "viewport": {
+      "width": 390,
+      "height": 3000
+    },
+    "tile_index": 3,
+    "y_offset": 8400,
+    "tile_height": 3000,
+    "file": "render-evidence/note-390-003.png",
+    "scrollHeight": 21158,
+    "scrollWidth": 390,
+    "overflow": false,
+    "asset_failures": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://scripts.simpleanalyticscdn.com/latest.js",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      }
+    ],
+    "dimensions": [
+      390,
+      3000
+    ],
+    "bound_check": true
+  },
+  {
+    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "viewport": {
+      "width": 390,
+      "height": 3000
+    },
+    "tile_index": 4,
+    "y_offset": 11200,
+    "tile_height": 3000,
+    "file": "render-evidence/note-390-004.png",
+    "scrollHeight": 21158,
+    "scrollWidth": 390,
+    "overflow": false,
+    "asset_failures": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://scripts.simpleanalyticscdn.com/latest.js",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      }
+    ],
+    "dimensions": [
+      390,
+      3000
+    ],
+    "bound_check": true
+  },
+  {
+    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "viewport": {
+      "width": 390,
+      "height": 3000
+    },
+    "tile_index": 5,
+    "y_offset": 14000,
+    "tile_height": 3000,
+    "file": "render-evidence/note-390-005.png",
+    "scrollHeight": 21158,
+    "scrollWidth": 390,
+    "overflow": false,
+    "asset_failures": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://scripts.simpleanalyticscdn.com/latest.js",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      }
+    ],
+    "dimensions": [
+      390,
+      3000
+    ],
+    "bound_check": true
+  },
+  {
+    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "viewport": {
+      "width": 390,
+      "height": 3000
+    },
+    "tile_index": 6,
+    "y_offset": 16800,
+    "tile_height": 3000,
+    "file": "render-evidence/note-390-006.png",
+    "scrollHeight": 21158,
+    "scrollWidth": 390,
+    "overflow": false,
+    "asset_failures": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://scripts.simpleanalyticscdn.com/latest.js",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      }
+    ],
+    "dimensions": [
+      390,
+      3000
+    ],
+    "bound_check": true
+  },
+  {
+    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/index.html",
+    "viewport": {
+      "width": 390,
+      "height": 1558
+    },
+    "tile_index": 7,
+    "y_offset": 19600,
+    "tile_height": 1558,
+    "file": "render-evidence/note-390-007.png",
+    "scrollHeight": 21158,
+    "scrollWidth": 390,
+    "overflow": false,
+    "asset_failures": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://scripts.simpleanalyticscdn.com/latest.js",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      }
+    ],
+    "dimensions": [
+      390,
+      1558
+    ],
+    "bound_check": true
+  },
+  {
+    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/evidence-notes/index.html",
+    "viewport": {
+      "width": 1440,
+      "height": 3000
+    },
+    "tile_index": 0,
+    "y_offset": 0,
+    "tile_height": 3000,
+    "file": "render-evidence/appendix-1440-000.png",
+    "scrollHeight": 4634,
+    "scrollWidth": 1440,
+    "overflow": false,
+    "asset_failures": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://scripts.simpleanalyticscdn.com/latest.js",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      }
+    ],
+    "dimensions": [
+      1440,
+      3000
+    ],
+    "bound_check": true
+  },
+  {
+    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/evidence-notes/index.html",
+    "viewport": {
+      "width": 1440,
+      "height": 1834
+    },
+    "tile_index": 1,
+    "y_offset": 2800,
+    "tile_height": 1834,
+    "file": "render-evidence/appendix-1440-001.png",
+    "scrollHeight": 4634,
+    "scrollWidth": 1440,
+    "overflow": false,
+    "asset_failures": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://scripts.simpleanalyticscdn.com/latest.js",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      }
+    ],
+    "dimensions": [
+      1440,
+      1834
+    ],
+    "bound_check": true
+  },
+  {
+    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/evidence-notes/index.html",
+    "viewport": {
+      "width": 390,
+      "height": 3000
+    },
+    "tile_index": 0,
+    "y_offset": 0,
+    "tile_height": 3000,
+    "file": "render-evidence/appendix-390-000.png",
+    "scrollHeight": 7957,
+    "scrollWidth": 390,
+    "overflow": false,
+    "asset_failures": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://scripts.simpleanalyticscdn.com/latest.js",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      }
+    ],
+    "dimensions": [
+      390,
+      3000
+    ],
+    "bound_check": true
+  },
+  {
+    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/evidence-notes/index.html",
+    "viewport": {
+      "width": 390,
+      "height": 3000
+    },
+    "tile_index": 1,
+    "y_offset": 2800,
+    "tile_height": 3000,
+    "file": "render-evidence/appendix-390-001.png",
+    "scrollHeight": 7957,
+    "scrollWidth": 390,
+    "overflow": false,
+    "asset_failures": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://scripts.simpleanalyticscdn.com/latest.js",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      }
+    ],
+    "dimensions": [
+      390,
+      3000
+    ],
+    "bound_check": true
+  },
+  {
+    "url": "http://127.0.0.1:45843/notes/rmax-ai-year-one-from-agents-to-verified-work/evidence-notes/index.html",
+    "viewport": {
+      "width": 390,
+      "height": 2357
+    },
+    "tile_index": 2,
+    "y_offset": 5600,
+    "tile_height": 2357,
+    "file": "render-evidence/appendix-390-002.png",
+    "scrollHeight": 7957,
+    "scrollWidth": 390,
+    "overflow": false,
+    "asset_failures": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://scripts.simpleanalyticscdn.com/latest.js",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      },
+      {
+        "url": "https://rmax.substack.com/embed",
+        "status": "net::ERR_NAME_NOT_RESOLVED",
+        "scope": "external"
+      }
+    ],
+    "dimensions": [
+      390,
+      2357
+    ],
+    "bound_check": true
+  }
+]

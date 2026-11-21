@@ -38,7 +38,7 @@ This partition is arithmetically consistent. Its denominator is **1,078 tasks**,
 
 ## Discrepancies requiring editorial resolution
 
-1. **Attempt totals conflict.** The audit reports 1,375 attempts and 518 `ACCEPTANCE_FAILED` records, giving 37.7% using the stated denominator. Its listed categories—810 OK, 518 acceptance failures, 15 timeout, 12 fail, 12 cancelled, 4 quota, 4 killed and 5 unknown—sum to **1,380**. Do not present a complete attempt-outcome chart until the original query reconciles the extra five records. A mention of 37.7% must identify it as audit-reported and retain this qualification. Never silently change the denominator to force agreement.
+1. **Attempt totals conflict.** The audit reports 1,375 attempts and 518 `ACCEPTANCE_FAILED` records, giving 37.7% using the stated denominator. The category counts sum to **1,380**. No independent recount or rerun of the collection query established membership in either total. The discrepancy of five remains unresolved. Figure 3 therefore shows only task states.
 2. **Channel labels are incomplete.** The listed 590 consumed, 241 answered and 3 pending sum to **834**, ten below the 844-request total. Do not turn those labels into a complete pie chart or assume that all 241 answered requests are within the 291-open subset without a joint census.
 3. **Commit measures differ.** The audit's 50,113 default-branch commits minus 38,777 imported Hermes-history commits leaves 11,336. Its separate monthly search series totals 11,393. They are different counting methods; neither proves unique authorship across all repositories. Credit the upstream Hermes framework separately from RMax's integration and operational work.
 4. **Closure counts lack a cohort definition.** Monthly “opened” and “closed” values count issues and PRs together. Without the original query semantics, closed items cannot be treated as members of that month's opened cohort. Do not calculate a completion rate from their ratio.
@@ -49,7 +49,7 @@ November 2025 is the operator's inception framing. The audit found no durable ar
 
 For April, the audit found zero indexed organization commits/issues and 30 inspected heartbeat-only sessions. This supports dormancy in the inspected records. It does not prove why activity stopped, what happened outside those records, or that a platform change caused recovery.
 
-Acceptance failures identify failed checks. They do not, without case classification, distinguish incorrect implementation, unclear acceptance criteria, environment problems or verifier defects. Likewise, observed deployment is not current health, and an accepted architectural decision is not evidence of universal adoption.
+The audit recorded failed checks but did not classify their causes. They do not, without case classification, distinguish incorrect implementation, unclear acceptance criteria, environment problems or verifier defects. Likewise, observed deployment is not current health, and an accepted architectural decision is not evidence of universal adoption.
 
 ## Source reconciliation and public references
 
