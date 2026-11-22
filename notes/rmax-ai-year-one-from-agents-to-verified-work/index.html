@@ -4,13 +4,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>RMax AI, Year One: From Agents to Verified Work — rmax.ai</title>
-    <meta name="description" content="A first-year field report from a personal agent lab: 1,078 delegated tasks, 77 published notes, and the gap between recorded success and verified work." />
+    <meta name="description" content="A first-year field report from a personal agent lab. The November audit counted 77 dated technical notes and 1,078 recorded queue tasks. Verified delivery remains unmeasured." />
     <meta name="author" content="Max" />
     <link rel="canonical" href="https://rmax.ai/notes/rmax-ai-year-one-from-agents-to-verified-work/" />
 
     <meta property="og:title" content="RMax AI, Year One: From Agents to Verified Work" />
-    <meta property="og:description" content="A first-year field report from a personal agent lab: 1,078 delegated tasks, 77 published notes, and the gap between recorded success and verified work." />
+    <meta property="og:description" content="A first-year field report from a personal agent lab. The November audit counted 77 dated technical notes and 1,078 recorded queue tasks. Verified delivery remains unmeasured." />
     <meta property="og:url" content="https://rmax.ai/notes/rmax-ai-year-one-from-agents-to-verified-work/" />
+    <meta property="og:image" content="https://rmax.ai/notes/rmax-ai-year-one-from-agents-to-verified-work/figures/social-preview.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="RMax AI, Year One. 77 dated technical notes and 1,078 recorded queue tasks through November 18, 2026." />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="2026-11-19" />
     <meta property="article:modified_time" content="2026-11-19" />
@@ -27,219 +32,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles/footer.css" />
     <link rel="stylesheet" href="/styles/substack-cta.css" />
-    <style>
-      :root {
-        --bg: #0f1724;
-        --card: #0b1220;
-        --muted: #94a3b8;
-        --accent: #7c3aed;
-        --glass: rgba(255, 255, 255, 0.04);
-        --maxw: 800px;
-        color-scheme: dark;
-      }
-      * { box-sizing: border-box; }
-      html, body { height: 100%; }
-      body {
-        font-family: Inter, system-ui, Arial;
-        margin: 0;
-        background: linear-gradient(180deg, #071028 0%, #071229 60%);
-        color: #e6eef8;
-        -webkit-font-smoothing: antialiased;
-        line-height: 1.6;
-      }
-      .wrap {
-        max-width: var(--maxw);
-        margin: 40px auto;
-        padding: 24px;
-      }
-      header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        margin-bottom: 64px;
-        max-width: 1100px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        text-decoration: none;
-        color: inherit;
-      }
-      .logo {
-        width: 44px;
-        height: 44px;
-        border-radius: 10px;
-        object-fit: contain;
-      }
-      nav {
-        display: flex;
-        gap: 14px;
-        align-items: center;
-      }
-      a.navlink {
-        color: var(--muted);
-        text-decoration: none;
-        font-weight: 600;
-      }
-      h1 {
-        margin: 0 0 16px;
-        font-size: clamp(32px, 5vw, 52px);
-        line-height: 1.1;
-        font-weight: 800;
-      }
-      h2 {
-        margin: 48px 0 16px;
-        font-size: 1.8rem;
-        font-weight: 700;
-        color: #fff;
-      }
-      h3 {
-        margin: 32px 0 12px;
-        font-size: 1.4rem;
-        font-weight: 600;
-        color: #fff;
-      }
-      h4 {
-        margin: 24px 0 10px;
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: #e2e8f0;
-      }
-      p {
-        margin: 0 0 24px;
-        color: #cbd5e1;
-        font-size: 1.1rem;
-      }
-      ul, ol {
-        margin: 0 0 24px;
-        padding-left: 20px;
-        color: #cbd5e1;
-      }
-      li {
-        margin-bottom: 12px;
-      }
-      pre {
-        margin: 0 0 24px;
-        padding: 18px 20px;
-        overflow: auto;
-        background: rgba(15, 23, 36, 0.9);
-        border: 1px solid var(--glass);
-        border-radius: 12px;
-        color: #dbeafe;
-        font-size: 0.95rem;
-      }
-      code {
-        color: #e2e8f0;
-        background: rgba(124, 58, 237, 0.15);
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-size: 0.95em;
-      }
-      pre code {
-        background: transparent;
-        padding: 0;
-        border-radius: 0;
-        font-size: inherit;
-      }
-      blockquote {
-        margin: 0 0 24px;
-        padding: 16px 24px;
-        border-left: 3px solid var(--accent);
-        background: rgba(124, 58, 237, 0.06);
-        border-radius: 0 8px 8px 0;
-        color: #cbd5e1;
-      }
-      blockquote p {
-        margin: 0;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 0 0 24px;
-        font-size: 0.95rem;
-        color: #cbd5e1;
-      }
-      th, td {
-        padding: 10px 14px;
-        text-align: left;
-        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
-      }
-      th {
-        color: #e2e8f0;
-        font-weight: 600;
-        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
-      }
-      a {
-        color: var(--accent);
-        text-decoration: none;
-      }
-      a:hover {
-        text-decoration: underline;
-      }
-      .post-content figure {
-        margin: 32px 0;
-      }
-      .post-content figure picture,
-      .post-content figure img {
-        display: block;
-        width: 100%;
-        height: auto;
-      }
-      .post-content figure img {
-        border-radius: 10px;
-      }
-      .post-content figcaption {
-        margin-top: 12px;
-        font-size: 0.88rem;
-        line-height: 1.55;
-        color: var(--muted);
-      }
-      .post-content code {
-        font-size: 0.9em;
-        background: rgba(148, 163, 184, 0.12);
-        padding: 1px 5px;
-        border-radius: 4px;
-      }
-      .post-meta {
-        color: var(--muted);
-        font-size: 0.95rem;
-        display: flex;
-        gap: 8px;
-        align-items: center;
-      }
-      .post-content {
-        margin-top: 32px;
-      }
-      hr {
-        border: none;
-        border-top: 1px solid var(--glass);
-        margin: 40px 0;
-      }
-
-      .scorecard { table-layout: fixed; overflow-wrap: anywhere; }
-      .scorecard th, .scorecard td { padding: 8px; vertical-align: top; }
-      @media (max-width: 640px) {
-        .scorecard, .scorecard tbody, .scorecard tr, .scorecard td { display: block; }
-        .scorecard thead { position: absolute; clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; }
-        .scorecard tr { margin-bottom: 24px; }
-        .scorecard td::before { content: attr(data-label); display: block; font-weight: 700; }
-        table:not(.scorecard) { display: block; max-width: 100%; overflow-x: auto; }
-        table:not(.scorecard) th, table:not(.scorecard) td { padding: 8px 10px; font-size: 0.9rem; }
-      }
-      @media (max-width: 600px) {
-        .wrap {
-          margin: 20px auto;
-        }
-        header {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="annual.css" />
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
     <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
   </head>
@@ -257,7 +50,7 @@
         <nav>
           <a href="/" class="navlink">Home</a>
           <a href="/notes/" class="navlink">Notes</a>
-          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener">
+          <a href="https://github.com/rmax-ai" aria-label="rmax.ai on GitHub" target="_blank" rel="noopener">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
             </svg>
@@ -267,8 +60,11 @@
 
       <main>
         <article>
-          <header style="display: block; margin-bottom: 32px">
-            <h1>RMax AI, Year One: From Agents to Verified Work</h1>
+          <header class="masthead">
+            <p class="edition">Field report · Annual edition</p>
+            <h1>RMax AI, Year One: <span>From Agents to Verified Work</span></h1>
+            <p class="standfirst">A patch can survive the conversation that produced it. Can the next operator tell who requested it, which revision passed review, and who decided to use it?</p>
+            <p class="coverage">November 2025 – November 18, 2026</p>
             <div class="post-meta">
               <span>November 19, 2026</span>
               <span>•</span>
@@ -279,59 +75,90 @@
           </header>
 
           <div class="post-content">
-<p>RMax AI began in November 2025 with a narrow question: how much software work can an agent take on? By the following November the operator faced a different set of questions. Who owns an interrupted task? Which revision passed review? Can a useful result be recovered after the conversation that produced it disappears?</p>
+<aside class="census" aria-label="Year at a glance">
+  <dl>
+    <div><dt>dated technical notes</dt> <dd>77</dd></div>
+    <div><dt>recorded queue tasks</dt> <dd>1,078</dd></div>
+  </dl>
+  <p><strong>Audit cutoff · November 18, 2026</strong><br>Verified delivery was not established by this census.</p>
+</aside>
+<nav class="chapters" aria-label="Chapters">
+  <a href="#the-year">The year</a>
+  <a href="#built">What we built</a>
+  <a href="#loop">How it works</a>
+  <a href="#priorities">2027</a>
+</nav>
+<p>The operator dates the lab’s beginning to November 2025 and recalls a narrow question: how much software work can an agent take on? By the following November the operator faced a different set of questions. Who owns an interrupted task? Which revision passed review? Can a useful result be recovered after the conversation that produced it disappears?</p>
 <p><strong>Useful autonomy depends on recoverable state, explicit ownership, and evidence for consequential decisions.</strong> A model can submit a patch. Someone taking over tomorrow needs the request, the revision, the check that ran, and the decision about what happens next.</p>
 <p>The evidence base is a November 18, 2026 operational audit of the lab's own repositories, sessions, scheduled jobs, task outcomes, and review findings, plus two public field reports written during the year. The audit is a historical observation of a system inspecting itself, not an independent reproduction. Numbers in this article carry their denominator and their cutoff; where the audit's own figures disagree with each other, this article reports the disagreement rather than resolving it silently. The <a href="evidence-notes/">evidence appendix</a> records every definition, correction, and unresolved measurement.</p>
-<h2>A year of building the system around the model</h2>
+<h2 id="the-year">A year of building the system around the model</h2>
 <p>The early work assumed the bottleneck was capability. The year's projects, read together, show the bottleneck moving: from whether an agent can produce a change, to whether the change can be judged, attributed, and kept.</p>
 <p>Those apparently different projects — agent runtimes, research assistants, evaluation harnesses, knowledge pipelines, and the publication workflow itself — all explore the same question: how do you turn uncertain model output into an inspectable process? The January notes on <a href="https://rmax.ai/notes/agent-first-software-engineering/">agent-first software engineering</a> stated the direction early. The September <a href="https://rmax.ai/notes/from-human-orchestrated-agent-to-autonomous-control-plane/">control-plane field report</a> described what it cost to operate.</p>
 <h2>The chronology, including the gaps</h2>
-<p>The project's inception is dated to November 2025 in the operator's account. The audit found no surviving artifact for that month; its earliest durable repository evidence begins on December 23. The public field report also records December experiments with a persistent VPS assistant and January infrastructure work as operator history.</p>
-
-<figure>
-  <picture>
-    <source media="(max-width: 640px)" srcset="figures/fig-1-timeline-mobile.svg">
-    <img src="figures/fig-1-timeline.svg" width="760" height="663" loading="lazy" alt="Timeline of seven operating-model phases from November 2025 to November 18, 2026. The November 2025 origin phase is marked as an evidence gap with no surviving artifact. April 2026 is marked as dormancy: zero indexed commits and 30 heartbeat-only sessions.">
-  </picture>
-  <figcaption>Figure 1 — Seven phases of the operating model, with the two periods the records do not explain. Segment widths are not proportional to elapsed time; the phases are categorical. Sources: repository history, session records, and the November 18 audit.</figcaption>
-</figure>
-
-<table>
-  <thead>
-    <tr><th>Period</th><th>What changed</th><th>Evidence boundary</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>November 2025</td><td>The initiative's starting point in the operator's account.</td><td>No durable artifact found by the audit.</td></tr>
-    <tr><td>December 2025</td><td>Site and repository foundations appear from December 23; early assistant experiments form the prehistory.</td><td>Repository dates and operator recollection are separate evidence.</td></tr>
-    <tr><td>January 2026</td><td>Public notes begin on January 3. Execution contracts, authority, and earned autonomy become recurring themes. Surviving OpenClaw workspace records begin January 31.</td><td>Earliest surviving records do not date every prior experiment.</td></tr>
-    <tr><td>February–March</td><td>Autonomous editing, a software-engineering book project, workflow experiments, and an application prototype expand the implementation portfolio.</td><td>Commit volume records activity; it does not establish finished products.</td></tr>
-    <tr><td>April</td><td>Zero indexed organization commits or issues; 30 heartbeat-only agent sessions.</td><td>Observed dormancy; the records do not explain its cause.</td></tr>
-    <tr><td>May</td><td>The assistant moves to the upstream Hermes runtime on May 11; scheduled work and knowledge-processing workflows expand.</td><td>Migration is documented; uninterrupted reliability is not implied.</td></tr>
-    <tr><td>June–July</td><td>Governed research, bounded agent loops, identity, evidence, and harness design become a substantial cluster of projects and writing.</td><td>Maturity varies by repository.</td></tr>
-    <tr><td>August</td><td>Media processing, telemetry experiments, and a tool gateway broaden the supporting system.</td><td>Infrastructure presence is distinct from current health.</td></tr>
-    <tr><td>September</td><td>Delegation, the second-model request channel, system review, and architecture records make coordination explicit.</td><td>The public field report documents both mechanisms and failures.</td></tr>
-    <tr><td>October</td><td>Repeated decision-model benchmarks, operational reviews, and a growing issue workflow expose verification and maintenance costs.</td><td>Results are specific to dated workloads and environments.</td></tr>
-    <tr><td>November 1–18</td><td>Runtime maintenance, further evaluation, self-improvement audits, and this retrospective sharpen the next set of priorities.</td><td>The reporting window closes on November 18.</td></tr>
-  </tbody>
-</table>
+<p>Figure 1 — Milestones are spaced by category. The distance between them does not represent elapsed time.</p>
+<ol class="timeline">
+  <li><span class="period">November 2025</span>
+    <div><h3>The operator dates the beginning</h3>
+      <p>The operator recalls starting the lab that November. The audit located no artifact for the month.</p>
+      <small>Operator account</small></div>
+  </li>
+  <li><span class="period">Dec 2025 – Jan 2026</span>
+    <div><h3>The work leaves a record</h3>
+      <p>The first surviving repository evidence dates to December 23. Public notes began January 3 and set out principles for granting agents authority. Workspace records survive from January 31.</p>
+      <small>Repository and runtime records</small></div>
+  </li>
+  <li><span class="period">Feb – Mar 2026</span>
+    <div><h3>Experiments reach applications</h3>
+      <p>The portfolio grew to include an editing workflow, a book project and an application prototype. Their commits record work in progress.</p>
+      <small>Repository records</small></div>
+  </li>
+  <li><span class="period">April 2026</span>
+    <div><h3>Heartbeats without indexed work</h3>
+      <p>The audit found no indexed organization commits or issues in the inspected records. All 30 inspected sessions contained only heartbeats. The cause remains unknown.</p>
+      <small>Repository and runtime records</small></div>
+  </li>
+  <li><span class="period">May – Jul 2026</span>
+    <div><h3>The runtime changes</h3>
+      <p>The assistant moved to Hermes on May 11. Scheduled knowledge work expanded, and repositories began documenting bounded research loops. Their maturity varied.</p>
+      <small>Runtime and repository records</small></div>
+  </li>
+  <li><span class="period">Aug – Oct 2026</span>
+    <div><h3>Handoffs come under review</h3>
+      <p>Telemetry and a tool gateway preceded a second-model request channel. A September field report traced lost handoffs. October benchmark reruns tested earlier results.</p>
+      <small>Repository records and operator account</small></div>
+  </li>
+  <li><span class="period">Nov 1 – 18, 2026</span>
+    <div><h3>The audit closes</h3>
+      <p>Maintenance and evaluation continued through the November 18 cutoff. The audit counted queue states and left deployment and subsequent use unmeasured.</p>
+      <small>Runtime and repository records</small></div>
+  </li>
+</ol>
+<p>See the <a href="evidence-notes/#chronology">detailed chronology in the evidence appendix</a> for the monthly records and their limits.</p>
 <p>April posed a practical problem for the operator. A heartbeat could confirm that a recurring process was alive even when the inspected records showed no work advancing. The distinction matters when choosing what to monitor after a restart. The audit cannot establish the cause of the pause or describe activity outside the records it inspected.</p>
-<h2>What the year produced</h2>
+<h2 id="built">What the year produced</h2>
 <p>The November audit counted <strong>145 repositories</strong> across the organization, including experiments, scaffolds, supporting infrastructure, and imported upstream history. That is a measure of portfolio size, not a count of finished applications. Grouping the work by what it demonstrates is more useful.</p>
+<div class="projects">
 <p><strong>Governed application workflows.</strong> <a href="https://github.com/rmax-ai/deep-research-assistant">Deep Research Assistant</a> documents a 27-node workflow with 14 bounded agents, persisted checkpoints, approval branches, and claims linked to evidence; continuous research remains partial, and live-model validation is separate from its deterministic checks. <a href="https://github.com/rmax-ai/relocation-scout">Relocation Scout</a> makes a related boundary visible in a smaller application: the prototype assigns state transitions and approval checks to code, agents assess listings and draft messages, and a human authorizes external action. It remains a proof of concept with mock email and no production authentication.</p>
 <p><strong>Reusable execution patterns.</strong> <a href="https://github.com/rmax-ai/adk-loop-lab">ADK Loop Lab</a> implements document refinement, evidence research, and resumable coding examples; its contribution is the surrounding loop of persisted state, verification, budget controls, and explicit stopping decisions. The <a href="https://github.com/rmax-ai/skills">portable skills repository</a> captures reusable procedures as versioned artifacts. Those artifacts make adoption possible; their existence does not show that every workflow uses them correctly.</p>
 <p><strong>Research and evaluation.</strong> <a href="https://github.com/rmax-ai/jev-vs-clef">Jev versus Clef</a> supplies dated runs and raw calls for a concrete model-substitution question; other laboratories investigate recursive execution, retrieval choices, regeneration, and model–harness fit. The transferable accomplishment is an experimental structure that can preserve a negative or changed result — a repository name or evaluation scaffold alone does not demonstrate that a hypothesis succeeded.</p>
 <p><strong>Knowledge and publication.</strong> Video-insight processing, knowledge-graph work, and the <a href="https://github.com/rmax-ai/yt-insights-explorer">static insights explorer</a> connect source material to inspectable artifacts; extracted claims still need verification. On the writing side, the corrected census found <strong>77 dated technical notes</strong> plus one redirect page — <strong>78 published note pages</strong>, not 78 distinct articles. January's 17 notes are the publication peak, not June's 14. The public <a href="https://rmax.ai/notes/">notes index</a> makes the writing accessible; the audit obtained no readership or adoption data.</p>
 <p><strong>An operating coordination system.</strong> The most consequential integration joins a persistent rmax-10 orchestrator, ChatGPT for analysis and review, bounded Codex and Droid execution, GitHub state, and human review. The agent runtime is an upstream framework adopted and extended for this system; the lab's contribution lies in the integration, protocols, experiments, and operational practice, and imported upstream history is not original output.</p>
-<h2>How the coordination loop works</h2>
+</div>
+<h2 id="loop">How the coordination loop works</h2>
 <p>The architecture separates communication from durable state. Chat and Slack are places to request attention. GitHub holds the task, its ownership, implementation artifacts, and review history. A local delegation queue manages attempts through coding-agent execution paths. A second model supplies an additional reasoning and review surface through a structured request channel. The operator retains consequential approval decisions.</p>
 
 <figure>
   <picture>
     <source media="(max-width: 640px)" srcset="figures/fig-2-control-loop-mobile.svg">
-    <img src="figures/fig-2-control-loop.svg" width="760" height="640" loading="lazy" alt="Seven responsibilities from operator approval to disposition. A failed check can return work to execution. Carrying a result into the next GitHub task requires a separate decision.">
+    <img src="figures/fig-2-control-loop.svg" width="1080" height="420" loading="lazy" alt="Scope enters GitHub from the operator. Execution returns a checked revision for review and a merge decision. Failed checks can retry locally. A new task is a proposed follow-up.">
   </picture>
-  <figcaption>Figure 2 — On desktop the red dashed arrow leads from the acceptance gate to execution for a retry. The dotted amber arrow leads from disposition to GitHub task state for a proposed follow-up. On mobile, labels describe both returns. The <a href="https://rmax.ai/notes/from-human-orchestrated-agent-to-autonomous-control-plane/">September field report</a> documents the responsibilities and observed handoff failures.</figcaption>
+  <figcaption>Figure 2 — Where authority changes hands. The <a href="https://rmax.ai/notes/from-human-orchestrated-agent-to-autonomous-control-plane/">September field report</a> documents the responsibilities and observed handoff failures.</figcaption>
 </figure>
+<ol class="architecture-key">
+  <li><strong>Human authority.</strong> The operator sets the initial scope. After review, the operator decides whether to merge or adopt a consequential change.</li>
+  <li><strong>Durable coordination and state.</strong> rmax-10 dispatches bounded attempts. GitHub holds the task, owner, revision, review and disposition. A proposed follow-up needs its own decision and owner.</li>
+  <li><strong>Execution and verification.</strong> A Codex or Droid lane returns a revision. A failed local check can return it to execution. Check evidence goes to independent review, where ChatGPT can supply a second assessment.</li>
+</ol>
 
 <p>The separation makes asynchronous collaboration recoverable. A new session can inspect the task instead of reconstructing intent from fragments of chat. An execution attempt can fail while the work item survives. A reviewer can reject a change without losing the original request. None of that is automatic: it holds only where the state is written down at the moment authority changes hands.</p>
 <p>The audit contains acceptance verdicts. It does not track whether a reviewer’s finding later changed another task’s acceptance criteria or the instructions used by the next agent.</p>
@@ -358,18 +185,40 @@
 <p><strong>Coordination creates maintenance work.</strong> The audit counted 291 open request-channel issues against 844 requests over 59 days; the three status labels account for 834 of those requests (590 consumed, 241 answered, 3 pending), and the remaining ten are unaccounted for by any supplied cross-tabulation, so this article leaves them unclassified. Open does not mean abandoned: some work legitimately awaits review or another owner. The concern is whether each item has a meaningful next state. Growth creates a similar obligation — with 145 repositories and 317 installed skills in the snapshot, discovery, overlap, ownership, and retirement become engineering problems of their own.</p>
 <p><strong>The economic picture is incomplete.</strong> The audit reports $298.27 of tracked agent cost for September through the November cutoff. That is neither the year's total expenditure nor a return-on-investment calculation. Earlier cost attribution, infrastructure, operator time, and the value of outcomes remain unmeasured. Reported token counts include context reuse and cannot be converted into unique billed consumption.</p>
 <p>These limitations constrain the claim. The evidence supports a substantial supervised system capable of sustained delegation and self-observation. It does not establish dependable end-to-end self-improvement, or independence from human recovery and judgment.</p>
-<h2>A proposed 90-day scorecard for 2027</h2>
+<h2 id="priorities">A proposed 90-day scorecard for 2027</h2>
 <p>Day 1 after operator approval opens the proposed measurement window. The historical counts identify work to inspect. Owners would establish the starting populations, record their inclusion rules and retain the identifiers needed to follow a request across retries. The first review would use the following artifacts.</p>
-<table class="scorecard">
-  <thead>
-    <tr><th>Priority</th><th>Owner role / owning system</th><th>Baseline status</th><th>First reviewable artifact</th><th>90-day measure (numerator / denominator / window)</th><th>Anti-gaming condition</th></tr>
-  </thead>
-  <tbody>
-    <tr><td data-label="Priority">Reliable delivery</td><td data-label="Owner role / owning system">Queue maintainer and independent reviewer</td><td data-label="Baseline status">Unresolved baseline for attempt membership and verified outcomes.</td><td data-label="First reviewable artifact">Reconciled attempt ledger with a cause review of sampled failures.</td><td data-label="90-day measure (numerator / denominator / window)">Acceptance failures / all reconciled attempts during days 1–90. Proposed target of 10%. Also report independently verified deliveries / implementation tasks opened in the window.</td><td data-label="Anti-gaming condition">Keep check versions and review samples of passes as well as failures. Count retries separately from tasks.</td></tr>
-    <tr><td data-label="Priority">Handoff ownership</td><td data-label="Owner role / owning system">Request-channel operator</td><td data-label="Baseline status">Historical snapshot of 291 open issues. Unresolved baseline for time to disposition.</td><td data-label="First reviewable artifact">Answer register linking each response to an owner, timestamp and disposition.</td><td data-label="90-day measure (numerator / denominator / window)">Answers dispositioned within 48 hours / all requests answered on days 1–88. The proposed 95% target allows each answer its full 48 hours before day 90.</td><td data-label="Anti-gaming condition">Inspect transfers and reasons for closure. The proposed 60-open target is secondary to resolving the work.</td></tr>
-    <tr><td data-label="Priority">Reusable results</td><td data-label="Owner role / owning system">Portfolio maintainers</td><td data-label="Baseline status">Historical inventory of 145 repositories. Unresolved baseline for maintained, reproducible outcomes.</td><td data-label="First reviewable artifact">Results index naming an owner, runnable example, expected result and limitation for each candidate.</td><td data-label="90-day measure (numerator / denominator / window)">Entries independently reproduced with a current maintainer / all entries nominated at the start, assessed by day 90.</td><td data-label="Anti-gaming condition">Retain failed reproductions and missing owners in the denominator. The proposed 110-repository ceiling is secondary to maintained results.</td></tr>
-  </tbody>
-</table>
+<div class="scorecard">
+  <section>
+    <h3>Reliable delivery</h3>
+    <dl>
+      <dt>Owner</dt> <dd>Queue maintainer and independent reviewer</dd>
+      <dt>Baseline</dt> <dd>Unresolved baseline for attempt membership and verified outcomes.</dd>
+      <dt>First artifact</dt> <dd>Reconciled attempt ledger with a cause review of sampled failures.</dd>
+      <dt>90-day measure</dt> <dd>Acceptance failures / all reconciled attempts during days 1–90. Proposed target of 10%. Also report independently verified deliveries / implementation tasks opened in the window.</dd>
+      <dt>Safeguard</dt> <dd>Keep check versions and review samples of passes as well as failures. Count retries separately from tasks.</dd>
+    </dl>
+  </section>
+  <section>
+    <h3>Handoff ownership</h3>
+    <dl>
+      <dt>Owner</dt> <dd>Request-channel operator</dd>
+      <dt>Baseline</dt> <dd>Historical snapshot of 291 open issues. Unresolved baseline for time to disposition.</dd>
+      <dt>First artifact</dt> <dd>Answer register linking each response to an owner, timestamp and disposition.</dd>
+      <dt>90-day measure</dt> <dd>Answers dispositioned within 48 hours / all requests answered on days 1–88. The proposed 95% target allows each answer its full 48 hours before day 90.</dd>
+      <dt>Safeguard</dt> <dd>Inspect transfers and reasons for closure. The proposed 60-open target is secondary to resolving the work.</dd>
+    </dl>
+  </section>
+  <section>
+    <h3>Reusable results</h3>
+    <dl>
+      <dt>Owner</dt> <dd>Portfolio maintainers</dd>
+      <dt>Baseline</dt> <dd>Historical inventory of 145 repositories. Unresolved baseline for maintained, reproducible outcomes.</dd>
+      <dt>First artifact</dt> <dd>Results index naming an owner, runnable example, expected result and limitation for each candidate.</dd>
+      <dt>90-day measure</dt> <dd>Entries independently reproduced with a current maintainer / all entries nominated at the start, assessed by day 90.</dd>
+      <dt>Safeguard</dt> <dd>Retain failed reproductions and missing owners in the denominator. The proposed 110-repository ceiling is secondary to maintained results.</dd>
+    </dl>
+  </section>
+</div>
 <p>A delivery reviewer would begin with the revision the executor actually used. The command, working directory and expected artifact are part of the record. A failing check against the wrong directory calls for a different response from a valid rejection of an incomplete implementation. An unresolved case should keep its place in the ledger until someone can distinguish those explanations.</p>
 <p>For the handoff review, start with the oldest unresolved answers. A disposition can document verified completion, a linked transfer accepted by the next owner, deliberate deferral, or a reason that no action is needed. A consumed response on its own answers none of those questions. Record enough of the handoff for someone outside the original conversation to follow it.</p>
 <p>For portfolio review, distinguish maintained systems, supporting components, active experiments and potential archives. Check consumers and unfinished work before proposing a retirement, and preserve a restoration path. A rarely used skill may still support an important recovery procedure. Reproducing a result from its recorded inputs gives the maintainer a concrete test of whether consolidation preserved what another operator needs.</p>

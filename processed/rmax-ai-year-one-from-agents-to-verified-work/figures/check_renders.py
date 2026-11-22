@@ -44,7 +44,7 @@ def prose_count(text):
     main = text.partition("\n---\n")[2].partition("## Positioning note")[0]
     main = re.sub(r"^(?:<img .*|\*Figure .*|\|[-|: ]+\|)$", "", main, flags=re.M)
     main = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", main)
-    return len(WORDS.findall(main))
+    return len(WORDS.findall(plain_html(main)))
 
 
 class Page(HTMLParser):
@@ -74,7 +74,7 @@ def plain_md(text):
     text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)
     text = re.sub(r"^(?:<img .*|\|[-|: ]+\|)$", "", text, flags=re.M)
     text = re.sub(r"^(?:#+ |- |\d+\. )", "", text, flags=re.M)
-    return normalized(text.replace("|", " ").replace("*", "").replace("`", ""))
+    return plain_html(text.replace("|", " ").replace("*", "").replace("`", ""))
 
 
 def frontmatter(md):
@@ -145,6 +145,11 @@ def static():
         text = path.read_text()
         page = Page(text)
         check_footer(page, text)
+        ids = [attrs["id"] for _, attrs in page.elements if "id" in attrs]
+        require(len(ids) == len(set(ids)), f"{path.name}: duplicate HTML id")
+        for href in page.attrs("a", "href"):
+            if href.startswith("#"):
+                require(href[1:] in ids, f"{path.name}: missing chapter target {href}")
         for _, attrs in page.elements:
             for key in ("href", "src", "srcset"):
                 if key in attrs:
@@ -153,7 +158,8 @@ def static():
     require(estimate.replace("-", "–") + " read" in text, "HTML reading time")
     content = text.split('<div class="post-content">', 1)[1].split('</article>', 1)[0]
     title = re.search(r"<h1>(.*?)</h1>", text)[1]
-    require(plain_md(body) == plain_html(title+" "+content), "Markdown/HTML body parity")
+    opening = [re.search(fr'<p class="{kind}">(.*?)</p>', text)[1] for kind in ("standfirst", "coverage")]
+    require(plain_md(body) == plain_html(" ".join([title, *opening, content])), "Markdown/HTML body parity")
     captions = re.findall(r"^\*(Figure .*?)\*$", body, re.M)
     rendered = re.findall(r"<figcaption>(.*?)</figcaption>", content, re.S)
     require(list(map(plain_md, captions)) == list(map(plain_html, rendered)), "caption parity")
@@ -161,14 +167,18 @@ def static():
     md_images = Page("\n".join(re.findall(r"^<img .*", body, re.M)))
     for attr in ("src", "alt"):
         require(md_images.attrs("img", attr) == figures.attrs("img", attr), f"{attr} parity")
-    wide = [f"figures/fig-{i}-{s}.svg" for i, s in enumerate(("timeline","control-loop","outcomes"),1)]
+    require(figures.attrs("ol", "class").count("timeline") == 1 and
+            all(tag != "table" for tag, _ in figures.elements), "one primary HTML timeline and no article tables")
+    require('<h2 id="chronology">Detailed chronology</h2>\n<table>' in pages[1].read_text(), "appendix chronology")
+    wide = ["figures/fig-2-control-loop.svg", "figures/fig-3-outcomes.svg"]
     mobile = [f.replace(".svg", "-mobile.svg") for f in wide]
     require(figures.attrs("img","src") == wide and figures.attrs("source","srcset") == mobile, "figure inventory")
-    require(len(captions) == 3 and all(figures.attrs("img","alt")), "figure descriptions")
-    links = re.findall(r"\[[^\]]+\]\(([^)]+)\)", body)
+    require(len(captions) == 2 and all(figures.attrs("img","alt")), "figure descriptions")
+    linked_body = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', body)
+    links = Page(linked_body).attrs("a", "href")
     require(links == figures.attrs("a","href"), "source link parity")
-    fig3 = [captions[2], figures.attrs("img","alt")[2]]
-    for filename in [wide[2], mobile[2]]:
+    fig3 = [captions[-1], figures.attrs("img","alt")[-1]]
+    for filename in [wide[-1], mobile[-1]]:
         fig3.append((NOTE/filename).read_text())
     require(not re.search(r"(?<!\d)(?:810|518|1,?375)(?!\d)", " ".join(fig3)), "Figure 3 attempt token")
     dates = {u.findtext("{*}loc"):u.findtext("{*}lastmod") for u in ET.parse(ROOT/"sitemap.xml").getroot()}

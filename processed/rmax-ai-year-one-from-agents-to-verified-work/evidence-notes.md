@@ -43,6 +43,22 @@ This partition is arithmetically consistent. Its denominator is **1,078 tasks**,
 3. **Commit measures differ.** The audit's 50,113 default-branch commits minus 38,777 imported Hermes-history commits leaves 11,336. Its separate monthly search series totals 11,393. They are different counting methods; neither proves unique authorship across all repositories. Credit the upstream Hermes framework separately from RMax's integration and operational work.
 4. **Closure counts lack a cohort definition.** Monthly “opened” and “closed” values count issues and PRs together. Without the original query semantics, closed items cannot be treated as members of that month's opened cohort. Do not calculate a completion rate from their ratio.
 
+## Detailed chronology
+
+| Period | What changed | Evidence boundary |
+|---|---|---|
+| November 2025 | The initiative's starting point in the operator's account. | No durable artifact found by the audit. |
+| December 2025 | Site and repository foundations appear from December 23; early assistant experiments form the prehistory. | Repository dates and operator recollection are separate evidence. |
+| January 2026 | Public notes begin on January 3. Execution contracts, authority, and earned autonomy become recurring themes. Surviving OpenClaw workspace records begin January 31. | Earliest surviving records do not date every prior experiment. |
+| February–March | Autonomous editing, a software-engineering book project, workflow experiments, and an application prototype expand the implementation portfolio. | Commit volume records activity; it does not establish finished products. |
+| April | Zero indexed organization commits or issues; 30 heartbeat-only agent sessions. | Observed dormancy; the records do not explain its cause. |
+| May | The assistant moves to the upstream Hermes runtime on May 11; scheduled work and knowledge-processing workflows expand. | Migration is documented; uninterrupted reliability is not implied. |
+| June–July | Governed research, bounded agent loops, identity, evidence, and harness design become a substantial cluster of projects and writing. | Maturity varies by repository. |
+| August | Media processing, telemetry experiments, and a tool gateway broaden the supporting system. | Infrastructure presence is distinct from current health. |
+| September | Delegation, the second-model request channel, system review, and architecture records make coordination explicit. | The public field report documents both mechanisms and failures. |
+| October | Repeated decision-model benchmarks, operational reviews, and a growing issue workflow expose verification and maintenance costs. | Results are specific to dated workloads and environments. |
+| November 1–18 | Runtime maintenance, further evaluation, self-improvement audits, and this retrospective sharpen the next set of priorities. | The reporting window closes on November 18. |
+
 ## Historical and causal limits
 
 November 2025 is the operator's inception framing. The audit found no durable artifact before December 23; that is an evidence gap, not proof that nothing happened. January 31 identifies the earliest inspected OpenClaw workspace; May 11 is the reported Hermes migration. These dates do not establish when every agent name or identity first existed.

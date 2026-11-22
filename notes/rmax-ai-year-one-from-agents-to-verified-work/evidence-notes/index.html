@@ -11,6 +11,11 @@
     <meta property="og:title" content="Evidence appendix: RMax AI, Year One" />
     <meta property="og:description" content="Metric definitions, denominators, corrections and unresolved measurements behind the RMax AI year-one retrospective, with a 2026-11-18 cutoff." />
     <meta property="og:url" content="https://rmax.ai/notes/rmax-ai-year-one-from-agents-to-verified-work/evidence-notes/" />
+    <meta property="og:image" content="https://rmax.ai/notes/rmax-ai-year-one-from-agents-to-verified-work/figures/social-preview.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="RMax AI, Year One. 77 dated technical notes and 1,078 recorded queue tasks through November 18, 2026." />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta property="og:type" content="article" />
     <meta property="article:tag" content="evidence" />
     <meta property="article:tag" content="methodology" />
@@ -22,219 +27,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles/footer.css" />
     <link rel="stylesheet" href="/styles/substack-cta.css" />
-    <style>
-      :root {
-        --bg: #0f1724;
-        --card: #0b1220;
-        --muted: #94a3b8;
-        --accent: #7c3aed;
-        --glass: rgba(255, 255, 255, 0.04);
-        --maxw: 800px;
-        color-scheme: dark;
-      }
-      * { box-sizing: border-box; }
-      html, body { height: 100%; }
-      body {
-        font-family: Inter, system-ui, Arial;
-        margin: 0;
-        background: linear-gradient(180deg, #071028 0%, #071229 60%);
-        color: #e6eef8;
-        -webkit-font-smoothing: antialiased;
-        line-height: 1.6;
-      }
-      .wrap {
-        max-width: var(--maxw);
-        margin: 40px auto;
-        padding: 24px;
-      }
-      header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        margin-bottom: 64px;
-        max-width: 1100px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        text-decoration: none;
-        color: inherit;
-      }
-      .logo {
-        width: 44px;
-        height: 44px;
-        border-radius: 10px;
-        object-fit: contain;
-      }
-      nav {
-        display: flex;
-        gap: 14px;
-        align-items: center;
-      }
-      a.navlink {
-        color: var(--muted);
-        text-decoration: none;
-        font-weight: 600;
-      }
-      h1 {
-        margin: 0 0 16px;
-        font-size: clamp(32px, 5vw, 52px);
-        line-height: 1.1;
-        font-weight: 800;
-      }
-      h2 {
-        margin: 48px 0 16px;
-        font-size: 1.8rem;
-        font-weight: 700;
-        color: #fff;
-      }
-      h3 {
-        margin: 32px 0 12px;
-        font-size: 1.4rem;
-        font-weight: 600;
-        color: #fff;
-      }
-      h4 {
-        margin: 24px 0 10px;
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: #e2e8f0;
-      }
-      p {
-        margin: 0 0 24px;
-        color: #cbd5e1;
-        font-size: 1.1rem;
-      }
-      ul, ol {
-        margin: 0 0 24px;
-        padding-left: 20px;
-        color: #cbd5e1;
-      }
-      li {
-        margin-bottom: 12px;
-      }
-      pre {
-        margin: 0 0 24px;
-        padding: 18px 20px;
-        overflow: auto;
-        background: rgba(15, 23, 36, 0.9);
-        border: 1px solid var(--glass);
-        border-radius: 12px;
-        color: #dbeafe;
-        font-size: 0.95rem;
-      }
-      code {
-        color: #e2e8f0;
-        background: rgba(124, 58, 237, 0.15);
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-size: 0.95em;
-      }
-      pre code {
-        background: transparent;
-        padding: 0;
-        border-radius: 0;
-        font-size: inherit;
-      }
-      blockquote {
-        margin: 0 0 24px;
-        padding: 16px 24px;
-        border-left: 3px solid var(--accent);
-        background: rgba(124, 58, 237, 0.06);
-        border-radius: 0 8px 8px 0;
-        color: #cbd5e1;
-      }
-      blockquote p {
-        margin: 0;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 0 0 24px;
-        font-size: 0.95rem;
-        color: #cbd5e1;
-      }
-      th, td {
-        padding: 10px 14px;
-        text-align: left;
-        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
-      }
-      th {
-        color: #e2e8f0;
-        font-weight: 600;
-        border-bottom: 2px solid rgba(124, 58, 237, 0.3);
-      }
-      a {
-        color: var(--accent);
-        text-decoration: none;
-      }
-      a:hover {
-        text-decoration: underline;
-      }
-      .post-content figure {
-        margin: 32px 0;
-      }
-      .post-content figure picture,
-      .post-content figure img {
-        display: block;
-        width: 100%;
-        height: auto;
-      }
-      .post-content figure img {
-        border-radius: 10px;
-      }
-      .post-content figcaption {
-        margin-top: 12px;
-        font-size: 0.88rem;
-        line-height: 1.55;
-        color: var(--muted);
-      }
-      .post-content code {
-        font-size: 0.9em;
-        background: rgba(148, 163, 184, 0.12);
-        padding: 1px 5px;
-        border-radius: 4px;
-      }
-      .post-meta {
-        color: var(--muted);
-        font-size: 0.95rem;
-        display: flex;
-        gap: 8px;
-        align-items: center;
-      }
-      .post-content {
-        margin-top: 32px;
-      }
-      hr {
-        border: none;
-        border-top: 1px solid var(--glass);
-        margin: 40px 0;
-      }
-
-      .scorecard { table-layout: fixed; overflow-wrap: anywhere; }
-      .scorecard th, .scorecard td { padding: 8px; vertical-align: top; }
-      @media (max-width: 640px) {
-        .scorecard, .scorecard tbody, .scorecard tr, .scorecard td { display: block; }
-        .scorecard thead { position: absolute; clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; }
-        .scorecard tr { margin-bottom: 24px; }
-        .scorecard td::before { content: attr(data-label); display: block; font-weight: 700; }
-        table:not(.scorecard) { display: block; max-width: 100%; overflow-x: auto; }
-        table:not(.scorecard) th, table:not(.scorecard) td { padding: 8px 10px; font-size: 0.9rem; }
-      }
-      @media (max-width: 600px) {
-        .wrap {
-          margin: 20px auto;
-        }
-        header {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="../annual.css" />
     <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
     <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
   </head>
@@ -252,7 +45,7 @@
         <nav>
           <a href="/" class="navlink">Home</a>
           <a href="/notes/" class="navlink">Notes</a>
-          <a href="https://github.com/rmax-ai" target="_blank" rel="noopener">
+          <a href="https://github.com/rmax-ai" aria-label="rmax.ai on GitHub" target="_blank" rel="noopener">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
             </svg>
@@ -262,15 +55,10 @@
 
       <main>
         <article>
-          <header style="display: block; margin-bottom: 32px">
+          <header class="masthead">
+            <p class="edition">Annual edition · Evidence appendix</p>
             <h1>Evidence appendix: RMax AI, Year One</h1>
-                        <div class="post-meta">
-              <span>November 19, 2026</span>
-              <span>•</span>
-              <span>Companion to the year-one retrospective</span>
-              <span>•</span>
-              <span>Max</span>
-            </div>
+            <p class="post-meta">November 19, 2026 · Max</p>
           </header>
 
           <div class="post-content">
@@ -319,6 +107,25 @@
   <li><strong>Commit measures differ.</strong> The audit's 50,113 default-branch commits minus 38,777 imported Hermes-history commits leaves 11,336. Its separate monthly search series totals 11,393. They are different counting methods; neither proves unique authorship across all repositories. Credit the upstream Hermes framework separately from RMax's integration and operational work.</li>
   <li><strong>Closure counts lack a cohort definition.</strong> Monthly “opened” and “closed” values count issues and PRs together. Without the original query semantics, closed items cannot be treated as members of that month's opened cohort. Do not calculate a completion rate from their ratio.</li>
 </ol>
+<h2 id="chronology">Detailed chronology</h2>
+<table>
+  <thead>
+    <tr><th>Period</th><th>What changed</th><th>Evidence boundary</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>November 2025</td><td>The initiative's starting point in the operator's account.</td><td>No durable artifact found by the audit.</td></tr>
+    <tr><td>December 2025</td><td>Site and repository foundations appear from December 23; early assistant experiments form the prehistory.</td><td>Repository dates and operator recollection are separate evidence.</td></tr>
+    <tr><td>January 2026</td><td>Public notes begin on January 3. Execution contracts, authority, and earned autonomy become recurring themes. Surviving OpenClaw workspace records begin January 31.</td><td>Earliest surviving records do not date every prior experiment.</td></tr>
+    <tr><td>February–March</td><td>Autonomous editing, a software-engineering book project, workflow experiments, and an application prototype expand the implementation portfolio.</td><td>Commit volume records activity; it does not establish finished products.</td></tr>
+    <tr><td>April</td><td>Zero indexed organization commits or issues; 30 heartbeat-only agent sessions.</td><td>Observed dormancy; the records do not explain its cause.</td></tr>
+    <tr><td>May</td><td>The assistant moves to the upstream Hermes runtime on May 11; scheduled work and knowledge-processing workflows expand.</td><td>Migration is documented; uninterrupted reliability is not implied.</td></tr>
+    <tr><td>June–July</td><td>Governed research, bounded agent loops, identity, evidence, and harness design become a substantial cluster of projects and writing.</td><td>Maturity varies by repository.</td></tr>
+    <tr><td>August</td><td>Media processing, telemetry experiments, and a tool gateway broaden the supporting system.</td><td>Infrastructure presence is distinct from current health.</td></tr>
+    <tr><td>September</td><td>Delegation, the second-model request channel, system review, and architecture records make coordination explicit.</td><td>The public field report documents both mechanisms and failures.</td></tr>
+    <tr><td>October</td><td>Repeated decision-model benchmarks, operational reviews, and a growing issue workflow expose verification and maintenance costs.</td><td>Results are specific to dated workloads and environments.</td></tr>
+    <tr><td>November 1–18</td><td>Runtime maintenance, further evaluation, self-improvement audits, and this retrospective sharpen the next set of priorities.</td><td>The reporting window closes on November 18.</td></tr>
+  </tbody>
+</table>
 <h2>Historical and causal limits</h2>
 <p>November 2025 is the operator's inception framing. The audit found no durable artifact before December 23; that is an evidence gap, not proof that nothing happened. January 31 identifies the earliest inspected OpenClaw workspace; May 11 is the reported Hermes migration. These dates do not establish when every agent name or identity first existed.</p>
 <p>For April, the audit found zero indexed organization commits/issues and 30 inspected heartbeat-only sessions. This supports dormancy in the inspected records. It does not prove why activity stopped, what happened outside those records, or that a platform change caused recovery.</p>

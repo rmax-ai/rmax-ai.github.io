@@ -156,20 +156,13 @@ def main() -> None:
         1,
     )
 
-    shell = re.sub(r"<h1>.*?</h1>", "<h1>Evidence appendix: RMax AI, Year One</h1>", shell, count=1)
-    shell = re.sub(
-        r'<div class="post-meta">.*?</div>',
-        '            <div class="post-meta">\n'
-        "              <span>November 19, 2026</span>\n"
-        "              <span>•</span>\n"
-        "              <span>Companion to the year-one retrospective</span>\n"
-        "              <span>•</span>\n"
-        "              <span>Max</span>\n"
-        "            </div>",
-        shell,
-        count=1,
-        flags=re.S,
-    )
+    shell = shell.replace('href="annual.css"', 'href="../annual.css"')
+    shell = re.sub(r'<header class="masthead">.*?</header>', f"""<header class="masthead">
+            <p class="edition">Annual edition · Evidence appendix</p>
+            <h1>{TITLE}</h1>
+            <p class="post-meta">November 19, 2026 · Max</p>
+          </header>""", shell, count=1, flags=re.S)
+    body_md = body_md.replace("<h2>Detailed chronology", '<h2 id="chronology">Detailed chronology')
 
     open_tag = '<div class="post-content">'
     start = shell.index(open_tag) + len(open_tag)

@@ -1,7 +1,7 @@
 ---
 title: "RMax AI, Year One: From Agents to Verified Work"
 slug: rmax-ai-year-one-from-agents-to-verified-work
-description: "A first-year field report from a personal agent lab: 1,078 delegated tasks, 77 published notes, and the gap between recorded success and verified work."
+description: "A first-year field report from a personal agent lab. The November audit counted 77 dated technical notes and 1,078 recorded queue tasks. Verified delivery remains unmeasured."
 author: Max
 site: rmax.ai
 section: notes
@@ -24,13 +24,32 @@ license: "CC BY 4.0"
 
 # RMax AI, Year One: From Agents to Verified Work
 
-RMax AI began in November 2025 with a narrow question: how much software work can an agent take on? By the following November the operator faced a different set of questions. Who owns an interrupted task? Which revision passed review? Can a useful result be recovered after the conversation that produced it disappears?
+A patch can survive the conversation that produced it. Can the next operator tell who requested it, which revision passed review, and who decided to use it?
+
+November 2025 – November 18, 2026
+
+<aside class="census" aria-label="Year at a glance">
+  <dl>
+    <div><dt>dated technical notes</dt> <dd>77</dd></div>
+    <div><dt>recorded queue tasks</dt> <dd>1,078</dd></div>
+  </dl>
+  <p><strong>Audit cutoff · November 18, 2026</strong><br>Verified delivery was not established by this census.</p>
+</aside>
+
+<nav class="chapters" aria-label="Chapters">
+  <a href="#the-year">The year</a>
+  <a href="#built">What we built</a>
+  <a href="#loop">How it works</a>
+  <a href="#priorities">2027</a>
+</nav>
+
+The operator dates the lab’s beginning to November 2025 and recalls a narrow question: how much software work can an agent take on? By the following November the operator faced a different set of questions. Who owns an interrupted task? Which revision passed review? Can a useful result be recovered after the conversation that produced it disappears?
 
 **Useful autonomy depends on recoverable state, explicit ownership, and evidence for consequential decisions.** A model can submit a patch. Someone taking over tomorrow needs the request, the revision, the check that ran, and the decision about what happens next.
 
 The evidence base is a November 18, 2026 operational audit of the lab's own repositories, sessions, scheduled jobs, task outcomes, and review findings, plus two public field reports written during the year. The audit is a historical observation of a system inspecting itself, not an independent reproduction. Numbers in this article carry their denominator and their cutoff; where the audit's own figures disagree with each other, this article reports the disagreement rather than resolving it silently. The [evidence appendix](evidence-notes/) records every definition, correction, and unresolved measurement.
 
-## A year of building the system around the model
+<h2 id="the-year">A year of building the system around the model</h2>
 
 The early work assumed the bottleneck was capability. The year's projects, read together, show the bottleneck moving: from whether an agent can produce a change, to whether the change can be judged, attributed, and kept.
 
@@ -38,29 +57,50 @@ Those apparently different projects — agent runtimes, research assistants, eva
 
 ## The chronology, including the gaps
 
-The project's inception is dated to November 2025 in the operator's account. The audit found no surviving artifact for that month; its earliest durable repository evidence begins on December 23. The public field report also records December experiments with a persistent VPS assistant and January infrastructure work as operator history.
+<p>Figure 1 — Milestones are spaced by category. The distance between them does not represent elapsed time.</p>
+<ol class="timeline">
+  <li><span class="period">November 2025</span>
+    <div><h3>The operator dates the beginning</h3>
+      <p>The operator recalls starting the lab that November. The audit located no artifact for the month.</p>
+      <small>Operator account</small></div>
+  </li>
+  <li><span class="period">Dec 2025 – Jan 2026</span>
+    <div><h3>The work leaves a record</h3>
+      <p>The first surviving repository evidence dates to December 23. Public notes began January 3 and set out principles for granting agents authority. Workspace records survive from January 31.</p>
+      <small>Repository and runtime records</small></div>
+  </li>
+  <li><span class="period">Feb – Mar 2026</span>
+    <div><h3>Experiments reach applications</h3>
+      <p>The portfolio grew to include an editing workflow, a book project and an application prototype. Their commits record work in progress.</p>
+      <small>Repository records</small></div>
+  </li>
+  <li><span class="period">April 2026</span>
+    <div><h3>Heartbeats without indexed work</h3>
+      <p>The audit found no indexed organization commits or issues in the inspected records. All 30 inspected sessions contained only heartbeats. The cause remains unknown.</p>
+      <small>Repository and runtime records</small></div>
+  </li>
+  <li><span class="period">May – Jul 2026</span>
+    <div><h3>The runtime changes</h3>
+      <p>The assistant moved to Hermes on May 11. Scheduled knowledge work expanded, and repositories began documenting bounded research loops. Their maturity varied.</p>
+      <small>Runtime and repository records</small></div>
+  </li>
+  <li><span class="period">Aug – Oct 2026</span>
+    <div><h3>Handoffs come under review</h3>
+      <p>Telemetry and a tool gateway preceded a second-model request channel. A September field report traced lost handoffs. October benchmark reruns tested earlier results.</p>
+      <small>Repository records and operator account</small></div>
+  </li>
+  <li><span class="period">Nov 1 – 18, 2026</span>
+    <div><h3>The audit closes</h3>
+      <p>Maintenance and evaluation continued through the November 18 cutoff. The audit counted queue states and left deployment and subsequent use unmeasured.</p>
+      <small>Runtime and repository records</small></div>
+  </li>
+</ol>
 
-<img src="figures/fig-1-timeline.svg" alt="Timeline of seven operating-model phases from November 2025 to November 18, 2026. The November 2025 origin phase is marked as an evidence gap with no surviving artifact. April 2026 is marked as dormancy: zero indexed commits and 30 heartbeat-only sessions.">
-
-*Figure 1 — Seven phases of the operating model, with the two periods the records do not explain. Segment widths are not proportional to elapsed time; the phases are categorical. Sources: repository history, session records, and the November 18 audit.*
-
-| Period | What changed | Evidence boundary |
-|---|---|---|
-| November 2025 | The initiative's starting point in the operator's account. | No durable artifact found by the audit. |
-| December 2025 | Site and repository foundations appear from December 23; early assistant experiments form the prehistory. | Repository dates and operator recollection are separate evidence. |
-| January 2026 | Public notes begin on January 3. Execution contracts, authority, and earned autonomy become recurring themes. Surviving OpenClaw workspace records begin January 31. | Earliest surviving records do not date every prior experiment. |
-| February–March | Autonomous editing, a software-engineering book project, workflow experiments, and an application prototype expand the implementation portfolio. | Commit volume records activity; it does not establish finished products. |
-| April | Zero indexed organization commits or issues; 30 heartbeat-only agent sessions. | Observed dormancy; the records do not explain its cause. |
-| May | The assistant moves to the upstream Hermes runtime on May 11; scheduled work and knowledge-processing workflows expand. | Migration is documented; uninterrupted reliability is not implied. |
-| June–July | Governed research, bounded agent loops, identity, evidence, and harness design become a substantial cluster of projects and writing. | Maturity varies by repository. |
-| August | Media processing, telemetry experiments, and a tool gateway broaden the supporting system. | Infrastructure presence is distinct from current health. |
-| September | Delegation, the second-model request channel, system review, and architecture records make coordination explicit. | The public field report documents both mechanisms and failures. |
-| October | Repeated decision-model benchmarks, operational reviews, and a growing issue workflow expose verification and maintenance costs. | Results are specific to dated workloads and environments. |
-| November 1–18 | Runtime maintenance, further evaluation, self-improvement audits, and this retrospective sharpen the next set of priorities. | The reporting window closes on November 18. |
+See the [detailed chronology in the evidence appendix](evidence-notes/#chronology) for the monthly records and their limits.
 
 April posed a practical problem for the operator. A heartbeat could confirm that a recurring process was alive even when the inspected records showed no work advancing. The distinction matters when choosing what to monitor after a restart. The audit cannot establish the cause of the pause or describe activity outside the records it inspected.
 
-## What the year produced
+<h2 id="built">What the year produced</h2>
 
 The November audit counted **145 repositories** across the organization, including experiments, scaffolds, supporting infrastructure, and imported upstream history. That is a measure of portfolio size, not a count of finished applications. Grouping the work by what it demonstrates is more useful.
 
@@ -74,13 +114,19 @@ The November audit counted **145 repositories** across the organization, includi
 
 **An operating coordination system.** The most consequential integration joins a persistent rmax-10 orchestrator, ChatGPT for analysis and review, bounded Codex and Droid execution, GitHub state, and human review. The agent runtime is an upstream framework adopted and extended for this system; the lab's contribution lies in the integration, protocols, experiments, and operational practice, and imported upstream history is not original output.
 
-## How the coordination loop works
+<h2 id="loop">How the coordination loop works</h2>
 
 The architecture separates communication from durable state. Chat and Slack are places to request attention. GitHub holds the task, its ownership, implementation artifacts, and review history. A local delegation queue manages attempts through coding-agent execution paths. A second model supplies an additional reasoning and review surface through a structured request channel. The operator retains consequential approval decisions.
 
-<img src="figures/fig-2-control-loop.svg" alt="Seven responsibilities from operator approval to disposition. A failed check can return work to execution. Carrying a result into the next GitHub task requires a separate decision.">
+<img src="figures/fig-2-control-loop.svg" alt="Scope enters GitHub from the operator. Execution returns a checked revision for review and a merge decision. Failed checks can retry locally. A new task is a proposed follow-up.">
 
-*Figure 2 — On desktop the red dashed arrow leads from the acceptance gate to execution for a retry. The dotted amber arrow leads from disposition to GitHub task state for a proposed follow-up. On mobile, labels describe both returns. The [September field report](https://rmax.ai/notes/from-human-orchestrated-agent-to-autonomous-control-plane/) documents the responsibilities and observed handoff failures.*
+*Figure 2 — Where authority changes hands. The [September field report](https://rmax.ai/notes/from-human-orchestrated-agent-to-autonomous-control-plane/) documents the responsibilities and observed handoff failures.*
+
+<ol class="architecture-key">
+  <li><strong>Human authority.</strong> The operator sets the initial scope. After review, the operator decides whether to merge or adopt a consequential change.</li>
+  <li><strong>Durable coordination and state.</strong> rmax-10 dispatches bounded attempts. GitHub holds the task, owner, revision, review and disposition. A proposed follow-up needs its own decision and owner.</li>
+  <li><strong>Execution and verification.</strong> A Codex or Droid lane returns a revision. A failed local check can return it to execution. Check evidence goes to independent review, where ChatGPT can supply a second assessment.</li>
+</ol>
 
 The separation makes asynchronous collaboration recoverable. A new session can inspect the task instead of reconstructing intent from fragments of chat. An execution attempt can fail while the work item survives. A reviewer can reject a change without losing the original request. None of that is automatic: it holds only where the state is written down at the moment authority changes hands.
 
@@ -118,15 +164,42 @@ The audit did not classify causes. Unclear criteria, an incorrect working direct
 
 These limitations constrain the claim. The evidence supports a substantial supervised system capable of sustained delegation and self-observation. It does not establish dependable end-to-end self-improvement, or independence from human recovery and judgment.
 
-## A proposed 90-day scorecard for 2027
+<h2 id="priorities">A proposed 90-day scorecard for 2027</h2>
 
 Day 1 after operator approval opens the proposed measurement window. The historical counts identify work to inspect. Owners would establish the starting populations, record their inclusion rules and retain the identifiers needed to follow a request across retries. The first review would use the following artifacts.
 
-| Priority | Owner role / owning system | Baseline status | First reviewable artifact | 90-day measure (numerator / denominator / window) | Anti-gaming condition |
-|---|---|---|---|---|---|
-| Reliable delivery | Queue maintainer and independent reviewer | Unresolved baseline for attempt membership and verified outcomes. | Reconciled attempt ledger with a cause review of sampled failures. | Acceptance failures / all reconciled attempts during days 1–90. Proposed target of 10%. Also report independently verified deliveries / implementation tasks opened in the window. | Keep check versions and review samples of passes as well as failures. Count retries separately from tasks. |
-| Handoff ownership | Request-channel operator | Historical snapshot of 291 open issues. Unresolved baseline for time to disposition. | Answer register linking each response to an owner, timestamp and disposition. | Answers dispositioned within 48 hours / all requests answered on days 1–88. The proposed 95% target allows each answer its full 48 hours before day 90. | Inspect transfers and reasons for closure. The proposed 60-open target is secondary to resolving the work. |
-| Reusable results | Portfolio maintainers | Historical inventory of 145 repositories. Unresolved baseline for maintained, reproducible outcomes. | Results index naming an owner, runnable example, expected result and limitation for each candidate. | Entries independently reproduced with a current maintainer / all entries nominated at the start, assessed by day 90. | Retain failed reproductions and missing owners in the denominator. The proposed 110-repository ceiling is secondary to maintained results. |
+<div class="scorecard">
+  <section>
+    <h3>Reliable delivery</h3>
+    <dl>
+      <dt>Owner</dt> <dd>Queue maintainer and independent reviewer</dd>
+      <dt>Baseline</dt> <dd>Unresolved baseline for attempt membership and verified outcomes.</dd>
+      <dt>First artifact</dt> <dd>Reconciled attempt ledger with a cause review of sampled failures.</dd>
+      <dt>90-day measure</dt> <dd>Acceptance failures / all reconciled attempts during days 1–90. Proposed target of 10%. Also report independently verified deliveries / implementation tasks opened in the window.</dd>
+      <dt>Safeguard</dt> <dd>Keep check versions and review samples of passes as well as failures. Count retries separately from tasks.</dd>
+    </dl>
+  </section>
+  <section>
+    <h3>Handoff ownership</h3>
+    <dl>
+      <dt>Owner</dt> <dd>Request-channel operator</dd>
+      <dt>Baseline</dt> <dd>Historical snapshot of 291 open issues. Unresolved baseline for time to disposition.</dd>
+      <dt>First artifact</dt> <dd>Answer register linking each response to an owner, timestamp and disposition.</dd>
+      <dt>90-day measure</dt> <dd>Answers dispositioned within 48 hours / all requests answered on days 1–88. The proposed 95% target allows each answer its full 48 hours before day 90.</dd>
+      <dt>Safeguard</dt> <dd>Inspect transfers and reasons for closure. The proposed 60-open target is secondary to resolving the work.</dd>
+    </dl>
+  </section>
+  <section>
+    <h3>Reusable results</h3>
+    <dl>
+      <dt>Owner</dt> <dd>Portfolio maintainers</dd>
+      <dt>Baseline</dt> <dd>Historical inventory of 145 repositories. Unresolved baseline for maintained, reproducible outcomes.</dd>
+      <dt>First artifact</dt> <dd>Results index naming an owner, runnable example, expected result and limitation for each candidate.</dd>
+      <dt>90-day measure</dt> <dd>Entries independently reproduced with a current maintainer / all entries nominated at the start, assessed by day 90.</dd>
+      <dt>Safeguard</dt> <dd>Retain failed reproductions and missing owners in the denominator. The proposed 110-repository ceiling is secondary to maintained results.</dd>
+    </dl>
+  </section>
+</div>
 
 A delivery reviewer would begin with the revision the executor actually used. The command, working directory and expected artifact are part of the record. A failing check against the wrong directory calls for a different response from a valid rejection of an incomplete implementation. An unresolved case should keep its place in the ledger until someone can distinguish those explanations.
 
