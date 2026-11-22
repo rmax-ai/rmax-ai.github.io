@@ -146,7 +146,7 @@ That lesson changes how the annual numbers should be read. The November queue ce
 
 ### What a preserved rerun lets a reader check
 
-The [Jev/Clef benchmark](https://github.com/rmax-ai/jev-vs-clef) preserves the questions, raw calls and dated results from two runs of the same 159-call battery. Only 24 of the 159 calls in each run tested decisions against the author’s labels. On that subset Jev’s reported agreement fell from 92% on October 3 to 83% on October 6. Clef 27B scored 96% on both dates. The second result changed what a reader could say about substituting Jev for Clef on those questions.
+The [Jev/Clef benchmark](https://github.com/rmax-ai/jev-vs-clef) preserves the questions, raw calls and dated results from two runs of the same 159-call battery. The reported accuracy figures concern a subset of 24 author-labelled question-level decisions, not a call count. On that subset Jev’s reported agreement fell from 92% on October 3 to 83% on October 6. Clef 27B scored 96% on both dates. The second result changed what a reader could say about substituting Jev for Clef on those questions.
 
 A reader comparing the runs needs the execution date as well as the directory name. The second directory says October 4, while the run took place on October 6. The raw calls also let a reader distinguish two models giving the same answer from either model matching the label. Neither test establishes a universal model ranking. The author supplied the labels for synthetic decisions. Timing depended on the measurement environment, and a November follow-up separately corrected a client-path latency measurement.
 
