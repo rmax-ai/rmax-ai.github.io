@@ -170,6 +170,29 @@ def static():
     require(figures.attrs("ol", "class").count("timeline") == 1 and
             all(tag != "table" for tag, _ in figures.elements), "one primary HTML timeline and no article tables")
     require('<h2 id="chronology">Detailed chronology</h2>\n<table>' in pages[1].read_text(), "appendix chronology")
+    # A heading literal proves nothing: deleting every data row still leaves it intact.
+    # Compare the rendered rows against the source chronology cell by cell.
+    source = (HERE.parent / "evidence-notes.md").read_text()
+    chron = source.split("## Detailed chronology", 1)[-1]
+    src_rows = []
+    for line in chron.splitlines():
+        if not line.startswith("|"):
+            if src_rows:
+                break
+            continue
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if not cells or cells[0] in ("Period", "") or set(cells[0]) <= {"-", ":", " "}:
+            continue
+        src_rows.append([plain_md(c) for c in cells])
+    rendered_rows = []
+    appendix = pages[1].read_text()
+    table = re.search(r'<h2 id="chronology">.*?(<table>.*?</table>)', appendix, re.S)[1]
+    for tr in re.findall(r"<tr>(.*?)</tr>", re.search(r"<tbody>(.*?)</tbody>", table, re.S)[1], re.S):
+        cells = [plain_html(c) for c in re.findall(r"<td>(.*?)</td>", tr, re.S)]
+        if cells:
+            rendered_rows.append(cells)
+    require(len(src_rows) == 11, f"source chronology has {len(src_rows)} rows, expected 11")
+    require(rendered_rows == src_rows, "appendix chronology rows match the source")
     wide = ["figures/fig-2-control-loop.svg", "figures/fig-3-outcomes.svg"]
     mobile = [f.replace(".svg", "-mobile.svg") for f in wide]
     require(figures.attrs("img","src") == wide and figures.attrs("source","srcset") == mobile, "figure inventory")
