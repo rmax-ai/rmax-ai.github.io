@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">RMax AI, Year One: From Agents to Verified Work</title>
+  <desc id="description">Annual edition covering November 2025 through November 18, 2026. The census counted 77 dated technical notes and 1,078 recorded queue tasks. Verified delivery was not established.</desc>
+  <defs>
+    <linearGradient id="masthead" x2="1" y2=".25">
+      <stop stop-color="#10162e"/><stop offset="1" stop-color="#49326c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#masthead)"/>
+  <rect width="1200" height="9" fill="#9472c8"/>
+  <g font-family="Inter, system-ui, sans-serif">
+    <text x="68" y="83" fill="#dcc7ff" font-size="24" letter-spacing="3">RMAX.AI   /   ANNUAL EDITION</text>
+    <text x="63" y="220" fill="#faf7ff" font-size="104" font-weight="800" letter-spacing="-5">RMax AI, Year One:</text>
+    <text x="68" y="302" fill="#e0cfff" font-size="60" font-weight="600">From Agents to Verified Work</text>
+    <text x="68" y="384" fill="#faf7ff" font-size="27">November 2025 – November 18, 2026</text>
+    <rect y="440" width="1200" height="190" fill="#ebe5f1"/>
+    <g fill="#332252">
+      <text x="68" y="528" font-size="72" font-weight="800">77</text>
+      <text x="68" y="572" font-size="28">dated technical notes</text>
+      <text x="570" y="528" font-size="72" font-weight="800">1,078</text>
+      <text x="570" y="572" font-size="28">recorded queue tasks</text>
+    </g>
+  </g>
+</svg>

@@ -49,6 +49,9 @@ Reference harness for running coding agents as bounded, verifiable search over r
 
 [View all →](/notes/)
 
+### [RMax AI, Year One: From Agents to Verified Work](/notes/rmax-ai-year-one-from-agents-to-verified-work/)
+A first-year field report from a personal agent lab: 1,078 delegated tasks, 77 published notes, and the gap between recorded success and verified work.
+
 ### [The Assistant That Killed Its Own Optimizations](/notes/the-assistant-that-killed-its-own-optimizations/)
 One measured selection run on 177 frames: a cheap screen that kept 52% of the top 50, a ranking layer that could honestly only return one plateau, and the harness that let an assistant prove its own optimizations wrong.
 

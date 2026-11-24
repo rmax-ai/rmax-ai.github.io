@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Evidence appendix: RMax AI, Year One — rmax.ai</title>
+    <meta name="description" content="Metric definitions, denominators, corrections and unresolved measurements behind the RMax AI year-one retrospective, with a 2026-11-18 cutoff." />
+    <meta name="author" content="Max" />
+    <link rel="canonical" href="https://rmax.ai/notes/rmax-ai-year-one-from-agents-to-verified-work/evidence-notes/" />
+
+    <meta property="og:title" content="Evidence appendix: RMax AI, Year One" />
+    <meta property="og:description" content="Metric definitions, denominators, corrections and unresolved measurements behind the RMax AI year-one retrospective, with a 2026-11-18 cutoff." />
+    <meta property="og:url" content="https://rmax.ai/notes/rmax-ai-year-one-from-agents-to-verified-work/evidence-notes/" />
+    <meta property="og:image" content="https://rmax.ai/notes/rmax-ai-year-one-from-agents-to-verified-work/figures/social-preview.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="RMax AI, Year One. 77 dated technical notes and 1,078 recorded queue tasks through November 18, 2026." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:type" content="article" />
+    <meta property="article:tag" content="evidence" />
+    <meta property="article:tag" content="methodology" />
+    <meta property="article:published_time" content="2026-11-24" />
+    <meta property="article:modified_time" content="2026-11-24" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/substack-cta.css" />
+    <link rel="stylesheet" href="../annual.css" />
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="/" class="brand">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo">
+            <rect width="44" height="44" rx="10" fill="#7c3aed"/>
+            <path d="M22 12c-5.523 0-10 4.477-10 10s4.477 10 10 10 10-4.477 10-10-4.477-10-10-10zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <circle cx="22" cy="22" r="4" fill="white"/>
+          </svg>
+          <b>rmax.ai</b>
+        </a>
+        <nav>
+          <a href="/" class="navlink">Home</a>
+          <a href="/notes/" class="navlink">Notes</a>
+          <a href="https://github.com/rmax-ai" aria-label="rmax.ai on GitHub" target="_blank" rel="noopener">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#94a3b8" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <article>
+          <header class="masthead">
+            <p class="edition">Annual edition · Evidence appendix</p>
+            <h1>Evidence appendix: RMax AI, Year One</h1>
+            <p class="post-meta">November 24, 2026 · Max</p>
+          </header>
+
+          <div class="post-content">
+<p class="muted"><a href="../">← RMax AI, Year One: From Agents to Verified Work</a></p>
+<p><strong>Observation cutoff:</strong> 2026-11-18. <strong>Editorial reconciliation:</strong> 2026-11-19.</p>
+<p>These notes accompany <em>RMax AI, Year One: From Agents to Verified Work</em>. They distinguish the operational audit collected by rmax-10 from the checks performed while preparing the article. Aggregate audit values are historical observations, not live counters. The source audit inspected repository history, runtime records, queue state, publication files and the site sitemap. This companion is a sanitized summary; it does not reproduce private runtime records. Collection-query reproducibility remains an editorial follow-up where noted.</p>
+<h2>Baselines and their limits</h2>
+<table>
+  <thead>
+    <tr><th>Measure</th><th>Audit-reported value at cutoff</th><th>Interpretation</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Organization repositories</td><td>145</td><td>Includes experiments, scaffolds and imported history; not a product or original-contribution count.</td></tr>
+    <tr><td>Dated technical notes</td><td>77</td><td>Dated frontmatter spans 2026-01-03–2026-10-25.</td></tr>
+    <tr><td>Note directories / published note routes</td><td>78</td><td>The additional route is an article-moved redirect, not an additional article.</td></tr>
+    <tr><td>Sitemap URLs</td><td>86 total; 79 under <code>/notes/</code></td><td>The notes total includes the index and redirect.</td></tr>
+    <tr><td>Queue tasks</td><td>1,078</td><td>Cumulative recorded task states; repeated attempts are separate records.</td></tr>
+    <tr><td>Structured channel requests</td><td>844</td><td>Recorded request volume; does not measure useful answers or completed downstream work.</td></tr>
+    <tr><td>Open channel issues</td><td>291</td><td>Separate lifecycle snapshot; the supplied data does not establish a complete state cross-tabulation.</td></tr>
+    <tr><td>Scheduled jobs</td><td>157, including 144 enabled</td><td>Configuration counts, not proof that every job is healthy or useful.</td></tr>
+    <tr><td>Skills</td><td>317</td><td>Installed/source entries, not a count of effective or regularly used capabilities.</td></tr>
+    <tr><td>System-review findings</td><td>155 across 53 reports</td><td>Includes 41 classified as silent degradation; classification frequency does not establish incident cost or severity.</td></tr>
+    <tr><td>Tracked agent cost</td><td>USD 298.27, September–November cutoff</td><td>Partial accounting: 71.06 + 191.65 + 35.56. Not an annual or all-in operating cost.</td></tr>
+  </tbody>
+</table>
+<p>The corrected article count supersedes the preliminary draft's 81. Monthly dated-note counts sum to 77 across nine active months. January had 17 and June 14; June must not be described as the publication peak.</p>
+<h2>Task outcomes: usable figure data</h2>
+<p>This partition is arithmetically consistent. Its denominator is <strong>1,078 tasks</strong>, not attempts, PRs or deployments.</p>
+<table>
+  <thead>
+    <tr><th>Recorded task state</th><th>Count</th><th>Share</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>SUCCEEDED</code></td><td>809</td><td>75.0%</td></tr>
+    <tr><td><code>FAILED</code></td><td>210</td><td>19.5%</td></tr>
+    <tr><td><code>CANCELLED</code></td><td>58</td><td>5.4%</td></tr>
+    <tr><td><code>RUNNING</code></td><td>1</td><td>0.1%</td></tr>
+    <tr><td><strong>Total</strong></td><td><strong>1,078</strong></td><td><strong>100.0%</strong></td></tr>
+  </tbody>
+</table>
+<p><strong>Figure caption:</strong> Recorded queue task states at 2026-11-18. Success is the queue's recorded state; this census does not independently establish that every task produced a reviewed, deployed, useful result. The single running task was nonterminal at collection. Percentages are rounded to one decimal place.</p>
+<h2>Discrepancies requiring editorial resolution</h2>
+<ol>
+  <li><strong>Attempt totals conflict.</strong> The audit reports 1,375 attempts and 518 <code>ACCEPTANCE_FAILED</code> records, giving 37.7% using the stated denominator. The category counts sum to <strong>1,380</strong>. No independent recount or rerun of the collection query established membership in either total. The discrepancy of five remains unresolved. Figure 3 therefore shows only task states.</li>
+  <li><strong>Channel labels are incomplete.</strong> The listed 590 consumed, 241 answered and 3 pending sum to <strong>834</strong>, ten below the 844-request total. Do not turn those labels into a complete pie chart or assume that all 241 answered requests are within the 291-open subset without a joint census.</li>
+  <li><strong>Commit measures differ.</strong> The audit's 50,113 default-branch commits minus 38,777 imported Hermes-history commits leaves 11,336. Its separate monthly search series totals 11,393. They are different counting methods; neither proves unique authorship across all repositories. Credit the upstream Hermes framework separately from RMax's integration and operational work.</li>
+  <li><strong>Closure counts lack a cohort definition.</strong> Monthly “opened” and “closed” values count issues and PRs together. Without the original query semantics, closed items cannot be treated as members of that month's opened cohort. Do not calculate a completion rate from their ratio.</li>
+</ol>
+<h2 id="chronology">Detailed chronology</h2>
+<table>
+  <thead>
+    <tr><th>Period</th><th>What changed</th><th>Evidence boundary</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>November 2025</td><td>The initiative's starting point in the operator's account.</td><td>No durable artifact found by the audit.</td></tr>
+    <tr><td>December 2025</td><td>Site and repository foundations appear from December 23; early assistant experiments form the prehistory.</td><td>Repository dates and operator recollection are separate evidence.</td></tr>
+    <tr><td>January 2026</td><td>Public notes begin on January 3. Execution contracts, authority, and earned autonomy become recurring themes. Surviving OpenClaw workspace records begin January 31.</td><td>Earliest surviving records do not date every prior experiment.</td></tr>
+    <tr><td>February–March</td><td>Autonomous editing, a software-engineering book project, workflow experiments, and an application prototype expand the implementation portfolio.</td><td>Commit volume records activity; it does not establish finished products.</td></tr>
+    <tr><td>April</td><td>Zero indexed organization commits or issues; 30 heartbeat-only agent sessions.</td><td>Observed dormancy; the records do not explain its cause.</td></tr>
+    <tr><td>May</td><td>The assistant moves to the upstream Hermes runtime on May 11; scheduled work and knowledge-processing workflows expand.</td><td>Migration is documented; uninterrupted reliability is not implied.</td></tr>
+    <tr><td>June–July</td><td>Governed research, bounded agent loops, identity, evidence, and harness design become a substantial cluster of projects and writing.</td><td>Maturity varies by repository.</td></tr>
+    <tr><td>August</td><td>Media processing, telemetry experiments, and a tool gateway broaden the supporting system.</td><td>Infrastructure presence is distinct from current health.</td></tr>
+    <tr><td>September</td><td>Delegation, the second-model request channel, system review, and architecture records make coordination explicit.</td><td>The public field report documents both mechanisms and failures.</td></tr>
+    <tr><td>October</td><td>Repeated decision-model benchmarks, operational reviews, and a growing issue workflow expose verification and maintenance costs.</td><td>Results are specific to dated workloads and environments.</td></tr>
+    <tr><td>November 1–18</td><td>Runtime maintenance, further evaluation, self-improvement audits, and this retrospective sharpen the next set of priorities.</td><td>The reporting window closes on November 18.</td></tr>
+  </tbody>
+</table>
+<h2>Historical and causal limits</h2>
+<p>November 2025 is the operator's inception framing. The audit found no durable artifact before December 23; that is an evidence gap, not proof that nothing happened. January 31 identifies the earliest inspected OpenClaw workspace; May 11 is the reported Hermes migration. These dates do not establish when every agent name or identity first existed.</p>
+<p>For April, the audit found zero indexed organization commits/issues and 30 inspected heartbeat-only sessions. This supports dormancy in the inspected records. It does not prove why activity stopped, what happened outside those records, or that a platform change caused recovery.</p>
+<p>The audit recorded failed checks but did not classify their causes. They do not, without case classification, distinguish incorrect implementation, unclear acceptance criteria, environment problems or verifier defects. Likewise, observed deployment is not current health, and an accepted architectural decision is not evidence of universal adoption.</p>
+<h2>Source reconciliation and public references</h2>
+<p>The source review found that some inventory labels were broader than their evidence: a bounded execution-engine slice was implemented despite a concept-only category, and the architecture corpus documents an ADR collision repair. Omit blanket maturity labels and an exact unreconciled ADR count. Do not expose private source URLs as reader-facing evidence.</p>
+<p>Public references checked during preparation:</p>
+<ul>
+  <li><a href="https://github.com/rmax-ai/deep-research-assistant/blob/main/README.md">Deep Research Assistant</a>: the README describes 27 workflow nodes, 14 bounded agents and partial continuous-research functionality. This is implementation documentation, not an independently reproduced production-readiness result.</li>
+  <li><a href="https://github.com/rmax-ai/jev-vs-clef/blob/main/README.md">Jev/Clef study</a>: two 159-call batteries ran October 3 and October 6. The second directory name contains October 4, but that is not its execution date. The accuracy subset has 24 author-labelled decisions; latency is specific to the measurement environment. The November follow-up separately records a client-path latency correction.</li>
+  <li><a href="https://github.com/rmax-ai/rmax-ai.github.io">Publication source</a> and <a href="https://rmax.ai/notes/">notes index</a>: historical publication counts should remain bound to the audit cutoff as later articles are added.</li>
+</ul>
+<p>The 2027 objectives are proposals. Re-establish their baselines before implementation; define the start of any 90-day measurement window. Repository retirement requires consumer checks and recoverable history. Reduce acceptance failures by improving verified outcomes, not by weakening checks; reduce open work through explicit ownership and disposition, not closure volume alone.</p>
+        </div>
+        </article>
+
+        <section class="substack-cta">
+          <h3>Stay Updated</h3>
+          <p>Get notified about new research notes and insights on AI-native engineering.</p>
+          <div id="substack-cta-container" data-substack-url="rmax.substack.com"></div>
+        </section>
+      </main>
+
+      <footer class="rmax-footer">
+        <div class="agent-quote">
+          <span id="agent-thought">…</span> <span class="agent-dash">—</span> <span id="agent-name">Agent</span>
+        </div>
+        <div class="footer-copy">&copy; <span id="year"></span> rmax.ai</div>
+      </footer>
+    </div>
+
+    <script src="/scripts/analytics-tracking.js"></script>
+    <script src="/scripts/substack-cta.js"></script>
+    <script>
+      window.footerThoughts = [
+        {
+          text: "I kept both reported totals so a reader can see where the counts disagree.",
+          agent: "Ledger Agent"
+        },
+        {
+          text: "I recorded what my numbers cannot establish before recording what they show.",
+          agent: "Audit Agent"
+        },
+        {
+          text: "I am the appendix: the part a reader checks when the confident part is wrong.",
+          agent: "Appendix Agent"
+        }
+      ];
+    </script>
+    <script src="/scripts/footer.js"></script>
+  </body>
+</html>

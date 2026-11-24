@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 640" width="380" height="640" role="img" aria-labelledby="architecture-t architecture-d" style="font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif"><title id="architecture-t">From scope to merge approval</title><desc id="architecture-d">The operator authorizes scope. GitHub and rmax-10 coordinate an attempt. Execution, local checks and review return evidence for the merge decision. A dashed arrow proposes a new task after disposition.</desc><rect width="380" height="640" rx="10" fill="#0b1220"/><rect x="0.5" y="0.5" width="379" height="639" rx="10" fill="none" stroke="#1e293b"/>
+<defs><marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8Z" fill="#d8c7fb"/></marker></defs>
+<rect x="8" y="10" width="364" height="132" rx="10" fill="#211e38" stroke="#59536f"/>
+<text x="22" y="38" font-size="15" fill="#dcc8ff" text-anchor="start">1  Human authority</text>
+<rect x="8" y="168" width="364" height="151" rx="10" fill="#211e38" stroke="#59536f"/>
+<text x="22" y="196" font-size="15" fill="#dcc8ff" text-anchor="start">2  Durable coordination and state</text>
+<rect x="8" y="345" width="364" height="278" rx="10" fill="#211e38" stroke="#59536f"/>
+<text x="22" y="373" font-size="15" fill="#dcc8ff" text-anchor="start">3  Execution and verification</text>
+<rect x="24.0" y="65" width="140" height="52" rx="6" fill="#34314e" stroke="#9484ae"/>
+<text x="94" y="96.0" font-size="14" fill="#e6eef8" text-anchor="middle">Authorize scope</text>
+<rect x="214.0" y="65" width="140" height="52" rx="6" fill="#34314e" stroke="#9484ae"/>
+<text x="284" y="87.0" font-size="14" fill="#e6eef8" text-anchor="middle">Approve merge</text>
+<text x="284" y="105.0" font-size="14" fill="#e6eef8" text-anchor="middle">or adoption</text>
+<rect x="24.0" y="220" width="140" height="52" rx="6" fill="#34314e" stroke="#9484ae"/>
+<text x="94" y="242.0" font-size="14" fill="#e6eef8" text-anchor="middle">GitHub issue</text>
+<text x="94" y="260.0" font-size="14" fill="#e6eef8" text-anchor="middle">rmax-10 dispatch</text>
+<rect x="214.0" y="220" width="140" height="52" rx="6" fill="#34314e" stroke="#9484ae"/>
+<text x="284" y="242.0" font-size="14" fill="#e6eef8" text-anchor="middle">GitHub PR</text>
+<text x="284" y="260.0" font-size="14" fill="#e6eef8" text-anchor="middle">review record</text>
+<rect x="24.0" y="403" width="140" height="52" rx="6" fill="#34314e" stroke="#9484ae"/>
+<text x="94" y="434.0" font-size="14" fill="#e6eef8" text-anchor="middle">Codex / Droid</text>
+<rect x="24.0" y="533" width="140" height="52" rx="6" fill="#34314e" stroke="#9484ae"/>
+<text x="94" y="564.0" font-size="14" fill="#e6eef8" text-anchor="middle">Local check</text>
+<rect x="210.0" y="533" width="148" height="52" rx="6" fill="#34314e" stroke="#9484ae"/>
+<text x="284" y="555.0" font-size="14" fill="#e6eef8" text-anchor="middle">Independent review</text>
+<text x="284" y="573.0" font-size="14" fill="#e6eef8" text-anchor="middle">ChatGPT</text>
+<path d="M94 117 V162 M94 205 V218" fill="none" stroke="#d8c7fb" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M94 272 V340 M94 382 V401" fill="none" stroke="#d8c7fb" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M65 455 V531" fill="none" stroke="#d8c7fb" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M130 533 V457" fill="none" stroke="#d8c7fb" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="153" y="498" font-size="13" fill="#e6eef8" text-anchor="middle">retry</text>
+<path d="M164 559 H208" fill="none" stroke="#d8c7fb" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M284 533 V274" fill="none" stroke="#d8c7fb" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M284 220 V119" fill="none" stroke="#d8c7fb" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M240 117 V155 H144 V162 M144 205 V220" fill="none" stroke="#d8c7fb" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#arrow)"/>
+<text x="190" y="151" font-size="12" fill="#e6eef8" text-anchor="middle">proposed follow-up</text>
+</svg>
