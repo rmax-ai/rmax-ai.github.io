@@ -206,7 +206,7 @@ def static():
     require(not re.search(r"(?<!\d)(?:810|518|1,?375)(?!\d)", " ".join(fig3)), "Figure 3 attempt token")
     dates = {u.findtext("{*}loc"):u.findtext("{*}lastmod") for u in ET.parse(ROOT/"sitemap.xml").getroot()}
     for url in (fields["canonical_url"], fields["canonical_url"]+"evidence-notes/"):
-        require(dates.get(url) == "2026-11-19T23:25:57Z", f"sitemap date {url}")
+        require(dates.get(url) == "2026-11-24T14:42:18Z", f"sitemap date {url}")
     # Every local Markdown link that names this slug must resolve on disk.
     for doc in (ROOT/"CHANGELOG.md", NOTE/"index.md"):
         for link in re.findall(r"\[[^\]]+\]\(([^)#]+)\)", doc.read_text()):

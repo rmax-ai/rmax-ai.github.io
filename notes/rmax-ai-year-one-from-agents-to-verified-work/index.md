@@ -7,8 +7,8 @@ site: rmax.ai
 section: notes
 type: essay
 status: published
-date: 2026-11-19
-updated: 2026-11-19
+date: 2026-11-24
+updated: 2026-11-24
 tags:
   - year one
   - agent systems

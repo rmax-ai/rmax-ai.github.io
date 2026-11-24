@@ -160,7 +160,7 @@ def main() -> None:
     shell = re.sub(r'<header class="masthead">.*?</header>', f"""<header class="masthead">
             <p class="edition">Annual edition · Evidence appendix</p>
             <h1>{TITLE}</h1>
-            <p class="post-meta">November 19, 2026 · Max</p>
+            <p class="post-meta">November 24, 2026 · Max</p>
           </header>""", shell, count=1, flags=re.S)
     body_md = body_md.replace("<h2>Detailed chronology", '<h2 id="chronology">Detailed chronology')
 
